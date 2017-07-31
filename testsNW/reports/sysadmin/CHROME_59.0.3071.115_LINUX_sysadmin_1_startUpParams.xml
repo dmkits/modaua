@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuites errors="0"
+            failures="0"
+            tests="4">
+
+  <testsuite name="sysadmin.sysadmin_1_startUpParams"
+    errors="0" failures="0" hostname="" id="" package="sysadmin" skipped="4"
+    tests="4" time="0.000" timestamp="Mon, 31 Jul 2017 12:10:54 GMT">
+  
+
+  
+
+  
+    
+    <testcase
+      name="Sysadmin Header If  All Elements Visible Tests" classname="sysadmin.sysadmin_1_startUpParams">
+      <skipped />
+    </testcase>
+    
+    <testcase
+      name="Sysadmin Startup DB params Tests" classname="sysadmin.sysadmin_1_startUpParams">
+      <skipped />
+    </testcase>
+    
+    <testcase
+      name="Empty  Dialog Values" classname="sysadmin.sysadmin_1_startUpParams">
+      <skipped />
+    </testcase>
+    
+    <testcase
+      name="DB Button Actions Tests" classname="sysadmin.sysadmin_1_startUpParams">
+      <skipped />
+    </testcase>
+    
+  
+  </testsuite>
+</testsuites>

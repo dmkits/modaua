@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuites errors="0"
+            failures="1"
+            tests="2">
+
+  <testsuite name="SysadminDatabasePageTest"
+    errors="0" failures="1" hostname="" id="" package="SysadminDatabasePageTest" skipped="0"
+    tests="2" time="24.24" timestamp="Wed, 12 Jul 2017 15:00:22 GMT">
+  
+    <testcase name="Sysadmin Header If  All Elements Visible Tests" classname="SysadminDatabasePageTest" time="10.06" assertions="3">
+
+    
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="Sysadmin ChangeLogTable Tests" classname="SysadminDatabasePageTest" time="14.18" assertions="49">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+      <failure message="Timed out while waiting for element &lt;//div[contains(text(), 'Apply selected changes')]/../..&gt; to be present for 5000 milliseconds.">    at Object.Sysadmin ChangeLogTable Tests (/home/ianagez/IdeaProjects/sintaDB/tests_old/tests/sysadmin_2_databasePageTest.js:60:14)</failure>
+
+    
+    </testcase>
+  
+
+  
+
+  
+  </testsuite>
+</testsuites>

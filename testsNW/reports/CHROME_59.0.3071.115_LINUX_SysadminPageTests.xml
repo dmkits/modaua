@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuites errors="0"
+            failures="0"
+            tests="4">
+
+  <testsuite name="SysadminPageTests"
+    errors="0" failures="0" hostname="" id="" package="SysadminPageTests" skipped="4"
+    tests="4" time="0.000" timestamp="Thu, 13 Jul 2017 07:01:21 GMT">
+  
+
+  
+
+  
+    
+    <testcase
+      name="Sysadmin Header If  All Elements Visible Tests" classname="SysadminPageTests">
+      <skipped />
+    </testcase>
+    
+    <testcase
+      name="Sysadmin Startup DB params Tests" classname="SysadminPageTests">
+      <skipped />
+    </testcase>
+    
+    <testcase
+      name="Empty  Dialog Values" classname="SysadminPageTests">
+      <skipped />
+    </testcase>
+    
+    <testcase
+      name="DB Button Actions Tests" classname="SysadminPageTests">
+      <skipped />
+    </testcase>
+    
+  
+  </testsuite>
+</testsuites>

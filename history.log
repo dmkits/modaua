@@ -1,0 +1,442 @@
+{"level":"info","message":"fs... 199","timestamp":"2017-06-12T11:31:22.700Z"}
+{"level":"info","message":"express... 594","timestamp":"2017-06-12T11:31:23.093Z"}
+{"level":"info","message":"path... 595","timestamp":"2017-06-12T11:31:23.093Z"}
+{"level":"info","message":"body-parser... 611","timestamp":"2017-06-12T11:31:23.109Z"}
+{"level":"info","message":"cookie-parser... 612","timestamp":"2017-06-12T11:31:23.110Z"}
+{"level":"info","message":"request... 883","timestamp":"2017-06-12T11:31:23.382Z"}
+{"level":"info","message":"buffer... 884","timestamp":"2017-06-12T11:31:23.382Z"}
+{"level":"info","message":"iconv-lite... 888","timestamp":"2017-06-12T11:31:23.387Z"}
+{"level":"info","message":"xml2js... 1050","timestamp":"2017-06-12T11:31:23.548Z"}
+{"level":"info","message":"http... 1053","timestamp":"2017-06-12T11:31:23.551Z"}
+{"level":"info","message":"socket.io... 1200","timestamp":"2017-06-12T11:31:23.698Z"}
+{"level":"info","message":"./dataBase... 1297","timestamp":"2017-06-12T11:31:23.796Z"}
+{"level":"info","message":"tryLoadConfiguration... 1298","timestamp":"2017-06-12T11:31:23.796Z"}
+{"level":"info","message":"tryDBConnect... 1299","timestamp":"2017-06-12T11:31:23.797Z"}
+{"level":"info","message":"end app 1655","timestamp":"2017-06-12T11:31:24.153Z"}
+{"level":"info","message":"server runs on port 8080 1662","timestamp":"2017-06-12T11:31:24.160Z"}
+{"level":"info","message":"tryDBConnect DBConnectError=","timestamp":"2017-06-12T11:31:24.193Z"}
+{"level":"info","message":"URL: /sysadmin","timestamp":"2017-06-12T11:31:39.661Z"}
+{"level":"info","message":"URL: /sysadmin/app_state","timestamp":"2017-06-12T11:31:41.808Z"}
+{"level":"info","message":"URL: /sysadmin/import_sales","timestamp":"2017-06-12T11:31:41.850Z"}
+{"level":"info","message":"fs... 172","timestamp":"2017-06-12T11:47:03.360Z"}
+{"level":"info","message":"express... 699","timestamp":"2017-06-12T11:47:03.884Z"}
+{"level":"info","message":"path... 701","timestamp":"2017-06-12T11:47:03.885Z"}
+{"level":"info","message":"body-parser... 716","timestamp":"2017-06-12T11:47:03.900Z"}
+{"level":"info","message":"cookie-parser... 717","timestamp":"2017-06-12T11:47:03.902Z"}
+{"level":"info","message":"request... 1133","timestamp":"2017-06-12T11:47:04.317Z"}
+{"level":"info","message":"buffer... 1133","timestamp":"2017-06-12T11:47:04.317Z"}
+{"level":"info","message":"iconv-lite... 1142","timestamp":"2017-06-12T11:47:04.327Z"}
+{"level":"info","message":"xml2js... 1355","timestamp":"2017-06-12T11:47:04.539Z"}
+{"level":"info","message":"http... 1360","timestamp":"2017-06-12T11:47:04.545Z"}
+{"level":"info","message":"socket.io... 1636","timestamp":"2017-06-12T11:47:04.820Z"}
+{"level":"info","message":"./dataBase... 1714","timestamp":"2017-06-12T11:47:04.898Z"}
+{"level":"info","message":"tryLoadConfiguration... 1714","timestamp":"2017-06-12T11:47:04.899Z"}
+{"level":"info","message":"tryDBConnect... 1715","timestamp":"2017-06-12T11:47:04.899Z"}
+{"level":"info","message":"end app 1849","timestamp":"2017-06-12T11:47:05.033Z"}
+{"level":"info","message":"server runs on port 8080 1856","timestamp":"2017-06-12T11:47:05.040Z"}
+{"level":"info","message":"tryDBConnect DBConnectError= Failed to connect to database! Reason:connect ECONNREFUSED 127.0.0.1:1433","timestamp":"2017-06-12T11:47:05.054Z"}
+{"level":"info","message":"URL: /sysadmin","timestamp":"2017-06-12T11:47:10.339Z"}
+{"level":"info","message":"URL: /sysadmin/app_state","timestamp":"2017-06-12T11:47:11.599Z"}
+{"level":"info","message":"URL: /sysadmin/import_sales","timestamp":"2017-06-12T11:47:11.624Z"}
+{"level":"info","message":"URL: /sysadmin/startup_parameters","timestamp":"2017-06-12T11:47:44.045Z"}
+{"level":"info","message":"URL: /sysadmin/startup_parameters/get_app_config","timestamp":"2017-06-12T11:47:44.081Z"}
+{"level":"info","message":"fs... 101","timestamp":"2017-06-12T11:51:55.649Z"}
+{"level":"info","message":"express... 305","timestamp":"2017-06-12T11:51:55.849Z"}
+{"level":"info","message":"path... 306","timestamp":"2017-06-12T11:51:55.850Z"}
+{"level":"info","message":"body-parser... 309","timestamp":"2017-06-12T11:51:55.854Z"}
+{"level":"info","message":"cookie-parser... 311","timestamp":"2017-06-12T11:51:55.855Z"}
+{"level":"info","message":"request... 699","timestamp":"2017-06-12T11:51:56.243Z"}
+{"level":"info","message":"buffer... 699","timestamp":"2017-06-12T11:51:56.243Z"}
+{"level":"info","message":"iconv-lite... 707","timestamp":"2017-06-12T11:51:56.252Z"}
+{"level":"info","message":"xml2js... 889","timestamp":"2017-06-12T11:51:56.433Z"}
+{"level":"info","message":"http... 893","timestamp":"2017-06-12T11:51:56.437Z"}
+{"level":"info","message":"socket.io... 1091","timestamp":"2017-06-12T11:51:56.635Z"}
+{"level":"info","message":"./dataBase... 1157","timestamp":"2017-06-12T11:51:56.701Z"}
+{"level":"info","message":"tryLoadConfiguration... 1157","timestamp":"2017-06-12T11:51:56.701Z"}
+{"level":"info","message":"tryDBConnect... 1158","timestamp":"2017-06-12T11:51:56.702Z"}
+{"level":"info","message":"end app 1278","timestamp":"2017-06-12T11:51:56.822Z"}
+{"level":"info","message":"server runs on port 8080 1284","timestamp":"2017-06-12T11:51:56.828Z"}
+{"level":"info","message":"tryDBConnect DBConnectError= Failed to connect to database! Reason:connect ECONNREFUSED 127.0.0.1:1433","timestamp":"2017-06-12T11:51:56.841Z"}
+{"level":"info","message":"URL: /sysadmin","timestamp":"2017-06-12T11:52:03.538Z"}
+{"level":"info","message":"URL: /sysadmin/startup_parameters","timestamp":"2017-06-12T11:52:08.676Z"}
+{"level":"info","message":"URL: /sysadmin/startup_parameters/get_app_config","timestamp":"2017-06-12T11:52:08.819Z"}
+{"level":"info","message":"URL: /sysadmin","timestamp":"2017-06-12T11:52:49.034Z"}
+{"level":"info","message":"URL: /sysadmin/app_state","timestamp":"2017-06-12T11:52:51.245Z"}
+{"level":"info","message":"URL: /sysadmin/startup_parameters","timestamp":"2017-06-12T11:53:28.125Z"}
+{"level":"info","message":"URL: /sysadmin/startup_parameters/get_app_config","timestamp":"2017-06-12T11:53:28.567Z"}
+{"level":"info","message":"fs... 79","timestamp":"2017-06-12T11:54:15.529Z"}
+{"level":"info","message":"express... 277","timestamp":"2017-06-12T11:54:15.725Z"}
+{"level":"info","message":"path... 278","timestamp":"2017-06-12T11:54:15.725Z"}
+{"level":"info","message":"body-parser... 282","timestamp":"2017-06-12T11:54:15.729Z"}
+{"level":"info","message":"cookie-parser... 284","timestamp":"2017-06-12T11:54:15.731Z"}
+{"level":"info","message":"request... 599","timestamp":"2017-06-12T11:54:16.047Z"}
+{"level":"info","message":"buffer... 600","timestamp":"2017-06-12T11:54:16.047Z"}
+{"level":"info","message":"iconv-lite... 604","timestamp":"2017-06-12T11:54:16.051Z"}
+{"level":"info","message":"xml2js... 749","timestamp":"2017-06-12T11:54:16.196Z"}
+{"level":"info","message":"http... 752","timestamp":"2017-06-12T11:54:16.199Z"}
+{"level":"info","message":"socket.io... 898","timestamp":"2017-06-12T11:54:16.346Z"}
+{"level":"info","message":"./dataBase... 949","timestamp":"2017-06-12T11:54:16.396Z"}
+{"level":"info","message":"tryLoadConfiguration... 949","timestamp":"2017-06-12T11:54:16.397Z"}
+{"level":"info","message":"end app 962","timestamp":"2017-06-12T11:54:16.409Z"}
+{"level":"info","message":"server runs on port 8080 967","timestamp":"2017-06-12T11:54:16.414Z"}
+{"level":"info","message":"URL: /sysadmin","timestamp":"2017-06-12T11:54:25.303Z"}
+{"level":"info","message":"URL: /sysadmin/app_state","timestamp":"2017-06-12T11:54:27.456Z"}
+{"level":"info","message":"fs... 82","timestamp":"2017-06-12T11:54:41.865Z"}
+{"level":"info","message":"express... 269","timestamp":"2017-06-12T11:54:42.051Z"}
+{"level":"info","message":"path... 271","timestamp":"2017-06-12T11:54:42.052Z"}
+{"level":"info","message":"body-parser... 275","timestamp":"2017-06-12T11:54:42.056Z"}
+{"level":"info","message":"cookie-parser... 276","timestamp":"2017-06-12T11:54:42.057Z"}
+{"level":"info","message":"request... 643","timestamp":"2017-06-12T11:54:42.424Z"}
+{"level":"info","message":"buffer... 643","timestamp":"2017-06-12T11:54:42.424Z"}
+{"level":"info","message":"iconv-lite... 648","timestamp":"2017-06-12T11:54:42.429Z"}
+{"level":"info","message":"xml2js... 776","timestamp":"2017-06-12T11:54:42.558Z"}
+{"level":"info","message":"http... 780","timestamp":"2017-06-12T11:54:42.561Z"}
+{"level":"info","message":"socket.io... 900","timestamp":"2017-06-12T11:54:42.682Z"}
+{"level":"info","message":"./dataBase... 944","timestamp":"2017-06-12T11:54:42.725Z"}
+{"level":"info","message":"tryLoadConfiguration... 944","timestamp":"2017-06-12T11:54:42.725Z"}
+{"level":"info","message":"tryDBConnect... 945","timestamp":"2017-06-12T11:54:42.726Z"}
+{"level":"info","message":"end app 1045","timestamp":"2017-06-12T11:54:42.826Z"}
+{"level":"info","message":"server runs on port 8080 1050","timestamp":"2017-06-12T11:54:42.831Z"}
+{"level":"info","message":"tryDBConnect DBConnectError=","timestamp":"2017-06-12T11:54:42.865Z"}
+{"level":"info","message":"URL: /sysadmin","timestamp":"2017-06-12T11:54:51.068Z"}
+{"level":"info","message":"URL: /sysadmin/app_state","timestamp":"2017-06-12T11:54:53.579Z"}
+{"level":"info","message":"URL: /sysadmin/startup_parameters","timestamp":"2017-06-12T11:54:54.525Z"}
+{"level":"info","message":"URL: /sysadmin/startup_parameters/get_app_config","timestamp":"2017-06-12T11:54:54.948Z"}
+{"level":"info","message":"URL: /sysadmin/sales","timestamp":"2017-06-12T11:55:20.916Z"}
+{"level":"info","message":"URL: /sysadmin/startup_parameters/load_app_config","timestamp":"2017-06-12T11:56:13.222Z"}
+{"level":"info","message":"tryLoadConfiguration... 91441","timestamp":"2017-06-12T11:56:13.224Z"}
+{"level":"info","message":"URL: /sysadmin/app_state","timestamp":"2017-06-12T11:56:13.251Z"}
+{"host":"localhost","database":"sample_sinta","user":"root1","password":"Rty1988","level":"info","message":"URL: /sysadmin/startup_parameters/store_app_config_and_reconnect newDBConfigString =","timestamp":"2017-06-12T11:56:17.111Z"}
+{"level":"info","message":"tryDBConnect... 95332","timestamp":"2017-06-12T11:56:17.113Z"}
+{"level":"info","message":"tryDBConnect DBConnectError= Failed to connect to database! Reason:ER_ACCESS_DENIED_ERROR: Access denied for user 'root1'@'localhost' (using password: YES)","timestamp":"2017-06-12T11:56:17.189Z"}
+{"level":"info","message":"URL: /sysadmin/app_state","timestamp":"2017-06-12T11:56:17.207Z"}
+{"host":"localhost","database":"sample_sinta","user":"root","password":"Rty1988","level":"info","message":"URL: /sysadmin/startup_parameters/store_app_config_and_reconnect newDBConfigString =","timestamp":"2017-06-12T11:56:21.015Z"}
+{"level":"info","message":"tryDBConnect... 99235","timestamp":"2017-06-12T11:56:21.016Z"}
+{"level":"info","message":"tryDBConnect DBConnectError=","timestamp":"2017-06-12T11:56:21.023Z"}
+{"level":"info","message":"URL: /sysadmin/app_state","timestamp":"2017-06-12T11:56:21.052Z"}
+{"level":"info","message":"fs... 106","timestamp":"2017-06-12T12:00:14.940Z"}
+{"level":"info","message":"express... 310","timestamp":"2017-06-12T12:00:15.140Z"}
+{"level":"info","message":"path... 311","timestamp":"2017-06-12T12:00:15.141Z"}
+{"level":"info","message":"body-parser... 313","timestamp":"2017-06-12T12:00:15.144Z"}
+{"level":"info","message":"cookie-parser... 315","timestamp":"2017-06-12T12:00:15.145Z"}
+{"level":"info","message":"request... 570","timestamp":"2017-06-12T12:00:15.400Z"}
+{"level":"info","message":"buffer... 570","timestamp":"2017-06-12T12:00:15.400Z"}
+{"level":"info","message":"iconv-lite... 575","timestamp":"2017-06-12T12:00:15.405Z"}
+{"level":"info","message":"xml2js... 705","timestamp":"2017-06-12T12:00:15.535Z"}
+{"level":"info","message":"http... 708","timestamp":"2017-06-12T12:00:15.539Z"}
+{"level":"info","message":"socket.io... 838","timestamp":"2017-06-12T12:00:15.668Z"}
+{"level":"info","message":"./dataBase... 884","timestamp":"2017-06-12T12:00:15.715Z"}
+{"level":"info","message":"tryLoadConfiguration... 885","timestamp":"2017-06-12T12:00:15.715Z"}
+{"level":"info","message":"tryDBConnect... 885","timestamp":"2017-06-12T12:00:15.715Z"}
+{"level":"info","message":"end app 981","timestamp":"2017-06-12T12:00:15.811Z"}
+{"level":"info","message":"server runs on port 8080 987","timestamp":"2017-06-12T12:00:15.817Z"}
+{"level":"info","message":"tryDBConnect DBConnectError=","timestamp":"2017-06-12T12:00:15.843Z"}
+{"level":"info","message":"URL: /sysadmin","timestamp":"2017-06-12T12:00:19.611Z"}
+{"level":"info","message":"URL: /sysadmin/app_state","timestamp":"2017-06-12T12:00:21.844Z"}
+{"level":"info","message":"URL: /sysadmin/startup_parameters","timestamp":"2017-06-12T12:00:33.289Z"}
+{"level":"info","message":"URL: /sysadmin/startup_parameters/get_app_config","timestamp":"2017-06-12T12:00:33.524Z"}
+{"host":"localhost","database":"sample_sinta","user":"root","password":"Rty1988","level":"info","message":"URL: /sysadmin/startup_parameters/store_app_config_and_reconnect newDBConfigString =","timestamp":"2017-06-12T12:00:38.016Z"}
+{"level":"info","message":"tryDBConnect... 23189","timestamp":"2017-06-12T12:00:38.019Z"}
+{"level":"info","message":"tryDBConnect DBConnectError=","timestamp":"2017-06-12T12:00:38.029Z"}
+{"level":"info","message":"URL: /sysadmin/app_state","timestamp":"2017-06-12T12:00:38.041Z"}
+{"level":"info","message":"URL: /sysadmin/startup_parameters/load_app_config","timestamp":"2017-06-12T12:00:39.192Z"}
+{"level":"info","message":"tryLoadConfiguration... 24363","timestamp":"2017-06-12T12:00:39.193Z"}
+{"level":"info","message":"URL: /sysadmin/app_state","timestamp":"2017-06-12T12:00:39.238Z"}
+{"level":"info","message":"fs... 83","timestamp":"2017-06-12T13:04:22.446Z"}
+{"level":"info","message":"express... 242","timestamp":"2017-06-12T13:04:22.603Z"}
+{"level":"info","message":"path... 243","timestamp":"2017-06-12T13:04:22.604Z"}
+{"level":"info","message":"body-parser... 246","timestamp":"2017-06-12T13:04:22.607Z"}
+{"level":"info","message":"http... 249","timestamp":"2017-06-12T13:04:22.610Z"}
+{"level":"info","message":"socket.io... 378","timestamp":"2017-06-12T13:04:22.740Z"}
+{"level":"info","message":"./dataBase... 426","timestamp":"2017-06-12T13:04:22.787Z"}
+{"level":"info","message":"tryLoadConfiguration... 427","timestamp":"2017-06-12T13:04:22.788Z"}
+{"level":"info","message":"tryDBConnect... 427","timestamp":"2017-06-12T13:04:22.788Z"}
+{"level":"info","message":"end app 512","timestamp":"2017-06-12T13:04:22.873Z"}
+{"level":"info","message":"server runs on port 8080 517","timestamp":"2017-06-12T13:04:22.879Z"}
+{"level":"info","message":"tryDBConnect DBConnectError=","timestamp":"2017-06-12T13:04:22.910Z"}
+{"level":"info","message":"URL: /sysadmin","timestamp":"2017-06-12T13:04:25.011Z"}
+{"level":"info","message":"URL: /sysadmin/app_state","timestamp":"2017-06-12T13:04:27.217Z"}
+{"level":"info","message":"URL: /sysadmin/startup_parameters","timestamp":"2017-06-12T13:04:28.267Z"}
+{"level":"info","message":"URL: /sysadmin/startup_parameters/get_app_config","timestamp":"2017-06-12T13:04:28.532Z"}
+{"level":"info","message":"URL: /sysadmin/changeLog","timestamp":"2017-06-12T13:04:29.297Z"}
+{"level":"info","message":"fs... 406","timestamp":"2017-06-12T14:03:10.953Z"}
+{"level":"info","message":"express... 943","timestamp":"2017-06-12T14:03:11.485Z"}
+{"level":"info","message":"path... 944","timestamp":"2017-06-12T14:03:11.486Z"}
+{"level":"info","message":"body-parser... 979","timestamp":"2017-06-12T14:03:11.521Z"}
+{"level":"info","message":"http... 983","timestamp":"2017-06-12T14:03:11.525Z"}
+{"level":"info","message":"socket.io... 1668","timestamp":"2017-06-12T14:03:12.210Z"}
+{"level":"info","message":"./dataBase... 1798","timestamp":"2017-06-12T14:03:12.340Z"}
+{"level":"info","message":"tryLoadConfiguration... 1799","timestamp":"2017-06-12T14:03:12.341Z"}
+{"level":"info","message":"tryDBConnect... 1816","timestamp":"2017-06-12T14:03:12.358Z"}
+{"level":"info","message":"end app 2125","timestamp":"2017-06-12T14:03:12.667Z"}
+{"level":"info","message":"server runs on port 8080 2130","timestamp":"2017-06-12T14:03:12.672Z"}
+{"level":"info","message":"tryDBConnect DBConnectError=","timestamp":"2017-06-12T14:03:12.697Z"}
+{"level":"info","message":"URL: /sysadmin","timestamp":"2017-06-12T14:03:17.513Z"}
+{"level":"info","message":"URL: /sysadmin/app_state","timestamp":"2017-06-12T14:03:19.865Z"}
+{"level":"info","message":"URL: /sysadmin/changeLog","timestamp":"2017-06-12T14:03:21.227Z"}
+{"level":"info","message":"fs... 79","timestamp":"2017-06-12T14:32:05.336Z"}
+{"level":"info","message":"express... 272","timestamp":"2017-06-12T14:32:05.525Z"}
+{"level":"info","message":"path... 273","timestamp":"2017-06-12T14:32:05.526Z"}
+{"level":"info","message":"body-parser... 278","timestamp":"2017-06-12T14:32:05.530Z"}
+{"level":"info","message":"http... 283","timestamp":"2017-06-12T14:32:05.535Z"}
+{"level":"info","message":"socket.io... 488","timestamp":"2017-06-12T14:32:05.740Z"}
+{"level":"info","message":"./dataBase... 537","timestamp":"2017-06-12T14:32:05.789Z"}
+{"level":"info","message":"tryLoadConfiguration... 537","timestamp":"2017-06-12T14:32:05.789Z"}
+{"level":"info","message":"tryDBConnect... 538","timestamp":"2017-06-12T14:32:05.791Z"}
+{"level":"info","message":"end app 664","timestamp":"2017-06-12T14:32:05.916Z"}
+{"level":"info","message":"server runs on port 8080 671","timestamp":"2017-06-12T14:32:05.923Z"}
+{"level":"info","message":"tryDBConnect DBConnectError=","timestamp":"2017-06-12T14:32:05.947Z"}
+{"level":"info","message":"URL: /sysadmin","timestamp":"2017-06-12T14:32:06.979Z"}
+{"level":"info","message":"URL: /sysadmin/app_state","timestamp":"2017-06-12T14:32:09.419Z"}
+{"level":"info","message":"URL: /sysadmin/changeLog","timestamp":"2017-06-12T14:32:10.364Z"}
+{"level":"info","message":"URL: /sysadmin/startup_parameters","timestamp":"2017-06-12T14:32:12.907Z"}
+{"level":"info","message":"URL: /sysadmin/startup_parameters/get_app_config","timestamp":"2017-06-12T14:32:13.035Z"}
+{"level":"info","message":"URL: /sysadmin","timestamp":"2017-06-12T14:33:16.161Z"}
+{"level":"info","message":"URL: /sysadmin/app_state","timestamp":"2017-06-12T14:33:18.570Z"}
+{"level":"info","message":"URL: /sysadmin/changeLog","timestamp":"2017-06-12T14:33:21.132Z"}
+{"level":"info","message":"URL: /sysadmin","timestamp":"2017-06-12T14:34:31.550Z"}
+{"level":"info","message":"URL: /sysadmin/app_state","timestamp":"2017-06-12T14:34:33.878Z"}
+{"level":"info","message":"URL: /sysadmin/changeLog","timestamp":"2017-06-12T14:34:35.264Z"}
+{"level":"info","message":"URL: /sysadmin","timestamp":"2017-06-12T14:35:37.157Z"}
+{"level":"info","message":"URL: /sysadmin/app_state","timestamp":"2017-06-12T14:35:39.387Z"}
+{"level":"info","message":"URL: /sysadmin/changeLog","timestamp":"2017-06-12T14:35:40.118Z"}
+{"level":"info","message":"fs... 1025","timestamp":"2017-06-13T06:06:43.084Z"}
+{"level":"info","message":"express... 3457","timestamp":"2017-06-13T06:06:45.513Z"}
+{"level":"info","message":"path... 3459","timestamp":"2017-06-13T06:06:45.514Z"}
+{"level":"info","message":"body-parser... 3524","timestamp":"2017-06-13T06:06:45.579Z"}
+{"level":"info","message":"http... 3530","timestamp":"2017-06-13T06:06:45.585Z"}
+{"level":"info","message":"socket.io... 6158","timestamp":"2017-06-13T06:06:48.213Z"}
+{"level":"info","message":"./dataBase... 6724","timestamp":"2017-06-13T06:06:48.779Z"}
+{"level":"info","message":"tryLoadConfiguration... 6724","timestamp":"2017-06-13T06:06:48.779Z"}
+{"level":"info","message":"tryDBConnect... 6747","timestamp":"2017-06-13T06:06:48.802Z"}
+{"level":"info","message":"end app 7288","timestamp":"2017-06-13T06:06:49.343Z"}
+{"level":"info","message":"server runs on port 8080 7296","timestamp":"2017-06-13T06:06:49.351Z"}
+{"level":"info","message":"tryDBConnect DBConnectError=","timestamp":"2017-06-13T06:06:49.516Z"}
+{"level":"info","message":"URL: /sysadmin","timestamp":"2017-06-13T06:06:52.686Z"}
+{"level":"info","message":"URL: /sysadmin/app_state","timestamp":"2017-06-13T06:06:54.289Z"}
+{"level":"info","message":"URL: /sysadmin/changeLog","timestamp":"2017-06-13T06:07:10.017Z"}
+{"level":"info","message":"URL: /sysadmin","timestamp":"2017-06-13T06:08:29.499Z"}
+{"level":"info","message":"URL: /sysadmin/app_state","timestamp":"2017-06-13T06:08:32.350Z"}
+{"level":"info","message":"URL: /sysadmin/changeLog","timestamp":"2017-06-13T06:08:33.520Z"}
+{"level":"info","message":"/sysadmin/get_changeLogInfo/ {}   {}","timestamp":"2017-06-13T06:08:34.291Z"}
+{"level":"info","message":"URL: /sysadmin","timestamp":"2017-06-13T06:08:45.400Z"}
+{"level":"info","message":"URL: /sysadmin/app_state","timestamp":"2017-06-13T06:08:47.136Z"}
+{"level":"info","message":"URL: /sysadmin/changeLog","timestamp":"2017-06-13T06:08:48.316Z"}
+{"level":"info","message":"/sysadmin/get_changeLogInfo/ {}   {}","timestamp":"2017-06-13T06:08:48.566Z"}
+{"level":"info","message":"URL: /sysadmin/startup_parameters","timestamp":"2017-06-13T06:10:13.865Z"}
+{"level":"info","message":"URL: /sysadmin/startup_parameters/get_app_config","timestamp":"2017-06-13T06:10:14.879Z"}
+{"level":"info","message":"URL: /sysadmin","timestamp":"2017-06-13T06:15:35.779Z"}
+{"level":"info","message":"URL: /sysadmin/app_state","timestamp":"2017-06-13T06:15:38.179Z"}
+{"level":"info","message":"URL: /sysadmin/changeLog","timestamp":"2017-06-13T06:15:39.231Z"}
+{"level":"info","message":"/sysadmin/get_changeLogInfo/ {}   {}","timestamp":"2017-06-13T06:15:39.482Z"}
+{"level":"info","message":"fs... 98","timestamp":"2017-06-13T06:16:32.546Z"}
+{"level":"info","message":"express... 432","timestamp":"2017-06-13T06:16:32.877Z"}
+{"level":"info","message":"path... 434","timestamp":"2017-06-13T06:16:32.878Z"}
+{"level":"info","message":"body-parser... 438","timestamp":"2017-06-13T06:16:32.882Z"}
+{"level":"info","message":"http... 444","timestamp":"2017-06-13T06:16:32.888Z"}
+{"level":"info","message":"socket.io... 699","timestamp":"2017-06-13T06:16:33.143Z"}
+{"level":"info","message":"./dataBase... 754","timestamp":"2017-06-13T06:16:33.199Z"}
+{"level":"info","message":"tryLoadConfiguration... 755","timestamp":"2017-06-13T06:16:33.199Z"}
+{"level":"info","message":"tryDBConnect... 756","timestamp":"2017-06-13T06:16:33.200Z"}
+{"level":"info","message":"end app 931","timestamp":"2017-06-13T06:16:33.375Z"}
+{"level":"info","message":"server runs on port 8080 939","timestamp":"2017-06-13T06:16:33.383Z"}
+{"level":"info","message":"tryDBConnect DBConnectError=","timestamp":"2017-06-13T06:16:33.429Z"}
+{"level":"info","message":"URL: /sysadmin","timestamp":"2017-06-13T06:16:39.595Z"}
+{"level":"info","message":"URL: /sysadmin/app_state","timestamp":"2017-06-13T06:16:41.914Z"}
+{"level":"info","message":"URL: /sysadmin/changeLog","timestamp":"2017-06-13T06:16:42.801Z"}
+{"level":"info","message":"/sysadmin/get_changeLogInfo/ {}   {}","timestamp":"2017-06-13T06:16:43.205Z"}
+{"level":"info","message":"URL: /sysadmin","timestamp":"2017-06-13T06:20:04.863Z"}
+{"level":"info","message":"URL: /sysadmin/app_state","timestamp":"2017-06-13T06:20:06.994Z"}
+{"level":"info","message":"URL: /sysadmin/changeLog","timestamp":"2017-06-13T06:20:07.952Z"}
+{"level":"info","message":"/sysadmin/get_changeLogInfo/ {}   {}","timestamp":"2017-06-13T06:20:08.337Z"}
+{"level":"info","message":"URL: /sysadmin/startup_parameters","timestamp":"2017-06-13T06:25:18.897Z"}
+{"level":"info","message":"URL: /sysadmin/startup_parameters/get_app_config","timestamp":"2017-06-13T06:25:18.998Z"}
+{"level":"info","message":"URL: /sysadmin","timestamp":"2017-06-13T06:25:37.551Z"}
+{"level":"info","message":"URL: /sysadmin/app_state","timestamp":"2017-06-13T06:25:39.484Z"}
+{"level":"info","message":"URL: /sysadmin/startup_parameters","timestamp":"2017-06-13T06:25:42.304Z"}
+{"level":"info","message":"URL: /sysadmin/startup_parameters/get_app_config","timestamp":"2017-06-13T06:25:42.619Z"}
+{"level":"info","message":"URL: /sysadmin/changeLog","timestamp":"2017-06-13T06:25:44.458Z"}
+{"level":"info","message":"/sysadmin/get_changeLogInfo/ {}   {}","timestamp":"2017-06-13T06:25:44.768Z"}
+{"level":"info","message":"fs... 136","timestamp":"2017-06-13T06:29:11.387Z"}
+{"level":"info","message":"express... 363","timestamp":"2017-06-13T06:29:11.608Z"}
+{"level":"info","message":"path... 364","timestamp":"2017-06-13T06:29:11.609Z"}
+{"level":"info","message":"body-parser... 367","timestamp":"2017-06-13T06:29:11.612Z"}
+{"level":"info","message":"http... 371","timestamp":"2017-06-13T06:29:11.616Z"}
+{"level":"info","message":"socket.io... 594","timestamp":"2017-06-13T06:29:11.840Z"}
+{"level":"info","message":"./dataBase... 662","timestamp":"2017-06-13T06:29:11.907Z"}
+{"level":"info","message":"tryLoadConfiguration... 662","timestamp":"2017-06-13T06:29:11.908Z"}
+{"level":"info","message":"tryDBConnect... 663","timestamp":"2017-06-13T06:29:11.908Z"}
+{"level":"info","message":"end app 902","timestamp":"2017-06-13T06:29:12.147Z"}
+{"level":"info","message":"server runs on port 8080 910","timestamp":"2017-06-13T06:29:12.155Z"}
+{"level":"info","message":"tryDBConnect DBConnectError=","timestamp":"2017-06-13T06:29:12.196Z"}
+{"level":"info","message":"fs... 106","timestamp":"2017-06-13T06:29:21.729Z"}
+{"level":"info","message":"express... 311","timestamp":"2017-06-13T06:29:21.931Z"}
+{"level":"info","message":"path... 312","timestamp":"2017-06-13T06:29:21.931Z"}
+{"level":"info","message":"body-parser... 316","timestamp":"2017-06-13T06:29:21.935Z"}
+{"level":"info","message":"http... 323","timestamp":"2017-06-13T06:29:21.942Z"}
+{"level":"info","message":"socket.io... 521","timestamp":"2017-06-13T06:29:22.141Z"}
+{"level":"info","message":"./dataBase... 568","timestamp":"2017-06-13T06:29:22.187Z"}
+{"level":"info","message":"tryLoadConfiguration... 568","timestamp":"2017-06-13T06:29:22.188Z"}
+{"level":"info","message":"tryDBConnect... 569","timestamp":"2017-06-13T06:29:22.188Z"}
+{"level":"info","message":"end app 731","timestamp":"2017-06-13T06:29:22.351Z"}
+{"level":"info","message":"server runs on port 8080 739","timestamp":"2017-06-13T06:29:22.358Z"}
+{"level":"info","message":"tryDBConnect DBConnectError=","timestamp":"2017-06-13T06:29:22.386Z"}
+{"level":"info","message":"URL: /sysadmin","timestamp":"2017-06-13T06:29:40.855Z"}
+{"level":"info","message":"URL: /sysadmin/app_state","timestamp":"2017-06-13T06:29:43.734Z"}
+{"level":"info","message":"URL: /sysadmin/changeLog","timestamp":"2017-06-13T06:29:45.326Z"}
+{"level":"info","message":"/sysadmin/changeLog/change_log {}   {}","timestamp":"2017-06-13T06:29:45.909Z"}
+{"level":"info","message":"fs... 287","timestamp":"2017-06-13T13:11:23.399Z"}
+{"level":"info","message":"express... 800","timestamp":"2017-06-13T13:11:23.909Z"}
+{"level":"info","message":"path... 801","timestamp":"2017-06-13T13:11:23.909Z"}
+{"level":"info","message":"body-parser... 837","timestamp":"2017-06-13T13:11:23.945Z"}
+{"level":"info","message":"http... 841","timestamp":"2017-06-13T13:11:23.949Z"}
+{"level":"info","message":"socket.io... 1282","timestamp":"2017-06-13T13:11:24.391Z"}
+{"level":"info","message":"./dataBase... 1407","timestamp":"2017-06-13T13:11:24.515Z"}
+{"level":"info","message":"tryLoadConfiguration... 1407","timestamp":"2017-06-13T13:11:24.515Z"}
+{"level":"info","message":"tryDBConnect... 1420","timestamp":"2017-06-13T13:11:24.528Z"}
+{"level":"info","message":"end app 1686","timestamp":"2017-06-13T13:11:24.794Z"}
+{"level":"info","message":"server runs on port 8080 1688","timestamp":"2017-06-13T13:11:24.796Z"}
+{"level":"info","message":"tryDBConnect DBConnectError=","timestamp":"2017-06-13T13:11:24.868Z"}
+{"level":"info","message":"URL: /sysadmin/startup_parameters","timestamp":"2017-06-13T16:21:10.058Z"}
+{"level":"info","message":"URL: /sysadmin/startup_parameters/get_app_config","timestamp":"2017-06-13T16:21:10.620Z"}
+{"host":"localhost","database":"sample_sinta2","user":"root","password":"Rty1988","level":"info","message":"URL: /sysadmin/startup_parameters/store_app_config_and_reconnect newDBConfigString =","timestamp":"2017-06-13T16:21:48.822Z"}
+{"level":"info","message":"tryDBConnect... 11425732","timestamp":"2017-06-13T16:21:48.840Z"}
+{"level":"info","message":"tryDBConnect DBConnectError= Failed to connect to database! Reason:ER_BAD_DB_ERROR: Unknown database 'sample_sinta2'","timestamp":"2017-06-13T16:21:48.856Z"}
+{"level":"info","message":"URL: /sysadmin/app_state","timestamp":"2017-06-13T16:21:48.879Z"}
+{"level":"info","message":"URL: /sysadmin/changeLog","timestamp":"2017-06-13T16:23:28.505Z"}
+{"level":"info","message":"/sysadmin/changeLog/change_log {}   {}","timestamp":"2017-06-13T16:23:28.736Z"}
+{"level":"info","message":"URL: /sysadmin","timestamp":"2017-06-13T16:23:49.553Z"}
+{"level":"info","message":"URL: /sysadmin/app_state","timestamp":"2017-06-13T16:23:51.371Z"}
+{"level":"info","message":"URL: /sysadmin/startup_parameters","timestamp":"2017-06-13T16:23:52.257Z"}
+{"level":"info","message":"URL: /sysadmin/startup_parameters/get_app_config","timestamp":"2017-06-13T16:23:52.497Z"}
+{"host":"localhost","database":"sample_sinta","user":"root","password":"Rty1988","level":"info","message":"URL: /sysadmin/startup_parameters/store_app_config_and_reconnect newDBConfigString =","timestamp":"2017-06-13T16:23:55.403Z"}
+{"level":"info","message":"tryDBConnect... 11552297","timestamp":"2017-06-13T16:23:55.405Z"}
+{"level":"info","message":"tryDBConnect DBConnectError=","timestamp":"2017-06-13T16:23:55.413Z"}
+{"level":"info","message":"URL: /sysadmin/app_state","timestamp":"2017-06-13T16:23:55.423Z"}
+{"level":"info","message":"fs... 270","timestamp":"2017-06-13T16:34:21.592Z"}
+{"level":"info","message":"express... 896","timestamp":"2017-06-13T16:34:22.216Z"}
+{"level":"info","message":"path... 897","timestamp":"2017-06-13T16:34:22.216Z"}
+{"level":"info","message":"body-parser... 939","timestamp":"2017-06-13T16:34:22.258Z"}
+{"level":"info","message":"http... 943","timestamp":"2017-06-13T16:34:22.262Z"}
+{"level":"info","message":"socket.io... 1423","timestamp":"2017-06-13T16:34:22.742Z"}
+{"level":"info","message":"./dataBase... 1547","timestamp":"2017-06-13T16:34:22.866Z"}
+{"level":"info","message":"tryLoadConfiguration... 1548","timestamp":"2017-06-13T16:34:22.867Z"}
+{"level":"info","message":"tryDBConnect... 1549","timestamp":"2017-06-13T16:34:22.868Z"}
+{"level":"info","message":"end app 1880","timestamp":"2017-06-13T16:34:23.199Z"}
+{"level":"info","message":"server runs on port 8080 1884","timestamp":"2017-06-13T16:34:23.203Z"}
+{"level":"info","message":"tryDBConnect DBConnectError=","timestamp":"2017-06-13T16:34:23.229Z"}
+{"level":"info","message":"fs... 85","timestamp":"2017-06-13T16:35:00.159Z"}
+{"level":"info","message":"express... 257","timestamp":"2017-06-13T16:35:00.328Z"}
+{"level":"info","message":"path... 258","timestamp":"2017-06-13T16:35:00.329Z"}
+{"level":"info","message":"body-parser... 262","timestamp":"2017-06-13T16:35:00.333Z"}
+{"level":"info","message":"http... 267","timestamp":"2017-06-13T16:35:00.338Z"}
+{"level":"info","message":"socket.io... 467","timestamp":"2017-06-13T16:35:00.538Z"}
+{"level":"info","message":"./dataBase... 516","timestamp":"2017-06-13T16:35:00.588Z"}
+{"level":"info","message":"tryLoadConfiguration... 517","timestamp":"2017-06-13T16:35:00.588Z"}
+{"level":"info","message":"tryDBConnect... 518","timestamp":"2017-06-13T16:35:00.589Z"}
+{"level":"info","message":"end app 655","timestamp":"2017-06-13T16:35:00.726Z"}
+{"level":"info","message":"server runs on port 8080 662","timestamp":"2017-06-13T16:35:00.733Z"}
+{"level":"info","message":"tryDBConnect DBConnectError=","timestamp":"2017-06-13T16:35:00.753Z"}
+{"level":"info","message":"fs... 82","timestamp":"2017-06-13T16:35:19.878Z"}
+{"level":"info","message":"express... 222","timestamp":"2017-06-13T16:35:20.015Z"}
+{"level":"info","message":"path... 223","timestamp":"2017-06-13T16:35:20.016Z"}
+{"level":"info","message":"body-parser... 226","timestamp":"2017-06-13T16:35:20.019Z"}
+{"level":"info","message":"http... 229","timestamp":"2017-06-13T16:35:20.022Z"}
+{"level":"info","message":"socket.io... 389","timestamp":"2017-06-13T16:35:20.182Z"}
+{"level":"info","message":"./dataBase... 421","timestamp":"2017-06-13T16:35:20.214Z"}
+{"level":"info","message":"tryLoadConfiguration... 421","timestamp":"2017-06-13T16:35:20.214Z"}
+{"level":"info","message":"tryDBConnect... 421","timestamp":"2017-06-13T16:35:20.215Z"}
+{"level":"info","message":"end app 528","timestamp":"2017-06-13T16:35:20.322Z"}
+{"level":"info","message":"server runs on port 8080 534","timestamp":"2017-06-13T16:35:20.327Z"}
+{"level":"info","message":"tryDBConnect DBConnectError=","timestamp":"2017-06-13T16:35:20.346Z"}
+{"level":"info","message":"URL: /sysadmin","timestamp":"2017-06-13T16:35:38.686Z"}
+{"level":"info","message":"URL: /sysadmin/app_state","timestamp":"2017-06-13T16:35:40.374Z"}
+{"level":"info","message":"URL: /sysadmin/startup_parameters","timestamp":"2017-06-13T16:35:41.316Z"}
+{"level":"info","message":"URL: /sysadmin/startup_parameters/get_app_config","timestamp":"2017-06-13T16:35:41.536Z"}
+{"level":"info","message":"fs... 318","timestamp":"2017-06-14T02:48:37.213Z"}
+{"level":"info","message":"express... 1240","timestamp":"2017-06-14T02:48:38.133Z"}
+{"level":"info","message":"path... 1241","timestamp":"2017-06-14T02:48:38.133Z"}
+{"level":"info","message":"body-parser... 1277","timestamp":"2017-06-14T02:48:38.169Z"}
+{"level":"info","message":"http... 1281","timestamp":"2017-06-14T02:48:38.173Z"}
+{"level":"info","message":"socket.io... 2492","timestamp":"2017-06-14T02:48:39.385Z"}
+{"level":"info","message":"./dataBase... 2783","timestamp":"2017-06-14T02:48:39.675Z"}
+{"level":"info","message":"tryLoadConfiguration... 2783","timestamp":"2017-06-14T02:48:39.675Z"}
+{"level":"info","message":"tryDBConnect... 2809","timestamp":"2017-06-14T02:48:39.701Z"}
+{"level":"info","message":"end app 3491","timestamp":"2017-06-14T02:48:40.383Z"}
+{"level":"info","message":"server runs on port 8080 3496","timestamp":"2017-06-14T02:48:40.388Z"}
+{"level":"info","message":"tryDBConnect DBConnectError=","timestamp":"2017-06-14T02:48:40.671Z"}
+{"level":"info","message":"URL: /sysadmin","timestamp":"2017-06-14T02:50:05.303Z"}
+{"level":"info","message":"URL: /sysadmin/app_state","timestamp":"2017-06-14T02:50:07.133Z"}
+{"level":"info","message":"URL: /sysadmin/startup_parameters","timestamp":"2017-06-14T02:50:08.863Z"}
+{"level":"info","message":"URL: /sysadmin/startup_parameters/get_app_config","timestamp":"2017-06-14T02:50:09.276Z"}
+{"level":"info","message":"URL: /sysadmin","timestamp":"2017-06-14T03:00:48.208Z"}
+{"level":"info","message":"URL: /sysadmin/app_state","timestamp":"2017-06-14T03:00:50.389Z"}
+{"level":"info","message":"URL: /sysadmin/startup_parameters","timestamp":"2017-06-14T03:00:51.390Z"}
+{"level":"info","message":"URL: /sysadmin/startup_parameters/get_app_config","timestamp":"2017-06-14T03:00:51.837Z"}
+{"level":"info","message":"URL: /sysadmin","timestamp":"2017-06-14T03:01:56.966Z"}
+{"level":"info","message":"URL: /sysadmin/app_state","timestamp":"2017-06-14T03:01:58.660Z"}
+{"level":"info","message":"URL: /sysadmin/startup_parameters","timestamp":"2017-06-14T03:01:59.317Z"}
+{"level":"info","message":"URL: /sysadmin/startup_parameters/get_app_config","timestamp":"2017-06-14T03:01:59.601Z"}
+{"level":"info","message":"URL: /sysadmin","timestamp":"2017-06-14T03:02:51.729Z"}
+{"level":"info","message":"URL: /sysadmin/app_state","timestamp":"2017-06-14T03:02:53.729Z"}
+{"level":"info","message":"URL: /sysadmin/startup_parameters","timestamp":"2017-06-14T03:02:54.740Z"}
+{"level":"info","message":"URL: /sysadmin/startup_parameters/get_app_config","timestamp":"2017-06-14T03:02:55.053Z"}
+{"level":"info","message":"URL: /sysadmin","timestamp":"2017-06-14T03:03:26.697Z"}
+{"level":"info","message":"URL: /sysadmin/app_state","timestamp":"2017-06-14T03:03:28.851Z"}
+{"level":"info","message":"URL: /sysadmin/startup_parameters","timestamp":"2017-06-14T03:03:29.569Z"}
+{"level":"info","message":"URL: /sysadmin/startup_parameters/get_app_config","timestamp":"2017-06-14T03:03:29.997Z"}
+{"level":"info","message":"URL: /sysadmin","timestamp":"2017-06-14T03:04:02.173Z"}
+{"level":"info","message":"URL: /sysadmin/app_state","timestamp":"2017-06-14T03:04:04.491Z"}
+{"level":"info","message":"URL: /sysadmin/startup_parameters","timestamp":"2017-06-14T03:04:05.184Z"}
+{"level":"info","message":"URL: /sysadmin/startup_parameters/get_app_config","timestamp":"2017-06-14T03:04:05.643Z"}
+{"level":"info","message":"URL: /sysadmin","timestamp":"2017-06-14T03:05:35.200Z"}
+{"level":"info","message":"URL: /sysadmin/app_state","timestamp":"2017-06-14T03:05:37.281Z"}
+{"level":"info","message":"URL: /sysadmin/startup_parameters","timestamp":"2017-06-14T03:05:38.112Z"}
+{"level":"info","message":"URL: /sysadmin/startup_parameters/get_app_config","timestamp":"2017-06-14T03:05:38.534Z"}
+{"level":"info","message":"fs... 100","timestamp":"2017-06-14T03:58:59.178Z"}
+{"level":"info","message":"express... 346","timestamp":"2017-06-14T03:58:59.420Z"}
+{"level":"info","message":"path... 347","timestamp":"2017-06-14T03:58:59.421Z"}
+{"level":"info","message":"body-parser... 351","timestamp":"2017-06-14T03:58:59.425Z"}
+{"level":"info","message":"http... 357","timestamp":"2017-06-14T03:58:59.431Z"}
+{"level":"info","message":"socket.io... 559","timestamp":"2017-06-14T03:58:59.633Z"}
+{"level":"info","message":"./dataBase... 610","timestamp":"2017-06-14T03:58:59.685Z"}
+{"level":"info","message":"tryLoadConfiguration... 611","timestamp":"2017-06-14T03:58:59.685Z"}
+{"level":"info","message":"tryDBConnect... 612","timestamp":"2017-06-14T03:58:59.686Z"}
+{"level":"info","message":"end app 735","timestamp":"2017-06-14T03:58:59.809Z"}
+{"level":"info","message":"server runs on port 8080 741","timestamp":"2017-06-14T03:58:59.815Z"}
+{"level":"info","message":"tryDBConnect DBConnectError=","timestamp":"2017-06-14T03:58:59.850Z"}
+{"level":"info","message":"URL: /sysadmin","timestamp":"2017-06-14T03:59:59.294Z"}
+{"level":"info","message":"URL: /sysadmin/app_state","timestamp":"2017-06-14T04:00:01.666Z"}
+{"level":"info","message":"URL: /sysadmin/startup_parameters","timestamp":"2017-06-14T04:00:02.926Z"}
+{"level":"info","message":"URL: /sysadmin/startup_parameters/get_app_config","timestamp":"2017-06-14T04:00:03.414Z"}
+{"level":"info","message":"fs... 86","timestamp":"2017-06-14T04:01:17.266Z"}
+{"level":"info","message":"express... 291","timestamp":"2017-06-14T04:01:17.469Z"}
+{"level":"info","message":"path... 293","timestamp":"2017-06-14T04:01:17.470Z"}
+{"level":"info","message":"body-parser... 297","timestamp":"2017-06-14T04:01:17.474Z"}
+{"level":"info","message":"http... 302","timestamp":"2017-06-14T04:01:17.479Z"}
+{"level":"info","message":"socket.io... 502","timestamp":"2017-06-14T04:01:17.680Z"}
+{"level":"info","message":"./dataBase... 547","timestamp":"2017-06-14T04:01:17.725Z"}
+{"level":"info","message":"tryLoadConfiguration... 548","timestamp":"2017-06-14T04:01:17.725Z"}
+{"level":"info","message":"tryDBConnect... 549","timestamp":"2017-06-14T04:01:17.726Z"}
+{"level":"info","message":"end app 697","timestamp":"2017-06-14T04:01:17.874Z"}
+{"level":"info","message":"server runs on port 8080 703","timestamp":"2017-06-14T04:01:17.880Z"}
+{"level":"info","message":"tryDBConnect DBConnectError=","timestamp":"2017-06-14T04:01:17.921Z"}
+{"level":"info","message":"URL: /sysadmin","timestamp":"2017-06-14T04:01:18.531Z"}
+{"level":"info","message":"URL: /sysadmin/app_state","timestamp":"2017-06-14T04:01:20.332Z"}
+{"level":"info","message":"URL: /sysadmin/startup_parameters","timestamp":"2017-06-14T04:01:21.331Z"}
+{"level":"info","message":"URL: /sysadmin/startup_parameters/get_app_config","timestamp":"2017-06-14T04:01:21.628Z"}
+{"level":"info","message":"fs... 93","timestamp":"2017-06-14T04:02:08.273Z"}
+{"level":"info","message":"express... 246","timestamp":"2017-06-14T04:02:08.424Z"}
+{"level":"info","message":"path... 248","timestamp":"2017-06-14T04:02:08.425Z"}
+{"level":"info","message":"body-parser... 251","timestamp":"2017-06-14T04:02:08.429Z"}
+{"level":"info","message":"http... 255","timestamp":"2017-06-14T04:02:08.432Z"}
+{"level":"info","message":"socket.io... 399","timestamp":"2017-06-14T04:02:08.577Z"}
+{"level":"info","message":"./dataBase... 429","timestamp":"2017-06-14T04:02:08.606Z"}
+{"level":"info","message":"tryLoadConfiguration... 430","timestamp":"2017-06-14T04:02:08.607Z"}
+{"level":"info","message":"tryDBConnect... 430","timestamp":"2017-06-14T04:02:08.607Z"}
+{"level":"info","message":"end app 538","timestamp":"2017-06-14T04:02:08.715Z"}
+{"level":"info","message":"server runs on port 8080 544","timestamp":"2017-06-14T04:02:08.721Z"}
+{"level":"info","message":"tryDBConnect DBConnectError=","timestamp":"2017-06-14T04:02:08.763Z"}
+{"level":"info","message":"URL: /sysadmin","timestamp":"2017-06-14T04:05:01.193Z"}
+{"level":"info","message":"URL: /sysadmin/app_state","timestamp":"2017-06-14T04:05:02.984Z"}
+{"level":"info","message":"URL: /sysadmin/startup_parameters","timestamp":"2017-06-14T04:05:03.889Z"}

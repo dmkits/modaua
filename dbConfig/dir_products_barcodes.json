@@ -1,0 +1,32 @@
+[
+  {
+    "changeID": "dir_products_barcodes__1",
+    "changeDatetime": "2016-08-30T16:21:00.000",
+    "changeObj": "dir_products_barcodes",
+    "changeVal": "CREATE TABLE dir_products_barcodes(BARCODE BIGINT NOT NULL) CHARACTER SET utf8"
+  },
+  {
+    "changeID": "dir_products_barcodes__2",
+    "changeDatetime": "2016-08-30T16:22:00.000",
+    "changeObj": "dir_products_barcodes",
+    "changeVal": "ALTER TABLE dir_products_barcodes ADD CONSTRAINT DIR_PRODUCTS_BARCODES_BARCODE_UNIQUE UNIQUE(BARCODE)"
+  },
+  {
+    "changeID": "dir_products_barcodes__3",
+    "changeDatetime": "2016-08-30T16:23:00.000",
+    "changeObj": "dir_products_barcodes",
+    "changeVal": "ALTER TABLE dir_products_barcodes ADD COLUMN PRODUCT_ID BIGINT NOT NULL"
+  },
+  {
+    "changeID": "dir_products_barcodes__4",
+    "changeDatetime": "2016-08-30T16:24:00.000",
+    "changeObj": "dir_products_barcodes",
+    "changeVal": "ALTER TABLE dir_products_barcodes ADD CONSTRAINT DIR_PRODUCTS_BARCODES_PRODUCT_ID_FK FOREIGN KEY (PRODUCT_ID) REFERENCES dir_products(ID)"
+  },
+  {
+    "changeID": "dir_products_barcodes__5",
+    "changeDatetime": "2016-08-30T16:25:00.000",
+    "changeObj": "dir_products_barcodes",
+    "changeVal": "ALTER TABLE dir_products_barcodes ADD PRIMARY KEY (BARCODE,PRODUCT_ID)"
+  }
+]

@@ -1,0 +1,51 @@
+{
+  "src_folders": [
+    "testsNW/tests"
+  ],
+  "output_folder": "testsNW/reports",
+  "custom_commands_path": "",
+  "custom_assertions_path": "",
+  "page_objects_path": "testsNW/page_objects",
+  "globals_path": "",
+  "selenium": {
+    "start_process": true,
+    "server_path": "./bin/selenium-server-standalone-3.4.0.jar",
+    "log_path": "",
+    "port": 4444,
+    "cli_args": {
+      "webdriver.chrome.driver": "./bin/chromedriver",
+      "webdriver.gecko.driver": "",
+      "webdriver.edge.driver": ""
+    }
+  },
+  "test_settings": {
+    "default": {
+      "launch_url": "http://localhost",
+      "selenium_port": 4444,
+      "selenium_host": "localhost",
+      "globals": {
+        "waitForConditionTimeout": 5000,
+        "waitForConditionPollInterval": 500
+      },
+      "silent": true,
+      "screenshots": {
+        "enabled": false,
+        "path": ""
+      },
+      "desiredCapabilities": {
+        "browserName": "chrome"
+      },
+      "chrome": {
+        "desiredCapabilities": {
+          "browserName": "chrome",
+          "marionette": true
+        }
+      }
+    },
+    "edge": {
+      "desiredCapabilities": {
+        "browserName": "MicrosoftEdge"
+      }
+    }
+  }
+}
