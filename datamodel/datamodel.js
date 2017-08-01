@@ -13,7 +13,5 @@ var dmUnits = require("./dir_units");
 
 module.exports.init=function(app){
     dmChangeLog.init(app);
-
     dmUnits.init(app);
-
 };

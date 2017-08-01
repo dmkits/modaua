@@ -5,21 +5,22 @@ define(["dojo/_base/declare", "app", "templateDocumentSimpleTable", "hTableEdita
     function(declare, APP, TDocumentSimpleTable, HTableEditable) {
         return declare("TemplateDocumentSimpleTableEditable", [TDocumentSimpleTable], {
             /*
-             * added args: { dataStoreURL, dataDeleteURL }
+             * added args: { dataNewURL, dataStoreURL, dataDeleteURL }
              */
             constructor: function(args,parentName){
+                this.dataNewURL= null;
                 this.dataStoreURL= null;
                 this.dataDeleteURL= null;
                 declare.safeMixin(this,args);
             },
-
-            createContentTable: function(params){
-                params.readOnly= false;
-                return new HTableEditable(params);
+            postCreate: function(){
+                this.createTopContent();
+                this.createContentTable(HTableEditable, {readOnly:false});
+                this.createRightContent();
             },
 
             /*
-             * callback(changedRowData, params)
+             * callback(changedRowData, params, nextCallback)
              */
             addContentTableRowChangeCallback: function(callback){
                 this.contentTable.addRowChangeCallback(callback);
@@ -54,6 +55,9 @@ define(["dojo/_base/declare", "app", "templateDocumentSimpleTable", "hTableEdita
                 if (actionParams&&actionParams.action=="insertTableRow"){
                     actionFunction= function(){
                         thisInstance.contentTable.insertRowAfterSelected();
+                        if (thisInstance.dataNewURL)
+                            thisInstance.contentTable.getRowDataFromURL({url:thisInstance.dataNewURL, condition:null,
+                                rowData:thisInstance.contentTable.getSelectedRow(), consoleLog:true, callUpdateContent:false});
                     };
                 } else if (actionParams&&actionParams.action=="allowEditTableSelectedRow"){
                     actionFunction= function(){

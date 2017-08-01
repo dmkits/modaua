@@ -5,20 +5,39 @@ var tableColumns=[
     {"data": "NOTE", "name": "NOTE", "width": 200, "type": "text"},
     {"data": "CITY", "name": "CITY", "width": 200, "type": "text"},
     {"data": "ADDRESS", "name": "ADDRESS", "width": 200, "type": "text"}
-
 ];
 
-var database = require("./dataBase");
+var dmBase = require("./dataModelBase");
 
-module.exports.init=function(app){
-    app.get("/dir/units/get_units", function (req, res) {
-        var outData= { columns:tableColumns, identifier:tableColumns[0].data };
-        database.getDataForTable("select * from dir_units", outData,
-            function(outData){
-                res.send(outData);
-            });
-    });
+module.exports=  new dmBase({
+    tableName:"dir_units",
+    dataURL:"/dir/units", getDataForTable:true, tableColumns:tableColumns,
+    newDataForTable:{"NAME":"новое подразделение", "FULL_NAME":"новое подразделение", "NOTE":"новое подразделение", "CITY":"-", "ADDRESS":"-"},
+    storeTableData:true, deleteTableData:true
+});
 
 
-
-};
+//function baseClass(){
+//
+//    this.fieldA='123';
+//    this.fieldB=123456;
+//
+//    this.func1= function(params){
+//
+//    };
+//
+//};
+//var baseClassA= new baseClass();
+//baseClassA.fieldA='234';
+////baseClassA.prototype.fieldA==='123';
+//baseClassA.func1=function(params){
+//
+//};
+//
+//var baseClassO= {
+//    fieldA:'123',
+//    fieldB:123456,
+//    func1: function(params){
+//
+//    }
+//};

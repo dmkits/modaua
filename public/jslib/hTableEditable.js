@@ -216,7 +216,7 @@ define(["dojo/_base/declare", "hTableSimpleFiltered", "request"], function(decla
             this.setSelectedRow(selectRowIndex+1);
         },
         insertRowAfterSelected: function(dataValuesForNewRow){
-            return this.insertRowsAfterSelected(1,dataValuesForNewRow);
+            this.insertRowsAfterSelected(1,dataValuesForNewRow);
         },
         /*
          * params { callUpdateContent }
@@ -399,11 +399,44 @@ define(["dojo/_base/declare", "hTableSimpleFiltered", "request"], function(decla
         },
 
         /*
-         * params: {method=get/post , url, condition, data, consoleLog, callUpdateContent}
+         * params: {url, condition, rowData, consoleLog, callUpdateContent}
+         */
+        getRowDataFromURL: function(params, postCallback){
+            if (!this.getRowIDName()) return;
+            var rowData=params.rowData, newData = {};
+            var thisInstance = this;                                                                                    //console.log("HTableEditable storeRowDataByURL storingData=",storingData,params.callUpdateContent);
+            Request.getJSONData({url:params.url,condition:params.condition, consoleLog:true}
+                ,function(success,result){
+                    if(!success){
+                        rowData["<!$error$!>"]= "Нет связи с сервером!";
+//                        instance.setErrorsCommentsForRow(storeRow,resultItem);
+                        if(postCallback) postCallback(success,result,rowData);
+                        return;
+                    }
+                    var resultItem = result["item"], error = result["error"], errors={};
+                    if(!resultItem) errors['<!$error_item$!>']="Не удалось получить результат операции с сервера!";
+                    if(!error&&resultItem){
+                        thisInstance.updateRowAllDataItems(rowData, resultItem,
+                            {editPropValue:true, addData:errors, callUpdateContent:params.callUpdateContent} );
+                        if(postCallback) postCallback(success,result,rowData);
+                        return;
+                    }
+                    if(error) {
+                        errors["<!$error$!>"] = error; console.log("HTableEditable.getRowDataFromURL result item ERROR! error=",error);/*!!!TEST LOG!!!*/
+                    }
+                    if(!resultItem)resultItem=newData;
+                    thisInstance.updateRowAllDataItems(rowData, resultItem,
+                        {editPropValue:true, addData:errors, callUpdateContent:params.callUpdateContent} );             //console.log("HTableEditable.storeRowDataByURL resultItem=",resultItem);
+                    //instance.setErrorsCommentsForRow(storeRow,storeRowData);
+                    if (postCallback) postCallback(success,result,rowData);
+                })
+        },
+        /*
+         * params: {url, condition, rowData, consoleLog, callUpdateContent}
          */
         storeRowDataByURL: function(params, postCallback){
             if (!this.getRowIDName()) return;
-            var rowData=params.data, storingData = {};
+            var rowData=params.rowData, storingData = {};
             for(var dataItem in rowData)
                 if (dataItem.indexOf("<!$")<0&&dataItem.indexOf("$!>")<0) storingData[dataItem] = rowData[dataItem];
             var thisInstance = this;                                                                                    //console.log("HTableEditable storeRowDataByURL storingData=",storingData,params.callUpdateContent);
@@ -435,17 +468,17 @@ define(["dojo/_base/declare", "hTableSimpleFiltered", "request"], function(decla
                 })
         },
         /*
-         * params: {method=get/post , url, condition, consoleLog}
+         * params: {url, condition, consoleLog}
          */
         storeSelectedRowDataByURL: function(params){
             if (!params || !this.getSelectedRow()) return;
-            params.data= this.getSelectedRow();
-            if (!this.isRowEditable(params.data)) return;
+            params.rowData= this.getSelectedRow();
+            if (!this.isRowEditable(params.rowData)) return;
             params.callUpdateContent= true;
             this.storeRowDataByURL(params);
         },
         /*
-         * params: {method=get/post , url, condition, rowsData, consoleLog}
+         * params: {url, condition, rowsData, consoleLog}
          */
         storeRowsDataByURL: function(params){                                                                           //console.log("HTableEditable storeRowsDataByURL rowsData=",params.rowsData);
             if (!params || !params.rowsData) return;
@@ -457,8 +490,8 @@ define(["dojo/_base/declare", "hTableSimpleFiltered", "request"], function(decla
             params.callUpdateContent=false;
             var thisInstance= this;
             var storeRowDataCallback= function(rowInd){
-                params.data=storingRowData[rowInd];
-                if (params.data) {
+                params.rowData=storingRowData[rowInd];
+                if (params.rowData) {
                     thisInstance.storeRowDataByURL(params,
                         /*postCallback*/function(){
                             storeRowDataCallback(rowInd+1);
@@ -471,11 +504,11 @@ define(["dojo/_base/declare", "hTableSimpleFiltered", "request"], function(decla
             storeRowDataCallback(0);
         },
         /*
-         * params: {method=get/post , url, condition, data, consoleLog, callUpdateContent}
+         * params: {url, condition, rowData, consoleLog, callUpdateContent}
          */
         deleteRowDataByURL: function(params, postCallback){
-            if (!params.data || !this.getRowIDName()) return;
-            var rowData=params.data, rowIDName=this.getRowIDName(), deletingRowIDValue=rowData[rowIDName];
+            if (!params.rowData || !this.getRowIDName()) return;
+            var rowData=params.rowData, rowIDName=this.getRowIDName(), deletingRowIDValue=rowData[rowIDName];
             if (deletingRowIDValue===undefined||deletingRowIDValue===null) {
                 console.log("HTableEditable.deleteRowDataByURL ERROR! NO ROW ID VALUE!");/*!!!TEST LOG!!!*/
                 return;
@@ -514,14 +547,14 @@ define(["dojo/_base/declare", "hTableSimpleFiltered", "request"], function(decla
                 })
         },
         /*
-         * params: {method=get/post , url, condition, consoleLog}
+         * params: {url, condition, consoleLog}
          */
         deleteSelectedRowDataByURL: function(params){
             if (!params || !this.getRowIDName() || !this.getSelectedRow()) return;
-            params.data= this.getSelectedRow();
-            var rowIDValue=params.data[this.getRowIDName()];
+            params.rowData= this.getSelectedRow();
+            var rowIDValue=params.rowData[this.getRowIDName()];
             if (rowIDValue===null||rowIDValue===undefined) {                                                            //console.log("HTableEditable.deleteSelectedRowDataByURL params=",params);
-                this.deleteRow(params.data);//this call onUpdateContent
+                this.deleteRow(params.rowData);//this call onUpdateContent
                 return;
             }
             params.callUpdateContent= true;

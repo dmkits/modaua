@@ -93,7 +93,7 @@ define(["dojo/_base/declare", "dijit/layout/ContentPane", "request"], function(d
             this.htData = data.items;
             for(var c=0;c<this.htVisibleColumns.length;c++){
                 var visColData=this.htVisibleColumns[c];
-                if (visColData.type==="autocomplete") {
+                if (visColData.type==="autocomplete") {                                                                 //console.log("HTableSimple setData autocomplete",visColData.data,visColData.type);
                     visColData.sourceValues={};
                     for(var r=0;r<this.htData.length;r++) {
                         var value=this.htData[r][visColData.data];
@@ -103,7 +103,7 @@ define(["dojo/_base/declare", "dijit/layout/ContentPane", "request"], function(d
                         }
                     }
                 }
-            }
+            }                                                                                                           console.log("HTableSimple setData htVisibleColumns",this.htVisibleColumns);
         },
         getData: function(){
             return this.htData;

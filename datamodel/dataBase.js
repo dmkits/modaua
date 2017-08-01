@@ -300,12 +300,12 @@ var ID=data.changeID;
  */
 module.exports.executeQuery= function(query, callback) {
     connection.query(query,
-        function (err, recordset, fields) {    console.log("executeQuery ",query,  recordset,"executeQuery fields=", fields);
-            if (err) {
+        function (err, recordset, fields) {                                                                 //console.log("executeQuery ",query,  recordset," fields=", fields);
+            if (err) {                                                                                                  //console.log("executeQuery err=",err);
                 callback(err);
                 return;
             }
-            callback(null, recordset.affectedRows);//!!!!!!!!!!!!!!
+            callback(null, recordset.affectedRows);
         });
 };
 /**
@@ -325,16 +325,33 @@ module.exports.selectQuery= function(query, callback) {
 /**
  * callback = function(outData)
  */
-module.exports.getDataForTable=function(dbQuery, outData, callback){
-    exports.selectQuery(dbQuery,function(err, recordset, count){
-        if (err) {
+function getDataItemsFromDatabase(dbQuery, outData, resultItemName, callback){
+    exports.selectQuery(dbQuery,function(err, recordset){
+        if (err) {                                                                                                      console.log("selectQuery err=",err);
             outData.error= err.message;
             callback(outData);
             return;
         }
-        outData.items= recordset;
+        outData[resultItemName]= recordset;
         callback(outData);
     })
+};
+module.exports.getDataForTable=function(dbQuery, outData, callback){
+    getDataItemsFromDatabase(dbQuery, outData, "items", callback)
+};
+function getDataItemFromDatabase(dbQuery, outData, resultItemName, callback){
+    exports.selectQuery(dbQuery,function(err, recordset){
+        if (err) {                                                                                                      console.log("selectQuery err=",err);
+            outData.error= err.message;
+            callback(outData);
+            return;
+        }
+        outData[resultItemName]= recordset[0];
+        callback(outData);
+    })
+};
+module.exports.getResultDataItem=function(dbQuery, outData, callback){
+    getDataItemFromDatabase(dbQuery, outData, "resultItem", callback)
 };
 
 module.exports.writeToChangeLog= function(data, callback) {

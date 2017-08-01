@@ -5,20 +5,21 @@ define(["dojo/_base/declare", "app", "templateDocumentBase", "hTableSimpleFilter
     function(declare, APP, DocumentBase, HTable) {
         return declare("TemplateDocumentSimpleTable", [DocumentBase], {
             /*
-            * args: {titleText, dataURL, condition={...}, rightPane:true/false, rightPaneWidth, buttonUpdate, buttonPrint, printFormats={ ... } }
+            * args: {titleText, dataURL, dataURLCondition={...}, rightPane:true/false, rightPaneWidth, buttonUpdate, buttonPrint, printFormats={ ... } }
             * default:
             * rightPane=false,
             * buttonUpdate=true, buttonPrint=true,
             * default printFormats={ dateFormat:"DD.MM.YY", numericFormat:"#,###,###,###,##0.#########", currencyFormat:"#,###,###,###,##0.00#######" }
             * */
             constructor: function(args,parentName){
+                this.titleText="";
+                this.dataURL=null; this.dataURLCondition=null;
+                this.buttonUpdate= true;
+                this.buttonPrint= true;
+                this.printFormats= { dateFormat:"DD.MM.YY", numericFormat:"#,###,###,###,##0.#########", currencyFormat:"#,###,###,###,##0.00#######" };
+                this.detailContentErrorMsg="Failed get data!";
                 this.srcNodeRef = document.getElementById(parentName);
                 declare.safeMixin(this,args);
-                if (this.buttonUpdate===undefined) this.buttonUpdate= true;
-                if (this.buttonPrint===undefined) this.buttonPrint= true;
-                if (this.printFormats===undefined)
-                    this.printFormats= { dateFormat:"DD.MM.YY", numericFormat:"#,###,###,###,##0.#########", currencyFormat:"#,###,###,###,##0.00#######" };
-                if (this.detailContentErrorMsg===undefined) this.detailContentErrorMsg="Failed get data!";
                 if(args.rightPane===true){
                     this.rightContainerParams={style:"margin:0;padding:0;"};
                     if(args.rightPaneWidth!==undefined) this.rightContainerParams.style+= "width:"+args.rightPaneWidth.toString()+"px;";
@@ -26,7 +27,7 @@ define(["dojo/_base/declare", "app", "templateDocumentBase", "hTableSimpleFilter
                 }
             },
 
-            postCreate: function(){
+            createTopContent: function(){
                 this.topContent = this.setChildContentPaneTo(this, {region:'top', style:"margin:0;padding:0;border:none"});
                 var topTable = this.addTableTo(this.topContent.containerNode);
                 this.topTableRow = this.addRowToTable(topTable);
@@ -39,7 +40,16 @@ define(["dojo/_base/declare", "app", "templateDocumentBase", "hTableSimpleFilter
                 var topTableErrorMsg = this.addTableTo(this.topContent.containerNode);
                 var topTableErrorMsgRow=this.addRowToTable(topTableErrorMsg);
                 this.topTableErrorMsg= this.addLeftCellToTableRow(topTableErrorMsgRow,1);
-                this.contentTable = this.createContentTable({region:'center',style:"margin:0;padding:0;", readOnly:true, wordWrap:true, useFilters:true /*,allowFillHandle:false,*/});
+            },
+            createContentTable: function(HTable, params){
+                if (!params) params={};
+                if (!params.region) params.region='center';
+                if (!params.style) params.style="margin:0;padding:0;";
+                if (params.readOnly===undefined) params.readOnly=true;
+                if (params.wordWrap===undefined) params.wordWrap=true;
+                if (params.useFilters===undefined) params.useFilters=true;
+                if (params.allowFillHandle===undefined) params.allowFillHandle=false;
+                this.contentTable = new HTable(params);
                 this.addChild(this.contentTable);
                 var instance = this;
                 this.contentTable.onUpdateContent = function(){ instance.onUpdateTableContent(); };
@@ -47,36 +57,38 @@ define(["dojo/_base/declare", "app", "templateDocumentBase", "hTableSimpleFilter
                     this.setSelection(firstSelectedRowData, selection);
                     instance.onSelectTableContent(firstSelectedRowData, selection);
                 };
+            },
+            createRightContent: function(params){
                 if(this.rightContainerParams){
                     this.rightContainerParams.region='right';
                     this.rightContainer= this.setContentPane(this.rightContainerParams);
                     this.addChild(this.rightContainer);
                 }
             },
-            createContentTable: function(params){
-                return new HTable(params);
+            postCreate: function(){
+                this.createTopContent();
+                this.createContentTable(HTable);
+                this.createRightContent();
             },
-            setTablelContent: function(){                                                                           //console.log("TemplateDocumentSimpleTable setTablelContent");
-                var condition = (this.condition)?this.condition:{};
+            loadTableContent: function(additionalCondition){                                                            //console.log("TemplateDocumentSimpleTable loadTableContent");
+                var condition = (this.dataURLCondition)?this.dataURLCondition:{};
                 if (this.beginDateBox) condition[this.beginDateBox.conditionName] =
                     this.beginDateBox.format(this.beginDateBox.get("value"),{selector:"date",datePattern:"yyyy-MM-dd"});
                 if (this.endDateBox) condition[this.endDateBox.conditionName] =
                     this.endDateBox.format(this.endDateBox.get("value"),{selector:"date",datePattern:"yyyy-MM-dd"});
                 if (this.btnsConditions) {
-                    var firstBtnConditions=this.btnsConditions[0].conditions;
-                    for(var conditionItemName in firstBtnConditions) condition[conditionItemName]=firstBtnConditions[conditionItemName];
+                    for(var ibtn=0;ibtn<this.btnsConditions.length;ibtn++){
+                        var checkBtn=this.btnsConditions[ibtn], btnConditions=checkBtn.conditions;
+                        if (checkBtn.checked===true)
+                            for(var conditionItemName in btnConditions) condition[conditionItemName]=btnConditions[conditionItemName];
+                    }
                 }
-                this.loadTableContent(this.contentTable, this.dataURL,condition);
+                if (additionalCondition)
+                    for(var addConditionItemName in additionalCondition) condition[addConditionItemName]=additionalCondition[addConditionItemName];
+                this.contentTable.setContentFromUrl({url:this.dataURL,condition:condition, clearContentBeforeLoad:true});
             },
-            setLoadTableContent: function(loadTableContentCallback){
-                if (loadTableContentCallback) this.loadTableContent= loadTableContentCallback;
-                return this;
-            },
-            loadTableContent: function(contentTable, url, condition){                                       //console.log("TemplateDocumentSimpleTable loadTableContent");
-                contentTable.setContentFromUrl({url:url,condition:condition, clearContentBeforeLoad:true});
-            },
-            reloadTableContentByCondition: function(condition){                                       //console.log("TemplateDocumentSimpleTable reloadTableContentByCondition condition=",condition);
-                this.loadTableContent(this.contentTable, this.dataURL, condition);
+            reloadTableContentByCondition: function(additionalCondition){                                                     //console.log("TemplateDocumentSimpleTable reloadTableContentByCondition condition=",condition);
+                this.loadTableContent(additionalCondition);
             },
             setDetailContentErrorMsg: function(detailContentErrorMsg){
                 this.detailContentErrorMsg= detailContentErrorMsg;
@@ -121,7 +133,7 @@ define(["dojo/_base/declare", "app", "templateDocumentBase", "hTableSimpleFilter
                         inputParams:{conditionName:conditionName}, initValueDate:initValueDate});
                 var instance = this;
                 this.beginDateBox.onChange = function(){
-                    instance.setTablelContent();
+                    instance.loadTableContent();
                 };
                 return this;
             },
@@ -132,7 +144,7 @@ define(["dojo/_base/declare", "app", "templateDocumentBase", "hTableSimpleFilter
                         inputParams:{conditionName:conditionName}, initValueDate:initValueDate});
                 var instance = this;
                 this.endDateBox.onChange = function(){
-                    instance.setTablelContent();
+                    instance.loadTableContent();
                 };
                 return this;
             },
@@ -154,7 +166,7 @@ define(["dojo/_base/declare", "app", "templateDocumentBase", "hTableSimpleFilter
                 this.btnUpdate= this.addTableCellButtonTo(this.topTableRow, {labelText:labelText, cellWidth:width, cellStyle:"text-align:right;"});
                 var instance= this;
                 this.btnUpdate.onClick = function(){
-                    instance.setTablelContent();
+                    instance.loadTableContent();
                 };
                 return this;
             },
@@ -182,11 +194,11 @@ define(["dojo/_base/declare", "app", "templateDocumentBase", "hTableSimpleFilter
                 checkBtnCondition.conditions= conditions;
                 var instance = this;
                 checkBtnCondition.onClick = function(){
-                    for(var i=0;i<this.btnsConditions.length;i++){
-                        var checkBtn=this.btnsConditions[i];
-                        if (checkBtn!=this) checkBtn.set("checked", false, false); else checkBtn.set("checked", true, false);
+                    for(var i=0;i<this.btnsConditions.length;i++) {
+                        var checkBtn = this.btnsConditions[i];
+                        if (checkBtn != this) checkBtn.set("checked", false, false); else checkBtn.set("checked", true, false);
                     }
-                    instance.reloadTableContentByCondition(this.conditions);
+                    instance.loadTableContent();
                 };
                 return this;
             },
@@ -343,8 +355,8 @@ define(["dojo/_base/declare", "app", "templateDocumentBase", "hTableSimpleFilter
                 var selRowAction= function(tableRowDataForAction, params, thisContentTable, startNextAction){
                     actionFunction(tableRowDataForAction, params, thisContentTable, startNextAction);
                 };
-                var selRowsAction= function(tableRowsDataForAction, dataInd, params, thisContentTable){                   //console.log("addPopupMenuItemForAction selRowsAction",tableRowsData);
-                    var tableRowDataForAction=tableRowsDataForAction[dataInd];                                                            //console.log("addPopupMenuItemForAction tableRowData",tableRowData);
+                var selRowsAction= function(tableRowsDataForAction, dataInd, params, thisContentTable){                 //console.log("addPopupMenuItemForAction selRowsAction",tableRowsData);
+                    var tableRowDataForAction=tableRowsDataForAction[dataInd];                                          //console.log("addPopupMenuItemForAction tableRowData",tableRowData);
                     if(!tableRowDataForAction){
                         return;
                     }
@@ -373,7 +385,7 @@ define(["dojo/_base/declare", "app", "templateDocumentBase", "hTableSimpleFilter
             startUp: function(){
                 if (this.buttonUpdate!=false&&!this.btnUpdate) this.addBtnUpdate();
                 if (this.buttonPrint!=false&&!this.btnPrint) this.addBtnPrint();
-                this.setTablelContent();
+                this.loadTableContent();
                 this.layout();
                 return this;
             },
