@@ -1,11 +1,13 @@
 var database = require("./dataBase");
+var instauuid = require('instauuid');
+instauuid('decimal');
 /**
- * params = { tableName, dataURL, getDataForTable:true/false,
+ * params = { tableName, tableKeyField, dataURL, getDataForTable:true/false,
  * newDataForTable:true/false,
  * storeTableData:true/false, deleteTableData:true/false }
  */
 module.exports=function(params){
-    this.tableName= params.tableName;
+    this.tableName= params.tableName; this.tableKeyField=params.tableKeyField;
     this.dataURL= params.dataURL;
     this.getDataForTable= params.getDataForTable;
     this.tableColumns= params.tableColumns;
@@ -31,7 +33,14 @@ module.exports=function(params){
                     if (getDataQueryWhereConditions!=null) getDataQuery+= " where "+getDataQueryWhereConditions;
                 }
                 database.getDataForTable(getDataQuery, outData,
-                    function (outData) {
+                    function (outData) {                                       console.log("getDataForTable getDataQuery=",getDataQuery);console.log("getDataForTable outData=",outData);
+                        if (outData&&outData.items){
+                            for(var ri=0;ri<outData.items.length;ri++){
+                                var dataItem=outData.items[ri];
+                                if (dataItem&&thisInstance.tableKeyField&&dataItem[thisInstance.tableKeyField]!==undefined)
+                                    dataItem[thisInstance.tableKeyField]=dataItem[thisInstance.tableKeyField].toString();
+                            }
+                        }
                         res.send(outData);
                     });
             });
@@ -48,54 +57,67 @@ module.exports=function(params){
                 if (req.body && (req.body.ID===undefined||req.body.ID===null)) { //insert
 
                     var outData = {};
-                    //var tableNamesToInsertData=Object.getOwnPropertyNames(req.body);
+                    var dataToInsert=req.body;
+                    var sValues, values=[];
+                    var newId =instauuid('decimal'); console.log("newId=",newId);
+                  //  var newIdmysql=mysql.format(instauuid('decimal');
+                    query = "INSERT into "+thisInstance.tableName+"(ID" ;
+                    sValues="?";
+                    values.push(newId);
+                    for (var fieldName in dataToInsert) {
+                        query += ", "+fieldName;
+                        sValues+=", ?";
+                        values.push(dataToInsert[fieldName]);
+                    }
+                    query += ") VALUES ("+sValues+")" ;
 
-                    //var newId=result[0].ID+1;
-                    query = "INSERT into " + thisInstance.tableName + " (ID " ;
-                    for (var i = 0; i < tableNamesToInsertData.length; i++) query += ", " + tableNamesToInsertData[i]; // + " = '" + req.body[thisInstance.tableColumns[i].data]+"'";
-                    query += ") VALUES ("+newId+"" ;
-                    for (var j = 0; j< tableNamesToInsertData.length; j++) query += ", '"  + req.body[tableNamesToInsertData[j]]+"'";
-                    query +=")";
-                    console.log("query=",query);
-
-                    database.executeQuery(query,function(err, changedRows){
+                    database.executeParamsQuery(query,values,function(err, changedRows) {
                         if (err) {
                             outData.error= err.message;
                             res.send(outData);
                             return;
                         }
-                        outData.count=changedRows;                      console.log("changedRows=",changedRows);
-
-                        if(outData.updateCount>0) {
-                            database.getDataForTable("select * from " + thisInstance.tableName + " WHERE ID="+newId, outData, function (outData) {
+                        outData.updateCount=changedRows;
+                        if(outData.updateCount==0) {
+                            outData.error= "Failed to insert data! Reason:no insert count!";
+                            res.send(outData);
+                            return;
+                        }
+                        database.getResultDataItem("select * from " + thisInstance.tableName + " WHERE ID=" + newId, outData,
+                            function (outData) {                 console.log("outData=",outData);
                                 res.send(outData);
                             });
-                        }
                     });
-
-                    database.selectQuery("SELECT ID FROM "+thisInstance.tableName+" ORDER BY id DESC LIMIT 1", function(err, result){  console.log("result=",result);
-                        if(err) {
-                            console.log("selectQuery err=",selectQuery);
-
-                        }
-                        console.log("result.ID=",result.ID);
-
-                    });
-
                     return;
                 }
                 //key value exists - update
+
                 query = "UPDATE " + thisInstance.tableName;
                 var updatedFields=null, updatedField;
+                var values=[];
                 for (var fieldName in req.body) {
                     if (fieldName==="ID") continue;
-                    updatedField= fieldName+"='"+req.body[fieldName]+"'";
-                    updatedFields = (updatedFields==null)?updatedField:updatedFields+","+updatedField;
+                    updatedField= fieldName+" = ?";
+                    updatedFields = (updatedFields==null)?updatedField:updatedFields+", "+updatedField;
+                    values.push(req.body[fieldName]);
                 }
                 if (updatedFields!=null) query+= " SET "+updatedFields;
-                query += " WHERE ID=" + req.body.ID;
+                query += " WHERE ID = ?";
+                values.push(req.body.ID);
                 var outData = {};
-                database.executeQuery(query,function(err, changedRows){
+
+                 //query = "UPDATE " + thisInstance.tableName;
+                 //var updatedFields=null, updatedField;
+                 //for (var fieldName in req.body) {
+                 //    if (fieldName==="ID") continue;
+                 //    updatedField= fieldName+"='"+req.body[fieldName]+"'";
+                 //    updatedFields = (updatedFields==null)?updatedField:updatedFields+","+updatedField;
+                 //}
+                 //if (updatedFields!=null) query+= " SET "+updatedFields;
+                 //query += " WHERE ID=" + req.body.ID;
+                 // var outData = {};
+                 //----
+                database.executeParamsQuery(query,values,function(err, changedRows){
                     if (err) {
                         outData.error= err.message;
                         res.send(outData);

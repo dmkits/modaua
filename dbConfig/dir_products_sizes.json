@@ -3,7 +3,7 @@
   "changeID": "dir_products_sizes__1",
   "changeDatetime": "2016-09-10T20:01:00.000",
   "changeObj": "dir_products_sizes",
-  "changeVal": "CREATE TABLE dir_products_sizes(ID BIGINT NOT NULL PRIMARY KEY) CHARACTER SET utf8"
+  "changeVal": "CREATE TABLE dir_products_sizes(ID BIGINT UNSIGNED NOT NULL PRIMARY KEY) CHARACTER SET utf8"
 },
   {
     "changeID": "dir_products_sizes__2",

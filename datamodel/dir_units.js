@@ -10,7 +10,7 @@ var tableColumns=[
 var dmBase = require("./dataModelBase");
 
 module.exports=  new dmBase({
-    tableName:"dir_units",
+    tableName:"dir_units", tableKeyField:"ID",
     dataURL:"/dir/units", getDataForTable:true, tableColumns:tableColumns,
     newDataForTable:{"NAME":"новое подразделение", "FULL_NAME":"новое подразделение", "NOTE":"новое подразделение", "CITY":"-", "ADDRESS":"-"},
     storeTableData:true, deleteTableData:true

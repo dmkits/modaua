@@ -298,13 +298,24 @@ var ID=data.changeID;
  * for database query insert/update/delete
  * callback = function(err, updateCount)
  */
-module.exports.executeQuery= function(query, callback) {
+module.exports.executeQuery= function(query, callback) { console.log("executeQuery: ",query);
     connection.query(query,
-        function (err, recordset, fields) {                                                                 //console.log("executeQuery ",query,  recordset," fields=", fields);
-            if (err) {                                                                                                  //console.log("executeQuery err=",err);
+        function (err, recordset, fields) {
+            if (err) {                                                                                                  console.log("executeQuery err=",err);
                 callback(err);
                 return;
             }
+            callback(null, recordset.affectedRows);
+        });
+};
+module.exports.executeParamsQuery= function(query, parameters, callback) {              console.log("executeParamsQuery: ",query,parameters);
+    connection.query(query, parameters,
+        function (err, recordset, fields) {
+            if (err) {                                                                                                  console.log("executeParamsQuery err=",err);
+                callback(err);
+                return;
+            }
+            console.log("executeParamsQuery recordset=",recordset);
             callback(null, recordset.affectedRows);
         });
 };

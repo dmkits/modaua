@@ -10,8 +10,10 @@
 
 var dmChangeLog = require("./change_log");
 var dmUnits = require("./dir_units");
+var dmContractors = require("./dir_contractors");
 
 module.exports.init=function(app){
     dmChangeLog.init(app);
     dmUnits.init(app);
+    dmContractors.init(app);
 };

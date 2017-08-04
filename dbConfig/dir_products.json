@@ -3,7 +3,7 @@
     "changeID": "dir_products__1",
     "changeDatetime": "2016-08-30T16:01:00.000",
     "changeObj": "dir_products",
-    "changeVal": "CREATE TABLE dir_products(ID BIGINT NOT NULL PRIMARY KEY) CHARACTER SET utf8"
+    "changeVal": "CREATE TABLE dir_products(ID BIGINT UNSIGNED NOT NULL PRIMARY KEY) CHARACTER SET utf8"
   },
   {
     "changeID": "dir_products__2",
@@ -45,7 +45,7 @@
     "changeID": "dir_products__8",
     "changeDatetime": "2016-08-30T16:08:00.000",
     "changeObj": "dir_products",
-    "changeVal": "ALTER TABLE dir_products ADD COLUMN PBARCODE BIGINT NOT NULL"
+    "changeVal": "ALTER TABLE dir_products ADD COLUMN PBARCODE BIGINT UNSIGNED NOT NULL"
   },
   {
     "changeID": "dir_products__9",
@@ -57,7 +57,7 @@
     "changeID": "dir_products_14",
     "changeDatetime": "2016-09-04T18:31:00.000",
     "changeObj": "dir_products",
-    "changeVal": "ALTER TABLE dir_products ADD COLUMN ARTICLE_ID BIGINT NOT NULL"
+    "changeVal": "ALTER TABLE dir_products ADD COLUMN ARTICLE_ID BIGINT UNSIGNED NOT NULL"
   },
   {
     "changeID": "dir_products_15",
@@ -69,7 +69,7 @@
     "changeID": "dir_products_16",
     "changeDatetime": "2016-09-09T16:11:00.000",
     "changeObj": "dir_products",
-    "changeVal": "ALTER TABLE dir_products ADD COLUMN KIND_ID BIGINT NOT NULL"
+    "changeVal": "ALTER TABLE dir_products ADD COLUMN KIND_ID BIGINT UNSIGNED NOT NULL"
   },
   {
     "changeID": "dir_products_17",
@@ -81,7 +81,7 @@
     "changeID": "dir_products_18",
     "changeDatetime": "2016-09-09T16:31:00.000",
     "changeObj": "dir_products",
-    "changeVal": "ALTER TABLE dir_products ADD COLUMN COMPOSITION_ID BIGINT NOT NULL"
+    "changeVal": "ALTER TABLE dir_products ADD COLUMN COMPOSITION_ID BIGINT UNSIGNED NOT NULL"
   },
   {
     "changeID": "dir_products_19",
@@ -93,7 +93,7 @@
     "changeID": "dir_products_20",
     "changeDatetime": "2016-09-10T20:11:00.000",
     "changeObj": "dir_products",
-    "changeVal": "ALTER TABLE dir_products ADD COLUMN SIZE_ID BIGINT NOT NULL"
+    "changeVal": "ALTER TABLE dir_products ADD COLUMN SIZE_ID BIGINT UNSIGNED NOT NULL"
   },
   {
     "changeID": "dir_products_21",
@@ -105,7 +105,7 @@
     "changeID": "dir_products_24",
     "changeDatetime": "2016-09-12T09:41:00.000",
     "changeObj": "dir_products",
-    "changeVal": "ALTER TABLE dir_products ADD COLUMN COLLECTION_ID BIGINT NOT NULL"
+    "changeVal": "ALTER TABLE dir_products ADD COLUMN COLLECTION_ID BIGINT UNSIGNED NOT NULL"
   },
   {
     "changeID": "dir_products_25",
