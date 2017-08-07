@@ -5,8 +5,8 @@
     <title></title>
 </head>
 <body>
-<div style="display: none" id="startup_hideAll">
-<div id="sa_startup_params_PageContent" style="width:510px;height:100%; margin:0;padding:0;">
+<!--&lt;!&ndash;<div style="display: none" id="startup_hideAll">&ndash;&gt;    -->
+<div id="sa_startup_params_PageContent" style="width:510px;height:100%; margin:0;padding:0; display: none;">
 
     <table width="100%">
         <tr>
@@ -91,31 +91,31 @@
     </table>
 </div>
 
-<table id="auth_admin_dialog_table">
-    <tr>
-        <td><label for="admin_name">Name:</label></td>
-        <td><input type="text" name="admin_name" id="admin_name" value="root"></td>
-    </tr>
-    <tr>
-        <td><label for="admin_password">Password:</label></td>
-        <td><input type="password" name="admin_password" id="admin_password"></td>
-    </tr>
-</table>
+<!--<table id="auth_admin_dialog_table">-->
+    <!--<tr>-->
+        <!--<td><label for="admin_name">Name:</label></td>-->
+        <!--<td><input type="text" name="admin_name" id="admin_name" value="root"></td>-->
+    <!--</tr>-->
+    <!--<tr>-->
+        <!--<td><label for="admin_password">Password:</label></td>-->
+        <!--<td><input type="password" name="admin_password" id="admin_password"></td>-->
+    <!--</tr>-->
+<!--</table>-->
 
-<table id="backup_fileName_dialog_table">
-    <tr>
-        <td><label for="backup_fileName">file name:</label></td>
-        <td><input type="text" name="backup_fileName" id="backup_fileName">.sql</td>
-    </tr>
-</table>
+<!--<table id="backup_fileName_dialog_table">-->
+    <!--<tr>-->
+        <!--<td><label for="backup_fileName">file name:</label></td>-->
+        <!--<td><input type="text" name="backup_fileName" id="backup_fileName">.sql</td>-->
+    <!--</tr>-->
+<!--</table>-->
 
-<table id="restore_fileName_dialog_table">
-    <tr>
-        <td><label for="restore_fileName">file name:</label></td>
-        <td><input type="text" name="restore_fileName" id="restore_fileName">.sql</td>
-    </tr>
-</table>
-</div>
+<!--<table id="restore_fileName_dialog_table">-->
+    <!--<tr>-->
+        <!--<td><label for="restore_fileName">file name:</label></td>-->
+        <!--<td><input type="text" name="restore_fileName" id="restore_fileName">.sql</td>-->
+    <!--</tr>-->
+<!--</table>-->
+<!--</div>-->
 </body>
 <script type="text/javascript">
     require(["app", "dijit/layout/BorderContainer", "dijit/layout/LayoutContainer", "dijit/layout/ContentPane", "dojo/data/ItemFileReadStore",
@@ -123,9 +123,9 @@
             function (APP, BorderContainer, LayoutContainer, ContentPane, ItemFileReadStore, TextBox, DateTextBox, Button,
                       ConfirmDialog/*,Dialog*/,keys,on,Request) {
 
-                document.getElementById("startup_hideAll").style.display = "inline-block";
 
                 var sa_startup_params_PageContent = APP.instanceForID("sa_startup_params_PageContent", ContentPane, {});
+                sa_startup_params_PageContent.domNode.style.display = "inline-block";
 
                 var hostInput=new TextBox({id:"db.host"},"db.host");
               //  var portInput=new TextBox({id:"db.port"},"db.port");
@@ -149,6 +149,8 @@
                 var adminAuthTable=document.getElementById("auth_admin_dialog_table");
                 var backupDialogTable=document.getElementById("backup_fileName_dialog_table");
                 var restoreDialogTable=document.getElementById("restore_fileName_dialog_table");
+
+
 
                 var authAdminInfo = {};
                 var backupFilename;
@@ -338,7 +340,8 @@
                     );
                 };
                 function setDBConfigContent(DBConfigData) {
-                    document.getElementById("db.host").setAttribute("value", DBConfigData["host"]);
+                    //document.getElementById("db.host").setAttribute("value", DBConfigData["host"]);
+                    hostInput.set("value", DBConfigData["host"]);
                     document.getElementById("db.name").setAttribute("value", DBConfigData["database"]);
                     document.getElementById("db.user").setAttribute("value", DBConfigData["user"]);
                     document.getElementById("db.password").setAttribute("value", DBConfigData["password"]);

@@ -17,9 +17,7 @@ function deleteTestBackUpFile() {
 }
 
 module.exports= {
-
     '@disabled': true,
-
     before: function (browser) {
         fs.createReadStream('./test.cfg').pipe(fs.createWriteStream('./test_temp_copy.cfg'));
     },
@@ -37,10 +35,10 @@ module.exports= {
             .navigate()
             .waitForElementVisible("@img")
             .assert.visible("@img")
-            .assert.title('sinta')
+            .assert.title('MODA.UA')
             .assert.containsText('@mode', "MODE:test")
             .assert.containsText('@port', "PORT:8080")
-            .assert.containsText('@dbName', "DB NAME:sample_sinta")
+            .assert.containsText('@dbName', "DB NAME:modaua_test1")
             .assert.containsText('@user', "USER:user")
             .assert.containsText('@dbConnectionState', 'Connected')
             .assert.visible('@StartUpParamsBtn')
@@ -66,7 +64,7 @@ module.exports= {
             .waitForElementVisible('@dbHostInput')
             .assert.valueContains('@dbHostInput','localhost')
             .waitForElementVisible('@dbNameInput')
-            .assert.valueContains('@dbNameInput','sample_sinta')
+            .assert.valueContains('@dbNameInput','modaua_test1')
             .waitForElementVisible('@dbUserInput')
             .assert.valueContains('@dbUserInput','user')
             .waitForElementVisible('@dbPasswordInput')

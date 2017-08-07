@@ -1,212 +1,1008 @@
-15:10:41.753 INFO - Selenium build info: version: '3.4.0', revision: 'unknown'
-15:10:41.754 INFO - Launching a standalone Selenium Server
-2017-07-31 15:10:41.782:INFO::main: Logging initialized @387ms to org.seleniumhq.jetty9.util.log.StdErrLog
-15:10:41.854 INFO - Driver provider org.openqa.selenium.ie.InternetExplorerDriver registration is skipped:
+17:13:39.045 INFO - Selenium build info: version: '3.4.0', revision: 'unknown'
+17:13:39.046 INFO - Launching a standalone Selenium Server
+2017-08-07 17:13:39.072:INFO::main: Logging initialized @408ms to org.seleniumhq.jetty9.util.log.StdErrLog
+17:13:39.149 INFO - Driver provider org.openqa.selenium.ie.InternetExplorerDriver registration is skipped:
  registration capabilities Capabilities [{ensureCleanSession=true, browserName=internet explorer, version=, platform=WINDOWS}] does not match the current platform LINUX
-15:10:41.855 INFO - Driver provider org.openqa.selenium.edge.EdgeDriver registration is skipped:
+17:13:39.150 INFO - Driver provider org.openqa.selenium.edge.EdgeDriver registration is skipped:
  registration capabilities Capabilities [{browserName=MicrosoftEdge, version=, platform=WINDOWS}] does not match the current platform LINUX
-15:10:41.855 INFO - Driver class not found: com.opera.core.systems.OperaDriver
-15:10:41.855 INFO - Driver provider com.opera.core.systems.OperaDriver registration is skipped:
+17:13:39.150 INFO - Driver class not found: com.opera.core.systems.OperaDriver
+17:13:39.150 INFO - Driver provider com.opera.core.systems.OperaDriver registration is skipped:
 Unable to create new instances on this machine.
-15:10:41.855 INFO - Driver class not found: com.opera.core.systems.OperaDriver
-15:10:41.856 INFO - Driver provider com.opera.core.systems.OperaDriver is not registered
-15:10:41.857 INFO - Driver provider org.openqa.selenium.safari.SafariDriver registration is skipped:
+17:13:39.150 INFO - Driver class not found: com.opera.core.systems.OperaDriver
+17:13:39.151 INFO - Driver provider com.opera.core.systems.OperaDriver is not registered
+17:13:39.152 INFO - Driver provider org.openqa.selenium.safari.SafariDriver registration is skipped:
  registration capabilities Capabilities [{browserName=safari, version=, platform=MAC}] does not match the current platform LINUX
-2017-07-31 15:10:41.917:INFO:osjs.Server:main: jetty-9.4.3.v20170317
-2017-07-31 15:10:41.976:INFO:osjsh.ContextHandler:main: Started o.s.j.s.ServletContextHandler@3e6fa38a{/,null,AVAILABLE}
-2017-07-31 15:10:42.002:INFO:osjs.AbstractConnector:main: Started ServerConnector@53e589a2{HTTP/1.1,[http/1.1]}{0.0.0.0:4444}
-2017-07-31 15:10:42.004:INFO:osjs.Server:main: Started @609ms
-15:10:42.004 INFO - Selenium Server is up and running
-15:10:42.485 INFO - SessionCleaner initialized with insideBrowserTimeout 0 and clientGoneTimeout 1800000 polling every 180000
-15:10:42.527 INFO - Executing: [new session: Capabilities [{acceptSslCerts=true, name=Main / Main 1 Header Tests, browserName=chrome, javascriptEnabled=true, platform=ANY}]])
-15:10:42.563 INFO - Creating a new session for Capabilities [{acceptSslCerts=true, name=Main / Main 1 Header Tests, browserName=chrome, javascriptEnabled=true, platform=ANY}]
-Starting ChromeDriver 2.29.461571 (8a88bbe0775e2a23afda0ceaf2ef7ee74e822cc5) on port 8341
+2017-08-07 17:13:39.230:INFO:osjs.Server:main: jetty-9.4.3.v20170317
+2017-08-07 17:13:39.285:INFO:osjsh.ContextHandler:main: Started o.s.j.s.ServletContextHandler@3e6fa38a{/,null,AVAILABLE}
+2017-08-07 17:13:39.309:INFO:osjs.AbstractConnector:main: Started ServerConnector@de5bc8f{HTTP/1.1,[http/1.1]}{0.0.0.0:4444}
+2017-08-07 17:13:39.310:INFO:osjs.Server:main: Started @646ms
+17:13:39.310 INFO - Selenium Server is up and running
+17:13:39.779 INFO - SessionCleaner initialized with insideBrowserTimeout 0 and clientGoneTimeout 1800000 polling every 180000
+17:13:39.819 INFO - Executing: [new session: Capabilities [{acceptSslCerts=true, name=Main / Main 1 Header Tests, browserName=chrome, javascriptEnabled=true, platform=ANY}]])
+17:13:39.857 INFO - Creating a new session for Capabilities [{acceptSslCerts=true, name=Main / Main 1 Header Tests, browserName=chrome, javascriptEnabled=true, platform=ANY}]
+Starting ChromeDriver 2.29.461571 (8a88bbe0775e2a23afda0ceaf2ef7ee74e822cc5) on port 21627
 Only local connections are allowed.
-15:10:44.069 INFO - Detected dialect: OSS
-15:10:44.118 INFO - Done: [new session: Capabilities [{acceptSslCerts=true, name=Main / Main 1 Header Tests, browserName=chrome, javascriptEnabled=true, platform=ANY}]]
-15:10:46.161 INFO - Executing: [get: http://localhost:8080])
-15:10:48.045 INFO - Done: [get: http://localhost:8080]
-15:10:48.071 INFO - Executing: [find elements: By.cssSelector: #main_TopImg])
-15:10:48.173 INFO - Done: [find elements: By.cssSelector: #main_TopImg]
-15:10:48.186 INFO - Executing: [is displayed: 0 [[ChromeDriver: chrome on LINUX (fc99cc4d15d8b9b5b5e19936927a73c6)] -> css selector: #main_TopImg]])
-15:10:48.242 INFO - Done: [is displayed: 0 [[ChromeDriver: chrome on LINUX (fc99cc4d15d8b9b5b5e19936927a73c6)] -> css selector: #main_TopImg]]
-15:10:48.257 INFO - Executing: [find element: By.cssSelector: #main_TopImg])
-15:10:48.302 INFO - Done: [find element: By.cssSelector: #main_TopImg]
-15:10:48.310 INFO - Executing: [is displayed: 0 [[ChromeDriver: chrome on LINUX (fc99cc4d15d8b9b5b5e19936927a73c6)] -> css selector: #main_TopImg]])
-15:10:48.331 INFO - Done: [is displayed: 0 [[ChromeDriver: chrome on LINUX (fc99cc4d15d8b9b5b5e19936927a73c6)] -> css selector: #main_TopImg]]
-15:10:48.346 INFO - Executing: [get title])
-15:10:48.361 INFO - Done: [get title]
-15:10:48.379 INFO - Executing: [find elements: By.cssSelector: #main_app_mode])
-15:10:48.420 INFO - Done: [find elements: By.cssSelector: #main_app_mode]
-15:10:48.427 INFO - Executing: [is displayed: 1 [[ChromeDriver: chrome on LINUX (fc99cc4d15d8b9b5b5e19936927a73c6)] -> css selector: #main_app_mode]])
-15:10:48.470 INFO - Done: [is displayed: 1 [[ChromeDriver: chrome on LINUX (fc99cc4d15d8b9b5b5e19936927a73c6)] -> css selector: #main_app_mode]]
-15:10:48.480 INFO - Executing: [find element: By.cssSelector: #main_app_mode])
-15:10:48.523 INFO - Done: [find element: By.cssSelector: #main_app_mode]
-15:10:48.529 INFO - Executing: [get text: 1 [[ChromeDriver: chrome on LINUX (fc99cc4d15d8b9b5b5e19936927a73c6)] -> css selector: #main_app_mode]])
-15:10:48.578 INFO - Done: [get text: 1 [[ChromeDriver: chrome on LINUX (fc99cc4d15d8b9b5b5e19936927a73c6)] -> css selector: #main_app_mode]]
-15:10:48.587 INFO - Executing: [find elements: By.cssSelector: #main_MainMenu])
-15:10:48.637 INFO - Done: [find elements: By.cssSelector: #main_MainMenu]
-15:10:48.645 INFO - Executing: [is displayed: 2 [[ChromeDriver: chrome on LINUX (fc99cc4d15d8b9b5b5e19936927a73c6)] -> css selector: #main_MainMenu]])
-15:10:48.689 INFO - Done: [is displayed: 2 [[ChromeDriver: chrome on LINUX (fc99cc4d15d8b9b5b5e19936927a73c6)] -> css selector: #main_MainMenu]]
-15:10:48.700 INFO - Executing: [find element: By.cssSelector: #main_MainMenu])
-15:10:48.740 INFO - Done: [find element: By.cssSelector: #main_MainMenu]
-15:10:48.746 INFO - Executing: [get text: 2 [[ChromeDriver: chrome on LINUX (fc99cc4d15d8b9b5b5e19936927a73c6)] -> css selector: #main_MainMenu]])
-15:10:48.798 INFO - Done: [get text: 2 [[ChromeDriver: chrome on LINUX (fc99cc4d15d8b9b5b5e19936927a73c6)] -> css selector: #main_MainMenu]]
-15:10:48.806 INFO - Executing: [find elements: By.cssSelector: #menuBarPopupMenuDirs])
-15:10:48.846 INFO - Done: [find elements: By.cssSelector: #menuBarPopupMenuDirs]
-15:10:48.854 INFO - Executing: [is displayed: 3 [[ChromeDriver: chrome on LINUX (fc99cc4d15d8b9b5b5e19936927a73c6)] -> css selector: #menuBarPopupMenuDirs]])
-15:10:48.895 INFO - Done: [is displayed: 3 [[ChromeDriver: chrome on LINUX (fc99cc4d15d8b9b5b5e19936927a73c6)] -> css selector: #menuBarPopupMenuDirs]]
-15:10:48.905 INFO - Executing: [find element: By.cssSelector: #menuBarPopupMenuDirs])
-15:10:48.959 INFO - Done: [find element: By.cssSelector: #menuBarPopupMenuDirs]
-15:10:48.966 INFO - Executing: [get text: 3 [[ChromeDriver: chrome on LINUX (fc99cc4d15d8b9b5b5e19936927a73c6)] -> css selector: #menuBarPopupMenuDirs]])
-15:10:49.017 INFO - Done: [get text: 3 [[ChromeDriver: chrome on LINUX (fc99cc4d15d8b9b5b5e19936927a73c6)] -> css selector: #menuBarPopupMenuDirs]]
-15:10:49.025 INFO - Executing: [find elements: By.cssSelector: #menuBarItemClose])
-15:10:49.067 INFO - Done: [find elements: By.cssSelector: #menuBarItemClose]
-15:10:49.074 INFO - Executing: [is displayed: 4 [[ChromeDriver: chrome on LINUX (fc99cc4d15d8b9b5b5e19936927a73c6)] -> css selector: #menuBarItemClose]])
-15:10:49.116 INFO - Done: [is displayed: 4 [[ChromeDriver: chrome on LINUX (fc99cc4d15d8b9b5b5e19936927a73c6)] -> css selector: #menuBarItemClose]]
-15:10:49.126 INFO - Executing: [find element: By.cssSelector: #menuBarItemClose])
-15:10:49.172 INFO - Done: [find element: By.cssSelector: #menuBarItemClose]
-15:10:49.179 INFO - Executing: [get text: 4 [[ChromeDriver: chrome on LINUX (fc99cc4d15d8b9b5b5e19936927a73c6)] -> css selector: #menuBarItemClose]])
-15:10:49.230 INFO - Done: [get text: 4 [[ChromeDriver: chrome on LINUX (fc99cc4d15d8b9b5b5e19936927a73c6)] -> css selector: #menuBarItemClose]]
-15:10:49.245 INFO - Executing: [find elements: By.cssSelector: #menuBarItemHelpAbout])
-15:10:49.284 INFO - Done: [find elements: By.cssSelector: #menuBarItemHelpAbout]
-15:10:49.290 INFO - Executing: [is displayed: 5 [[ChromeDriver: chrome on LINUX (fc99cc4d15d8b9b5b5e19936927a73c6)] -> css selector: #menuBarItemHelpAbout]])
-15:10:49.332 INFO - Done: [is displayed: 5 [[ChromeDriver: chrome on LINUX (fc99cc4d15d8b9b5b5e19936927a73c6)] -> css selector: #menuBarItemHelpAbout]]
-15:10:49.341 INFO - Executing: [find element: By.cssSelector: #menuBarItemHelpAbout])
-15:10:49.382 INFO - Done: [find element: By.cssSelector: #menuBarItemHelpAbout]
-15:10:49.388 INFO - Executing: [get text: 5 [[ChromeDriver: chrome on LINUX (fc99cc4d15d8b9b5b5e19936927a73c6)] -> css selector: #menuBarItemHelpAbout]])
-15:10:49.437 INFO - Done: [get text: 5 [[ChromeDriver: chrome on LINUX (fc99cc4d15d8b9b5b5e19936927a73c6)] -> css selector: #menuBarItemHelpAbout]]
-15:10:49.445 INFO - Executing: [find elements: By.cssSelector: #main_ContentContainer_tablist_PageContentPane_mainPage])
-15:10:49.488 INFO - Done: [find elements: By.cssSelector: #main_ContentContainer_tablist_PageContentPane_mainPage]
-15:10:49.494 INFO - Executing: [is displayed: 6 [[ChromeDriver: chrome on LINUX (fc99cc4d15d8b9b5b5e19936927a73c6)] -> css selector: #main_ContentContainer_tablist_PageContentPane_mainPage]])
-15:10:49.535 INFO - Done: [is displayed: 6 [[ChromeDriver: chrome on LINUX (fc99cc4d15d8b9b5b5e19936927a73c6)] -> css selector: #main_ContentContainer_tablist_PageContentPane_mainPage]]
-15:10:49.548 INFO - Executing: [find element: By.cssSelector: #main_ContentContainer_tablist_PageContentPane_mainPage])
-15:10:49.592 INFO - Done: [find element: By.cssSelector: #main_ContentContainer_tablist_PageContentPane_mainPage]
-15:10:49.597 INFO - Executing: [get text: 6 [[ChromeDriver: chrome on LINUX (fc99cc4d15d8b9b5b5e19936927a73c6)] -> css selector: #main_ContentContainer_tablist_PageContentPane_mainPage]])
-15:10:49.647 INFO - Done: [get text: 6 [[ChromeDriver: chrome on LINUX (fc99cc4d15d8b9b5b5e19936927a73c6)] -> css selector: #main_ContentContainer_tablist_PageContentPane_mainPage]]
-15:10:49.656 INFO - Executing: [find elements: By.cssSelector: #mainpage_MainContent])
-15:10:49.695 INFO - Done: [find elements: By.cssSelector: #mainpage_MainContent]
-15:10:49.700 INFO - Executing: [is displayed: 7 [[ChromeDriver: chrome on LINUX (fc99cc4d15d8b9b5b5e19936927a73c6)] -> css selector: #mainpage_MainContent]])
-15:10:49.741 INFO - Done: [is displayed: 7 [[ChromeDriver: chrome on LINUX (fc99cc4d15d8b9b5b5e19936927a73c6)] -> css selector: #mainpage_MainContent]]
-15:10:49.748 INFO - Executing: [find element: By.cssSelector: #menuBarItemHelpAbout])
-15:10:49.766 INFO - Done: [find element: By.cssSelector: #menuBarItemHelpAbout]
-15:10:49.774 INFO - Executing: [click: 5 [[ChromeDriver: chrome on LINUX (fc99cc4d15d8b9b5b5e19936927a73c6)] -> css selector: #menuBarItemHelpAbout]])
-15:10:49.962 INFO - Done: [click: 5 [[ChromeDriver: chrome on LINUX (fc99cc4d15d8b9b5b5e19936927a73c6)] -> css selector: #menuBarItemHelpAbout]]
-15:10:49.971 INFO - Executing: [find elements: By.cssSelector: #DialogSimple])
-15:10:50.015 INFO - Done: [find elements: By.cssSelector: #DialogSimple]
-15:10:50.025 INFO - Executing: [is displayed: 8 [[ChromeDriver: chrome on LINUX (fc99cc4d15d8b9b5b5e19936927a73c6)] -> css selector: #DialogSimple]])
-15:10:50.063 INFO - Done: [is displayed: 8 [[ChromeDriver: chrome on LINUX (fc99cc4d15d8b9b5b5e19936927a73c6)] -> css selector: #DialogSimple]]
-15:10:50.073 INFO - Executing: [find element: By.cssSelector: #DialogSimple])
-15:10:50.113 INFO - Done: [find element: By.cssSelector: #DialogSimple]
-15:10:50.121 INFO - Executing: [get text: 8 [[ChromeDriver: chrome on LINUX (fc99cc4d15d8b9b5b5e19936927a73c6)] -> css selector: #DialogSimple]])
-15:10:50.185 INFO - Done: [get text: 8 [[ChromeDriver: chrome on LINUX (fc99cc4d15d8b9b5b5e19936927a73c6)] -> css selector: #DialogSimple]]
-15:10:50.194 INFO - Executing: [find element: By.cssSelector: #DialogSimple])
-15:10:50.212 INFO - Done: [find element: By.cssSelector: #DialogSimple]
-15:10:50.218 INFO - Executing: [get text: 8 [[ChromeDriver: chrome on LINUX (fc99cc4d15d8b9b5b5e19936927a73c6)] -> css selector: #DialogSimple]])
-15:10:50.252 INFO - Done: [get text: 8 [[ChromeDriver: chrome on LINUX (fc99cc4d15d8b9b5b5e19936927a73c6)] -> css selector: #DialogSimple]]
-15:10:50.260 INFO - Executing: [find element: By.xpath: //div[@id="DialogSimple"]//span[@class="dijitReset dijitInline dijitButtonText" and text()="OK"]])
-15:10:50.306 INFO - Done: [find element: By.xpath: //div[@id="DialogSimple"]//span[@class="dijitReset dijitInline dijitButtonText" and text()="OK"]]
-15:10:50.314 INFO - Executing: [click: 9 [[ChromeDriver: chrome on LINUX (fc99cc4d15d8b9b5b5e19936927a73c6)] -> xpath: //div[@id="DialogSimple"]//span[@class="dijitReset dijitInline dijitButtonText" and text()="OK"]]])
-15:10:50.430 INFO - Done: [click: 9 [[ChromeDriver: chrome on LINUX (fc99cc4d15d8b9b5b5e19936927a73c6)] -> xpath: //div[@id="DialogSimple"]//span[@class="dijitReset dijitInline dijitButtonText" and text()="OK"]]]
-15:10:50.438 INFO - Executing: [find elements: By.cssSelector: #DialogSimple])
-15:10:50.457 INFO - Done: [find elements: By.cssSelector: #DialogSimple]
-15:10:50.465 INFO - Executing: [is displayed: 8 [[ChromeDriver: chrome on LINUX (fc99cc4d15d8b9b5b5e19936927a73c6)] -> css selector: #DialogSimple]])
-15:10:50.487 INFO - Done: [is displayed: 8 [[ChromeDriver: chrome on LINUX (fc99cc4d15d8b9b5b5e19936927a73c6)] -> css selector: #DialogSimple]]
-15:10:50.995 INFO - Executing: [is displayed: 8 [[ChromeDriver: chrome on LINUX (fc99cc4d15d8b9b5b5e19936927a73c6)] -> css selector: #DialogSimple]])
-15:10:51.020 INFO - Done: [is displayed: 8 [[ChromeDriver: chrome on LINUX (fc99cc4d15d8b9b5b5e19936927a73c6)] -> css selector: #DialogSimple]]
-15:10:51.029 INFO - Executing: [find element: By.cssSelector: #menuBarItemHelpAbout])
-15:10:51.050 INFO - Done: [find element: By.cssSelector: #menuBarItemHelpAbout]
-15:10:51.055 INFO - Executing: [click: 5 [[ChromeDriver: chrome on LINUX (fc99cc4d15d8b9b5b5e19936927a73c6)] -> css selector: #menuBarItemHelpAbout]])
-15:10:51.121 INFO - Done: [click: 5 [[ChromeDriver: chrome on LINUX (fc99cc4d15d8b9b5b5e19936927a73c6)] -> css selector: #menuBarItemHelpAbout]]
-15:10:51.127 INFO - Executing: [find elements: By.cssSelector: #DialogSimple])
-15:10:51.150 INFO - Done: [find elements: By.cssSelector: #DialogSimple]
-15:10:51.156 INFO - Executing: [is displayed: 8 [[ChromeDriver: chrome on LINUX (fc99cc4d15d8b9b5b5e19936927a73c6)] -> css selector: #DialogSimple]])
-15:10:51.179 INFO - Done: [is displayed: 8 [[ChromeDriver: chrome on LINUX (fc99cc4d15d8b9b5b5e19936927a73c6)] -> css selector: #DialogSimple]]
-15:10:51.187 INFO - Executing: [find element: By.xpath: //div[@id="DialogSimple"]//span[@class="dijitReset dijitInline dijitButtonText" and text()="Закрыть"]])
-15:10:51.240 INFO - Done: [find element: By.xpath: //div[@id="DialogSimple"]//span[@class="dijitReset dijitInline dijitButtonText" and text()="Закрыть"]]
-15:10:51.248 INFO - Executing: [click: 10 [[ChromeDriver: chrome on LINUX (fc99cc4d15d8b9b5b5e19936927a73c6)] -> xpath: //div[@id="DialogSimple"]//span[@class="dijitReset dijitInline dijitButtonText" and text()="Закрыть"]]])
-15:10:51.364 INFO - Done: [click: 10 [[ChromeDriver: chrome on LINUX (fc99cc4d15d8b9b5b5e19936927a73c6)] -> xpath: //div[@id="DialogSimple"]//span[@class="dijitReset dijitInline dijitButtonText" and text()="Закрыть"]]]
-15:10:51.377 INFO - Executing: [find elements: By.cssSelector: #DialogSimple])
-15:10:51.397 INFO - Done: [find elements: By.cssSelector: #DialogSimple]
-15:10:51.404 INFO - Executing: [is displayed: 8 [[ChromeDriver: chrome on LINUX (fc99cc4d15d8b9b5b5e19936927a73c6)] -> css selector: #DialogSimple]])
-15:10:51.421 INFO - Done: [is displayed: 8 [[ChromeDriver: chrome on LINUX (fc99cc4d15d8b9b5b5e19936927a73c6)] -> css selector: #DialogSimple]]
-15:10:51.928 INFO - Executing: [is displayed: 8 [[ChromeDriver: chrome on LINUX (fc99cc4d15d8b9b5b5e19936927a73c6)] -> css selector: #DialogSimple]])
-15:10:51.948 INFO - Done: [is displayed: 8 [[ChromeDriver: chrome on LINUX (fc99cc4d15d8b9b5b5e19936927a73c6)] -> css selector: #DialogSimple]]
-15:10:51.955 INFO - Executing: [find element: By.cssSelector: #menuBarPopupMenuDirs])
-15:10:51.974 INFO - Done: [find element: By.cssSelector: #menuBarPopupMenuDirs]
-15:10:51.980 INFO - Executing: [click: 3 [[ChromeDriver: chrome on LINUX (fc99cc4d15d8b9b5b5e19936927a73c6)] -> css selector: #menuBarPopupMenuDirs]])
-15:10:52.097 INFO - Done: [click: 3 [[ChromeDriver: chrome on LINUX (fc99cc4d15d8b9b5b5e19936927a73c6)] -> css selector: #menuBarPopupMenuDirs]]
-15:10:52.104 INFO - Executing: [find elements: By.cssSelector: #menuBarPopupMenuDirs_menu])
-15:10:52.141 INFO - Done: [find elements: By.cssSelector: #menuBarPopupMenuDirs_menu]
-15:10:52.147 INFO - Executing: [is displayed: 11 [[ChromeDriver: chrome on LINUX (fc99cc4d15d8b9b5b5e19936927a73c6)] -> css selector: #menuBarPopupMenuDirs_menu]])
-15:10:52.190 INFO - Done: [is displayed: 11 [[ChromeDriver: chrome on LINUX (fc99cc4d15d8b9b5b5e19936927a73c6)] -> css selector: #menuBarPopupMenuDirs_menu]]
-15:10:52.198 INFO - Executing: [find elements: By.cssSelector: #menuBarDirsItemUnits])
-15:10:52.240 INFO - Done: [find elements: By.cssSelector: #menuBarDirsItemUnits]
-15:10:52.245 INFO - Executing: [is displayed: 12 [[ChromeDriver: chrome on LINUX (fc99cc4d15d8b9b5b5e19936927a73c6)] -> css selector: #menuBarDirsItemUnits]])
-15:10:52.283 INFO - Done: [is displayed: 12 [[ChromeDriver: chrome on LINUX (fc99cc4d15d8b9b5b5e19936927a73c6)] -> css selector: #menuBarDirsItemUnits]]
-15:10:52.291 INFO - Executing: [find element: By.cssSelector: #menuBarDirsItemUnits])
-15:10:52.357 INFO - Done: [find element: By.cssSelector: #menuBarDirsItemUnits]
-15:10:52.362 INFO - Executing: [get text: 12 [[ChromeDriver: chrome on LINUX (fc99cc4d15d8b9b5b5e19936927a73c6)] -> css selector: #menuBarDirsItemUnits]])
-15:10:52.405 INFO - Done: [get text: 12 [[ChromeDriver: chrome on LINUX (fc99cc4d15d8b9b5b5e19936927a73c6)] -> css selector: #menuBarDirsItemUnits]]
-15:10:52.416 INFO - Executing: [find elements: By.cssSelector: #menuBarDirsItemContractors])
-15:10:52.483 INFO - Done: [find elements: By.cssSelector: #menuBarDirsItemContractors]
-15:10:52.491 INFO - Executing: [is displayed: 13 [[ChromeDriver: chrome on LINUX (fc99cc4d15d8b9b5b5e19936927a73c6)] -> css selector: #menuBarDirsItemContractors]])
-15:10:52.531 INFO - Done: [is displayed: 13 [[ChromeDriver: chrome on LINUX (fc99cc4d15d8b9b5b5e19936927a73c6)] -> css selector: #menuBarDirsItemContractors]]
-15:10:52.544 INFO - Executing: [find element: By.cssSelector: #menuBarDirsItemContractors])
-15:10:52.599 INFO - Done: [find element: By.cssSelector: #menuBarDirsItemContractors]
-15:10:52.603 INFO - Executing: [get text: 13 [[ChromeDriver: chrome on LINUX (fc99cc4d15d8b9b5b5e19936927a73c6)] -> css selector: #menuBarDirsItemContractors]])
-15:10:52.653 INFO - Done: [get text: 13 [[ChromeDriver: chrome on LINUX (fc99cc4d15d8b9b5b5e19936927a73c6)] -> css selector: #menuBarDirsItemContractors]]
-15:10:52.659 INFO - Executing: [find element: By.cssSelector: #menuBarDirsItemUnits])
-15:10:52.677 INFO - Done: [find element: By.cssSelector: #menuBarDirsItemUnits]
-15:10:52.682 INFO - Executing: [click: 12 [[ChromeDriver: chrome on LINUX (fc99cc4d15d8b9b5b5e19936927a73c6)] -> css selector: #menuBarDirsItemUnits]])
-15:10:52.825 INFO - Done: [click: 12 [[ChromeDriver: chrome on LINUX (fc99cc4d15d8b9b5b5e19936927a73c6)] -> css selector: #menuBarDirsItemUnits]]
-15:10:52.838 INFO - Executing: [find elements: By.cssSelector: #main_ContentContainer_tablist_PageContentPane_mainDirUnits])
-15:10:52.887 INFO - Done: [find elements: By.cssSelector: #main_ContentContainer_tablist_PageContentPane_mainDirUnits]
-15:10:52.893 INFO - Executing: [is displayed: 14 [[ChromeDriver: chrome on LINUX (fc99cc4d15d8b9b5b5e19936927a73c6)] -> css selector: #main_ContentContainer_tablist_PageContentPane_mainDirUnits]])
-15:10:52.935 INFO - Done: [is displayed: 14 [[ChromeDriver: chrome on LINUX (fc99cc4d15d8b9b5b5e19936927a73c6)] -> css selector: #main_ContentContainer_tablist_PageContentPane_mainDirUnits]]
-15:10:52.945 INFO - Executing: [find element: By.cssSelector: #main_ContentContainer_tablist_PageContentPane_mainDirUnits])
-15:10:52.993 INFO - Done: [find element: By.cssSelector: #main_ContentContainer_tablist_PageContentPane_mainDirUnits]
-15:10:53.003 INFO - Executing: [get text: 14 [[ChromeDriver: chrome on LINUX (fc99cc4d15d8b9b5b5e19936927a73c6)] -> css selector: #main_ContentContainer_tablist_PageContentPane_mainDirUnits]])
-15:10:53.068 INFO - Done: [get text: 14 [[ChromeDriver: chrome on LINUX (fc99cc4d15d8b9b5b5e19936927a73c6)] -> css selector: #main_ContentContainer_tablist_PageContentPane_mainDirUnits]]
-15:10:53.089 INFO - Executing: [find element: By.xpath: //span[@id="main_ContentContainer_tablist_PageContentPane_mainDirUnits"] /ancestor::div/span[@title="Закрыть"]])
-15:10:53.144 INFO - Done: [find element: By.xpath: //span[@id="main_ContentContainer_tablist_PageContentPane_mainDirUnits"] /ancestor::div/span[@title="Закрыть"]]
-15:10:53.152 INFO - Executing: [click: 15 [[ChromeDriver: chrome on LINUX (fc99cc4d15d8b9b5b5e19936927a73c6)] -> xpath: //span[@id="main_ContentContainer_tablist_PageContentPane_mainDirUnits"] /ancestor::div/span[@title="Закрыть"]]])
-15:10:53.560 INFO - Done: [click: 15 [[ChromeDriver: chrome on LINUX (fc99cc4d15d8b9b5b5e19936927a73c6)] -> xpath: //span[@id="main_ContentContainer_tablist_PageContentPane_mainDirUnits"] /ancestor::div/span[@title="Закрыть"]]]
-15:10:53.571 INFO - Executing: [find elements: By.cssSelector: #main_ContentContainer_tablist_PageContentPane_mainDirUnits])
-15:10:53.588 INFO - Done: [find elements: By.cssSelector: #main_ContentContainer_tablist_PageContentPane_mainDirUnits]
-15:10:53.595 INFO - Executing: [find element: By.cssSelector: #menuBarPopupMenuDirs])
-15:10:53.612 INFO - Done: [find element: By.cssSelector: #menuBarPopupMenuDirs]
-15:10:53.622 INFO - Executing: [click: 3 [[ChromeDriver: chrome on LINUX (fc99cc4d15d8b9b5b5e19936927a73c6)] -> css selector: #menuBarPopupMenuDirs]])
-15:10:53.679 INFO - Done: [click: 3 [[ChromeDriver: chrome on LINUX (fc99cc4d15d8b9b5b5e19936927a73c6)] -> css selector: #menuBarPopupMenuDirs]]
-15:10:53.686 INFO - Executing: [find elements: By.cssSelector: #menuBarDirsItemContractors])
-15:10:53.704 INFO - Done: [find elements: By.cssSelector: #menuBarDirsItemContractors]
-15:10:53.709 INFO - Executing: [is displayed: 13 [[ChromeDriver: chrome on LINUX (fc99cc4d15d8b9b5b5e19936927a73c6)] -> css selector: #menuBarDirsItemContractors]])
-15:10:53.729 INFO - Done: [is displayed: 13 [[ChromeDriver: chrome on LINUX (fc99cc4d15d8b9b5b5e19936927a73c6)] -> css selector: #menuBarDirsItemContractors]]
-15:10:53.740 INFO - Executing: [find element: By.cssSelector: #menuBarDirsItemContractors])
-15:10:53.761 INFO - Done: [find element: By.cssSelector: #menuBarDirsItemContractors]
-15:10:53.766 INFO - Executing: [click: 13 [[ChromeDriver: chrome on LINUX (fc99cc4d15d8b9b5b5e19936927a73c6)] -> css selector: #menuBarDirsItemContractors]])
-15:10:53.907 INFO - Done: [click: 13 [[ChromeDriver: chrome on LINUX (fc99cc4d15d8b9b5b5e19936927a73c6)] -> css selector: #menuBarDirsItemContractors]]
-15:10:53.915 INFO - Executing: [find elements: By.cssSelector: #main_ContentContainer_tablist_PageContentPane_mainDirContractors])
-15:10:54.058 INFO - Done: [find elements: By.cssSelector: #main_ContentContainer_tablist_PageContentPane_mainDirContractors]
-15:10:54.062 INFO - Executing: [is displayed: 16 [[ChromeDriver: chrome on LINUX (fc99cc4d15d8b9b5b5e19936927a73c6)] -> css selector: #main_ContentContainer_tablist_PageContentPane_mainDirContractors]])
-15:10:54.104 INFO - Done: [is displayed: 16 [[ChromeDriver: chrome on LINUX (fc99cc4d15d8b9b5b5e19936927a73c6)] -> css selector: #main_ContentContainer_tablist_PageContentPane_mainDirContractors]]
-15:10:54.110 INFO - Executing: [find element: By.xpath: //span[@id="main_ContentContainer_tablist_PageContentPane_mainDirContractors"] /ancestor::div/span[@title="Закрыть"]])
-15:10:54.163 INFO - Done: [find element: By.xpath: //span[@id="main_ContentContainer_tablist_PageContentPane_mainDirContractors"] /ancestor::div/span[@title="Закрыть"]]
-15:10:54.169 INFO - Executing: [click: 17 [[ChromeDriver: chrome on LINUX (fc99cc4d15d8b9b5b5e19936927a73c6)] -> xpath: //span[@id="main_ContentContainer_tablist_PageContentPane_mainDirContractors"] /ancestor::div/span[@title="Закрыть"]]])
-15:10:54.308 INFO - Done: [click: 17 [[ChromeDriver: chrome on LINUX (fc99cc4d15d8b9b5b5e19936927a73c6)] -> xpath: //span[@id="main_ContentContainer_tablist_PageContentPane_mainDirContractors"] /ancestor::div/span[@title="Закрыть"]]]
-15:10:54.315 INFO - Executing: [find elements: By.cssSelector: #main_ContentContainer_tablist_PageContentPane_mainDirContractors])
-15:10:54.333 INFO - Done: [find elements: By.cssSelector: #main_ContentContainer_tablist_PageContentPane_mainDirContractors]
-15:10:54.341 INFO - Executing: [find element: By.cssSelector: #menuBarItemClose])
-15:10:54.358 INFO - Done: [find element: By.cssSelector: #menuBarItemClose]
-15:10:54.364 INFO - Executing: [click: 4 [[ChromeDriver: chrome on LINUX (fc99cc4d15d8b9b5b5e19936927a73c6)] -> css selector: #menuBarItemClose]])
-15:10:54.503 INFO - Done: [click: 4 [[ChromeDriver: chrome on LINUX (fc99cc4d15d8b9b5b5e19936927a73c6)] -> css selector: #menuBarItemClose]]
-15:10:54.510 INFO - Executing: [find elements: By.cssSelector: #finish])
-15:10:54.557 INFO - Done: [find elements: By.cssSelector: #finish]
-15:10:54.562 INFO - Executing: [is displayed: 18 [[ChromeDriver: chrome on LINUX (fc99cc4d15d8b9b5b5e19936927a73c6)] -> css selector: #finish]])
-15:10:54.604 INFO - Done: [is displayed: 18 [[ChromeDriver: chrome on LINUX (fc99cc4d15d8b9b5b5e19936927a73c6)] -> css selector: #finish]]
-15:10:54.611 INFO - Executing: [find element: By.cssSelector: #finish])
-15:10:54.665 INFO - Done: [find element: By.cssSelector: #finish]
-15:10:54.671 INFO - Executing: [get text: 18 [[ChromeDriver: chrome on LINUX (fc99cc4d15d8b9b5b5e19936927a73c6)] -> css selector: #finish]])
-15:10:54.717 INFO - Done: [get text: 18 [[ChromeDriver: chrome on LINUX (fc99cc4d15d8b9b5b5e19936927a73c6)] -> css selector: #finish]]
-15:10:54.733 INFO - Executing: [delete session: bf217713-d6dc-41ab-812c-26142b68d784])
-15:10:54.813 INFO - Done: [delete session: bf217713-d6dc-41ab-812c-26142b68d784]
+17:13:41.381 INFO - Detected dialect: OSS
+17:13:41.456 INFO - Done: [new session: Capabilities [{acceptSslCerts=true, name=Main / Main 1 Header Tests, browserName=chrome, javascriptEnabled=true, platform=ANY}]]
+17:13:43.507 INFO - Executing: [get: http://localhost:8080])
+17:13:45.496 INFO - Done: [get: http://localhost:8080]
+17:13:45.513 INFO - Executing: [find elements: By.cssSelector: #main_TopImg])
+17:13:45.629 INFO - Done: [find elements: By.cssSelector: #main_TopImg]
+17:13:45.638 INFO - Executing: [is displayed: 0 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> css selector: #main_TopImg]])
+17:13:45.693 INFO - Done: [is displayed: 0 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> css selector: #main_TopImg]]
+17:13:45.707 INFO - Executing: [find element: By.cssSelector: #main_TopImg])
+17:13:45.756 INFO - Done: [find element: By.cssSelector: #main_TopImg]
+17:13:45.765 INFO - Executing: [is displayed: 0 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> css selector: #main_TopImg]])
+17:13:45.786 INFO - Done: [is displayed: 0 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> css selector: #main_TopImg]]
+17:13:45.802 INFO - Executing: [get title])
+17:13:45.817 INFO - Done: [get title]
+17:13:45.838 INFO - Executing: [find elements: By.cssSelector: #main_app_mode])
+17:13:45.878 INFO - Done: [find elements: By.cssSelector: #main_app_mode]
+17:13:45.886 INFO - Executing: [is displayed: 1 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> css selector: #main_app_mode]])
+17:13:45.926 INFO - Done: [is displayed: 1 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> css selector: #main_app_mode]]
+17:13:45.937 INFO - Executing: [find element: By.cssSelector: #main_app_mode])
+17:13:45.977 INFO - Done: [find element: By.cssSelector: #main_app_mode]
+17:13:45.982 INFO - Executing: [get text: 1 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> css selector: #main_app_mode]])
+17:13:46.027 INFO - Done: [get text: 1 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> css selector: #main_app_mode]]
+17:13:46.036 INFO - Executing: [find elements: By.cssSelector: #main_MainMenu])
+17:13:46.080 INFO - Done: [find elements: By.cssSelector: #main_MainMenu]
+17:13:46.090 INFO - Executing: [is displayed: 2 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> css selector: #main_MainMenu]])
+17:13:46.126 INFO - Done: [is displayed: 2 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> css selector: #main_MainMenu]]
+17:13:46.144 INFO - Executing: [find element: By.cssSelector: #main_MainMenu])
+17:13:46.193 INFO - Done: [find element: By.cssSelector: #main_MainMenu]
+17:13:46.200 INFO - Executing: [get text: 2 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> css selector: #main_MainMenu]])
+17:13:46.252 INFO - Done: [get text: 2 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> css selector: #main_MainMenu]]
+17:13:46.259 INFO - Executing: [find elements: By.cssSelector: #menuBarPopupMenuDirs])
+17:13:46.303 INFO - Done: [find elements: By.cssSelector: #menuBarPopupMenuDirs]
+17:13:46.310 INFO - Executing: [is displayed: 3 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> css selector: #menuBarPopupMenuDirs]])
+17:13:46.350 INFO - Done: [is displayed: 3 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> css selector: #menuBarPopupMenuDirs]]
+17:13:46.362 INFO - Executing: [find element: By.cssSelector: #menuBarPopupMenuDirs])
+17:13:46.415 INFO - Done: [find element: By.cssSelector: #menuBarPopupMenuDirs]
+17:13:46.421 INFO - Executing: [get text: 3 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> css selector: #menuBarPopupMenuDirs]])
+17:13:46.469 INFO - Done: [get text: 3 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> css selector: #menuBarPopupMenuDirs]]
+17:13:46.478 INFO - Executing: [find elements: By.cssSelector: #menuBarItemClose])
+17:13:46.528 INFO - Done: [find elements: By.cssSelector: #menuBarItemClose]
+17:13:46.534 INFO - Executing: [is displayed: 4 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> css selector: #menuBarItemClose]])
+17:13:46.574 INFO - Done: [is displayed: 4 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> css selector: #menuBarItemClose]]
+17:13:46.583 INFO - Executing: [find element: By.cssSelector: #menuBarItemClose])
+17:13:46.626 INFO - Done: [find element: By.cssSelector: #menuBarItemClose]
+17:13:46.632 INFO - Executing: [get text: 4 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> css selector: #menuBarItemClose]])
+17:13:46.676 INFO - Done: [get text: 4 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> css selector: #menuBarItemClose]]
+17:13:46.685 INFO - Executing: [find elements: By.cssSelector: #menuBarItemHelpAbout])
+17:13:46.745 INFO - Done: [find elements: By.cssSelector: #menuBarItemHelpAbout]
+17:13:46.750 INFO - Executing: [is displayed: 5 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> css selector: #menuBarItemHelpAbout]])
+17:13:46.792 INFO - Done: [is displayed: 5 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> css selector: #menuBarItemHelpAbout]]
+17:13:46.801 INFO - Executing: [find element: By.cssSelector: #menuBarItemHelpAbout])
+17:13:46.842 INFO - Done: [find element: By.cssSelector: #menuBarItemHelpAbout]
+17:13:46.849 INFO - Executing: [get text: 5 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> css selector: #menuBarItemHelpAbout]])
+17:13:46.897 INFO - Done: [get text: 5 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> css selector: #menuBarItemHelpAbout]]
+17:13:46.909 INFO - Executing: [find elements: By.cssSelector: #main_ContentContainer_tablist_PageContentPane_mainPage])
+17:13:46.953 INFO - Done: [find elements: By.cssSelector: #main_ContentContainer_tablist_PageContentPane_mainPage]
+17:13:46.964 INFO - Executing: [is displayed: 6 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> css selector: #main_ContentContainer_tablist_PageContentPane_mainPage]])
+17:13:47.007 INFO - Done: [is displayed: 6 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> css selector: #main_ContentContainer_tablist_PageContentPane_mainPage]]
+17:13:47.017 INFO - Executing: [find element: By.cssSelector: #main_ContentContainer_tablist_PageContentPane_mainPage])
+17:13:47.057 INFO - Done: [find element: By.cssSelector: #main_ContentContainer_tablist_PageContentPane_mainPage]
+17:13:47.063 INFO - Executing: [get text: 6 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> css selector: #main_ContentContainer_tablist_PageContentPane_mainPage]])
+17:13:47.113 INFO - Done: [get text: 6 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> css selector: #main_ContentContainer_tablist_PageContentPane_mainPage]]
+17:13:47.122 INFO - Executing: [find elements: By.cssSelector: #mainpage_MainContent])
+17:13:47.159 INFO - Done: [find elements: By.cssSelector: #mainpage_MainContent]
+17:13:47.164 INFO - Executing: [is displayed: 7 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> css selector: #mainpage_MainContent]])
+17:13:47.205 INFO - Done: [is displayed: 7 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> css selector: #mainpage_MainContent]]
+17:13:47.212 INFO - Executing: [find element: By.cssSelector: #menuBarItemHelpAbout])
+17:13:47.236 INFO - Done: [find element: By.cssSelector: #menuBarItemHelpAbout]
+17:13:47.243 INFO - Executing: [click: 5 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> css selector: #menuBarItemHelpAbout]])
+17:13:47.462 INFO - Done: [click: 5 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> css selector: #menuBarItemHelpAbout]]
+17:13:47.469 INFO - Executing: [find elements: By.cssSelector: #DialogSimple])
+17:13:47.516 INFO - Done: [find elements: By.cssSelector: #DialogSimple]
+17:13:47.521 INFO - Executing: [is displayed: 8 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> css selector: #DialogSimple]])
+17:13:47.563 INFO - Done: [is displayed: 8 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> css selector: #DialogSimple]]
+17:13:47.573 INFO - Executing: [find element: By.cssSelector: #DialogSimple])
+17:13:47.615 INFO - Done: [find element: By.cssSelector: #DialogSimple]
+17:13:47.622 INFO - Executing: [get text: 8 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> css selector: #DialogSimple]])
+17:13:47.686 INFO - Done: [get text: 8 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> css selector: #DialogSimple]]
+17:13:47.698 INFO - Executing: [find element: By.cssSelector: #DialogSimple])
+17:13:47.716 INFO - Done: [find element: By.cssSelector: #DialogSimple]
+17:13:47.722 INFO - Executing: [get text: 8 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> css selector: #DialogSimple]])
+17:13:47.755 INFO - Done: [get text: 8 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> css selector: #DialogSimple]]
+17:13:47.763 INFO - Executing: [find element: By.xpath: //div[@id="DialogSimple"]//span[@class="dijitReset dijitInline dijitButtonText" and text()="OK"]])
+17:13:47.819 INFO - Done: [find element: By.xpath: //div[@id="DialogSimple"]//span[@class="dijitReset dijitInline dijitButtonText" and text()="OK"]]
+17:13:47.825 INFO - Executing: [click: 9 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> xpath: //div[@id="DialogSimple"]//span[@class="dijitReset dijitInline dijitButtonText" and text()="OK"]]])
+17:13:47.947 INFO - Done: [click: 9 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> xpath: //div[@id="DialogSimple"]//span[@class="dijitReset dijitInline dijitButtonText" and text()="OK"]]]
+17:13:47.956 INFO - Executing: [find elements: By.cssSelector: #DialogSimple])
+17:13:47.974 INFO - Done: [find elements: By.cssSelector: #DialogSimple]
+17:13:47.982 INFO - Executing: [is displayed: 8 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> css selector: #DialogSimple]])
+17:13:48.001 INFO - Done: [is displayed: 8 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> css selector: #DialogSimple]]
+17:13:48.508 INFO - Executing: [is displayed: 8 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> css selector: #DialogSimple]])
+17:13:48.528 INFO - Done: [is displayed: 8 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> css selector: #DialogSimple]]
+17:13:48.534 INFO - Executing: [find element: By.cssSelector: #menuBarItemHelpAbout])
+17:13:48.555 INFO - Done: [find element: By.cssSelector: #menuBarItemHelpAbout]
+17:13:48.560 INFO - Executing: [click: 5 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> css selector: #menuBarItemHelpAbout]])
+17:13:48.619 INFO - Done: [click: 5 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> css selector: #menuBarItemHelpAbout]]
+17:13:48.629 INFO - Executing: [find elements: By.cssSelector: #DialogSimple])
+17:13:48.647 INFO - Done: [find elements: By.cssSelector: #DialogSimple]
+17:13:48.652 INFO - Executing: [is displayed: 8 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> css selector: #DialogSimple]])
+17:13:48.676 INFO - Done: [is displayed: 8 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> css selector: #DialogSimple]]
+17:13:48.685 INFO - Executing: [find element: By.xpath: //div[@id="DialogSimple"]//span[@class="dijitReset dijitInline dijitButtonText" and text()="Закрыть"]])
+17:13:48.751 INFO - Done: [find element: By.xpath: //div[@id="DialogSimple"]//span[@class="dijitReset dijitInline dijitButtonText" and text()="Закрыть"]]
+17:13:48.757 INFO - Executing: [click: 10 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> xpath: //div[@id="DialogSimple"]//span[@class="dijitReset dijitInline dijitButtonText" and text()="Закрыть"]]])
+17:13:48.873 INFO - Done: [click: 10 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> xpath: //div[@id="DialogSimple"]//span[@class="dijitReset dijitInline dijitButtonText" and text()="Закрыть"]]]
+17:13:48.887 INFO - Executing: [find elements: By.cssSelector: #DialogSimple])
+17:13:48.907 INFO - Done: [find elements: By.cssSelector: #DialogSimple]
+17:13:48.914 INFO - Executing: [is displayed: 8 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> css selector: #DialogSimple]])
+17:13:48.935 INFO - Done: [is displayed: 8 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> css selector: #DialogSimple]]
+17:13:49.441 INFO - Executing: [is displayed: 8 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> css selector: #DialogSimple]])
+17:13:49.462 INFO - Done: [is displayed: 8 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> css selector: #DialogSimple]]
+17:13:49.468 INFO - Executing: [find element: By.cssSelector: #menuBarPopupMenuDirs])
+17:13:49.489 INFO - Done: [find element: By.cssSelector: #menuBarPopupMenuDirs]
+17:13:49.494 INFO - Executing: [click: 3 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> css selector: #menuBarPopupMenuDirs]])
+17:13:49.618 INFO - Done: [click: 3 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> css selector: #menuBarPopupMenuDirs]]
+17:13:49.625 INFO - Executing: [find elements: By.cssSelector: #menuBarPopupMenuDirs_menu])
+17:13:49.666 INFO - Done: [find elements: By.cssSelector: #menuBarPopupMenuDirs_menu]
+17:13:49.671 INFO - Executing: [is displayed: 11 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> css selector: #menuBarPopupMenuDirs_menu]])
+17:13:49.711 INFO - Done: [is displayed: 11 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> css selector: #menuBarPopupMenuDirs_menu]]
+17:13:49.718 INFO - Executing: [find elements: By.cssSelector: #menuBarDirsItemUnits])
+17:13:49.780 INFO - Done: [find elements: By.cssSelector: #menuBarDirsItemUnits]
+17:13:49.785 INFO - Executing: [is displayed: 12 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> css selector: #menuBarDirsItemUnits]])
+17:13:49.826 INFO - Done: [is displayed: 12 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> css selector: #menuBarDirsItemUnits]]
+17:13:49.833 INFO - Executing: [find element: By.cssSelector: #menuBarDirsItemUnits])
+17:13:49.886 INFO - Done: [find element: By.cssSelector: #menuBarDirsItemUnits]
+17:13:49.893 INFO - Executing: [get text: 12 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> css selector: #menuBarDirsItemUnits]])
+17:13:49.955 INFO - Done: [get text: 12 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> css selector: #menuBarDirsItemUnits]]
+17:13:49.964 INFO - Executing: [find elements: By.cssSelector: #menuBarDirsItemContractors])
+17:13:50.032 INFO - Done: [find elements: By.cssSelector: #menuBarDirsItemContractors]
+17:13:50.038 INFO - Executing: [is displayed: 13 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> css selector: #menuBarDirsItemContractors]])
+17:13:50.076 INFO - Done: [is displayed: 13 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> css selector: #menuBarDirsItemContractors]]
+17:13:50.087 INFO - Executing: [find element: By.cssSelector: #menuBarDirsItemContractors])
+17:13:50.144 INFO - Done: [find element: By.cssSelector: #menuBarDirsItemContractors]
+17:13:50.149 INFO - Executing: [get text: 13 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> css selector: #menuBarDirsItemContractors]])
+17:13:50.194 INFO - Done: [get text: 13 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> css selector: #menuBarDirsItemContractors]]
+17:13:50.201 INFO - Executing: [find element: By.cssSelector: #menuBarDirsItemUnits])
+17:13:50.219 INFO - Done: [find element: By.cssSelector: #menuBarDirsItemUnits]
+17:13:50.229 INFO - Executing: [click: 12 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> css selector: #menuBarDirsItemUnits]])
+17:13:50.372 INFO - Done: [click: 12 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> css selector: #menuBarDirsItemUnits]]
+17:13:50.381 INFO - Executing: [find elements: By.cssSelector: #main_ContentContainer_tablist_PageContentPane_mainDirUnits])
+17:13:50.463 INFO - Done: [find elements: By.cssSelector: #main_ContentContainer_tablist_PageContentPane_mainDirUnits]
+17:13:50.469 INFO - Executing: [is displayed: 14 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> css selector: #main_ContentContainer_tablist_PageContentPane_mainDirUnits]])
+17:13:50.510 INFO - Done: [is displayed: 14 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> css selector: #main_ContentContainer_tablist_PageContentPane_mainDirUnits]]
+17:13:50.518 INFO - Executing: [find element: By.cssSelector: #main_ContentContainer_tablist_PageContentPane_mainDirUnits])
+17:13:50.566 INFO - Done: [find element: By.cssSelector: #main_ContentContainer_tablist_PageContentPane_mainDirUnits]
+17:13:50.576 INFO - Executing: [get text: 14 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> css selector: #main_ContentContainer_tablist_PageContentPane_mainDirUnits]])
+17:13:50.642 INFO - Done: [get text: 14 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> css selector: #main_ContentContainer_tablist_PageContentPane_mainDirUnits]]
+17:13:50.651 INFO - Executing: [find element: By.xpath: //span[@id="main_ContentContainer_tablist_PageContentPane_mainDirUnits"] /ancestor::div/span[@title="Закрыть"]])
+17:13:50.727 INFO - Done: [find element: By.xpath: //span[@id="main_ContentContainer_tablist_PageContentPane_mainDirUnits"] /ancestor::div/span[@title="Закрыть"]]
+17:13:50.733 INFO - Executing: [click: 15 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> xpath: //span[@id="main_ContentContainer_tablist_PageContentPane_mainDirUnits"] /ancestor::div/span[@title="Закрыть"]]])
+17:13:51.264 INFO - Done: [click: 15 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> xpath: //span[@id="main_ContentContainer_tablist_PageContentPane_mainDirUnits"] /ancestor::div/span[@title="Закрыть"]]]
+17:13:51.271 INFO - Executing: [find elements: By.cssSelector: #main_ContentContainer_tablist_PageContentPane_mainDirUnits])
+17:13:51.299 INFO - Done: [find elements: By.cssSelector: #main_ContentContainer_tablist_PageContentPane_mainDirUnits]
+17:13:51.306 INFO - Executing: [find element: By.cssSelector: #menuBarPopupMenuDirs])
+17:13:51.326 INFO - Done: [find element: By.cssSelector: #menuBarPopupMenuDirs]
+17:13:51.333 INFO - Executing: [click: 3 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> css selector: #menuBarPopupMenuDirs]])
+17:13:51.387 INFO - Done: [click: 3 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> css selector: #menuBarPopupMenuDirs]]
+17:13:51.394 INFO - Executing: [find elements: By.cssSelector: #menuBarDirsItemContractors])
+17:13:51.414 INFO - Done: [find elements: By.cssSelector: #menuBarDirsItemContractors]
+17:13:51.419 INFO - Executing: [is displayed: 13 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> css selector: #menuBarDirsItemContractors]])
+17:13:51.442 INFO - Done: [is displayed: 13 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> css selector: #menuBarDirsItemContractors]]
+17:13:51.451 INFO - Executing: [find element: By.cssSelector: #menuBarDirsItemContractors])
+17:13:51.475 INFO - Done: [find element: By.cssSelector: #menuBarDirsItemContractors]
+17:13:51.480 INFO - Executing: [click: 13 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> css selector: #menuBarDirsItemContractors]])
+17:13:51.625 INFO - Done: [click: 13 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> css selector: #menuBarDirsItemContractors]]
+17:13:51.633 INFO - Executing: [find elements: By.cssSelector: #main_ContentContainer_tablist_PageContentPane_mainDirContractors])
+17:13:51.926 INFO - Done: [find elements: By.cssSelector: #main_ContentContainer_tablist_PageContentPane_mainDirContractors]
+17:13:51.932 INFO - Executing: [is displayed: 16 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> css selector: #main_ContentContainer_tablist_PageContentPane_mainDirContractors]])
+17:13:51.982 INFO - Done: [is displayed: 16 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> css selector: #main_ContentContainer_tablist_PageContentPane_mainDirContractors]]
+17:13:51.991 INFO - Executing: [find element: By.xpath: //span[@id="main_ContentContainer_tablist_PageContentPane_mainDirContractors"] /ancestor::div/span[@title="Закрыть"]])
+17:13:52.034 INFO - Done: [find element: By.xpath: //span[@id="main_ContentContainer_tablist_PageContentPane_mainDirContractors"] /ancestor::div/span[@title="Закрыть"]]
+17:13:52.038 INFO - Executing: [click: 17 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> xpath: //span[@id="main_ContentContainer_tablist_PageContentPane_mainDirContractors"] /ancestor::div/span[@title="Закрыть"]]])
+17:13:52.163 INFO - Done: [click: 17 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> xpath: //span[@id="main_ContentContainer_tablist_PageContentPane_mainDirContractors"] /ancestor::div/span[@title="Закрыть"]]]
+17:13:52.172 INFO - Executing: [find elements: By.cssSelector: #main_ContentContainer_tablist_PageContentPane_mainDirContractors])
+17:13:52.190 INFO - Done: [find elements: By.cssSelector: #main_ContentContainer_tablist_PageContentPane_mainDirContractors]
+17:13:52.197 INFO - Executing: [find element: By.cssSelector: #menuBarItemClose])
+17:13:52.218 INFO - Done: [find element: By.cssSelector: #menuBarItemClose]
+17:13:52.228 INFO - Executing: [click: 4 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> css selector: #menuBarItemClose]])
+17:13:52.374 INFO - Done: [click: 4 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> css selector: #menuBarItemClose]]
+17:13:52.381 INFO - Executing: [find elements: By.cssSelector: #finish])
+17:13:52.426 INFO - Done: [find elements: By.cssSelector: #finish]
+17:13:52.432 INFO - Executing: [is displayed: 18 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> css selector: #finish]])
+17:13:52.470 INFO - Done: [is displayed: 18 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> css selector: #finish]]
+17:13:52.477 INFO - Executing: [find element: By.cssSelector: #finish])
+17:13:52.527 INFO - Done: [find element: By.cssSelector: #finish]
+17:13:52.533 INFO - Executing: [get text: 18 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> css selector: #finish]])
+17:13:52.581 INFO - Done: [get text: 18 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> css selector: #finish]]
+17:13:52.627 INFO - Executing: [refresh])
+17:13:53.468 INFO - Done: [refresh]
+17:13:53.476 INFO - Executing: [find elements: By.cssSelector: #menuBarPopupMenuDirs])
+17:13:53.515 INFO - Done: [find elements: By.cssSelector: #menuBarPopupMenuDirs]
+17:13:53.521 INFO - Executing: [is displayed: 19 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> css selector: #menuBarPopupMenuDirs]])
+17:13:53.562 INFO - Done: [is displayed: 19 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> css selector: #menuBarPopupMenuDirs]]
+17:13:53.569 INFO - Executing: [find element: By.cssSelector: #menuBarPopupMenuDirs])
+17:13:53.585 INFO - Done: [find element: By.cssSelector: #menuBarPopupMenuDirs]
+17:13:53.592 INFO - Executing: [click: 19 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> css selector: #menuBarPopupMenuDirs]])
+17:13:53.724 INFO - Done: [click: 19 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> css selector: #menuBarPopupMenuDirs]]
+17:13:53.733 INFO - Executing: [find elements: By.cssSelector: #menuBarDirsItemUnits])
+17:13:53.752 INFO - Done: [find elements: By.cssSelector: #menuBarDirsItemUnits]
+17:13:53.757 INFO - Executing: [is displayed: 20 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> css selector: #menuBarDirsItemUnits]])
+17:13:53.798 INFO - Done: [is displayed: 20 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> css selector: #menuBarDirsItemUnits]]
+17:13:53.803 INFO - Executing: [find element: By.cssSelector: #menuBarDirsItemUnits])
+17:13:53.826 INFO - Done: [find element: By.cssSelector: #menuBarDirsItemUnits]
+17:13:53.831 INFO - Executing: [click: 20 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> css selector: #menuBarDirsItemUnits]])
+17:13:53.980 INFO - Done: [click: 20 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> css selector: #menuBarDirsItemUnits]]
+17:13:54.013 INFO - Executing: [find elements: By.cssSelector: #main_ContentContainer_tablist_PageContentPane_mainDirUnits])
+17:13:54.046 INFO - Done: [find elements: By.cssSelector: #main_ContentContainer_tablist_PageContentPane_mainDirUnits]
+17:13:54.053 INFO - Executing: [is displayed: 21 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> css selector: #main_ContentContainer_tablist_PageContentPane_mainDirUnits]])
+17:13:54.144 INFO - Done: [is displayed: 21 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> css selector: #main_ContentContainer_tablist_PageContentPane_mainDirUnits]]
+17:13:54.154 INFO - Executing: [find elements: By.xpath: //div[@id='dir_units_ContentContainer']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[1]])
+17:13:54.413 INFO - Done: [find elements: By.xpath: //div[@id='dir_units_ContentContainer']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[1]]
+17:13:54.920 INFO - Executing: [find elements: By.xpath: //div[@id='dir_units_ContentContainer']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[1]])
+17:13:54.944 INFO - Done: [find elements: By.xpath: //div[@id='dir_units_ContentContainer']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[1]]
+17:13:54.953 INFO - Executing: [is displayed: 22 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> xpath: //div[@id='dir_units_ContentContainer']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[1]]])
+17:13:54.997 INFO - Done: [is displayed: 22 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> xpath: //div[@id='dir_units_ContentContainer']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[1]]]
+17:13:55.004 INFO - Executing: [find element: By.xpath: //div[@id='dir_units_ContentContainer']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[1]])
+17:13:55.050 INFO - Done: [find element: By.xpath: //div[@id='dir_units_ContentContainer']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[1]]
+17:13:55.056 INFO - Executing: [get text: 22 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> xpath: //div[@id='dir_units_ContentContainer']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[1]]])
+17:13:55.113 INFO - Done: [get text: 22 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> xpath: //div[@id='dir_units_ContentContainer']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[1]]]
+17:13:55.121 INFO - Executing: [find elements: By.xpath: //div[@id='dir_units_ContentContainer']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[2]])
+17:13:55.169 INFO - Done: [find elements: By.xpath: //div[@id='dir_units_ContentContainer']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[2]]
+17:13:55.173 INFO - Executing: [is displayed: 23 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> xpath: //div[@id='dir_units_ContentContainer']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[2]]])
+17:13:55.213 INFO - Done: [is displayed: 23 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> xpath: //div[@id='dir_units_ContentContainer']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[2]]]
+17:13:55.221 INFO - Executing: [find element: By.xpath: //div[@id='dir_units_ContentContainer']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[2]])
+17:13:55.276 INFO - Done: [find element: By.xpath: //div[@id='dir_units_ContentContainer']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[2]]
+17:13:55.280 INFO - Executing: [get text: 23 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> xpath: //div[@id='dir_units_ContentContainer']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[2]]])
+17:13:55.339 INFO - Done: [get text: 23 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> xpath: //div[@id='dir_units_ContentContainer']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[2]]]
+17:13:55.345 INFO - Executing: [find elements: By.xpath: //div[@id='dir_units_ContentContainer']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[3]])
+17:13:55.402 INFO - Done: [find elements: By.xpath: //div[@id='dir_units_ContentContainer']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[3]]
+17:13:55.406 INFO - Executing: [is displayed: 24 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> xpath: //div[@id='dir_units_ContentContainer']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[3]]])
+17:13:55.457 INFO - Done: [is displayed: 24 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> xpath: //div[@id='dir_units_ContentContainer']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[3]]]
+17:13:55.463 INFO - Executing: [find element: By.xpath: //div[@id='dir_units_ContentContainer']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[3]])
+17:13:55.511 INFO - Done: [find element: By.xpath: //div[@id='dir_units_ContentContainer']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[3]]
+17:13:55.516 INFO - Executing: [get text: 24 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> xpath: //div[@id='dir_units_ContentContainer']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[3]]])
+17:13:55.575 INFO - Done: [get text: 24 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> xpath: //div[@id='dir_units_ContentContainer']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[3]]]
+17:13:55.581 INFO - Executing: [find elements: By.xpath: //div[@id='dir_units_ContentContainer']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[4]])
+17:13:55.628 INFO - Done: [find elements: By.xpath: //div[@id='dir_units_ContentContainer']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[4]]
+17:13:55.632 INFO - Executing: [is displayed: 25 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> xpath: //div[@id='dir_units_ContentContainer']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[4]]])
+17:13:55.674 INFO - Done: [is displayed: 25 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> xpath: //div[@id='dir_units_ContentContainer']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[4]]]
+17:13:55.682 INFO - Executing: [find element: By.xpath: //div[@id='dir_units_ContentContainer']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[4]])
+17:13:55.724 INFO - Done: [find element: By.xpath: //div[@id='dir_units_ContentContainer']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[4]]
+17:13:55.730 INFO - Executing: [get text: 25 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> xpath: //div[@id='dir_units_ContentContainer']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[4]]])
+17:13:55.782 INFO - Done: [get text: 25 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> xpath: //div[@id='dir_units_ContentContainer']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[4]]]
+17:13:55.791 INFO - Executing: [find elements: By.xpath: //div[@id='dir_units_ContentContainer']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[5]])
+17:13:55.834 INFO - Done: [find elements: By.xpath: //div[@id='dir_units_ContentContainer']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[5]]
+17:13:55.838 INFO - Executing: [is displayed: 26 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> xpath: //div[@id='dir_units_ContentContainer']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[5]]])
+17:13:55.875 INFO - Done: [is displayed: 26 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> xpath: //div[@id='dir_units_ContentContainer']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[5]]]
+17:13:55.882 INFO - Executing: [find element: By.xpath: //div[@id='dir_units_ContentContainer']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[5]])
+17:13:55.920 INFO - Done: [find element: By.xpath: //div[@id='dir_units_ContentContainer']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[5]]
+17:13:55.924 INFO - Executing: [get text: 26 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> xpath: //div[@id='dir_units_ContentContainer']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[5]]])
+17:13:55.975 INFO - Done: [get text: 26 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> xpath: //div[@id='dir_units_ContentContainer']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[5]]]
+17:13:55.983 INFO - Executing: [find elements: By.xpath: //div[@id='dir_units_ContentContainer']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[1]])
+17:13:56.048 INFO - Done: [find elements: By.xpath: //div[@id='dir_units_ContentContainer']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[1]]
+17:13:56.053 INFO - Executing: [is displayed: 27 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> xpath: //div[@id='dir_units_ContentContainer']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[1]]])
+17:13:56.098 INFO - Done: [is displayed: 27 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> xpath: //div[@id='dir_units_ContentContainer']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[1]]]
+17:13:56.108 INFO - Executing: [find element: By.xpath: //div[@id='dir_units_ContentContainer']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[1]])
+17:13:56.174 INFO - Done: [find element: By.xpath: //div[@id='dir_units_ContentContainer']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[1]]
+17:13:56.181 INFO - Executing: [get text: 27 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> xpath: //div[@id='dir_units_ContentContainer']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[1]]])
+17:13:56.224 INFO - Done: [get text: 27 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> xpath: //div[@id='dir_units_ContentContainer']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[1]]]
+17:13:56.233 INFO - Executing: [find elements: By.xpath: //div[@id='dir_units_ContentContainer']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[2]])
+17:13:56.290 INFO - Done: [find elements: By.xpath: //div[@id='dir_units_ContentContainer']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[2]]
+17:13:56.295 INFO - Executing: [is displayed: 28 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> xpath: //div[@id='dir_units_ContentContainer']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[2]]])
+17:13:56.332 INFO - Done: [is displayed: 28 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> xpath: //div[@id='dir_units_ContentContainer']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[2]]]
+17:13:56.352 INFO - Executing: [find element: By.xpath: //div[@id='dir_units_ContentContainer']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[2]])
+17:13:56.404 INFO - Done: [find element: By.xpath: //div[@id='dir_units_ContentContainer']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[2]]
+17:13:56.427 INFO - Executing: [get text: 28 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> xpath: //div[@id='dir_units_ContentContainer']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[2]]])
+17:13:56.472 INFO - Done: [get text: 28 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> xpath: //div[@id='dir_units_ContentContainer']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[2]]]
+17:13:56.478 INFO - Executing: [find elements: By.xpath: //div[@id='dir_units_ContentContainer']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[3]])
+17:13:56.530 INFO - Done: [find elements: By.xpath: //div[@id='dir_units_ContentContainer']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[3]]
+17:13:56.535 INFO - Executing: [is displayed: 29 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> xpath: //div[@id='dir_units_ContentContainer']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[3]]])
+17:13:56.570 INFO - Done: [is displayed: 29 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> xpath: //div[@id='dir_units_ContentContainer']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[3]]]
+17:13:56.576 INFO - Executing: [find element: By.xpath: //div[@id='dir_units_ContentContainer']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[3]])
+17:13:56.621 INFO - Done: [find element: By.xpath: //div[@id='dir_units_ContentContainer']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[3]]
+17:13:56.625 INFO - Executing: [get text: 29 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> xpath: //div[@id='dir_units_ContentContainer']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[3]]])
+17:13:56.671 INFO - Done: [get text: 29 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> xpath: //div[@id='dir_units_ContentContainer']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[3]]]
+17:13:56.678 INFO - Executing: [find elements: By.xpath: //div[@id='dir_units_ContentContainer']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[4]])
+17:13:56.718 INFO - Done: [find elements: By.xpath: //div[@id='dir_units_ContentContainer']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[4]]
+17:13:56.723 INFO - Executing: [is displayed: 30 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> xpath: //div[@id='dir_units_ContentContainer']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[4]]])
+17:13:56.758 INFO - Done: [is displayed: 30 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> xpath: //div[@id='dir_units_ContentContainer']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[4]]]
+17:13:56.764 INFO - Executing: [find element: By.xpath: //div[@id='dir_units_ContentContainer']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[4]])
+17:13:56.807 INFO - Done: [find element: By.xpath: //div[@id='dir_units_ContentContainer']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[4]]
+17:13:56.811 INFO - Executing: [get text: 30 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> xpath: //div[@id='dir_units_ContentContainer']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[4]]])
+17:13:56.853 INFO - Done: [get text: 30 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> xpath: //div[@id='dir_units_ContentContainer']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[4]]]
+17:13:56.858 INFO - Executing: [find elements: By.xpath: //div[@id='dir_units_ContentContainer']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[5]])
+17:13:56.914 INFO - Done: [find elements: By.xpath: //div[@id='dir_units_ContentContainer']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[5]]
+17:13:56.918 INFO - Executing: [is displayed: 31 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> xpath: //div[@id='dir_units_ContentContainer']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[5]]])
+17:13:56.959 INFO - Done: [is displayed: 31 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> xpath: //div[@id='dir_units_ContentContainer']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[5]]]
+17:13:56.964 INFO - Executing: [find element: By.xpath: //div[@id='dir_units_ContentContainer']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[5]])
+17:13:57.021 INFO - Done: [find element: By.xpath: //div[@id='dir_units_ContentContainer']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[5]]
+17:13:57.025 INFO - Executing: [get text: 31 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> xpath: //div[@id='dir_units_ContentContainer']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[5]]])
+17:13:57.065 INFO - Done: [get text: 31 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> xpath: //div[@id='dir_units_ContentContainer']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[5]]]
+17:13:57.071 INFO - Executing: [find elements: By.xpath: //*[@id='dir_units_ContentContainer']//span[contains(text(),'Обновить')]])
+17:13:57.110 INFO - Done: [find elements: By.xpath: //*[@id='dir_units_ContentContainer']//span[contains(text(),'Обновить')]]
+17:13:57.115 INFO - Executing: [is displayed: 32 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> xpath: //*[@id='dir_units_ContentContainer']//span[contains(text(),'Обновить')]]])
+17:13:57.155 INFO - Done: [is displayed: 32 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> xpath: //*[@id='dir_units_ContentContainer']//span[contains(text(),'Обновить')]]]
+17:13:57.160 INFO - Executing: [find elements: By.xpath: //*[@id='dir_units_ContentContainer']//span[contains(text(),'Печатать')]])
+17:13:57.198 INFO - Done: [find elements: By.xpath: //*[@id='dir_units_ContentContainer']//span[contains(text(),'Печатать')]]
+17:13:57.202 INFO - Executing: [is displayed: 33 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> xpath: //*[@id='dir_units_ContentContainer']//span[contains(text(),'Печатать')]]])
+17:13:57.237 INFO - Done: [is displayed: 33 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> xpath: //*[@id='dir_units_ContentContainer']//span[contains(text(),'Печатать')]]]
+17:13:57.244 INFO - Executing: [find elements: By.xpath: //*[@id='dir_units_ContentContainer']//span[contains(text(),'Действия')]])
+17:13:57.280 INFO - Done: [find elements: By.xpath: //*[@id='dir_units_ContentContainer']//span[contains(text(),'Действия')]]
+17:13:57.286 INFO - Executing: [find elements: By.xpath: //*[@id='dir_units_ContentContainer']//span[contains(text(),'Добавить')]])
+17:13:57.323 INFO - Done: [find elements: By.xpath: //*[@id='dir_units_ContentContainer']//span[contains(text(),'Добавить')]]
+17:13:57.328 INFO - Executing: [find elements: By.xpath: //*[@id='dir_units_ContentContainer']//span[contains(text(),'Изменить')]])
+17:13:57.364 INFO - Done: [find elements: By.xpath: //*[@id='dir_units_ContentContainer']//span[contains(text(),'Изменить')]]
+17:13:57.369 INFO - Executing: [find elements: By.xpath: //*[@id='dir_units_ContentContainer']//span[contains(text(),'Сохранить')]])
+17:13:57.409 INFO - Done: [find elements: By.xpath: //*[@id='dir_units_ContentContainer']//span[contains(text(),'Сохранить')]]
+17:13:57.414 INFO - Executing: [find elements: By.xpath: //*[@id='dir_units_ContentContainer']//span[contains(text(),'Удалить')]])
+17:13:57.458 INFO - Done: [find elements: By.xpath: //*[@id='dir_units_ContentContainer']//span[contains(text(),'Удалить')]]
+17:13:57.464 INFO - Executing: [find element: By.xpath: //*[@id='dir_units_ContentContainer']//span[contains(text(),'Добавить')]])
+17:13:57.502 INFO - Done: [find element: By.xpath: //*[@id='dir_units_ContentContainer']//span[contains(text(),'Добавить')]]
+17:13:57.506 INFO - Executing: [click: 35 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> xpath: //*[@id='dir_units_ContentContainer']//span[contains(text(),'Добавить')]]])
+17:13:57.708 INFO - Done: [click: 35 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> xpath: //*[@id='dir_units_ContentContainer']//span[contains(text(),'Добавить')]]]
+17:13:57.717 INFO - Executing: [find elements: By.xpath: //div[@id='dir_units_ContentContainer']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[1]])
+17:13:57.810 INFO - Done: [find elements: By.xpath: //div[@id='dir_units_ContentContainer']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[1]]
+17:13:57.816 INFO - Executing: [is displayed: 27 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> xpath: //div[@id='dir_units_ContentContainer']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[1]]])
+17:13:57.834 INFO - Done: [is displayed: 27 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> xpath: //div[@id='dir_units_ContentContainer']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[1]]]
+17:13:57.839 INFO - Executing: [find element: By.xpath: //div[@id='dir_units_ContentContainer']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[1]])
+17:13:57.859 INFO - Done: [find element: By.xpath: //div[@id='dir_units_ContentContainer']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[1]]
+17:13:57.865 INFO - Executing: [get text: 27 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> xpath: //div[@id='dir_units_ContentContainer']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[1]]])
+17:13:57.891 INFO - Done: [get text: 27 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> xpath: //div[@id='dir_units_ContentContainer']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[1]]]
+17:13:57.914 INFO - Executing: [find element: By.xpath: //div[@id='dir_units_ContentContainer']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[1]])
+17:13:57.937 INFO - Done: [find element: By.xpath: //div[@id='dir_units_ContentContainer']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[1]]
+17:13:57.942 INFO - Executing: [clear: 27 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> xpath: //div[@id='dir_units_ContentContainer']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[1]]])
+17:13:59.697 WARN - Exception thrown
+org.openqa.selenium.InvalidElementStateException: invalid element state: Element must be user-editable in order to clear it.
+  (Session info: chrome=59.0.3071.115)
+  (Driver info: chromedriver=2.29.461571 (8a88bbe0775e2a23afda0ceaf2ef7ee74e822cc5),platform=Linux 4.8.0-59-generic x86_64) (WARNING: The server did not provide any stacktrace information)
+Command duration or timeout: 52 milliseconds
+Build info: version: '3.4.0', revision: 'unknown', time: 'unknown'
+System info: host: 'LPCODER2', ip: '127.0.1.1', os.name: 'Linux', os.arch: 'amd64', os.version: '4.8.0-59-generic', java.version: '1.8.0_131'
+Driver info: org.openqa.selenium.chrome.ChromeDriver
+Capabilities [{applicationCacheEnabled=false, rotatable=false, mobileEmulationEnabled=false, networkConnectionEnabled=false, chrome={chromedriverVersion=2.29.461571 (8a88bbe0775e2a23afda0ceaf2ef7ee74e822cc5), userDataDir=/tmp/.org.chromium.Chromium.AehkYt}, takesHeapSnapshot=true, pageLoadStrategy=normal, databaseEnabled=false, handlesAlerts=true, hasTouchScreen=false, version=59.0.3071.115, platform=LINUX, browserConnectionEnabled=false, nativeEvents=true, acceptSslCerts=true, locationContextEnabled=true, webStorageEnabled=true, browserName=chrome, takesScreenshot=true, javascriptEnabled=true, cssSelectorsEnabled=true, unexpectedAlertBehaviour=}]
+Session ID: ed24370e91533fc3fad8a3da9b55d61c
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:62)
+	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+	at java.lang.reflect.Constructor.newInstance(Constructor.java:423)
+	at org.openqa.selenium.remote.ErrorHandler.createThrowable(ErrorHandler.java:215)
+	at org.openqa.selenium.remote.ErrorHandler.throwIfResponseFailed(ErrorHandler.java:167)
+	at org.openqa.selenium.remote.RemoteWebDriver.execute(RemoteWebDriver.java:671)
+	at org.openqa.selenium.remote.RemoteWebElement.execute(RemoteWebElement.java:272)
+	at org.openqa.selenium.remote.RemoteWebElement.clear(RemoteWebElement.java:114)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.openqa.selenium.support.events.EventFiringWebDriver$EventFiringWebElement$1.invoke(EventFiringWebDriver.java:332)
+	at com.sun.proxy.$Proxy5.clear(Unknown Source)
+	at org.openqa.selenium.support.events.EventFiringWebDriver$EventFiringWebElement.clear(EventFiringWebDriver.java:361)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.openqa.selenium.remote.server.KnownElements$1.invoke(KnownElements.java:64)
+	at com.sun.proxy.$Proxy6.clear(Unknown Source)
+	at org.openqa.selenium.remote.server.handler.ClearElement.call(ClearElement.java:30)
+	at org.openqa.selenium.remote.server.handler.ClearElement.call(ClearElement.java:22)
+	at java.util.concurrent.FutureTask.run(FutureTask.java:266)
+	at org.openqa.selenium.remote.server.DefaultSession$1.run(DefaultSession.java:176)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)
+	at java.lang.Thread.run(Thread.java:748)
+17:13:59.702 WARN - Exception: invalid element state: Element must be user-editable in order to clear it.
+  (Session info: chrome=59.0.3071.115)
+  (Driver info: chromedriver=2.29.461571 (8a88bbe0775e2a23afda0ceaf2ef7ee74e822cc5),platform=Linux 4.8.0-59-generic x86_64) (WARNING: The server did not provide any stacktrace information)
+Command duration or timeout: 52 milliseconds
+Build info: version: '3.4.0', revision: 'unknown', time: 'unknown'
+System info: host: 'LPCODER2', ip: '127.0.1.1', os.name: 'Linux', os.arch: 'amd64', os.version: '4.8.0-59-generic', java.version: '1.8.0_131'
+Driver info: org.openqa.selenium.chrome.ChromeDriver
+Capabilities [{applicationCacheEnabled=false, rotatable=false, mobileEmulationEnabled=false, networkConnectionEnabled=false, chrome={chromedriverVersion=2.29.461571 (8a88bbe0775e2a23afda0ceaf2ef7ee74e822cc5), userDataDir=/tmp/.org.chromium.Chromium.AehkYt}, takesHeapSnapshot=true, pageLoadStrategy=normal, databaseEnabled=false, handlesAlerts=true, hasTouchScreen=false, version=59.0.3071.115, platform=LINUX, browserConnectionEnabled=false, nativeEvents=true, acceptSslCerts=true, locationContextEnabled=true, webStorageEnabled=true, browserName=chrome, takesScreenshot=true, javascriptEnabled=true, cssSelectorsEnabled=true, unexpectedAlertBehaviour=}]
+Session ID: ed24370e91533fc3fad8a3da9b55d61c
+17:13:59.841 INFO - Executing: [find element: By.xpath: //div[@id='dir_units_ContentContainer']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[1]])
+17:13:59.860 INFO - Done: [find element: By.xpath: //div[@id='dir_units_ContentContainer']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[1]]
+17:13:59.867 INFO - Executing: [send keys: 27 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> xpath: //div[@id='dir_units_ContentContainer']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[1]], [N, e, w,  , n, a, m, e]])
+17:14:01.273 WARN - Exception thrown
+org.openqa.selenium.WebDriverException: unknown error: cannot focus element
+  (Session info: chrome=59.0.3071.115)
+  (Driver info: chromedriver=2.29.461571 (8a88bbe0775e2a23afda0ceaf2ef7ee74e822cc5),platform=Linux 4.8.0-59-generic x86_64) (WARNING: The server did not provide any stacktrace information)
+Command duration or timeout: 93 milliseconds
+Build info: version: '3.4.0', revision: 'unknown', time: 'unknown'
+System info: host: 'LPCODER2', ip: '127.0.1.1', os.name: 'Linux', os.arch: 'amd64', os.version: '4.8.0-59-generic', java.version: '1.8.0_131'
+Driver info: org.openqa.selenium.chrome.ChromeDriver
+Capabilities [{applicationCacheEnabled=false, rotatable=false, mobileEmulationEnabled=false, networkConnectionEnabled=false, chrome={chromedriverVersion=2.29.461571 (8a88bbe0775e2a23afda0ceaf2ef7ee74e822cc5), userDataDir=/tmp/.org.chromium.Chromium.AehkYt}, takesHeapSnapshot=true, pageLoadStrategy=normal, databaseEnabled=false, handlesAlerts=true, hasTouchScreen=false, version=59.0.3071.115, platform=LINUX, browserConnectionEnabled=false, nativeEvents=true, acceptSslCerts=true, locationContextEnabled=true, webStorageEnabled=true, browserName=chrome, takesScreenshot=true, javascriptEnabled=true, cssSelectorsEnabled=true, unexpectedAlertBehaviour=}]
+Session ID: ed24370e91533fc3fad8a3da9b55d61c
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:62)
+	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+	at java.lang.reflect.Constructor.newInstance(Constructor.java:423)
+	at org.openqa.selenium.remote.ErrorHandler.createThrowable(ErrorHandler.java:215)
+	at org.openqa.selenium.remote.ErrorHandler.throwIfResponseFailed(ErrorHandler.java:167)
+	at org.openqa.selenium.remote.RemoteWebDriver.execute(RemoteWebDriver.java:671)
+	at org.openqa.selenium.remote.RemoteWebElement.execute(RemoteWebElement.java:272)
+	at org.openqa.selenium.remote.RemoteWebElement.sendKeys(RemoteWebElement.java:96)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.openqa.selenium.support.events.EventFiringWebDriver$EventFiringWebElement$1.invoke(EventFiringWebDriver.java:332)
+	at com.sun.proxy.$Proxy5.sendKeys(Unknown Source)
+	at org.openqa.selenium.support.events.EventFiringWebDriver$EventFiringWebElement.sendKeys(EventFiringWebDriver.java:355)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.openqa.selenium.remote.server.KnownElements$1.invoke(KnownElements.java:64)
+	at com.sun.proxy.$Proxy6.sendKeys(Unknown Source)
+	at org.openqa.selenium.remote.server.handler.SendKeys.call(SendKeys.java:50)
+	at org.openqa.selenium.remote.server.handler.SendKeys.call(SendKeys.java:29)
+	at java.util.concurrent.FutureTask.run(FutureTask.java:266)
+	at org.openqa.selenium.remote.server.DefaultSession$1.run(DefaultSession.java:176)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)
+	at java.lang.Thread.run(Thread.java:748)
+17:14:01.274 WARN - Exception: unknown error: cannot focus element
+  (Session info: chrome=59.0.3071.115)
+  (Driver info: chromedriver=2.29.461571 (8a88bbe0775e2a23afda0ceaf2ef7ee74e822cc5),platform=Linux 4.8.0-59-generic x86_64) (WARNING: The server did not provide any stacktrace information)
+Command duration or timeout: 93 milliseconds
+Build info: version: '3.4.0', revision: 'unknown', time: 'unknown'
+System info: host: 'LPCODER2', ip: '127.0.1.1', os.name: 'Linux', os.arch: 'amd64', os.version: '4.8.0-59-generic', java.version: '1.8.0_131'
+Driver info: org.openqa.selenium.chrome.ChromeDriver
+Capabilities [{applicationCacheEnabled=false, rotatable=false, mobileEmulationEnabled=false, networkConnectionEnabled=false, chrome={chromedriverVersion=2.29.461571 (8a88bbe0775e2a23afda0ceaf2ef7ee74e822cc5), userDataDir=/tmp/.org.chromium.Chromium.AehkYt}, takesHeapSnapshot=true, pageLoadStrategy=normal, databaseEnabled=false, handlesAlerts=true, hasTouchScreen=false, version=59.0.3071.115, platform=LINUX, browserConnectionEnabled=false, nativeEvents=true, acceptSslCerts=true, locationContextEnabled=true, webStorageEnabled=true, browserName=chrome, takesScreenshot=true, javascriptEnabled=true, cssSelectorsEnabled=true, unexpectedAlertBehaviour=}]
+Session ID: ed24370e91533fc3fad8a3da9b55d61c
+17:14:01.366 INFO - Executing: [find element: By.xpath: //div[@id='dir_units_ContentContainer']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[2]])
+17:14:01.382 INFO - Done: [find element: By.xpath: //div[@id='dir_units_ContentContainer']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[2]]
+17:14:01.387 INFO - Executing: [clear: 28 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> xpath: //div[@id='dir_units_ContentContainer']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[2]]])
+17:14:02.839 WARN - Exception thrown
+org.openqa.selenium.InvalidElementStateException: invalid element state: Element must be user-editable in order to clear it.
+  (Session info: chrome=59.0.3071.115)
+  (Driver info: chromedriver=2.29.461571 (8a88bbe0775e2a23afda0ceaf2ef7ee74e822cc5),platform=Linux 4.8.0-59-generic x86_64) (WARNING: The server did not provide any stacktrace information)
+Command duration or timeout: 49 milliseconds
+Build info: version: '3.4.0', revision: 'unknown', time: 'unknown'
+System info: host: 'LPCODER2', ip: '127.0.1.1', os.name: 'Linux', os.arch: 'amd64', os.version: '4.8.0-59-generic', java.version: '1.8.0_131'
+Driver info: org.openqa.selenium.chrome.ChromeDriver
+Capabilities [{applicationCacheEnabled=false, rotatable=false, mobileEmulationEnabled=false, networkConnectionEnabled=false, chrome={chromedriverVersion=2.29.461571 (8a88bbe0775e2a23afda0ceaf2ef7ee74e822cc5), userDataDir=/tmp/.org.chromium.Chromium.AehkYt}, takesHeapSnapshot=true, pageLoadStrategy=normal, databaseEnabled=false, handlesAlerts=true, hasTouchScreen=false, version=59.0.3071.115, platform=LINUX, browserConnectionEnabled=false, nativeEvents=true, acceptSslCerts=true, locationContextEnabled=true, webStorageEnabled=true, browserName=chrome, takesScreenshot=true, javascriptEnabled=true, cssSelectorsEnabled=true, unexpectedAlertBehaviour=}]
+Session ID: ed24370e91533fc3fad8a3da9b55d61c
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:62)
+	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+	at java.lang.reflect.Constructor.newInstance(Constructor.java:423)
+	at org.openqa.selenium.remote.ErrorHandler.createThrowable(ErrorHandler.java:215)
+	at org.openqa.selenium.remote.ErrorHandler.throwIfResponseFailed(ErrorHandler.java:167)
+	at org.openqa.selenium.remote.RemoteWebDriver.execute(RemoteWebDriver.java:671)
+	at org.openqa.selenium.remote.RemoteWebElement.execute(RemoteWebElement.java:272)
+	at org.openqa.selenium.remote.RemoteWebElement.clear(RemoteWebElement.java:114)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.openqa.selenium.support.events.EventFiringWebDriver$EventFiringWebElement$1.invoke(EventFiringWebDriver.java:332)
+	at com.sun.proxy.$Proxy5.clear(Unknown Source)
+	at org.openqa.selenium.support.events.EventFiringWebDriver$EventFiringWebElement.clear(EventFiringWebDriver.java:361)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.openqa.selenium.remote.server.KnownElements$1.invoke(KnownElements.java:64)
+	at com.sun.proxy.$Proxy6.clear(Unknown Source)
+	at org.openqa.selenium.remote.server.handler.ClearElement.call(ClearElement.java:30)
+	at org.openqa.selenium.remote.server.handler.ClearElement.call(ClearElement.java:22)
+	at java.util.concurrent.FutureTask.run(FutureTask.java:266)
+	at org.openqa.selenium.remote.server.DefaultSession$1.run(DefaultSession.java:176)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)
+	at java.lang.Thread.run(Thread.java:748)
+17:14:02.840 WARN - Exception: invalid element state: Element must be user-editable in order to clear it.
+  (Session info: chrome=59.0.3071.115)
+  (Driver info: chromedriver=2.29.461571 (8a88bbe0775e2a23afda0ceaf2ef7ee74e822cc5),platform=Linux 4.8.0-59-generic x86_64) (WARNING: The server did not provide any stacktrace information)
+Command duration or timeout: 49 milliseconds
+Build info: version: '3.4.0', revision: 'unknown', time: 'unknown'
+System info: host: 'LPCODER2', ip: '127.0.1.1', os.name: 'Linux', os.arch: 'amd64', os.version: '4.8.0-59-generic', java.version: '1.8.0_131'
+Driver info: org.openqa.selenium.chrome.ChromeDriver
+Capabilities [{applicationCacheEnabled=false, rotatable=false, mobileEmulationEnabled=false, networkConnectionEnabled=false, chrome={chromedriverVersion=2.29.461571 (8a88bbe0775e2a23afda0ceaf2ef7ee74e822cc5), userDataDir=/tmp/.org.chromium.Chromium.AehkYt}, takesHeapSnapshot=true, pageLoadStrategy=normal, databaseEnabled=false, handlesAlerts=true, hasTouchScreen=false, version=59.0.3071.115, platform=LINUX, browserConnectionEnabled=false, nativeEvents=true, acceptSslCerts=true, locationContextEnabled=true, webStorageEnabled=true, browserName=chrome, takesScreenshot=true, javascriptEnabled=true, cssSelectorsEnabled=true, unexpectedAlertBehaviour=}]
+Session ID: ed24370e91533fc3fad8a3da9b55d61c
+17:14:02.926 INFO - Executing: [find element: By.xpath: //div[@id='dir_units_ContentContainer']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[2]])
+17:14:02.947 INFO - Done: [find element: By.xpath: //div[@id='dir_units_ContentContainer']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[2]]
+17:14:02.953 INFO - Executing: [send keys: 28 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> xpath: //div[@id='dir_units_ContentContainer']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[2]], [N, e, w,  , f, u, l, l, _, n, a, m, e]])
+17:14:04.394 WARN - Exception thrown
+org.openqa.selenium.WebDriverException: unknown error: cannot focus element
+  (Session info: chrome=59.0.3071.115)
+  (Driver info: chromedriver=2.29.461571 (8a88bbe0775e2a23afda0ceaf2ef7ee74e822cc5),platform=Linux 4.8.0-59-generic x86_64) (WARNING: The server did not provide any stacktrace information)
+Command duration or timeout: 92 milliseconds
+Build info: version: '3.4.0', revision: 'unknown', time: 'unknown'
+System info: host: 'LPCODER2', ip: '127.0.1.1', os.name: 'Linux', os.arch: 'amd64', os.version: '4.8.0-59-generic', java.version: '1.8.0_131'
+Driver info: org.openqa.selenium.chrome.ChromeDriver
+Capabilities [{applicationCacheEnabled=false, rotatable=false, mobileEmulationEnabled=false, networkConnectionEnabled=false, chrome={chromedriverVersion=2.29.461571 (8a88bbe0775e2a23afda0ceaf2ef7ee74e822cc5), userDataDir=/tmp/.org.chromium.Chromium.AehkYt}, takesHeapSnapshot=true, pageLoadStrategy=normal, databaseEnabled=false, handlesAlerts=true, hasTouchScreen=false, version=59.0.3071.115, platform=LINUX, browserConnectionEnabled=false, nativeEvents=true, acceptSslCerts=true, locationContextEnabled=true, webStorageEnabled=true, browserName=chrome, takesScreenshot=true, javascriptEnabled=true, cssSelectorsEnabled=true, unexpectedAlertBehaviour=}]
+Session ID: ed24370e91533fc3fad8a3da9b55d61c
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:62)
+	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+	at java.lang.reflect.Constructor.newInstance(Constructor.java:423)
+	at org.openqa.selenium.remote.ErrorHandler.createThrowable(ErrorHandler.java:215)
+	at org.openqa.selenium.remote.ErrorHandler.throwIfResponseFailed(ErrorHandler.java:167)
+	at org.openqa.selenium.remote.RemoteWebDriver.execute(RemoteWebDriver.java:671)
+	at org.openqa.selenium.remote.RemoteWebElement.execute(RemoteWebElement.java:272)
+	at org.openqa.selenium.remote.RemoteWebElement.sendKeys(RemoteWebElement.java:96)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.openqa.selenium.support.events.EventFiringWebDriver$EventFiringWebElement$1.invoke(EventFiringWebDriver.java:332)
+	at com.sun.proxy.$Proxy5.sendKeys(Unknown Source)
+	at org.openqa.selenium.support.events.EventFiringWebDriver$EventFiringWebElement.sendKeys(EventFiringWebDriver.java:355)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.openqa.selenium.remote.server.KnownElements$1.invoke(KnownElements.java:64)
+	at com.sun.proxy.$Proxy6.sendKeys(Unknown Source)
+	at org.openqa.selenium.remote.server.handler.SendKeys.call(SendKeys.java:50)
+	at org.openqa.selenium.remote.server.handler.SendKeys.call(SendKeys.java:29)
+	at java.util.concurrent.FutureTask.run(FutureTask.java:266)
+	at org.openqa.selenium.remote.server.DefaultSession$1.run(DefaultSession.java:176)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)
+	at java.lang.Thread.run(Thread.java:748)
+17:14:04.395 WARN - Exception: unknown error: cannot focus element
+  (Session info: chrome=59.0.3071.115)
+  (Driver info: chromedriver=2.29.461571 (8a88bbe0775e2a23afda0ceaf2ef7ee74e822cc5),platform=Linux 4.8.0-59-generic x86_64) (WARNING: The server did not provide any stacktrace information)
+Command duration or timeout: 92 milliseconds
+Build info: version: '3.4.0', revision: 'unknown', time: 'unknown'
+System info: host: 'LPCODER2', ip: '127.0.1.1', os.name: 'Linux', os.arch: 'amd64', os.version: '4.8.0-59-generic', java.version: '1.8.0_131'
+Driver info: org.openqa.selenium.chrome.ChromeDriver
+Capabilities [{applicationCacheEnabled=false, rotatable=false, mobileEmulationEnabled=false, networkConnectionEnabled=false, chrome={chromedriverVersion=2.29.461571 (8a88bbe0775e2a23afda0ceaf2ef7ee74e822cc5), userDataDir=/tmp/.org.chromium.Chromium.AehkYt}, takesHeapSnapshot=true, pageLoadStrategy=normal, databaseEnabled=false, handlesAlerts=true, hasTouchScreen=false, version=59.0.3071.115, platform=LINUX, browserConnectionEnabled=false, nativeEvents=true, acceptSslCerts=true, locationContextEnabled=true, webStorageEnabled=true, browserName=chrome, takesScreenshot=true, javascriptEnabled=true, cssSelectorsEnabled=true, unexpectedAlertBehaviour=}]
+Session ID: ed24370e91533fc3fad8a3da9b55d61c
+17:14:04.491 INFO - Executing: [find element: By.xpath: //div[@id='dir_units_ContentContainer']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[3]])
+17:14:04.510 INFO - Done: [find element: By.xpath: //div[@id='dir_units_ContentContainer']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[3]]
+17:14:04.515 INFO - Executing: [clear: 29 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> xpath: //div[@id='dir_units_ContentContainer']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[3]]])
+17:14:05.880 WARN - Exception thrown
+org.openqa.selenium.InvalidElementStateException: invalid element state: Element must be user-editable in order to clear it.
+  (Session info: chrome=59.0.3071.115)
+  (Driver info: chromedriver=2.29.461571 (8a88bbe0775e2a23afda0ceaf2ef7ee74e822cc5),platform=Linux 4.8.0-59-generic x86_64) (WARNING: The server did not provide any stacktrace information)
+Command duration or timeout: 53 milliseconds
+Build info: version: '3.4.0', revision: 'unknown', time: 'unknown'
+System info: host: 'LPCODER2', ip: '127.0.1.1', os.name: 'Linux', os.arch: 'amd64', os.version: '4.8.0-59-generic', java.version: '1.8.0_131'
+Driver info: org.openqa.selenium.chrome.ChromeDriver
+Capabilities [{applicationCacheEnabled=false, rotatable=false, mobileEmulationEnabled=false, networkConnectionEnabled=false, chrome={chromedriverVersion=2.29.461571 (8a88bbe0775e2a23afda0ceaf2ef7ee74e822cc5), userDataDir=/tmp/.org.chromium.Chromium.AehkYt}, takesHeapSnapshot=true, pageLoadStrategy=normal, databaseEnabled=false, handlesAlerts=true, hasTouchScreen=false, version=59.0.3071.115, platform=LINUX, browserConnectionEnabled=false, nativeEvents=true, acceptSslCerts=true, locationContextEnabled=true, webStorageEnabled=true, browserName=chrome, takesScreenshot=true, javascriptEnabled=true, cssSelectorsEnabled=true, unexpectedAlertBehaviour=}]
+Session ID: ed24370e91533fc3fad8a3da9b55d61c
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:62)
+	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+	at java.lang.reflect.Constructor.newInstance(Constructor.java:423)
+	at org.openqa.selenium.remote.ErrorHandler.createThrowable(ErrorHandler.java:215)
+	at org.openqa.selenium.remote.ErrorHandler.throwIfResponseFailed(ErrorHandler.java:167)
+	at org.openqa.selenium.remote.RemoteWebDriver.execute(RemoteWebDriver.java:671)
+	at org.openqa.selenium.remote.RemoteWebElement.execute(RemoteWebElement.java:272)
+	at org.openqa.selenium.remote.RemoteWebElement.clear(RemoteWebElement.java:114)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.openqa.selenium.support.events.EventFiringWebDriver$EventFiringWebElement$1.invoke(EventFiringWebDriver.java:332)
+	at com.sun.proxy.$Proxy5.clear(Unknown Source)
+	at org.openqa.selenium.support.events.EventFiringWebDriver$EventFiringWebElement.clear(EventFiringWebDriver.java:361)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.openqa.selenium.remote.server.KnownElements$1.invoke(KnownElements.java:64)
+	at com.sun.proxy.$Proxy6.clear(Unknown Source)
+	at org.openqa.selenium.remote.server.handler.ClearElement.call(ClearElement.java:30)
+	at org.openqa.selenium.remote.server.handler.ClearElement.call(ClearElement.java:22)
+	at java.util.concurrent.FutureTask.run(FutureTask.java:266)
+	at org.openqa.selenium.remote.server.DefaultSession$1.run(DefaultSession.java:176)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)
+	at java.lang.Thread.run(Thread.java:748)
+17:14:05.881 WARN - Exception: invalid element state: Element must be user-editable in order to clear it.
+  (Session info: chrome=59.0.3071.115)
+  (Driver info: chromedriver=2.29.461571 (8a88bbe0775e2a23afda0ceaf2ef7ee74e822cc5),platform=Linux 4.8.0-59-generic x86_64) (WARNING: The server did not provide any stacktrace information)
+Command duration or timeout: 53 milliseconds
+Build info: version: '3.4.0', revision: 'unknown', time: 'unknown'
+System info: host: 'LPCODER2', ip: '127.0.1.1', os.name: 'Linux', os.arch: 'amd64', os.version: '4.8.0-59-generic', java.version: '1.8.0_131'
+Driver info: org.openqa.selenium.chrome.ChromeDriver
+Capabilities [{applicationCacheEnabled=false, rotatable=false, mobileEmulationEnabled=false, networkConnectionEnabled=false, chrome={chromedriverVersion=2.29.461571 (8a88bbe0775e2a23afda0ceaf2ef7ee74e822cc5), userDataDir=/tmp/.org.chromium.Chromium.AehkYt}, takesHeapSnapshot=true, pageLoadStrategy=normal, databaseEnabled=false, handlesAlerts=true, hasTouchScreen=false, version=59.0.3071.115, platform=LINUX, browserConnectionEnabled=false, nativeEvents=true, acceptSslCerts=true, locationContextEnabled=true, webStorageEnabled=true, browserName=chrome, takesScreenshot=true, javascriptEnabled=true, cssSelectorsEnabled=true, unexpectedAlertBehaviour=}]
+Session ID: ed24370e91533fc3fad8a3da9b55d61c
+17:14:05.970 INFO - Executing: [find element: By.xpath: //div[@id='dir_units_ContentContainer']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[3]])
+17:14:05.991 INFO - Done: [find element: By.xpath: //div[@id='dir_units_ContentContainer']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[3]]
+17:14:05.997 INFO - Executing: [send keys: 29 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> xpath: //div[@id='dir_units_ContentContainer']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[3]], [N, e, w,  , n, o, t, e]])
+17:14:07.366 WARN - Exception thrown
+org.openqa.selenium.WebDriverException: unknown error: cannot focus element
+  (Session info: chrome=59.0.3071.115)
+  (Driver info: chromedriver=2.29.461571 (8a88bbe0775e2a23afda0ceaf2ef7ee74e822cc5),platform=Linux 4.8.0-59-generic x86_64) (WARNING: The server did not provide any stacktrace information)
+Command duration or timeout: 101 milliseconds
+Build info: version: '3.4.0', revision: 'unknown', time: 'unknown'
+System info: host: 'LPCODER2', ip: '127.0.1.1', os.name: 'Linux', os.arch: 'amd64', os.version: '4.8.0-59-generic', java.version: '1.8.0_131'
+Driver info: org.openqa.selenium.chrome.ChromeDriver
+Capabilities [{applicationCacheEnabled=false, rotatable=false, mobileEmulationEnabled=false, networkConnectionEnabled=false, chrome={chromedriverVersion=2.29.461571 (8a88bbe0775e2a23afda0ceaf2ef7ee74e822cc5), userDataDir=/tmp/.org.chromium.Chromium.AehkYt}, takesHeapSnapshot=true, pageLoadStrategy=normal, databaseEnabled=false, handlesAlerts=true, hasTouchScreen=false, version=59.0.3071.115, platform=LINUX, browserConnectionEnabled=false, nativeEvents=true, acceptSslCerts=true, locationContextEnabled=true, webStorageEnabled=true, browserName=chrome, takesScreenshot=true, javascriptEnabled=true, cssSelectorsEnabled=true, unexpectedAlertBehaviour=}]
+Session ID: ed24370e91533fc3fad8a3da9b55d61c
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:62)
+	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+	at java.lang.reflect.Constructor.newInstance(Constructor.java:423)
+	at org.openqa.selenium.remote.ErrorHandler.createThrowable(ErrorHandler.java:215)
+	at org.openqa.selenium.remote.ErrorHandler.throwIfResponseFailed(ErrorHandler.java:167)
+	at org.openqa.selenium.remote.RemoteWebDriver.execute(RemoteWebDriver.java:671)
+	at org.openqa.selenium.remote.RemoteWebElement.execute(RemoteWebElement.java:272)
+	at org.openqa.selenium.remote.RemoteWebElement.sendKeys(RemoteWebElement.java:96)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.openqa.selenium.support.events.EventFiringWebDriver$EventFiringWebElement$1.invoke(EventFiringWebDriver.java:332)
+	at com.sun.proxy.$Proxy5.sendKeys(Unknown Source)
+	at org.openqa.selenium.support.events.EventFiringWebDriver$EventFiringWebElement.sendKeys(EventFiringWebDriver.java:355)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.openqa.selenium.remote.server.KnownElements$1.invoke(KnownElements.java:64)
+	at com.sun.proxy.$Proxy6.sendKeys(Unknown Source)
+	at org.openqa.selenium.remote.server.handler.SendKeys.call(SendKeys.java:50)
+	at org.openqa.selenium.remote.server.handler.SendKeys.call(SendKeys.java:29)
+	at java.util.concurrent.FutureTask.run(FutureTask.java:266)
+	at org.openqa.selenium.remote.server.DefaultSession$1.run(DefaultSession.java:176)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)
+	at java.lang.Thread.run(Thread.java:748)
+17:14:07.366 WARN - Exception: unknown error: cannot focus element
+  (Session info: chrome=59.0.3071.115)
+  (Driver info: chromedriver=2.29.461571 (8a88bbe0775e2a23afda0ceaf2ef7ee74e822cc5),platform=Linux 4.8.0-59-generic x86_64) (WARNING: The server did not provide any stacktrace information)
+Command duration or timeout: 101 milliseconds
+Build info: version: '3.4.0', revision: 'unknown', time: 'unknown'
+System info: host: 'LPCODER2', ip: '127.0.1.1', os.name: 'Linux', os.arch: 'amd64', os.version: '4.8.0-59-generic', java.version: '1.8.0_131'
+Driver info: org.openqa.selenium.chrome.ChromeDriver
+Capabilities [{applicationCacheEnabled=false, rotatable=false, mobileEmulationEnabled=false, networkConnectionEnabled=false, chrome={chromedriverVersion=2.29.461571 (8a88bbe0775e2a23afda0ceaf2ef7ee74e822cc5), userDataDir=/tmp/.org.chromium.Chromium.AehkYt}, takesHeapSnapshot=true, pageLoadStrategy=normal, databaseEnabled=false, handlesAlerts=true, hasTouchScreen=false, version=59.0.3071.115, platform=LINUX, browserConnectionEnabled=false, nativeEvents=true, acceptSslCerts=true, locationContextEnabled=true, webStorageEnabled=true, browserName=chrome, takesScreenshot=true, javascriptEnabled=true, cssSelectorsEnabled=true, unexpectedAlertBehaviour=}]
+Session ID: ed24370e91533fc3fad8a3da9b55d61c
+17:14:07.439 INFO - Executing: [find element: By.xpath: //div[@id='dir_units_ContentContainer']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[4]])
+17:14:07.462 INFO - Done: [find element: By.xpath: //div[@id='dir_units_ContentContainer']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[4]]
+17:14:07.466 INFO - Executing: [clear: 30 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> xpath: //div[@id='dir_units_ContentContainer']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[4]]])
+17:14:08.798 WARN - Exception thrown
+org.openqa.selenium.InvalidElementStateException: invalid element state: Element must be user-editable in order to clear it.
+  (Session info: chrome=59.0.3071.115)
+  (Driver info: chromedriver=2.29.461571 (8a88bbe0775e2a23afda0ceaf2ef7ee74e822cc5),platform=Linux 4.8.0-59-generic x86_64) (WARNING: The server did not provide any stacktrace information)
+Command duration or timeout: 51 milliseconds
+Build info: version: '3.4.0', revision: 'unknown', time: 'unknown'
+System info: host: 'LPCODER2', ip: '127.0.1.1', os.name: 'Linux', os.arch: 'amd64', os.version: '4.8.0-59-generic', java.version: '1.8.0_131'
+Driver info: org.openqa.selenium.chrome.ChromeDriver
+Capabilities [{applicationCacheEnabled=false, rotatable=false, mobileEmulationEnabled=false, networkConnectionEnabled=false, chrome={chromedriverVersion=2.29.461571 (8a88bbe0775e2a23afda0ceaf2ef7ee74e822cc5), userDataDir=/tmp/.org.chromium.Chromium.AehkYt}, takesHeapSnapshot=true, pageLoadStrategy=normal, databaseEnabled=false, handlesAlerts=true, hasTouchScreen=false, version=59.0.3071.115, platform=LINUX, browserConnectionEnabled=false, nativeEvents=true, acceptSslCerts=true, locationContextEnabled=true, webStorageEnabled=true, browserName=chrome, takesScreenshot=true, javascriptEnabled=true, cssSelectorsEnabled=true, unexpectedAlertBehaviour=}]
+Session ID: ed24370e91533fc3fad8a3da9b55d61c
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:62)
+	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+	at java.lang.reflect.Constructor.newInstance(Constructor.java:423)
+	at org.openqa.selenium.remote.ErrorHandler.createThrowable(ErrorHandler.java:215)
+	at org.openqa.selenium.remote.ErrorHandler.throwIfResponseFailed(ErrorHandler.java:167)
+	at org.openqa.selenium.remote.RemoteWebDriver.execute(RemoteWebDriver.java:671)
+	at org.openqa.selenium.remote.RemoteWebElement.execute(RemoteWebElement.java:272)
+	at org.openqa.selenium.remote.RemoteWebElement.clear(RemoteWebElement.java:114)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.openqa.selenium.support.events.EventFiringWebDriver$EventFiringWebElement$1.invoke(EventFiringWebDriver.java:332)
+	at com.sun.proxy.$Proxy5.clear(Unknown Source)
+	at org.openqa.selenium.support.events.EventFiringWebDriver$EventFiringWebElement.clear(EventFiringWebDriver.java:361)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.openqa.selenium.remote.server.KnownElements$1.invoke(KnownElements.java:64)
+	at com.sun.proxy.$Proxy6.clear(Unknown Source)
+	at org.openqa.selenium.remote.server.handler.ClearElement.call(ClearElement.java:30)
+	at org.openqa.selenium.remote.server.handler.ClearElement.call(ClearElement.java:22)
+	at java.util.concurrent.FutureTask.run(FutureTask.java:266)
+	at org.openqa.selenium.remote.server.DefaultSession$1.run(DefaultSession.java:176)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)
+	at java.lang.Thread.run(Thread.java:748)
+17:14:08.799 WARN - Exception: invalid element state: Element must be user-editable in order to clear it.
+  (Session info: chrome=59.0.3071.115)
+  (Driver info: chromedriver=2.29.461571 (8a88bbe0775e2a23afda0ceaf2ef7ee74e822cc5),platform=Linux 4.8.0-59-generic x86_64) (WARNING: The server did not provide any stacktrace information)
+Command duration or timeout: 51 milliseconds
+Build info: version: '3.4.0', revision: 'unknown', time: 'unknown'
+System info: host: 'LPCODER2', ip: '127.0.1.1', os.name: 'Linux', os.arch: 'amd64', os.version: '4.8.0-59-generic', java.version: '1.8.0_131'
+Driver info: org.openqa.selenium.chrome.ChromeDriver
+Capabilities [{applicationCacheEnabled=false, rotatable=false, mobileEmulationEnabled=false, networkConnectionEnabled=false, chrome={chromedriverVersion=2.29.461571 (8a88bbe0775e2a23afda0ceaf2ef7ee74e822cc5), userDataDir=/tmp/.org.chromium.Chromium.AehkYt}, takesHeapSnapshot=true, pageLoadStrategy=normal, databaseEnabled=false, handlesAlerts=true, hasTouchScreen=false, version=59.0.3071.115, platform=LINUX, browserConnectionEnabled=false, nativeEvents=true, acceptSslCerts=true, locationContextEnabled=true, webStorageEnabled=true, browserName=chrome, takesScreenshot=true, javascriptEnabled=true, cssSelectorsEnabled=true, unexpectedAlertBehaviour=}]
+Session ID: ed24370e91533fc3fad8a3da9b55d61c
+17:14:08.889 INFO - Executing: [find element: By.xpath: //div[@id='dir_units_ContentContainer']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[4]])
+17:14:08.909 INFO - Done: [find element: By.xpath: //div[@id='dir_units_ContentContainer']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[4]]
+17:14:08.916 INFO - Executing: [send keys: 30 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> xpath: //div[@id='dir_units_ContentContainer']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[4]], [n, e, w,  , c, i, t, y]])
+17:14:10.339 WARN - Exception thrown
+org.openqa.selenium.WebDriverException: unknown error: cannot focus element
+  (Session info: chrome=59.0.3071.115)
+  (Driver info: chromedriver=2.29.461571 (8a88bbe0775e2a23afda0ceaf2ef7ee74e822cc5),platform=Linux 4.8.0-59-generic x86_64) (WARNING: The server did not provide any stacktrace information)
+Command duration or timeout: 92 milliseconds
+Build info: version: '3.4.0', revision: 'unknown', time: 'unknown'
+System info: host: 'LPCODER2', ip: '127.0.1.1', os.name: 'Linux', os.arch: 'amd64', os.version: '4.8.0-59-generic', java.version: '1.8.0_131'
+Driver info: org.openqa.selenium.chrome.ChromeDriver
+Capabilities [{applicationCacheEnabled=false, rotatable=false, mobileEmulationEnabled=false, networkConnectionEnabled=false, chrome={chromedriverVersion=2.29.461571 (8a88bbe0775e2a23afda0ceaf2ef7ee74e822cc5), userDataDir=/tmp/.org.chromium.Chromium.AehkYt}, takesHeapSnapshot=true, pageLoadStrategy=normal, databaseEnabled=false, handlesAlerts=true, hasTouchScreen=false, version=59.0.3071.115, platform=LINUX, browserConnectionEnabled=false, nativeEvents=true, acceptSslCerts=true, locationContextEnabled=true, webStorageEnabled=true, browserName=chrome, takesScreenshot=true, javascriptEnabled=true, cssSelectorsEnabled=true, unexpectedAlertBehaviour=}]
+Session ID: ed24370e91533fc3fad8a3da9b55d61c
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:62)
+	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+	at java.lang.reflect.Constructor.newInstance(Constructor.java:423)
+	at org.openqa.selenium.remote.ErrorHandler.createThrowable(ErrorHandler.java:215)
+	at org.openqa.selenium.remote.ErrorHandler.throwIfResponseFailed(ErrorHandler.java:167)
+	at org.openqa.selenium.remote.RemoteWebDriver.execute(RemoteWebDriver.java:671)
+	at org.openqa.selenium.remote.RemoteWebElement.execute(RemoteWebElement.java:272)
+	at org.openqa.selenium.remote.RemoteWebElement.sendKeys(RemoteWebElement.java:96)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.openqa.selenium.support.events.EventFiringWebDriver$EventFiringWebElement$1.invoke(EventFiringWebDriver.java:332)
+	at com.sun.proxy.$Proxy5.sendKeys(Unknown Source)
+	at org.openqa.selenium.support.events.EventFiringWebDriver$EventFiringWebElement.sendKeys(EventFiringWebDriver.java:355)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.openqa.selenium.remote.server.KnownElements$1.invoke(KnownElements.java:64)
+	at com.sun.proxy.$Proxy6.sendKeys(Unknown Source)
+	at org.openqa.selenium.remote.server.handler.SendKeys.call(SendKeys.java:50)
+	at org.openqa.selenium.remote.server.handler.SendKeys.call(SendKeys.java:29)
+	at java.util.concurrent.FutureTask.run(FutureTask.java:266)
+	at org.openqa.selenium.remote.server.DefaultSession$1.run(DefaultSession.java:176)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)
+	at java.lang.Thread.run(Thread.java:748)
+17:14:10.341 WARN - Exception: unknown error: cannot focus element
+  (Session info: chrome=59.0.3071.115)
+  (Driver info: chromedriver=2.29.461571 (8a88bbe0775e2a23afda0ceaf2ef7ee74e822cc5),platform=Linux 4.8.0-59-generic x86_64) (WARNING: The server did not provide any stacktrace information)
+Command duration or timeout: 92 milliseconds
+Build info: version: '3.4.0', revision: 'unknown', time: 'unknown'
+System info: host: 'LPCODER2', ip: '127.0.1.1', os.name: 'Linux', os.arch: 'amd64', os.version: '4.8.0-59-generic', java.version: '1.8.0_131'
+Driver info: org.openqa.selenium.chrome.ChromeDriver
+Capabilities [{applicationCacheEnabled=false, rotatable=false, mobileEmulationEnabled=false, networkConnectionEnabled=false, chrome={chromedriverVersion=2.29.461571 (8a88bbe0775e2a23afda0ceaf2ef7ee74e822cc5), userDataDir=/tmp/.org.chromium.Chromium.AehkYt}, takesHeapSnapshot=true, pageLoadStrategy=normal, databaseEnabled=false, handlesAlerts=true, hasTouchScreen=false, version=59.0.3071.115, platform=LINUX, browserConnectionEnabled=false, nativeEvents=true, acceptSslCerts=true, locationContextEnabled=true, webStorageEnabled=true, browserName=chrome, takesScreenshot=true, javascriptEnabled=true, cssSelectorsEnabled=true, unexpectedAlertBehaviour=}]
+Session ID: ed24370e91533fc3fad8a3da9b55d61c
+17:14:10.402 INFO - Executing: [find element: By.xpath: //div[@id='dir_units_ContentContainer']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[5]])
+17:14:10.423 INFO - Done: [find element: By.xpath: //div[@id='dir_units_ContentContainer']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[5]]
+17:14:10.428 INFO - Executing: [clear: 31 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> xpath: //div[@id='dir_units_ContentContainer']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[5]]])
+17:14:11.768 WARN - Exception thrown
+org.openqa.selenium.InvalidElementStateException: invalid element state: Element must be user-editable in order to clear it.
+  (Session info: chrome=59.0.3071.115)
+  (Driver info: chromedriver=2.29.461571 (8a88bbe0775e2a23afda0ceaf2ef7ee74e822cc5),platform=Linux 4.8.0-59-generic x86_64) (WARNING: The server did not provide any stacktrace information)
+Command duration or timeout: 58 milliseconds
+Build info: version: '3.4.0', revision: 'unknown', time: 'unknown'
+System info: host: 'LPCODER2', ip: '127.0.1.1', os.name: 'Linux', os.arch: 'amd64', os.version: '4.8.0-59-generic', java.version: '1.8.0_131'
+Driver info: org.openqa.selenium.chrome.ChromeDriver
+Capabilities [{applicationCacheEnabled=false, rotatable=false, mobileEmulationEnabled=false, networkConnectionEnabled=false, chrome={chromedriverVersion=2.29.461571 (8a88bbe0775e2a23afda0ceaf2ef7ee74e822cc5), userDataDir=/tmp/.org.chromium.Chromium.AehkYt}, takesHeapSnapshot=true, pageLoadStrategy=normal, databaseEnabled=false, handlesAlerts=true, hasTouchScreen=false, version=59.0.3071.115, platform=LINUX, browserConnectionEnabled=false, nativeEvents=true, acceptSslCerts=true, locationContextEnabled=true, webStorageEnabled=true, browserName=chrome, takesScreenshot=true, javascriptEnabled=true, cssSelectorsEnabled=true, unexpectedAlertBehaviour=}]
+Session ID: ed24370e91533fc3fad8a3da9b55d61c
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:62)
+	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+	at java.lang.reflect.Constructor.newInstance(Constructor.java:423)
+	at org.openqa.selenium.remote.ErrorHandler.createThrowable(ErrorHandler.java:215)
+	at org.openqa.selenium.remote.ErrorHandler.throwIfResponseFailed(ErrorHandler.java:167)
+	at org.openqa.selenium.remote.RemoteWebDriver.execute(RemoteWebDriver.java:671)
+	at org.openqa.selenium.remote.RemoteWebElement.execute(RemoteWebElement.java:272)
+	at org.openqa.selenium.remote.RemoteWebElement.clear(RemoteWebElement.java:114)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.openqa.selenium.support.events.EventFiringWebDriver$EventFiringWebElement$1.invoke(EventFiringWebDriver.java:332)
+	at com.sun.proxy.$Proxy5.clear(Unknown Source)
+	at org.openqa.selenium.support.events.EventFiringWebDriver$EventFiringWebElement.clear(EventFiringWebDriver.java:361)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.openqa.selenium.remote.server.KnownElements$1.invoke(KnownElements.java:64)
+	at com.sun.proxy.$Proxy6.clear(Unknown Source)
+	at org.openqa.selenium.remote.server.handler.ClearElement.call(ClearElement.java:30)
+	at org.openqa.selenium.remote.server.handler.ClearElement.call(ClearElement.java:22)
+	at java.util.concurrent.FutureTask.run(FutureTask.java:266)
+	at org.openqa.selenium.remote.server.DefaultSession$1.run(DefaultSession.java:176)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)
+	at java.lang.Thread.run(Thread.java:748)
+17:14:11.769 WARN - Exception: invalid element state: Element must be user-editable in order to clear it.
+  (Session info: chrome=59.0.3071.115)
+  (Driver info: chromedriver=2.29.461571 (8a88bbe0775e2a23afda0ceaf2ef7ee74e822cc5),platform=Linux 4.8.0-59-generic x86_64) (WARNING: The server did not provide any stacktrace information)
+Command duration or timeout: 58 milliseconds
+Build info: version: '3.4.0', revision: 'unknown', time: 'unknown'
+System info: host: 'LPCODER2', ip: '127.0.1.1', os.name: 'Linux', os.arch: 'amd64', os.version: '4.8.0-59-generic', java.version: '1.8.0_131'
+Driver info: org.openqa.selenium.chrome.ChromeDriver
+Capabilities [{applicationCacheEnabled=false, rotatable=false, mobileEmulationEnabled=false, networkConnectionEnabled=false, chrome={chromedriverVersion=2.29.461571 (8a88bbe0775e2a23afda0ceaf2ef7ee74e822cc5), userDataDir=/tmp/.org.chromium.Chromium.AehkYt}, takesHeapSnapshot=true, pageLoadStrategy=normal, databaseEnabled=false, handlesAlerts=true, hasTouchScreen=false, version=59.0.3071.115, platform=LINUX, browserConnectionEnabled=false, nativeEvents=true, acceptSslCerts=true, locationContextEnabled=true, webStorageEnabled=true, browserName=chrome, takesScreenshot=true, javascriptEnabled=true, cssSelectorsEnabled=true, unexpectedAlertBehaviour=}]
+Session ID: ed24370e91533fc3fad8a3da9b55d61c
+17:14:11.863 INFO - Executing: [find element: By.xpath: //div[@id='dir_units_ContentContainer']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[5]])
+17:14:11.886 INFO - Done: [find element: By.xpath: //div[@id='dir_units_ContentContainer']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[5]]
+17:14:11.892 INFO - Executing: [send keys: 31 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> xpath: //div[@id='dir_units_ContentContainer']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[5]], [n, e, w,  , a, d, d, r, e, s, s]])
+17:14:13.287 WARN - Exception thrown
+org.openqa.selenium.WebDriverException: unknown error: cannot focus element
+  (Session info: chrome=59.0.3071.115)
+  (Driver info: chromedriver=2.29.461571 (8a88bbe0775e2a23afda0ceaf2ef7ee74e822cc5),platform=Linux 4.8.0-59-generic x86_64) (WARNING: The server did not provide any stacktrace information)
+Command duration or timeout: 94 milliseconds
+Build info: version: '3.4.0', revision: 'unknown', time: 'unknown'
+System info: host: 'LPCODER2', ip: '127.0.1.1', os.name: 'Linux', os.arch: 'amd64', os.version: '4.8.0-59-generic', java.version: '1.8.0_131'
+Driver info: org.openqa.selenium.chrome.ChromeDriver
+Capabilities [{applicationCacheEnabled=false, rotatable=false, mobileEmulationEnabled=false, networkConnectionEnabled=false, chrome={chromedriverVersion=2.29.461571 (8a88bbe0775e2a23afda0ceaf2ef7ee74e822cc5), userDataDir=/tmp/.org.chromium.Chromium.AehkYt}, takesHeapSnapshot=true, pageLoadStrategy=normal, databaseEnabled=false, handlesAlerts=true, hasTouchScreen=false, version=59.0.3071.115, platform=LINUX, browserConnectionEnabled=false, nativeEvents=true, acceptSslCerts=true, locationContextEnabled=true, webStorageEnabled=true, browserName=chrome, takesScreenshot=true, javascriptEnabled=true, cssSelectorsEnabled=true, unexpectedAlertBehaviour=}]
+Session ID: ed24370e91533fc3fad8a3da9b55d61c
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:62)
+	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+	at java.lang.reflect.Constructor.newInstance(Constructor.java:423)
+	at org.openqa.selenium.remote.ErrorHandler.createThrowable(ErrorHandler.java:215)
+	at org.openqa.selenium.remote.ErrorHandler.throwIfResponseFailed(ErrorHandler.java:167)
+	at org.openqa.selenium.remote.RemoteWebDriver.execute(RemoteWebDriver.java:671)
+	at org.openqa.selenium.remote.RemoteWebElement.execute(RemoteWebElement.java:272)
+	at org.openqa.selenium.remote.RemoteWebElement.sendKeys(RemoteWebElement.java:96)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.openqa.selenium.support.events.EventFiringWebDriver$EventFiringWebElement$1.invoke(EventFiringWebDriver.java:332)
+	at com.sun.proxy.$Proxy5.sendKeys(Unknown Source)
+	at org.openqa.selenium.support.events.EventFiringWebDriver$EventFiringWebElement.sendKeys(EventFiringWebDriver.java:355)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.openqa.selenium.remote.server.KnownElements$1.invoke(KnownElements.java:64)
+	at com.sun.proxy.$Proxy6.sendKeys(Unknown Source)
+	at org.openqa.selenium.remote.server.handler.SendKeys.call(SendKeys.java:50)
+	at org.openqa.selenium.remote.server.handler.SendKeys.call(SendKeys.java:29)
+	at java.util.concurrent.FutureTask.run(FutureTask.java:266)
+	at org.openqa.selenium.remote.server.DefaultSession$1.run(DefaultSession.java:176)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)
+	at java.lang.Thread.run(Thread.java:748)
+17:14:13.288 WARN - Exception: unknown error: cannot focus element
+  (Session info: chrome=59.0.3071.115)
+  (Driver info: chromedriver=2.29.461571 (8a88bbe0775e2a23afda0ceaf2ef7ee74e822cc5),platform=Linux 4.8.0-59-generic x86_64) (WARNING: The server did not provide any stacktrace information)
+Command duration or timeout: 94 milliseconds
+Build info: version: '3.4.0', revision: 'unknown', time: 'unknown'
+System info: host: 'LPCODER2', ip: '127.0.1.1', os.name: 'Linux', os.arch: 'amd64', os.version: '4.8.0-59-generic', java.version: '1.8.0_131'
+Driver info: org.openqa.selenium.chrome.ChromeDriver
+Capabilities [{applicationCacheEnabled=false, rotatable=false, mobileEmulationEnabled=false, networkConnectionEnabled=false, chrome={chromedriverVersion=2.29.461571 (8a88bbe0775e2a23afda0ceaf2ef7ee74e822cc5), userDataDir=/tmp/.org.chromium.Chromium.AehkYt}, takesHeapSnapshot=true, pageLoadStrategy=normal, databaseEnabled=false, handlesAlerts=true, hasTouchScreen=false, version=59.0.3071.115, platform=LINUX, browserConnectionEnabled=false, nativeEvents=true, acceptSslCerts=true, locationContextEnabled=true, webStorageEnabled=true, browserName=chrome, takesScreenshot=true, javascriptEnabled=true, cssSelectorsEnabled=true, unexpectedAlertBehaviour=}]
+Session ID: ed24370e91533fc3fad8a3da9b55d61c
+17:14:13.349 INFO - Executing: [find element: By.xpath: //*[@id='dir_units_ContentContainer']//span[contains(text(),'Сохранить')]])
+17:14:13.393 INFO - Done: [find element: By.xpath: //*[@id='dir_units_ContentContainer']//span[contains(text(),'Сохранить')]]
+17:14:13.397 INFO - Executing: [click: 37 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> xpath: //*[@id='dir_units_ContentContainer']//span[contains(text(),'Сохранить')]]])
+17:14:13.527 INFO - Done: [click: 37 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> xpath: //*[@id='dir_units_ContentContainer']//span[contains(text(),'Сохранить')]]]
+17:14:13.590 INFO - Executing: [find elements: By.cssSelector: #menuBarPopupMenuDirs])
+17:14:13.643 INFO - Done: [find elements: By.cssSelector: #menuBarPopupMenuDirs]
+17:14:13.649 INFO - Executing: [is displayed: 19 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> css selector: #menuBarPopupMenuDirs]])
+17:14:13.691 INFO - Done: [is displayed: 19 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> css selector: #menuBarPopupMenuDirs]]
+17:14:13.699 INFO - Executing: [find element: By.cssSelector: #menuBarPopupMenuDirs])
+17:14:13.741 INFO - Done: [find element: By.cssSelector: #menuBarPopupMenuDirs]
+17:14:13.747 INFO - Executing: [click: 19 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> css selector: #menuBarPopupMenuDirs]])
+17:14:13.907 INFO - Done: [click: 19 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> css selector: #menuBarPopupMenuDirs]]
+17:14:13.922 INFO - Executing: [find elements: By.cssSelector: #menuBarDirsItemContractors])
+17:14:13.977 INFO - Done: [find elements: By.cssSelector: #menuBarDirsItemContractors]
+17:14:13.981 INFO - Executing: [is displayed: 39 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> css selector: #menuBarDirsItemContractors]])
+17:14:14.032 INFO - Done: [is displayed: 39 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> css selector: #menuBarDirsItemContractors]]
+17:14:14.039 INFO - Executing: [find element: By.cssSelector: #menuBarDirsItemContractors])
+17:14:14.123 INFO - Done: [find element: By.cssSelector: #menuBarDirsItemContractors]
+17:14:14.128 INFO - Executing: [click: 39 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> css selector: #menuBarDirsItemContractors]])
+17:14:14.309 INFO - Done: [click: 39 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> css selector: #menuBarDirsItemContractors]]
+17:14:14.321 INFO - Executing: [find elements: By.cssSelector: #main_ContentContainer_tablist_PageContentPane_mainDirContractors])
+17:14:14.654 INFO - Done: [find elements: By.cssSelector: #main_ContentContainer_tablist_PageContentPane_mainDirContractors]
+17:14:14.662 INFO - Executing: [is displayed: 40 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> css selector: #main_ContentContainer_tablist_PageContentPane_mainDirContractors]])
+17:14:14.703 INFO - Done: [is displayed: 40 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> css selector: #main_ContentContainer_tablist_PageContentPane_mainDirContractors]]
+17:14:14.709 INFO - Executing: [find elements: By.xpath: //div[@id='dir_contractors_ContentContainer']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[1]])
+17:14:14.765 INFO - Done: [find elements: By.xpath: //div[@id='dir_contractors_ContentContainer']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[1]]
+17:14:14.769 INFO - Executing: [is displayed: 41 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> xpath: //div[@id='dir_contractors_ContentContainer']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[1]]])
+17:14:14.817 INFO - Done: [is displayed: 41 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> xpath: //div[@id='dir_contractors_ContentContainer']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[1]]]
+17:14:14.826 INFO - Executing: [find element: By.xpath: //div[@id='dir_contractors_ContentContainer']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[1]])
+17:14:14.883 INFO - Done: [find element: By.xpath: //div[@id='dir_contractors_ContentContainer']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[1]]
+17:14:14.888 INFO - Executing: [get text: 41 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> xpath: //div[@id='dir_contractors_ContentContainer']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[1]]])
+17:14:14.953 INFO - Done: [get text: 41 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> xpath: //div[@id='dir_contractors_ContentContainer']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[1]]]
+17:14:14.961 INFO - Executing: [find elements: By.xpath: //div[@id='dir_contractors_ContentContainer']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[2]])
+17:14:15.017 INFO - Done: [find elements: By.xpath: //div[@id='dir_contractors_ContentContainer']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[2]]
+17:14:15.021 INFO - Executing: [is displayed: 42 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> xpath: //div[@id='dir_contractors_ContentContainer']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[2]]])
+17:14:15.070 INFO - Done: [is displayed: 42 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> xpath: //div[@id='dir_contractors_ContentContainer']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[2]]]
+17:14:15.076 INFO - Executing: [find element: By.xpath: //div[@id='dir_contractors_ContentContainer']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[2]])
+17:14:15.133 INFO - Done: [find element: By.xpath: //div[@id='dir_contractors_ContentContainer']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[2]]
+17:14:15.136 INFO - Executing: [get text: 42 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> xpath: //div[@id='dir_contractors_ContentContainer']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[2]]])
+17:14:15.204 INFO - Done: [get text: 42 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> xpath: //div[@id='dir_contractors_ContentContainer']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[2]]]
+17:14:15.215 INFO - Executing: [find elements: By.xpath: //div[@id='dir_contractors_ContentContainer']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[3]])
+17:14:15.253 INFO - Done: [find elements: By.xpath: //div[@id='dir_contractors_ContentContainer']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[3]]
+17:14:15.258 INFO - Executing: [is displayed: 43 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> xpath: //div[@id='dir_contractors_ContentContainer']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[3]]])
+17:14:15.298 INFO - Done: [is displayed: 43 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> xpath: //div[@id='dir_contractors_ContentContainer']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[3]]]
+17:14:15.303 INFO - Executing: [find element: By.xpath: //div[@id='dir_contractors_ContentContainer']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[3]])
+17:14:15.346 INFO - Done: [find element: By.xpath: //div[@id='dir_contractors_ContentContainer']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[3]]
+17:14:15.350 INFO - Executing: [get text: 43 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> xpath: //div[@id='dir_contractors_ContentContainer']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[3]]])
+17:14:15.398 INFO - Done: [get text: 43 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> xpath: //div[@id='dir_contractors_ContentContainer']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[3]]]
+17:14:15.403 INFO - Executing: [find elements: By.xpath: //div[@id='dir_contractors_ContentContainer']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[4]])
+17:14:15.445 INFO - Done: [find elements: By.xpath: //div[@id='dir_contractors_ContentContainer']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[4]]
+17:14:15.448 INFO - Executing: [is displayed: 44 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> xpath: //div[@id='dir_contractors_ContentContainer']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[4]]])
+17:14:15.484 INFO - Done: [is displayed: 44 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> xpath: //div[@id='dir_contractors_ContentContainer']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[4]]]
+17:14:15.490 INFO - Executing: [find element: By.xpath: //div[@id='dir_contractors_ContentContainer']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[4]])
+17:14:15.530 INFO - Done: [find element: By.xpath: //div[@id='dir_contractors_ContentContainer']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[4]]
+17:14:15.533 INFO - Executing: [get text: 44 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> xpath: //div[@id='dir_contractors_ContentContainer']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[4]]])
+17:14:15.583 INFO - Done: [get text: 44 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> xpath: //div[@id='dir_contractors_ContentContainer']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[4]]]
+17:14:15.589 INFO - Executing: [find elements: By.xpath: //div[@id='dir_contractors_ContentContainer']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[5]])
+17:14:15.634 INFO - Done: [find elements: By.xpath: //div[@id='dir_contractors_ContentContainer']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[5]]
+17:14:15.637 INFO - Executing: [is displayed: 45 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> xpath: //div[@id='dir_contractors_ContentContainer']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[5]]])
+17:14:15.677 INFO - Done: [is displayed: 45 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> xpath: //div[@id='dir_contractors_ContentContainer']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[5]]]
+17:14:15.683 INFO - Executing: [find element: By.xpath: //div[@id='dir_contractors_ContentContainer']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[5]])
+17:14:15.729 INFO - Done: [find element: By.xpath: //div[@id='dir_contractors_ContentContainer']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[5]]
+17:14:15.732 INFO - Executing: [get text: 45 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> xpath: //div[@id='dir_contractors_ContentContainer']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[5]]])
+17:14:15.781 INFO - Done: [get text: 45 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> xpath: //div[@id='dir_contractors_ContentContainer']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[5]]]
+17:14:15.786 INFO - Executing: [find elements: By.xpath: //div[@id='dir_contractors_ContentContainer']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[6]])
+17:14:15.832 INFO - Done: [find elements: By.xpath: //div[@id='dir_contractors_ContentContainer']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[6]]
+17:14:15.836 INFO - Executing: [is displayed: 46 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> xpath: //div[@id='dir_contractors_ContentContainer']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[6]]])
+17:14:15.895 INFO - Done: [is displayed: 46 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> xpath: //div[@id='dir_contractors_ContentContainer']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[6]]]
+17:14:15.900 INFO - Executing: [find element: By.xpath: //div[@id='dir_contractors_ContentContainer']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[6]])
+17:14:15.959 INFO - Done: [find element: By.xpath: //div[@id='dir_contractors_ContentContainer']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[6]]
+17:14:15.964 INFO - Executing: [get text: 46 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> xpath: //div[@id='dir_contractors_ContentContainer']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[6]]])
+17:14:16.041 INFO - Done: [get text: 46 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> xpath: //div[@id='dir_contractors_ContentContainer']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[6]]]
+17:14:16.045 INFO - Executing: [find elements: By.xpath: //div[@id='dir_contractors_ContentContainer']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[7]])
+17:14:16.118 INFO - Done: [find elements: By.xpath: //div[@id='dir_contractors_ContentContainer']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[7]]
+17:14:16.123 INFO - Executing: [is displayed: 47 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> xpath: //div[@id='dir_contractors_ContentContainer']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[7]]])
+17:14:16.174 INFO - Done: [is displayed: 47 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> xpath: //div[@id='dir_contractors_ContentContainer']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[7]]]
+17:14:16.181 INFO - Executing: [find element: By.xpath: //div[@id='dir_contractors_ContentContainer']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[7]])
+17:14:16.234 INFO - Done: [find element: By.xpath: //div[@id='dir_contractors_ContentContainer']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[7]]
+17:14:16.238 INFO - Executing: [get text: 47 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> xpath: //div[@id='dir_contractors_ContentContainer']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[7]]])
+17:14:16.299 INFO - Done: [get text: 47 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> xpath: //div[@id='dir_contractors_ContentContainer']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[7]]]
+17:14:16.305 INFO - Executing: [find elements: By.xpath: //div[@id='dir_contractors_ContentContainer']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[1]])
+17:14:16.365 INFO - Done: [find elements: By.xpath: //div[@id='dir_contractors_ContentContainer']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[1]]
+17:14:16.370 INFO - Executing: [is displayed: 48 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> xpath: //div[@id='dir_contractors_ContentContainer']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[1]]])
+17:14:16.422 INFO - Done: [is displayed: 48 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> xpath: //div[@id='dir_contractors_ContentContainer']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[1]]]
+17:14:16.430 INFO - Executing: [find element: By.xpath: //div[@id='dir_contractors_ContentContainer']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[1]])
+17:14:16.497 INFO - Done: [find element: By.xpath: //div[@id='dir_contractors_ContentContainer']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[1]]
+17:14:16.503 INFO - Executing: [get text: 48 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> xpath: //div[@id='dir_contractors_ContentContainer']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[1]]])
+17:14:16.598 INFO - Done: [get text: 48 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> xpath: //div[@id='dir_contractors_ContentContainer']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[1]]]
+17:14:16.603 INFO - Executing: [find elements: By.xpath: //div[@id='dir_contractors_ContentContainer']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[2]])
+17:14:16.666 INFO - Done: [find elements: By.xpath: //div[@id='dir_contractors_ContentContainer']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[2]]
+17:14:16.670 INFO - Executing: [is displayed: 49 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> xpath: //div[@id='dir_contractors_ContentContainer']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[2]]])
+17:14:16.749 INFO - Done: [is displayed: 49 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> xpath: //div[@id='dir_contractors_ContentContainer']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[2]]]
+17:14:16.756 INFO - Executing: [find element: By.xpath: //div[@id='dir_contractors_ContentContainer']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[2]])
+17:14:16.840 INFO - Done: [find element: By.xpath: //div[@id='dir_contractors_ContentContainer']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[2]]
+17:14:16.846 INFO - Executing: [get text: 49 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> xpath: //div[@id='dir_contractors_ContentContainer']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[2]]])
+17:14:16.918 INFO - Done: [get text: 49 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> xpath: //div[@id='dir_contractors_ContentContainer']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[2]]]
+17:14:16.928 INFO - Executing: [find elements: By.xpath: //div[@id='dir_contractors_ContentContainer']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[3]])
+17:14:16.992 INFO - Done: [find elements: By.xpath: //div[@id='dir_contractors_ContentContainer']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[3]]
+17:14:16.999 INFO - Executing: [is displayed: 50 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> xpath: //div[@id='dir_contractors_ContentContainer']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[3]]])
+17:14:17.058 INFO - Done: [is displayed: 50 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> xpath: //div[@id='dir_contractors_ContentContainer']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[3]]]
+17:14:17.066 INFO - Executing: [find element: By.xpath: //div[@id='dir_contractors_ContentContainer']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[3]])
+17:14:17.119 INFO - Done: [find element: By.xpath: //div[@id='dir_contractors_ContentContainer']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[3]]
+17:14:17.124 INFO - Executing: [get text: 50 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> xpath: //div[@id='dir_contractors_ContentContainer']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[3]]])
+17:14:17.185 INFO - Done: [get text: 50 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> xpath: //div[@id='dir_contractors_ContentContainer']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[3]]]
+17:14:17.191 INFO - Executing: [find elements: By.xpath: //div[@id='dir_contractors_ContentContainer']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[4]])
+17:14:17.244 INFO - Done: [find elements: By.xpath: //div[@id='dir_contractors_ContentContainer']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[4]]
+17:14:17.250 INFO - Executing: [is displayed: 51 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> xpath: //div[@id='dir_contractors_ContentContainer']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[4]]])
+17:14:17.304 INFO - Done: [is displayed: 51 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> xpath: //div[@id='dir_contractors_ContentContainer']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[4]]]
+17:14:17.311 INFO - Executing: [find element: By.xpath: //div[@id='dir_contractors_ContentContainer']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[4]])
+17:14:17.368 INFO - Done: [find element: By.xpath: //div[@id='dir_contractors_ContentContainer']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[4]]
+17:14:17.372 INFO - Executing: [get text: 51 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> xpath: //div[@id='dir_contractors_ContentContainer']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[4]]])
+17:14:17.418 INFO - Done: [get text: 51 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> xpath: //div[@id='dir_contractors_ContentContainer']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[4]]]
+17:14:17.425 INFO - Executing: [find elements: By.xpath: //div[@id='dir_contractors_ContentContainer']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[5]])
+17:14:17.463 INFO - Done: [find elements: By.xpath: //div[@id='dir_contractors_ContentContainer']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[5]]
+17:14:17.468 INFO - Executing: [is displayed: 52 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> xpath: //div[@id='dir_contractors_ContentContainer']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[5]]])
+17:14:17.506 INFO - Done: [is displayed: 52 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> xpath: //div[@id='dir_contractors_ContentContainer']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[5]]]
+17:14:17.512 INFO - Executing: [find element: By.xpath: //div[@id='dir_contractors_ContentContainer']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[5]])
+17:14:17.549 INFO - Done: [find element: By.xpath: //div[@id='dir_contractors_ContentContainer']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[5]]
+17:14:17.553 INFO - Executing: [get text: 52 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> xpath: //div[@id='dir_contractors_ContentContainer']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[5]]])
+17:14:17.594 INFO - Done: [get text: 52 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> xpath: //div[@id='dir_contractors_ContentContainer']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[5]]]
+17:14:17.599 INFO - Executing: [find elements: By.xpath: //div[@id='dir_contractors_ContentContainer']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[6]])
+17:14:17.636 INFO - Done: [find elements: By.xpath: //div[@id='dir_contractors_ContentContainer']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[6]]
+17:14:17.641 INFO - Executing: [is displayed: 53 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> xpath: //div[@id='dir_contractors_ContentContainer']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[6]]])
+17:14:17.676 INFO - Done: [is displayed: 53 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> xpath: //div[@id='dir_contractors_ContentContainer']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[6]]]
+17:14:17.682 INFO - Executing: [find element: By.xpath: //div[@id='dir_contractors_ContentContainer']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[6]])
+17:14:17.724 INFO - Done: [find element: By.xpath: //div[@id='dir_contractors_ContentContainer']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[6]]
+17:14:17.728 INFO - Executing: [get text: 53 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> xpath: //div[@id='dir_contractors_ContentContainer']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[6]]])
+17:14:17.773 INFO - Done: [get text: 53 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> xpath: //div[@id='dir_contractors_ContentContainer']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[6]]]
+17:14:17.779 INFO - Executing: [find elements: By.xpath: //div[@id='dir_contractors_ContentContainer']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[7]])
+17:14:17.817 INFO - Done: [find elements: By.xpath: //div[@id='dir_contractors_ContentContainer']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[7]]
+17:14:17.821 INFO - Executing: [is displayed: 54 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> xpath: //div[@id='dir_contractors_ContentContainer']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[7]]])
+17:14:17.857 INFO - Done: [is displayed: 54 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> xpath: //div[@id='dir_contractors_ContentContainer']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[7]]]
+17:14:17.864 INFO - Executing: [find element: By.xpath: //div[@id='dir_contractors_ContentContainer']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[7]])
+17:14:17.901 INFO - Done: [find element: By.xpath: //div[@id='dir_contractors_ContentContainer']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[7]]
+17:14:17.905 INFO - Executing: [get text: 54 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> xpath: //div[@id='dir_contractors_ContentContainer']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[7]]])
+17:14:17.947 INFO - Done: [get text: 54 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> xpath: //div[@id='dir_contractors_ContentContainer']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[7]]]
+17:14:17.952 INFO - Executing: [find elements: By.xpath: //*[@id='dir_contractors_ContentContainer']//span[contains(text(),'Обновить')]])
+17:14:17.989 INFO - Done: [find elements: By.xpath: //*[@id='dir_contractors_ContentContainer']//span[contains(text(),'Обновить')]]
+17:14:17.994 INFO - Executing: [is displayed: 55 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> xpath: //*[@id='dir_contractors_ContentContainer']//span[contains(text(),'Обновить')]]])
+17:14:18.044 INFO - Done: [is displayed: 55 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> xpath: //*[@id='dir_contractors_ContentContainer']//span[contains(text(),'Обновить')]]]
+17:14:18.050 INFO - Executing: [find elements: By.xpath: //*[@id='dir_contractors_ContentContainer']//span[contains(text(),'Печатать')]])
+17:14:18.094 INFO - Done: [find elements: By.xpath: //*[@id='dir_contractors_ContentContainer']//span[contains(text(),'Печатать')]]
+17:14:18.097 INFO - Executing: [is displayed: 56 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> xpath: //*[@id='dir_contractors_ContentContainer']//span[contains(text(),'Печатать')]]])
+17:14:18.132 INFO - Done: [is displayed: 56 [[ChromeDriver: chrome on LINUX (ed24370e91533fc3fad8a3da9b55d61c)] -> xpath: //*[@id='dir_contractors_ContentContainer']//span[contains(text(),'Печатать')]]]
+17:14:18.137 INFO - Executing: [find elements: By.xpath: //*[@id='dir_contractors_ContentContainer']//span[contains(text(),'Действия')]])
+17:14:18.174 INFO - Done: [find elements: By.xpath: //*[@id='dir_contractors_ContentContainer']//span[contains(text(),'Действия')]]
+17:14:18.179 INFO - Executing: [find elements: By.xpath: //*[@id='dir_contractors_ContentContainer']//span[contains(text(),'Добавить')]])
+17:14:18.218 INFO - Done: [find elements: By.xpath: //*[@id='dir_contractors_ContentContainer']//span[contains(text(),'Добавить')]]
+17:14:18.223 INFO - Executing: [find elements: By.xpath: //*[@id='dir_contractors_ContentContainer']//span[contains(text(),'Изменить')]])
+17:14:18.266 INFO - Done: [find elements: By.xpath: //*[@id='dir_contractors_ContentContainer']//span[contains(text(),'Изменить')]]
+17:14:18.274 INFO - Executing: [find elements: By.xpath: //*[@id='dir_contractors_ContentContainer']//span[contains(text(),'Сохранить')]])
+17:14:18.325 INFO - Done: [find elements: By.xpath: //*[@id='dir_contractors_ContentContainer']//span[contains(text(),'Сохранить')]]
+17:14:18.333 INFO - Executing: [find elements: By.xpath: //*[@id='dir_contractors_ContentContainer']//span[contains(text(),'Удалить')]])
+17:14:18.377 INFO - Done: [find elements: By.xpath: //*[@id='dir_contractors_ContentContainer']//span[contains(text(),'Удалить')]]

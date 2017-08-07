@@ -1,0 +1,284 @@
+15:46:22.794 INFO - Selenium build info: version: '3.4.0', revision: 'unknown'
+15:46:22.795 INFO - Launching a standalone Selenium Server
+2017-08-07 15:46:22.821:INFO::main: Logging initialized @389ms to org.seleniumhq.jetty9.util.log.StdErrLog
+15:46:22.898 INFO - Driver provider org.openqa.selenium.ie.InternetExplorerDriver registration is skipped:
+ registration capabilities Capabilities [{ensureCleanSession=true, browserName=internet explorer, version=, platform=WINDOWS}] does not match the current platform LINUX
+15:46:22.899 INFO - Driver provider org.openqa.selenium.edge.EdgeDriver registration is skipped:
+ registration capabilities Capabilities [{browserName=MicrosoftEdge, version=, platform=WINDOWS}] does not match the current platform LINUX
+15:46:22.899 INFO - Driver class not found: com.opera.core.systems.OperaDriver
+15:46:22.899 INFO - Driver provider com.opera.core.systems.OperaDriver registration is skipped:
+Unable to create new instances on this machine.
+15:46:22.899 INFO - Driver class not found: com.opera.core.systems.OperaDriver
+15:46:22.900 INFO - Driver provider com.opera.core.systems.OperaDriver is not registered
+15:46:22.901 INFO - Driver provider org.openqa.selenium.safari.SafariDriver registration is skipped:
+ registration capabilities Capabilities [{browserName=safari, version=, platform=MAC}] does not match the current platform LINUX
+2017-08-07 15:46:22.971:INFO:osjs.Server:main: jetty-9.4.3.v20170317
+2017-08-07 15:46:23.028:INFO:osjsh.ContextHandler:main: Started o.s.j.s.ServletContextHandler@3e6fa38a{/,null,AVAILABLE}
+2017-08-07 15:46:23.078:INFO:osjs.AbstractConnector:main: Started ServerConnector@402a079c{HTTP/1.1,[http/1.1]}{0.0.0.0:4444}
+2017-08-07 15:46:23.080:INFO:osjs.Server:main: Started @648ms
+15:46:23.080 INFO - Selenium Server is up and running
+15:46:23.570 INFO - SessionCleaner initialized with insideBrowserTimeout 0 and clientGoneTimeout 1800000 polling every 180000
+15:46:23.612 INFO - Executing: [new session: Capabilities [{acceptSslCerts=true, name=Main / Main 1 Header Tests, browserName=chrome, javascriptEnabled=true, platform=ANY}]])
+15:46:23.650 INFO - Creating a new session for Capabilities [{acceptSslCerts=true, name=Main / Main 1 Header Tests, browserName=chrome, javascriptEnabled=true, platform=ANY}]
+Starting ChromeDriver 2.29.461571 (8a88bbe0775e2a23afda0ceaf2ef7ee74e822cc5) on port 4202
+Only local connections are allowed.
+15:46:25.209 INFO - Detected dialect: OSS
+15:46:25.332 INFO - Done: [new session: Capabilities [{acceptSslCerts=true, name=Main / Main 1 Header Tests, browserName=chrome, javascriptEnabled=true, platform=ANY}]]
+15:46:27.405 INFO - Executing: [get: http://localhost:8080])
+15:46:29.339 INFO - Done: [get: http://localhost:8080]
+15:46:29.358 INFO - Executing: [find elements: By.cssSelector: #main_TopImg])
+15:46:29.476 INFO - Done: [find elements: By.cssSelector: #main_TopImg]
+15:46:29.492 INFO - Executing: [is displayed: 0 [[ChromeDriver: chrome on LINUX (5755cbba5fbe44b3bf043823e3751900)] -> css selector: #main_TopImg]])
+15:46:29.545 INFO - Done: [is displayed: 0 [[ChromeDriver: chrome on LINUX (5755cbba5fbe44b3bf043823e3751900)] -> css selector: #main_TopImg]]
+15:46:29.559 INFO - Executing: [find element: By.cssSelector: #main_TopImg])
+15:46:29.604 INFO - Done: [find element: By.cssSelector: #main_TopImg]
+15:46:29.612 INFO - Executing: [is displayed: 0 [[ChromeDriver: chrome on LINUX (5755cbba5fbe44b3bf043823e3751900)] -> css selector: #main_TopImg]])
+15:46:29.632 INFO - Done: [is displayed: 0 [[ChromeDriver: chrome on LINUX (5755cbba5fbe44b3bf043823e3751900)] -> css selector: #main_TopImg]]
+15:46:29.642 INFO - Executing: [get title])
+15:46:29.658 INFO - Done: [get title]
+15:46:29.674 INFO - Executing: [find elements: By.cssSelector: #main_app_mode])
+15:46:29.721 INFO - Done: [find elements: By.cssSelector: #main_app_mode]
+15:46:29.729 INFO - Executing: [is displayed: 1 [[ChromeDriver: chrome on LINUX (5755cbba5fbe44b3bf043823e3751900)] -> css selector: #main_app_mode]])
+15:46:29.771 INFO - Done: [is displayed: 1 [[ChromeDriver: chrome on LINUX (5755cbba5fbe44b3bf043823e3751900)] -> css selector: #main_app_mode]]
+15:46:29.781 INFO - Executing: [find element: By.cssSelector: #main_app_mode])
+15:46:29.823 INFO - Done: [find element: By.cssSelector: #main_app_mode]
+15:46:29.829 INFO - Executing: [get text: 1 [[ChromeDriver: chrome on LINUX (5755cbba5fbe44b3bf043823e3751900)] -> css selector: #main_app_mode]])
+15:46:29.878 INFO - Done: [get text: 1 [[ChromeDriver: chrome on LINUX (5755cbba5fbe44b3bf043823e3751900)] -> css selector: #main_app_mode]]
+15:46:29.887 INFO - Executing: [find elements: By.cssSelector: #main_MainMenu])
+15:46:29.934 INFO - Done: [find elements: By.cssSelector: #main_MainMenu]
+15:46:29.948 INFO - Executing: [is displayed: 2 [[ChromeDriver: chrome on LINUX (5755cbba5fbe44b3bf043823e3751900)] -> css selector: #main_MainMenu]])
+15:46:29.992 INFO - Done: [is displayed: 2 [[ChromeDriver: chrome on LINUX (5755cbba5fbe44b3bf043823e3751900)] -> css selector: #main_MainMenu]]
+15:46:30.005 INFO - Executing: [find element: By.cssSelector: #main_MainMenu])
+15:46:30.057 INFO - Done: [find element: By.cssSelector: #main_MainMenu]
+15:46:30.062 INFO - Executing: [get text: 2 [[ChromeDriver: chrome on LINUX (5755cbba5fbe44b3bf043823e3751900)] -> css selector: #main_MainMenu]])
+15:46:30.114 INFO - Done: [get text: 2 [[ChromeDriver: chrome on LINUX (5755cbba5fbe44b3bf043823e3751900)] -> css selector: #main_MainMenu]]
+15:46:30.124 INFO - Executing: [find elements: By.cssSelector: #menuBarPopupMenuDirs])
+15:46:30.168 INFO - Done: [find elements: By.cssSelector: #menuBarPopupMenuDirs]
+15:46:30.177 INFO - Executing: [is displayed: 3 [[ChromeDriver: chrome on LINUX (5755cbba5fbe44b3bf043823e3751900)] -> css selector: #menuBarPopupMenuDirs]])
+15:46:30.218 INFO - Done: [is displayed: 3 [[ChromeDriver: chrome on LINUX (5755cbba5fbe44b3bf043823e3751900)] -> css selector: #menuBarPopupMenuDirs]]
+15:46:30.228 INFO - Executing: [find element: By.cssSelector: #menuBarPopupMenuDirs])
+15:46:30.271 INFO - Done: [find element: By.cssSelector: #menuBarPopupMenuDirs]
+15:46:30.277 INFO - Executing: [get text: 3 [[ChromeDriver: chrome on LINUX (5755cbba5fbe44b3bf043823e3751900)] -> css selector: #menuBarPopupMenuDirs]])
+15:46:30.327 INFO - Done: [get text: 3 [[ChromeDriver: chrome on LINUX (5755cbba5fbe44b3bf043823e3751900)] -> css selector: #menuBarPopupMenuDirs]]
+15:46:30.334 INFO - Executing: [find elements: By.cssSelector: #menuBarItemClose])
+15:46:30.381 INFO - Done: [find elements: By.cssSelector: #menuBarItemClose]
+15:46:30.387 INFO - Executing: [is displayed: 4 [[ChromeDriver: chrome on LINUX (5755cbba5fbe44b3bf043823e3751900)] -> css selector: #menuBarItemClose]])
+15:46:30.431 INFO - Done: [is displayed: 4 [[ChromeDriver: chrome on LINUX (5755cbba5fbe44b3bf043823e3751900)] -> css selector: #menuBarItemClose]]
+15:46:30.441 INFO - Executing: [find element: By.cssSelector: #menuBarItemClose])
+15:46:30.489 INFO - Done: [find element: By.cssSelector: #menuBarItemClose]
+15:46:30.495 INFO - Executing: [get text: 4 [[ChromeDriver: chrome on LINUX (5755cbba5fbe44b3bf043823e3751900)] -> css selector: #menuBarItemClose]])
+15:46:30.546 INFO - Done: [get text: 4 [[ChromeDriver: chrome on LINUX (5755cbba5fbe44b3bf043823e3751900)] -> css selector: #menuBarItemClose]]
+15:46:30.555 INFO - Executing: [find elements: By.cssSelector: #menuBarItemHelpAbout])
+15:46:30.596 INFO - Done: [find elements: By.cssSelector: #menuBarItemHelpAbout]
+15:46:30.606 INFO - Executing: [is displayed: 5 [[ChromeDriver: chrome on LINUX (5755cbba5fbe44b3bf043823e3751900)] -> css selector: #menuBarItemHelpAbout]])
+15:46:30.647 INFO - Done: [is displayed: 5 [[ChromeDriver: chrome on LINUX (5755cbba5fbe44b3bf043823e3751900)] -> css selector: #menuBarItemHelpAbout]]
+15:46:30.655 INFO - Executing: [find element: By.cssSelector: #menuBarItemHelpAbout])
+15:46:30.697 INFO - Done: [find element: By.cssSelector: #menuBarItemHelpAbout]
+15:46:30.704 INFO - Executing: [get text: 5 [[ChromeDriver: chrome on LINUX (5755cbba5fbe44b3bf043823e3751900)] -> css selector: #menuBarItemHelpAbout]])
+15:46:30.755 INFO - Done: [get text: 5 [[ChromeDriver: chrome on LINUX (5755cbba5fbe44b3bf043823e3751900)] -> css selector: #menuBarItemHelpAbout]]
+15:46:30.767 INFO - Executing: [find elements: By.cssSelector: #main_ContentContainer_tablist_PageContentPane_mainPage])
+15:46:30.810 INFO - Done: [find elements: By.cssSelector: #main_ContentContainer_tablist_PageContentPane_mainPage]
+15:46:30.816 INFO - Executing: [is displayed: 6 [[ChromeDriver: chrome on LINUX (5755cbba5fbe44b3bf043823e3751900)] -> css selector: #main_ContentContainer_tablist_PageContentPane_mainPage]])
+15:46:30.859 INFO - Done: [is displayed: 6 [[ChromeDriver: chrome on LINUX (5755cbba5fbe44b3bf043823e3751900)] -> css selector: #main_ContentContainer_tablist_PageContentPane_mainPage]]
+15:46:30.869 INFO - Executing: [find element: By.cssSelector: #main_ContentContainer_tablist_PageContentPane_mainPage])
+15:46:30.913 INFO - Done: [find element: By.cssSelector: #main_ContentContainer_tablist_PageContentPane_mainPage]
+15:46:30.918 INFO - Executing: [get text: 6 [[ChromeDriver: chrome on LINUX (5755cbba5fbe44b3bf043823e3751900)] -> css selector: #main_ContentContainer_tablist_PageContentPane_mainPage]])
+15:46:30.964 INFO - Done: [get text: 6 [[ChromeDriver: chrome on LINUX (5755cbba5fbe44b3bf043823e3751900)] -> css selector: #main_ContentContainer_tablist_PageContentPane_mainPage]]
+15:46:30.972 INFO - Executing: [find elements: By.cssSelector: #mainpage_MainContent])
+15:46:31.021 INFO - Done: [find elements: By.cssSelector: #mainpage_MainContent]
+15:46:31.027 INFO - Executing: [is displayed: 7 [[ChromeDriver: chrome on LINUX (5755cbba5fbe44b3bf043823e3751900)] -> css selector: #mainpage_MainContent]])
+15:46:31.067 INFO - Done: [is displayed: 7 [[ChromeDriver: chrome on LINUX (5755cbba5fbe44b3bf043823e3751900)] -> css selector: #mainpage_MainContent]]
+15:46:31.075 INFO - Executing: [find element: By.cssSelector: #menuBarItemHelpAbout])
+15:46:31.097 INFO - Done: [find element: By.cssSelector: #menuBarItemHelpAbout]
+15:46:31.104 INFO - Executing: [click: 5 [[ChromeDriver: chrome on LINUX (5755cbba5fbe44b3bf043823e3751900)] -> css selector: #menuBarItemHelpAbout]])
+15:46:31.295 INFO - Done: [click: 5 [[ChromeDriver: chrome on LINUX (5755cbba5fbe44b3bf043823e3751900)] -> css selector: #menuBarItemHelpAbout]]
+15:46:31.306 INFO - Executing: [find elements: By.cssSelector: #DialogSimple])
+15:46:31.348 INFO - Done: [find elements: By.cssSelector: #DialogSimple]
+15:46:31.355 INFO - Executing: [is displayed: 8 [[ChromeDriver: chrome on LINUX (5755cbba5fbe44b3bf043823e3751900)] -> css selector: #DialogSimple]])
+15:46:31.401 INFO - Done: [is displayed: 8 [[ChromeDriver: chrome on LINUX (5755cbba5fbe44b3bf043823e3751900)] -> css selector: #DialogSimple]]
+15:46:31.409 INFO - Executing: [find element: By.cssSelector: #DialogSimple])
+15:46:31.465 INFO - Done: [find element: By.cssSelector: #DialogSimple]
+15:46:31.472 INFO - Executing: [get text: 8 [[ChromeDriver: chrome on LINUX (5755cbba5fbe44b3bf043823e3751900)] -> css selector: #DialogSimple]])
+15:46:31.530 INFO - Done: [get text: 8 [[ChromeDriver: chrome on LINUX (5755cbba5fbe44b3bf043823e3751900)] -> css selector: #DialogSimple]]
+15:46:31.542 INFO - Executing: [find element: By.cssSelector: #DialogSimple])
+15:46:31.563 INFO - Done: [find element: By.cssSelector: #DialogSimple]
+15:46:31.570 INFO - Executing: [get text: 8 [[ChromeDriver: chrome on LINUX (5755cbba5fbe44b3bf043823e3751900)] -> css selector: #DialogSimple]])
+15:46:31.600 INFO - Done: [get text: 8 [[ChromeDriver: chrome on LINUX (5755cbba5fbe44b3bf043823e3751900)] -> css selector: #DialogSimple]]
+15:46:31.610 INFO - Executing: [find element: By.xpath: //div[@id="DialogSimple"]//span[@class="dijitReset dijitInline dijitButtonText" and text()="OK"]])
+15:46:31.652 INFO - Done: [find element: By.xpath: //div[@id="DialogSimple"]//span[@class="dijitReset dijitInline dijitButtonText" and text()="OK"]]
+15:46:31.657 INFO - Executing: [click: 9 [[ChromeDriver: chrome on LINUX (5755cbba5fbe44b3bf043823e3751900)] -> xpath: //div[@id="DialogSimple"]//span[@class="dijitReset dijitInline dijitButtonText" and text()="OK"]]])
+15:46:31.781 INFO - Done: [click: 9 [[ChromeDriver: chrome on LINUX (5755cbba5fbe44b3bf043823e3751900)] -> xpath: //div[@id="DialogSimple"]//span[@class="dijitReset dijitInline dijitButtonText" and text()="OK"]]]
+15:46:31.788 INFO - Executing: [find elements: By.cssSelector: #DialogSimple])
+15:46:31.807 INFO - Done: [find elements: By.cssSelector: #DialogSimple]
+15:46:31.816 INFO - Executing: [is displayed: 8 [[ChromeDriver: chrome on LINUX (5755cbba5fbe44b3bf043823e3751900)] -> css selector: #DialogSimple]])
+15:46:31.835 INFO - Done: [is displayed: 8 [[ChromeDriver: chrome on LINUX (5755cbba5fbe44b3bf043823e3751900)] -> css selector: #DialogSimple]]
+15:46:32.342 INFO - Executing: [is displayed: 8 [[ChromeDriver: chrome on LINUX (5755cbba5fbe44b3bf043823e3751900)] -> css selector: #DialogSimple]])
+15:46:32.364 INFO - Done: [is displayed: 8 [[ChromeDriver: chrome on LINUX (5755cbba5fbe44b3bf043823e3751900)] -> css selector: #DialogSimple]]
+15:46:32.371 INFO - Executing: [find element: By.cssSelector: #menuBarItemHelpAbout])
+15:46:32.396 INFO - Done: [find element: By.cssSelector: #menuBarItemHelpAbout]
+15:46:32.400 INFO - Executing: [click: 5 [[ChromeDriver: chrome on LINUX (5755cbba5fbe44b3bf043823e3751900)] -> css selector: #menuBarItemHelpAbout]])
+15:46:32.468 INFO - Done: [click: 5 [[ChromeDriver: chrome on LINUX (5755cbba5fbe44b3bf043823e3751900)] -> css selector: #menuBarItemHelpAbout]]
+15:46:32.476 INFO - Executing: [find elements: By.cssSelector: #DialogSimple])
+15:46:32.494 INFO - Done: [find elements: By.cssSelector: #DialogSimple]
+15:46:32.499 INFO - Executing: [is displayed: 8 [[ChromeDriver: chrome on LINUX (5755cbba5fbe44b3bf043823e3751900)] -> css selector: #DialogSimple]])
+15:46:32.519 INFO - Done: [is displayed: 8 [[ChromeDriver: chrome on LINUX (5755cbba5fbe44b3bf043823e3751900)] -> css selector: #DialogSimple]]
+15:46:32.525 INFO - Executing: [find element: By.xpath: //div[@id="DialogSimple"]//span[@class="dijitReset dijitInline dijitButtonText" and text()="Закрыть"]])
+15:46:32.568 INFO - Done: [find element: By.xpath: //div[@id="DialogSimple"]//span[@class="dijitReset dijitInline dijitButtonText" and text()="Закрыть"]]
+15:46:32.574 INFO - Executing: [click: 10 [[ChromeDriver: chrome on LINUX (5755cbba5fbe44b3bf043823e3751900)] -> xpath: //div[@id="DialogSimple"]//span[@class="dijitReset dijitInline dijitButtonText" and text()="Закрыть"]]])
+15:46:32.701 INFO - Done: [click: 10 [[ChromeDriver: chrome on LINUX (5755cbba5fbe44b3bf043823e3751900)] -> xpath: //div[@id="DialogSimple"]//span[@class="dijitReset dijitInline dijitButtonText" and text()="Закрыть"]]]
+15:46:32.713 INFO - Executing: [find elements: By.cssSelector: #DialogSimple])
+15:46:32.733 INFO - Done: [find elements: By.cssSelector: #DialogSimple]
+15:46:32.742 INFO - Executing: [is displayed: 8 [[ChromeDriver: chrome on LINUX (5755cbba5fbe44b3bf043823e3751900)] -> css selector: #DialogSimple]])
+15:46:32.760 INFO - Done: [is displayed: 8 [[ChromeDriver: chrome on LINUX (5755cbba5fbe44b3bf043823e3751900)] -> css selector: #DialogSimple]]
+15:46:33.270 INFO - Executing: [is displayed: 8 [[ChromeDriver: chrome on LINUX (5755cbba5fbe44b3bf043823e3751900)] -> css selector: #DialogSimple]])
+15:46:33.287 INFO - Done: [is displayed: 8 [[ChromeDriver: chrome on LINUX (5755cbba5fbe44b3bf043823e3751900)] -> css selector: #DialogSimple]]
+15:46:33.294 INFO - Executing: [find element: By.cssSelector: #menuBarPopupMenuDirs])
+15:46:33.312 INFO - Done: [find element: By.cssSelector: #menuBarPopupMenuDirs]
+15:46:33.319 INFO - Executing: [click: 3 [[ChromeDriver: chrome on LINUX (5755cbba5fbe44b3bf043823e3751900)] -> css selector: #menuBarPopupMenuDirs]])
+15:46:33.443 INFO - Done: [click: 3 [[ChromeDriver: chrome on LINUX (5755cbba5fbe44b3bf043823e3751900)] -> css selector: #menuBarPopupMenuDirs]]
+15:46:33.451 INFO - Executing: [find elements: By.cssSelector: #menuBarPopupMenuDirs_menu])
+15:46:33.490 INFO - Done: [find elements: By.cssSelector: #menuBarPopupMenuDirs_menu]
+15:46:33.496 INFO - Executing: [is displayed: 11 [[ChromeDriver: chrome on LINUX (5755cbba5fbe44b3bf043823e3751900)] -> css selector: #menuBarPopupMenuDirs_menu]])
+15:46:33.536 INFO - Done: [is displayed: 11 [[ChromeDriver: chrome on LINUX (5755cbba5fbe44b3bf043823e3751900)] -> css selector: #menuBarPopupMenuDirs_menu]]
+15:46:33.543 INFO - Executing: [find elements: By.cssSelector: #menuBarDirsItemUnits])
+15:46:33.582 INFO - Done: [find elements: By.cssSelector: #menuBarDirsItemUnits]
+15:46:33.587 INFO - Executing: [is displayed: 12 [[ChromeDriver: chrome on LINUX (5755cbba5fbe44b3bf043823e3751900)] -> css selector: #menuBarDirsItemUnits]])
+15:46:33.627 INFO - Done: [is displayed: 12 [[ChromeDriver: chrome on LINUX (5755cbba5fbe44b3bf043823e3751900)] -> css selector: #menuBarDirsItemUnits]]
+15:46:33.636 INFO - Executing: [find element: By.cssSelector: #menuBarDirsItemUnits])
+15:46:33.693 INFO - Done: [find element: By.cssSelector: #menuBarDirsItemUnits]
+15:46:33.712 INFO - Executing: [get text: 12 [[ChromeDriver: chrome on LINUX (5755cbba5fbe44b3bf043823e3751900)] -> css selector: #menuBarDirsItemUnits]])
+15:46:33.759 INFO - Done: [get text: 12 [[ChromeDriver: chrome on LINUX (5755cbba5fbe44b3bf043823e3751900)] -> css selector: #menuBarDirsItemUnits]]
+15:46:33.772 INFO - Executing: [find elements: By.cssSelector: #menuBarDirsItemContractors])
+15:46:33.823 INFO - Done: [find elements: By.cssSelector: #menuBarDirsItemContractors]
+15:46:33.831 INFO - Executing: [is displayed: 13 [[ChromeDriver: chrome on LINUX (5755cbba5fbe44b3bf043823e3751900)] -> css selector: #menuBarDirsItemContractors]])
+15:46:33.873 INFO - Done: [is displayed: 13 [[ChromeDriver: chrome on LINUX (5755cbba5fbe44b3bf043823e3751900)] -> css selector: #menuBarDirsItemContractors]]
+15:46:33.886 INFO - Executing: [find element: By.cssSelector: #menuBarDirsItemContractors])
+15:46:33.942 INFO - Done: [find element: By.cssSelector: #menuBarDirsItemContractors]
+15:46:33.947 INFO - Executing: [get text: 13 [[ChromeDriver: chrome on LINUX (5755cbba5fbe44b3bf043823e3751900)] -> css selector: #menuBarDirsItemContractors]])
+15:46:33.991 INFO - Done: [get text: 13 [[ChromeDriver: chrome on LINUX (5755cbba5fbe44b3bf043823e3751900)] -> css selector: #menuBarDirsItemContractors]]
+15:46:33.998 INFO - Executing: [find element: By.cssSelector: #menuBarDirsItemUnits])
+15:46:34.017 INFO - Done: [find element: By.cssSelector: #menuBarDirsItemUnits]
+15:46:34.025 INFO - Executing: [click: 12 [[ChromeDriver: chrome on LINUX (5755cbba5fbe44b3bf043823e3751900)] -> css selector: #menuBarDirsItemUnits]])
+15:46:34.173 INFO - Done: [click: 12 [[ChromeDriver: chrome on LINUX (5755cbba5fbe44b3bf043823e3751900)] -> css selector: #menuBarDirsItemUnits]]
+15:46:34.186 INFO - Executing: [find elements: By.cssSelector: #main_ContentContainer_tablist_PageContentPane_mainDirUnits])
+15:46:34.250 INFO - Done: [find elements: By.cssSelector: #main_ContentContainer_tablist_PageContentPane_mainDirUnits]
+15:46:34.256 INFO - Executing: [is displayed: 14 [[ChromeDriver: chrome on LINUX (5755cbba5fbe44b3bf043823e3751900)] -> css selector: #main_ContentContainer_tablist_PageContentPane_mainDirUnits]])
+15:46:34.307 INFO - Done: [is displayed: 14 [[ChromeDriver: chrome on LINUX (5755cbba5fbe44b3bf043823e3751900)] -> css selector: #main_ContentContainer_tablist_PageContentPane_mainDirUnits]]
+15:46:34.315 INFO - Executing: [find element: By.cssSelector: #main_ContentContainer_tablist_PageContentPane_mainDirUnits])
+15:46:34.378 INFO - Done: [find element: By.cssSelector: #main_ContentContainer_tablist_PageContentPane_mainDirUnits]
+15:46:34.383 INFO - Executing: [get text: 14 [[ChromeDriver: chrome on LINUX (5755cbba5fbe44b3bf043823e3751900)] -> css selector: #main_ContentContainer_tablist_PageContentPane_mainDirUnits]])
+15:46:34.436 INFO - Done: [get text: 14 [[ChromeDriver: chrome on LINUX (5755cbba5fbe44b3bf043823e3751900)] -> css selector: #main_ContentContainer_tablist_PageContentPane_mainDirUnits]]
+15:46:34.444 INFO - Executing: [find element: By.xpath: //span[@id="main_ContentContainer_tablist_PageContentPane_mainDirUnits"] /ancestor::div/span[@title="Закрыть"]])
+15:46:34.518 INFO - Done: [find element: By.xpath: //span[@id="main_ContentContainer_tablist_PageContentPane_mainDirUnits"] /ancestor::div/span[@title="Закрыть"]]
+15:46:34.525 INFO - Executing: [click: 15 [[ChromeDriver: chrome on LINUX (5755cbba5fbe44b3bf043823e3751900)] -> xpath: //span[@id="main_ContentContainer_tablist_PageContentPane_mainDirUnits"] /ancestor::div/span[@title="Закрыть"]]])
+15:46:34.669 INFO - Done: [click: 15 [[ChromeDriver: chrome on LINUX (5755cbba5fbe44b3bf043823e3751900)] -> xpath: //span[@id="main_ContentContainer_tablist_PageContentPane_mainDirUnits"] /ancestor::div/span[@title="Закрыть"]]]
+15:46:34.681 INFO - Executing: [find elements: By.cssSelector: #main_ContentContainer_tablist_PageContentPane_mainDirUnits])
+15:46:34.846 INFO - Done: [find elements: By.cssSelector: #main_ContentContainer_tablist_PageContentPane_mainDirUnits]
+15:46:34.854 INFO - Executing: [find element: By.cssSelector: #menuBarPopupMenuDirs])
+15:46:34.874 INFO - Done: [find element: By.cssSelector: #menuBarPopupMenuDirs]
+15:46:34.880 INFO - Executing: [click: 3 [[ChromeDriver: chrome on LINUX (5755cbba5fbe44b3bf043823e3751900)] -> css selector: #menuBarPopupMenuDirs]])
+15:46:34.946 INFO - Done: [click: 3 [[ChromeDriver: chrome on LINUX (5755cbba5fbe44b3bf043823e3751900)] -> css selector: #menuBarPopupMenuDirs]]
+15:46:34.953 INFO - Executing: [find elements: By.cssSelector: #menuBarDirsItemContractors])
+15:46:34.968 INFO - Done: [find elements: By.cssSelector: #menuBarDirsItemContractors]
+15:46:34.973 INFO - Executing: [is displayed: 13 [[ChromeDriver: chrome on LINUX (5755cbba5fbe44b3bf043823e3751900)] -> css selector: #menuBarDirsItemContractors]])
+15:46:34.992 INFO - Done: [is displayed: 13 [[ChromeDriver: chrome on LINUX (5755cbba5fbe44b3bf043823e3751900)] -> css selector: #menuBarDirsItemContractors]]
+15:46:35.001 INFO - Executing: [find element: By.cssSelector: #menuBarDirsItemContractors])
+15:46:35.020 INFO - Done: [find element: By.cssSelector: #menuBarDirsItemContractors]
+15:46:35.026 INFO - Executing: [click: 13 [[ChromeDriver: chrome on LINUX (5755cbba5fbe44b3bf043823e3751900)] -> css selector: #menuBarDirsItemContractors]])
+15:46:35.164 INFO - Done: [click: 13 [[ChromeDriver: chrome on LINUX (5755cbba5fbe44b3bf043823e3751900)] -> css selector: #menuBarDirsItemContractors]]
+15:46:35.171 INFO - Executing: [find elements: By.cssSelector: #main_ContentContainer_tablist_PageContentPane_mainDirContractors])
+15:46:35.606 INFO - Done: [find elements: By.cssSelector: #main_ContentContainer_tablist_PageContentPane_mainDirContractors]
+15:46:35.611 INFO - Executing: [is displayed: 16 [[ChromeDriver: chrome on LINUX (5755cbba5fbe44b3bf043823e3751900)] -> css selector: #main_ContentContainer_tablist_PageContentPane_mainDirContractors]])
+15:46:35.648 INFO - Done: [is displayed: 16 [[ChromeDriver: chrome on LINUX (5755cbba5fbe44b3bf043823e3751900)] -> css selector: #main_ContentContainer_tablist_PageContentPane_mainDirContractors]]
+15:46:35.654 INFO - Executing: [find element: By.xpath: //span[@id="main_ContentContainer_tablist_PageContentPane_mainDirContractors"] /ancestor::div/span[@title="Закрыть"]])
+15:46:35.710 INFO - Done: [find element: By.xpath: //span[@id="main_ContentContainer_tablist_PageContentPane_mainDirContractors"] /ancestor::div/span[@title="Закрыть"]]
+15:46:35.716 INFO - Executing: [click: 17 [[ChromeDriver: chrome on LINUX (5755cbba5fbe44b3bf043823e3751900)] -> xpath: //span[@id="main_ContentContainer_tablist_PageContentPane_mainDirContractors"] /ancestor::div/span[@title="Закрыть"]]])
+15:46:35.861 INFO - Done: [click: 17 [[ChromeDriver: chrome on LINUX (5755cbba5fbe44b3bf043823e3751900)] -> xpath: //span[@id="main_ContentContainer_tablist_PageContentPane_mainDirContractors"] /ancestor::div/span[@title="Закрыть"]]]
+15:46:35.870 INFO - Executing: [find elements: By.cssSelector: #main_ContentContainer_tablist_PageContentPane_mainDirContractors])
+15:46:35.886 INFO - Done: [find elements: By.cssSelector: #main_ContentContainer_tablist_PageContentPane_mainDirContractors]
+15:46:35.894 INFO - Executing: [find element: By.cssSelector: #menuBarItemClose])
+15:46:35.914 INFO - Done: [find element: By.cssSelector: #menuBarItemClose]
+15:46:35.921 INFO - Executing: [click: 4 [[ChromeDriver: chrome on LINUX (5755cbba5fbe44b3bf043823e3751900)] -> css selector: #menuBarItemClose]])
+15:46:36.066 INFO - Done: [click: 4 [[ChromeDriver: chrome on LINUX (5755cbba5fbe44b3bf043823e3751900)] -> css selector: #menuBarItemClose]]
+15:46:36.076 INFO - Executing: [find elements: By.cssSelector: #finish])
+15:46:36.126 INFO - Done: [find elements: By.cssSelector: #finish]
+15:46:36.131 INFO - Executing: [is displayed: 18 [[ChromeDriver: chrome on LINUX (5755cbba5fbe44b3bf043823e3751900)] -> css selector: #finish]])
+15:46:36.168 INFO - Done: [is displayed: 18 [[ChromeDriver: chrome on LINUX (5755cbba5fbe44b3bf043823e3751900)] -> css selector: #finish]]
+15:46:36.175 INFO - Executing: [find element: By.cssSelector: #finish])
+15:46:36.225 INFO - Done: [find element: By.cssSelector: #finish]
+15:46:36.230 INFO - Executing: [get text: 18 [[ChromeDriver: chrome on LINUX (5755cbba5fbe44b3bf043823e3751900)] -> css selector: #finish]])
+15:46:36.279 INFO - Done: [get text: 18 [[ChromeDriver: chrome on LINUX (5755cbba5fbe44b3bf043823e3751900)] -> css selector: #finish]]
+15:46:36.335 INFO - Executing: [refresh])
+15:46:37.202 INFO - Done: [refresh]
+15:46:37.211 INFO - Executing: [find elements: By.cssSelector: #menuBarPopupMenuDirs])
+15:46:37.256 INFO - Done: [find elements: By.cssSelector: #menuBarPopupMenuDirs]
+15:46:37.265 INFO - Executing: [is displayed: 19 [[ChromeDriver: chrome on LINUX (5755cbba5fbe44b3bf043823e3751900)] -> css selector: #menuBarPopupMenuDirs]])
+15:46:37.312 INFO - Done: [is displayed: 19 [[ChromeDriver: chrome on LINUX (5755cbba5fbe44b3bf043823e3751900)] -> css selector: #menuBarPopupMenuDirs]]
+15:46:37.319 INFO - Executing: [find element: By.cssSelector: #menuBarPopupMenuDirs])
+15:46:37.338 INFO - Done: [find element: By.cssSelector: #menuBarPopupMenuDirs]
+15:46:37.345 INFO - Executing: [click: 19 [[ChromeDriver: chrome on LINUX (5755cbba5fbe44b3bf043823e3751900)] -> css selector: #menuBarPopupMenuDirs]])
+15:46:37.480 INFO - Done: [click: 19 [[ChromeDriver: chrome on LINUX (5755cbba5fbe44b3bf043823e3751900)] -> css selector: #menuBarPopupMenuDirs]]
+15:46:37.489 INFO - Executing: [find elements: By.cssSelector: #menuBarDirsItemUnits])
+15:46:37.508 INFO - Done: [find elements: By.cssSelector: #menuBarDirsItemUnits]
+15:46:37.513 INFO - Executing: [is displayed: 20 [[ChromeDriver: chrome on LINUX (5755cbba5fbe44b3bf043823e3751900)] -> css selector: #menuBarDirsItemUnits]])
+15:46:37.554 INFO - Done: [is displayed: 20 [[ChromeDriver: chrome on LINUX (5755cbba5fbe44b3bf043823e3751900)] -> css selector: #menuBarDirsItemUnits]]
+15:46:37.562 INFO - Executing: [find element: By.cssSelector: #menuBarDirsItemUnits])
+15:46:37.579 INFO - Done: [find element: By.cssSelector: #menuBarDirsItemUnits]
+15:46:37.584 INFO - Executing: [click: 20 [[ChromeDriver: chrome on LINUX (5755cbba5fbe44b3bf043823e3751900)] -> css selector: #menuBarDirsItemUnits]])
+15:46:37.728 INFO - Done: [click: 20 [[ChromeDriver: chrome on LINUX (5755cbba5fbe44b3bf043823e3751900)] -> css selector: #menuBarDirsItemUnits]]
+15:46:37.755 INFO - Executing: [find elements: By.cssSelector: #main_ContentContainer_tablist_PageContentPane_mainDirUnits])
+15:46:37.806 INFO - Done: [find elements: By.cssSelector: #main_ContentContainer_tablist_PageContentPane_mainDirUnits]
+15:46:37.817 INFO - Executing: [is displayed: 21 [[ChromeDriver: chrome on LINUX (5755cbba5fbe44b3bf043823e3751900)] -> css selector: #main_ContentContainer_tablist_PageContentPane_mainDirUnits]])
+15:46:37.882 INFO - Done: [is displayed: 21 [[ChromeDriver: chrome on LINUX (5755cbba5fbe44b3bf043823e3751900)] -> css selector: #main_ContentContainer_tablist_PageContentPane_mainDirUnits]]
+15:46:37.890 INFO - Executing: [find elements: By.xpath: //div[@id='dir_units_ContentContainer']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[1]])
+15:46:38.228 INFO - Done: [find elements: By.xpath: //div[@id='dir_units_ContentContainer']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[1]]
+15:46:38.735 INFO - Executing: [find elements: By.xpath: //div[@id='dir_units_ContentContainer']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[1]])
+15:46:38.757 INFO - Done: [find elements: By.xpath: //div[@id='dir_units_ContentContainer']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[1]]
+15:46:38.763 INFO - Executing: [is displayed: 22 [[ChromeDriver: chrome on LINUX (5755cbba5fbe44b3bf043823e3751900)] -> xpath: //div[@id='dir_units_ContentContainer']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[1]]])
+15:46:38.807 INFO - Done: [is displayed: 22 [[ChromeDriver: chrome on LINUX (5755cbba5fbe44b3bf043823e3751900)] -> xpath: //div[@id='dir_units_ContentContainer']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[1]]]
+15:46:38.815 INFO - Executing: [find element: By.xpath: //div[@id='dir_units_ContentContainer']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[1]])
+15:46:38.857 INFO - Done: [find element: By.xpath: //div[@id='dir_units_ContentContainer']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[1]]
+15:46:38.861 INFO - Executing: [get text: 22 [[ChromeDriver: chrome on LINUX (5755cbba5fbe44b3bf043823e3751900)] -> xpath: //div[@id='dir_units_ContentContainer']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[1]]])
+15:46:38.915 INFO - Done: [get text: 22 [[ChromeDriver: chrome on LINUX (5755cbba5fbe44b3bf043823e3751900)] -> xpath: //div[@id='dir_units_ContentContainer']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[1]]]
+15:46:38.921 INFO - Executing: [find elements: By.xpath: //div[@id='dir_units_ContentContainer']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[2]])
+15:46:38.963 INFO - Done: [find elements: By.xpath: //div[@id='dir_units_ContentContainer']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[2]]
+15:46:38.968 INFO - Executing: [is displayed: 23 [[ChromeDriver: chrome on LINUX (5755cbba5fbe44b3bf043823e3751900)] -> xpath: //div[@id='dir_units_ContentContainer']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[2]]])
+15:46:39.008 INFO - Done: [is displayed: 23 [[ChromeDriver: chrome on LINUX (5755cbba5fbe44b3bf043823e3751900)] -> xpath: //div[@id='dir_units_ContentContainer']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[2]]]
+15:46:39.017 INFO - Executing: [find element: By.xpath: //div[@id='dir_units_ContentContainer']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[2]])
+15:46:39.064 INFO - Done: [find element: By.xpath: //div[@id='dir_units_ContentContainer']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[2]]
+15:46:39.069 INFO - Executing: [get text: 23 [[ChromeDriver: chrome on LINUX (5755cbba5fbe44b3bf043823e3751900)] -> xpath: //div[@id='dir_units_ContentContainer']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[2]]])
+15:46:39.121 INFO - Done: [get text: 23 [[ChromeDriver: chrome on LINUX (5755cbba5fbe44b3bf043823e3751900)] -> xpath: //div[@id='dir_units_ContentContainer']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[2]]]
+15:46:39.130 INFO - Executing: [find elements: By.xpath: //div[@id='dir_units_ContentContainer']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[3]])
+15:46:39.185 INFO - Done: [find elements: By.xpath: //div[@id='dir_units_ContentContainer']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[3]]
+15:46:39.190 INFO - Executing: [is displayed: 24 [[ChromeDriver: chrome on LINUX (5755cbba5fbe44b3bf043823e3751900)] -> xpath: //div[@id='dir_units_ContentContainer']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[3]]])
+15:46:39.230 INFO - Done: [is displayed: 24 [[ChromeDriver: chrome on LINUX (5755cbba5fbe44b3bf043823e3751900)] -> xpath: //div[@id='dir_units_ContentContainer']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[3]]]
+15:46:39.238 INFO - Executing: [find element: By.xpath: //div[@id='dir_units_ContentContainer']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[3]])
+15:46:39.294 INFO - Done: [find element: By.xpath: //div[@id='dir_units_ContentContainer']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[3]]
+15:46:39.299 INFO - Executing: [get text: 24 [[ChromeDriver: chrome on LINUX (5755cbba5fbe44b3bf043823e3751900)] -> xpath: //div[@id='dir_units_ContentContainer']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[3]]])
+15:46:39.359 INFO - Done: [get text: 24 [[ChromeDriver: chrome on LINUX (5755cbba5fbe44b3bf043823e3751900)] -> xpath: //div[@id='dir_units_ContentContainer']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[3]]]
+15:46:39.365 INFO - Executing: [find elements: By.xpath: //div[@id='dir_units_ContentContainer']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[4]])
+15:46:39.413 INFO - Done: [find elements: By.xpath: //div[@id='dir_units_ContentContainer']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[4]]
+15:46:39.417 INFO - Executing: [is displayed: 25 [[ChromeDriver: chrome on LINUX (5755cbba5fbe44b3bf043823e3751900)] -> xpath: //div[@id='dir_units_ContentContainer']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[4]]])
+15:46:39.457 INFO - Done: [is displayed: 25 [[ChromeDriver: chrome on LINUX (5755cbba5fbe44b3bf043823e3751900)] -> xpath: //div[@id='dir_units_ContentContainer']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[4]]]
+15:46:39.465 INFO - Executing: [find element: By.xpath: //div[@id='dir_units_ContentContainer']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[4]])
+15:46:39.508 INFO - Done: [find element: By.xpath: //div[@id='dir_units_ContentContainer']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[4]]
+15:46:39.512 INFO - Executing: [get text: 25 [[ChromeDriver: chrome on LINUX (5755cbba5fbe44b3bf043823e3751900)] -> xpath: //div[@id='dir_units_ContentContainer']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[4]]])
+15:46:39.570 INFO - Done: [get text: 25 [[ChromeDriver: chrome on LINUX (5755cbba5fbe44b3bf043823e3751900)] -> xpath: //div[@id='dir_units_ContentContainer']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[4]]]
+15:46:39.578 INFO - Executing: [find elements: By.xpath: //div[@id='dir_units_ContentContainer']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[5]])
+15:46:39.621 INFO - Done: [find elements: By.xpath: //div[@id='dir_units_ContentContainer']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[5]]
+15:46:39.626 INFO - Executing: [is displayed: 26 [[ChromeDriver: chrome on LINUX (5755cbba5fbe44b3bf043823e3751900)] -> xpath: //div[@id='dir_units_ContentContainer']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[5]]])
+15:46:39.666 INFO - Done: [is displayed: 26 [[ChromeDriver: chrome on LINUX (5755cbba5fbe44b3bf043823e3751900)] -> xpath: //div[@id='dir_units_ContentContainer']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[5]]]
+15:46:39.672 INFO - Executing: [find element: By.xpath: //div[@id='dir_units_ContentContainer']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[5]])
+15:46:39.729 INFO - Done: [find element: By.xpath: //div[@id='dir_units_ContentContainer']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[5]]
+15:46:39.734 INFO - Executing: [get text: 26 [[ChromeDriver: chrome on LINUX (5755cbba5fbe44b3bf043823e3751900)] -> xpath: //div[@id='dir_units_ContentContainer']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[5]]])
+15:46:39.783 INFO - Done: [get text: 26 [[ChromeDriver: chrome on LINUX (5755cbba5fbe44b3bf043823e3751900)] -> xpath: //div[@id='dir_units_ContentContainer']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[5]]]
+15:46:39.789 INFO - Executing: [find elements: By.xpath: //div[@id='dir_units_ContentContainer']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[1]])
+15:46:39.814 INFO - Done: [find elements: By.xpath: //div[@id='dir_units_ContentContainer']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[1]]
+15:46:39.820 INFO - Executing: [is displayed: 22 [[ChromeDriver: chrome on LINUX (5755cbba5fbe44b3bf043823e3751900)] -> xpath: //div[@id='dir_units_ContentContainer']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[1]]])
+15:46:39.841 INFO - Done: [is displayed: 22 [[ChromeDriver: chrome on LINUX (5755cbba5fbe44b3bf043823e3751900)] -> xpath: //div[@id='dir_units_ContentContainer']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[1]]]
+15:46:39.855 INFO - Executing: [find element: By.xpath: //div[@id='dir_units_ContentContainer']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[1]])
+15:46:39.877 INFO - Done: [find element: By.xpath: //div[@id='dir_units_ContentContainer']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[1]]
+15:46:39.884 INFO - Executing: [get text: 22 [[ChromeDriver: chrome on LINUX (5755cbba5fbe44b3bf043823e3751900)] -> xpath: //div[@id='dir_units_ContentContainer']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[1]]])
+15:46:39.919 INFO - Done: [get text: 22 [[ChromeDriver: chrome on LINUX (5755cbba5fbe44b3bf043823e3751900)] -> xpath: //div[@id='dir_units_ContentContainer']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[1]]]
+15:46:39.930 INFO - Executing: [delete session: 673dbef8-8fd5-4264-9265-1c35bd574062])
+15:46:40.009 INFO - Done: [delete session: 673dbef8-8fd5-4264-9265-1c35bd574062]

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <testsuites errors="0"
             failures="0"
-            tests="3">
+            tests="2">
 
   <testsuite name="sysadmin.sysadmin_2_databasePageTest"
-    errors="0" failures="0" hostname="" id="" package="sysadmin" skipped="3"
-    tests="3" time="0.000" timestamp="Mon, 31 Jul 2017 12:10:54 GMT">
+    errors="0" failures="0" hostname="" id="" package="sysadmin" skipped="2"
+    tests="2" time="0.000" timestamp="Mon, 07 Aug 2017 14:14:18 GMT">
   
 
   
@@ -19,11 +19,6 @@
     
     <testcase
       name="Sysadmin ChangeLogTable Tests" classname="sysadmin.sysadmin_2_databasePageTest">
-      <skipped />
-    </testcase>
-    
-    <testcase
-      name="Delete Test DB and reconnect" classname="sysadmin.sysadmin_2_databasePageTest">
       <skipped />
     </testcase>
     

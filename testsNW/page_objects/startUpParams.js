@@ -11,7 +11,7 @@ var startUpParamsCommands = {
             .clearValue('@dbHostInput')
             .setValue('@dbHostInput',"localhost")
             .clearValue('@dbNameInput')
-            .setValue('@dbNameInput', "sinta_temp")     //create temp DB sinta temp;
+            .setValue('@dbNameInput', "temp_db")     //create temp DB sinta temp;
             .clearValue('@dbUserInput')
             .setValue('@dbUserInput',  "user")
             .clearValue('@dbPasswordInput')
@@ -55,7 +55,7 @@ var startUpParamsCommands = {
                 .clearValue('@dbHostInput')
                 .setValue('@dbHostInput', "localhost")
                 .clearValue('@dbNameInput')
-                .setValue('@dbNameInput', "sinta_temp")     //create temp DB sinta_temp;
+                .setValue('@dbNameInput', "temp_db")                             //create temp DB sinta_temp;  //temp_db
                 .clearValue('@dbUserInput')
                 .setValue('@dbUserInput', "user")
                 .clearValue('@dbPasswordInput')
@@ -91,7 +91,7 @@ var startUpParamsCommands = {
             .clearValue('@dbHostInput')
             .setValue('@dbHostInput','localhost')
             .clearValue('@dbNameInput')
-            .setValue('@dbNameInput', 'sinta_temp')
+            .setValue('@dbNameInput', 'temp_db')
             .clearValue('@dbUserInput')
             .setValue('@dbUserInput',  'user')
             .clearValue('@dbPasswordInput')

@@ -81,7 +81,7 @@ module.exports= {
 
             .click('@changeLogBtn')
             .waitForElementVisible('@changeLogTable')
-            .assertTableTitleHasText('@changeLogTable', 'Change Logs')
+            .assertTableTitleHasText('@changeLogTable', 'Change Log')
             .assertHeaderContainsText('@changeLogTable', '1', 'changeID')
             .assertHeaderContainsText('@changeLogTable', '2', 'changeDatetime')
             .assertHeaderContainsText('@changeLogTable', '3', 'changeObj')
@@ -116,13 +116,14 @@ module.exports= {
 
         sysadminHeader
             .click('@StartUpParamsBtn');
-    },
-        'Delete Test DB and reconnect': function(browser) {
-            var startUpParams = browser.page.startUpParams();
-            startUpParams.dropTempDBAndReconnect();
-                browser.end();
-
-        }
+    }
+    //,
+    //    'Delete Test DB and reconnect': function(browser) {
+    //        var startUpParams = browser.page.startUpParams();
+    //        startUpParams.dropTempDBAndReconnect();
+    //            browser.end();
+    //
+    //    }
 };
 
 

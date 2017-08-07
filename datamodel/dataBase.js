@@ -215,18 +215,6 @@ module.exports.restoreDB= function(restoreParams,callback) {
     });
 };
 
-/*module.exports.createChangelogTable= function(callback) {
-   var query_str=fs.readFile("./scripts/createChangeLog.sql","utf-8");
-    connection.query(query_str,
-        function (err, recordset) {
-            if (err) {
-                callback(err);
-                return;
-            }
-               callback(null,recordset);
-        }
-    );
-};*/
 
 module.exports.getChangeLog= function(callback) {
     connection.query("select * from change_log;",
