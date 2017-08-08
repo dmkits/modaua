@@ -2,7 +2,7 @@
 
 module.exports= {
 
-    //'@disabled': true,
+    '@disabled': true,
 
     after : function(browser) {
      //   browser.end();

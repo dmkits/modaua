@@ -1,4 +1,4 @@
-[
+var dir_products_sizes=[
   {
   "changeID": "dir_products_sizes__1",
   "changeDatetime": "2016-09-10T20:01:00.000",
@@ -17,4 +17,4 @@
     "changeObj": "dir_products_sizes",
     "changeVal": "ALTER TABLE dir_products_sizes ADD CONSTRAINT DIR_DIR_PRODUCTS_SIZES_VALUE_UNIQUE UNIQUE(VALUE)"
   }
-]
+];

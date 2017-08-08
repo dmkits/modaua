@@ -1,4 +1,4 @@
-var database = require("./dataBase");
+var database = require("./database");
 var instauuid = require('instauuid');
 instauuid('decimal');
 /**

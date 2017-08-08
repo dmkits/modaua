@@ -440,3 +440,28 @@
 {"level":"info","message":"URL: /sysadmin","timestamp":"2017-06-14T04:05:01.193Z"}
 {"level":"info","message":"URL: /sysadmin/app_state","timestamp":"2017-06-14T04:05:02.984Z"}
 {"level":"info","message":"URL: /sysadmin/startup_parameters","timestamp":"2017-06-14T04:05:03.889Z"}
+{"level":"info","message":"fs... 1502195405396","timestamp":"2017-08-08 15:30:05"}
+{"level":"info","message":"path... 1502195405410","timestamp":"2017-08-08 15:30:05"}
+{"level":"info","message":"express... 1502195405626","timestamp":"2017-08-08 15:30:05"}
+{"level":"info","message":"body-parser... 1502195405634","timestamp":"2017-08-08 15:30:05"}
+{"level":"info","message":"load app configuration...","timestamp":"2017-08-08 15:30:05"}
+{"host":"localhost","database":"modaua_test1","user":"user","password":"user","configName":"config.json","level":"info","message":"app mode:test  app configuration:","timestamp":"2017-08-08 15:30:05"}
+{"level":"info","message":"tryDBConnect...","timestamp":"2017-08-08 15:30:05"}
+{"level":"info","message":"databaseConnection","timestamp":"2017-08-08 15:30:05"}
+{"level":"info","message":"if ! (connection)","timestamp":"2017-08-08 15:30:05"}
+{"level":"info","message":"./dataBase...","timestamp":"2017-08-08 15:30:05"}
+{"level":"info","message":"end app","timestamp":"2017-08-08 15:30:06"}
+{"level":"info","message":"server runs on port 8080","timestamp":"2017-08-08 15:30:06"}
+{"level":"info","message":"tryDBConnect DBConnectError=","timestamp":"2017-08-08 15:30:06"}
+{"level":"info","message":"URL: /sysadmin/startup_parameters/store_app_config_and_reconnect newDBConfig = { host: 'localhost',\n  database: 'modaua_test1',\n  user: 'user',\n  password: 'user',\n  configName: 'config.json' }","timestamp":"2017-08-08 15:30:10"}
+{"level":"info","message":"tryDBConnect...","timestamp":"2017-08-08 15:30:10"}
+{"level":"info","message":"databaseConnection","timestamp":"2017-08-08 15:30:10"}
+{"level":"info","message":"if(connection)","timestamp":"2017-08-08 15:30:10"}
+{"level":"info","message":"tryDBConnect DBConnectError=","timestamp":"2017-08-08 15:30:11"}
+{"level":"info","message":"app.get /sysadmin/app_state","timestamp":"2017-08-08 15:30:11"}
+{"level":"info","message":"URL: /sysadmin/startup_parameters/store_app_config_and_reconnect newDBConfig = { host: 'localhost',\n  database: 'modaua_test1',\n  user: 'user',\n  password: 'user',\n  configName: 'config.json' }","timestamp":"2017-08-08 15:33:52"}
+{"level":"info","message":"tryDBConnect...","timestamp":"2017-08-08 15:33:52"}
+{"level":"info","message":"databaseConnection","timestamp":"2017-08-08 15:33:52"}
+{"level":"info","message":"if(connection)","timestamp":"2017-08-08 15:33:52"}
+{"level":"info","message":"tryDBConnect DBConnectError=","timestamp":"2017-08-08 15:33:52"}
+{"level":"info","message":"app.get /sysadmin/app_state","timestamp":"2017-08-08 15:33:52"}

@@ -1,4 +1,4 @@
-[
+var dir_products=[
   {
     "changeID": "dir_products__1",
     "changeDatetime": "2016-08-30T16:01:00.000",

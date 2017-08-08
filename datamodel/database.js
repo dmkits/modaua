@@ -4,73 +4,70 @@ var mysqlDump = require('mysqldump');
 var MysqlTools= require('mysql-tools');
 var mysql      = require('mysql');
 var app = require('./../app');
-var dbConfig;
-var dbConfigFilePath;
-//var conn=null;
-var connection=null;
+var log =app.log;
+var dbConfig= app.getAppConfig;
 
+var connection=null, dbConnectError=null;
 
-module.exports.getDBConfig=function(){
-    return dbConfig;
-};
-module.exports.setDBConfig=function(newDBConfig){
-    dbConfig= newDBConfig;
-};
-module.exports.loadConfig=function(){
-    dbConfigFilePath='./' + app.startupMode + '.cfg';
-    var stringConfig = fs.readFileSync(dbConfigFilePath);
-    dbConfig = JSON.parse(stringConfig);
-};
-module.exports.saveConfig=function(callback) {
-    fs.writeFile(dbConfigFilePath, JSON.stringify(dbConfig), function (err, success) {
-        callback(err,success);
-    })
-};
-
-module.exports.databaseConnection=function(callback){  console.log("databaseConnection");
-
-    if(connection) {                         console.log("if(connection)");
-        connection.end(function (err) {
-                if (err) {                  if("connection.end err=",err)
-                    connection=null;
-                    callback(err.message);
-                    return;
-            }
-            connection = mysql.createConnection(dbConfig);
-            connection.connect(function (err) {
-                if (err) {                     if("databaseConnection connrct err=",err) console.log(err);
-                    connection=null;
-                    callback(err.message);
-                    return;
-                }
-                callback(null,"connected");
-            });
-        });
-    }else {
-        connection = mysql.createConnection(dbConfig);
+function databaseConnection(callback){                                                      log.info("databaseConnection", app.appConfig);
+    if(!connection) {                         console.log("dbConfig=",dbConfig);                                                 log.info("if ! (connection)");
+        connection = mysql.createConnection(dbConfig());
         connection.connect(function (err) {
-            if (err) {
-                if ("databaseConnection connrct err=", err) console.log(err);
+            if (err) {                                                                      log.error("databaseConnection connect err=", err);
                 connection = null;
                 callback(err.message);
                 return;
             }
             callback(null, "connected");
         });
-    }
+        return;
+    }                                                                                       log.info("if(connection)");
+    connection.end(function (err) {
+        if (err) {                                                                          log.error("connection.end err=", err);
+            connection = null;
+            callback(err.message);
+            return;
+        }
+        connection = mysql.createConnection(dbConfig());
+        connection.connect(function (err) {
+            if (err) {                                                                      log.error("connect error:",err);
+                connection = null;
+                callback(err.message);
+                return;
+            }
+            callback(null, "connected");
+        });
+
+    });
 };
-module.exports.mySQLAdminConnection = function (connParams, callback) {   console.log("mySQLAdminConnection");
+module.exports.databaseConnection=databaseConnection;
+
+function tryDBConnect(postaction) {                                                         log.info('tryDBConnect...');//test
+    databaseConnection(function (err) {
+        dbConnectError = null;
+        if (err) {
+            dbConnectError = "Failed to connect to database! Reason:" + err;
+        }
+        log.info('tryDBConnect DBConnectError=', dbConnectError);//test
+        if (postaction)postaction(err);
+    });
+}
+module.exports.tryDBConnect=tryDBConnect;
+if (dbConfig()) tryDBConnect();
+module.exports.getDBConnectError= function(){ return dbConnectError; };
+
+module.exports.mySQLAdminConnection = function (connParams, callback) {                     log.info("mySQLAdminConnection");
     if (connection) {
-        connection.end(function (err) {                                     console.log("mySQLAdminConnection if(connection)");
+        connection.end(function (err) {                                                     log.info("mySQLAdminConnection if(connection)");
             if (err) {
                 connection=null;
-                callback(err);           console.log("err  connection.end =", err);
+                callback(err);           log.error("err  connection.end =", err);
                 return;
             }
             connection=null;
             connection = mysql.createConnection(connParams);
             connection.connect(function (err) {
-                if (err) {              console.log(" mySQLAdminConnection createConnection err=",err);
+                if (err) {              log.error(" mySQLAdminConnection createConnection err=",err);
                     connection=null;
                     callback(err);
                     return;
@@ -232,7 +229,7 @@ module.exports.checkIfChangeLogExists= function(callback) {     console.log("che
 
     connection.query("select * from change_log where ID=null",
         function (err, recordset) {
-            if (err) {                    console.log("checkIfChangeLogExists err=",err);
+            if (err) {                    log.error("checkIfChangeLogExists err=",err);
                 callback(err);
                 return;
             }
@@ -249,7 +246,7 @@ module.exports.checkIfChangeLogIDExists= function(id, callback) {
 
     connection.query("select * FROM change_log where ID = '"+id+"'",
         function (err, recordset) {
-            if (err) {                           console.log("checkIfChangeLogIDExists err=",err);
+            if (err) {                           log.error("checkIfChangeLogIDExists err=",err);
                 callback(err);
                 return;
             }
@@ -286,20 +283,20 @@ var ID=data.changeID;
  * for database query insert/update/delete
  * callback = function(err, updateCount)
  */
-module.exports.executeQuery= function(query, callback) { console.log("executeQuery: ",query);
+module.exports.executeQuery= function(query, callback) { log.info("executeQuery: ",query);
     connection.query(query,
         function (err, recordset, fields) {
-            if (err) {                                                                                                  console.log("executeQuery err=",err);
+            if (err) {                                                                                                  log.error("executeQuery err=",err);
                 callback(err);
                 return;
             }
             callback(null, recordset.affectedRows);
         });
 };
-module.exports.executeParamsQuery= function(query, parameters, callback) {              console.log("executeParamsQuery: ",query,parameters);
+module.exports.executeParamsQuery= function(query, parameters, callback) {              log.info("executeParamsQuery: ",query,parameters);
     connection.query(query, parameters,
         function (err, recordset, fields) {
-            if (err) {                                                                                                  console.log("executeParamsQuery err=",err);
+            if (err) {                                                                                                  log.error("executeParamsQuery err=",err);
                 callback(err);
                 return;
             }
@@ -326,7 +323,7 @@ module.exports.selectQuery= function(query, callback) {
  */
 function getDataItemsFromDatabase(dbQuery, outData, resultItemName, callback){
     exports.selectQuery(dbQuery,function(err, recordset){
-        if (err) {                                                                                                      console.log("selectQuery err=",err);
+        if (err) {                                                                                                      log.error("selectQuery err=",err);
             outData.error= err.message;
             callback(outData);
             return;
@@ -340,7 +337,7 @@ module.exports.getDataForTable=function(dbQuery, outData, callback){
 };
 function getDataItemFromDatabase(dbQuery, outData, resultItemName, callback){
     exports.selectQuery(dbQuery,function(err, recordset){
-        if (err) {                                                                                                      console.log("selectQuery err=",err);
+        if (err) {                                                                                                      log.error("selectQuery err=",err);
             outData.error= err.message;
             callback(outData);
             return;
@@ -367,3 +364,43 @@ module.exports.writeToChangeLog= function(data, callback) {
             callback(null,"ok");
         });
 };
+module.exports.matchLogData=function(logsData, outData, ind, callback){
+
+    var logData = logsData?logsData[ind]:null;
+    if (!logData) {                log.error("!logData ");
+        callback(outData);
+        return;
+    }
+    exports.checkIfChangeLogIDExists(logData.changeID, function (err, existsBool) {            log.info("checkIfChangeLogIDExists logData.changeID=",logData.changeID);
+        if (err) {                                                                              log.error("checkIfChangeLogIDExists err=",err);
+            outData.error = "ERROR FOR ID:"+logData.changeID+" Error msg: "+err.message;
+            exports.matchLogData(null, outData, ind+1, callback);
+            return;
+        }
+        if (!existsBool) {
+            logData.type = "new";
+            logData.message = "not applied";
+            outData.items.push(logData);
+            exports.matchLogData(logsData, outData, ind+1,callback);
+            //  return;
+        } else {
+            exports.matchChangeLogFields(logData,function(err, identicalBool){
+                if (err) {
+                    outData.error = err.message;                                         log.error("matchChangeLogFields err =",err);
+                    exports.matchLogData(null, outData, ind+1, callback);
+                    return;
+                }
+                if(!identicalBool){
+                    logData.type = "warning";
+                    logData.message = "Current update has not identical fields!";
+                    outData.items.push(logData);
+                    exports.matchLogData(logsData, outData, ind+1,callback);
+                    // return;
+                }else{
+                    exports.matchLogData(logsData, outData, ind+1,callback);
+                    //  return;
+                }
+            })
+        }
+    });
+}

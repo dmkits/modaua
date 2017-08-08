@@ -41,6 +41,10 @@
                         <td><label for="db.password">db.password </label></td>
                         <td><input id="db.password" type="text" aria-disabled="false"/></td>
                     </tr>
+                    <tr>
+                        <td><label for="configName">configName</label></td>
+                        <td><input id="configName" type="text" aria-disabled="false"/></td>
+                    </tr>
                 </table>
             </td>
         </tr>
@@ -91,31 +95,6 @@
     </table>
 </div>
 
-<!--<table id="auth_admin_dialog_table">-->
-    <!--<tr>-->
-        <!--<td><label for="admin_name">Name:</label></td>-->
-        <!--<td><input type="text" name="admin_name" id="admin_name" value="root"></td>-->
-    <!--</tr>-->
-    <!--<tr>-->
-        <!--<td><label for="admin_password">Password:</label></td>-->
-        <!--<td><input type="password" name="admin_password" id="admin_password"></td>-->
-    <!--</tr>-->
-<!--</table>-->
-
-<!--<table id="backup_fileName_dialog_table">-->
-    <!--<tr>-->
-        <!--<td><label for="backup_fileName">file name:</label></td>-->
-        <!--<td><input type="text" name="backup_fileName" id="backup_fileName">.sql</td>-->
-    <!--</tr>-->
-<!--</table>-->
-
-<!--<table id="restore_fileName_dialog_table">-->
-    <!--<tr>-->
-        <!--<td><label for="restore_fileName">file name:</label></td>-->
-        <!--<td><input type="text" name="restore_fileName" id="restore_fileName">.sql</td>-->
-    <!--</tr>-->
-<!--</table>-->
-<!--</div>-->
 </body>
 <script type="text/javascript">
     require(["app", "dijit/layout/BorderContainer", "dijit/layout/LayoutContainer", "dijit/layout/ContentPane", "dojo/data/ItemFileReadStore",
@@ -128,11 +107,10 @@
                 sa_startup_params_PageContent.domNode.style.display = "inline-block";
 
                 var hostInput=new TextBox({id:"db.host"},"db.host");
-              //  var portInput=new TextBox({id:"db.port"},"db.port");
                 var databaseInput=new TextBox({id:"db.name"},"db.name");
                 var userInput=new TextBox({id:"db.user"},"db.user");
                 var dbPasswordInput=new TextBox({id:"db.password"},"db.password");
-
+                var configNameInput=new TextBox({id:"configName"},"configName");
 
                 var sa_startup_params_appLocalConfig = document.getElementById("sa_startup_params_appLocalConfig");
                 var reloadBtn = new Button({id: "SA_startup_params_BtnAppLocalConfigLoad"}, "SA_startup_params_BtnAppLocalConfigLoad");
@@ -146,12 +124,6 @@
                 var restoreBtn=new Button({id: "restore_db_btn"}, "restore_db_btn");
                 restoreBtn.domNode.firstChild.setAttribute("style", "width:70px;");
 
-                var adminAuthTable=document.getElementById("auth_admin_dialog_table");
-                var backupDialogTable=document.getElementById("backup_fileName_dialog_table");
-                var restoreDialogTable=document.getElementById("restore_fileName_dialog_table");
-
-
-
                 var authAdminInfo = {};
                 var backupFilename;
                 var restoreFilename;
@@ -159,7 +131,16 @@
                 var adminAuthDialog = new ConfirmDialog({
                     autofocus:false,
                     id: "adminAuthDialog",
-                    content: adminAuthTable,
+                    content: '<table id="auth_admin_dialog_table">'+
+                        '<tr>'+
+                        '<td><label for="admin_name">Name:</label></td>'+
+                '<td><input type="text" name="admin_name" id="admin_name" value="root"></td>'+
+                        '</tr>'+
+                        '<tr>'+
+                        '<td><label for="admin_password">Password:</label></td>'+
+                '<td><input type="password" name="admin_password" id="admin_password"></td>'+
+                        '</tr>'+
+                        '</table>',
                     title: "Admin authorisation"
                 }, "adminAuthDialog");
                 adminAuthDialog.set("buttonOk","Login");
@@ -167,7 +148,12 @@
 
                 var backupDialog = new ConfirmDialog({
                     id: "backupDialog",
-                    content: backupDialogTable,
+                    content: '<table id="backup_fileName_dialog_table">' +
+                    '<tr>' +
+                    '<td><label for="backup_fileName">file name:</label></td>' +
+                    '<td><input type="text" name="backup_fileName" id="backup_fileName">.sql</td>' +
+                    '</tr>' +
+                    '</table>',
                     title: "Save backup as"
                 }, "backupDialog");
                 backupDialog.set("buttonOk", "Save");
@@ -183,7 +169,12 @@
 
                 var restoreDialog = new ConfirmDialog({
                     id: "restoreDialog",
-                    content: restoreDialogTable,
+                    content: '<table id="restore_fileName_dialog_table">' +
+                    '<tr>' +
+                    '<td><label for="restore_fileName">file name:</label></td>' +
+                    '<td><input type="text" name="restore_fileName" id="restore_fileName">.sql</td>' +
+                    '</tr>' +
+                    '</table>,',
                     title: "Restore from file"
                 }, "restoreDialog");
                 restoreDialog.set("buttonOk", "Restore");
@@ -198,7 +189,7 @@
                 rewriteDBDialog.set("buttonCancel", "Cancel");
 
 
-                createDBBtn.onClick=function() {            console.log("createDBBtn.onClick");
+                createDBBtn.onClick=function() {                 console.log("createDBBtn.onClick");
                     adminAuthDialog.action="createDB";
                     adminAuthDialog.show();
                     document.getElementById("admin_password").focus();
@@ -208,12 +199,12 @@
                     adminAuthDialog.show();
                     document.getElementById("admin_password").focus();
                 };
-                backupDBBtn.onClick=function(){                     console.log("backupDBBtn.onClick");
+                backupDBBtn.onClick=function(){                   console.log("backupDBBtn.onClick");
                     adminAuthDialog.action="backupDB";
                     adminAuthDialog.show();
                     document.getElementById("admin_password").focus();
                 };
-                restoreBtn.onClick=function(){                        console.log("restoreBtn.onClick");
+                restoreBtn.onClick=function(){                     console.log("restoreBtn.onClick");
                     adminAuthDialog.action="restoreDB";
                     adminAuthDialog.show();
                     document.getElementById("admin_password").focus();
@@ -340,20 +331,24 @@
                     );
                 };
                 function setDBConfigContent(DBConfigData) {
-                    //document.getElementById("db.host").setAttribute("value", DBConfigData["host"]);
-                    hostInput.set("value", DBConfigData["host"]);
+//                  hostInput.domNode.setAttribute("value", DBConfigData["host"]);
+                    document.getElementById("db.host").setAttribute("value", DBConfigData["host"]);
                     document.getElementById("db.name").setAttribute("value", DBConfigData["database"]);
                     document.getElementById("db.user").setAttribute("value", DBConfigData["user"]);
                     document.getElementById("db.password").setAttribute("value", DBConfigData["password"]);
+                    var config=DBConfigData["configName"] || "config.json";
+                    document.getElementById("configName").setAttribute("value", config);
                 }
+
                 saveAndReconnectBtn.onClick = function () {
                     var sa_startup_params_appLocalConfig = document.getElementById("sa_startup_params_appLocalConfig");
                     sa_startup_params_appLocalConfig.innerHTML = "<div><b>Configuration saving and reconnecting to database...</b></div>";
                     var newDBConfig={
-                        "host": hostInput.get('value'),
-                        "database": databaseInput.get('value'),
-                        "user": userInput.get('value'),
-                        "password": dbPasswordInput.get('value')
+                        host: hostInput.get('value'),
+                        database: databaseInput.get('value'),
+                        user: userInput.get('value'),
+                        password: dbPasswordInput.get('value'),
+                        configName: configNameInput.get('value')
                     };
                     Request.postJSONData({url:  "/sysadmin/startup_parameters/store_app_config_and_reconnect", data: newDBConfig, consoleLog: true},
                             function (success, data) {

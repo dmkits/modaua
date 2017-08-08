@@ -1,4 +1,4 @@
-[
+var dir_products_barcodes=[
   {
     "changeID": "dir_products_barcodes__1",
     "changeDatetime": "2016-08-30T16:21:00.000",
@@ -29,4 +29,4 @@
     "changeObj": "dir_products_barcodes",
     "changeVal": "ALTER TABLE dir_products_barcodes ADD PRIMARY KEY (BARCODE,PRODUCT_ID)"
   }
-]
+];

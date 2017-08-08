@@ -1,4 +1,4 @@
-[
+var dir_products_collections=[
   {
     "changeID": "dir_products_collections__1",
     "changeDatetime": "2016-09-12T09:31:00.000",
@@ -29,4 +29,4 @@
     "changeObj": "dir_products_collections",
     "changeVal": "INSERT INTO dir_products_collections(ID,NAME,CODE) values(1,'коллекция 1 2017','1Z6')"
   }
-]
+];

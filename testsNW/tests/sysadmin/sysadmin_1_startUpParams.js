@@ -17,7 +17,7 @@ function deleteTestBackUpFile() {
 }
 
 module.exports= {
-    '@disabled': true,
+    //'@disabled': true,
     before: function (browser) {
         fs.createReadStream('./test.cfg').pipe(fs.createWriteStream('./test_temp_copy.cfg'));
     },
@@ -28,7 +28,8 @@ module.exports= {
 
     'Sysadmin Header If  All Elements Visible Tests': function (browser) {
 
-        browser.pause(2000);
+        browser.saveScreenshot("./testsNW/screenshots.png")
+            .pause(2000);
 
         var mainHeader = browser.page.sysadminHeader();
         mainHeader
@@ -188,7 +189,7 @@ module.exports= {
             .assert.visible("@backupDialog")
             .assert.visible("@backupFileName")
             .assertBackupDialogIsEmpty()
-            .setValue("@backupFileName","sinta")
+            .setValue("@backupFileName","test_DB")
             .submitDialog('@backupDialog')
             .waitForElementVisible('@backupDBResultField')
             .assert.visible("@backupDBResultField")
@@ -200,7 +201,7 @@ module.exports= {
             .waitForElementVisible('@restoreDialog')
             .assertRestoreDialogIsEmpty()
             .clearValue("@restoreFileName")
-            .setValue("@restoreFileName","sinta")
+            .setValue("@restoreFileName","test_DB")
             .submitDialog('@restoreDialog')
             .waitForElementVisible('@restoreDBResultField')
             .assert.visible("@restoreDBResultField")
@@ -220,7 +221,7 @@ module.exports= {
             .waitForElementVisible('@restoreDialog')
             .assertRestoreDialogIsEmpty()
             .clearValue("@restoreFileName")
-            .setValue("@restoreFileName","sinta")
+            .setValue("@restoreFileName","test_DB")
             .submitDialog('@restoreDialog')
             .waitForElementVisible('@restoreDBResultField')
             .assert.containsText('@restoreDBResultField', 'Db dump file restored successfully')
@@ -231,7 +232,7 @@ module.exports= {
             .waitForElementVisible('@restoreDialog')
             .assertRestoreDialogIsEmpty()
             .clearValue("@restoreFileName")
-            .setValue("@restoreFileName","sinta")
+            .setValue("@restoreFileName","test_DB")
             .submitDialog('@restoreDialog')
             .waitForElementVisible('@rewriteDBDialog')
             .submitDialog('@rewriteDBDialog')
@@ -268,7 +269,7 @@ module.exports= {
             .waitForElementVisible('@backupDialog')
             .assertBackupDialogIsEmpty()
             .clearValue("@backupFileName")
-            .setValue("@backupFileName","sinta")
+            .setValue("@backupFileName","test_DB")
             .submitDialog('@backupDialog')
             .waitForElementVisible('@rewriteBackupDialog', 10000)
             .submitDialog('@rewriteBackupDialog')
@@ -276,6 +277,6 @@ module.exports= {
             .assert.containsText('@backupDBResultField', 'backup saved')
             .dropTempDBAndReconnect();
 
-        browser.end();
+       // browser.end();
     }
 };

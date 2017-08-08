@@ -4,231 +4,29 @@
             tests="3">
 
   <testsuite name="main.main_1_headerTests"
-    errors="0" failures="0" hostname="" id="" package="main" skipped="0"
-    tests="3" time="38.94" timestamp="Mon, 07 Aug 2017 14:13:39 GMT">
+    errors="0" failures="0" hostname="" id="" package="main" skipped="3"
+    tests="3" time="0.000" timestamp="Tue, 08 Aug 2017 14:43:19 GMT">
   
-    <testcase name="Main Header If  All Elements Visible Tests" classname="main.main_1_headerTests" time="13.15" assertions="35">
 
-    
+  
 
+  
     
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
+    <testcase
+      name="Main Header If  All Elements Visible Tests" classname="main.main_1_headerTests">
+      <skipped />
     </testcase>
-  
-    <testcase name="Main Dirs ItemUnits Tests" classname="main.main_1_headerTests" time="20.95" assertions="32">
-
     
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
+    <testcase
+      name="Main Dirs ItemUnits Tests" classname="main.main_1_headerTests">
+      <skipped />
     </testcase>
-  
-    <testcase name="Main Dirs Contractors Tests" classname="main.main_1_headerTests" time="4.839" assertions="38">
-
     
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
+    <testcase
+      name="Main Dirs Contractors Tests" classname="main.main_1_headerTests">
+      <skipped />
     </testcase>
-  
-
-  
-
+    
   
   </testsuite>
 </testsuites>

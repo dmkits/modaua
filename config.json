@@ -1,0 +1,22 @@
+{
+  "title":"MODA.UA",
+  "dataModules":[    /*dfgadfgadgfadfgadfg*/
+    "change_log",
+    "dir_units",
+    "dir_contractors"
+  ],
+  "userMenu":[
+    { "itemname":"menuBarItemMainPage", "itemtitle":"Главная страница", "action":"open", "id":"mainPage", "title":"Главная страница", "content":"/main/mainpage", "closable":false},
+    { "itemname":"menuBarPopupMenuDirs", "itemtitle":"Справочники",
+      "menuPopup":[
+        { "itemname":"menuBarDirsItemUnits", "itemtitle":"Подразделения", "action":"open", "id":"mainDirUnits", "title":"Подразделения", "content":"/dir/units", "closable":true},
+        { "itemname":"separator_dir1"},
+        {"itemname":"menuBarDirsItemContractors", "itemtitle":"Контрагенты", "action":"open", "id":"mainDirContractors", "title":"Контрагенты", "content":"/dir/contractors", "closable":true}
+      ]},
+    { "itemname":"menuBarItemClose", "itemtitle":"Выход", "action":"close"},
+    { "itemname":"menuBarItemHelpAbout", "itemtitle":"О программе", "action":"help_about"}
+  ],
+  "userAutorun":[
+    {"menuitem":"menuBarItemMainPage"}
+  ]
+}
