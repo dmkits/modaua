@@ -465,3 +465,34 @@
 {"level":"info","message":"if(connection)","timestamp":"2017-08-08 15:33:52"}
 {"level":"info","message":"tryDBConnect DBConnectError=","timestamp":"2017-08-08 15:33:52"}
 {"level":"info","message":"app.get /sysadmin/app_state","timestamp":"2017-08-08 15:33:52"}
+{"level":"info","message":"fs... 1502206047516","timestamp":"2017-08-08 18:27:27"}
+{"level":"info","message":"path... 1502206047527","timestamp":"2017-08-08 18:27:27"}
+{"level":"info","message":"express... 1502206049017","timestamp":"2017-08-08 18:27:29"}
+{"level":"info","message":"body-parser... 1502206049043","timestamp":"2017-08-08 18:27:29"}
+{"level":"info","message":"load app configuration...","timestamp":"2017-08-08 18:27:29"}
+{"host":"localhost","database":"sample_sinta","user":"user","password":"user","level":"info","message":"app mode:production  app configuration:","timestamp":"2017-08-08 18:27:29"}
+{"level":"info","message":"tryDBConnect...","timestamp":"2017-08-08 18:27:30"}
+{"level":"info","message":"databaseConnection","timestamp":"2017-08-08 18:27:30"}
+{"level":"info","message":"if ! (connection)","timestamp":"2017-08-08 18:27:30"}
+{"level":"info","message":"./dataBase...","timestamp":"2017-08-08 18:27:34"}
+{"level":"info","message":"end app","timestamp":"2017-08-08 18:27:37"}
+{"level":"info","message":"server runs on port 8181","timestamp":"2017-08-08 18:27:37"}
+{"message":"databaseConnection connect err=","stack":"Error: ER_DBACCESS_DENIED_ERROR: Access denied for user 'user'@'localhost' to database 'sample_sinta'\n    at Handshake.Sequence._packetToError (/home/dmkits/modaua.iprj/node_modules/mysql/lib/protocol/sequences/Sequence.js:52:14)\n    at Handshake.ErrorPacket (/home/dmkits/modaua.iprj/node_modules/mysql/lib/protocol/sequences/Handshake.js:103:18)\n    at Protocol._parsePacket (/home/dmkits/modaua.iprj/node_modules/mysql/lib/protocol/Protocol.js:279:23)\n    at Parser.write (/home/dmkits/modaua.iprj/node_modules/mysql/lib/protocol/Parser.js:76:12)\n    at Protocol.write (/home/dmkits/modaua.iprj/node_modules/mysql/lib/protocol/Protocol.js:39:16)\n    at Socket.<anonymous> (/home/dmkits/modaua.iprj/node_modules/mysql/lib/Connection.js:103:28)\n    at emitOne (events.js:96:13)\n    at Socket.emit (events.js:188:7)\n    at readableAddChunk (_stream_readable.js:176:18)\n    at Socket.Readable.push (_stream_readable.js:134:10)\n    --------------------\n    at Protocol._enqueue (/home/dmkits/modaua.iprj/node_modules/mysql/lib/protocol/Protocol.js:145:48)\n    at Protocol.handshake (/home/dmkits/modaua.iprj/node_modules/mysql/lib/protocol/Protocol.js:52:23)\n    at Connection.connect (/home/dmkits/modaua.iprj/node_modules/mysql/lib/Connection.js:130:18)\n    at databaseConnection (/home/dmkits/modaua.iprj/datamodel/database.js:15:20)\n    at tryDBConnect (/home/dmkits/modaua.iprj/datamodel/database.js:46:5)\n    at Object.<anonymous> (/home/dmkits/modaua.iprj/datamodel/database.js:56:17)\n    at Module._compile (module.js:570:32)\n    at Object.Module._extensions..js (module.js:579:10)\n    at Module.load (module.js:487:32)\n    at tryModuleLoad (module.js:446:12)","code":"ER_DBACCESS_DENIED_ERROR","errno":1044,"sqlMessage":"Access denied for user 'user'@'localhost' to database 'sample_sinta'","sqlState":"42000","fatal":true,"level":"error","timestamp":"2017-08-08 18:27:37"}
+{"level":"info","message":"tryDBConnect DBConnectError= Failed to connect to database! Reason:ER_DBACCESS_DENIED_ERROR: Access denied for user 'user'@'localhost' to database 'sample_sinta'","timestamp":"2017-08-08 18:27:37"}
+{"level":"info","message":"URL: /sysadmin","timestamp":"2017-08-08 18:27:37"}
+{"level":"info","message":"app.get /sysadmin/app_state","timestamp":"2017-08-08 18:27:40"}
+{"level":"info","message":"URL: /sysadmin/startup_parameters","timestamp":"2017-08-08 18:27:46"}
+{"level":"info","message":"URL: /sysadmin/startup_parameters/get_app_config","timestamp":"2017-08-08 18:27:46"}
+{"level":"info","message":"fs... 1502206189848","timestamp":"2017-08-08 18:29:49"}
+{"level":"info","message":"path... 1502206189854","timestamp":"2017-08-08 18:29:49"}
+{"level":"info","message":"express... 1502206191898","timestamp":"2017-08-08 18:29:51"}
+{"level":"info","message":"body-parser... 1502206191904","timestamp":"2017-08-08 18:29:51"}
+{"level":"info","message":"load app configuration...","timestamp":"2017-08-08 18:29:51"}
+{"host":"localhost","database":"modaua_test1","user":"user","password":"user","configName":"config.json","level":"info","message":"app mode:test  app configuration:","timestamp":"2017-08-08 18:29:51"}
+{"level":"info","message":"tryDBConnect...","timestamp":"2017-08-08 18:29:53"}
+{"level":"info","message":"databaseConnection","timestamp":"2017-08-08 18:29:53"}
+{"level":"info","message":"if ! (connection)","timestamp":"2017-08-08 18:29:53"}
+{"level":"info","message":"./dataBase...","timestamp":"2017-08-08 18:29:55"}
+{"level":"info","message":"end app","timestamp":"2017-08-08 18:29:56"}
+{"level":"info","message":"server runs on port 8181","timestamp":"2017-08-08 18:29:56"}
+{"level":"info","message":"tryDBConnect DBConnectError=","timestamp":"2017-08-08 18:29:57"}
