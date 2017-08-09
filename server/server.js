@@ -24,6 +24,7 @@ var path = require('path');                                                 log.
 var express = require('express');                                           log.info('express loaded on ', new Date().getTime()-startTime );//test
 var app = express();
 var bodyParser = require('body-parser');                                    log.info('body-parser loaded on ', new Date().getTime()-startTime );//test
+var cookieParser = require('cookie-parser');                                log.info('cookie-parser loaded on ');//test
 
 var appConfig=null;
 global.appConfigPath= path.join(__dirname,'/../','');
@@ -43,13 +44,17 @@ var database = require('./database');                                       log.
 
 var configFileName=appConfig.configName || 'config.json';
 var config=JSON.parse(util.getJSONWithoutComments(fs.readFileSync('./'+configFileName,'utf-8')));
+module.exports.getConfig=function(){ return config; }
 
+app.use(cookieParser());
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 app.use(bodyParser.text());
 app.use('/', express.static('public'));
 
 global.appViewsPath= path.join(__dirname,'/../views/','');
+
+require("./access")(app);//check user access
 
 require("./appObjects/sysadmin")(app);
 

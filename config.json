@@ -1,5 +1,9 @@
 {
   "title":"MODA.UA",
+  "users":[
+    { "user":"admin", "pswrd":"admin" },
+    { "user":"user", "pswrd":"user" }
+  ],
   "dataModules":[    /*dfgadfgadgfadfgadfg*/
     "change_log",
     "dir_units",
