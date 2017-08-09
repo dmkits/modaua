@@ -17,7 +17,7 @@ if (!app_params.logToConsole) {
 }
 module.exports.log=log;                                                     log.info('STARTING at', startDateTime );//test
 log.info('dateformat, winston util loaded' );//test
-module.exports.appParams = app_params;                                      log.info('started with app params:',  app_params);//test
+module.exports.getAppParams = function(){ return app_params; };             log.info('started with app params:',  app_params);//test
 
 var fs = require('fs');                                                     log.info('fs loaded on ', new Date().getTime()-startTime );//test
 var path = require('path');                                                 log.info('path loaded on ', new Date().getTime()-startTime );//test
@@ -45,6 +45,7 @@ var database = require('./database');                                       log.
 var configFileName=appConfig.configName || 'config.json';
 var config=JSON.parse(util.getJSONWithoutComments(fs.readFileSync('./'+configFileName,'utf-8')));
 module.exports.getConfig=function(){ return config; }
+module.exports.getConfigModules=function(){ return (config&&config.modules)?config.modules:null; }
 
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({extended: true}));
@@ -53,44 +54,15 @@ app.use(bodyParser.text());
 app.use('/', express.static('public'));
 
 global.appViewsPath= path.join(__dirname,'/../views/','');
+global.appModulesPath= path.join(__dirname,'/modules/','');
+global.appDataModelPath= path.join(__dirname,'/datamodel/','');
 
 require("./access")(app);//check user access
 
-require("./appObjects/sysadmin")(app);
-
-app.get("/", function (req, res) {                                          log.info('URL: /');
-    res.sendFile(appViewsPath+ 'main.html');
-});
-
-app.get("/main/get_data", function (req, res) {                             log.info('URL: /main/get_data');
-    var outData= {};
-    outData.title=config.title;
-    outData.menuBar=config.userMenu;
-    outData.autorun=config.userAutorun;
-    outData.mode= app_params.mode;
-    outData.mode_str= app_params.mode;
-    outData.user="";
-    if (!appConfig||appConfig.error) {
-        outData.error= "Failed load application configuration!"+(appConfig&&appConfig.error)?" Reason:"+appConfig.error:"";
-        res.send(outData);
-        return;
-    }
-    if (DBConnectError) {
-        outData.dbConnection= DBConnectError;
-        res.send(outData);
-        return;
-    }
-    outData.dbConnection='Connected';
-    res.send(outData);
-});
-
 var dataModel = require("./datamodel");
-dataModel.init(app);
+//dataModel.init(app);
 
-app.get("/mainOpenPage/*", function (req, res) {                                                log.info('URL: '+req.originalUrl);
-    var file=req.originalUrl.replace("/mainOpenPage","");
-    res.sendFile(path.join(__dirname, '/views', file+'.html'));
-});
+require("./modules").init(app);
 
 app.listen(app_params.port, function (err) {
     if(err){

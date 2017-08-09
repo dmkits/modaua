@@ -4,10 +4,10 @@
     { "userLogin":"admin", "pswrd":"admin", "userRole":"admin" },
     { "userLogin":"user", "pswrd":"user" }
   ],
-  "dataModules":[    /*dfgadfgadgfadfgadfg*/
-    "change_log",
-    "dir_units",
-    "dir_contractors"
+  "modules":[    /*dfgadfgadgfadfgadfg*/
+    "sysadmin",
+    "main",
+    "dir_units"
   ],
   "userMenu":[
     { "itemname":"menuBarItemMainPage", "itemtitle":"Главная страница", "action":"open", "id":"mainPage", "title":"Главная страница", "content":"/main/mainpage", "closable":false},

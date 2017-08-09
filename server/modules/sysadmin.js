@@ -3,20 +3,22 @@ var path = require('path');
 var fs = require('fs');
 var server=require('../server');
 var log = server.log;
-var appParams=server.appParams, getAppConfig=server.getAppConfig, setAppConfig=server.setAppConfig;
+var appParams=server.getAppParams(), getAppConfig=server.getAppConfig, setAppConfig=server.setAppConfig;
 var loadAppConfiguration=server.loadAppConfiguration;
 
+var util=require('../util');
 var database=require('../database');
 var datamodel=require('../datamodel');
-var util=require('../util');
+var changeLog=require(appDataModelPath+'change_log');
 
-module.exports = function(app){
+module.exports.dataModels = ["change_log"];
 
-    app.get("/sysadmin", function (req, res) {                                              log.info('URL: /sysadmin',appViewsPath);
+module.exports.init = function(app){
+    app.get("/sysadmin", function (req, res) {
         res.sendFile(appViewsPath+'sysadmin.html');
     });
 
-    app.get("/sysadmin/app_state", function(req, res){                                      log.info("app.get /sysadmin/app_state");
+    app.get("/sysadmin/app_state", function(req, res){
         var outData= {};
         outData.mode= appParams.mode;
         outData.port=appParams.port;
@@ -77,7 +79,7 @@ module.exports = function(app){
         );
     });
 
-    app.post("/sysadmin/create_new_db", function (req, res) {                                                           log.info('sysadmin/create_new_db ',req.body,{});
+    app.post("/sysadmin/create_new_db", function (req, res) {
         var host=req.body.host;
         var newDBName=req.body.newDatabase;
         var newUserName=req.body.newUser;
@@ -439,10 +441,10 @@ module.exports = function(app){
         outData.columns = [];
         outData.items = [];
         outData.columns.push(
-            {"data": "changeID", "name": "changeID", "width": 185, "type": "text"}
-            , {"data": "changeDatetime", "name": "changeDatetime", "width": 200, "type": "text"}
-            , {"data": "changeObj", "name": "changeObj", "width": 100, "type": "text"}
-            , {"data": "changeVal", "name": "changeVal", "width": 300, "type": "text"}
+            {"data": "changeID", "name": "changeID", "width": 200, "type": "text"}
+            , {"data": "changeDatetime", "name": "changeDatetime", "width": 120, "type": "text", "dateFormat":"YYYY-MM-DD HH:mm:ss"}
+            , {"data": "changeObj", "name": "changeObj", "width": 200, "type": "text"}
+            , {"data": "changeVal", "name": "changeVal", "width": 450, "type": "text"}
             , {"data": "type", "name": "type", "width": 100, "type": "text"}
             , {"data": "message", "name": "message", "width": 200, "type": "text"}
         );
@@ -545,4 +547,22 @@ module.exports = function(app){
         });
     });
 
+    app.get("/sysadmin/database/change_log", function (req, res) {
+        var outData= { columns:changeLog.tableColumns, identifier:changeLog.tableColumns[0].data };
+        database.checkIfChangeLogExists(function (err, exist) {
+            if (err && (err.code == "ER_NO_SUCH_TABLE")) {
+                outData.message = "Change Log doesn't exists";
+                res.send(outData);
+                return;
+            } else if (err) {
+                outData.error = err.message;
+                res.send(outData);
+                return;
+            }
+            database.getDataForTable(changeLog.tableDataQuery, outData,
+                function(outData){
+                    res.send(outData);
+                });
+        });
+    });
 };

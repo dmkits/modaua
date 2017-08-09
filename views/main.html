@@ -117,6 +117,9 @@
                     if (actionData.action=="close") {
                         main_MainMenu.destroy();
                         main_ContentContainer.destroy();
+                        document.cookie="mduUser=";
+                        document.cookie="mduPswrd=";
+                        location.reload();
                         Request.postJSONData({url:"/main/exit"},
                                 /*posaction*/function(success,result){
                                     var resultContent;
