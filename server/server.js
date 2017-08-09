@@ -1,4 +1,4 @@
-var startDateTime=new Date(), startTime=startDateTime.getTime();            console.log('STARTING at ',startDateTime );//test
+var startDateTime=new Date(), startTime=startDateTime.getTime();                                   console.log('STARTING at ',startDateTime );//test
 var dateformat =require('dateformat'), log = require('winston');
 var util=require('./util'), app_params = util.getStartupParams();
 if (!app_params.logToConsole) {
@@ -24,7 +24,7 @@ var path = require('path');                                                 log.
 var express = require('express');                                           log.info('express loaded on ', new Date().getTime()-startTime );//test
 var app = express();
 var bodyParser = require('body-parser');                                    log.info('body-parser loaded on ', new Date().getTime()-startTime );//test
-var cookieParser = require('cookie-parser');                                log.info('cookie-parser loaded on ');//test
+var cookieParser = require('cookie-parser');                                log.info('cookie-parser loaded on ', new Date().getTime()-startTime );//test
 
 var appConfig=null;
 global.appConfigPath= path.join(__dirname,'/../','');
@@ -59,7 +59,7 @@ require("./access")(app);//check user access
 require("./appObjects/sysadmin")(app);
 
 app.get("/", function (req, res) {                                          log.info('URL: /');
-    res.sendFile(path.join(__dirname, '/views', 'main.html'));
+    res.sendFile(appViewsPath+ 'main.html');
 });
 
 app.get("/main/get_data", function (req, res) {                             log.info('URL: /main/get_data');

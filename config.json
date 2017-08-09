@@ -1,8 +1,8 @@
 {
   "title":"MODA.UA",
   "users":[
-    { "user":"admin", "pswrd":"admin" },
-    { "user":"user", "pswrd":"user" }
+    { "userLogin":"admin", "pswrd":"admin", "userRole":"admin" },
+    { "userLogin":"user", "pswrd":"user" }
   ],
   "dataModules":[    /*dfgadfgadgfadfgadfg*/
     "change_log",

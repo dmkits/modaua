@@ -27,8 +27,20 @@
             <div id="sysadmin_dbValidateState" style="display:inline;margin-left:20px;"></div>
         </div>
         <div id="sysadmin_TopActions">
-            <button id="display_startup_params">Startup params</button>
-            <button id="btnDatabase">Database</button>
+            <table>
+                <tr>
+                    <td>
+                        <button id="display_startup_params">Startup params</button>
+                    </td>
+                    <td>
+                        <button id="btnDatabase">Database</button>
+                    </td>
+                    <td width="500px"></td>
+                    <td>
+                        <button id="btnLogout">Logout</button>
+                    </td>
+                </tr>
+            </table>
         </div>
     </div>
     <div id="sysadmin_ContentContainer"></div>
@@ -70,6 +82,13 @@
                 functionalButtons.push(startupBtn);
                 var btnDatabase = new ToggleButton({id:"btnDatabase",iconClass:'dijitCheckBoxIcon'},"btnDatabase");
                 functionalButtons.push(btnDatabase);
+                var btnLogout = new ToggleButton({id:"btnLogout"},"btnLogout");
+
+                btnLogout.onClick=function(){
+                    document.cookie="user=";
+                    document.cookie="pswrd=";
+                    location.reload();
+                };
 
                 var sysadmin_ContentContainer = APP.instanceForID("sysadmin_ContentContainer",
                         StackContainer, {region: "center", tabPosition: "top", class: "sysadmin_Content"});
