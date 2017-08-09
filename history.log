@@ -496,3 +496,17 @@
 {"level":"info","message":"end app","timestamp":"2017-08-08 18:29:56"}
 {"level":"info","message":"server runs on port 8181","timestamp":"2017-08-08 18:29:56"}
 {"level":"info","message":"tryDBConnect DBConnectError=","timestamp":"2017-08-08 18:29:57"}
+{"level":"info","message":"STARTING at 2017-08-09T07:30:58.082Z","timestamp":"2017-08-09 10:30:58"}
+{"level":"info","message":"dateformat, winston util loaded","timestamp":"2017-08-09 10:30:58"}
+{"port":"8181","mode":"test","level":"info","message":"started with app params:","timestamp":"2017-08-09 10:30:58"}
+{"level":"info","message":"fs loaded on  110","timestamp":"2017-08-09 10:30:58"}
+{"level":"info","message":"path loaded on  111","timestamp":"2017-08-09 10:30:58"}
+{"level":"info","message":"express loaded on  260","timestamp":"2017-08-09 10:30:58"}
+{"level":"info","message":"body-parser loaded on  266","timestamp":"2017-08-09 10:30:58"}
+{"level":"info","message":"load app configuration loaded on  267","timestamp":"2017-08-09 10:30:58"}
+{"host":"localhost","database":"modaua_test1","user":"user","password":"user","configName":"config.json","level":"info","message":"app mode:test  app configuration:","timestamp":"2017-08-09 10:30:58"}
+{"level":"info","message":"tryDBConnect...","timestamp":"2017-08-09 10:30:58"}
+{"host":"localhost","database":"modaua_test1","user":"user","password":"user","level":"info","message":"databaseConnection dbConfig:","timestamp":"2017-08-09 10:30:58"}
+{"level":"info","message":"dataBase loaded on  471","timestamp":"2017-08-09 10:30:58"}
+{"level":"info","message":"end app","timestamp":"2017-08-09 10:30:58"}
+{"level":"info","message":"server runs on port 8181 on 531","timestamp":"2017-08-09 10:30:58"}

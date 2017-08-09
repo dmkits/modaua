@@ -113,7 +113,7 @@ var mainPageCommands= {
 
 module.exports = {
     commands: [mainPageCommands],
-    url: 'http://localhost:8080',
+    url: 'http://localhost:8181',
     elements: {
         img: "#main_TopImg",
         mode: '#main_app_mode',

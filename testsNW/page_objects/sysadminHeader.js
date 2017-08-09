@@ -1,5 +1,5 @@
 module.exports = {
-    url: 'http://localhost:8080/sysadmin',
+    url: 'http://localhost:8181/sysadmin',
     elements: {
         img: "#sysadmin_TopImg",
         mode: '#sysadmin_app_mode',
