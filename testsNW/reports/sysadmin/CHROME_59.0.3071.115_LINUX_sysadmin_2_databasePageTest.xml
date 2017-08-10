@@ -1,27 +1,271 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <testsuites errors="0"
             failures="0"
-            tests="2">
+            tests="4">
 
   <testsuite name="sysadmin.sysadmin_2_databasePageTest"
-    errors="0" failures="0" hostname="" id="" package="sysadmin" skipped="2"
-    tests="2" time="0.000" timestamp="Thu, 10 Aug 2017 09:46:12 GMT">
+    errors="0" failures="0" hostname="" id="" package="sysadmin" skipped="0"
+    tests="4" time="109.4" timestamp="Thu, 10 Aug 2017 14:37:51 GMT">
+  
+    <testcase name="Enter ADMIN login  and password" classname="sysadmin.sysadmin_2_databasePageTest" time="6.066" assertions="4">
+
+    
+
+    
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="Sysadmin Header If  All Elements Visible Tests" classname="sysadmin.sysadmin_2_databasePageTest" time="9.400" assertions="17">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="Sysadmin ChangeLogTable Tests" classname="sysadmin.sysadmin_2_databasePageTest" time="87.24" assertions="84">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="Delete Test DB and reconnect" classname="sysadmin.sysadmin_2_databasePageTest" time="6.656" assertions="17">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    </testcase>
   
 
   
 
-  
-    
-    <testcase
-      name="Sysadmin Header If  All Elements Visible Tests" classname="sysadmin.sysadmin_2_databasePageTest">
-      <skipped />
-    </testcase>
-    
-    <testcase
-      name="Sysadmin ChangeLogTable Tests" classname="sysadmin.sysadmin_2_databasePageTest">
-      <skipped />
-    </testcase>
-    
   
   </testsuite>
 </testsuites>

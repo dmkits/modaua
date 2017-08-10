@@ -6,13 +6,12 @@ var changeLog= [
 module.exports.changeLog=changeLog;
 
 var tableColumns=[
-    {"data": "ID", "name": "changeID", "width": 200, "type": "text"}
+      {"data": "ID", "name": "changeID", "width": 200, "type": "text"}
     , {"data": "CHANGE_DATETIME", "name": "changeDatetime", "width": 120, "type": "text", "dateFormat":"YYYY-MM-DD HH:mm:ss"}
     , {"data": "CHANGE_OBJ", "name": "changeObj", "width": 200, "type": "text"}
     , {"data": "CHANGE_VAL", "name": "changeVal", "width": 450, "type": "text"}
     , {"data": "APPLIED_DATETIME", "name": "appliedDatetime", "width": 120, "type": "text", "dateFormat":"YYYY-MM-DD HH:mm:ss"}
-
 ];
 module.exports.tableColumns=tableColumns;
 
-module.exports.tableDataQuery= "select * from change_log";
+module.exports.tableDataQuery= "select * from change_log order by CHANGE_DATETIME";

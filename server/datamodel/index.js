@@ -33,7 +33,7 @@ function getModelChanges(){
     }                                                                                       log.info('getModelChanges fullChangeLog=',fullChangeLog,{});//test
     return fullChangeLog;
 }
-module.exports.getModelChanges=getModelChanges();
+module.exports.getModelChanges=getModelChanges;
 
 //module.exports.getDBModel= getDBModel;
 

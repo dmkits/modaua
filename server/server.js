@@ -1,6 +1,7 @@
 var startDateTime=new Date(), startTime=startDateTime.getTime();                                   console.log('STARTING at ',startDateTime );//test
 var dateformat =require('dateformat'), log = require('winston');
 var util=require('./util'), app_params = util.getStartupParams();
+
 if (!app_params.logToConsole) {
     log.add(log.transports.File, {filename: 'history.log', level: 'debug', timestamp: function() {
         return dateformat(Date.now(), "yyyy-mm-dd HH:MM:ss");

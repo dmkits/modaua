@@ -18,7 +18,6 @@ function databaseConnection(callback){                                          
         connection = mysql.createConnection(getDBConfig());
         connection.connect(function (err) {
             if (err) {                                                                      log.error("databaseConnection connect err=", err);
-                connection = null;
                 callback(err.message);
                 return;
             }
@@ -26,23 +25,15 @@ function databaseConnection(callback){                                          
         });
         return;
     }
-    connection.end(function (err) {
-        if (err) {                                                                          log.error("connection.end err=", err);
-            connection = null;
-            callback(err.message);
-            return;
-        }
+        connection.destroy();
         connection = mysql.createConnection(getDBConfig());
         connection.connect(function (err) {
             if (err) {                                                                      log.error("connect error:",err);
-                connection = null;
                 callback(err.message);
                 return;
             }
             callback(null, "connected");
         });
-
-    });
 };
 module.exports.databaseConnection=databaseConnection;
 
@@ -61,30 +52,20 @@ module.exports.getDBConnectError= function(){ return dbConnectError; };
 
 module.exports.mySQLAdminConnection = function (connParams, callback) {                     log.info("mySQLAdminConnection");
     if (connection) {
-        connection.end(function (err) {                                                     log.info("mySQLAdminConnection if(connection)");
-            if (err) {
-                connection=null;
-                callback(err);           log.error("err  connection.end =", err);
-                return;
-            }
-            connection=null;
+            connection.destroy();
             connection = mysql.createConnection(connParams);
             connection.connect(function (err) {
                 if (err) {              log.error(" mySQLAdminConnection createConnection err=",err);
-                    connection=null;
                     callback(err);
                     return;
                 }
                 callback(null, "connected");
             });
-        });
         return;
     }
-    connection=null;
     connection = mysql.createConnection(connParams);
     connection.connect(function (err) {
         if (err) {
-            connection=null;
             callback(err);
             return;
         }
@@ -370,7 +351,7 @@ module.exports.writeToChangeLog= function(data, callback) {
 module.exports.matchLogData=function(logsData, outData, ind, callback){
 
     var logData = logsData?logsData[ind]:null;
-    if (!logData) {                log.error("!logData ");
+    if (!logData) {                //log.error("!logData ");
         callback(outData);
         return;
     }
@@ -385,8 +366,9 @@ module.exports.matchLogData=function(logsData, outData, ind, callback){
             logData.message = "not applied";
             outData.items.push(logData);
             exports.matchLogData(logsData, outData, ind+1,callback);
-            //  return;
-        } else {
+              return;
+        }
+      // else {
             exports.matchChangeLogFields(logData,function(err, identicalBool){
                 if (err) {
                     outData.error = err.message;                                         log.error("matchChangeLogFields err =",err);
@@ -403,7 +385,7 @@ module.exports.matchLogData=function(logsData, outData, ind, callback){
                     exports.matchLogData(logsData, outData, ind+1,callback);
                     //  return;
                 }
-            })
-        }
+            });
+       // }
     });
 }

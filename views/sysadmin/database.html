@@ -68,7 +68,7 @@
                                                             var resultItem = result["resultItem"], changeMsg = null, typeValue = null;
                                                             if (result.error) {
                                                                 changeMsg = "NOT APPLIED! Reason: " + result.error;
-                                                                typeValue = "failed"
+                                                                //typeValue = "failed"
                                                             }
                                                             if (resultItem && (resultItem.CHANGE_ID == changeID) && resultItem.CHANGE_MSG) {
                                                                 changeMsg = (changeMsg == null) ? resultItem.CHANGE_MSG : changeMsg + " <br>Change message: " + resultItem.CHANGE_MSG;
