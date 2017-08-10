@@ -5,9 +5,16 @@
 
   <testsuite name="main.main_1_headerTests"
     errors="0" failures="0" hostname="" id="" package="main" skipped="3"
-    tests="3" time="0.000" timestamp="Tue, 08 Aug 2017 07:06:20 GMT">
+    tests="3" time="0.000" timestamp="Thu, 10 Aug 2017 06:51:51 GMT">
   
 
+  
+    <system-err>
+        Error while running [Sysadmin / Sysadmin 1 Start Up Params / Check Login Dialog elements ]:
+
+  Error: ENOENT: no such file or directory, open './test.cfg'
+    at Error (native)
+    </system-err>
   
 
   

@@ -11,7 +11,7 @@ var startUpParamsCommands = {
             .clearValue('@dbHostInput')
             .setValue('@dbHostInput',"localhost")
             .clearValue('@dbNameInput')
-            .setValue('@dbNameInput', "temp_db")     //create temp DB sinta temp;
+            .setValue('@dbNameInput', "uiTestsTempDB")     //create temp DB sinta temp;
             .clearValue('@dbUserInput')
             .setValue('@dbUserInput',  "user")
             .clearValue('@dbPasswordInput')
@@ -55,7 +55,7 @@ var startUpParamsCommands = {
                 .clearValue('@dbHostInput')
                 .setValue('@dbHostInput', "localhost")
                 .clearValue('@dbNameInput')
-                .setValue('@dbNameInput', "temp_db")                             //create temp DB sinta_temp;  //temp_db
+                .setValue('@dbNameInput', "uiTestsTempDB")                             //create temp DB   //uiTestsTempDB
                 .clearValue('@dbUserInput')
                 .setValue('@dbUserInput', "user")
                 .clearValue('@dbPasswordInput')
@@ -91,7 +91,7 @@ var startUpParamsCommands = {
             .clearValue('@dbHostInput')
             .setValue('@dbHostInput','localhost')
             .clearValue('@dbNameInput')
-            .setValue('@dbNameInput', 'temp_db')
+            .setValue('@dbNameInput', 'uiTestsTempDB')
             .clearValue('@dbUserInput')
             .setValue('@dbUserInput',  'user')
             .clearValue('@dbPasswordInput')
@@ -162,11 +162,13 @@ module.exports={
         dbNameLabel:'label[for="db.name"]',
         dbUserLabel:'label[for="db.user"]',
         dbPasswordLabel:'label[for="db.password"]',
+        configNamedLabel:'label[for="configName"]',
 
         dbHostInput:'input[id="db.host"]',
         dbNameInput:'input[id="db.name"]',
         dbUserInput:'input[id="db.user"]',
         dbPasswordInput:'input[id="db.password"]',
+        configNameInput:'input[id="configName"]',
 
         loadSettingsBtn:"#SA_startup_params_BtnAppLocalConfigLoad",
         StoreAndReconnectBtn:'#SA_startup_params_BtnAppLocalConfigSaveAndReconnect',

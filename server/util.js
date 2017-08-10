@@ -18,14 +18,15 @@ module.exports.getStartupParams = function() {
         return app_params;
     }
     for (var i = 2; i < process.argv.length; i++) {
-        if (process.argv[i].indexOf('-p:') == 0) {
+        var arg=process.argv[i];
+        if (arg.indexOf('-p:') == 0) {
             var port = process.argv[i].replace("-p:", "");
             if (port > 0 && port < 65536) {
                 app_params.port = port;
             }
-        } else if (process.argv[i].charAt(0).toUpperCase() > 'A' && process.argv[i].charAt(0).toUpperCase() < 'Z') {
-            app_params.mode = process.argv[i];
-        } else if (process.argv[i].indexOf('-log:') == 0) {
+        } else if (arg.charAt(0).toUpperCase() > 'A' && arg.charAt(0).toUpperCase() < 'Z') {
+            app_params.mode = arg;
+        } else if (arg.indexOf('-log:') == 0) {
             var logParam = process.argv[i].replace("-log:", "");
             if (logParam.toLowerCase() == "console") {
                 app_params.logToConsole = true;

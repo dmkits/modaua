@@ -14,7 +14,7 @@ module.exports.init= function(app){
         outData.title=appConfig.title;
         outData.menuBar=appConfig.userMenu;
         outData.autorun=appConfig.userAutorun;
-        outData.user="";
+        outData.appUserName= (req.mduUser)?req.mduUser:"unknown";
         if (!appConfig||appConfig.error) {
             outData.error= "Failed load application configuration!"+(appConfig&&appConfig.error)?" Reason:"+appConfig.error:"";
             res.send(outData);
