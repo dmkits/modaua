@@ -110,7 +110,7 @@
                                     if (result.appUserName) eAppUser.innerHTML = eAppUser.innerHTML + "<b><span style='color:dimgrey'>" + result.appUserName + "</span></b>";
                                     else eAppUser.innerHTML = eAppUser.innerHTML + "<b>UNKNOWN!!!</b>";
                                     if (result.mode) {
-                                        if (result.mode.toString().toLocaleLowerCase().indexOf("test") >= 0)
+                                        if (result.mode.toString().toLocaleLowerCase().indexOf("production") < 0)
                                             eAppMode.innerHTML = eAppMode.innerHTML + "<b style='color:red'>" + result.mode + "</b>";
                                         else
                                             eAppMode.innerHTML = eAppMode.innerHTML + "<b style='color:dimgrey'>" + result.mode + "</b>";

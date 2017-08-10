@@ -117,6 +117,8 @@ module.exports = {
     elements: {
         img: "#main_TopImg",
         mode: '#main_app_mode',
+        main_username:"#main_username",
+
 
         mainMenuItem: '#main_MainMenu',
         popupMenuDirsItem: '#menuBarPopupMenuDirs',
@@ -154,6 +156,7 @@ module.exports = {
         },
 
         dir_units_ContentContainer:"#dir_units_ContentContainer",
+
         finishedContentPane:"#finish"
     }
 };

@@ -38,8 +38,8 @@
             <div id="main_TopImg"></div>
             <div id="main_MainMenu"></div>
             <div id="main_TopInfoPane">
-                <div id="main_app_mode"  style="display:inline;margin-left:10px;"></div>
                 <div id="main_username" style="display:inline;margin-left:10px;"></div>
+                <div id="main_app_mode"  style="display:inline;margin-left:10px;"></div>
             </div>
         </div>
         <div id="main_ContentContainer"></div>
@@ -69,9 +69,10 @@
                                     main_MainContainer.mainContentData = result;
 
                                     var eAppMode = document.getElementById("main_app_mode");
-                                    if (result.mode && result.mode!=="production") {
+                                   // var eAppUserName = document.getElementById("main_username");
+                                    if (result.mode && result.mode.indexOf("production")<0) {
                                         var mode_str = result.mode_str;
-                                        if (!mode_str) mode_str= result.mode
+                                        if (!mode_str) mode_str= result.mode;
                                         if (mode_str.toLocaleLowerCase().indexOf("test")>=0)
                                             eAppMode.innerHTML = "<b style='color:red'>" + mode_str + "</b>";
                                         else
@@ -80,7 +81,7 @@
                                         eAppMode.innerHTML =  eAppMode.innerHTML+"<b>UNKNOWN MODE!!!</b>";
 
 
-                                    if(result.user) document.getElementById("main_username").innerHTML =  "<b>"+result.user+"</b>";
+                                    if(result.appUserName) document.getElementById("main_username").innerHTML =  "<b>"+result.appUserName+"</b>";
                                 } else {
                                     main_MainContainer.mainContentData = [];
                                     main_MainContainer.mainContentData["error"]= result;

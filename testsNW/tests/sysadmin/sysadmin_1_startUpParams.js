@@ -19,30 +19,104 @@ function deleteTestBackUpFile() {
 module.exports= {
     //'@disabled': true,
     before: function (browser) {
-        fs.createReadStream('./test.cfg').pipe(fs.createWriteStream('./test_temp_copy.cfg'));
+        fs.createReadStream('./uiTest.cfg').pipe(fs.createWriteStream('./test_temp_copy.cfg'));
     },
 
     after : function(browser) {
         deleteTestBackUpFile();
     },
 
-    'Sysadmin Header If  All Elements Visible Tests': function (browser) {
-
-        browser.saveScreenshot("./testsNW/screenshots.png")
-            .pause(2000);
+    'Open  browser': function (browser) {
 
         var mainHeader = browser.page.sysadminHeader();
         mainHeader
-            .navigate()
+            .navigate();
+    },
+
+
+    'Check Login Dialog elements visible': function (browser) {
+
+        var loginPage = browser.page.loginPage();
+        loginPage
+            .waitForElementVisible('@loginDialog')
+            .waitForElementVisible('@loginDialog_title')
+            .waitForElementVisible('@userLoginNameLabel')
+            .waitForElementVisible('@userLoginPasswordLabel')
+            .waitForElementVisible('@userLoginNameInput')
+            .waitForElementVisible('@userLoginPasswordInput')
+            .waitForElementVisible('@loginDialog_submitBtn')
+            .waitForElementVisible('@loginDialog_cancelBtn')
+
+    },
+    'Enter wrong login  and password': function (browser) {
+
+        var loginPage = browser.page.loginPage();
+        loginPage
+            .assert.valueContains("@userLoginNameInput","")
+            .assert.valueContains("@userLoginPasswordInput","")
+            .setValue("@userLoginNameInput",'false')
+            .setValue("@userLoginPasswordInput",'false')
+            .click("@loginDialog_submitBtn");
+          browser.pause(500);
+        loginPage
+            .assert.valueContains("@userLoginNameInput","")
+            .assert.valueContains("@userLoginPasswordInput","")
+
+    },
+
+    'Enter NON_ADMIN login  and password': function (browser) {
+        var loginPage = browser.page.loginPage();
+        loginPage
+            .assert.valueContains("@userLoginNameInput","")
+            .assert.valueContains("@userLoginPasswordInput","")
+            .setValue("@userLoginNameInput",'user')
+            .setValue("@userLoginPasswordInput",'user')
+            .click("@loginDialog_submitBtn");
+        browser.pause(1000)
+            .assert.urlEquals("http://localhost:8181/");
+        var mainPage=browser.page.mainPage();
+        mainPage
+            .waitForElementVisible('@menuBarItemCloseItem')
+            .click('@menuBarItemCloseItem')
+    },
+    'Enter ADMIN login  and password': function (browser) {
+        browser.url("http://localhost:8181/sysadmin");
+        var loginPage = browser.page.loginPage();
+        loginPage
+            .waitForElementVisible('@loginDialog')
+            .assert.valueContains("@userLoginNameInput","")
+            .assert.valueContains("@userLoginPasswordInput","")
+            .setValue("@userLoginNameInput",'admin')
+            .setValue("@userLoginPasswordInput",'admin')
+            .click("@loginDialog_submitBtn");
+        browser.pause(1000)
+            .assert.urlEquals("http://localhost:8181/sysadmin")
+            .pause(1000)
+            .url("http://localhost:8181");
+
+              var mainPage=browser.page.mainPage();
+        mainPage
+            .waitForElementVisible('@main_username')
+            .assert.containsText('@main_username', "admin");
+    },
+    'Sysadmin Header If  All Elements Visible Tests': function (browser) {
+
+        browser.url("http://localhost:8181/sysadmin")
+                     .pause(2000);
+
+        var mainHeader = browser.page.sysadminHeader();
+        mainHeader
             .waitForElementVisible("@img")
             .assert.visible("@img")
             .assert.title('MODA.UA')
-            .assert.containsText('@mode', "MODE:test")
-            .assert.containsText('@port', "PORT:8080")
-            .assert.containsText('@dbName', "DB NAME:modaua_test1")
-            .assert.containsText('@user', "USER:user")
+            .assert.containsText('@user', "USER:admin")
+            .assert.containsText('@mode', "MODE:uiTest")
+            .assert.containsText('@port', "PORT:8181")
+            .assert.containsText('@dbName', "DB NAME:modaua_uiTtest1")
+            .assert.containsText('@dbUser', "DB USER:user")
             .assert.containsText('@dbConnectionState', 'Connected')
             .assert.visible('@StartUpParamsBtn')
+            .assert.visible('@logoutBtn')
             .click('@StartUpParamsBtn')
             .assert.attributeContains('@StartUpParamsBtn','aria-pressed','true');
     },
@@ -61,18 +135,16 @@ module.exports= {
             .assert.containsText('@dbUserLabel','db.user')
             .waitForElementVisible('@dbPasswordLabel')
             .assert.containsText('@dbPasswordLabel','db.password')
+            .waitForElementVisible('@configNamedLabel')
+            .assert.containsText('@configNamedLabel','configName');
 
-            .waitForElementVisible('@dbHostInput')
-            .assert.valueContains('@dbHostInput','localhost')
-            .waitForElementVisible('@dbNameInput')
-            .assert.valueContains('@dbNameInput','modaua_test1')
-            .waitForElementVisible('@dbUserInput')
-            .assert.valueContains('@dbUserInput','user')
-            .waitForElementVisible('@dbPasswordInput')
-            .assert.valueContains('@dbPasswordInput','user')
+        startUpParams.expect.element('@dbHostInput').to.have.attribute('value').which.equal('localhost');
+        startUpParams.expect.element('@dbNameInput').to.have.attribute('value').which.equal('modaua_uiTtest1');
+        startUpParams.expect.element('@dbUserInput').to.have.attribute('value').which.equal('user');
+        startUpParams.expect.element('@dbPasswordInput').to.have.attribute('value').which.equal('user');
+        startUpParams.expect.element('@configNameInput').to.have.attribute('value').which.equal('config.json');
 
-
-
+        startUpParams
             .waitForElementVisible('@localConfigInfo')
             .assert.containsText('@localConfigInfo', "Configuration loaded.")
             .click('@loadSettingsBtn')
@@ -112,8 +184,8 @@ module.exports= {
             .setValue('@dbUserInput','sa1')
             .click('@StoreAndReconnectBtn');
 
-        mainHeader.waitForElementVisible('@user')
-            .assert.containsText("@user", "sa1")
+        mainHeader.waitForElementVisible('@dbUser')
+            .assert.containsText("@dbUser", "sa1")
             .waitForElementVisible('@dbConnectionState')
             .assert.containsText("@dbConnectionState", "Failed to connect to database!");
 
@@ -276,6 +348,9 @@ module.exports= {
             .waitForElementVisible('@backupDBResultField')
             .assert.containsText('@backupDBResultField', 'backup saved')
             .dropTempDBAndReconnect();
+
+        var sysadminHeader=browser.page.sysadminHeader();
+        sysadminHeader.click('@logoutBtn');
 
        // browser.end();
     }

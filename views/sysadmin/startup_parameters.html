@@ -331,13 +331,19 @@
                     );
                 };
                 function setDBConfigContent(DBConfigData) {
-//                  hostInput.domNode.setAttribute("value", DBConfigData["host"]);
-                    document.getElementById("db.host").setAttribute("value", DBConfigData["host"]);
-                    document.getElementById("db.name").setAttribute("value", DBConfigData["database"]);
-                    document.getElementById("db.user").setAttribute("value", DBConfigData["user"]);
-                    document.getElementById("db.password").setAttribute("value", DBConfigData["password"]);
+                    hostInput.set("value", DBConfigData["host"]);
+                    databaseInput.set("value", DBConfigData["database"]);
+                    userInput.set("value", DBConfigData["user"]);
+                    dbPasswordInput.set("value",  DBConfigData["password"]);
                     var config=DBConfigData["configName"] || "config.json";
-                    document.getElementById("configName").setAttribute("value", config);
+                    configNameInput.set("value", config);
+
+//                    document.getElementById("db.host").setAttribute("value", DBConfigData["host"]);
+//                    document.getElementById("db.name").setAttribute("value", DBConfigData["database"]);
+//                    document.getElementById("db.user").setAttribute("value", DBConfigData["user"]);
+//                    document.getElementById("db.password").setAttribute("value", DBConfigData["password"]);
+//                    var config=DBConfigData["configName"] || "config.json";
+//                    document.getElementById("configName").setAttribute("value", config);
                 }
 
                 saveAndReconnectBtn.onClick = function () {
