@@ -8,7 +8,7 @@ var loadAppConfiguration=server.loadAppConfiguration;
 
 var util=require('../util');
 var database=require('../database');
-var datamodel=require('../datamodel');
+var dataModel=require('../datamodel');
 var changeLog=require(appDataModelPath+'change_log');
 
 module.exports.dataModels = ["change_log"];
@@ -452,7 +452,7 @@ module.exports.init = function(app){
             if (err&& (err.code=="ER_NO_SUCH_TABLE")) {                                           log.info("err.code=ER_NO_SUCH_TABLE");
                 outData.noTable = true;
                 //  outData.items=getDBModel();
-                var arr=datamodel.getDBModel();
+                var arr=dataModel.getModelChanges();
                 // var sortArr=sortArray(arr);
                 outData.items=util.sortArray(arr);
                 res.send(outData);
@@ -464,7 +464,7 @@ module.exports.init = function(app){
                 //matchLogFilesArray(logFilesArr, outData, 0, function (outData) {
                 //    res.send(outData);
                 //var  logsData= getDBModel();
-                var arr=datamodel.getDBModel();
+                var arr=dataModel.getModelChanges();
                 var  logsData= util.sortArray(arr);
                 database.matchLogData(logsData, outData, 0, function(outData){
                     res.send(outData);

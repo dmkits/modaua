@@ -11,43 +11,29 @@ var sysadmin= require("../modules/sysadmin");//console.log("sysadmin=",sysadmin)
 //
 //};
 
-var dmChangeLog = require("./change_log");
-var dmUnits = require("./dir_units");
-var dmContractors = require("./dir_contractors");
+//var dmChangeLog = require("./change_log");
+//var dmUnits = require("./dir_units");
+//var dmContractors = require("./dir_contractors");
 
 
 function getModelChanges(){
     var modules= server.getConfigModules();
     if (!modules) return null;
-    var result=[];
+    var fullChangeLog=[];
     for(var i=0; i<modules.length; i++){
-        var moduleName=modules[i];                                                          log.info('getModelChanges '+moduleName+"...");//test
-        var module= require(appModulesPath+moduleName);
-        if (module.dataModels) {                                                            log.info('getModelChanges dataModels:',module.dataModels);//test
-            //var datamodelName=
-            result=result.concat(module.dataModels);
+        var moduleName=modules[i];                                                          //log.info('getModelChanges '+moduleName+"...");//test
+        var moduleDataModels= require(appModulesPath+moduleName).dataModels;
+        if (moduleDataModels) {                                                             //log.info('getModelChanges dataModels:',moduleDataModels);//test
+            for(var dmi=0; dmi<moduleDataModels.length; dmi++){
+                var dataModelName=moduleDataModels[dmi];
+                var changeLog= require(appDataModelPath+dataModelName).changeLog;             //log.info('getModelChanges dataModelName:',dataModelName,changeLog,{});//test
+                if(changeLog) fullChangeLog=fullChangeLog.concat(changeLog);
+            }
         }
-    }                                                   log.info('getModelChanges result=',result);//test
-    return result;
-
-
-
-    //var outData=[];
-    //var logFilesStr=fs.readFileSync('./dbConfig/dbModel.json', 'utf-8');
-    //var logFilesArr = JSON.parse(util.getJSONWithoutComments(logFilesStr));
-    //for (var i in logFilesArr) {
-    //    var fileContentString = fs.readFileSync('./dbConfig/' + logFilesArr[i] + '.json', 'utf-8');
-    //    var jsonFile=JSON.parse(util.getJSONWithoutComments(fileContentString));
-    //    for (var j in jsonFile) {
-    //        jsonFile[j].type = "new";
-    //        jsonFile[j].message = "not applied";
-    //        outData.push(jsonFile[j]);
-    //    }
-    //}
-    //return outData;
+    }                                                                                       log.info('getModelChanges fullChangeLog=',fullChangeLog,{});//test
+    return fullChangeLog;
 }
-
-getModelChanges();
+module.exports.getModelChanges=getModelChanges();
 
 //module.exports.getDBModel= getDBModel;
 

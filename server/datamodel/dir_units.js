@@ -1,4 +1,4 @@
-var dir_units=[
+var changeLog=[
     {
         "changeID": "dir_units__1",
         "changeDatetime": "2016-08-29T11:41:00.000",
@@ -59,7 +59,8 @@ var dir_units=[
         "changeObj": "dir_units",
         "changeVal": "INSERT INTO dir_units(ID,NAME,FULL_NAME,NOTE,CITY,ADDRESS,NOT_USED) values (1,'Магазин 1','Магазин 1','Магазин 1','Днипро','Днипро',0);"
     }
-    ];
+];
+module.exports.changeLog=changeLog;
 
 var tableColumns=[
     {"data": "ID", "name": "ID", "width": 100, "type": "text", readOnly:true, visible:false},
@@ -69,15 +70,16 @@ var tableColumns=[
     {"data": "CITY", "name": "CITY", "width": 200, "type": "text"},
     {"data": "ADDRESS", "name": "ADDRESS", "width": 200, "type": "text"}
 ];
+module.exports.tableColumns=tableColumns;
 
-var dmBase = require("./dataModelBase");
+//var dmBase = require("./dataModelBase");
 
-module.exports=  new dmBase({
-    tableName:"dir_units", tableKeyField:"ID",
-    dataURL:"/dir/units", getDataForTable:true, tableColumns:tableColumns,
-    newDataForTable:{"NAME":"новое подразделение", "FULL_NAME":"новое подразделение", "NOTE":"новое подразделение", "CITY":"-", "ADDRESS":"-"},
-    storeTableData:true, deleteTableData:true
-});
+//module.exports=  new dmBase({
+//    tableName:"dir_units", tableKeyField:"ID",
+//    dataURL:"/dir/units", getDataForTable:true, tableColumns:tableColumns,
+//    newDataForTable:{"NAME":"новое подразделение", "FULL_NAME":"новое подразделение", "NOTE":"новое подразделение", "CITY":"-", "ADDRESS":"-"},
+//    storeTableData:true, deleteTableData:true
+//});
 
 
 //function baseClass(){
