@@ -58,18 +58,21 @@ global.appViewsPath= path.join(__dirname,'/../views/','');
 global.appModulesPath= path.join(__dirname,'/modules/','');
 global.appDataModelPath= path.join(__dirname,'/datamodel/','');
 
-require("./access")(app);//check user access
-
-var dataModel = require("./datamodel");
-//dataModel.init(app);
-
-require("./modules").init(app);
-
-app.listen(app_params.port, function (err) {
-    if(err){
-        console.log("listen port err= ", err);
-        return;
+require("./modules").validate(function(err){
+    if (err){
+        log.error("FAILED validate! Reason: ",err);
     }
-    console.log("server runs on port " + app_params.port+" on "+(new Date().getTime()-startTime));
-    log.info("server runs on port " + app_params.port+" on "+(new Date().getTime()-startTime));
-});                                                                                                log.info("end app");
+    require("./access")(app);//check user access
+
+    require("./modules").init(app);
+
+    app.listen(app_params.port, function (err) {
+        if(err){
+            console.log("listen port err= ", err);
+            return;
+        }
+        console.log("server runs on port " + app_params.port+" on "+(new Date().getTime()-startTime));
+        log.info("server runs on port " + app_params.port+" on "+(new Date().getTime()-startTime));
+    });                                                                                                log.info("end app");
+});
+

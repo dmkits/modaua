@@ -1,4 +1,4 @@
-var server= require("./server"), log= server.log, config= server.getConfig();
+var server= require("./server"), log= server.log, config= server.getConfig(), modules= require("./modules");
 
 module.exports= function(app){
 
@@ -32,6 +32,15 @@ module.exports= function(app){
             return;
         }
         req.mduUser=user;
+
+        var validateError= modules.getValidateError();
+        if (validateError&&sysadminAccess){
+            res.redirect("/sysadmin");
+            return;
+        } else if (validateError){
+            res.sendFile(appViewsPath+'validateFailed.html');
+            return;
+        }
         next();
     });
 };

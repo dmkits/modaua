@@ -14,4 +14,6 @@ var tableColumns=[
 ];
 module.exports.tableColumns=tableColumns;
 
+module.exports.validateQuery= "select ID,CHANGE_DATETIME,CHANGE_OBJ,CHANGE_VAL,APPLIED_DATETIME from change_log where ID is NULL";
+
 module.exports.tableDataQuery= "select * from change_log order by CHANGE_DATETIME";

@@ -267,20 +267,20 @@ var ID=data.changeID;
  * for database query insert/update/delete
  * callback = function(err, updateCount)
  */
-module.exports.executeQuery= function(query, callback) { log.info("executeQuery: ",query);
+module.exports.executeQuery= function(query, callback) {                                            log.info("executeQuery: ",query);
     connection.query(query,
         function (err, recordset, fields) {
-            if (err) {                                                                                                  log.error("executeQuery err=",err);
+            if (err) {                                                                              log.error("executeQuery err=",err);
                 callback(err);
                 return;
             }
             callback(null, recordset.affectedRows);
         });
 };
-module.exports.executeParamsQuery= function(query, parameters, callback) {                                  log.info("executeParamsQuery: ",query,parameters);
+module.exports.executeParamsQuery= function(query, parameters, callback) {                          log.info("executeParamsQuery: ",query,parameters);
     connection.query(query, parameters,
         function (err, recordset, fields) {
-            if (err) {                                                                                                  log.error("executeParamsQuery err=",err);
+            if (err) {                                                                              log.error("executeParamsQuery err=",err);
                 callback(err);
                 return;
             }
