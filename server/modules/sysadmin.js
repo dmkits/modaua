@@ -23,7 +23,7 @@ module.exports.init = function(app){
         outData.mode= appParams.mode;
         outData.port=appParams.port;
         var appConfig=getAppConfig();
-        outData.connUserName=appConfig.user;
+        outData.appUserName= (req.mduUser)?req.mduUser:"unknown";
         if (!appConfig||appConfig.error) {
             outData.error= (appConfig&&appConfig.error)?appConfig.error:"unknown";
             res.send(outData);

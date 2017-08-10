@@ -31,6 +31,7 @@ module.exports= function(app){
             res.redirect("/");
             return;
         }
+        req.mduUser=user;
         next();
     });
 };

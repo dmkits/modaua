@@ -19,8 +19,9 @@
     <div id="sysadmin_TopContainer">
         <div id="sysadmin_TopImg"></div>
         <div id="sysadmin_TopStateInfo">
-            <div id="sysadmin_app_mode" style="display:inline;"></div>
-            <div id="sysadmin_app_port" style="display:inline; margin-left:20px;;"></div>
+            <div id="sysadmin_app_user" style="display:inline;"></div>
+            <div id="sysadmin_app_mode" style="display:inline;inline;margin-left:20px;"></div>
+            <div id="sysadmin_app_port" style="display:inline; margin-left:20px;"></div>
             <div id="sysadmin_dbName" style="display:inline;;margin-left:20px;"></div>
             <div id="sysadmin_ConnUserName" style="display:inline;;margin-left:20px;"></div>
             <div id="sysadmin_connectToDBState" style="display:inline;margin-left:20px;"></div>
@@ -100,14 +101,14 @@
                                 if (success) {
                                     if (result === undefined || result == null) result = [];
                                     sysadmin_MainContainer.mainContentData = result;
+                                    var eAppUser = document.getElementById("sysadmin_app_user");
                                     var eAppMode = document.getElementById("sysadmin_app_mode");
                                     var eAppPort = document.getElementById("sysadmin_app_port");
+                                    eAppUser.innerHTML = "<b>USER:</b>";
                                     eAppMode.innerHTML = "<b>MODE:</b>";
                                     eAppPort.innerHTML = "<b>PORT:</b>";
-                                    if(result.port){
-                                        eAppPort.innerHTML=eAppPort.innerHTML+"<b style='color:dimgrey'>"+ result.port+"</b>";
-                                    }
-
+                                    if (result.appUserName) eAppUser.innerHTML = eAppUser.innerHTML + "<b><span style='color:dimgrey'>" + result.appUserName + "</span></b>";
+                                    else eAppUser.innerHTML = eAppUser.innerHTML + "<b>UNKNOWN!!!</b>";
                                     if (result.mode) {
                                         if (result.mode.toString().toLocaleLowerCase().indexOf("test") >= 0)
                                             eAppMode.innerHTML = eAppMode.innerHTML + "<b style='color:red'>" + result.mode + "</b>";
@@ -115,11 +116,15 @@
                                             eAppMode.innerHTML = eAppMode.innerHTML + "<b style='color:dimgrey'>" + result.mode + "</b>";
                                     } else
                                         eAppMode.innerHTML = eAppMode.innerHTML + "<b>UNKNOWN!!!</b>";
+                                    if(result.port){
+                                        eAppPort.innerHTML=eAppPort.innerHTML+"<b style='color:dimgrey'>"+ result.port+"</b>";
+                                    }
+
                                     if (result.configuration) {
                                         document.getElementById("sysadmin_dbName").innerHTML =
                                                 "<b>DB NAME:<span style='color:dimgrey'>" + result.configuration.database + "</span></b>";
                                         document.getElementById("sysadmin_ConnUserName").innerHTML =
-                                                "<b>USER:<span style='color:dimgrey'>" + result.configuration.user + "</span></b>"
+                                                "<b>DB USER:<span style='color:dimgrey'>" + result.configuration.user + "</span></b>"
                                     }
                                     if (result.dbConnection) {
                                         sysadmin_TopContainer.set("style","height:63px; margin:0; padding:0");

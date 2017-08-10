@@ -1,5 +1,5 @@
 
-var server= require("../server"), log= server.log;;
+var server= require("../server"), log= server.log;
 
 module.exports.init = function(app){
     var modules= server.getConfigModules();
