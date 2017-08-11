@@ -1,793 +1,264 @@
-17:37:51.557 INFO - Selenium build info: version: '3.4.0', revision: 'unknown'
-17:37:51.558 INFO - Launching a standalone Selenium Server
-2017-08-10 17:37:51.585:INFO::main: Logging initialized @383ms to org.seleniumhq.jetty9.util.log.StdErrLog
-17:37:51.663 INFO - Driver provider org.openqa.selenium.ie.InternetExplorerDriver registration is skipped:
+17:45:00.420 INFO - Selenium build info: version: '3.4.0', revision: 'unknown'
+17:45:00.421 INFO - Launching a standalone Selenium Server
+2017-08-11 17:45:00.453:INFO::main: Logging initialized @414ms to org.seleniumhq.jetty9.util.log.StdErrLog
+17:45:00.533 INFO - Driver provider org.openqa.selenium.ie.InternetExplorerDriver registration is skipped:
  registration capabilities Capabilities [{ensureCleanSession=true, browserName=internet explorer, version=, platform=WINDOWS}] does not match the current platform LINUX
-17:37:51.664 INFO - Driver provider org.openqa.selenium.edge.EdgeDriver registration is skipped:
+17:45:00.534 INFO - Driver provider org.openqa.selenium.edge.EdgeDriver registration is skipped:
  registration capabilities Capabilities [{browserName=MicrosoftEdge, version=, platform=WINDOWS}] does not match the current platform LINUX
-17:37:51.664 INFO - Driver class not found: com.opera.core.systems.OperaDriver
-17:37:51.665 INFO - Driver provider com.opera.core.systems.OperaDriver registration is skipped:
+17:45:00.534 INFO - Driver class not found: com.opera.core.systems.OperaDriver
+17:45:00.534 INFO - Driver provider com.opera.core.systems.OperaDriver registration is skipped:
 Unable to create new instances on this machine.
-17:37:51.665 INFO - Driver class not found: com.opera.core.systems.OperaDriver
-17:37:51.665 INFO - Driver provider com.opera.core.systems.OperaDriver is not registered
-17:37:51.667 INFO - Driver provider org.openqa.selenium.safari.SafariDriver registration is skipped:
+17:45:00.534 INFO - Driver class not found: com.opera.core.systems.OperaDriver
+17:45:00.535 INFO - Driver provider com.opera.core.systems.OperaDriver is not registered
+17:45:00.536 INFO - Driver provider org.openqa.selenium.safari.SafariDriver registration is skipped:
  registration capabilities Capabilities [{browserName=safari, version=, platform=MAC}] does not match the current platform LINUX
-2017-08-10 17:37:51.731:INFO:osjs.Server:main: jetty-9.4.3.v20170317
-2017-08-10 17:37:51.785:INFO:osjsh.ContextHandler:main: Started o.s.j.s.ServletContextHandler@3e6fa38a{/,null,AVAILABLE}
-2017-08-10 17:37:51.809:INFO:osjs.AbstractConnector:main: Started ServerConnector@6500df86{HTTP/1.1,[http/1.1]}{0.0.0.0:4444}
-2017-08-10 17:37:51.811:INFO:osjs.Server:main: Started @609ms
-17:37:51.811 INFO - Selenium Server is up and running
-17:37:52.317 INFO - SessionCleaner initialized with insideBrowserTimeout 0 and clientGoneTimeout 1800000 polling every 180000
-17:37:52.357 INFO - Executing: [new session: Capabilities [{acceptSslCerts=true, name=Sysadmin / Sysadmin 2 Database Page Test, browserName=chrome, javascriptEnabled=true, platform=ANY}]])
-17:37:52.393 INFO - Creating a new session for Capabilities [{acceptSslCerts=true, name=Sysadmin / Sysadmin 2 Database Page Test, browserName=chrome, javascriptEnabled=true, platform=ANY}]
-Starting ChromeDriver 2.29.461571 (8a88bbe0775e2a23afda0ceaf2ef7ee74e822cc5) on port 15826
+2017-08-11 17:45:00.605:INFO:osjs.Server:main: jetty-9.4.3.v20170317
+2017-08-11 17:45:00.666:INFO:osjsh.ContextHandler:main: Started o.s.j.s.ServletContextHandler@3e6fa38a{/,null,AVAILABLE}
+2017-08-11 17:45:00.691:INFO:osjs.AbstractConnector:main: Started ServerConnector@6500df86{HTTP/1.1,[http/1.1]}{0.0.0.0:4444}
+2017-08-11 17:45:00.692:INFO:osjs.Server:main: Started @653ms
+17:45:00.692 INFO - Selenium Server is up and running
+17:45:01.142 INFO - SessionCleaner initialized with insideBrowserTimeout 0 and clientGoneTimeout 1800000 polling every 180000
+17:45:01.182 INFO - Executing: [new session: Capabilities [{acceptSslCerts=true, name=Main / Main 1 Header Tests, browserName=chrome, javascriptEnabled=true, platform=ANY}]])
+17:45:01.215 INFO - Creating a new session for Capabilities [{acceptSslCerts=true, name=Main / Main 1 Header Tests, browserName=chrome, javascriptEnabled=true, platform=ANY}]
+Starting ChromeDriver 2.29.461571 (8a88bbe0775e2a23afda0ceaf2ef7ee74e822cc5) on port 30079
 Only local connections are allowed.
-17:37:54.066 INFO - Detected dialect: OSS
-17:37:54.112 INFO - Done: [new session: Capabilities [{acceptSslCerts=true, name=Sysadmin / Sysadmin 2 Database Page Test, browserName=chrome, javascriptEnabled=true, platform=ANY}]]
-17:37:54.144 INFO - Executing: [maximise window])
-17:37:54.338 INFO - Done: [maximise window]
-17:37:54.351 INFO - Executing: [get: http://localhost:8181/sysadmin])
-17:37:56.144 INFO - Done: [get: http://localhost:8181/sysadmin]
-17:37:56.165 INFO - Executing: [find elements: By.cssSelector: #loginDialog])
-17:37:56.263 INFO - Done: [find elements: By.cssSelector: #loginDialog]
-17:37:56.271 INFO - Executing: [is displayed: 0 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> css selector: #loginDialog]])
-17:37:56.330 INFO - Done: [is displayed: 0 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> css selector: #loginDialog]]
-17:37:56.350 INFO - Executing: [find element: By.cssSelector: #user_name])
-17:37:56.397 INFO - Done: [find element: By.cssSelector: #user_name]
-17:37:56.412 INFO - Executing: [get element attribute: 1 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> css selector: #user_name], value])
-17:37:56.430 INFO - Done: [get element attribute: 1 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> css selector: #user_name], value]
-17:37:56.443 INFO - Executing: [find element: By.cssSelector: #user_password])
-17:37:56.484 INFO - Done: [find element: By.cssSelector: #user_password]
-17:37:56.492 INFO - Executing: [get element attribute: 2 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> css selector: #user_password], value])
-17:37:56.508 INFO - Done: [get element attribute: 2 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> css selector: #user_password], value]
-17:37:56.518 INFO - Executing: [find element: By.cssSelector: #user_name])
-17:37:56.539 INFO - Done: [find element: By.cssSelector: #user_name]
-17:37:56.547 INFO - Executing: [send keys: 1 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> css selector: #user_name], [a, d, m, i, n]])
-17:37:56.665 INFO - Done: [send keys: 1 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> css selector: #user_name], [a, d, m, i, n]]
-17:37:56.677 INFO - Executing: [find element: By.cssSelector: #user_password])
-17:37:56.695 INFO - Done: [find element: By.cssSelector: #user_password]
-17:37:56.704 INFO - Executing: [send keys: 2 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> css selector: #user_password], [a, d, m, i, n]])
-17:37:56.818 INFO - Done: [send keys: 2 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> css selector: #user_password], [a, d, m, i, n]]
-17:37:56.830 INFO - Executing: [find element: By.xpath: //div[@id="loginDialog"]//span[@class="dijitReset dijitInline dijitButtonText" and text()="Войти"]])
-17:37:56.873 INFO - Done: [find element: By.xpath: //div[@id="loginDialog"]//span[@class="dijitReset dijitInline dijitButtonText" and text()="Войти"]]
-17:37:56.882 INFO - Executing: [click: 3 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> xpath: //div[@id="loginDialog"]//span[@class="dijitReset dijitInline dijitButtonText" and text()="Войти"]]])
-17:37:57.003 INFO - Done: [click: 3 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> xpath: //div[@id="loginDialog"]//span[@class="dijitReset dijitInline dijitButtonText" and text()="Войти"]]]
-17:37:58.016 INFO - Executing: [get current url])
-17:37:58.031 INFO - Done: [get current url]
-17:38:00.093 INFO - Executing: [get: http://localhost:8181/sysadmin])
-17:38:00.707 INFO - Done: [get: http://localhost:8181/sysadmin]
-17:38:00.718 INFO - Executing: [find elements: By.cssSelector: #sysadmin_TopImg])
-17:38:00.761 INFO - Done: [find elements: By.cssSelector: #sysadmin_TopImg]
-17:38:00.768 INFO - Executing: [is displayed: 4 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> css selector: #sysadmin_TopImg]])
-17:38:00.810 INFO - Done: [is displayed: 4 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> css selector: #sysadmin_TopImg]]
-17:38:00.818 INFO - Executing: [find elements: By.cssSelector: #btnDatabase])
-17:38:00.861 INFO - Done: [find elements: By.cssSelector: #btnDatabase]
-17:38:00.868 INFO - Executing: [is displayed: 5 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> css selector: #btnDatabase]])
-17:38:00.912 INFO - Done: [is displayed: 5 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> css selector: #btnDatabase]]
-17:38:00.926 INFO - Executing: [find element: By.cssSelector: #display_startup_params])
-17:38:00.966 INFO - Done: [find element: By.cssSelector: #display_startup_params]
-17:38:00.976 INFO - Executing: [click: 6 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> css selector: #display_startup_params]])
-17:38:01.120 INFO - Done: [click: 6 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> css selector: #display_startup_params]]
-17:38:01.127 INFO - Executing: [find elements: By.cssSelector: input[id="db.host"]])
-17:38:01.226 INFO - Done: [find elements: By.cssSelector: input[id="db.host"]]
-17:38:01.233 INFO - Executing: [is displayed: 7 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> css selector: input[id="db.host"]]])
-17:38:01.309 INFO - Done: [is displayed: 7 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> css selector: input[id="db.host"]]]
-17:38:01.818 INFO - Executing: [is displayed: 7 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> css selector: input[id="db.host"]]])
-17:38:03.243 WARN - Exception thrown
-org.openqa.selenium.StaleElementReferenceException: stale element reference: element is not attached to the page document
-  (Session info: chrome=59.0.3071.115)
-  (Driver info: chromedriver=2.29.461571 (8a88bbe0775e2a23afda0ceaf2ef7ee74e822cc5),platform=Linux 4.8.0-59-generic x86_64) (WARNING: The server did not provide any stacktrace information)
-Command duration or timeout: 29 milliseconds
-For documentation on this error, please visit: http://seleniumhq.org/exceptions/stale_element_reference.html
-Build info: version: '3.4.0', revision: 'unknown', time: 'unknown'
-System info: host: 'LPCODER2', ip: '127.0.1.1', os.name: 'Linux', os.arch: 'amd64', os.version: '4.8.0-59-generic', java.version: '1.8.0_131'
-Driver info: org.openqa.selenium.chrome.ChromeDriver
-Capabilities [{applicationCacheEnabled=false, rotatable=false, mobileEmulationEnabled=false, networkConnectionEnabled=false, chrome={chromedriverVersion=2.29.461571 (8a88bbe0775e2a23afda0ceaf2ef7ee74e822cc5), userDataDir=/tmp/.org.chromium.Chromium.AG3sHX}, takesHeapSnapshot=true, pageLoadStrategy=normal, databaseEnabled=false, handlesAlerts=true, hasTouchScreen=false, version=59.0.3071.115, platform=LINUX, browserConnectionEnabled=false, nativeEvents=true, acceptSslCerts=true, locationContextEnabled=true, webStorageEnabled=true, browserName=chrome, takesScreenshot=true, javascriptEnabled=true, cssSelectorsEnabled=true, unexpectedAlertBehaviour=}]
-Session ID: 1f151372ea7d69d8d1ed4ba80a55eebe
-	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
-	at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:62)
-	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
-	at java.lang.reflect.Constructor.newInstance(Constructor.java:423)
-	at org.openqa.selenium.remote.ErrorHandler.createThrowable(ErrorHandler.java:215)
-	at org.openqa.selenium.remote.ErrorHandler.throwIfResponseFailed(ErrorHandler.java:167)
-	at org.openqa.selenium.remote.RemoteWebDriver.execute(RemoteWebDriver.java:671)
-	at org.openqa.selenium.remote.RemoteWebElement.execute(RemoteWebElement.java:272)
-	at org.openqa.selenium.remote.RemoteWebElement.isDisplayed(RemoteWebElement.java:313)
-	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
-	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
-	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-	at java.lang.reflect.Method.invoke(Method.java:498)
-	at org.openqa.selenium.support.events.EventFiringWebDriver$EventFiringWebElement$1.invoke(EventFiringWebDriver.java:332)
-	at com.sun.proxy.$Proxy5.isDisplayed(Unknown Source)
-	at org.openqa.selenium.support.events.EventFiringWebDriver$EventFiringWebElement.isDisplayed(EventFiringWebDriver.java:386)
-	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
-	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
-	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-	at java.lang.reflect.Method.invoke(Method.java:498)
-	at org.openqa.selenium.remote.server.KnownElements$1.invoke(KnownElements.java:64)
-	at com.sun.proxy.$Proxy6.isDisplayed(Unknown Source)
-	at org.openqa.selenium.remote.server.handler.GetElementDisplayed.call(GetElementDisplayed.java:32)
-	at org.openqa.selenium.remote.server.handler.GetElementDisplayed.call(GetElementDisplayed.java:23)
-	at java.util.concurrent.FutureTask.run(FutureTask.java:266)
-	at org.openqa.selenium.remote.server.DefaultSession$1.run(DefaultSession.java:176)
-	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)
-	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)
-	at java.lang.Thread.run(Thread.java:748)
-17:38:03.249 WARN - Exception: stale element reference: element is not attached to the page document
-  (Session info: chrome=59.0.3071.115)
-  (Driver info: chromedriver=2.29.461571 (8a88bbe0775e2a23afda0ceaf2ef7ee74e822cc5),platform=Linux 4.8.0-59-generic x86_64) (WARNING: The server did not provide any stacktrace information)
-Command duration or timeout: 29 milliseconds
-For documentation on this error, please visit: http://seleniumhq.org/exceptions/stale_element_reference.html
-Build info: version: '3.4.0', revision: 'unknown', time: 'unknown'
-System info: host: 'LPCODER2', ip: '127.0.1.1', os.name: 'Linux', os.arch: 'amd64', os.version: '4.8.0-59-generic', java.version: '1.8.0_131'
-Driver info: org.openqa.selenium.chrome.ChromeDriver
-Capabilities [{applicationCacheEnabled=false, rotatable=false, mobileEmulationEnabled=false, networkConnectionEnabled=false, chrome={chromedriverVersion=2.29.461571 (8a88bbe0775e2a23afda0ceaf2ef7ee74e822cc5), userDataDir=/tmp/.org.chromium.Chromium.AG3sHX}, takesHeapSnapshot=true, pageLoadStrategy=normal, databaseEnabled=false, handlesAlerts=true, hasTouchScreen=false, version=59.0.3071.115, platform=LINUX, browserConnectionEnabled=false, nativeEvents=true, acceptSslCerts=true, locationContextEnabled=true, webStorageEnabled=true, browserName=chrome, takesScreenshot=true, javascriptEnabled=true, cssSelectorsEnabled=true, unexpectedAlertBehaviour=}]
-Session ID: 1f151372ea7d69d8d1ed4ba80a55eebe
-17:38:03.401 INFO - Executing: [find elements: By.cssSelector: input[id="db.host"]])
-17:38:03.422 INFO - Done: [find elements: By.cssSelector: input[id="db.host"]]
-17:38:03.430 INFO - Executing: [is displayed: 8 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> css selector: input[id="db.host"]]])
-17:38:03.472 INFO - Done: [is displayed: 8 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> css selector: input[id="db.host"]]]
-17:38:03.483 INFO - Executing: [find elements: By.cssSelector: input[id="db.name"]])
-17:38:03.543 INFO - Done: [find elements: By.cssSelector: input[id="db.name"]]
-17:38:03.549 INFO - Executing: [is displayed: 9 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> css selector: input[id="db.name"]]])
-17:38:03.594 INFO - Done: [is displayed: 9 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> css selector: input[id="db.name"]]]
-17:38:03.600 INFO - Executing: [find elements: By.cssSelector: input[id="db.user"]])
-17:38:03.650 INFO - Done: [find elements: By.cssSelector: input[id="db.user"]]
-17:38:03.657 INFO - Executing: [is displayed: 10 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> css selector: input[id="db.user"]]])
-17:38:03.713 INFO - Done: [is displayed: 10 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> css selector: input[id="db.user"]]]
-17:38:03.720 INFO - Executing: [find elements: By.cssSelector: input[id="db.password"]])
-17:38:03.762 INFO - Done: [find elements: By.cssSelector: input[id="db.password"]]
-17:38:03.767 INFO - Executing: [is displayed: 11 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> css selector: input[id="db.password"]]])
-17:38:03.811 INFO - Done: [is displayed: 11 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> css selector: input[id="db.password"]]]
-17:38:03.820 INFO - Executing: [find element: By.cssSelector: input[id="db.host"]])
-17:38:03.863 INFO - Done: [find element: By.cssSelector: input[id="db.host"]]
-17:38:03.870 INFO - Executing: [clear: 8 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> css selector: input[id="db.host"]]])
-17:38:03.930 INFO - Done: [clear: 8 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> css selector: input[id="db.host"]]]
-17:38:03.944 INFO - Executing: [find element: By.cssSelector: input[id="db.host"]])
-17:38:03.963 INFO - Done: [find element: By.cssSelector: input[id="db.host"]]
-17:38:03.970 INFO - Executing: [send keys: 8 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> css selector: input[id="db.host"]], [l, o, c, a, l, h, o, s, t]])
-17:38:04.115 INFO - Done: [send keys: 8 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> css selector: input[id="db.host"]], [l, o, c, a, l, h, o, s, t]]
-17:38:04.122 INFO - Executing: [find element: By.cssSelector: input[id="db.name"]])
-17:38:04.165 INFO - Done: [find element: By.cssSelector: input[id="db.name"]]
-17:38:04.170 INFO - Executing: [clear: 9 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> css selector: input[id="db.name"]]])
-17:38:04.220 INFO - Done: [clear: 9 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> css selector: input[id="db.name"]]]
-17:38:04.227 INFO - Executing: [find element: By.cssSelector: input[id="db.name"]])
-17:38:04.245 INFO - Done: [find element: By.cssSelector: input[id="db.name"]]
-17:38:04.259 INFO - Executing: [send keys: 9 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> css selector: input[id="db.name"]], [u, i, T, e, s, t, s, T, e, m, p, D, B]])
-17:38:04.441 INFO - Done: [send keys: 9 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> css selector: input[id="db.name"]], [u, i, T, e, s, t, s, T, e, m, p, D, B]]
-17:38:04.454 INFO - Executing: [find element: By.cssSelector: input[id="db.user"]])
-17:38:04.504 INFO - Done: [find element: By.cssSelector: input[id="db.user"]]
-17:38:04.510 INFO - Executing: [clear: 10 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> css selector: input[id="db.user"]]])
-17:38:04.574 INFO - Done: [clear: 10 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> css selector: input[id="db.user"]]]
-17:38:04.586 INFO - Executing: [find element: By.cssSelector: input[id="db.user"]])
-17:38:04.608 INFO - Done: [find element: By.cssSelector: input[id="db.user"]]
-17:38:04.615 INFO - Executing: [send keys: 10 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> css selector: input[id="db.user"]], [u, s, e, r]])
-17:38:04.733 INFO - Done: [send keys: 10 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> css selector: input[id="db.user"]], [u, s, e, r]]
-17:38:04.742 INFO - Executing: [find element: By.cssSelector: input[id="db.password"]])
-17:38:04.785 INFO - Done: [find element: By.cssSelector: input[id="db.password"]]
-17:38:04.791 INFO - Executing: [clear: 11 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> css selector: input[id="db.password"]]])
-17:38:04.855 INFO - Done: [clear: 11 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> css selector: input[id="db.password"]]]
-17:38:04.862 INFO - Executing: [find element: By.cssSelector: input[id="db.password"]])
-17:38:04.886 INFO - Done: [find element: By.cssSelector: input[id="db.password"]]
-17:38:04.894 INFO - Executing: [send keys: 11 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> css selector: input[id="db.password"]], [u, s, e, r]])
-17:38:05.008 INFO - Done: [send keys: 11 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> css selector: input[id="db.password"]], [u, s, e, r]]
-17:38:05.016 INFO - Executing: [find element: By.cssSelector: #create_db_btn])
-17:38:05.063 INFO - Done: [find element: By.cssSelector: #create_db_btn]
-17:38:05.071 INFO - Executing: [click: 12 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> css selector: #create_db_btn]])
-17:38:05.226 INFO - Done: [click: 12 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> css selector: #create_db_btn]]
-17:38:05.233 INFO - Executing: [find elements: By.cssSelector: #adminAuthDialog])
-17:38:05.285 INFO - Done: [find elements: By.cssSelector: #adminAuthDialog]
-17:38:05.291 INFO - Executing: [is displayed: 13 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> css selector: #adminAuthDialog]])
-17:38:05.334 INFO - Done: [is displayed: 13 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> css selector: #adminAuthDialog]]
-17:38:05.345 INFO - Executing: [find element: By.cssSelector: #adminAuthDialog])
-17:38:05.396 INFO - Done: [find element: By.cssSelector: #adminAuthDialog]
-17:38:05.402 INFO - Executing: [get text: 13 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> css selector: #adminAuthDialog]])
-17:38:05.466 INFO - Done: [get text: 13 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> css selector: #adminAuthDialog]]
-17:38:05.474 INFO - Executing: [find element: By.cssSelector: input[id="admin_name"]])
-17:38:05.522 INFO - Done: [find element: By.cssSelector: input[id="admin_name"]]
-17:38:05.529 INFO - Executing: [is displayed: 14 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> css selector: input[id="admin_name"]]])
-17:38:05.572 INFO - Done: [is displayed: 14 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> css selector: input[id="admin_name"]]]
-17:38:05.580 INFO - Executing: [find element: By.cssSelector: input[id="admin_name"]])
-17:38:05.602 INFO - Done: [find element: By.cssSelector: input[id="admin_name"]]
-17:38:05.608 INFO - Executing: [get element attribute: 14 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> css selector: input[id="admin_name"]], value])
-17:38:05.623 INFO - Done: [get element attribute: 14 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> css selector: input[id="admin_name"]], value]
-17:38:05.630 INFO - Executing: [find element: By.cssSelector: #admin_password])
-17:38:05.673 INFO - Done: [find element: By.cssSelector: #admin_password]
-17:38:05.678 INFO - Executing: [is displayed: 15 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> css selector: #admin_password]])
-17:38:05.722 INFO - Done: [is displayed: 15 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> css selector: #admin_password]]
-17:38:05.732 INFO - Executing: [find element: By.cssSelector: #admin_password])
-17:38:05.749 INFO - Done: [find element: By.cssSelector: #admin_password]
-17:38:05.758 INFO - Executing: [get element attribute: 15 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> css selector: #admin_password], value])
-17:38:05.774 INFO - Done: [get element attribute: 15 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> css selector: #admin_password], value]
-17:38:05.783 INFO - Executing: [find element: By.cssSelector: #admin_password])
-17:38:05.802 INFO - Done: [find element: By.cssSelector: #admin_password]
-17:38:05.809 INFO - Executing: [send keys: 15 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> css selector: #admin_password], [R, t, y, 1, 9, 8, 8]])
-17:38:05.932 INFO - Done: [send keys: 15 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> css selector: #admin_password], [R, t, y, 1, 9, 8, 8]]
-17:38:05.938 INFO - Executing: [find element: By.xpath: //div[@id="adminAuthDialog"]//span[@class="dijitReset dijitInline dijitButtonText" and text()="Login"]])
-17:38:05.985 INFO - Done: [find element: By.xpath: //div[@id="adminAuthDialog"]//span[@class="dijitReset dijitInline dijitButtonText" and text()="Login"]]
-17:38:05.989 INFO - Executing: [click: 16 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> xpath: //div[@id="adminAuthDialog"]//span[@class="dijitReset dijitInline dijitButtonText" and text()="Login"]]])
-17:38:06.115 INFO - Done: [click: 16 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> xpath: //div[@id="adminAuthDialog"]//span[@class="dijitReset dijitInline dijitButtonText" and text()="Login"]]]
-17:38:06.122 INFO - Executing: [find elements: By.cssSelector: #adminAuthDialog])
-17:38:06.177 INFO - Done: [find elements: By.cssSelector: #adminAuthDialog]
-17:38:06.183 INFO - Executing: [is displayed: 13 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> css selector: #adminAuthDialog]])
-17:38:06.202 INFO - Done: [is displayed: 13 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> css selector: #adminAuthDialog]]
-17:38:06.709 INFO - Executing: [is displayed: 13 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> css selector: #adminAuthDialog]])
-17:38:06.728 INFO - Done: [is displayed: 13 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> css selector: #adminAuthDialog]]
-17:38:06.735 INFO - Executing: [find elements: By.cssSelector: #create_db_result])
-17:38:06.776 INFO - Done: [find elements: By.cssSelector: #create_db_result]
-17:38:06.781 INFO - Executing: [is displayed: 17 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> css selector: #create_db_result]])
-17:38:06.823 INFO - Done: [is displayed: 17 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> css selector: #create_db_result]]
-17:38:06.830 INFO - Executing: [find element: By.cssSelector: #create_db_result])
-17:38:06.870 INFO - Done: [find element: By.cssSelector: #create_db_result]
-17:38:06.876 INFO - Executing: [get text: 17 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> css selector: #create_db_result]])
-17:38:06.922 INFO - Done: [get text: 17 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> css selector: #create_db_result]]
-17:38:06.930 INFO - Executing: [find element: By.cssSelector: #SA_startup_params_BtnAppLocalConfigSaveAndReconnect])
-17:38:06.972 INFO - Done: [find element: By.cssSelector: #SA_startup_params_BtnAppLocalConfigSaveAndReconnect]
-17:38:06.978 INFO - Executing: [click: 18 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> css selector: #SA_startup_params_BtnAppLocalConfigSaveAndReconnect]])
-17:38:07.101 INFO - Done: [click: 18 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> css selector: #SA_startup_params_BtnAppLocalConfigSaveAndReconnect]]
-17:38:07.109 INFO - Executing: [find elements: By.cssSelector: #btnDatabase])
-17:38:07.135 INFO - Done: [find elements: By.cssSelector: #btnDatabase]
-17:38:07.140 INFO - Executing: [is displayed: 5 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> css selector: #btnDatabase]])
-17:38:07.159 INFO - Done: [is displayed: 5 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> css selector: #btnDatabase]]
-17:38:07.168 INFO - Executing: [find element: By.cssSelector: #btnDatabase])
-17:38:07.230 INFO - Done: [find element: By.cssSelector: #btnDatabase]
-17:38:07.235 INFO - Executing: [click: 5 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> css selector: #btnDatabase]])
-17:38:07.374 INFO - Done: [click: 5 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> css selector: #btnDatabase]]
-17:38:07.384 INFO - Executing: [find element: By.cssSelector: #btnDatabase])
-17:38:07.409 INFO - Done: [find element: By.cssSelector: #btnDatabase]
-17:38:07.416 INFO - Executing: [get element attribute: 5 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> css selector: #btnDatabase], aria-pressed])
-17:38:07.437 INFO - Done: [get element attribute: 5 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> css selector: #btnDatabase], aria-pressed]
-17:38:07.529 INFO - Executing: [find elements: By.cssSelector: #sysadmin_database_ContentPaneDetailContainer])
-17:38:07.578 INFO - Done: [find elements: By.cssSelector: #sysadmin_database_ContentPaneDetailContainer]
-17:38:07.585 INFO - Executing: [is displayed: 19 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> css selector: #sysadmin_database_ContentPaneDetailContainer]])
-17:38:07.636 INFO - Done: [is displayed: 19 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> css selector: #sysadmin_database_ContentPaneDetailContainer]]
-17:38:07.643 INFO - Executing: [find elements: By.xpath: //*[@id='sysadmin_database_Tabledatabasecurrent_changes']//td/h1])
-17:38:08.091 INFO - Done: [find elements: By.xpath: //*[@id='sysadmin_database_Tabledatabasecurrent_changes']//td/h1]
-17:38:08.098 INFO - Executing: [is displayed: 20 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> xpath: //*[@id='sysadmin_database_Tabledatabasecurrent_changes']//td/h1]])
-17:38:08.149 INFO - Done: [is displayed: 20 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> xpath: //*[@id='sysadmin_database_Tabledatabasecurrent_changes']//td/h1]]
-17:38:08.158 INFO - Executing: [find element: By.xpath: //*[@id='sysadmin_database_Tabledatabasecurrent_changes']//td/h1])
-17:38:08.200 INFO - Done: [find element: By.xpath: //*[@id='sysadmin_database_Tabledatabasecurrent_changes']//td/h1]
-17:38:08.206 INFO - Executing: [get text: 20 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> xpath: //*[@id='sysadmin_database_Tabledatabasecurrent_changes']//td/h1]])
-17:38:08.254 INFO - Done: [get text: 20 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> xpath: //*[@id='sysadmin_database_Tabledatabasecurrent_changes']//td/h1]]
-17:38:08.261 INFO - Executing: [find elements: By.xpath: //*[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_master handsontable']//table[@class='htCore']])
-17:38:08.303 INFO - Done: [find elements: By.xpath: //*[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_master handsontable']//table[@class='htCore']]
-17:38:08.308 INFO - Executing: [is displayed: 21 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> xpath: //*[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_master handsontable']//table[@class='htCore']]])
-17:38:08.352 INFO - Done: [is displayed: 21 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> xpath: //*[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_master handsontable']//table[@class='htCore']]]
-17:38:08.362 INFO - Executing: [find elements: By.xpath: //*[@id='sysadmin_database_Tabledatabasecurrent_changes']//label[contains(text(), 'ИТОГО строк:')]/ancestor::td//input[@type='hidden']])
-17:38:08.405 INFO - Done: [find elements: By.xpath: //*[@id='sysadmin_database_Tabledatabasecurrent_changes']//label[contains(text(), 'ИТОГО строк:')]/ancestor::td//input[@type='hidden']]
-17:38:08.412 INFO - Executing: [find element: By.xpath: //*[@id='sysadmin_database_Tabledatabasecurrent_changes']//label[contains(text(), 'ИТОГО строк:')]/ancestor::td//input[@type='hidden']])
-17:38:08.459 INFO - Done: [find element: By.xpath: //*[@id='sysadmin_database_Tabledatabasecurrent_changes']//label[contains(text(), 'ИТОГО строк:')]/ancestor::td//input[@type='hidden']]
-17:38:08.464 INFO - Executing: [get element attribute: 22 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> xpath: //*[@id='sysadmin_database_Tabledatabasecurrent_changes']//label[contains(text(), 'ИТОГО строк:')]/ancestor::td//input[@type='hidden']], value])
-17:38:08.481 INFO - Done: [get element attribute: 22 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> xpath: //*[@id='sysadmin_database_Tabledatabasecurrent_changes']//label[contains(text(), 'ИТОГО строк:')]/ancestor::td//input[@type='hidden']], value]
-17:38:08.487 INFO - Executing: [find elements: By.xpath: //*[@id='sysadmin_database_Tabledatabasecurrent_changes']//td/h1])
-17:38:08.509 INFO - Done: [find elements: By.xpath: //*[@id='sysadmin_database_Tabledatabasecurrent_changes']//td/h1]
-17:38:08.520 INFO - Executing: [is displayed: 20 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> xpath: //*[@id='sysadmin_database_Tabledatabasecurrent_changes']//td/h1]])
-17:38:08.537 INFO - Done: [is displayed: 20 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> xpath: //*[@id='sysadmin_database_Tabledatabasecurrent_changes']//td/h1]]
-17:38:08.549 INFO - Executing: [find element: By.xpath: //*[@id='sysadmin_database_Tabledatabasecurrent_changes']//td/h1])
-17:38:08.572 INFO - Done: [find element: By.xpath: //*[@id='sysadmin_database_Tabledatabasecurrent_changes']//td/h1]
-17:38:08.581 INFO - Executing: [get text: 20 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> xpath: //*[@id='sysadmin_database_Tabledatabasecurrent_changes']//td/h1]])
-17:38:08.599 INFO - Done: [get text: 20 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> xpath: //*[@id='sysadmin_database_Tabledatabasecurrent_changes']//td/h1]]
-17:38:08.606 INFO - Executing: [find elements: By.xpath: //div[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[1]])
-17:38:08.648 INFO - Done: [find elements: By.xpath: //div[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[1]]
-17:38:08.653 INFO - Executing: [is displayed: 23 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> xpath: //div[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[1]]])
-17:38:08.695 INFO - Done: [is displayed: 23 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> xpath: //div[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[1]]]
-17:38:08.704 INFO - Executing: [find element: By.xpath: //div[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[1]])
-17:38:08.745 INFO - Done: [find element: By.xpath: //div[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[1]]
-17:38:08.749 INFO - Executing: [get text: 23 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> xpath: //div[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[1]]])
-17:38:08.800 INFO - Done: [get text: 23 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> xpath: //div[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[1]]]
-17:38:08.807 INFO - Executing: [find elements: By.xpath: //div[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[2]])
-17:38:08.864 INFO - Done: [find elements: By.xpath: //div[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[2]]
-17:38:08.868 INFO - Executing: [is displayed: 24 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> xpath: //div[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[2]]])
-17:38:08.907 INFO - Done: [is displayed: 24 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> xpath: //div[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[2]]]
-17:38:08.917 INFO - Executing: [find element: By.xpath: //div[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[2]])
-17:38:08.975 INFO - Done: [find element: By.xpath: //div[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[2]]
-17:38:08.980 INFO - Executing: [get text: 24 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> xpath: //div[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[2]]])
-17:38:09.035 INFO - Done: [get text: 24 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> xpath: //div[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[2]]]
-17:38:09.048 INFO - Executing: [find elements: By.xpath: //div[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[3]])
-17:38:09.096 INFO - Done: [find elements: By.xpath: //div[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[3]]
-17:38:09.102 INFO - Executing: [is displayed: 25 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> xpath: //div[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[3]]])
-17:38:09.141 INFO - Done: [is displayed: 25 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> xpath: //div[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[3]]]
-17:38:09.148 INFO - Executing: [find element: By.xpath: //div[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[3]])
-17:38:09.192 INFO - Done: [find element: By.xpath: //div[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[3]]
-17:38:09.196 INFO - Executing: [get text: 25 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> xpath: //div[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[3]]])
-17:38:09.246 INFO - Done: [get text: 25 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> xpath: //div[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[3]]]
-17:38:09.252 INFO - Executing: [find elements: By.xpath: //div[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[4]])
-17:38:09.300 INFO - Done: [find elements: By.xpath: //div[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[4]]
-17:38:09.304 INFO - Executing: [is displayed: 26 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> xpath: //div[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[4]]])
-17:38:09.350 INFO - Done: [is displayed: 26 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> xpath: //div[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[4]]]
-17:38:09.357 INFO - Executing: [find element: By.xpath: //div[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[4]])
-17:38:09.398 INFO - Done: [find element: By.xpath: //div[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[4]]
-17:38:09.402 INFO - Executing: [get text: 26 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> xpath: //div[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[4]]])
-17:38:09.451 INFO - Done: [get text: 26 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> xpath: //div[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[4]]]
-17:38:09.456 INFO - Executing: [find elements: By.xpath: //div[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[5]])
-17:38:09.498 INFO - Done: [find elements: By.xpath: //div[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[5]]
-17:38:09.502 INFO - Executing: [is displayed: 27 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> xpath: //div[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[5]]])
-17:38:09.539 INFO - Done: [is displayed: 27 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> xpath: //div[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[5]]]
-17:38:09.545 INFO - Executing: [find element: By.xpath: //div[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[5]])
-17:38:09.588 INFO - Done: [find element: By.xpath: //div[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[5]]
-17:38:09.592 INFO - Executing: [get text: 27 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> xpath: //div[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[5]]])
-17:38:09.640 INFO - Done: [get text: 27 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> xpath: //div[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[5]]]
-17:38:09.649 INFO - Executing: [find elements: By.xpath: //div[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[6]])
-17:38:09.691 INFO - Done: [find elements: By.xpath: //div[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[6]]
-17:38:09.699 INFO - Executing: [is displayed: 28 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> xpath: //div[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[6]]])
-17:38:09.738 INFO - Done: [is displayed: 28 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> xpath: //div[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[6]]]
-17:38:09.744 INFO - Executing: [find element: By.xpath: //div[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[6]])
-17:38:09.790 INFO - Done: [find element: By.xpath: //div[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[6]]
-17:38:09.794 INFO - Executing: [get text: 28 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> xpath: //div[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[6]]])
-17:38:09.844 INFO - Done: [get text: 28 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> xpath: //div[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[6]]]
-17:38:09.850 INFO - Executing: [find elements: By.xpath: //div[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[1]])
-17:38:09.893 INFO - Done: [find elements: By.xpath: //div[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[1]]
-17:38:09.898 INFO - Executing: [is displayed: 29 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> xpath: //div[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[1]]])
-17:38:09.933 INFO - Done: [is displayed: 29 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> xpath: //div[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[1]]]
-17:38:09.940 INFO - Executing: [find element: By.xpath: //div[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[1]])
-17:38:09.979 INFO - Done: [find element: By.xpath: //div[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[1]]
-17:38:09.987 INFO - Executing: [get text: 29 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> xpath: //div[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[1]]])
-17:38:10.038 INFO - Done: [get text: 29 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> xpath: //div[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[1]]]
-17:38:10.044 INFO - Executing: [find elements: By.xpath: //div[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[2]])
-17:38:10.089 INFO - Done: [find elements: By.xpath: //div[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[2]]
-17:38:10.102 INFO - Executing: [is displayed: 30 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> xpath: //div[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[2]]])
-17:38:10.141 INFO - Done: [is displayed: 30 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> xpath: //div[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[2]]]
-17:38:10.148 INFO - Executing: [find element: By.xpath: //div[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[2]])
-17:38:10.204 INFO - Done: [find element: By.xpath: //div[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[2]]
-17:38:10.209 INFO - Executing: [get text: 30 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> xpath: //div[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[2]]])
-17:38:10.269 INFO - Done: [get text: 30 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> xpath: //div[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[2]]]
-17:38:10.276 INFO - Executing: [find elements: By.xpath: //div[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[3]])
-17:38:10.333 INFO - Done: [find elements: By.xpath: //div[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[3]]
-17:38:10.348 INFO - Executing: [is displayed: 31 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> xpath: //div[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[3]]])
-17:38:10.394 INFO - Done: [is displayed: 31 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> xpath: //div[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[3]]]
-17:38:10.414 INFO - Executing: [find element: By.xpath: //div[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[3]])
-17:38:10.454 INFO - Done: [find element: By.xpath: //div[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[3]]
-17:38:10.458 INFO - Executing: [get text: 31 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> xpath: //div[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[3]]])
-17:38:10.503 INFO - Done: [get text: 31 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> xpath: //div[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[3]]]
-17:38:10.508 INFO - Executing: [find elements: By.xpath: //div[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[4]])
-17:38:10.552 INFO - Done: [find elements: By.xpath: //div[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[4]]
-17:38:10.556 INFO - Executing: [is displayed: 32 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> xpath: //div[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[4]]])
-17:38:10.595 INFO - Done: [is displayed: 32 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> xpath: //div[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[4]]]
-17:38:10.600 INFO - Executing: [find element: By.xpath: //div[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[4]])
-17:38:10.640 INFO - Done: [find element: By.xpath: //div[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[4]]
-17:38:10.644 INFO - Executing: [get text: 32 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> xpath: //div[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[4]]])
-17:38:10.688 INFO - Done: [get text: 32 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> xpath: //div[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[4]]]
-17:38:10.694 INFO - Executing: [find elements: By.xpath: //div[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[5]])
-17:38:10.738 INFO - Done: [find elements: By.xpath: //div[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[5]]
-17:38:10.742 INFO - Executing: [is displayed: 33 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> xpath: //div[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[5]]])
-17:38:10.782 INFO - Done: [is displayed: 33 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> xpath: //div[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[5]]]
-17:38:10.790 INFO - Executing: [find element: By.xpath: //div[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[5]])
-17:38:10.828 INFO - Done: [find element: By.xpath: //div[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[5]]
-17:38:10.832 INFO - Executing: [get text: 33 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> xpath: //div[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[5]]])
-17:38:10.875 INFO - Done: [get text: 33 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> xpath: //div[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[5]]]
-17:38:10.882 INFO - Executing: [find elements: By.xpath: //div[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[6]])
-17:38:10.940 INFO - Done: [find elements: By.xpath: //div[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[6]]
-17:38:10.944 INFO - Executing: [is displayed: 34 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> xpath: //div[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[6]]])
-17:38:10.985 INFO - Done: [is displayed: 34 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> xpath: //div[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[6]]]
-17:38:10.991 INFO - Executing: [find element: By.xpath: //div[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[6]])
-17:38:11.037 INFO - Done: [find element: By.xpath: //div[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[6]]
-17:38:11.042 INFO - Executing: [get text: 34 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> xpath: //div[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[6]]])
-17:38:11.085 INFO - Done: [get text: 34 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> xpath: //div[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[6]]]
-17:38:11.093 INFO - Executing: [find element: By.xpath: //div[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[1]])
-17:38:11.109 INFO - Done: [find element: By.xpath: //div[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[1]]
-17:38:11.115 INFO - Executing: [mousemove: 29 true])
-17:38:11.171 INFO - Done: [mousemove: 29 true]
-17:38:11.176 INFO - Executing: [mousedown: no args])
-17:38:11.204 INFO - Done: [mousedown: no args]
-17:38:11.211 INFO - Executing: [find element: By.xpath: //div[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[3]/td[3]])
-17:38:11.250 INFO - Done: [find element: By.xpath: //div[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[3]/td[3]]
-17:38:11.255 INFO - Executing: [mousemove: 35 true])
-17:38:11.309 INFO - Done: [mousemove: 35 true]
-17:38:11.315 INFO - Executing: [mouseup: nothing])
-17:38:11.365 INFO - Done: [mouseup: nothing]
-17:38:11.371 INFO - Executing: [click: nothing])
-17:38:11.404 INFO - Done: [click: nothing]
-17:38:11.414 INFO - Executing: [find elements: By.xpath: //div[contains(text(), 'Apply selected changes')]/../..])
-17:38:11.461 INFO - Done: [find elements: By.xpath: //div[contains(text(), 'Apply selected changes')]/../..]
-17:38:11.466 INFO - Executing: [is displayed: 36 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> xpath: //div[contains(text(), 'Apply selected changes')]/../..]])
-17:38:11.516 INFO - Done: [is displayed: 36 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> xpath: //div[contains(text(), 'Apply selected changes')]/../..]]
-17:38:11.522 INFO - Executing: [find element: By.xpath: //div[contains(text(), 'Apply selected changes')]/../..])
-17:38:11.562 INFO - Done: [find element: By.xpath: //div[contains(text(), 'Apply selected changes')]/../..]
-17:38:11.566 INFO - Executing: [click: 36 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> xpath: //div[contains(text(), 'Apply selected changes')]/../..]])
-17:38:11.723 INFO - Done: [click: 36 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> xpath: //div[contains(text(), 'Apply selected changes')]/../..]]
-17:38:17.730 INFO - Executing: [find elements: By.xpath: //div[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[6]])
-17:38:17.757 INFO - Done: [find elements: By.xpath: //div[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[6]]
-17:38:17.762 INFO - Executing: [is displayed: 34 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> xpath: //div[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[6]]])
-17:38:17.784 INFO - Done: [is displayed: 34 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> xpath: //div[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[6]]]
-17:38:17.790 INFO - Executing: [find element: By.xpath: //div[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[6]])
-17:38:17.810 INFO - Done: [find element: By.xpath: //div[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[6]]
-17:38:17.818 INFO - Executing: [get text: 34 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> xpath: //div[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[6]]])
-17:38:17.841 INFO - Done: [get text: 34 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> xpath: //div[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[6]]]
-17:38:17.848 INFO - Executing: [find elements: By.xpath: //div[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[2]/td[6]])
-17:38:17.887 INFO - Done: [find elements: By.xpath: //div[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[2]/td[6]]
-17:38:17.891 INFO - Executing: [is displayed: 37 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> xpath: //div[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[2]/td[6]]])
-17:38:17.927 INFO - Done: [is displayed: 37 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> xpath: //div[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[2]/td[6]]]
-17:38:17.937 INFO - Executing: [find element: By.xpath: //div[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[2]/td[6]])
-17:38:17.989 INFO - Done: [find element: By.xpath: //div[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[2]/td[6]]
-17:38:17.995 INFO - Executing: [get text: 37 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> xpath: //div[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[2]/td[6]]])
-17:38:18.044 INFO - Done: [get text: 37 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> xpath: //div[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[2]/td[6]]]
-17:38:18.049 INFO - Executing: [find elements: By.xpath: //div[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[3]/td[6]])
-17:38:18.086 INFO - Done: [find elements: By.xpath: //div[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[3]/td[6]]
-17:38:18.090 INFO - Executing: [is displayed: 38 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> xpath: //div[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[3]/td[6]]])
-17:38:18.128 INFO - Done: [is displayed: 38 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> xpath: //div[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[3]/td[6]]]
-17:38:18.134 INFO - Executing: [find element: By.xpath: //div[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[3]/td[6]])
-17:38:18.170 INFO - Done: [find element: By.xpath: //div[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[3]/td[6]]
-17:38:18.174 INFO - Executing: [get text: 38 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> xpath: //div[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[3]/td[6]]])
-17:38:18.215 INFO - Done: [get text: 38 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> xpath: //div[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[3]/td[6]]]
-17:38:21.221 INFO - Executing: [find elements: By.xpath: //*[@id='sysadmin_database_Tabledatabasecurrent_changes']//input[@type='button']/ancestor::span[@role='presentation']//span[contains(text(), 'Обновить')]])
-17:38:21.266 INFO - Done: [find elements: By.xpath: //*[@id='sysadmin_database_Tabledatabasecurrent_changes']//input[@type='button']/ancestor::span[@role='presentation']//span[contains(text(), 'Обновить')]]
-17:38:21.270 INFO - Executing: [is displayed: 39 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> xpath: //*[@id='sysadmin_database_Tabledatabasecurrent_changes']//input[@type='button']/ancestor::span[@role='presentation']//span[contains(text(), 'Обновить')]]])
-17:38:21.313 INFO - Done: [is displayed: 39 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> xpath: //*[@id='sysadmin_database_Tabledatabasecurrent_changes']//input[@type='button']/ancestor::span[@role='presentation']//span[contains(text(), 'Обновить')]]]
-17:38:21.319 INFO - Executing: [find element: By.xpath: //*[@id='sysadmin_database_Tabledatabasecurrent_changes']//input[@type='button']/ancestor::span[@role='presentation']//span[contains(text(), 'Обновить')]])
-17:38:21.381 INFO - Done: [find element: By.xpath: //*[@id='sysadmin_database_Tabledatabasecurrent_changes']//input[@type='button']/ancestor::span[@role='presentation']//span[contains(text(), 'Обновить')]]
-17:38:21.385 INFO - Executing: [click: 39 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> xpath: //*[@id='sysadmin_database_Tabledatabasecurrent_changes']//input[@type='button']/ancestor::span[@role='presentation']//span[contains(text(), 'Обновить')]]])
-17:38:21.565 INFO - Done: [click: 39 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> xpath: //*[@id='sysadmin_database_Tabledatabasecurrent_changes']//input[@type='button']/ancestor::span[@role='presentation']//span[contains(text(), 'Обновить')]]]
-17:38:21.585 INFO - Executing: [find elements: By.xpath: //*[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_master handsontable']//table[@class='htCore']])
-17:38:21.749 INFO - Done: [find elements: By.xpath: //*[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_master handsontable']//table[@class='htCore']]
-17:38:21.755 INFO - Executing: [is displayed: 21 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> xpath: //*[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_master handsontable']//table[@class='htCore']]])
-17:38:21.775 INFO - Done: [is displayed: 21 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> xpath: //*[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_master handsontable']//table[@class='htCore']]]
-17:38:23.788 INFO - Executing: [find elements: By.xpath: //div[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[1]])
-17:38:23.838 INFO - Done: [find elements: By.xpath: //div[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[1]]
-17:38:23.842 INFO - Executing: [is displayed: 40 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> xpath: //div[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[1]]])
-17:38:23.884 INFO - Done: [is displayed: 40 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> xpath: //div[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[1]]]
-17:38:23.892 INFO - Executing: [find element: By.xpath: //div[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[1]])
-17:38:23.931 INFO - Done: [find element: By.xpath: //div[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[1]]
-17:38:23.937 INFO - Executing: [get text: 40 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> xpath: //div[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[1]]])
-17:38:23.983 INFO - Done: [get text: 40 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> xpath: //div[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[1]]]
-17:38:23.989 INFO - Executing: [find elements: By.xpath: //div[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[2]])
-17:38:24.030 INFO - Done: [find elements: By.xpath: //div[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[2]]
-17:38:24.034 INFO - Executing: [is displayed: 41 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> xpath: //div[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[2]]])
-17:38:24.074 INFO - Done: [is displayed: 41 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> xpath: //div[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[2]]]
-17:38:24.080 INFO - Executing: [find element: By.xpath: //div[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[2]])
-17:38:24.123 INFO - Done: [find element: By.xpath: //div[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[2]]
-17:38:24.128 INFO - Executing: [get text: 41 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> xpath: //div[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[2]]])
-17:38:24.172 INFO - Done: [get text: 41 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> xpath: //div[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[2]]]
-17:38:24.178 INFO - Executing: [find elements: By.xpath: //div[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[3]])
-17:38:24.221 INFO - Done: [find elements: By.xpath: //div[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[3]]
-17:38:24.226 INFO - Executing: [is displayed: 42 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> xpath: //div[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[3]]])
-17:38:24.262 INFO - Done: [is displayed: 42 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> xpath: //div[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[3]]]
-17:38:24.268 INFO - Executing: [find element: By.xpath: //div[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[3]])
-17:38:24.308 INFO - Done: [find element: By.xpath: //div[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[3]]
-17:38:24.314 INFO - Executing: [get text: 42 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> xpath: //div[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[3]]])
-17:38:24.368 INFO - Done: [get text: 42 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> xpath: //div[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[3]]]
-17:38:24.375 INFO - Executing: [find elements: By.xpath: //div[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[4]])
-17:38:24.421 INFO - Done: [find elements: By.xpath: //div[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[4]]
-17:38:24.425 INFO - Executing: [is displayed: 43 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> xpath: //div[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[4]]])
-17:38:24.463 INFO - Done: [is displayed: 43 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> xpath: //div[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[4]]]
-17:38:24.470 INFO - Executing: [find element: By.xpath: //div[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[4]])
-17:38:24.513 INFO - Done: [find element: By.xpath: //div[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[4]]
-17:38:24.518 INFO - Executing: [get text: 43 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> xpath: //div[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[4]]])
-17:38:24.562 INFO - Done: [get text: 43 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> xpath: //div[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[4]]]
-17:38:24.571 INFO - Executing: [find elements: By.xpath: //div[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[5]])
-17:38:24.617 INFO - Done: [find elements: By.xpath: //div[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[5]]
-17:38:24.622 INFO - Executing: [is displayed: 44 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> xpath: //div[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[5]]])
-17:38:24.661 INFO - Done: [is displayed: 44 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> xpath: //div[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[5]]]
-17:38:24.668 INFO - Executing: [find element: By.xpath: //div[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[5]])
-17:38:24.711 INFO - Done: [find element: By.xpath: //div[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[5]]
-17:38:24.718 INFO - Executing: [get text: 44 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> xpath: //div[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[5]]])
-17:38:24.781 INFO - Done: [get text: 44 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> xpath: //div[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[5]]]
-17:38:24.786 INFO - Executing: [find elements: By.xpath: //div[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[6]])
-17:38:24.839 INFO - Done: [find elements: By.xpath: //div[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[6]]
-17:38:24.845 INFO - Executing: [is displayed: 45 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> xpath: //div[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[6]]])
-17:38:24.887 INFO - Done: [is displayed: 45 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> xpath: //div[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[6]]]
-17:38:24.894 INFO - Executing: [find element: By.xpath: //div[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[6]])
-17:38:24.938 INFO - Done: [find element: By.xpath: //div[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[6]]
-17:38:24.942 INFO - Executing: [get text: 45 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> xpath: //div[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[6]]])
-17:38:24.988 INFO - Done: [get text: 45 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> xpath: //div[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[6]]]
-17:38:24.999 INFO - Executing: [find elements: By.xpath: //*[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_master handsontable']//table[@class='htCore']])
-17:38:25.041 INFO - Done: [find elements: By.xpath: //*[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_master handsontable']//table[@class='htCore']]
-17:38:25.047 INFO - Executing: [is displayed: 21 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> xpath: //*[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_master handsontable']//table[@class='htCore']]])
-17:38:25.064 INFO - Done: [is displayed: 21 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> xpath: //*[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_master handsontable']//table[@class='htCore']]]
-17:38:25.073 INFO - Executing: [find elements: By.xpath: //*[@id='sysadmin_database_Tabledatabasecurrent_changes']//label[contains(text(), 'ИТОГО строк:')]/ancestor::td//input[@type='hidden']])
-17:38:25.129 INFO - Done: [find elements: By.xpath: //*[@id='sysadmin_database_Tabledatabasecurrent_changes']//label[contains(text(), 'ИТОГО строк:')]/ancestor::td//input[@type='hidden']]
-17:38:25.135 INFO - Executing: [find element: By.xpath: //*[@id='sysadmin_database_Tabledatabasecurrent_changes']//label[contains(text(), 'ИТОГО строк:')]/ancestor::td//input[@type='hidden']])
-17:38:25.173 INFO - Done: [find element: By.xpath: //*[@id='sysadmin_database_Tabledatabasecurrent_changes']//label[contains(text(), 'ИТОГО строк:')]/ancestor::td//input[@type='hidden']]
-17:38:25.177 INFO - Executing: [get element attribute: 22 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> xpath: //*[@id='sysadmin_database_Tabledatabasecurrent_changes']//label[contains(text(), 'ИТОГО строк:')]/ancestor::td//input[@type='hidden']], value])
-17:38:25.190 INFO - Done: [get element attribute: 22 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> xpath: //*[@id='sysadmin_database_Tabledatabasecurrent_changes']//label[contains(text(), 'ИТОГО строк:')]/ancestor::td//input[@type='hidden']], value]
-17:38:25.195 INFO - Executing: [find element: By.cssSelector: #change_log])
-17:38:25.233 INFO - Done: [find element: By.cssSelector: #change_log]
-17:38:25.237 INFO - Executing: [click: 46 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> css selector: #change_log]])
-17:38:25.437 INFO - Done: [click: 46 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> css selector: #change_log]]
-17:38:25.449 INFO - Executing: [find elements: By.xpath: //*[@id='sysadmin_database_Tabledatabasechange_log']//div[@class='ht_master handsontable']//table[@class='htCore']])
-17:38:25.579 INFO - Done: [find elements: By.xpath: //*[@id='sysadmin_database_Tabledatabasechange_log']//div[@class='ht_master handsontable']//table[@class='htCore']]
-17:38:25.583 INFO - Executing: [is displayed: 47 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> xpath: //*[@id='sysadmin_database_Tabledatabasechange_log']//div[@class='ht_master handsontable']//table[@class='htCore']]])
-17:38:25.626 INFO - Done: [is displayed: 47 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> xpath: //*[@id='sysadmin_database_Tabledatabasechange_log']//div[@class='ht_master handsontable']//table[@class='htCore']]]
-17:38:25.631 INFO - Executing: [find elements: By.xpath: //*[@id='sysadmin_database_Tabledatabasechange_log']//td/h1])
-17:38:25.674 INFO - Done: [find elements: By.xpath: //*[@id='sysadmin_database_Tabledatabasechange_log']//td/h1]
-17:38:25.678 INFO - Executing: [is displayed: 48 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> xpath: //*[@id='sysadmin_database_Tabledatabasechange_log']//td/h1]])
-17:38:25.714 INFO - Done: [is displayed: 48 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> xpath: //*[@id='sysadmin_database_Tabledatabasechange_log']//td/h1]]
-17:38:25.721 INFO - Executing: [find element: By.xpath: //*[@id='sysadmin_database_Tabledatabasechange_log']//td/h1])
-17:38:25.764 INFO - Done: [find element: By.xpath: //*[@id='sysadmin_database_Tabledatabasechange_log']//td/h1]
-17:38:25.768 INFO - Executing: [get text: 48 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> xpath: //*[@id='sysadmin_database_Tabledatabasechange_log']//td/h1]])
-17:38:25.811 INFO - Done: [get text: 48 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> xpath: //*[@id='sysadmin_database_Tabledatabasechange_log']//td/h1]]
-17:38:25.817 INFO - Executing: [find elements: By.xpath: //div[@id='sysadmin_database_Tabledatabasechange_log']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[1]])
-17:38:25.859 INFO - Done: [find elements: By.xpath: //div[@id='sysadmin_database_Tabledatabasechange_log']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[1]]
-17:38:25.863 INFO - Executing: [is displayed: 49 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> xpath: //div[@id='sysadmin_database_Tabledatabasechange_log']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[1]]])
-17:38:25.904 INFO - Done: [is displayed: 49 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> xpath: //div[@id='sysadmin_database_Tabledatabasechange_log']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[1]]]
-17:38:25.914 INFO - Executing: [find element: By.xpath: //div[@id='sysadmin_database_Tabledatabasechange_log']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[1]])
-17:38:25.973 INFO - Done: [find element: By.xpath: //div[@id='sysadmin_database_Tabledatabasechange_log']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[1]]
-17:38:25.976 INFO - Executing: [get text: 49 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> xpath: //div[@id='sysadmin_database_Tabledatabasechange_log']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[1]]])
-17:38:26.029 INFO - Done: [get text: 49 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> xpath: //div[@id='sysadmin_database_Tabledatabasechange_log']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[1]]]
-17:38:26.035 INFO - Executing: [find elements: By.xpath: //div[@id='sysadmin_database_Tabledatabasechange_log']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[2]])
-17:38:26.080 INFO - Done: [find elements: By.xpath: //div[@id='sysadmin_database_Tabledatabasechange_log']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[2]]
-17:38:26.084 INFO - Executing: [is displayed: 50 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> xpath: //div[@id='sysadmin_database_Tabledatabasechange_log']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[2]]])
-17:38:26.122 INFO - Done: [is displayed: 50 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> xpath: //div[@id='sysadmin_database_Tabledatabasechange_log']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[2]]]
-17:38:26.128 INFO - Executing: [find element: By.xpath: //div[@id='sysadmin_database_Tabledatabasechange_log']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[2]])
-17:38:26.166 INFO - Done: [find element: By.xpath: //div[@id='sysadmin_database_Tabledatabasechange_log']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[2]]
-17:38:26.170 INFO - Executing: [get text: 50 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> xpath: //div[@id='sysadmin_database_Tabledatabasechange_log']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[2]]])
-17:38:26.218 INFO - Done: [get text: 50 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> xpath: //div[@id='sysadmin_database_Tabledatabasechange_log']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[2]]]
-17:38:26.246 INFO - Executing: [find elements: By.xpath: //div[@id='sysadmin_database_Tabledatabasechange_log']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[3]])
-17:38:26.285 INFO - Done: [find elements: By.xpath: //div[@id='sysadmin_database_Tabledatabasechange_log']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[3]]
-17:38:26.289 INFO - Executing: [is displayed: 51 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> xpath: //div[@id='sysadmin_database_Tabledatabasechange_log']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[3]]])
-17:38:26.330 INFO - Done: [is displayed: 51 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> xpath: //div[@id='sysadmin_database_Tabledatabasechange_log']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[3]]]
-17:38:26.337 INFO - Executing: [find element: By.xpath: //div[@id='sysadmin_database_Tabledatabasechange_log']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[3]])
-17:38:26.381 INFO - Done: [find element: By.xpath: //div[@id='sysadmin_database_Tabledatabasechange_log']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[3]]
-17:38:26.385 INFO - Executing: [get text: 51 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> xpath: //div[@id='sysadmin_database_Tabledatabasechange_log']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[3]]])
-17:38:26.435 INFO - Done: [get text: 51 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> xpath: //div[@id='sysadmin_database_Tabledatabasechange_log']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[3]]]
-17:38:26.440 INFO - Executing: [find elements: By.xpath: //div[@id='sysadmin_database_Tabledatabasechange_log']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[4]])
-17:38:26.503 INFO - Done: [find elements: By.xpath: //div[@id='sysadmin_database_Tabledatabasechange_log']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[4]]
-17:38:26.507 INFO - Executing: [is displayed: 52 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> xpath: //div[@id='sysadmin_database_Tabledatabasechange_log']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[4]]])
-17:38:26.559 INFO - Done: [is displayed: 52 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> xpath: //div[@id='sysadmin_database_Tabledatabasechange_log']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[4]]]
-17:38:26.564 INFO - Executing: [find element: By.xpath: //div[@id='sysadmin_database_Tabledatabasechange_log']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[4]])
-17:38:26.607 INFO - Done: [find element: By.xpath: //div[@id='sysadmin_database_Tabledatabasechange_log']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[4]]
-17:38:26.613 INFO - Executing: [get text: 52 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> xpath: //div[@id='sysadmin_database_Tabledatabasechange_log']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[4]]])
-17:38:26.676 INFO - Done: [get text: 52 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> xpath: //div[@id='sysadmin_database_Tabledatabasechange_log']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[4]]]
-17:38:26.681 INFO - Executing: [find elements: By.xpath: //div[@id='sysadmin_database_Tabledatabasechange_log']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[1]])
-17:38:26.731 INFO - Done: [find elements: By.xpath: //div[@id='sysadmin_database_Tabledatabasechange_log']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[1]]
-17:38:26.736 INFO - Executing: [is displayed: 53 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> xpath: //div[@id='sysadmin_database_Tabledatabasechange_log']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[1]]])
-17:38:26.772 INFO - Done: [is displayed: 53 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> xpath: //div[@id='sysadmin_database_Tabledatabasechange_log']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[1]]]
-17:38:26.779 INFO - Executing: [find element: By.xpath: //div[@id='sysadmin_database_Tabledatabasechange_log']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[1]])
-17:38:26.822 INFO - Done: [find element: By.xpath: //div[@id='sysadmin_database_Tabledatabasechange_log']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[1]]
-17:38:26.825 INFO - Executing: [get text: 53 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> xpath: //div[@id='sysadmin_database_Tabledatabasechange_log']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[1]]])
-17:38:26.870 INFO - Done: [get text: 53 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> xpath: //div[@id='sysadmin_database_Tabledatabasechange_log']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[1]]]
-17:38:26.876 INFO - Executing: [find elements: By.xpath: //div[@id='sysadmin_database_Tabledatabasechange_log']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[2]])
-17:38:26.916 INFO - Done: [find elements: By.xpath: //div[@id='sysadmin_database_Tabledatabasechange_log']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[2]]
-17:38:26.921 INFO - Executing: [is displayed: 54 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> xpath: //div[@id='sysadmin_database_Tabledatabasechange_log']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[2]]])
-17:38:26.957 INFO - Done: [is displayed: 54 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> xpath: //div[@id='sysadmin_database_Tabledatabasechange_log']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[2]]]
-17:38:26.966 INFO - Executing: [find element: By.xpath: //div[@id='sysadmin_database_Tabledatabasechange_log']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[2]])
-17:38:27.017 INFO - Done: [find element: By.xpath: //div[@id='sysadmin_database_Tabledatabasechange_log']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[2]]
-17:38:27.022 INFO - Executing: [get text: 54 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> xpath: //div[@id='sysadmin_database_Tabledatabasechange_log']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[2]]])
-17:38:27.070 INFO - Done: [get text: 54 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> xpath: //div[@id='sysadmin_database_Tabledatabasechange_log']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[2]]]
-17:38:27.076 INFO - Executing: [find elements: By.xpath: //div[@id='sysadmin_database_Tabledatabasechange_log']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[3]])
-17:38:27.119 INFO - Done: [find elements: By.xpath: //div[@id='sysadmin_database_Tabledatabasechange_log']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[3]]
-17:38:27.124 INFO - Executing: [is displayed: 55 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> xpath: //div[@id='sysadmin_database_Tabledatabasechange_log']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[3]]])
-17:38:27.177 INFO - Done: [is displayed: 55 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> xpath: //div[@id='sysadmin_database_Tabledatabasechange_log']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[3]]]
-17:38:27.183 INFO - Executing: [find element: By.xpath: //div[@id='sysadmin_database_Tabledatabasechange_log']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[3]])
-17:38:27.242 INFO - Done: [find element: By.xpath: //div[@id='sysadmin_database_Tabledatabasechange_log']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[3]]
-17:38:27.248 INFO - Executing: [get text: 55 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> xpath: //div[@id='sysadmin_database_Tabledatabasechange_log']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[3]]])
-17:38:27.299 INFO - Done: [get text: 55 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> xpath: //div[@id='sysadmin_database_Tabledatabasechange_log']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[3]]]
-17:38:27.308 INFO - Executing: [find elements: By.xpath: //div[@id='sysadmin_database_Tabledatabasechange_log']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[4]])
-17:38:27.347 INFO - Done: [find elements: By.xpath: //div[@id='sysadmin_database_Tabledatabasechange_log']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[4]]
-17:38:27.353 INFO - Executing: [is displayed: 56 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> xpath: //div[@id='sysadmin_database_Tabledatabasechange_log']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[4]]])
-17:38:27.388 INFO - Done: [is displayed: 56 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> xpath: //div[@id='sysadmin_database_Tabledatabasechange_log']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[4]]]
-17:38:27.399 INFO - Executing: [find element: By.xpath: //div[@id='sysadmin_database_Tabledatabasechange_log']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[4]])
-17:38:27.456 INFO - Done: [find element: By.xpath: //div[@id='sysadmin_database_Tabledatabasechange_log']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[4]]
-17:38:27.460 INFO - Executing: [get text: 56 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> xpath: //div[@id='sysadmin_database_Tabledatabasechange_log']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[4]]])
-17:38:27.503 INFO - Done: [get text: 56 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> xpath: //div[@id='sysadmin_database_Tabledatabasechange_log']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[4]]]
-17:38:27.516 INFO - Executing: [find elements: By.xpath: //*[@id='sysadmin_database_Tabledatabasechange_log']//label[contains(text(), 'ИТОГО строк:')]/ancestor::td//input[@type='hidden']])
-17:38:27.556 INFO - Done: [find elements: By.xpath: //*[@id='sysadmin_database_Tabledatabasechange_log']//label[contains(text(), 'ИТОГО строк:')]/ancestor::td//input[@type='hidden']]
-17:38:27.561 INFO - Executing: [find element: By.xpath: //*[@id='sysadmin_database_Tabledatabasechange_log']//label[contains(text(), 'ИТОГО строк:')]/ancestor::td//input[@type='hidden']])
-17:38:27.601 INFO - Done: [find element: By.xpath: //*[@id='sysadmin_database_Tabledatabasechange_log']//label[contains(text(), 'ИТОГО строк:')]/ancestor::td//input[@type='hidden']]
-17:38:27.605 INFO - Executing: [get element attribute: 57 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> xpath: //*[@id='sysadmin_database_Tabledatabasechange_log']//label[contains(text(), 'ИТОГО строк:')]/ancestor::td//input[@type='hidden']], value])
-17:38:27.618 INFO - Done: [get element attribute: 57 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> xpath: //*[@id='sysadmin_database_Tabledatabasechange_log']//label[contains(text(), 'ИТОГО строк:')]/ancestor::td//input[@type='hidden']], value]
-17:38:27.623 INFO - Executing: [find element: By.cssSelector: #current_changes])
-17:38:27.663 INFO - Done: [find element: By.cssSelector: #current_changes]
-17:38:27.668 INFO - Executing: [click: 58 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> css selector: #current_changes]])
-17:38:27.818 INFO - Done: [click: 58 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> css selector: #current_changes]]
-17:38:27.826 INFO - Executing: [find elements: By.xpath: //*[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_master handsontable']//table[@class='htCore']])
-17:38:27.852 INFO - Done: [find elements: By.xpath: //*[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_master handsontable']//table[@class='htCore']]
-17:38:27.856 INFO - Executing: [is displayed: 21 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> xpath: //*[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_master handsontable']//table[@class='htCore']]])
-17:38:27.881 INFO - Done: [is displayed: 21 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> xpath: //*[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_master handsontable']//table[@class='htCore']]]
-17:38:27.886 INFO - Executing: [find element: By.xpath: //div[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[1]])
-17:38:27.915 INFO - Done: [find element: By.xpath: //div[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[1]]
-17:38:27.920 INFO - Executing: [mousemove: 40 true])
-17:38:27.970 INFO - Done: [mousemove: 40 true]
-17:38:27.976 INFO - Executing: [mousedown: no args])
-17:38:27.991 INFO - Done: [mousedown: no args]
-17:38:27.999 INFO - Executing: [execute script: var passedArgs = Array.prototype.slice.call(arguments,0); return function (id) {
-                        var table = document.evaluate('//*[@id="' + id + '"]//*[@class="handsontable htColumnHeaders"]/div[1]/div[@class="wtHolder"]', document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
-                        table.scrollTop = 1000000;
-                    }.apply(window, passedArgs);, [sysadmin_database_Tabledatabasecurrent_changes]])
-17:38:28.016 INFO - Done: [execute script: var passedArgs = Array.prototype.slice.call(arguments,0); return function (id) {
-                        var table = document.evaluate('//*[@id="' + id + '"]//*[@class="handsontable htColumnHeaders"]/div[1]/div[@class="wtHolder"]', document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
-                        table.scrollTop = 1000000;
-                    }.apply(window, passedArgs);, [sysadmin_database_Tabledatabasecurrent_changes]]
-17:38:28.024 INFO - Executing: [find element: By.xpath: //*[@id="sysadmin_database_Tabledatabasecurrent_changes"]//*[@class="handsontable htColumnHeaders"]/div[1]/div[@class="wtHolder"]//table[@class='htCore']//tbody/tr[last()]/td[1]])
-17:38:28.068 INFO - Done: [find element: By.xpath: //*[@id="sysadmin_database_Tabledatabasecurrent_changes"]//*[@class="handsontable htColumnHeaders"]/div[1]/div[@class="wtHolder"]//table[@class='htCore']//tbody/tr[last()]/td[1]]
-17:38:28.075 INFO - Executing: [mousemove: 59 true])
-17:38:28.134 INFO - Done: [mousemove: 59 true]
-17:38:28.140 INFO - Executing: [mouseup: nothing])
-17:38:28.188 INFO - Done: [mouseup: nothing]
-17:38:28.194 INFO - Executing: [click: nothing])
-17:38:28.225 INFO - Done: [click: nothing]
-17:38:28.232 INFO - Executing: [find elements: By.xpath: //div[contains(text(), 'Apply selected changes')]/../..])
-17:38:28.276 INFO - Done: [find elements: By.xpath: //div[contains(text(), 'Apply selected changes')]/../..]
-17:38:28.280 INFO - Executing: [is displayed: 60 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> xpath: //div[contains(text(), 'Apply selected changes')]/../..]])
-17:38:28.319 INFO - Done: [is displayed: 60 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> xpath: //div[contains(text(), 'Apply selected changes')]/../..]]
-17:38:28.324 INFO - Executing: [find element: By.xpath: //div[contains(text(), 'Apply selected changes')]/../..])
-17:38:28.371 INFO - Done: [find element: By.xpath: //div[contains(text(), 'Apply selected changes')]/../..]
-17:38:28.378 INFO - Executing: [click: 60 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> xpath: //div[contains(text(), 'Apply selected changes')]/../..]])
-17:38:28.516 INFO - Done: [click: 60 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> xpath: //div[contains(text(), 'Apply selected changes')]/../..]]
-17:39:28.550 INFO - Executing: [execute script: var passedArgs = Array.prototype.slice.call(arguments,0); return function (id) {
-                var table = document.evaluate('//*[@id="' + id + '"]//*[@class="handsontable htColumnHeaders"]/div[1]/div[@class="wtHolder"]', document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
-                table.scrollTop = 0;
-            }.apply(window, passedArgs);, [sysadmin_database_Tabledatabasecurrent_changes]])
-17:39:28.570 INFO - Done: [execute script: var passedArgs = Array.prototype.slice.call(arguments,0); return function (id) {
-                var table = document.evaluate('//*[@id="' + id + '"]//*[@class="handsontable htColumnHeaders"]/div[1]/div[@class="wtHolder"]', document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
-                table.scrollTop = 0;
-            }.apply(window, passedArgs);, [sysadmin_database_Tabledatabasecurrent_changes]]
-17:39:28.586 INFO - Executing: [find elements: By.xpath: //div[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[6]])
-17:39:28.623 INFO - Done: [find elements: By.xpath: //div[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[6]]
-17:39:28.627 INFO - Executing: [is displayed: 45 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> xpath: //div[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[6]]])
-17:39:28.667 INFO - Done: [is displayed: 45 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> xpath: //div[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[6]]]
-17:39:28.673 INFO - Executing: [find element: By.xpath: //div[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[6]])
-17:39:28.716 INFO - Done: [find element: By.xpath: //div[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[6]]
-17:39:28.720 INFO - Executing: [get text: 45 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> xpath: //div[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[6]]])
-17:39:28.763 INFO - Done: [get text: 45 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> xpath: //div[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[6]]]
-17:39:28.768 INFO - Executing: [find element: By.cssSelector: #change_log])
-17:39:28.805 INFO - Done: [find element: By.cssSelector: #change_log]
-17:39:28.811 INFO - Executing: [click: 46 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> css selector: #change_log]])
-17:39:28.968 INFO - Done: [click: 46 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> css selector: #change_log]]
-17:39:31.979 INFO - Executing: [find elements: By.xpath: //*[@id='sysadmin_database_Tabledatabasechange_log']//input[@type='button']/ancestor::span[@role='presentation']//span[contains(text(), 'Обновить')]])
-17:39:32.024 INFO - Done: [find elements: By.xpath: //*[@id='sysadmin_database_Tabledatabasechange_log']//input[@type='button']/ancestor::span[@role='presentation']//span[contains(text(), 'Обновить')]]
-17:39:32.028 INFO - Executing: [is displayed: 61 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> xpath: //*[@id='sysadmin_database_Tabledatabasechange_log']//input[@type='button']/ancestor::span[@role='presentation']//span[contains(text(), 'Обновить')]]])
-17:39:32.069 INFO - Done: [is displayed: 61 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> xpath: //*[@id='sysadmin_database_Tabledatabasechange_log']//input[@type='button']/ancestor::span[@role='presentation']//span[contains(text(), 'Обновить')]]]
-17:39:32.076 INFO - Executing: [find element: By.xpath: //*[@id='sysadmin_database_Tabledatabasechange_log']//input[@type='button']/ancestor::span[@role='presentation']//span[contains(text(), 'Обновить')]])
-17:39:32.122 INFO - Done: [find element: By.xpath: //*[@id='sysadmin_database_Tabledatabasechange_log']//input[@type='button']/ancestor::span[@role='presentation']//span[contains(text(), 'Обновить')]]
-17:39:32.126 INFO - Executing: [click: 61 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> xpath: //*[@id='sysadmin_database_Tabledatabasechange_log']//input[@type='button']/ancestor::span[@role='presentation']//span[contains(text(), 'Обновить')]]])
-17:39:32.316 INFO - Done: [click: 61 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> xpath: //*[@id='sysadmin_database_Tabledatabasechange_log']//input[@type='button']/ancestor::span[@role='presentation']//span[contains(text(), 'Обновить')]]]
-17:39:34.346 INFO - Executing: [find elements: By.xpath: //*[@id='sysadmin_database_Tabledatabasechange_log']//label[contains(text(), 'ИТОГО строк:')]/ancestor::td//input[@type='hidden']])
-17:39:34.390 INFO - Done: [find elements: By.xpath: //*[@id='sysadmin_database_Tabledatabasechange_log']//label[contains(text(), 'ИТОГО строк:')]/ancestor::td//input[@type='hidden']]
-17:39:34.405 INFO - Executing: [find element: By.xpath: //*[@id='sysadmin_database_Tabledatabasechange_log']//label[contains(text(), 'ИТОГО строк:')]/ancestor::td//input[@type='hidden']])
-17:39:34.463 INFO - Done: [find element: By.xpath: //*[@id='sysadmin_database_Tabledatabasechange_log']//label[contains(text(), 'ИТОГО строк:')]/ancestor::td//input[@type='hidden']]
-17:39:34.467 INFO - Executing: [get element attribute: 57 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> xpath: //*[@id='sysadmin_database_Tabledatabasechange_log']//label[contains(text(), 'ИТОГО строк:')]/ancestor::td//input[@type='hidden']], value])
-17:39:34.481 INFO - Done: [get element attribute: 57 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> xpath: //*[@id='sysadmin_database_Tabledatabasechange_log']//label[contains(text(), 'ИТОГО строк:')]/ancestor::td//input[@type='hidden']], value]
-17:39:34.486 INFO - Executing: [find element: By.cssSelector: #display_startup_params])
-17:39:34.523 INFO - Done: [find element: By.cssSelector: #display_startup_params]
-17:39:34.530 INFO - Executing: [click: 6 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> css selector: #display_startup_params]])
-17:39:34.683 INFO - Done: [click: 6 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> css selector: #display_startup_params]]
-17:39:36.735 INFO - Executing: [find elements: By.cssSelector: input[id="db.host"]])
-17:39:36.778 INFO - Done: [find elements: By.cssSelector: input[id="db.host"]]
-17:39:36.783 INFO - Executing: [is displayed: 8 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> css selector: input[id="db.host"]]])
-17:39:36.825 INFO - Done: [is displayed: 8 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> css selector: input[id="db.host"]]]
-17:39:36.830 INFO - Executing: [find elements: By.cssSelector: input[id="db.name"]])
-17:39:36.883 INFO - Done: [find elements: By.cssSelector: input[id="db.name"]]
-17:39:36.887 INFO - Executing: [is displayed: 9 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> css selector: input[id="db.name"]]])
-17:39:36.926 INFO - Done: [is displayed: 9 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> css selector: input[id="db.name"]]]
-17:39:36.932 INFO - Executing: [find elements: By.cssSelector: input[id="db.user"]])
-17:39:36.975 INFO - Done: [find elements: By.cssSelector: input[id="db.user"]]
-17:39:36.979 INFO - Executing: [is displayed: 10 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> css selector: input[id="db.user"]]])
-17:39:37.021 INFO - Done: [is displayed: 10 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> css selector: input[id="db.user"]]]
-17:39:37.026 INFO - Executing: [find elements: By.cssSelector: input[id="db.password"]])
-17:39:37.066 INFO - Done: [find elements: By.cssSelector: input[id="db.password"]]
-17:39:37.070 INFO - Executing: [is displayed: 11 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> css selector: input[id="db.password"]]])
-17:39:37.110 INFO - Done: [is displayed: 11 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> css selector: input[id="db.password"]]]
-17:39:37.122 INFO - Executing: [find element: By.cssSelector: input[id="db.host"]])
-17:39:37.177 INFO - Done: [find element: By.cssSelector: input[id="db.host"]]
-17:39:37.181 INFO - Executing: [clear: 8 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> css selector: input[id="db.host"]]])
-17:39:37.236 INFO - Done: [clear: 8 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> css selector: input[id="db.host"]]]
-17:39:37.241 INFO - Executing: [find element: By.cssSelector: input[id="db.host"]])
-17:39:37.259 INFO - Done: [find element: By.cssSelector: input[id="db.host"]]
-17:39:37.266 INFO - Executing: [send keys: 8 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> css selector: input[id="db.host"]], [l, o, c, a, l, h, o, s, t]])
-17:39:37.441 INFO - Done: [send keys: 8 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> css selector: input[id="db.host"]], [l, o, c, a, l, h, o, s, t]]
-17:39:37.446 INFO - Executing: [find element: By.cssSelector: input[id="db.name"]])
-17:39:37.488 INFO - Done: [find element: By.cssSelector: input[id="db.name"]]
-17:39:37.492 INFO - Executing: [clear: 9 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> css selector: input[id="db.name"]]])
-17:39:37.544 INFO - Done: [clear: 9 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> css selector: input[id="db.name"]]]
-17:39:37.549 INFO - Executing: [find element: By.cssSelector: input[id="db.name"]])
-17:39:37.569 INFO - Done: [find element: By.cssSelector: input[id="db.name"]]
-17:39:37.574 INFO - Executing: [send keys: 9 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> css selector: input[id="db.name"]], [u, i, T, e, s, t, s, T, e, m, p, D, B]])
-17:39:37.799 INFO - Done: [send keys: 9 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> css selector: input[id="db.name"]], [u, i, T, e, s, t, s, T, e, m, p, D, B]]
-17:39:37.803 INFO - Executing: [find element: By.cssSelector: input[id="db.user"]])
-17:39:37.845 INFO - Done: [find element: By.cssSelector: input[id="db.user"]]
-17:39:37.850 INFO - Executing: [clear: 10 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> css selector: input[id="db.user"]]])
-17:39:37.903 INFO - Done: [clear: 10 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> css selector: input[id="db.user"]]]
-17:39:37.907 INFO - Executing: [find element: By.cssSelector: input[id="db.user"]])
-17:39:37.926 INFO - Done: [find element: By.cssSelector: input[id="db.user"]]
-17:39:37.933 INFO - Executing: [send keys: 10 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> css selector: input[id="db.user"]], [u, s, e, r]])
-17:39:38.058 INFO - Done: [send keys: 10 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> css selector: input[id="db.user"]], [u, s, e, r]]
-17:39:38.064 INFO - Executing: [find element: By.cssSelector: input[id="db.password"]])
-17:39:38.107 INFO - Done: [find element: By.cssSelector: input[id="db.password"]]
-17:39:38.111 INFO - Executing: [clear: 11 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> css selector: input[id="db.password"]]])
-17:39:38.164 INFO - Done: [clear: 11 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> css selector: input[id="db.password"]]]
-17:39:38.169 INFO - Executing: [find element: By.cssSelector: input[id="db.password"]])
-17:39:38.187 INFO - Done: [find element: By.cssSelector: input[id="db.password"]]
-17:39:38.191 INFO - Executing: [send keys: 11 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> css selector: input[id="db.password"]], [u, s, e, r]])
-17:39:38.322 INFO - Done: [send keys: 11 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> css selector: input[id="db.password"]], [u, s, e, r]]
-17:39:38.327 INFO - Executing: [find element: By.cssSelector: #drop_db_btn])
-17:39:38.368 INFO - Done: [find element: By.cssSelector: #drop_db_btn]
-17:39:38.372 INFO - Executing: [click: 62 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> css selector: #drop_db_btn]])
-17:39:38.504 INFO - Done: [click: 62 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> css selector: #drop_db_btn]]
-17:39:38.509 INFO - Executing: [find elements: By.cssSelector: #adminAuthDialog])
-17:39:38.560 INFO - Done: [find elements: By.cssSelector: #adminAuthDialog]
-17:39:38.565 INFO - Executing: [is displayed: 13 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> css selector: #adminAuthDialog]])
-17:39:38.606 INFO - Done: [is displayed: 13 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> css selector: #adminAuthDialog]]
-17:39:38.615 INFO - Executing: [find element: By.cssSelector: #adminAuthDialog])
-17:39:38.660 INFO - Done: [find element: By.cssSelector: #adminAuthDialog]
-17:39:38.666 INFO - Executing: [get text: 13 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> css selector: #adminAuthDialog]])
-17:39:38.740 INFO - Done: [get text: 13 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> css selector: #adminAuthDialog]]
-17:39:38.749 INFO - Executing: [find element: By.cssSelector: input[id="admin_name"]])
-17:39:38.801 INFO - Done: [find element: By.cssSelector: input[id="admin_name"]]
-17:39:38.805 INFO - Executing: [is displayed: 14 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> css selector: input[id="admin_name"]]])
-17:39:38.847 INFO - Done: [is displayed: 14 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> css selector: input[id="admin_name"]]]
-17:39:38.853 INFO - Executing: [find element: By.cssSelector: input[id="admin_name"]])
-17:39:38.873 INFO - Done: [find element: By.cssSelector: input[id="admin_name"]]
-17:39:38.877 INFO - Executing: [get element attribute: 14 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> css selector: input[id="admin_name"]], value])
-17:39:38.890 INFO - Done: [get element attribute: 14 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> css selector: input[id="admin_name"]], value]
-17:39:38.895 INFO - Executing: [find element: By.cssSelector: #admin_password])
-17:39:38.935 INFO - Done: [find element: By.cssSelector: #admin_password]
-17:39:38.939 INFO - Executing: [is displayed: 15 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> css selector: #admin_password]])
-17:39:38.982 INFO - Done: [is displayed: 15 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> css selector: #admin_password]]
-17:39:38.987 INFO - Executing: [find element: By.cssSelector: #admin_password])
-17:39:39.006 INFO - Done: [find element: By.cssSelector: #admin_password]
-17:39:39.012 INFO - Executing: [get element attribute: 15 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> css selector: #admin_password], value])
-17:39:39.028 INFO - Done: [get element attribute: 15 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> css selector: #admin_password], value]
-17:39:39.033 INFO - Executing: [find element: By.cssSelector: #admin_password])
-17:39:39.052 INFO - Done: [find element: By.cssSelector: #admin_password]
-17:39:39.056 INFO - Executing: [send keys: 15 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> css selector: #admin_password], [R, t, y, 1, 9, 8, 8]])
-17:39:39.199 INFO - Done: [send keys: 15 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> css selector: #admin_password], [R, t, y, 1, 9, 8, 8]]
-17:39:39.204 INFO - Executing: [find element: By.xpath: //div[@id="adminAuthDialog"]//span[@class="dijitReset dijitInline dijitButtonText" and text()="Login"]])
-17:39:39.249 INFO - Done: [find element: By.xpath: //div[@id="adminAuthDialog"]//span[@class="dijitReset dijitInline dijitButtonText" and text()="Login"]]
-17:39:39.257 INFO - Executing: [click: 16 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> xpath: //div[@id="adminAuthDialog"]//span[@class="dijitReset dijitInline dijitButtonText" and text()="Login"]]])
-17:39:39.395 INFO - Done: [click: 16 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> xpath: //div[@id="adminAuthDialog"]//span[@class="dijitReset dijitInline dijitButtonText" and text()="Login"]]]
-17:39:39.400 INFO - Executing: [find elements: By.cssSelector: #adminAuthDialog])
-17:39:39.418 INFO - Done: [find elements: By.cssSelector: #adminAuthDialog]
-17:39:39.422 INFO - Executing: [is displayed: 13 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> css selector: #adminAuthDialog]])
-17:39:39.440 INFO - Done: [is displayed: 13 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> css selector: #adminAuthDialog]]
-17:39:39.945 INFO - Executing: [is displayed: 13 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> css selector: #adminAuthDialog]])
-17:39:39.965 INFO - Done: [is displayed: 13 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> css selector: #adminAuthDialog]]
-17:39:39.971 INFO - Executing: [find elements: By.cssSelector: #drop_db_result])
-17:39:40.010 INFO - Done: [find elements: By.cssSelector: #drop_db_result]
-17:39:40.015 INFO - Executing: [is displayed: 63 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> css selector: #drop_db_result]])
-17:39:40.062 INFO - Done: [is displayed: 63 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> css selector: #drop_db_result]]
-17:39:40.068 INFO - Executing: [find element: By.cssSelector: #drop_db_result])
-17:39:40.112 INFO - Done: [find element: By.cssSelector: #drop_db_result]
-17:39:40.116 INFO - Executing: [get text: 63 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> css selector: #drop_db_result]])
-17:39:40.164 INFO - Done: [get text: 63 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> css selector: #drop_db_result]]
-17:39:40.169 INFO - Executing: [find elements: By.cssSelector: input[id="db.host"]])
-17:39:40.188 INFO - Done: [find elements: By.cssSelector: input[id="db.host"]]
-17:39:40.192 INFO - Executing: [is displayed: 8 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> css selector: input[id="db.host"]]])
-17:39:40.206 INFO - Done: [is displayed: 8 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> css selector: input[id="db.host"]]]
-17:39:40.211 INFO - Executing: [find elements: By.cssSelector: input[id="db.name"]])
-17:39:40.231 INFO - Done: [find elements: By.cssSelector: input[id="db.name"]]
-17:39:40.235 INFO - Executing: [is displayed: 9 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> css selector: input[id="db.name"]]])
-17:39:40.255 INFO - Done: [is displayed: 9 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> css selector: input[id="db.name"]]]
-17:39:40.260 INFO - Executing: [find elements: By.cssSelector: input[id="db.user"]])
-17:39:40.280 INFO - Done: [find elements: By.cssSelector: input[id="db.user"]]
-17:39:40.284 INFO - Executing: [is displayed: 10 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> css selector: input[id="db.user"]]])
-17:39:40.303 INFO - Done: [is displayed: 10 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> css selector: input[id="db.user"]]]
-17:39:40.307 INFO - Executing: [find elements: By.cssSelector: input[id="db.password"]])
-17:39:40.322 INFO - Done: [find elements: By.cssSelector: input[id="db.password"]]
-17:39:40.328 INFO - Executing: [is displayed: 11 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> css selector: input[id="db.password"]]])
-17:39:40.343 INFO - Done: [is displayed: 11 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> css selector: input[id="db.password"]]]
-17:39:40.348 INFO - Executing: [find element: By.cssSelector: input[id="db.host"]])
-17:39:40.368 INFO - Done: [find element: By.cssSelector: input[id="db.host"]]
-17:39:40.372 INFO - Executing: [clear: 8 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> css selector: input[id="db.host"]]])
-17:39:40.397 INFO - Done: [clear: 8 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> css selector: input[id="db.host"]]]
-17:39:40.402 INFO - Executing: [find element: By.cssSelector: input[id="db.host"]])
-17:39:40.419 INFO - Done: [find element: By.cssSelector: input[id="db.host"]]
-17:39:40.424 INFO - Executing: [send keys: 8 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> css selector: input[id="db.host"]], [l, o, c, a, l, h, o, s, t]])
-17:39:40.547 INFO - Done: [send keys: 8 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> css selector: input[id="db.host"]], [l, o, c, a, l, h, o, s, t]]
-17:39:40.551 INFO - Executing: [find element: By.cssSelector: input[id="db.name"]])
-17:39:40.569 INFO - Done: [find element: By.cssSelector: input[id="db.name"]]
-17:39:40.573 INFO - Executing: [clear: 9 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> css selector: input[id="db.name"]]])
-17:39:40.599 INFO - Done: [clear: 9 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> css selector: input[id="db.name"]]]
-17:39:40.604 INFO - Executing: [find element: By.cssSelector: input[id="db.name"]])
-17:39:40.622 INFO - Done: [find element: By.cssSelector: input[id="db.name"]]
-17:39:40.627 INFO - Executing: [send keys: 9 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> css selector: input[id="db.name"]], [m, o, d, a, u, a, _, u, i, T, t, e, s, t, 1]])
-17:39:40.819 INFO - Done: [send keys: 9 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> css selector: input[id="db.name"]], [m, o, d, a, u, a, _, u, i, T, t, e, s, t, 1]]
-17:39:40.824 INFO - Executing: [find element: By.cssSelector: input[id="db.user"]])
-17:39:40.842 INFO - Done: [find element: By.cssSelector: input[id="db.user"]]
-17:39:40.846 INFO - Executing: [clear: 10 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> css selector: input[id="db.user"]]])
-17:39:40.874 INFO - Done: [clear: 10 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> css selector: input[id="db.user"]]]
-17:39:40.879 INFO - Executing: [find element: By.cssSelector: input[id="db.user"]])
-17:39:40.899 INFO - Done: [find element: By.cssSelector: input[id="db.user"]]
-17:39:40.903 INFO - Executing: [send keys: 10 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> css selector: input[id="db.user"]], [u, s, e, r]])
-17:39:40.980 INFO - Done: [send keys: 10 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> css selector: input[id="db.user"]], [u, s, e, r]]
-17:39:40.987 INFO - Executing: [find element: By.cssSelector: input[id="db.password"]])
-17:39:41.005 INFO - Done: [find element: By.cssSelector: input[id="db.password"]]
-17:39:41.010 INFO - Executing: [clear: 11 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> css selector: input[id="db.password"]]])
-17:39:41.037 INFO - Done: [clear: 11 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> css selector: input[id="db.password"]]]
-17:39:41.052 INFO - Executing: [find element: By.cssSelector: input[id="db.password"]])
-17:39:41.068 INFO - Done: [find element: By.cssSelector: input[id="db.password"]]
-17:39:41.076 INFO - Executing: [send keys: 11 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> css selector: input[id="db.password"]], [u, s, e, r]])
-17:39:41.151 INFO - Done: [send keys: 11 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> css selector: input[id="db.password"]], [u, s, e, r]]
-17:39:41.155 INFO - Executing: [find element: By.cssSelector: #SA_startup_params_BtnAppLocalConfigSaveAndReconnect])
-17:39:41.199 INFO - Done: [find element: By.cssSelector: #SA_startup_params_BtnAppLocalConfigSaveAndReconnect]
-17:39:41.203 INFO - Executing: [click: 18 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> css selector: #SA_startup_params_BtnAppLocalConfigSaveAndReconnect]])
-17:39:41.339 INFO - Done: [click: 18 [[ChromeDriver: chrome on LINUX (1f151372ea7d69d8d1ed4ba80a55eebe)] -> css selector: #SA_startup_params_BtnAppLocalConfigSaveAndReconnect]]
+17:45:02.670 INFO - Detected dialect: OSS
+17:45:02.739 INFO - Done: [new session: Capabilities [{acceptSslCerts=true, name=Main / Main 1 Header Tests, browserName=chrome, javascriptEnabled=true, platform=ANY}]]
+17:45:02.778 INFO - Executing: [get: http://localhost:8181])
+17:45:04.643 INFO - Done: [get: http://localhost:8181]
+17:45:04.686 INFO - Executing: [find elements: By.cssSelector: #loginDialog])
+17:45:04.771 INFO - Done: [find elements: By.cssSelector: #loginDialog]
+17:45:04.780 INFO - Executing: [is displayed: 0 [[ChromeDriver: chrome on LINUX (09ed1e94e202534a72dbddacade470b8)] -> css selector: #loginDialog]])
+17:45:04.826 INFO - Done: [is displayed: 0 [[ChromeDriver: chrome on LINUX (09ed1e94e202534a72dbddacade470b8)] -> css selector: #loginDialog]]
+17:45:04.846 INFO - Executing: [find element: By.cssSelector: #user_name])
+17:45:04.894 INFO - Done: [find element: By.cssSelector: #user_name]
+17:45:04.903 INFO - Executing: [get element attribute: 1 [[ChromeDriver: chrome on LINUX (09ed1e94e202534a72dbddacade470b8)] -> css selector: #user_name], value])
+17:45:04.923 INFO - Done: [get element attribute: 1 [[ChromeDriver: chrome on LINUX (09ed1e94e202534a72dbddacade470b8)] -> css selector: #user_name], value]
+17:45:04.938 INFO - Executing: [find element: By.cssSelector: #user_password])
+17:45:04.981 INFO - Done: [find element: By.cssSelector: #user_password]
+17:45:04.987 INFO - Executing: [get element attribute: 2 [[ChromeDriver: chrome on LINUX (09ed1e94e202534a72dbddacade470b8)] -> css selector: #user_password], value])
+17:45:05.001 INFO - Done: [get element attribute: 2 [[ChromeDriver: chrome on LINUX (09ed1e94e202534a72dbddacade470b8)] -> css selector: #user_password], value]
+17:45:05.012 INFO - Executing: [find element: By.cssSelector: #user_name])
+17:45:05.034 INFO - Done: [find element: By.cssSelector: #user_name]
+17:45:05.042 INFO - Executing: [send keys: 1 [[ChromeDriver: chrome on LINUX (09ed1e94e202534a72dbddacade470b8)] -> css selector: #user_name], [u, s, e, r]])
+17:45:05.198 INFO - Done: [send keys: 1 [[ChromeDriver: chrome on LINUX (09ed1e94e202534a72dbddacade470b8)] -> css selector: #user_name], [u, s, e, r]]
+17:45:05.215 INFO - Executing: [find element: By.cssSelector: #user_password])
+17:45:05.237 INFO - Done: [find element: By.cssSelector: #user_password]
+17:45:05.252 INFO - Executing: [send keys: 2 [[ChromeDriver: chrome on LINUX (09ed1e94e202534a72dbddacade470b8)] -> css selector: #user_password], [u, s, e, r]])
+17:45:05.359 INFO - Done: [send keys: 2 [[ChromeDriver: chrome on LINUX (09ed1e94e202534a72dbddacade470b8)] -> css selector: #user_password], [u, s, e, r]]
+17:45:05.377 INFO - Executing: [find element: By.xpath: //div[@id="loginDialog"]//span[@class="dijitReset dijitInline dijitButtonText" and text()="Войти"]])
+17:45:05.425 INFO - Done: [find element: By.xpath: //div[@id="loginDialog"]//span[@class="dijitReset dijitInline dijitButtonText" and text()="Войти"]]
+17:45:05.432 INFO - Executing: [click: 3 [[ChromeDriver: chrome on LINUX (09ed1e94e202534a72dbddacade470b8)] -> xpath: //div[@id="loginDialog"]//span[@class="dijitReset dijitInline dijitButtonText" and text()="Войти"]]])
+17:45:05.560 INFO - Done: [click: 3 [[ChromeDriver: chrome on LINUX (09ed1e94e202534a72dbddacade470b8)] -> xpath: //div[@id="loginDialog"]//span[@class="dijitReset dijitInline dijitButtonText" and text()="Войти"]]]
+17:45:07.632 INFO - Executing: [find elements: By.cssSelector: #main_TopImg])
+17:45:07.685 INFO - Done: [find elements: By.cssSelector: #main_TopImg]
+17:45:07.692 INFO - Executing: [is displayed: 4 [[ChromeDriver: chrome on LINUX (09ed1e94e202534a72dbddacade470b8)] -> css selector: #main_TopImg]])
+17:45:07.736 INFO - Done: [is displayed: 4 [[ChromeDriver: chrome on LINUX (09ed1e94e202534a72dbddacade470b8)] -> css selector: #main_TopImg]]
+17:45:07.751 INFO - Executing: [find element: By.cssSelector: #main_TopImg])
+17:45:07.795 INFO - Done: [find element: By.cssSelector: #main_TopImg]
+17:45:07.802 INFO - Executing: [is displayed: 4 [[ChromeDriver: chrome on LINUX (09ed1e94e202534a72dbddacade470b8)] -> css selector: #main_TopImg]])
+17:45:07.821 INFO - Done: [is displayed: 4 [[ChromeDriver: chrome on LINUX (09ed1e94e202534a72dbddacade470b8)] -> css selector: #main_TopImg]]
+17:45:07.829 INFO - Executing: [find elements: By.cssSelector: #main_username])
+17:45:07.875 INFO - Done: [find elements: By.cssSelector: #main_username]
+17:45:07.881 INFO - Executing: [is displayed: 5 [[ChromeDriver: chrome on LINUX (09ed1e94e202534a72dbddacade470b8)] -> css selector: #main_username]])
+17:45:07.924 INFO - Done: [is displayed: 5 [[ChromeDriver: chrome on LINUX (09ed1e94e202534a72dbddacade470b8)] -> css selector: #main_username]]
+17:45:07.934 INFO - Executing: [find element: By.cssSelector: #main_username])
+17:45:07.977 INFO - Done: [find element: By.cssSelector: #main_username]
+17:45:07.986 INFO - Executing: [get text: 5 [[ChromeDriver: chrome on LINUX (09ed1e94e202534a72dbddacade470b8)] -> css selector: #main_username]])
+17:45:08.032 INFO - Done: [get text: 5 [[ChromeDriver: chrome on LINUX (09ed1e94e202534a72dbddacade470b8)] -> css selector: #main_username]]
+17:45:08.041 INFO - Executing: [get title])
+17:45:08.055 INFO - Done: [get title]
+17:45:08.062 INFO - Executing: [find elements: By.cssSelector: #main_app_mode])
+17:45:08.102 INFO - Done: [find elements: By.cssSelector: #main_app_mode]
+17:45:08.107 INFO - Executing: [is displayed: 6 [[ChromeDriver: chrome on LINUX (09ed1e94e202534a72dbddacade470b8)] -> css selector: #main_app_mode]])
+17:45:08.146 INFO - Done: [is displayed: 6 [[ChromeDriver: chrome on LINUX (09ed1e94e202534a72dbddacade470b8)] -> css selector: #main_app_mode]]
+17:45:08.155 INFO - Executing: [find element: By.cssSelector: #main_app_mode])
+17:45:08.198 INFO - Done: [find element: By.cssSelector: #main_app_mode]
+17:45:08.204 INFO - Executing: [get text: 6 [[ChromeDriver: chrome on LINUX (09ed1e94e202534a72dbddacade470b8)] -> css selector: #main_app_mode]])
+17:45:08.252 INFO - Done: [get text: 6 [[ChromeDriver: chrome on LINUX (09ed1e94e202534a72dbddacade470b8)] -> css selector: #main_app_mode]]
+17:45:08.262 INFO - Executing: [find elements: By.cssSelector: #main_MainMenu])
+17:45:08.303 INFO - Done: [find elements: By.cssSelector: #main_MainMenu]
+17:45:08.310 INFO - Executing: [is displayed: 7 [[ChromeDriver: chrome on LINUX (09ed1e94e202534a72dbddacade470b8)] -> css selector: #main_MainMenu]])
+17:45:08.353 INFO - Done: [is displayed: 7 [[ChromeDriver: chrome on LINUX (09ed1e94e202534a72dbddacade470b8)] -> css selector: #main_MainMenu]]
+17:45:08.368 INFO - Executing: [find element: By.cssSelector: #main_MainMenu])
+17:45:08.410 INFO - Done: [find element: By.cssSelector: #main_MainMenu]
+17:45:08.416 INFO - Executing: [get text: 7 [[ChromeDriver: chrome on LINUX (09ed1e94e202534a72dbddacade470b8)] -> css selector: #main_MainMenu]])
+17:45:08.472 INFO - Done: [get text: 7 [[ChromeDriver: chrome on LINUX (09ed1e94e202534a72dbddacade470b8)] -> css selector: #main_MainMenu]]
+17:45:08.481 INFO - Executing: [find elements: By.cssSelector: #menuBarPopupMenuMain])
+17:45:08.526 INFO - Done: [find elements: By.cssSelector: #menuBarPopupMenuMain]
+17:45:08.531 INFO - Executing: [is displayed: 8 [[ChromeDriver: chrome on LINUX (09ed1e94e202534a72dbddacade470b8)] -> css selector: #menuBarPopupMenuMain]])
+17:45:08.579 INFO - Done: [is displayed: 8 [[ChromeDriver: chrome on LINUX (09ed1e94e202534a72dbddacade470b8)] -> css selector: #menuBarPopupMenuMain]]
+17:45:08.588 INFO - Executing: [find element: By.cssSelector: #menuBarPopupMenuMain])
+17:45:08.637 INFO - Done: [find element: By.cssSelector: #menuBarPopupMenuMain]
+17:45:08.644 INFO - Executing: [get text: 8 [[ChromeDriver: chrome on LINUX (09ed1e94e202534a72dbddacade470b8)] -> css selector: #menuBarPopupMenuMain]])
+17:45:08.696 INFO - Done: [get text: 8 [[ChromeDriver: chrome on LINUX (09ed1e94e202534a72dbddacade470b8)] -> css selector: #menuBarPopupMenuMain]]
+17:45:08.703 INFO - Executing: [find elements: By.cssSelector: #menuBarWrh])
+17:45:08.758 INFO - Done: [find elements: By.cssSelector: #menuBarWrh]
+17:45:08.763 INFO - Executing: [is displayed: 9 [[ChromeDriver: chrome on LINUX (09ed1e94e202534a72dbddacade470b8)] -> css selector: #menuBarWrh]])
+17:45:08.802 INFO - Done: [is displayed: 9 [[ChromeDriver: chrome on LINUX (09ed1e94e202534a72dbddacade470b8)] -> css selector: #menuBarWrh]]
+17:45:08.812 INFO - Executing: [find element: By.cssSelector: #menuBarWrh])
+17:45:08.851 INFO - Done: [find element: By.cssSelector: #menuBarWrh]
+17:45:08.856 INFO - Executing: [get text: 9 [[ChromeDriver: chrome on LINUX (09ed1e94e202534a72dbddacade470b8)] -> css selector: #menuBarWrh]])
+17:45:08.902 INFO - Done: [get text: 9 [[ChromeDriver: chrome on LINUX (09ed1e94e202534a72dbddacade470b8)] -> css selector: #menuBarWrh]]
+17:45:08.911 INFO - Executing: [find elements: By.cssSelector: #menuBarPopupMenuSales])
+17:45:08.959 INFO - Done: [find elements: By.cssSelector: #menuBarPopupMenuSales]
+17:45:08.964 INFO - Executing: [is displayed: 10 [[ChromeDriver: chrome on LINUX (09ed1e94e202534a72dbddacade470b8)] -> css selector: #menuBarPopupMenuSales]])
+17:45:09.005 INFO - Done: [is displayed: 10 [[ChromeDriver: chrome on LINUX (09ed1e94e202534a72dbddacade470b8)] -> css selector: #menuBarPopupMenuSales]]
+17:45:09.016 INFO - Executing: [find element: By.cssSelector: #menuBarPopupMenuSales])
+17:45:09.054 INFO - Done: [find element: By.cssSelector: #menuBarPopupMenuSales]
+17:45:09.060 INFO - Executing: [get text: 10 [[ChromeDriver: chrome on LINUX (09ed1e94e202534a72dbddacade470b8)] -> css selector: #menuBarPopupMenuSales]])
+17:45:09.106 INFO - Done: [get text: 10 [[ChromeDriver: chrome on LINUX (09ed1e94e202534a72dbddacade470b8)] -> css selector: #menuBarPopupMenuSales]]
+17:45:09.113 INFO - Executing: [find elements: By.cssSelector: #menuBarItemClose])
+17:45:09.153 INFO - Done: [find elements: By.cssSelector: #menuBarItemClose]
+17:45:09.159 INFO - Executing: [is displayed: 11 [[ChromeDriver: chrome on LINUX (09ed1e94e202534a72dbddacade470b8)] -> css selector: #menuBarItemClose]])
+17:45:09.202 INFO - Done: [is displayed: 11 [[ChromeDriver: chrome on LINUX (09ed1e94e202534a72dbddacade470b8)] -> css selector: #menuBarItemClose]]
+17:45:09.210 INFO - Executing: [find element: By.cssSelector: #menuBarItemClose])
+17:45:09.264 INFO - Done: [find element: By.cssSelector: #menuBarItemClose]
+17:45:09.269 INFO - Executing: [get text: 11 [[ChromeDriver: chrome on LINUX (09ed1e94e202534a72dbddacade470b8)] -> css selector: #menuBarItemClose]])
+17:45:09.318 INFO - Done: [get text: 11 [[ChromeDriver: chrome on LINUX (09ed1e94e202534a72dbddacade470b8)] -> css selector: #menuBarItemClose]]
+17:45:09.326 INFO - Executing: [find elements: By.cssSelector: #menuBarItemHelpAbout])
+17:45:09.373 INFO - Done: [find elements: By.cssSelector: #menuBarItemHelpAbout]
+17:45:09.378 INFO - Executing: [is displayed: 12 [[ChromeDriver: chrome on LINUX (09ed1e94e202534a72dbddacade470b8)] -> css selector: #menuBarItemHelpAbout]])
+17:45:09.428 INFO - Done: [is displayed: 12 [[ChromeDriver: chrome on LINUX (09ed1e94e202534a72dbddacade470b8)] -> css selector: #menuBarItemHelpAbout]]
+17:45:09.438 INFO - Executing: [find element: By.cssSelector: #menuBarItemHelpAbout])
+17:45:09.482 INFO - Done: [find element: By.cssSelector: #menuBarItemHelpAbout]
+17:45:09.489 INFO - Executing: [get text: 12 [[ChromeDriver: chrome on LINUX (09ed1e94e202534a72dbddacade470b8)] -> css selector: #menuBarItemHelpAbout]])
+17:45:09.537 INFO - Done: [get text: 12 [[ChromeDriver: chrome on LINUX (09ed1e94e202534a72dbddacade470b8)] -> css selector: #menuBarItemHelpAbout]]
+17:45:09.546 INFO - Executing: [find elements: By.cssSelector: #main_ContentContainer_tablist_PageContentPane_mainPage])
+17:45:09.588 INFO - Done: [find elements: By.cssSelector: #main_ContentContainer_tablist_PageContentPane_mainPage]
+17:45:09.593 INFO - Executing: [is displayed: 13 [[ChromeDriver: chrome on LINUX (09ed1e94e202534a72dbddacade470b8)] -> css selector: #main_ContentContainer_tablist_PageContentPane_mainPage]])
+17:45:09.636 INFO - Done: [is displayed: 13 [[ChromeDriver: chrome on LINUX (09ed1e94e202534a72dbddacade470b8)] -> css selector: #main_ContentContainer_tablist_PageContentPane_mainPage]]
+17:45:09.643 INFO - Executing: [find element: By.cssSelector: #main_ContentContainer_tablist_PageContentPane_mainPage])
+17:45:09.687 INFO - Done: [find element: By.cssSelector: #main_ContentContainer_tablist_PageContentPane_mainPage]
+17:45:09.693 INFO - Executing: [get text: 13 [[ChromeDriver: chrome on LINUX (09ed1e94e202534a72dbddacade470b8)] -> css selector: #main_ContentContainer_tablist_PageContentPane_mainPage]])
+17:45:09.743 INFO - Done: [get text: 13 [[ChromeDriver: chrome on LINUX (09ed1e94e202534a72dbddacade470b8)] -> css selector: #main_ContentContainer_tablist_PageContentPane_mainPage]]
+17:45:09.750 INFO - Executing: [find elements: By.cssSelector: #mainpage_MainContent])
+17:45:09.790 INFO - Done: [find elements: By.cssSelector: #mainpage_MainContent]
+17:45:09.796 INFO - Executing: [is displayed: 14 [[ChromeDriver: chrome on LINUX (09ed1e94e202534a72dbddacade470b8)] -> css selector: #mainpage_MainContent]])
+17:45:09.834 INFO - Done: [is displayed: 14 [[ChromeDriver: chrome on LINUX (09ed1e94e202534a72dbddacade470b8)] -> css selector: #mainpage_MainContent]]
+17:45:09.842 INFO - Executing: [find element: By.cssSelector: #menuBarItemHelpAbout])
+17:45:09.871 INFO - Done: [find element: By.cssSelector: #menuBarItemHelpAbout]
+17:45:09.877 INFO - Executing: [click: 12 [[ChromeDriver: chrome on LINUX (09ed1e94e202534a72dbddacade470b8)] -> css selector: #menuBarItemHelpAbout]])
+17:45:10.057 INFO - Done: [click: 12 [[ChromeDriver: chrome on LINUX (09ed1e94e202534a72dbddacade470b8)] -> css selector: #menuBarItemHelpAbout]]
+17:45:10.066 INFO - Executing: [find elements: By.cssSelector: #DialogSimple])
+17:45:10.107 INFO - Done: [find elements: By.cssSelector: #DialogSimple]
+17:45:10.116 INFO - Executing: [is displayed: 15 [[ChromeDriver: chrome on LINUX (09ed1e94e202534a72dbddacade470b8)] -> css selector: #DialogSimple]])
+17:45:10.158 INFO - Done: [is displayed: 15 [[ChromeDriver: chrome on LINUX (09ed1e94e202534a72dbddacade470b8)] -> css selector: #DialogSimple]]
+17:45:10.167 INFO - Executing: [find element: By.cssSelector: #DialogSimple])
+17:45:10.231 INFO - Done: [find element: By.cssSelector: #DialogSimple]
+17:45:10.238 INFO - Executing: [get text: 15 [[ChromeDriver: chrome on LINUX (09ed1e94e202534a72dbddacade470b8)] -> css selector: #DialogSimple]])
+17:45:10.300 INFO - Done: [get text: 15 [[ChromeDriver: chrome on LINUX (09ed1e94e202534a72dbddacade470b8)] -> css selector: #DialogSimple]]
+17:45:10.310 INFO - Executing: [find element: By.cssSelector: #DialogSimple])
+17:45:10.331 INFO - Done: [find element: By.cssSelector: #DialogSimple]
+17:45:10.339 INFO - Executing: [get text: 15 [[ChromeDriver: chrome on LINUX (09ed1e94e202534a72dbddacade470b8)] -> css selector: #DialogSimple]])
+17:45:10.364 INFO - Done: [get text: 15 [[ChromeDriver: chrome on LINUX (09ed1e94e202534a72dbddacade470b8)] -> css selector: #DialogSimple]]
+17:45:10.374 INFO - Executing: [find element: By.xpath: //div[@id="DialogSimple"]//span[@class="dijitReset dijitInline dijitButtonText" and text()="OK"]])
+17:45:10.414 INFO - Done: [find element: By.xpath: //div[@id="DialogSimple"]//span[@class="dijitReset dijitInline dijitButtonText" and text()="OK"]]
+17:45:10.420 INFO - Executing: [click: 16 [[ChromeDriver: chrome on LINUX (09ed1e94e202534a72dbddacade470b8)] -> xpath: //div[@id="DialogSimple"]//span[@class="dijitReset dijitInline dijitButtonText" and text()="OK"]]])
+17:45:10.525 INFO - Done: [click: 16 [[ChromeDriver: chrome on LINUX (09ed1e94e202534a72dbddacade470b8)] -> xpath: //div[@id="DialogSimple"]//span[@class="dijitReset dijitInline dijitButtonText" and text()="OK"]]]
+17:45:10.532 INFO - Executing: [find elements: By.cssSelector: #DialogSimple])
+17:45:10.552 INFO - Done: [find elements: By.cssSelector: #DialogSimple]
+17:45:10.558 INFO - Executing: [is displayed: 15 [[ChromeDriver: chrome on LINUX (09ed1e94e202534a72dbddacade470b8)] -> css selector: #DialogSimple]])
+17:45:10.580 INFO - Done: [is displayed: 15 [[ChromeDriver: chrome on LINUX (09ed1e94e202534a72dbddacade470b8)] -> css selector: #DialogSimple]]
+17:45:11.088 INFO - Executing: [is displayed: 15 [[ChromeDriver: chrome on LINUX (09ed1e94e202534a72dbddacade470b8)] -> css selector: #DialogSimple]])
+17:45:11.108 INFO - Done: [is displayed: 15 [[ChromeDriver: chrome on LINUX (09ed1e94e202534a72dbddacade470b8)] -> css selector: #DialogSimple]]
+17:45:11.115 INFO - Executing: [find element: By.cssSelector: #menuBarItemHelpAbout])
+17:45:11.135 INFO - Done: [find element: By.cssSelector: #menuBarItemHelpAbout]
+17:45:11.140 INFO - Executing: [click: 12 [[ChromeDriver: chrome on LINUX (09ed1e94e202534a72dbddacade470b8)] -> css selector: #menuBarItemHelpAbout]])
+17:45:11.201 INFO - Done: [click: 12 [[ChromeDriver: chrome on LINUX (09ed1e94e202534a72dbddacade470b8)] -> css selector: #menuBarItemHelpAbout]]
+17:45:11.207 INFO - Executing: [find elements: By.cssSelector: #DialogSimple])
+17:45:11.226 INFO - Done: [find elements: By.cssSelector: #DialogSimple]
+17:45:11.230 INFO - Executing: [is displayed: 15 [[ChromeDriver: chrome on LINUX (09ed1e94e202534a72dbddacade470b8)] -> css selector: #DialogSimple]])
+17:45:11.251 INFO - Done: [is displayed: 15 [[ChromeDriver: chrome on LINUX (09ed1e94e202534a72dbddacade470b8)] -> css selector: #DialogSimple]]
+17:45:11.258 INFO - Executing: [find element: By.xpath: //div[@id="DialogSimple"]//span[@class="dijitReset dijitInline dijitButtonText" and text()="Закрыть"]])
+17:45:11.311 INFO - Done: [find element: By.xpath: //div[@id="DialogSimple"]//span[@class="dijitReset dijitInline dijitButtonText" and text()="Закрыть"]]
+17:45:11.316 INFO - Executing: [click: 17 [[ChromeDriver: chrome on LINUX (09ed1e94e202534a72dbddacade470b8)] -> xpath: //div[@id="DialogSimple"]//span[@class="dijitReset dijitInline dijitButtonText" and text()="Закрыть"]]])
+17:45:11.437 INFO - Done: [click: 17 [[ChromeDriver: chrome on LINUX (09ed1e94e202534a72dbddacade470b8)] -> xpath: //div[@id="DialogSimple"]//span[@class="dijitReset dijitInline dijitButtonText" and text()="Закрыть"]]]
+17:45:11.453 INFO - Executing: [find elements: By.cssSelector: #DialogSimple])
+17:45:11.479 INFO - Done: [find elements: By.cssSelector: #DialogSimple]
+17:45:11.485 INFO - Executing: [is displayed: 15 [[ChromeDriver: chrome on LINUX (09ed1e94e202534a72dbddacade470b8)] -> css selector: #DialogSimple]])
+17:45:11.502 INFO - Done: [is displayed: 15 [[ChromeDriver: chrome on LINUX (09ed1e94e202534a72dbddacade470b8)] -> css selector: #DialogSimple]]
+17:45:12.008 INFO - Executing: [is displayed: 15 [[ChromeDriver: chrome on LINUX (09ed1e94e202534a72dbddacade470b8)] -> css selector: #DialogSimple]])
+17:45:12.029 INFO - Done: [is displayed: 15 [[ChromeDriver: chrome on LINUX (09ed1e94e202534a72dbddacade470b8)] -> css selector: #DialogSimple]]
+17:45:12.036 INFO - Executing: [find element: By.cssSelector: #menuBarPopupMenuMain])
+17:45:12.055 INFO - Done: [find element: By.cssSelector: #menuBarPopupMenuMain]
+17:45:12.059 INFO - Executing: [click: 8 [[ChromeDriver: chrome on LINUX (09ed1e94e202534a72dbddacade470b8)] -> css selector: #menuBarPopupMenuMain]])
+17:45:12.185 INFO - Done: [click: 8 [[ChromeDriver: chrome on LINUX (09ed1e94e202534a72dbddacade470b8)] -> css selector: #menuBarPopupMenuMain]]
+17:45:12.192 INFO - Executing: [find elements: By.cssSelector: #menuBarPopupMenuMain_menu])
+17:45:12.231 INFO - Done: [find elements: By.cssSelector: #menuBarPopupMenuMain_menu]
+17:45:12.236 INFO - Executing: [is displayed: 18 [[ChromeDriver: chrome on LINUX (09ed1e94e202534a72dbddacade470b8)] -> css selector: #menuBarPopupMenuMain_menu]])
+17:45:12.274 INFO - Done: [is displayed: 18 [[ChromeDriver: chrome on LINUX (09ed1e94e202534a72dbddacade470b8)] -> css selector: #menuBarPopupMenuMain_menu]]
+17:45:12.280 INFO - Executing: [find elements: By.cssSelector: #menuBarDirsItemUnits])
+17:45:12.324 INFO - Done: [find elements: By.cssSelector: #menuBarDirsItemUnits]
+17:45:12.329 INFO - Executing: [is displayed: 19 [[ChromeDriver: chrome on LINUX (09ed1e94e202534a72dbddacade470b8)] -> css selector: #menuBarDirsItemUnits]])
+17:45:12.373 INFO - Done: [is displayed: 19 [[ChromeDriver: chrome on LINUX (09ed1e94e202534a72dbddacade470b8)] -> css selector: #menuBarDirsItemUnits]]
+17:45:12.381 INFO - Executing: [find element: By.cssSelector: #menuBarDirsItemUnits])
+17:45:12.419 INFO - Done: [find element: By.cssSelector: #menuBarDirsItemUnits]
+17:45:12.424 INFO - Executing: [get text: 19 [[ChromeDriver: chrome on LINUX (09ed1e94e202534a72dbddacade470b8)] -> css selector: #menuBarDirsItemUnits]])
+17:45:12.472 INFO - Done: [get text: 19 [[ChromeDriver: chrome on LINUX (09ed1e94e202534a72dbddacade470b8)] -> css selector: #menuBarDirsItemUnits]]
+17:45:12.485 INFO - Executing: [find elements: By.cssSelector: #menuBarDirsItemContractors])
+17:45:12.524 INFO - Done: [find elements: By.cssSelector: #menuBarDirsItemContractors]
+17:45:12.529 INFO - Executing: [is displayed: 20 [[ChromeDriver: chrome on LINUX (09ed1e94e202534a72dbddacade470b8)] -> css selector: #menuBarDirsItemContractors]])
+17:45:12.573 INFO - Done: [is displayed: 20 [[ChromeDriver: chrome on LINUX (09ed1e94e202534a72dbddacade470b8)] -> css selector: #menuBarDirsItemContractors]]
+17:45:12.580 INFO - Executing: [find element: By.cssSelector: #menuBarDirsItemContractors])
+17:45:12.630 INFO - Done: [find element: By.cssSelector: #menuBarDirsItemContractors]
+17:45:12.635 INFO - Executing: [get text: 20 [[ChromeDriver: chrome on LINUX (09ed1e94e202534a72dbddacade470b8)] -> css selector: #menuBarDirsItemContractors]])
+17:45:12.687 INFO - Done: [get text: 20 [[ChromeDriver: chrome on LINUX (09ed1e94e202534a72dbddacade470b8)] -> css selector: #menuBarDirsItemContractors]]
+17:45:12.694 INFO - Executing: [find element: By.cssSelector: #menuBarDirsItemUnits])
+17:45:12.715 INFO - Done: [find element: By.cssSelector: #menuBarDirsItemUnits]
+17:45:12.720 INFO - Executing: [click: 19 [[ChromeDriver: chrome on LINUX (09ed1e94e202534a72dbddacade470b8)] -> css selector: #menuBarDirsItemUnits]])
+17:45:12.855 INFO - Done: [click: 19 [[ChromeDriver: chrome on LINUX (09ed1e94e202534a72dbddacade470b8)] -> css selector: #menuBarDirsItemUnits]]
+17:45:12.866 INFO - Executing: [find elements: By.cssSelector: #main_ContentContainer_tablist_PageContentPane_dir_units])
+17:45:12.920 INFO - Done: [find elements: By.cssSelector: #main_ContentContainer_tablist_PageContentPane_dir_units]
+17:45:12.926 INFO - Executing: [is displayed: 21 [[ChromeDriver: chrome on LINUX (09ed1e94e202534a72dbddacade470b8)] -> css selector: #main_ContentContainer_tablist_PageContentPane_dir_units]])
+17:45:12.970 INFO - Done: [is displayed: 21 [[ChromeDriver: chrome on LINUX (09ed1e94e202534a72dbddacade470b8)] -> css selector: #main_ContentContainer_tablist_PageContentPane_dir_units]]
+17:45:12.979 INFO - Executing: [find element: By.cssSelector: #main_ContentContainer_tablist_PageContentPane_dir_units])
+17:45:13.051 INFO - Done: [find element: By.cssSelector: #main_ContentContainer_tablist_PageContentPane_dir_units]
+17:45:13.056 INFO - Executing: [get text: 21 [[ChromeDriver: chrome on LINUX (09ed1e94e202534a72dbddacade470b8)] -> css selector: #main_ContentContainer_tablist_PageContentPane_dir_units]])
+17:45:13.110 INFO - Done: [get text: 21 [[ChromeDriver: chrome on LINUX (09ed1e94e202534a72dbddacade470b8)] -> css selector: #main_ContentContainer_tablist_PageContentPane_dir_units]]
+17:45:13.126 INFO - Executing: [find element: By.xpath: //span[@id="main_ContentContainer_tablist_PageContentPane_dir_units"] /ancestor::div/span[@title="Закрыть"]])
+17:45:13.198 INFO - Done: [find element: By.xpath: //span[@id="main_ContentContainer_tablist_PageContentPane_dir_units"] /ancestor::div/span[@title="Закрыть"]]
+17:45:13.206 INFO - Executing: [click: 22 [[ChromeDriver: chrome on LINUX (09ed1e94e202534a72dbddacade470b8)] -> xpath: //span[@id="main_ContentContainer_tablist_PageContentPane_dir_units"] /ancestor::div/span[@title="Закрыть"]]])
+17:45:13.625 INFO - Done: [click: 22 [[ChromeDriver: chrome on LINUX (09ed1e94e202534a72dbddacade470b8)] -> xpath: //span[@id="main_ContentContainer_tablist_PageContentPane_dir_units"] /ancestor::div/span[@title="Закрыть"]]]
+17:45:13.633 INFO - Executing: [find elements: By.cssSelector: #main_ContentContainer_tablist_PageContentPane_dir_units])
+17:45:13.651 INFO - Done: [find elements: By.cssSelector: #main_ContentContainer_tablist_PageContentPane_dir_units]
+17:45:13.656 INFO - Executing: [find element: By.cssSelector: #menuBarWrh])
+17:45:13.677 INFO - Done: [find element: By.cssSelector: #menuBarWrh]
+17:45:13.685 INFO - Executing: [click: 9 [[ChromeDriver: chrome on LINUX (09ed1e94e202534a72dbddacade470b8)] -> css selector: #menuBarWrh]])
+17:45:13.819 INFO - Done: [click: 9 [[ChromeDriver: chrome on LINUX (09ed1e94e202534a72dbddacade470b8)] -> css selector: #menuBarWrh]]
+17:45:13.826 INFO - Executing: [find elements: By.cssSelector: #menuBarWrhPInvoice])
+17:45:13.869 INFO - Done: [find elements: By.cssSelector: #menuBarWrhPInvoice]
+17:45:13.874 INFO - Executing: [is displayed: 23 [[ChromeDriver: chrome on LINUX (09ed1e94e202534a72dbddacade470b8)] -> css selector: #menuBarWrhPInvoice]])
+17:45:13.915 INFO - Done: [is displayed: 23 [[ChromeDriver: chrome on LINUX (09ed1e94e202534a72dbddacade470b8)] -> css selector: #menuBarWrhPInvoice]]
+17:45:13.927 INFO - Executing: [find element: By.cssSelector: #menuBarWrhPInvoice])
+17:45:13.967 INFO - Done: [find element: By.cssSelector: #menuBarWrhPInvoice]
+17:45:13.972 INFO - Executing: [get text: 23 [[ChromeDriver: chrome on LINUX (09ed1e94e202534a72dbddacade470b8)] -> css selector: #menuBarWrhPInvoice]])
+17:45:14.021 INFO - Done: [get text: 23 [[ChromeDriver: chrome on LINUX (09ed1e94e202534a72dbddacade470b8)] -> css selector: #menuBarWrhPInvoice]]
+17:45:14.027 INFO - Executing: [find element: By.cssSelector: #menuBarWrhInvoice])
+17:45:14.068 INFO - Done: [find element: By.cssSelector: #menuBarWrhInvoice]
+17:45:14.074 INFO - Executing: [get text: 24 [[ChromeDriver: chrome on LINUX (09ed1e94e202534a72dbddacade470b8)] -> css selector: #menuBarWrhInvoice]])
+17:45:14.122 INFO - Done: [get text: 24 [[ChromeDriver: chrome on LINUX (09ed1e94e202534a72dbddacade470b8)] -> css selector: #menuBarWrhInvoice]]
+17:45:14.130 INFO - Executing: [find element: By.cssSelector: #menuBarWrhRetInvoice])
+17:45:14.170 INFO - Done: [find element: By.cssSelector: #menuBarWrhRetInvoice]
+17:45:14.175 INFO - Executing: [get text: 25 [[ChromeDriver: chrome on LINUX (09ed1e94e202534a72dbddacade470b8)] -> css selector: #menuBarWrhRetInvoice]])
+17:45:14.222 INFO - Done: [get text: 25 [[ChromeDriver: chrome on LINUX (09ed1e94e202534a72dbddacade470b8)] -> css selector: #menuBarWrhRetInvoice]]
+17:45:14.230 INFO - Executing: [find element: By.cssSelector: #menuBarWrhBalance])
+17:45:14.283 INFO - Done: [find element: By.cssSelector: #menuBarWrhBalance]
+17:45:14.288 INFO - Executing: [get text: 26 [[ChromeDriver: chrome on LINUX (09ed1e94e202534a72dbddacade470b8)] -> css selector: #menuBarWrhBalance]])
+17:45:14.336 INFO - Done: [get text: 26 [[ChromeDriver: chrome on LINUX (09ed1e94e202534a72dbddacade470b8)] -> css selector: #menuBarWrhBalance]]
+17:45:14.345 INFO - Executing: [find element: By.cssSelector: #menuBarWrhMoves])
+17:45:14.401 INFO - Done: [find element: By.cssSelector: #menuBarWrhMoves]
+17:45:14.405 INFO - Executing: [get text: 27 [[ChromeDriver: chrome on LINUX (09ed1e94e202534a72dbddacade470b8)] -> css selector: #menuBarWrhMoves]])
+17:45:14.452 INFO - Done: [get text: 27 [[ChromeDriver: chrome on LINUX (09ed1e94e202534a72dbddacade470b8)] -> css selector: #menuBarWrhMoves]]
+17:45:14.459 INFO - Executing: [find element: By.cssSelector: #menuBarPopupMenuSales])
+17:45:14.479 INFO - Done: [find element: By.cssSelector: #menuBarPopupMenuSales]
+17:45:14.484 INFO - Executing: [click: 10 [[ChromeDriver: chrome on LINUX (09ed1e94e202534a72dbddacade470b8)] -> css selector: #menuBarPopupMenuSales]])
+17:45:14.615 INFO - Done: [click: 10 [[ChromeDriver: chrome on LINUX (09ed1e94e202534a72dbddacade470b8)] -> css selector: #menuBarPopupMenuSales]]
+17:45:14.621 INFO - Executing: [find elements: By.cssSelector: #menuBarSalesItemCashier])
+17:45:14.659 INFO - Done: [find elements: By.cssSelector: #menuBarSalesItemCashier]
+17:45:14.665 INFO - Executing: [is displayed: 28 [[ChromeDriver: chrome on LINUX (09ed1e94e202534a72dbddacade470b8)] -> css selector: #menuBarSalesItemCashier]])
+17:45:14.712 INFO - Done: [is displayed: 28 [[ChromeDriver: chrome on LINUX (09ed1e94e202534a72dbddacade470b8)] -> css selector: #menuBarSalesItemCashier]]
+17:45:14.722 INFO - Executing: [find element: By.cssSelector: #menuBarSalesItemCashier])
+17:45:14.763 INFO - Done: [find element: By.cssSelector: #menuBarSalesItemCashier]
+17:45:14.769 INFO - Executing: [get text: 28 [[ChromeDriver: chrome on LINUX (09ed1e94e202534a72dbddacade470b8)] -> css selector: #menuBarSalesItemCashier]])
+17:45:14.825 INFO - Done: [get text: 28 [[ChromeDriver: chrome on LINUX (09ed1e94e202534a72dbddacade470b8)] -> css selector: #menuBarSalesItemCashier]]

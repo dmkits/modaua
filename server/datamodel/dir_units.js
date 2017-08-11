@@ -72,7 +72,7 @@ var tableColumns=[
 ];
 module.exports.tableColumns=tableColumns;
 
-module.exports.validateQuery= "select ID,NAME,FULL_NAME,NOTE,CITY,ADDRESS,NOT_USED from dir_units- where ID is NULL";
+module.exports.validateQuery= "select ID,NAME,FULL_NAME,NOTE,CITY,ADDRESS,NOT_USED from dir_units where ID is NULL";
 
 //var dmBase = require("./dataModelBase");
 

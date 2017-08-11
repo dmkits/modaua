@@ -4,29 +4,115 @@
             tests="3">
 
   <testsuite name="main.main_1_headerTests"
-    errors="0" failures="0" hostname="" id="" package="main" skipped="3"
-    tests="3" time="0.000" timestamp="Thu, 10 Aug 2017 14:37:51 GMT">
+    errors="0" failures="0" hostname="" id="" package="main" skipped="0"
+    tests="3" time="14.01" timestamp="Fri, 11 Aug 2017 14:45:00 GMT">
+  
+    <testcase name="Open browser" classname="main.main_1_headerTests" time="3.841" assertions="0">
+    </testcase>
+  
+    <testcase name="Login main page" classname="main.main_1_headerTests" time="0.9110" assertions="3">
+
+    
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="Main Header If  All Elements Visible Tests" classname="main.main_1_headerTests" time="9.260" assertions="44">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    </testcase>
   
 
   
 
-  
-    
-    <testcase
-      name="Open browser" classname="main.main_1_headerTests">
-      <skipped />
-    </testcase>
-    
-    <testcase
-      name="Login main page" classname="main.main_1_headerTests">
-      <skipped />
-    </testcase>
-    
-    <testcase
-      name="Main Header If  All Elements Visible Tests" classname="main.main_1_headerTests">
-      <skipped />
-    </testcase>
-    
   
   </testsuite>
 </testsuites>

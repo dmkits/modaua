@@ -46,6 +46,7 @@ var database = require('./database');                                       log.
 var configFileName=appConfig.configName || 'config.json';
 var config=JSON.parse(util.getJSONWithoutComments(fs.readFileSync('./'+configFileName,'utf-8')));
 module.exports.getConfig=function(){ return config; }
+module.exports.getConfigAppMenu=function(){ return (config&&config.appMenu)?config.appMenu:null; }
 module.exports.getConfigModules=function(){ return (config&&config.modules)?config.modules:null; }
 
 app.use(cookieParser());
@@ -58,13 +59,14 @@ global.appViewsPath= path.join(__dirname,'/../views/','');
 global.appModulesPath= path.join(__dirname,'/modules/','');
 global.appDataModelPath= path.join(__dirname,'/datamodel/','');
 
-require("./modules").validate(function(err){
+var appModules=require("./modules");
+appModules.validate(function(err){
     if (err){
         log.error("FAILED validate! Reason: ",err);
     }
     require("./access")(app);//check user access
 
-    require("./modules").init(app);
+    appModules.init(app);
 
     app.listen(app_params.port, function (err) {
         if(err){

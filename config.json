@@ -2,25 +2,53 @@
   "title":"MODA.UA",
   "users":[
     { "userLogin":"admin", "pswrd":"admin", "userRole":"admin" },
-    { "userLogin":"user", "pswrd":"user" }
+    { "userLogin":"user", "pswrd":"user", "userRole":"user" },
+    { "userLogin":"cashier", "pswrd":"cashier", "userRole":"cashier" }
   ],
   "modules":[
     "sysadmin",
     "main",
-    "dir_units"
+    "mainPage",
+    "dir_units",
+    "dir_contractors"
   ],
-  "userMenu":[
-    { "itemname":"menuBarItemMainPage", "itemtitle":"Главная страница", "action":"open", "id":"mainPage", "title":"Главная страница", "content":"/main/mainpage", "closable":false},
-    { "itemname":"menuBarPopupMenuDirs", "itemtitle":"Справочники",
-      "menuPopup":[
-        { "itemname":"menuBarDirsItemUnits", "itemtitle":"Подразделения", "action":"open", "id":"mainDirUnits", "title":"Подразделения", "content":"/dir/units", "closable":true},
-        { "itemname":"separator_dir1"},
-        {"itemname":"menuBarDirsItemContractors", "itemtitle":"Контрагенты", "action":"open", "id":"mainDirContractors", "title":"Контрагенты", "content":"/dir/contractors", "closable":true}
+  "appMenu":[
+    { "menuTitle":"Главная страница", "menuItemName":"menuBarItemMainPage", "pageTitle":"Главная страница", "module":"mainPage", "closable":false},
+    { "menuItemName":"menuBarPopupMenuMain", "menuTitle":"Предприятие",
+      "popupMenu":[
+        { "menuTitle":"Подразделения", "menuItemName":"menuBarDirsItemUnits", "pageTitle":"Подразделения", "module":"dir_units", "closable":true},
+        { "menuItemName":"separator_dir1"},
+        { "menuTitle":"Контрагенты", "menuItemName":"menuBarDirsItemContractors", "pageTitle":"Контрагенты", "module":"dir_contractors", "closable":true}
       ]},
-    { "itemname":"menuBarItemClose", "itemtitle":"Выход", "action":"close"},
-    { "itemname":"menuBarItemHelpAbout", "itemtitle":"О программе", "action":"help_about"}
+    { "menuItemName":"menuBarWrh", "menuTitle":"Склад",
+      "popupMenu":[
+        { "menuItemName":"menuBarWrhPInvoice", "menuTitle":"Приходные накладные", "pageTitle":"Приходные накладные", "module":"wrh_pinvoices", "closable":true},
+        { "menuItemName":"separator_wrh1"},
+        {"menuItemName":"menuBarWrhInvoice", "menuTitle":"Расходные накладные", "pageTitle":"Расходные накладные", "module":"wrh_invoices", "closable":true},
+        {"menuItemName":"menuBarWrhRetInvoice", "menuTitle":"Возвратные накладные", "pageTitle":"Возвратные накладные", "module":"wrh_ret_invoices", "closable":true},
+        { "menuItemName":"separator_wrh2"},
+        { "menuItemName":"menuBarWrhBalance", "menuTitle":"Остатки товара", "pageTitle":"Остатки товара", "module":"wrh_prods_balance", "closable":true},
+        { "menuItemName":"menuBarWrhMoves", "menuTitle":"Движение товаров", "pageTitle":"Движение товаров", "module":"wrh_prods_moves", "closable":true}
+      ]},
+    { "menuTitle":"Отчеты кассира", "menuItemName":"menuBarItemSalesCashier", "pageTitle":"Отчеты кассира", "module":"sales_cashier", "closable":false},
+    { "menuItemName":"menuBarPopupMenuSales", "menuTitle":"Продажи",
+      "popupMenu":[
+        { "menuTitle":"Отчеты кассира", "menuItemName":"menuBarSalesItemCashier", "pageTitle":"Отчеты кассира", "module":"sales_cashier", "closable":true}
+      ]},
+    { "menuItemName":"menuBarItemClose", "menuTitle":"Выход", "action":"close"},
+    { "menuItemName":"menuBarItemHelpAbout", "menuTitle":"О программе", "action":"help_about"}
   ],
-  "userAutorun":[
-    {"menuitem":"menuBarItemMainPage"}
-  ]
+  "usersRoleMenu":{
+    "user":["menuBarItemMainPage",
+      "menuBarPopupMenuMain", "menuBarDirsItemUnits", "separator_dir1", "menuBarDirsItemContractors",
+      "menuBarWrh", "menuBarWrhPInvoice", "separator_wrh1", "menuBarWrhInvoice", "menuBarWrhRetInvoice", "separator_wrh2", "menuBarWrhBalance", "menuBarWrhMoves",
+      "menuBarPopupMenuSales", "menuBarSalesItemCashier",
+      "menuBarItemClose","menuBarItemHelpAbout"],
+    "cashier":["menuBarItemSalesCashier",
+      "menuBarItemClose","menuBarItemHelpAbout"]
+  },
+  "usersRoleAutorun":{
+    "user":["menuBarItemMainPage"],
+    "cashier":["menuBarItemSalesCashier"]
+  }
 }

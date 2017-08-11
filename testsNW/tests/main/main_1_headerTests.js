@@ -2,7 +2,7 @@
 
 module.exports= {
 
-    '@disabled': true,
+    //'@disabled': true,
 
     after : function(browser) {
      //   browser.end();
@@ -40,8 +40,14 @@ module.exports= {
 
             .waitForElementVisible("@mainMenuItem")
             .assert.containsText('@mainMenuItem', "Главная страница")
-            .waitForElementVisible("@popupMenuDirsItem")
-            .assert.containsText('@popupMenuDirsItem', "Справочники")
+            .waitForElementVisible("@menuBarPopupMenuMain")
+            .assert.containsText('@menuBarPopupMenuMain', "Предприятие")
+
+            .waitForElementVisible("@menuBarWrh")
+            .assert.containsText('@menuBarWrh', "Склад")
+            .waitForElementVisible("@menuBarPopupMenuSales")
+            .assert.containsText('@menuBarPopupMenuSales', "Продажи")
+
             .waitForElementVisible("@menuBarItemCloseItem")
             .assert.containsText('@menuBarItemCloseItem', "Выход")
             .waitForElementVisible("@menuBarItemHelpAboutItem")
@@ -62,31 +68,44 @@ module.exports= {
             .click("@aboutProgramDialog_cancelBtn")
             .waitForElementNotVisible("@aboutProgramDialog")
 
-            .click("@popupMenuDirsItem")
-            .waitForElementVisible("@menuBarPopupMenuDirs_menu")
+            .click("@menuBarPopupMenuMain")
+            .waitForElementVisible("@menuBarPopupMenuMain_menu")
             .waitForElementVisible("@menuBarDirsItemUnits")
             .assert.containsText('@menuBarDirsItemUnits', "Подразделения")
             .waitForElementVisible("@menuBarDirsItemContractors")
             .assert.containsText('@menuBarDirsItemContractors', "Контрагенты")
 
             .click("@menuBarDirsItemUnits")
-            .waitForElementVisible("@main_ContentContainer_tablist_PageContentPane_mainDirUnits")
-            .assert.containsText('@main_ContentContainer_tablist_PageContentPane_mainDirUnits', "Подразделения")
+            .waitForElementVisible("@main_ContentContainer_tablist_PageContentPane_dir_units")
+            .assert.containsText('@main_ContentContainer_tablist_PageContentPane_dir_units', "Подразделения")
             .click('@closeTabMainDirUnits')
-            .waitForElementNotPresent("@main_ContentContainer_tablist_PageContentPane_mainDirUnits")
+            .waitForElementNotPresent("@main_ContentContainer_tablist_PageContentPane_dir_units")
 
-            .click("@popupMenuDirsItem")
-            .waitForElementVisible("@menuBarDirsItemContractors")
-            .click("@menuBarDirsItemContractors")
-            .waitForElementVisible("@main_ContentContainer_tablist_PageContentPane_mainDirContractors")
-            .click("@closeTabMainDirContractors")
-            .waitForElementNotPresent("@main_ContentContainer_tablist_PageContentPane_mainDirContractors")
+            .click('@menuBarWrh')
+            .waitForElementVisible("@menuBarWrhPInvoice")
+            .assert.containsText('@menuBarWrhPInvoice', "Приходные накладные")
+            .assert.containsText('@menuBarWrhInvoice', "Расходные накладные")
+            .assert.containsText('@menuBarWrhRetInvoice', "Возвратные накладные")
+            .assert.containsText('@menuBarWrhBalance', "Остатки товара")
+            .assert.containsText('@menuBarWrhMoves', "Движение товаров")
 
-            .click("@menuBarItemCloseItem");
+            .click('@menuBarPopupMenuSales')
+            .waitForElementVisible("@menuBarSalesItemCashier")
+            .assert.containsText('@menuBarSalesItemCashier', "Отчеты кассира")
 
-        var loginPage=browser.page.loginPage();
-        loginPage
-            .waitForElementVisible("@loginDialog");
+
+            //.click("@menuBarPopupMenuMain")
+            //.waitForElementVisible("@menuBarDirsItemContractors")
+            //.click("@menuBarDirsItemContractors")
+            //.waitForElementVisible("@main_ContentContainer_tablist_PageContentPane_dir_contractors")
+            //.click("@closeTabMainDirContractors")
+            //.waitForElementNotPresent("@main_ContentContainer_tablist_PageContentPane_dir_contractors")
+
+          //  .click("@menuBarItemCloseItem");
+
+        //var loginPage=browser.page.loginPage();
+        //loginPage
+        //    .waitForElementVisible("@loginDialog");
     },
 
     //'Main Dirs ItemUnits Tests': function (browser) {
@@ -94,11 +113,11 @@ module.exports= {
     //
     //    var mainPage = browser.page.mainPage();
     //    mainPage
-    //        .waitForElementVisible('@popupMenuDirsItem')
-    //        .click('@popupMenuDirsItem')
+    //        .waitForElementVisible('@menuBarPopupMenuMain')
+    //        .click('@menuBarPopupMenuMain')
     //        .waitForElementVisible('@menuBarDirsItemUnits')
     //        .click('@menuBarDirsItemUnits')
-    //        .waitForElementVisible("@main_ContentContainer_tablist_PageContentPane_mainDirUnits")
+    //        .waitForElementVisible("@main_ContentContainer_tablist_PageContentPane_dir_units")
     //        .assertHeaderContainsText('dir_units','1',"NAME")
     //        .assertHeaderContainsText('dir_units','2',"FULL_NAME")
     //        .assertHeaderContainsText('dir_units','3',"NOTE")
@@ -130,11 +149,11 @@ module.exports= {
     //'Main Dirs Contractors Tests': function (browser) {
     //    var mainPage = browser.page.mainPage();
     //    mainPage
-    //        .waitForElementVisible('@popupMenuDirsItem')
-    //        .click('@popupMenuDirsItem')
+    //        .waitForElementVisible('@menuBarPopupMenuMain')
+    //        .click('@menuBarPopupMenuMain')
     //        .waitForElementVisible('@menuBarDirsItemContractors')
     //        .click('@menuBarDirsItemContractors')
-    //        .waitForElementVisible("@main_ContentContainer_tablist_PageContentPane_mainDirContractors")
+    //        .waitForElementVisible("@main_ContentContainer_tablist_PageContentPane_dir_contractors")
     //        .assertHeaderContainsText('dir_contractors','1',"NAME")
     //        .assertHeaderContainsText('dir_contractors','2',"FULL_NAME")
     //        .assertHeaderContainsText('dir_contractors','3',"NOTE")

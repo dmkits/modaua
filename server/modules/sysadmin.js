@@ -5,6 +5,7 @@ var server=require('../server');
 var log = server.log;
 var appParams=server.getAppParams(), getAppConfig=server.getAppConfig, setAppConfig=server.setAppConfig;
 var loadAppConfiguration=server.loadAppConfiguration;
+var getValidateError=require(appModulesPath).getValidateError;
 
 var util=require('../util');
 var database=require('../database');
@@ -42,8 +43,17 @@ module.exports.init = function(app){
         var dbConnectError= database.getDBConnectError();
         if (dbConnectError)
             outData.dbConnection= dbConnectError;
-        else
-            outData.dbConnection='Connected';
+        else {
+            outData.dbConnection = 'Connected';
+            var validateError=getValidateError();
+            if(validateError){
+                outData.dbValidation=validateError;
+                res.send(outData);
+                return;
+            }else {
+                outData.dbValidation = "success";
+            }
+        }
         res.send(outData);
     });
 

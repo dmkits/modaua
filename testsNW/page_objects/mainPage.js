@@ -121,7 +121,9 @@ module.exports = {
 
 
         mainMenuItem: '#main_MainMenu',
-        popupMenuDirsItem: '#menuBarPopupMenuDirs',
+        menuBarPopupMenuMain: '#menuBarPopupMenuMain',
+        menuBarWrh:"#menuBarWrh",
+        menuBarPopupMenuSales:"#menuBarPopupMenuSales",
         menuBarItemCloseItem: '#menuBarItemClose',
         menuBarItemHelpAboutItem: '#menuBarItemHelpAbout',
 
@@ -139,24 +141,31 @@ module.exports = {
         tablist_PageContentPane_mainPage:"#main_ContentContainer_tablist_PageContentPane_mainPage",
         mainpage_MainContent:"#mainpage_MainContent",
 
-        menuBarPopupMenuDirs_menu:"#menuBarPopupMenuDirs_menu",
+        menuBarPopupMenuMain_menu:"#menuBarPopupMenuMain_menu",
         menuBarDirsItemUnits:"#menuBarDirsItemUnits",
         menuBarDirsItemContractors:"#menuBarDirsItemContractors",
 
-        main_ContentContainer_tablist_PageContentPane_mainDirUnits:"#main_ContentContainer_tablist_PageContentPane_mainDirUnits",
+        main_ContentContainer_tablist_PageContentPane_dir_units:"#main_ContentContainer_tablist_PageContentPane_dir_units",
         closeTabMainDirUnits:{
-            selector:'//span[@id="main_ContentContainer_tablist_PageContentPane_mainDirUnits"] /ancestor::div/span[@title="Закрыть"]',
+            selector:'//span[@id="main_ContentContainer_tablist_PageContentPane_dir_units"] /ancestor::div/span[@title="Закрыть"]',
             locateStrategy:'xpath'
         },
 
-        main_ContentContainer_tablist_PageContentPane_mainDirContractors:"#main_ContentContainer_tablist_PageContentPane_mainDirContractors",
+        main_ContentContainer_tablist_PageContentPane_dir_contractors:"#main_ContentContainer_tablist_PageContentPane_dir_contractors",
         closeTabMainDirContractors:{
-            selector:'//span[@id="main_ContentContainer_tablist_PageContentPane_mainDirContractors"] /ancestor::div/span[@title="Закрыть"]',
+            selector:'//span[@id="main_ContentContainer_tablist_PageContentPane_dir_contractors"] /ancestor::div/span[@title="Закрыть"]',
             locateStrategy:'xpath'
         },
+
+        menuBarWrhPInvoice:"#menuBarWrhPInvoice",
+        menuBarWrhInvoice:"#menuBarWrhInvoice",
+        menuBarWrhRetInvoice:"#menuBarWrhRetInvoice",
+        menuBarWrhBalance:"#menuBarWrhBalance",
+        menuBarWrhMoves:"#menuBarWrhMoves",
+
+        menuBarSalesItemCashier:"#menuBarSalesItemCashier",
 
         dir_units_ContentContainer:"#dir_units_ContentContainer",
-
         finishedContentPane:"#finish"
     }
 };

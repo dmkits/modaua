@@ -1,6 +1,15 @@
 var database = require("../database");
 var instauuid = require('instauuid');
 instauuid('decimal');
+
+/**
+ * params = { url, tableName, tableColumnData }
+ */
+module.exports.getDataForTable= function(params){
+
+};
+
+
 /**
  * params = { tableName, tableKeyField, dataURL, getDataForTable:true/false,
  * newDataForTable:true/false,

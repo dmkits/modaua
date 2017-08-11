@@ -32,12 +32,23 @@ module.exports= function(app){
             return;
         }
         req.mduUser=user;
-
+        req.mduUserRole=configUser.userRole;
         var validateError= modules.getValidateError();
-        if (validateError&&sysadminAccess){
+        if (validateError&&sysadminAccess && req.originalUrl.indexOf("/sysadmin")==0){
+            next();
+            return;
+        } else if (validateError&&sysadminAccess && req.originalUrl.indexOf("/sysadmin")!=0){
+            if (req.headers&&req.headers["content-type"]=="application/x-www-form-urlencoded"&&req.headers["x-requested-with"]=="XMLHttpRequest"){
+                res.send({ error:"Failed validate!" });
+                return;
+            }
             res.redirect("/sysadmin");
             return;
-        } else if (validateError){
+        } else if (validateError && !sysadminAccess){
+            if (req.headers&&req.headers["content-type"]=="application/x-www-form-urlencoded"&&req.headers["x-requested-with"]=="XMLHttpRequest"){
+                res.send({ error:"Failed validate!" });
+                return;
+            }
             res.sendFile(appViewsPath+'validateFailed.html');
             return;
         }
