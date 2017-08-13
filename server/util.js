@@ -1,15 +1,5 @@
 var fs = require('fs');
 
-module.exports.loadConfig=function(fileName){
-    var stringConfig = fs.readFileSync(appConfigPath+fileName);
-    return JSON.parse(stringConfig);
-};
-module.exports.saveConfig=function(fileName,dbConfig,callback) {
-    fs.writeFile(appConfigPath+fileName, JSON.stringify(dbConfig), function (err, success) {
-        callback(err,success);
-    })
-};
-
 module.exports.getStartupParams = function() {
     var app_params = {};
     if (process.argv.length == 0) {
@@ -36,6 +26,16 @@ module.exports.getStartupParams = function() {
     if (!app_params.port)app_params.port = 8080;
     if (!app_params.mode)app_params.mode = 'production';
     return app_params;
+};
+
+module.exports.loadConfig=function(fileName){
+    var stringConfig = fs.readFileSync(serverConfigPath+fileName);
+    return JSON.parse(stringConfig);
+};
+module.exports.saveConfig=function(fileName,dbConfig,callback) {
+    fs.writeFile(serverConfigPath+fileName, JSON.stringify(dbConfig), function (err, success) {
+        callback(err,success);
+    })
 };
 
 module.exports.getJSONWithoutComments=function(text){

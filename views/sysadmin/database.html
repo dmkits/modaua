@@ -6,34 +6,31 @@
 </head>
 <body>
 <div id="sysadmin_database_PageContainer" style="width:100%;height:100%;">
-    <div id="sysadmin_database_ContentPaneLeft" style="width:170px;height:100%; margin:0;padding:0;"></div>
+    <div id="sysadmin_database_ContentPaneTop" style="width:100%;height:28px; margin:0;padding:0;"></div>
     <div id="sysadmin_database_ContentPaneDetailContainer" style="width:100%;height:100%; margin:0;padding:0;"></div>
 </div>
 </body>
 <script type="text/javascript">
     require(["app", "dojo/dom-style", "dijit/layout/BorderContainer", "dijit/layout/StackContainer", "dijit/layout/ContentPane",
-                "dijit/form/Button", "templateDocumentSimpleTable", "dojox/widget/DialogSimple", "request"],
+                "dijit/form/Button", "dijit/form/ToggleButton", "templateDocumentSimpleTable", "dojox/widget/DialogSimple", "request"],
 
-            function (APP, domStyle, BorderContainer, StackContainer, ContentPane, Button, TDocumentSimpleTable, DialogSimple, Request) {
+            function (APP, domStyle, BorderContainer, StackContainer, ContentPane, Button, ToggleButton, TDocumentSimpleTable, DialogSimple, Request) {
 
                 var sysadmin_database_PageContainer =
                         APP.instanceForID("sysadmin_database_PageContainer", BorderContainer, {});
-                var sysadmin_database_ContentPaneLeft = APP.instanceForID("sysadmin_database_ContentPaneLeft", ContentPane, {
-                    region: 'left',
-                    splitter: true
-                });
+                var sysadmin_database_ContentPaneTop =
+                        APP.instanceForID("sysadmin_database_ContentPaneTop", ContentPane, {region: 'top',splitter: false});
+                var btnCurrentChanges= APP.childFor(sysadmin_database_ContentPaneTop,
+                        "sysadmin_database_btnCurrentChanges", ToggleButton, {showLabel: true, checked: true, label: "Current changes", iconClass:'dijitCheckBoxIcon', actionData:""});
+                domStyle.set("sysadmin_database_btnCurrentChanges", "width", "150px");
+                var btnChangeLog= APP.childFor(sysadmin_database_ContentPaneTop,
+                        "sysadmin_database_btnChangeLog", ToggleButton, {showLabel: true, checked: false, label: "Change log", iconClass:'dijitCheckBoxIcon', actionData:""});
+                domStyle.set("sysadmin_database_btnChangeLog", "width", "150px");
 
                 var sysadmin_database_ContentPaneDetailContainer =
                         APP.instanceForID("sysadmin_database_ContentPaneDetailContainer", StackContainer, {region: 'center'});
 
-                var sysadmin_database_CrsButtons = document.getElementById("sysadmin_database_CrsButtons");
-
-                var dialog = new DialogSimple({
-                    style:"text-align:center",
-                    title:"FAIL",
-                    content: "No connection to the server!<br>",
-                    closable:true
-                });
+                var dialog = new DialogSimple({ style:"text-align:center", title:"FAIL", content: "No connection to the server!<br>", closable:true });
                 var okButton = new Button({label:"OK"});
                 okButton.onClick=function(){
                     dialog.onCancel();
@@ -41,28 +38,22 @@
                 dialog.addChild(okButton);
                 dialog.startup();
 
-                sysadmin_database_PageContainer.addButtonTo = function (parent, id, name) {
-                    var button = new Button({id: id, label: name});
-                    button.onClick = function () {
-                        var instance = this;
-                        if (!button.document) {
-                            button.document =
-                                    APP.childFor(sysadmin_database_ContentPaneDetailContainer, "sysadmin_database_Tabledatabase" + button.id,
-                                            TDocumentSimpleTable, {titleText: instance.label, dataURL: '/sysadmin/database/' + button.id, buttonPrint: false
-                                            })
-                                            .addTotalCountNumberBox("ИТОГО строк:", 140, {style: "font-weight:bold;", inputStyle: "width:40px;"
-                                            })
-                                    .addContentTableRowAction("applyChangesRowData",
-                                    function (tableContentRowData, params, contentTableInstance, startNextAction) {
-                                        console.log("applyChangesRowData action ", tableContentRowData, params);
-                                        var changeID = tableContentRowData.changeID;
-                                        console.log("changeID=", changeID);
+                btnCurrentChanges.onClick = function () {
+                    btnChangeLog.set("checked",false);
+                    if (btnCurrentChanges.document) {
+                        sysadmin_database_ContentPaneDetailContainer.selectChild(btnCurrentChanges.document);
+                        return;
+                    }
+                    btnCurrentChanges.document =
+                            APP.childFor(sysadmin_database_ContentPaneDetailContainer, "sysadmin_database_TableCurrentChanges",
+                                    TDocumentSimpleTable, {titleText: "Data model current changes", dataURL: '/sysadmin/database/getCurrentChanges', buttonPrint: false})
+                                    .addTotalCountNumberBox("ИТОГО строк:", 140, {style: "font-weight:bold;", inputStyle: "width:40px;"})
+                                    .addContentTableRowAction("applyChangesRowData", function (tableContentRowData, params, contentTableInstance, startNextAction) { console.log("applyChangesRowData action ", tableContentRowData, params);
+                                        var changeID = tableContentRowData.changeID; console.log("changeID=", changeID);
                                         var type = tableContentRowData.type;
                                         if (type == "new") {
-                                            Request.postJSONData({url: "/sysadmin/database/applyChange", condition: null, data: {"CHANGE_ID": changeID}, consoleLog: true
-                                                    },
-                                                    function (success, result) {
-                                                        console.log("applyChangesRowData postJSONData ", result);
+                                            Request.postJSONData({url: "/sysadmin/database/applyChange", condition: null, data: {"CHANGE_ID": changeID}, consoleLog: true },
+                                                    function (success, result) {                                        console.log("applyChangesRowData postJSONData ", result);
                                                         // result = { error:"", resultItem={} }
                                                         if (success) {
                                                             var resultItem = result["resultItem"], changeMsg = null, typeValue = null;
@@ -74,10 +65,7 @@
                                                                 changeMsg = (changeMsg == null) ? resultItem.CHANGE_MSG : changeMsg + " <br>Change message: " + resultItem.CHANGE_MSG;
                                                                 typeValue = "applied";
                                                             }
-                                                            contentTableInstance.updateRowData(tableContentRowData, {
-                                                                "message": changeMsg,
-                                                                "type": typeValue
-                                                            });
+                                                            contentTableInstance.updateRowData(tableContentRowData, { "message": changeMsg, "type": typeValue });
                                                         } else {
                                                             dialog.show();
                                                         }
@@ -86,28 +74,25 @@
                                         } else contentTableInstance.updateRowData(tableContentRowData, {"message": "Impossible to apply! Type must be \"new\""});
 
                                     })
-                                            .addPopupMenuItemForAction("applySelectedRowsChanges", "Apply selected changes...", "applyChangesRowData")
-                                            .startUp();
-                                    }
-                            sysadmin_database_ContentPaneDetailContainer.selectChild(button.document);
-
-//                        document.getElementById("sysadmin_database_ContentPaneDetailContainer").scrollTop -=10000;
-                   //     document.getElementById("sysadmin_database_ContentPaneDetailContainer").scrollTo(0,1000);
-                    };
-                        button.domNode.firstChild.setAttribute("style", "width:150px;");
-                        button.startup();
-                        sysadmin_database_ContentPaneLeft.domNode.appendChild(button.domNode);
-
-             //       document.getElementById("sysadmin_database_ContentPaneDetailContainer").scrollTop -=10000;
-
-                        return button;
-                    };
-
-                    var CurrentChangesBtn = sysadmin_database_PageContainer.addButtonTo(sysadmin_database_ContentPaneLeft, "current_changes", "Current Changes");
-                    var ChangeLogsBtn = sysadmin_database_PageContainer.addButtonTo(sysadmin_database_ContentPaneLeft, "change_log", "Change Log");
-
-                    CurrentChangesBtn.onClick();
-                    sysadmin_database_PageContainer.layout();
-                });
+                                    .addPopupMenuItemForAction("applySelectedRowsChanges", "Apply selected changes...", "applyChangesRowData")
+                                    .startUp();
+                    sysadmin_database_ContentPaneDetailContainer.selectChild(btnCurrentChanges.document);
+                };
+                btnChangeLog.onClick = function () {
+                    btnCurrentChanges.set("checked",false);
+                    if (btnChangeLog.document) {
+                        sysadmin_database_ContentPaneDetailContainer.selectChild(btnChangeLog.document);
+                        return;
+                    }
+                    btnChangeLog.document =
+                            APP.childFor(sysadmin_database_ContentPaneDetailContainer, "sysadmin_database_TableChangeLog",
+                                    TDocumentSimpleTable, {titleText: "database change log", dataURL: '/sysadmin/database/getChangeLog', buttonPrint: false})
+                                    .addTotalCountNumberBox("ИТОГО строк:", 140, {style: "font-weight:bold;", inputStyle: "width:40px;"})
+                                    .startUp();
+                    sysadmin_database_ContentPaneDetailContainer.selectChild(btnChangeLog.document);
+                };
+                btnCurrentChanges.onClick();
+                sysadmin_database_PageContainer.layout();
+            });
 </script>
 </html>

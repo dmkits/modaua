@@ -7,8 +7,8 @@ var server = require('./server');
 var log =server.log;
 
 function getDBConfig(){
-    var appConfig= server.getAppConfig();
-    return { host:appConfig.host, database:appConfig.database, user:appConfig.user, password:appConfig.password };
+    var serverConfig= server.getServerConfig();
+    return { host:serverConfig.host, database:serverConfig.database, user:serverConfig.user, password:serverConfig.password };
 }
 
 var connection=null, dbConnectError=null;
@@ -196,18 +196,6 @@ module.exports.restoreDB= function(restoreParams,callback) {
     });
 };
 
-
-module.exports.getChangeLog= function(callback) {
-    connection.query("select * from change_log;",
-        function (err, recordset) {
-            if (err) {
-                callback(err);
-                return;
-            }
-            callback(null,recordset);
-        }
-    );
-};
 
 module.exports.checkIfChangeLogExists= function(callback) {     console.log("checkIfChangeLogExists");
 

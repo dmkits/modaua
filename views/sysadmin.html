@@ -31,10 +31,10 @@
             <table>
                 <tr>
                     <td>
-                        <button id="display_startup_params">Startup params</button>
+                        <button id="sysadmin_btnServerConfig">Server configuration</button>
                     </td>
                     <td>
-                        <button id="btnDatabase">Database</button>
+                        <button id="sysadmin_btnDatabase">Database</button>
                     </td>
                     <td width="500px"></td>
                     <td>
@@ -79,10 +79,10 @@
 
                 var functionalButtons=[];
 
-                var startupBtn = new ToggleButton({id:"display_startup_params",iconClass:'dijitCheckBoxIcon'},"display_startup_params");
-                functionalButtons.push(startupBtn);
-                var btnDatabase = new ToggleButton({id:"btnDatabase",iconClass:'dijitCheckBoxIcon'},"btnDatabase");
-                functionalButtons.push(btnDatabase);
+                var sysadmin_btnServerConfig = new ToggleButton({id:"sysadmin_btnServerConfig",iconClass:'dijitCheckBoxIcon'},"sysadmin_btnServerConfig");
+                functionalButtons.push(sysadmin_btnServerConfig);
+                var sysadmin_btnDatabase = new ToggleButton({id:"sysadmin_btnDatabase",iconClass:'dijitCheckBoxIcon'},"sysadmin_btnDatabase");
+                functionalButtons.push(sysadmin_btnDatabase);
                 var btnLogout = new ToggleButton({id:"btnLogout"},"btnLogout");
 
                 btnLogout.onClick=function(){
@@ -96,7 +96,7 @@
                 sysadmin_MainContainer.startup();
 
                 sysadmin_MainContainer.getAppState = function () {   //getting main json data from server and run action parameter function
-                    Request.getJSONData({url: "/sysadmin/app_state", consoleLog: true},
+                    Request.getJSONData({url: "/sysadmin/serverState", consoleLog: true},
                             function (success, result) {                                                            console.log("result=",result);
                                 if (success) {
                                     if (result === undefined || result == null) result = [];
@@ -199,13 +199,13 @@
                     }
                 };
 
-                startupBtn.onClick=function() {
-                   sysadmin_MainContainer.runSysadminContentPage(startupBtn, "startup_parameters", "Startup parameters", false, "/sysadmin/startup_parameters");
+                sysadmin_btnServerConfig.onClick=function() {
+                   sysadmin_MainContainer.runSysadminContentPage(sysadmin_btnServerConfig, "sysadmin_ServerConfig", "Server configuration", false, "/sysadmin/serverConfig");
                     checkButton(this);
                 };
 
-                btnDatabase.onClick=function(){
-                    sysadmin_MainContainer.runSysadminContentPage(btnDatabase, "btnDatabase", "Database", false, "/sysadmin/database");
+                sysadmin_btnDatabase.onClick=function(){
+                    sysadmin_MainContainer.runSysadminContentPage(sysadmin_btnDatabase, "sysadmin_btnDatabase", "Database", false, "/sysadmin/database");
                     checkButton(this);
                 };
 

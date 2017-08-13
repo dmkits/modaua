@@ -29,15 +29,15 @@ module.exports= {
         mainHeader
             .navigate()
             .waitForElementVisible("@img")
-            .waitForElementVisible("@btnDatabase")
+            .waitForElementVisible("@sysadmin_btnDatabase")
             .click('@StartUpParamsBtn');
 
         startUpParams.createTempDB();
 
         mainHeader
-            .waitForElementVisible('@btnDatabase')
-            .click('@btnDatabase')
-            .assert.attributeContains('@btnDatabase', 'aria-pressed', 'true');
+            .waitForElementVisible('@sysadmin_btnDatabase')
+            .click('@sysadmin_btnDatabase')
+            .assert.attributeContains('@sysadmin_btnDatabase', 'aria-pressed', 'true');
     },
 
     'Sysadmin ChangeLogTable Tests': function(browser) {

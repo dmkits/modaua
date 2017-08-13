@@ -3,16 +3,17 @@ var path = require('path');
 var fs = require('fs');
 var server=require('../server');
 var log = server.log;
-var appParams=server.getAppParams(), getAppConfig=server.getAppConfig, setAppConfig=server.setAppConfig;
-var loadAppConfiguration=server.loadAppConfiguration;
+var appParams=server.getAppStartupParams(), getServerConfig=server.getServerConfig, setAppConfig=server.setAppConfig;
+var loadServerConfiguration=server.loadServerConfiguration;
 var getValidateError=require(appModulesPath).getValidateError;
 
 var util=require('../util');
-var database=require('../database');
-var dataModel=require('../datamodel');
-var changeLog=require(appDataModelPath+'change_log');
 
-module.exports.dataModels = ["change_log"];
+var database=require('../database');
+
+//var changeLog=require(appDataModelPath+'change_log');
+
+//module.exports.dataModels = ["change_log"];
 
 var changesTableColumns=[
     {"data": "changeID", "name": "changeID", "width": 200, "type": "text"}
@@ -23,23 +24,34 @@ var changesTableColumns=[
     , {"data": "message", "name": "message", "width": 200, "type": "text"}
 ];
 
+var dataModel=require('../datamodel');
+var changeLog= require(appDataModelPath+"change_log");
+
+module.exports.validateModule = function(errs, nextValidateModuleCallback){
+    dataModel.initValidateDataModels({"change_log":changeLog}, errs,
+        function(){
+            nextValidateModuleCallback();
+        });
+};
+
 module.exports.init = function(app){
+
     app.get("/sysadmin", function (req, res) {
         res.sendFile(appViewsPath+'sysadmin.html');
     });
 
-    app.get("/sysadmin/app_state", function(req, res){
+    app.get("/sysadmin/serverState", function(req, res){
         var outData= {};
         outData.mode= appParams.mode;
         outData.port=appParams.port;
-        var appConfig=getAppConfig();
+        var serverConfig=getServerConfig();
         outData.appUserName= (req.mduUser)?req.mduUser:"unknown";
-        if (!appConfig||appConfig.error) {
-            outData.error= (appConfig&&appConfig.error)?appConfig.error:"unknown";
+        if (!serverConfig||serverConfig.error) {
+            outData.error= (serverConfig&&serverConfig.error)?serverConfig.error:"unknown";
             res.send(outData);
             return;
         }
-        outData.configuration= appConfig;
+        outData.configuration= serverConfig;
         var dbConnectError= database.getDBConnectError();
         if (dbConnectError)
             outData.dbConnection= dbConnectError;
@@ -57,32 +69,28 @@ module.exports.init = function(app){
         res.send(outData);
     });
 
-    app.get("/sysadmin/startup_parameters", function (req, res) {
-        log.info('URL: /sysadmin/startup_parameters');
-        res.sendFile(appViewsPath+'sysadmin/startup_parameters.html');
+    app.get("/sysadmin/serverConfig", function (req, res) {
+        res.sendFile(appViewsPath+'sysadmin/serverConfig.html');
     });
 
-    app.get("/sysadmin/startup_parameters/get_app_config", function (req, res) {
-        log.info('URL: /sysadmin/startup_parameters/get_app_config');
-        var appConfig=getAppConfig();
-        if (!appConfig||appConfig.error) {
-            res.send({error:(appConfig&&appConfig.error)?appConfig.error:"unknown"});
+    app.get("/sysadmin/server/getServerConfig", function (req, res) {
+        var serverConfig=getServerConfig();
+        if (!serverConfig||serverConfig.error) {
+            res.send({error:(serverConfig&&serverConfig.error)?serverConfig.error:"unknown"});
             return;
         }
-        res.send(appConfig);
+        res.send(serverConfig);
     });
-    app.get("/sysadmin/startup_parameters/load_app_config", function (req, res) {
-        log.info('URL: /sysadmin/startup_parameters/load_app_config');
-        loadAppConfiguration();
-        var appConfig=getAppConfig();
-        if (!appConfig||appConfig.error) {
-            res.send({error: (appConfig&&appConfig.error)?appConfig.error:"unknown"});
+    app.get("/sysadmin/server/loadServerConfig", function (req, res) {
+        loadServerConfiguration();
+        var serverConfig=getServerConfig();
+        if (!serverConfig||serverConfig.error) {
+            res.send({error: (serverConfig&&serverConfig.error)?serverConfig.error:"unknown"});
             return;
         }
-        res.send(appConfig);
+        res.send(serverConfig);
     });
-    app.post("/sysadmin/startup_parameters/store_app_config_and_reconnect", function (req, res) {
-        log.info('URL: /sysadmin/startup_parameters/store_app_config_and_reconnect', 'newDBConfig =', req.body,{});
+    app.post("/sysadmin/serverConfig/storeServerConfigAndReconnect", function (req, res) {
         var newDBConfig = req.body;
         setAppConfig(newDBConfig);
         util.saveConfig(appParams.mode+".cfg", newDBConfig,
@@ -449,12 +457,12 @@ module.exports.init = function(app){
     });
 
     app.get("/sysadmin/database", function (req, res) {
-        log.info("URL: /sysadmin/database");
         res.sendFile(appViewsPath+'sysadmin/database.html');
     });
 
-    app.get("/sysadmin/database/current_changes", function (req, res) {
+    app.get("/sysadmin/database/getCurrentChanges", function (req, res) {
         var outData = { columns:changesTableColumns, identifier:changesTableColumns[0].data, items:[] };
+
         database.checkIfChangeLogExists(function(err, existsBool) {
             if (err&& (err.code=="ER_NO_SUCH_TABLE")) {                                           log.info("err.code=ER_NO_SUCH_TABLE");
                 outData.noTable = true;
@@ -482,7 +490,6 @@ module.exports.init = function(app){
     });
 
     app.post("/sysadmin/database/applyChange", function (req, res) {
-        log.info('/sysadmin/database/applyChange');
         var outData={};
         outData.resultItem={};
         var ID=req.body.CHANGE_ID;
@@ -555,22 +562,27 @@ module.exports.init = function(app){
         });
     });
 
-    app.get("/sysadmin/database/change_log", function (req, res) {
-        var outData= { columns:changeLog.tableColumns, identifier:changeLog.tableColumns[0].data };
-        database.checkIfChangeLogExists(function (err, exist) {
-            if (err && (err.code == "ER_NO_SUCH_TABLE")) {
-                outData.message = "Change Log doesn't exists";
-                res.send(outData);
-                return;
-            } else if (err) {
-                outData.error = err.message;
-                res.send(outData);
-                return;
-            }
-            database.getDataForTable(changeLog.tableDataQuery, outData,
-                function(outData){
-                    res.send(outData);
-                });
+    app.get("/sysadmin/database/getChangeLog", function (req, res) {
+
+        changeLog.getDataForChangeLogTable(function(result){
+            res.send(result);
         });
+
+        //var outData= { columns:changeLog.tableColumns, identifier:changeLog.tableColumns[0].data };
+        //database.checkIfChangeLogExists(function (err, exist) {
+        //    if (err && (err.code == "ER_NO_SUCH_TABLE")) {
+        //        outData.message = "Change Log doesn't exists";
+        //        res.send(outData);
+        //        return;
+        //    } else if (err) {
+        //        outData.error = err.message;
+        //        res.send(outData);
+        //        return;
+        //    }
+        //    database.getDataForTable(changeLog.tableDataQuery, outData,
+        //        function(outData){
+        //            res.send(outData);
+        //        });
+        //});
     });
 };

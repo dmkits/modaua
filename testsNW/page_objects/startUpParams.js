@@ -156,7 +156,7 @@ var startUpParamsCommands = {
 module.exports={
     commands:[startUpParamsCommands],
     elements:{
-        localConfigInfo:'#sa_startup_params_appLocalConfig',
+        localConfigInfo:'#sa_serverConfig_configState',
 
         dbHostLabel:'label[for="db.host"]',
         dbNameLabel:'label[for="db.name"]',
@@ -170,8 +170,8 @@ module.exports={
         dbPasswordInput:'input[id="db.password"]',
         configNameInput:'input[id="configName"]',
 
-        loadSettingsBtn:"#SA_startup_params_BtnAppLocalConfigLoad",
-        StoreAndReconnectBtn:'#SA_startup_params_BtnAppLocalConfigSaveAndReconnect',
+        loadSettingsBtn:"#SA_serverConfig_btnLoadConfig",
+        StoreAndReconnectBtn:'#SA_serverConfig_btnSaveConfigAndReconnect',
 
         createDBBtn:'#create_db_btn',
         dropDBBtn:'#drop_db_btn',

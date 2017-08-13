@@ -5,15 +5,28 @@ var changeLog= [
 ];
 module.exports.changeLog=changeLog;
 
-var tableColumns=[
+var tableName="change_log", tableColumns=[
       {"data": "ID", "name": "changeID", "width": 200, "type": "text"}
     , {"data": "CHANGE_DATETIME", "name": "changeDatetime", "width": 120, "type": "text", "dateFormat":"YYYY-MM-DD HH:mm:ss"}
     , {"data": "CHANGE_OBJ", "name": "changeObj", "width": 200, "type": "text"}
     , {"data": "CHANGE_VAL", "name": "changeVal", "width": 450, "type": "text"}
     , {"data": "APPLIED_DATETIME", "name": "appliedDatetime", "width": 120, "type": "text", "dateFormat":"YYYY-MM-DD HH:mm:ss"}
-];
+], idField=tableColumns[0].data;
 module.exports.tableColumns=tableColumns;
 
-module.exports.validateQuery= "select ID,CHANGE_DATETIME,CHANGE_OBJ,CHANGE_VAL,APPLIED_DATETIME from change_log where ID is NULL";
+module.exports.validateData= {tableName:tableName, tableColumns:tableColumns, idField:idField};
 
 module.exports.tableDataQuery= "select * from change_log order by CHANGE_DATETIME";
+
+var dm=this;
+
+/**
+ * resultCallback = function(result)
+ */
+module.exports.getDataForChangeLogTable= function(resultCallback){
+    dm.getDataForTable({tableName:tableName, tableColumns:tableColumns, identifier:idField}, resultCallback);
+};
+
+module.exports.insertChangeLog= function(resultCallback){
+
+};

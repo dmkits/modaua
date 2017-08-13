@@ -1,8 +1,8 @@
-var startDateTime=new Date(), startTime=startDateTime.getTime();                                   console.log('STARTING at ',startDateTime );//test
+var startDateTime=new Date(), startTime=startDateTime.getTime();           console.log('STARTING at ',startDateTime );//test
 var dateformat =require('dateformat'), log = require('winston');
-var util=require('./util'), app_params = util.getStartupParams();
+var util=require('./util'), appStartupParams = util.getStartupParams();
 
-if (!app_params.logToConsole) {
+if (!appStartupParams.logToConsole) {
     log.add(log.transports.File, {filename: 'history.log', level: 'debug', timestamp: function() {
         return dateformat(Date.now(), "yyyy-mm-dd HH:MM:ss");
     }});
@@ -15,66 +15,68 @@ if (!app_params.logToConsole) {
             } })
         ]
     });
-}
-module.exports.log=log;                                                     log.info('STARTING at', startDateTime );//test
-log.info('dateformat, winston util loaded' );//test
-module.exports.getAppParams = function(){ return app_params; };             log.info('started with app params:',  app_params);//test
+}                                                                           log.info('STARTING at', startDateTime );//test
+module.exports.log=log;                                                     log.info('dateformat, winston util loaded' );//test
+
+module.exports.getAppStartupParams = function(){
+    return appStartupParams;
+};                                                                          log.info('started with startup params:',  appStartupParams);//test
 
 var fs = require('fs');                                                     log.info('fs loaded on ', new Date().getTime()-startTime );//test
 var path = require('path');                                                 log.info('path loaded on ', new Date().getTime()-startTime );//test
 var express = require('express');                                           log.info('express loaded on ', new Date().getTime()-startTime );//test
-var app = express();
+var server = express();
 var bodyParser = require('body-parser');                                    log.info('body-parser loaded on ', new Date().getTime()-startTime );//test
 var cookieParser = require('cookie-parser');                                log.info('cookie-parser loaded on ', new Date().getTime()-startTime );//test
 
-var appConfig=null;
-global.appConfigPath= path.join(__dirname,'/../','');
-function loadAppConfiguration(){
+var serverConfig=null;
+global.serverConfigPath= path.join(__dirname,'/../','');
+function loadServerConfiguration(){
     try {
-        appConfig= util.loadConfig(app_params.mode + '.cfg');
+        serverConfig= util.loadConfig(appStartupParams.mode + '.cfg');
     } catch (e) {
-        appConfig= {"error":"Failed to load configuration! Reason:" + e};
+        serverConfig= {"error":"Failed to load configuration! Reason:" + e};
     }
 };
-loadAppConfiguration();                                                     log.info('load app configuration loaded on ', new Date().getTime()-startTime);//test
-module.exports.loadAppConfiguration= loadAppConfiguration;                  log.info('app mode:'+app_params.mode,' app configuration:', appConfig);//test
-module.exports.getAppConfig= function(){ return appConfig };
-module.exports.setAppConfig= function(newAppConfig){ appConfig=newAppConfig; };
+loadServerConfiguration();                                                  log.info('load server configuration loaded on ', new Date().getTime()-startTime);//test
+module.exports.loadServerConfiguration= loadServerConfiguration;            log.info('startup mode:'+appStartupParams.mode,' server configuration:', serverConfig);//test
+module.exports.getServerConfig= function(){ return serverConfig };
+module.exports.setAppConfig= function(newAppConfig){ serverConfig=newAppConfig; };
 
 var database = require('./database');                                       log.info('dataBase loaded on ', new Date().getTime()-startTime);//test
 
-var configFileName=appConfig.configName || 'config.json';
+var configFileName=serverConfig.configName || 'config.json';
 var config=JSON.parse(util.getJSONWithoutComments(fs.readFileSync('./'+configFileName,'utf-8')));
 module.exports.getConfig=function(){ return config; }
 module.exports.getConfigAppMenu=function(){ return (config&&config.appMenu)?config.appMenu:null; }
 module.exports.getConfigModules=function(){ return (config&&config.modules)?config.modules:null; }
 
-app.use(cookieParser());
-app.use(bodyParser.urlencoded({extended: true}));
-app.use(bodyParser.json());
-app.use(bodyParser.text());
-app.use('/', express.static('public'));
+server.use(cookieParser());
+server.use(bodyParser.urlencoded({extended: true}));
+server.use(bodyParser.json());
+server.use(bodyParser.text());
+server.use('/', express.static('public'));
 
 global.appViewsPath= path.join(__dirname,'/../views/','');
 global.appModulesPath= path.join(__dirname,'/modules/','');
 global.appDataModelPath= path.join(__dirname,'/datamodel/','');
 
 var appModules=require("./modules");
-appModules.validate(function(err){
-    if (err){
-        log.error("FAILED validate! Reason: ",err);
+appModules.validateModules(function(errs, errMessage){
+    if (errMessage){
+        log.error("FAILED validate! Reason: ",errMessage);
     }
-    require("./access")(app);//check user access
+    require("./access")(server);//check user access
 
-    appModules.init(app);
+    appModules.init(server);
 
-    app.listen(app_params.port, function (err) {
+    server.listen(appStartupParams.port, function (err) {
         if(err){
             console.log("listen port err= ", err);
             return;
         }
-        console.log("server runs on port " + app_params.port+" on "+(new Date().getTime()-startTime));
-        log.info("server runs on port " + app_params.port+" on "+(new Date().getTime()-startTime));
-    });                                                                                                log.info("end app");
+        console.log("server runs on port " + appStartupParams.port+" on "+(new Date().getTime()-startTime));
+        log.info("server runs on port " + appStartupParams.port+" on "+(new Date().getTime()-startTime));
+    });                                                                    log.info("server inited.");
 });
 

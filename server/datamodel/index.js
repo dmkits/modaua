@@ -1,44 +1,67 @@
 var server= require("../server"), log= server.log;
 
-//appModulesPath
-var sysadmin= require("../modules/sysadmin");//console.log("sysadmin=",sysadmin);
+var dataModelChanges= [];
+module.exports.getModelChanges=function(){ console.log("getModelChanges:"+dataModelChanges); return dataModelChanges; };
 
+var database= require("../database");
+function initValidateDataModel(dataModelName, dataModel, errs, nextValidateDataModelCallback){          log.info('initValidateDataModel: dataModel:',dataModelName,"...");//test
+    if(dataModel.changeLog) dataModelChanges= dataModelChanges.concat(dataModel.changeLog);
 
-//module.exports.storeTableRow=function(dbQuery, outData, callback){
-//
-//};
-//module.exports.deleteTableRow=function(dbQuery, outData, callback){
-//
-//};
+    dataModel.getDataForTable= _getDataForTable;
 
-//var dmChangeLog = require("./change_log");
-//var dmUnits = require("./dir_units");
-//var dmContractors = require("./dir_contractors");
+    if(!dataModel.validateData) {
+        errs[dataModelName+"_validateError"]="Failed validate dataModel:"+dataModelName+"! Reason: data model no validate data!";
+    }
+    var queryFields="";
+    for(var i in dataModel.validateData.tableColumns) {
+        if (queryFields!="") queryFields+= ",";
+        queryFields+= dataModel.validateData.tableColumns[i].data;
+    }
+    var query="select "+queryFields+" from "+dataModel.validateData.tableName+" where "+dataModel.validateData.idField+" is NULL";
+    database.selectQuery(query,function(err){
+        if(err) errs[dataModelName+"_validateError"]="Failed validate dataModel:"+dataModelName+"! Reason:"+err.message;
+        nextValidateDataModelCallback();
+    });
+};
 
+module.exports.initValidateDataModels=function(dataModels, errs, resultCallback){
+    var dataModelsList=[];
+    for(var dataModelName in dataModels) dataModelsList.push({name:dataModelName, dataModel:dataModels[dataModelName]});
 
-function getModelChanges(){
-    var modules= server.getConfigModules();
-    if (!modules) return null;
-    var fullChangeLog=[];
-    for(var i=0; i<modules.length; i++){
-        var moduleName=modules[i];                                                          //log.info('getModelChanges '+moduleName+"...");//test
-        var moduleDataModels= require(appModulesPath+moduleName).dataModels;
-        if (moduleDataModels) {                                                             //log.info('getModelChanges dataModels:',moduleDataModels);//test
-            for(var dmi=0; dmi<moduleDataModels.length; dmi++){
-                var dataModelName=moduleDataModels[dmi];
-                var changeLog= require(appDataModelPath+dataModelName).changeLog;             //log.info('getModelChanges dataModelName:',dataModelName,changeLog,{});//test
-                if(changeLog) fullChangeLog=fullChangeLog.concat(changeLog);
-            }
+    var validateDataModelCallback= function(dataModelsList, index, errs){
+        var dataModelListItem= dataModelsList[index];
+        if (!dataModelListItem) {
+            resultCallback(errs);
+            return;
         }
-    }                                                                                       log.info('getModelChanges fullChangeLog=',fullChangeLog,{});//test
-    return fullChangeLog;
-}
-module.exports.getModelChanges=getModelChanges;
+        var dataModelName= dataModelListItem.name, dataModel=dataModelListItem.dataModel;
+        initValidateDataModel(dataModelName, dataModel, errs, function(){
+            validateDataModelCallback(dataModelsList, index+1, errs);
+        });
+    };
+    validateDataModelCallback(dataModelsList, 0, errs);
+};
 
-//module.exports.getDBModel= getDBModel;
-
-module.exports.init=function(app){
-    //dmChangeLog.init(app);
-    //dmUnits.init(app);
-    //dmContractors.init(app);
+/**
+ * params = (tableName, tableColumns, identifier, conditions)
+ * resultCallback = function(tableData)
+ */
+function _getDataForTable(params, resultCallback){
+    var tableData={ columns:params.tableColumns, identifier:params.identifier};
+    var queryFields="";
+    for(var i in params.tableColumns) {
+        if (queryFields!="") queryFields+= ",";
+        queryFields+= params.tableColumns[i].data;
+    }
+    var selectQuery="select "+queryFields+" from "+params.tableName;
+    if (params.conditions) {
+        var conditionQuery;
+        for(var conditionItem in params.conditions) conditionQuery= (!conditionQuery)?params.conditions[conditionItem]:" and "+params.conditions[conditionItem];
+        selectQuery+=" where "+conditionQuery;
+    }
+    database.selectQuery(selectQuery,function(err, recordset, count, fields){
+        //if(err) errs[dataModelName+"_validateError"]="Failed validate dataModel:"+dataModelName+"! Reason:"+err.message;
+        tableData.items= recordset;
+        resultCallback(tableData);
+    });
 };

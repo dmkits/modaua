@@ -1,6 +1,11 @@
-var server= require("../server"), log= server.log, appParams= server.getAppParams(), appConfig= server.getConfig();
+var server= require("../server"), log= server.log, appParams= server.getAppStartupParams(), appConfig= server.getConfig();
 
 var database= require("../database");
+
+module.exports.validateModule = function(errs, nextValidateModuleCallback){
+
+    nextValidateModuleCallback();
+};
 
 function getUserMenuByUserRole(userRole, usersRoleMenu, appMenu){
     var userMenu=[];

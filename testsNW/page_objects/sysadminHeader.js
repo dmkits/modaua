@@ -8,8 +8,8 @@ module.exports = {
         dbName: '#sysadmin_dbName',
         dbConnectionState: '#sysadmin_connectToDBState',
         dbUser: '#sysadmin_ConnUserName',
-        StartUpParamsBtn: '#display_startup_params',
-        btnDatabase: "#btnDatabase",
+        StartUpParamsBtn: '#sysadmin_btnServerConfig',
+        btnDatabase: "#sysadmin_btnDatabase",
         logoutBtn:"#btnLogout"
     }
 };
