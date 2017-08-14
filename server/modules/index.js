@@ -15,7 +15,13 @@ module.exports.validateModules= function(resultCallback){
         var moduleName= modules[index];
         if (!moduleName) {
             var errMsg;
-            for(var errItem in errs) errMsg= (!errMsg)?errs[errItem]:"\n"+errs[errItem];
+            for(var errItem in errs) {
+                if (errMsg) {
+                    errMsg+=" ... (see more info)";
+                    break;
+                }
+                errMsg=errs[errItem];
+            }
             resultCallback(errs,errMsg);
             validateError=errMsg;
             return;

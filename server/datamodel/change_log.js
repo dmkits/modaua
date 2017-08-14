@@ -20,13 +20,36 @@ module.exports.tableDataQuery= "select * from change_log order by CHANGE_DATETIM
 
 var dm=this;
 
+
 /**
- * resultCallback = function(result)
+ * resultCallback = function(result={ item, error, errorCode })
+ */
+module.exports.checkIfChangeLogExists= function(resultCallback) {
+    dm.getDataItem({tableName:tableName, tableFields:["ID"], conditions:{"ID IS NULL":null}}, resultCallback);
+};
+
+/**
+ * resultCallback = function(result={ item, error, errorCode })
+ */
+module.exports.checkIfChangeLogIDExists= function(id, resultCallback) {
+    dm.getDataItem({tableName:tableName, tableFields:["ID"], conditions:{"ID=":id}}, resultCallback);
+};
+
+/**
+ * resultCallback = function(tableData={ columns, identifier, items, error })
  */
 module.exports.getDataForChangeLogTable= function(resultCallback){
     dm.getDataForTable({tableName:tableName, tableColumns:tableColumns, identifier:idField}, resultCallback);
 };
 
-module.exports.insertChangeLog= function(resultCallback){
+//module.exports.insertChangeLog= function(resultCallback){
+//
+//};
 
+/**
+ * resultCallback = function(result = { updateCount, resultItem:{<tableFieldName>:<value>,...}, error } )
+ */
+module.exports.writeToChangeLog= function(itemData, resultCallback) {
+    //itemData["APPLIED_DATETIME"]=NOW();
+    dm.insDataItem({tableName:tableName, idFieldName:"ID", insTableData:itemData}, resultCallback);
 };

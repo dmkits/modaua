@@ -25,15 +25,15 @@ function databaseConnection(callback){                                          
         });
         return;
     }
-        connection.destroy();
-        connection = mysql.createConnection(getDBConfig());
-        connection.connect(function (err) {
-            if (err) {                                                                      log.error("connect error:",err);
-                callback(err.message);
-                return;
-            }
-            callback(null, "connected");
-        });
+    connection.destroy();
+    connection = mysql.createConnection(getDBConfig());
+    connection.connect(function (err) {
+        if (err) {                                                                          log.error("connect error:",err);
+            callback(err.message);
+            return;
+        }
+        callback(null, "connected");
+    });
 };
 module.exports.databaseConnection=databaseConnection;
 
@@ -70,7 +70,6 @@ module.exports.mySQLAdminConnection = function (connParams, callback) {         
             return;
         }
         callback(null, "connected");
-
     });
 };
 
@@ -82,8 +81,7 @@ module.exports.checkIfDBExists= function(DBName,callback) {
                 return;
             }
             callback(null,recordset);
-        }
-    );
+        });
 };
 
 module.exports.createNewDB= function(DBName,callback) {
@@ -94,8 +92,7 @@ module.exports.createNewDB= function(DBName,callback) {
                 return;
             }
             callback(null, DBName+" Database created!");
-        }
-    );
+        });
 };
 
 module.exports.checkIfUserExists= function(newUserName,callback) {
@@ -106,8 +103,7 @@ module.exports.checkIfUserExists= function(newUserName,callback) {
                 return;
             }
             callback(null,recordset);
-        }
-    );
+        });
 };
 
 module.exports.createNewUser= function(host,newUserName,newUserPassword,callback) {
@@ -118,8 +114,7 @@ module.exports.createNewUser= function(host,newUserName,newUserPassword,callback
                 return;
             }
             callback(null,"User "+ newUserName+" created!");
-        }
-    );
+        });
 };
 
 module.exports.grantUserAccess= function(host,userName,newDBName,callback) {
@@ -131,8 +126,7 @@ module.exports.grantUserAccess= function(host,userName,newDBName,callback) {
                 return;
             }
             callback(null,userName+" granted privileges!");
-        }
-    );
+        });
 };
 
 module.exports.dropDB= function(DBName,callback) {
@@ -143,13 +137,11 @@ module.exports.dropDB= function(DBName,callback) {
                 return;
             }
             callback(null,DBName+" dropped!");
-        }
-    );
+        });
 };
 
 
 module.exports.isDBEmpty= function(DBName,callback) {
-
     connection.query("SELECT table_name FROM information_schema.tables where table_schema='"+DBName+"'",
         function (err,recordset ) {
             if (err) {
@@ -157,8 +149,7 @@ module.exports.isDBEmpty= function(DBName,callback) {
                 return;
             }
             callback(null,recordset[0]);
-        }
-    );
+        });
 };
 
 module.exports.backupDB= function(backupParam,callback) {
@@ -196,61 +187,6 @@ module.exports.restoreDB= function(restoreParams,callback) {
     });
 };
 
-
-module.exports.checkIfChangeLogExists= function(callback) {     console.log("checkIfChangeLogExists");
-
-    connection.query("select * from change_log where ID=null",
-        function (err, recordset) {
-            if (err) {                    log.error("checkIfChangeLogExists err=",err);
-                callback(err);
-                return;
-            }
-            if(recordset.length==0){
-                callback(null,false);
-            }else{
-                callback(null,true);
-            }
-        }
-    );
-};
-
-module.exports.checkIfChangeLogIDExists= function(id, callback) {
-
-    connection.query("select * FROM change_log where ID = '"+id+"'",
-        function (err, recordset) {
-            if (err) {                                                                                  log.error("checkIfChangeLogIDExists err=",err);
-                callback(err);
-                return;
-            }
-            if(recordset.length==0){
-                callback(null,false);
-            }else{
-                callback(null,true);
-            }
-        }
-    );
-};
-
-module.exports.matchChangeLogFields= function(data, callback) {
-var ID=data.changeID;
-    var CHANGE_DATETIME=data.changeDatetime;
-    var CHANGE_VAL=data.changeVal.replace(/'/g, "''");
-    var CHANGE_OBJ=data.changeObj;
-    connection.query("select * FROM change_log where ID = '"+ID+"' AND CHANGE_DATETIME='"+CHANGE_DATETIME+"' AND CHANGE_VAL='"+CHANGE_VAL+"' AND CHANGE_OBJ='"+CHANGE_OBJ+"'",
-        function (err, recordset) {
-            if (err) {
-                callback(err);
-                return;
-            }
-            if(recordset.length==0){
-                callback(null,false);
-            }else{
-                callback(null,true);
-            }
-        }
-    );
-};
-
 /**
  * for database query insert/update/delete
  * callback = function(err, updateCount)
@@ -265,6 +201,11 @@ module.exports.executeQuery= function(query, callback) {                        
             callback(null, recordset.affectedRows);
         });
 };
+/**
+ * for database query insert/update/delete
+ * parameters = [ <value1>, <value2>, ...] - values for replace '?' in query
+ * callback = function(err, updateCount)
+ */
 module.exports.executeParamsQuery= function(query, parameters, callback) {                          log.info("executeParamsQuery: ",query,parameters);
     connection.query(query, parameters,
         function (err, recordset, fields) {
@@ -272,7 +213,6 @@ module.exports.executeParamsQuery= function(query, parameters, callback) {      
                 callback(err);
                 return;
             }
-            console.log("executeParamsQuery recordset=",recordset);
             callback(null, recordset.affectedRows);
         });
 };
@@ -291,11 +231,27 @@ module.exports.selectQuery= function(query, callback) {
         });
 };
 /**
+ * for database query select
+ * parameters = [ <value1>, <value2>, ...] - values for replace '?' in query
+ * callback = function(err, recordset, count, fields)
+ */
+module.exports.selectParamsQuery= function(query, parameters, callback) {
+    connection.query(query, parameters,
+        function (err, recordset, fields) {
+            if (err) {
+                callback(err);
+                return;
+            }
+            callback(null, recordset, recordset.affectedRows, fields);
+        });
+};
+
+/**
  * callback = function(outData)
  */
 function getDataItemsFromDatabase(dbQuery, outData, resultItemName, callback){
     exports.selectQuery(dbQuery,function(err, recordset){
-        if (err) {                                                                                                      log.error("selectQuery err=",err);
+        if (err) {                                                                                                      log.error("getDataItemsFromDatabase selectQuery err=",err);
             outData.error= err.message;
             callback(outData);
             return;
@@ -304,12 +260,14 @@ function getDataItemsFromDatabase(dbQuery, outData, resultItemName, callback){
         callback(outData);
     })
 };
-module.exports.getDataForTable=function(dbQuery, outData, callback){
-    getDataItemsFromDatabase(dbQuery, outData, "items", callback)
-};
+module.exports.getDataItemsFromDatabase=getDataItemsFromDatabase;
+
+/**
+ * callback = function(outData)
+ */
 function getDataItemFromDatabase(dbQuery, outData, resultItemName, callback){
     exports.selectQuery(dbQuery,function(err, recordset){
-        if (err) {                                                                                                      log.error("selectQuery err=",err);
+        if (err) {                                                                                                      log.error("getDataItemFromDatabase selectQuery err=",err);
             outData.error= err.message;
             callback(outData);
             return;
@@ -318,62 +276,4 @@ function getDataItemFromDatabase(dbQuery, outData, resultItemName, callback){
         callback(outData);
     })
 };
-module.exports.getResultDataItem=function(dbQuery, outData, callback){
-    getDataItemFromDatabase(dbQuery, outData, "resultItem", callback)
-};
-
-module.exports.writeToChangeLog= function(data, callback) {
-    var ID=data.changeID;
-    var CHANGE_DATETIME=data.changeDatetime;
-    var CHANGE_OBJ=data.changeObj;
-    var CHANGE_VAL=data.changeVal.replace(/'/g, "''");
-    connection.query( "INSERT INTO change_log (ID, CHANGE_DATETIME, CHANGE_OBJ, CHANGE_VAL, APPLIED_DATETIME) VALUES ('"+ID+"','"+CHANGE_DATETIME+"','"+CHANGE_OBJ+"','"+CHANGE_VAL+"', NOW() );",
-        function (err) {
-            if (err) {
-                callback(err);
-                return;
-            }
-            callback(null,"ok");
-        });
-};
-module.exports.matchLogData=function(logsData, outData, ind, callback){
-
-    var logData = logsData?logsData[ind]:null;
-    if (!logData) {                //log.error("!logData ");
-        callback(outData);
-        return;
-    }
-    exports.checkIfChangeLogIDExists(logData.changeID, function (err, existsBool) {                         log.info("checkIfChangeLogIDExists logData.changeID=",logData.changeID);
-        if (err) {                                                                                          log.error("checkIfChangeLogIDExists err=",err);
-            outData.error = "ERROR FOR ID:"+logData.changeID+" Error msg: "+err.message;
-            exports.matchLogData(null, outData, ind+1, callback);
-            return;
-        }
-        if (!existsBool) {
-            logData.type = "new";
-            logData.message = "not applied";
-            outData.items.push(logData);
-            exports.matchLogData(logsData, outData, ind+1,callback);
-              return;
-        }
-      // else {
-            exports.matchChangeLogFields(logData,function(err, identicalBool){
-                if (err) {
-                    outData.error = err.message;                                         log.error("matchChangeLogFields err =",err);
-                    exports.matchLogData(null, outData, ind+1, callback);
-                    return;
-                }
-                if(!identicalBool){
-                    logData.type = "warning";
-                    logData.message = "Current update has not identical fields!";
-                    outData.items.push(logData);
-                    exports.matchLogData(logsData, outData, ind+1,callback);
-                    // return;
-                }else{
-                    exports.matchLogData(logsData, outData, ind+1,callback);
-                    //  return;
-                }
-            });
-       // }
-    });
-}
+module.exports.getDataItemFromDatabase=getDataItemFromDatabase;

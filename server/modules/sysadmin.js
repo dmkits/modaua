@@ -5,15 +5,10 @@ var server=require('../server');
 var log = server.log;
 var appParams=server.getAppStartupParams(), getServerConfig=server.getServerConfig, setAppConfig=server.setAppConfig;
 var loadServerConfiguration=server.loadServerConfiguration;
-var getValidateError=require(appModulesPath).getValidateError;
 
 var util=require('../util');
-
 var database=require('../database');
-
-//var changeLog=require(appDataModelPath+'change_log');
-
-//module.exports.dataModels = ["change_log"];
+var appModules=require(appModulesPath), getValidateError=appModules.getValidateError;
 
 var changesTableColumns=[
     {"data": "changeID", "name": "changeID", "width": 200, "type": "text"}
@@ -97,10 +92,17 @@ module.exports.init = function(app){
             function (err) {
                 var outData = {};
                 if (err) outData.error = err;
-                database.tryDBConnect(/*postaction*/function (err) {                                    log.info("database.tryDBConnect database.dbConnectError",database.dbConnectError);
-                    var dbConnectError= database.getDBConnectError();
-                    if (dbConnectError) outData.DBConnectError = dbConnectError;
-                    res.send(outData);
+                database.tryDBConnect(/*postaction*/function (err) {
+                    var dbConnectError= database.getDBConnectError();                                           log.info("database.tryDBConnect dbConnectError",dbConnectError);
+                    if (dbConnectError) {
+                        outData.DBConnectError = dbConnectError;
+                        res.send(outData);
+                        return;
+                    }
+                    appModules.validateModules(function(errs, errMessage){
+                        if(errMessage) outData.dbValidation = errMessage;
+                        res.send(outData);
+                    });
                 });
             }
         );
@@ -460,11 +462,51 @@ module.exports.init = function(app){
         res.sendFile(appViewsPath+'sysadmin/database.html');
     });
 
+    /**
+     * result = true/false
+     */
+    var matchChangeLogFields= function(changeData, logData) {
+        if (logData["ID"]!=changeData.changeID) return false;
+        if (logData["CHANGE_DATETIME"]!=changeData.changeDatetime) return false;
+        if (logData["CHANGE_VAL"]!=changeData.changeVal.replace(/'/g, "''")) return false;
+        if (logData["CHANGE_OBJ"]!=changeData.changeObj) return false;
+        return true;
+    };
+    var matchLogData=function(changesData, outData, ind, callback){
+        var changeData = changesData?changesData[ind]:null;
+        if (!changeData) {
+            callback(outData);
+            return;
+        }
+        changeLog.checkIfChangeLogIDExists(changeData.changeID, function (result) {                                log.info("checkIfChangeLogIDExists changeID="+changeData.changeID+" result=",result);
+            if (result.error) {
+                outData.error = "ERROR FOR ID:"+changeData.changeID+" Error msg: "+result.error;
+                matchLogData(null, outData, ind+1, callback);
+                return;
+            }
+            if (!result.item) {
+                changeData.type = "new";
+                changeData.message = "not applied";
+                outData.items.push(changeData);
+                matchLogData(changesData, outData, ind+1,callback);
+                return;
+            }
+            // else {
+            if (!matchChangeLogFields(changeData,result.item)){
+                changeData.type = "warning";
+                changeData.message = "Current update has not identical fields!";
+                outData.items.push(changeData);
+                matchLogData(changesData, outData, ind+1,callback);
+            } else {
+                matchLogData(changesData, outData, ind+1,callback);
+            }
+        });
+    }
+
     app.get("/sysadmin/database/getCurrentChanges", function (req, res) {
         var outData = { columns:changesTableColumns, identifier:changesTableColumns[0].data, items:[] };
-
-        database.checkIfChangeLogExists(function(err, existsBool) {
-            if (err&& (err.code=="ER_NO_SUCH_TABLE")) {                                           log.info("err.code=ER_NO_SUCH_TABLE");
+        changeLog.checkIfChangeLogExists(function(tableData) {
+            if (tableData.error&& (tableData.errorCode=="ER_NO_SUCH_TABLE")) {                                 log.info("tableData.error:",tableData.error);
                 outData.noTable = true;
                 var arr=dataModel.getModelChanges();
                 var items=util.sortArray(arr);
@@ -476,14 +518,15 @@ module.exports.init = function(app){
                 outData.items=items;
                 res.send(outData);
                 return;
-            } else if (err) {
-                outData.error = err.message;
+            }
+            if (tableData.error) {                                                                              log.info("tableData.error:",tableData.error);
+                outData.error = tableData.error.message;
                 res.send(outData);
                 return;
             }
             var arr=dataModel.getModelChanges();
             var  logsData= util.sortArray(arr);
-            database.matchLogData(logsData, outData, 0, function(outData){
+            matchLogData(logsData, outData, 0, function(outData){
                 res.send(outData);
             });
         });
@@ -502,42 +545,46 @@ module.exports.init = function(app){
             if  (modelChange.changeID==ID){
                 rowData=modelChange;
                 CHANGE_VAL=modelChange.changeVal;
+                break;
             }
         }
-        outData.resultItem.CHANGE_ID=ID;
-        database.checkIfChangeLogExists(function(err, existsBool) {
-            if (err && (err.code == "ER_NO_SUCH_TABLE")) {
-
+        changeLog.checkIfChangeLogExists(function(result) {
+            if (result.error && (result.errorCode == "ER_NO_SUCH_TABLE")) {
                 database.executeQuery(CHANGE_VAL, function (err) {
                     if (err) {
                         outData.error = err.message;
                         res.send(outData);
                         return;
                     }
-                    database.writeToChangeLog(rowData, function (err) {
-                        if (err) {
-                            outData.error = err.message;
+                    changeLog.writeToChangeLog({"ID":modelChange.changeID,
+                            "CHANGE_DATETIME":modelChange.changeDatetime,
+                            "CHANGE_OBJ":modelChange.changeObj,"CHANGE_VAL":modelChange.changeVal, "APPLIED_DATETIME":""},
+                        function (result) {
+                            if (result.error) {
+                                outData.error = result.error;
+                                res.send(outData);
+                                return;
+                            }
+                            outData.resultItem = result.resultItem;
+                            outData.updateCount = result.updateCount;
+                            outData.resultItem.CHANGE_MSG='applied';
                             res.send(outData);
-                            return;
-                        }
-                        outData.resultItem.CHANGE_MSG='applied';
-                        res.send(outData);
-                    })
+                        })
                 });
                 return;
-
-            } else if (err) {
-                outData.error = err.message;
+            }
+            if (result.error) {
+                outData.error = result.error;
                 res.send(outData);
                 return;
             }
-            database.checkIfChangeLogIDExists(ID, function (err, existsBool) {
-                if (err) {
-                    outData.error = err.message;
+            changeLog.checkIfChangeLogIDExists(ID, function (result) {
+                if (result.error) {
+                    outData.error = result.error;
                     res.send(outData);
                     return;
                 }
-                if (existsBool) {
+                if (result.item) {
                     outData.error = "Change log with ID is already exists";
                     res.send(outData);
                     return;
@@ -548,15 +595,20 @@ module.exports.init = function(app){
                         res.send(outData);
                         return;
                     }
-                    database.writeToChangeLog(rowData, function (err) {
-                        if (err) {
-                            outData.error = err.message;
+                    changeLog.writeToChangeLog({"ID":modelChange.changeID,
+                            "CHANGE_DATETIME":modelChange.changeDatetime,
+                            "CHANGE_OBJ":modelChange.changeObj,"CHANGE_VAL":modelChange.changeVal, "APPLIED_DATETIME":""},
+                        function (result) {
+                            if (result.error) {
+                                outData.error = result.error;
+                                res.send(outData);
+                                return;
+                            }
+                            outData.updateCount = result.updateCount;
+                            outData.resultItem = result.resultItem;
+                            outData.resultItem.CHANGE_MSG='applied';
                             res.send(outData);
-                            return;
-                        }
-                        outData.resultItem.CHANGE_MSG='applied';
-                        res.send(outData);
-                    })
+                        })
                 })
             })
         });
