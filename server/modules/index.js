@@ -4,6 +4,7 @@ var loadedModules= {};
 var validateError= null;
 module.exports.getValidateError= function(){ return validateError; };
 
+var dataModel= require("../datamodel");
 /**
  * resultCallback = function(errs, errMessage), errs - object of validate errors
  */
@@ -31,6 +32,7 @@ module.exports.validateModules= function(resultCallback){
             validateModuleCallback(modules, index+1, errs);
         });
     };
+    dataModel.resetModelChanges();
     validateModuleCallback(modules, 0, errs);
 };
 

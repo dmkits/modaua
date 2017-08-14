@@ -64,21 +64,21 @@ module.exports= {
 
     },
 
-    'Enter NON_ADMIN login  and password': function (browser) {
-        var loginPage = browser.page.loginPage();
-        loginPage
-            .assert.valueContains("@userLoginNameInput","")
-            .assert.valueContains("@userLoginPasswordInput","")
-            .setValue("@userLoginNameInput",'user')
-            .setValue("@userLoginPasswordInput",'user')
-            .click("@loginDialog_submitBtn");
-        browser.pause(1000)
-            .assert.urlEquals("http://localhost:8181/");
-        var mainPage=browser.page.mainPage();
-        mainPage
-            .waitForElementVisible('@menuBarItemCloseItem')
-            .click('@menuBarItemCloseItem')
-    },
+    //'Enter NON_ADMIN login  and password': function (browser) {
+    //    var loginPage = browser.page.loginPage();
+    //    loginPage
+    //        .assert.valueContains("@userLoginNameInput","")
+    //        .assert.valueContains("@userLoginPasswordInput","")
+    //        .setValue("@userLoginNameInput",'user')
+    //        .setValue("@userLoginPasswordInput",'user')
+    //        .click("@loginDialog_submitBtn");
+    //    browser.pause(1000)
+    //        .assert.urlEquals("http://localhost:8181/");
+    //    var mainPage=browser.page.mainPage();
+    //    mainPage
+    //        .waitForElementVisible('@menuBarItemCloseItem')
+    //        .click('@menuBarItemCloseItem')
+    //},
     'Enter ADMIN login  and password': function (browser) {
         browser.url("http://localhost:8181/sysadmin");
         var loginPage = browser.page.loginPage();
@@ -89,20 +89,20 @@ module.exports= {
             .setValue("@userLoginNameInput",'admin')
             .setValue("@userLoginPasswordInput",'admin')
             .click("@loginDialog_submitBtn");
-        browser.pause(1000)
-            .assert.urlEquals("http://localhost:8181/sysadmin")
-            .pause(1000)
-            .url("http://localhost:8181");
-
-              var mainPage=browser.page.mainPage();
-        mainPage
-            .waitForElementVisible('@main_username')
-            .assert.containsText('@main_username', "admin");
+        //browser.pause(1000)
+        //    .assert.urlEquals("http://localhost:8181/sysadmin")
+        //    .pause(1000)
+        //    .url("http://localhost:8181");
+        //
+        //      var mainPage=browser.page.mainPage();
+        //mainPage
+        //    .waitForElementVisible('@main_username')
+        //    .assert.containsText('@main_username', "admin");
     },
     'Sysadmin Header If  All Elements Visible Tests': function (browser) {
 
-        browser.url("http://localhost:8181/sysadmin")
-                     .pause(2000);
+        //browser.url("http://localhost:8181/sysadmin")
+        //             .pause(2000);
 
         var mainHeader = browser.page.sysadminHeader();
         mainHeader

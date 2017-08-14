@@ -9,6 +9,7 @@ var loadServerConfiguration=server.loadServerConfiguration;
 var util=require('../util');
 var database=require('../database');
 var appModules=require(appModulesPath), getValidateError=appModules.getValidateError;
+var dateFormat = require('dateformat');
 
 var changesTableColumns=[
     {"data": "changeID", "name": "changeID", "width": 200, "type": "text"}
@@ -467,7 +468,7 @@ module.exports.init = function(app){
      */
     var matchChangeLogFields= function(changeData, logData) {
         if (logData["ID"]!=changeData.changeID) return false;
-        if (logData["CHANGE_DATETIME"]!=changeData.changeDatetime) return false;
+        if (logData["CHANGE_DATETIME"]!= new Date(changeData.changeDatetime).toString()) return false;
         if (logData["CHANGE_VAL"]!=changeData.changeVal.replace(/'/g, "''")) return false;
         if (logData["CHANGE_OBJ"]!=changeData.changeObj) return false;
         return true;
@@ -478,7 +479,7 @@ module.exports.init = function(app){
             callback(outData);
             return;
         }
-        changeLog.checkIfChangeLogIDExists(changeData.changeID, function (result) {                                log.info("checkIfChangeLogIDExists changeID="+changeData.changeID+" result=",result);
+        changeLog.getChangeLogItemByID(changeData.changeID, function (result) {                                log.info("getChangeLogItemByID changeID="+changeData.changeID+" result=",result);
             if (result.error) {
                 outData.error = "ERROR FOR ID:"+changeData.changeID+" Error msg: "+result.error;
                 matchLogData(null, outData, ind+1, callback);
@@ -494,38 +495,38 @@ module.exports.init = function(app){
             // else {
             if (!matchChangeLogFields(changeData,result.item)){
                 changeData.type = "warning";
-                changeData.message = "Current update has not identical fields!";
+                changeData.message = "Current update has not identical fields in change_log!";
                 outData.items.push(changeData);
                 matchLogData(changesData, outData, ind+1,callback);
             } else {
                 matchLogData(changesData, outData, ind+1,callback);
             }
         });
-    }
+    };
 
     app.get("/sysadmin/database/getCurrentChanges", function (req, res) {
         var outData = { columns:changesTableColumns, identifier:changesTableColumns[0].data, items:[] };
         changeLog.checkIfChangeLogExists(function(tableData) {
             if (tableData.error&& (tableData.errorCode=="ER_NO_SUCH_TABLE")) {                                 log.info("tableData.error:",tableData.error);
                 outData.noTable = true;
-                var arr=dataModel.getModelChanges();
+                var arr=dataModel.getModelChanges();               log.info("arr=",arr,{});
                 var items=util.sortArray(arr);
                 for(var i in items){
                     var item=items[i];
                     item.type="new";
                     item.message="not applied";
                 }
-                outData.items=items;
+                outData.items=items;                              log.info("outData.items 518=",outData.items,{});
                 res.send(outData);
                 return;
             }
-            if (tableData.error) {                                                                              log.info("tableData.error:",tableData.error);
+            if (tableData.error) {                                                                              log.error("tableData.error:",tableData.error);
                 outData.error = tableData.error.message;
                 res.send(outData);
                 return;
             }
             var arr=dataModel.getModelChanges();
-            var  logsData= util.sortArray(arr);
+            var logsData= util.sortArray(arr);
             matchLogData(logsData, outData, 0, function(outData){
                 res.send(outData);
             });
@@ -534,9 +535,7 @@ module.exports.init = function(app){
 
     app.post("/sysadmin/database/applyChange", function (req, res) {
         var outData={};
-        outData.resultItem={};
         var ID=req.body.CHANGE_ID;
-
         var CHANGE_VAL;
         var fullModelChanges=dataModel.getModelChanges();
         var rowData;
@@ -556,9 +555,9 @@ module.exports.init = function(app){
                         res.send(outData);
                         return;
                     }
-                    changeLog.writeToChangeLog({"ID":modelChange.changeID,
-                            "CHANGE_DATETIME":modelChange.changeDatetime,
-                            "CHANGE_OBJ":modelChange.changeObj,"CHANGE_VAL":modelChange.changeVal, "APPLIED_DATETIME":""},
+                    changeLog.insertToChangeLog({"ID":modelChange.changeID,
+                            "CHANGE_DATETIME":dateFormat(new Date(modelChange.changeDatetime),"yyyy-mm-dd HH:MM:ss"), ///2016-09-04T18:15:00.000
+                            "CHANGE_OBJ":modelChange.changeObj,"CHANGE_VAL":modelChange.changeVal, "APPLIED_DATETIME":null},    //
                         function (result) {
                             if (result.error) {
                                 outData.error = result.error;
@@ -578,7 +577,7 @@ module.exports.init = function(app){
                 res.send(outData);
                 return;
             }
-            changeLog.checkIfChangeLogIDExists(ID, function (result) {
+            changeLog.getChangeLogItemByID(ID, function (result) {
                 if (result.error) {
                     outData.error = result.error;
                     res.send(outData);
@@ -589,15 +588,15 @@ module.exports.init = function(app){
                     res.send(outData);
                     return;
                 }
-                database.executeQuery(CHANGE_VAL, function (err) {
+                database.executeQuery(CHANGE_VAL, function (err) {                          //console.log("executeQuery err=",err.message);
                     if (err) {
                         outData.error = err.message;
-                        res.send(outData);
+                        res.send(outData);                                                  //console.log("executeQuery outData=",outData);
                         return;
                     }
-                    changeLog.writeToChangeLog({"ID":modelChange.changeID,
+                    changeLog.insertToChangeLog({"ID":modelChange.changeID,
                             "CHANGE_DATETIME":modelChange.changeDatetime,
-                            "CHANGE_OBJ":modelChange.changeObj,"CHANGE_VAL":modelChange.changeVal, "APPLIED_DATETIME":""},
+                            "CHANGE_OBJ":modelChange.changeObj,"CHANGE_VAL":modelChange.changeVal, "APPLIED_DATETIME":null},
                         function (result) {
                             if (result.error) {
                                 outData.error = result.error;

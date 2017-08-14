@@ -33,7 +33,7 @@ var startUpParamsCommands = {
         var dbConfig;
         this.api.pause(2000);
 
-        fs.unlink('./test.cfg', function (err) {              //dele file
+        fs.unlink('./uiTest.cfg', function (err) {              //dele file
             if (err && err.code == 'ENOENT') {
                 // file doens't exist
                 console.info("File doesn't exist, won't remove it.");
@@ -41,9 +41,9 @@ var startUpParamsCommands = {
                 // maybe we don't have enough permission
                 console.error("Error occurred while trying to remove file");
             }
-            fs.rename('./test_temp_copy.cfg', './test.cfg', function (err) {
+            fs.rename('./test_temp_copy.cfg', './uiTest.cfg', function (err) {
                 if (err) console.log('ERROR: ' + err);
-                dbConfig = JSON.parse(fs.readFileSync("./test.cfg", "utf-8"));
+                dbConfig = JSON.parse(fs.readFileSync("./uiTest.cfg", "utf-8"));
             })
         });
 

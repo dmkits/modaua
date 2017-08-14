@@ -2,6 +2,7 @@ var server= require("../server"), log= server.log;
 
 var dataModelChanges= [];
 module.exports.getModelChanges=function(){ return dataModelChanges; };
+module.exports.resetModelChanges=function(){ dataModelChanges=[]; };
 
 var database= require("../database");
 function initValidateDataModel(dataModelName, dataModel, errs, nextValidateDataModelCallback){          log.info('initValidateDataModel: dataModel:',dataModelName,"...");//test
@@ -82,9 +83,9 @@ function _getDataForTable(params, resultCallback){
  */
 function _getDataItem(params, resultCallback){
     var queryFields="";
-    for(var fieldName in params.tableFields) {
+    for(var fieldNameIndex in params.tableFields) {
         if (queryFields!="") queryFields+= ",";
-        queryFields+= fieldName;
+        queryFields+= params.tableFields[fieldNameIndex];
     }
     var selectQuery="select "+queryFields+" from "+params.tableName;
     var conditionQuery, coditionValues=[];
@@ -103,8 +104,8 @@ function _getDataItem(params, resultCallback){
                 selectResult.error="Failed get data item! Reason:"+err.message;
                 selectResult.errorCode=err.code;
             }
-            if (recordset) selectResult.item= recordset[0];
-            resultCallback(selectResult);
+            if (recordset&&recordset.length>0) selectResult.item= recordset[0];
+            resultCallback(selectResult);                                                                   log.info('_getDataItem: selectQuery: selectResult',selectResult,{});//test
         });
     else
         database.selectParamsQuery(selectQuery,coditionValues, function(err, recordset, count, fields){
@@ -113,8 +114,8 @@ function _getDataItem(params, resultCallback){
                 selectResult.error="Failed get data item! Reason:"+err.message;
                 selectResult.errorCode=err.code;
             }
-            if (recordset) selectResult.item= recordset[0];
-            resultCallback(selectResult);
+            if (recordset&&recordset.length>0) selectResult.item= recordset[0];
+            resultCallback(selectResult);                                                                   log.info('_getDataItem: selectParamsQuery:',selectResult,{});//test
         });
 };
 
@@ -124,13 +125,14 @@ function _getDataItem(params, resultCallback){
  * resultCallback = function(result = { updateCount, resultItem:{<tableFieldName>:<value>,...}, error } )
  */
 function _insDataItem(params, resultCallback) {
-    var queryFields="", queryFieldsValues="", fieldsValues=[];
+    var queryFields="", queryFieldsValues="", fieldsValues=[], resultFields=[];
     for(var fieldName in params.insTableData) {
         if (queryFields!="") queryFields+= ",";
         if (queryFieldsValues!="") queryFieldsValues+= ",";
         queryFields+= fieldName;
         queryFieldsValues+= "?";
         fieldsValues.push(params.insTableData[fieldName]);
+        resultFields.push(fieldName);
     }
     var insQuery="insert into "+params.tableName+"("+queryFields+") values("+queryFieldsValues+")";
     database.executeParamsQuery(insQuery,fieldsValues,function(err, updateCount){
@@ -144,7 +146,7 @@ function _insDataItem(params, resultCallback) {
         var idFieldCondition=params.idFieldName+"=", idFieldValue=params.insTableData[params.idFieldName];
         var getResultConditions={};
         getResultConditions[idFieldCondition]=idFieldValue;
-        _getDataItem({tableName:params.tableName, tableFields:params.insTableData, conditions:getResultConditions},
+        _getDataItem({tableName:params.tableName, tableFields:resultFields, conditions:getResultConditions},
             function(result){
                 if(result.error) insResult.error="Failed get result inserted data item! Reason:"+result.error;
                 if (result.item) insResult.resultItem= result.item;

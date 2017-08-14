@@ -48,30 +48,34 @@
                             APP.childFor(sysadmin_database_ContentPaneDetailContainer, "sysadmin_database_TableCurrentChanges",
                                     TDocumentSimpleTable, {titleText: "Data model current changes", dataURL: '/sysadmin/database/getCurrentChanges', buttonPrint: false})
                                     .addTotalCountNumberBox("ИТОГО строк:", 140, {style: "font-weight:bold;", inputStyle: "width:40px;"})
-                                    .addContentTableRowAction("applyChangesRowData", function (tableContentRowData, params, contentTableInstance, startNextAction) { console.log("applyChangesRowData action ", tableContentRowData, params);
-                                        var changeID = tableContentRowData.changeID; console.log("changeID=", changeID);
+                                    .addContentTableRowAction("applyChangesRowData", function (tableContentRowData, params, contentTableInstance, startNextAction) {
+                                        var changeID = tableContentRowData.changeID;
                                         var type = tableContentRowData.type;
                                         if (type == "new") {
                                             Request.postJSONData({url: "/sysadmin/database/applyChange", condition: null, data: {"CHANGE_ID": changeID}, consoleLog: true },
-                                                    function (success, result) {                                        console.log("applyChangesRowData postJSONData ", result);
-                                                        // result = { error:"", resultItem={} }
+                                                    function (success, result) {
+                                                        var typeValue = type, changeMsg = null;
                                                         if (success) {
-                                                            var resultItem = result["resultItem"], changeMsg = null, typeValue = null;
+                                                            var resultItem = result["resultItem"];
                                                             if (result.error) {
                                                                 changeMsg = "NOT APPLIED! Reason: " + result.error;
-                                                                //typeValue = "failed"
                                                             }
-                                                            if (resultItem && (resultItem.CHANGE_ID == changeID) && resultItem.CHANGE_MSG) {
-                                                                changeMsg = (changeMsg == null) ? resultItem.CHANGE_MSG : changeMsg + " <br>Change message: " + resultItem.CHANGE_MSG;
-                                                                typeValue = "applied";
+                                                            if (resultItem) {
+                                                                if(resultItem.ID == changeID) typeValue = "applied";
+                                                                if(resultItem.CHANGE_MSG)
+                                                                    changeMsg = (changeMsg == null) ? resultItem.CHANGE_MSG : changeMsg + " <br>Change message: " + resultItem.CHANGE_MSG;
+                                                                else {
+                                                                    var changeMsgUnknown= "Result unknown!";
+                                                                    changeMsg = (changeMsg == null) ? changeMsgUnknown:changeMsg+" <br>Change message:"+changeMsgUnknown;
+                                                                }
                                                             }
-                                                            contentTableInstance.updateRowData(tableContentRowData, { "message": changeMsg, "type": typeValue });
+                                                            contentTableInstance.updateRowData(tableContentRowData, { message: changeMsg, type: typeValue });
                                                         } else {
                                                             dialog.show();
                                                         }
                                                         startNextAction();
                                                     });
-                                        } else contentTableInstance.updateRowData(tableContentRowData, {"message": "Impossible to apply! Type must be \"new\""});
+                                        } //else contentTableInstance.updateRowData(tableContentRowData, {"message": "Impossible to apply! Type must be \"new\""});
 
                                     })
                                     .addPopupMenuItemForAction("applySelectedRowsChanges", "Apply selected changes...", "applyChangesRowData")

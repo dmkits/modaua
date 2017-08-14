@@ -2,10 +2,10 @@ var fs=require('fs');
 
 module.exports= {
 
-'@disabled': true,
+//'@disabled': true,
 
     before: function (browser) {
-        fs.createReadStream('./test.cfg').pipe(fs.createWriteStream('./test_temp_copy.cfg'));
+        fs.createReadStream('./uiTest.cfg').pipe(fs.createWriteStream('./test_temp_copy.cfg'));
         browser.maximizeWindow();
     },
     'Enter ADMIN login  and password': function (browser) {
@@ -27,17 +27,17 @@ module.exports= {
         var startUpParams = browser.page.startUpParams();
 
         mainHeader
-            .navigate()
+           // .navigate()
             .waitForElementVisible("@img")
-            .waitForElementVisible("@sysadmin_btnDatabase")
+            .waitForElementVisible("@btnDatabase")
             .click('@StartUpParamsBtn');
 
         startUpParams.createTempDB();
 
         mainHeader
-            .waitForElementVisible('@sysadmin_btnDatabase')
-            .click('@sysadmin_btnDatabase')
-            .assert.attributeContains('@sysadmin_btnDatabase', 'aria-pressed', 'true');
+            .waitForElementVisible('@btnDatabase')
+            .click('@btnDatabase')
+            .assert.attributeContains('@btnDatabase', 'aria-pressed', 'true');
     },
 
     'Sysadmin ChangeLogTable Tests': function(browser) {
@@ -46,7 +46,7 @@ module.exports= {
         var database = browser.page.database();
 
         database
-            .waitForElementVisible('@sysadmin_database_ContentPaneDetailContainer')
+            //.waitForElementVisible('@sysadmin_database_ContentPaneDetailContainer')
             .assertTableTitleHasText('@currentChangesTable', 'Current Changes')
             .waitForElementVisible('@currentChangesTable')
             .assertTotalRowContainsValue('@currentChangesTable', '13')

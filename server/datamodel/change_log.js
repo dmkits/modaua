@@ -1,7 +1,8 @@
 var changeLog= [
-    { "changeID":"chl__1", "changeDatetime":"2016-08-29T09:01:00.000",  "changeObj":"change_log", "changeVal":"CREATE TABLE change_log( ID VARCHAR(64) NOT NULL PRIMARY KEY, CHANGE_DATETIME TIMESTAMP NOT NULL, CHANGE_OBJ VARCHAR(255) NOT NULL, CHANGE_VAL VARCHAR(20000) NOT NULL, APPLIED_DATETIME TIMESTAMP NULL) CHARACTER SET utf8"},
-    { "changeID":"chl__2", "changeDatetime":"2016-08-29T09:02:00.000",  "changeObj":"change_log", "changeVal":"ALTER TABLE change_log ALTER COLUMN CHANGE_DATETIME  DROP DEFAULT"},
-    { "changeID":"chl__3", "changeDatetime":"2016-08-29T09:03:00.000",  "changeObj":"change_log", "changeVal":"ALTER TABLE change_log ALTER COLUMN APPLIED_DATETIME  DROP DEFAULT"}
+    { "changeID":"chl__1", "changeDatetime":"2016-08-29T09:01:00+03:00",  "changeObj":"change_log",
+        "changeVal":"CREATE TABLE change_log( ID VARCHAR(64) NOT NULL PRIMARY KEY, APPLIED_DATETIME TIMESTAMP NOT NULL, CHANGE_DATETIME TIMESTAMP NULL, CHANGE_OBJ VARCHAR(255) NOT NULL, CHANGE_VAL VARCHAR(20000) NOT NULL) CHARACTER SET utf8"},
+    { "changeID":"chl__2", "changeDatetime":"2016-08-29T09:02:00+03:00",  "changeObj":"change_log",
+        "changeVal":"ALTER TABLE change_log ALTER COLUMN CHANGE_DATETIME DROP DEFAULT"}
 ];
 module.exports.changeLog=changeLog;
 
@@ -16,10 +17,7 @@ module.exports.tableColumns=tableColumns;
 
 module.exports.validateData= {tableName:tableName, tableColumns:tableColumns, idField:idField};
 
-module.exports.tableDataQuery= "select * from change_log order by CHANGE_DATETIME";
-
 var dm=this;
-
 
 /**
  * resultCallback = function(result={ item, error, errorCode })
@@ -31,8 +29,10 @@ module.exports.checkIfChangeLogExists= function(resultCallback) {
 /**
  * resultCallback = function(result={ item, error, errorCode })
  */
-module.exports.checkIfChangeLogIDExists= function(id, resultCallback) {
-    dm.getDataItem({tableName:tableName, tableFields:["ID"], conditions:{"ID=":id}}, resultCallback);
+module.exports.getChangeLogItemByID= function(id, resultCallback) {
+    dm.getDataItem({tableName:tableName,
+        tableFields:["ID","CHANGE_DATETIME","CHANGE_OBJ","CHANGE_VAL","APPLIED_DATETIME"],
+        conditions:{"ID=":id}}, resultCallback);
 };
 
 /**
@@ -42,14 +42,9 @@ module.exports.getDataForChangeLogTable= function(resultCallback){
     dm.getDataForTable({tableName:tableName, tableColumns:tableColumns, identifier:idField}, resultCallback);
 };
 
-//module.exports.insertChangeLog= function(resultCallback){
-//
-//};
-
 /**
  * resultCallback = function(result = { updateCount, resultItem:{<tableFieldName>:<value>,...}, error } )
  */
-module.exports.writeToChangeLog= function(itemData, resultCallback) {
-    //itemData["APPLIED_DATETIME"]=NOW();
+module.exports.insertToChangeLog= function(itemData, resultCallback) {
     dm.insDataItem({tableName:tableName, idFieldName:"ID", insTableData:itemData}, resultCallback);
 };

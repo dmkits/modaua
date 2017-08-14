@@ -10,7 +10,7 @@ if (!appStartupParams.logToConsole) {
 } else {
     log.configure({
         transports: [
-            new (log.transports.Console)({ timestamp: function() {
+            new (log.transports.Console)({ colorize: true, timestamp: function() {
                 return dateformat(Date.now(), "yyyy-mm-dd HH:MM:ss");
             } })
         ]
