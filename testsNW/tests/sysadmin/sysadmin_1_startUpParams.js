@@ -158,6 +158,8 @@ module.exports= {
             .click("@loginDialog_submitBtn");
         validationFailed
             .waitForElementVisible('@auth_as_sysadmin')
+            .assert.containsText('body','База данных не прошла проверку!')
+            .assert.containsText('body','Обратитесь к системному администратору!')
             .click('@auth_as_sysadmin');
 
     },

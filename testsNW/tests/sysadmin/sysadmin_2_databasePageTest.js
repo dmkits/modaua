@@ -2,7 +2,7 @@ var fs=require('fs');
 
 module.exports= {
 
-//'@disabled': true,
+'@disabled': true,
 
     before: function (browser) {
         fs.createReadStream('./uiTest.cfg').pipe(fs.createWriteStream('./test_temp_copy.cfg'));
@@ -42,6 +42,8 @@ module.exports= {
 
     'Sysadmin ChangeLogTable Tests': function(browser) {
         var database = browser.page.database();
+
+        browser.maximizeWindow();
 
         database
             .waitForElementVisible('@sysadmin_database_ContentPaneDetailContainer')
@@ -124,11 +126,12 @@ module.exports= {
         database.assertTotalRowContainsValue('@changeLogTable', '24');
 
     },
-    'User tries go to sysadmin page': function(browser) {
+    'User tries to go to sysadmin page': function(browser) {
         //var startUpParams = browser.page.startUpParams();
         var sysadminHeader = browser.page.sysadminHeader();
         sysadminHeader
-            .click('@btnLogout');
+            .waitForElementVisible("@logoutBtn")
+            .click('@logoutBtn');
 
             var loginPage = browser.page.loginPage();
             loginPage
@@ -150,7 +153,8 @@ module.exports= {
                 .click('@menuBarItemCloseItem')
     },
         'Delete Test DB and reconnect': function(browser) {
-
+            browser
+                .url("http://localhost:8181/sysadmin");
             var loginPage = browser.page.loginPage();
             loginPage
                 .waitForElementVisible("@loginDialog")
