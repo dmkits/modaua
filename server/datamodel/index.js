@@ -254,12 +254,11 @@ function _updDataItem(params, resultCallback) {
         return;
     }
 
-
     var queryFields="", fieldsValues=[];
-    for(var fieldName in params.updTableData) {
+    for(var fieldName in params.updData) {
         if (queryFields!="") queryFields+= ",";
         queryFields+= fieldName+"=?";
-        fieldsValues.push(params.updTableData[fieldName]);
+        fieldsValues.push(params.updData[fieldName]);
     }
     var updQuery="update "+params.tableName+" set "+queryFields;
     var queryConditions="";
@@ -325,8 +324,8 @@ function _updTableDataItem(params, resultCallback) {
         resultCallback({ error:"Failed update table data item! Reason:no function parameters!"});
         return;
     }
-    if (!params.insTableData) {
-        resultCallback({ error:"Failed update table data item! Reason:no data for insert!"});
+    if (!params.updTableData) {
+        resultCallback({ error:"Failed update table data item! Reason:no data for update!"});
         return;
     }
     var idFieldName= params.idFieldName;
