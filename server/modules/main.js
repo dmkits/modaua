@@ -11,6 +11,7 @@ function getUserMenuByUserRole(userRole, usersRoleMenu, appMenu){
     var userMenu=[];
     if(!userRole) return userMenu;
     var userRoleMenuItems=usersRoleMenu[userRole];
+    if (userRoleMenuItems==undefined) return appMenu;
     for(var i in userRoleMenuItems) {
         var userRoleMenuItemName = userRoleMenuItems[i];
         for (var j in appMenu) {
@@ -42,12 +43,11 @@ function getUserMenuByUserRole(userRole, usersRoleMenu, appMenu){
     return userMenu;
 };
 
+module.exports.modulePageURL = "/";
+module.exports.modulePagePath = "main.html";
 module.exports.init= function(app){
-    app.get("/", function (req, res) {
-        res.sendFile(appViewsPath+ 'main.html');
-    });
 
-    app.get("/main/get_data", function (req, res) {
+    app.get("/main/getMainData", function (req, res) {
         var outData= {};
         outData.mode= appParams.mode;
         outData.mode_str= appParams.mode;
@@ -69,6 +69,6 @@ module.exports.init= function(app){
             return;
         }
         outData.dbConnection='Connected';
-        res.send(outData);
+        res.send(outData);                              console.log("getMainData",outData);
     });
  };

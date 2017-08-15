@@ -18,7 +18,6 @@ module.exports.tableColumns=tableColumns;
 module.exports.validateData= {tableName:tableName, tableColumns:tableColumns, idField:idField};
 
 var dm=this;
-
 /**
  * resultCallback = function(result={ item, error, errorCode })
  */

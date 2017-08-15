@@ -62,7 +62,7 @@
                 main_MainContainer.startup();
 
                 main_MainContainer.getMainData = function(postaction){//getting main json data from server and run action parameter function
-                    Request.getJSONData({url:"/main/get_data", consoleLog:true},
+                    Request.getJSONData({url:"/main/getMainData", consoleLog:true},
                             function(success,result){
                                 if(success){
                                     if(result===undefined||result==null) result = [];

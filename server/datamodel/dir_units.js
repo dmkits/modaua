@@ -22,51 +22,36 @@ var changeLog=[
 ];
 module.exports.changeLog=changeLog;
 
-var tableColumns=[
+var tableName="dir_units", tableColumns=[
     {"data": "ID", "name": "ID", "width": 100, "type": "text", readOnly:true, visible:false},
     {"data": "NAME", "name": "NAME", "width": 200, "type": "text"},
     {"data": "FULL_NAME", "name": "FULL_NAME", "width": 200, "type": "text"},
     {"data": "NOTE", "name": "NOTE", "width": 200, "type": "text"},
     {"data": "CITY", "name": "CITY", "width": 200, "type": "text"},
     {"data": "ADDRESS", "name": "ADDRESS", "width": 200, "type": "text"}
-];
+], idField=tableColumns[0].data;
 module.exports.tableColumns=tableColumns;
 
-module.exports.validateData= {tableName:"dir_units", tableColumns:tableColumns, idField:tableColumns[0].data};
+module.exports.validateData= {tableName:tableName, tableColumns:tableColumns, idField:idField};
 
-//module.exports.validateQuery= "select ID,NAME,FULL_NAME,NOTE,CITY,ADDRESS,NOT_USED from dir_units where ID is NULL";
+var dm=this;
+/**
+ * resultCallback = function(tableData={ columns, identifier, items, error })
+ */
+module.exports.getDataForDirUnitsTable= function(resultCallback){
+    dm.getDataForTable({tableName:tableName, tableColumns:tableColumns, identifier:idField}, resultCallback);
+};
+module.exports.getNewDataForDirUnitsTable= function(resultCallback){
+    //resultCallback({});
+    dm.setDataItemForTable({tableColumns:tableColumns,
+        values:[null,"Новое подразделение","Новое подразделение","Новое подразделение","Днепр","-"]}, resultCallback);
+};
+module.exports.storeDirUnitsTableData= function(resultCallback){
+    resultCallback({});
+    //dm.getDataForTable({tableName:tableName, tableColumns:tableColumns, identifier:idField}, resultCallback);
+};
+module.exports.deleteDirUnitsTableData= function(resultCallback){
+    resultCallback({});
+    //dm.getDataForTable({tableName:tableName, tableColumns:tableColumns, identifier:idField}, resultCallback);
+};
 
-//var dmBase = require("./dataModelBase");
-
-//module.exports=  new dmBase({
-//    tableName:"dir_units", tableKeyField:"ID",
-//    dataURL:"/dir/units", getDataForTable:true, tableColumns:tableColumns,
-//    newDataForTable:{"NAME":"новое подразделение", "FULL_NAME":"новое подразделение", "NOTE":"новое подразделение", "CITY":"-", "ADDRESS":"-"},
-//    storeTableData:true, deleteTableData:true
-//});
-
-
-//function baseClass(){
-//
-//    this.fieldA='123';
-//    this.fieldB=123456;
-//
-//    this.func1= function(params){
-//
-//    };
-//
-//};
-//var baseClassA= new baseClass();
-//baseClassA.fieldA='234';
-////baseClassA.prototype.fieldA==='123';
-//baseClassA.func1=function(params){
-//
-//};
-//
-//var baseClassO= {
-//    fieldA:'123',
-//    fieldB:123456,
-//    func1: function(params){
-//
-//    }
-//};

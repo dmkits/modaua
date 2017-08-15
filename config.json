@@ -48,6 +48,7 @@
       "menuBarItemClose","menuBarItemHelpAbout"]
   },
   "usersRoleAutorun":{
+    "admin":["menuBarItemMainPage","menuBarWrhPInvoice"],
     "user":["menuBarItemMainPage"],
     "cashier":["menuBarItemSalesCashier"]
   }

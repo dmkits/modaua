@@ -21,9 +21,9 @@
                 dir_units_ContentContainer.docDirUnits =
                         APP.childFor(dir_units_ContentContainer, "dir_units_TableDirUnits",
                                 TDocumentSimpleTableEditable, {titleText:"Подразделения", rightPane:true, rightPaneWidth:150,
-                                    dataURL:"/dir/units/getDataForTable",
-                                    dataNewURL:"/dir/units/newDataForTable",
-                                    dataStoreURL:"/dir/units/storeTableData", dataDeleteURL:"/dir/units/deleteTableData"})
+                                    dataURL:"/dir/units/getDataForDirUnitsTable",
+                                    dataNewURL:"/dir/units/newDataForDirUnitsTable",
+                                    dataStoreURL:"/dir/units/storeDirUnitsTableData", dataDeleteURL:"/dir/units/deleteDirUnitsTableData"})
                                 .addCheckBtnCondition(120,"Используемые",{"NOT_USED":0})
                                 .addCheckBtnCondition(120,"Не используемые",{"NOT_USED":1})
                                 .addTotalCountNumberBox("ИТОГО строк:", 150, {style:"font-weight:bold;",inputStyle:"width:50px"})

@@ -9,6 +9,7 @@ function initValidateDataModel(dataModelName, dataModel, errs, nextValidateDataM
     if(dataModel.changeLog) dataModelChanges= dataModelChanges.concat(dataModel.changeLog);
 
     dataModel.getDataForTable= _getDataForTable;
+    dataModel.setDataItemForTable= _setDataItemForTable;
     dataModel.getDataItem= _getDataItem;
     dataModel.insDataItem= _insDataItem;
 
@@ -73,6 +74,22 @@ function _getDataForTable(params, resultCallback){
         tableData.items= recordset;
         resultCallback(tableData);
     });
+};
+
+/**
+ * params = (
+ *      tableColumns = [{data:<tableField1Name>},{data:<tableField2Name>},{data:<tableField3Name>},...],
+ *      values=[ <valueField1>,<valueField2>,<valueField3>,...]
+ * resultCallback = function(
+ *      itemData = { item:{<tableFieldName>:<value>,...} } )
+ */
+function _setDataItemForTable(params, resultCallback){
+    var itemData={};
+    for(var columnIndex=0; columnIndex<params.tableColumns.length; columnIndex++){
+        var fieldName= params.tableColumns[columnIndex].data;
+        itemData[fieldName]=params.values[columnIndex];
+    }
+    resultCallback({item:itemData});
 };
 
 /**

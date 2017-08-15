@@ -30,11 +30,9 @@ module.exports.validateModule = function(errs, nextValidateModuleCallback){
         });
 };
 
+module.exports.modulePageURL = "/sysadmin";
+module.exports.modulePagePath = "sysadmin.html";
 module.exports.init = function(app){
-
-    app.get("/sysadmin", function (req, res) {
-        res.sendFile(appViewsPath+'sysadmin.html');
-    });
 
     app.get("/sysadmin/serverState", function(req, res){
         var outData= {};
@@ -614,26 +612,8 @@ module.exports.init = function(app){
     });
 
     app.get("/sysadmin/database/getChangeLog", function (req, res) {
-
         changeLog.getDataForChangeLogTable(function(result){
             res.send(result);
         });
-
-        //var outData= { columns:changeLog.tableColumns, identifier:changeLog.tableColumns[0].data };
-        //database.checkIfChangeLogExists(function (err, exist) {
-        //    if (err && (err.code == "ER_NO_SUCH_TABLE")) {
-        //        outData.message = "Change Log doesn't exists";
-        //        res.send(outData);
-        //        return;
-        //    } else if (err) {
-        //        outData.error = err.message;
-        //        res.send(outData);
-        //        return;
-        //    }
-        //    database.getDataForTable(changeLog.tableDataQuery, outData,
-        //        function(outData){
-        //            res.send(outData);
-        //        });
-        //});
     });
 };

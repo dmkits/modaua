@@ -1,4 +1,4 @@
-var startDateTime=new Date(), startTime=startDateTime.getTime();           console.log('STARTING at ',startDateTime );//test
+var startDateTime=new Date(), startTime=startDateTime.getTime();                                    console.log('STARTING at ',startDateTime );//test
 var dateformat =require('dateformat'), log = require('winston');
 var util=require('./util'), appStartupParams = util.getStartupParams();
 
@@ -15,19 +15,19 @@ if (!appStartupParams.logToConsole) {
             } })
         ]
     });
-}                                                                           log.info('STARTING at', startDateTime );//test
-module.exports.log=log;                                                     log.info('dateformat, winston util loaded' );//test
+}                                                                                                   log.info('STARTING at', startDateTime );//test
+module.exports.log=log;                                                                             log.info('dateformat, winston util loaded' );//test
 
 module.exports.getAppStartupParams = function(){
     return appStartupParams;
-};                                                                          log.info('started with startup params:',  appStartupParams);//test
+};                                                                                                  log.info('started with startup params:',  appStartupParams);//test
 
-var fs = require('fs');                                                     log.info('fs loaded on ', new Date().getTime()-startTime );//test
-var path = require('path');                                                 log.info('path loaded on ', new Date().getTime()-startTime );//test
-var express = require('express');                                           log.info('express loaded on ', new Date().getTime()-startTime );//test
+var fs = require('fs');                                                                             log.info('fs loaded on ', new Date().getTime()-startTime );//test
+var path = require('path');                                                                         log.info('path loaded on ', new Date().getTime()-startTime );//test
+var express = require('express');                                                                   log.info('express loaded on ', new Date().getTime()-startTime );//test
 var server = express();
-var bodyParser = require('body-parser');                                    log.info('body-parser loaded on ', new Date().getTime()-startTime );//test
-var cookieParser = require('cookie-parser');                                log.info('cookie-parser loaded on ', new Date().getTime()-startTime );//test
+var bodyParser = require('body-parser');                                                            log.info('body-parser loaded on ', new Date().getTime()-startTime );//test
+var cookieParser = require('cookie-parser');                                                        log.info('cookie-parser loaded on ', new Date().getTime()-startTime );//test
 
 var serverConfig=null;
 global.serverConfigPath= path.join(__dirname,'/../','');
@@ -38,18 +38,18 @@ function loadServerConfiguration(){
         serverConfig= {"error":"Failed to load configuration! Reason:" + e};
     }
 };
-loadServerConfiguration();                                                  log.info('load server configuration loaded on ', new Date().getTime()-startTime);//test
-module.exports.loadServerConfiguration= loadServerConfiguration;            log.info('startup mode:'+appStartupParams.mode,' server configuration:', serverConfig);//test
+loadServerConfiguration();                                                                          log.info('load server configuration loaded on ', new Date().getTime()-startTime);//test
+module.exports.loadServerConfiguration= loadServerConfiguration;                                    log.info('startup mode:'+appStartupParams.mode,' server configuration:', serverConfig);//test
 module.exports.getServerConfig= function(){ return serverConfig };
 module.exports.setAppConfig= function(newAppConfig){ serverConfig=newAppConfig; };
 
-var database = require('./database');                                       log.info('dataBase loaded on ', new Date().getTime()-startTime);//test
+var database = require('./database');                                                               log.info('dataBase loaded on ', new Date().getTime()-startTime);//test
 
 var configFileName=serverConfig.configName || 'config.json';
 var config=JSON.parse(util.getJSONWithoutComments(fs.readFileSync('./'+configFileName,'utf-8')));
 module.exports.getConfig=function(){ return config; }
-module.exports.getConfigAppMenu=function(){ return (config&&config.appMenu)?config.appMenu:null; }
-module.exports.getConfigModules=function(){ return (config&&config.modules)?config.modules:null; }
+module.exports.getConfigAppMenu=function(){ return (config&&config.appMenu)?config.appMenu:null; };
+module.exports.getConfigModules=function(){ return (config&&config.modules)?config.modules:null; };
 
 server.use(cookieParser());
 server.use(bodyParser.urlencoded({extended: true}));
@@ -77,6 +77,6 @@ appModules.validateModules(function(errs, errMessage){
         }
         console.log("server runs on port " + appStartupParams.port+" on "+(new Date().getTime()-startTime));
         log.info("server runs on port " + appStartupParams.port+" on "+(new Date().getTime()-startTime));
-    });                                                                    log.info("server inited.");
+    });                                                                                             log.info("server inited.");
 });
 
