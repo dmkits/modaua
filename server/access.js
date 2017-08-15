@@ -1,4 +1,5 @@
-var server= require("./server"), log= server.log, config= server.getConfig(), modules= require("./modules");
+var server= require("./server"), log= server.log, config= server.getConfig(),
+    getDBConnectError= require("./database").getDBConnectError, modules= require("./modules");
 
 module.exports= function(app){
 
@@ -33,23 +34,31 @@ module.exports= function(app){
         }
         req.mduUser=user;
         req.mduUserRole=configUser.userRole;
-        var validateError= modules.getValidateError();
-        if (validateError&&sysadminAccess && req.originalUrl.indexOf("/sysadmin")==0){
+        var dbConnectError=getDBConnectError(), validateError= modules.getValidateError();
+        if ( (dbConnectError||validateError) && sysadminAccess && req.originalUrl.indexOf("/sysadmin")==0){
             next();
             return;
-        } else if (validateError&&sysadminAccess && req.originalUrl.indexOf("/sysadmin")!=0){
+        } else if (dbConnectError&&sysadminAccess && req.originalUrl.indexOf("/sysadmin")!=0){
             if (req.headers&&req.headers["content-type"]=="application/x-www-form-urlencoded"&&req.headers["x-requested-with"]=="XMLHttpRequest"){
-                res.send({ error:"Failed validate!" });
+                res.send({ error:"Failed database connection!" });
                 return;
             }
             res.redirect("/sysadmin");
             return;
-        } else if (validateError && !sysadminAccess){
+        } else if (validateError&&sysadminAccess && req.originalUrl.indexOf("/sysadmin")!=0){
             if (req.headers&&req.headers["content-type"]=="application/x-www-form-urlencoded"&&req.headers["x-requested-with"]=="XMLHttpRequest"){
-                res.send({ error:"Failed validate!" });
+                res.send({ error:"Failed validate database!" });
                 return;
             }
-            res.sendFile(appViewsPath+'validateFailed.html');
+            res.redirect("/sysadmin");
+            return;
+        } else if ( (dbConnectError||validateError) && !sysadminAccess){
+            if (req.headers&&req.headers["content-type"]=="application/x-www-form-urlencoded"&&req.headers["x-requested-with"]=="XMLHttpRequest"){
+                if (dbConnectError) res.send({ error:"Failed database connection!" }); else res.send({ error:"Failed validate database!" });
+                return;
+            }
+            if (dbConnectError) res.sendFile(appViewsPath+'validateFailed.html');//dbConnectionFailed.html
+            else res.sendFile(appViewsPath+'validateFailed.html');
             return;
         }
         next();

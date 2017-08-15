@@ -27,7 +27,7 @@ module.exports.validateModules= function(resultCallback){
             validateError=errMsg;
             return;
         }
-        var module=require("./"+moduleName);                                                log.info('validateModule: module:'+moduleName+"...");//test
+        var module=require("./"+moduleName);                                                                log.info('validateModule: module:'+moduleName+"...");//test
         module.validateModule(errs, function(){
             validateModuleCallback(modules, index+1, errs);
         });
@@ -61,7 +61,7 @@ module.exports.init = function(app){
     var modules= server.getConfigModules();
     if (!modules) return;
     for(var i=0; i<modules.length; i++){
-        var moduleName=modules[i], module=require("./"+moduleName);                                                     log.info('initing module '+moduleName+"...");//test
+        var moduleName=modules[i], module=require("./"+moduleName);                                         log.info('initing module '+moduleName+"...");//test
         if (module.modulePageURL&&module.modulePagePath) {
             (function(){
                 var modulePagePath=module.modulePagePath;

@@ -14,7 +14,7 @@ module.exports.modulePagePath = "dir/units.html";
 module.exports.init = function(app){
 
     app.get("/dir/units/getDataForDirUnitsTable", function(req, res){
-        dirUnits.getDataForDirUnitsTable(function(result){
+        dirUnits.getDataForDirUnitsTable(req.query, function(result){
             res.send(result);
         });
     });

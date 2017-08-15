@@ -48,32 +48,82 @@ module.exports.initValidateDataModels=function(dataModels, errs, resultCallback)
 
 /**
  * params = (tableName,
- *      tableColumns = [{data:<tableFieldName>},{data:<tableFieldName>},{data:<tableFieldName>},...],
+ *      tableColumns = [
+ *          {data:<tableFieldName>, name:<tableColumnHeader>, width:<tableColumnWidth>, type:<dataType>, readOnly:true/false, visible:true/false},
+ *          {data:<tableFieldName>, name:<tableColumnHeader>, width:<tableColumnWidth>, type:<dataType>, readOnly:true/false, visible:true/false},
+ *          {data:<tableFieldName>, name:<tableColumnHeader>, width:<tableColumnWidth>, type:<dataType>, readOnly:true/false, visible:true/false},
+ *          ...
+ *      ],
  *      identifier= <tableIDFieldName>,
- *      conditions={ conditionName:<condition> } )
+ *      conditions={ conditionName:<condition> }
+ * )
+ * tableColumns: -<dataType> = text / html_text / text_date / text_datetime / date / numeric / numeric2 / checkbox
+ * OR tableColumns: -<dataType> = text / text & dateFormat:"DD.MM.YY HH:mm:ss" / html_text / date /
+ *              numeric format:"#,###,###,##0.00[#######]" language:"ru-RU" /
+ *              checkbox checkedTemplate:1 uncheckedTemplate:0 /
+ *              autocomplete strict allowInvalid sourceURL
+ * tableColumns: -readOnly default false, visible default true
  * resultCallback = function(
  *      tableData = { columns:tableColumns, identifier:identifier,
  *      items:[ {<tableFieldName>:<value>,...}, {}, {}, ...],
  *      error:errorMessage } )
  */
+function _fillDataTypeForTableColumns(tableColumns){
+    if (!tableColumns) return tableColumns;
+    for(var col=0;col<tableColumns.length;col++){
+        var tableColData=tableColumns[col];
+        if(!tableColData) continue;
+        if (tableColData.type=="text_date"){
+            tableColData.type="text";
+            if(!tableColData.dateFormat) tableColData.dateFormat="DD.MM.YY";
+        } else if (tableColData.type=="text_datetime"){
+            tableColData.type="text";
+            if(!tableColData.dateFormat) tableColData.dateFormat="DD.MM.YY HH:mm:ss";
+        } else if(tableColData.type=="numeric"){
+            if(!tableColData.format) tableColData.format="#,###,###,##0.[#########]";
+            if(!tableColData.language) tableColData.language="ru-RU";
+        } else if(tableColData.type=="numeric2"){
+            if(!tableColData.format) tableColData.format="#,###,###,##0.00[#######]";
+            if(!tableColData.language) tableColData.language="ru-RU";
+        } else if(tableColData.type=="checkbox"){
+            if(!tableColData.checkedTemplate) tableColData.checkedTemplate=1;
+            if(!tableColData.uncheckedTemplate) tableColData.uncheckedTemplate=0;
+        }
+    }
+    return tableColumns;
+};
 function _getDataForTable(params, resultCallback){
-    var tableData={ columns:params.tableColumns, identifier:params.identifier};
+    var tableData={ columns:_fillDataTypeForTableColumns(params.tableColumns), identifier:params.identifier};
     var queryFields="";
     for(var i in params.tableColumns) {
         if (queryFields!="") queryFields+= ",";
         queryFields+= params.tableColumns[i].data;
     }
     var selectQuery="select "+queryFields+" from "+params.tableName;
+    var conditionQuery, conditionValues=[];
     if (params.conditions) {
-        var conditionQuery;
-        for(var conditionItem in params.conditions) conditionQuery= (!conditionQuery)?params.conditions[conditionItem]:" and "+params.conditions[conditionItem];
-        selectQuery+=" where "+conditionQuery;
+        for(var conditionItem in params.conditions) {
+            conditionQuery= (!conditionQuery)?conditionItem+"?":" and "+conditionItem+"?";
+            conditionValues.push(params.conditions[conditionItem]);
+        }
+        if (conditionQuery) selectQuery+=" where "+conditionQuery;
     }
-    database.selectQuery(selectQuery,function(err, recordset, count, fields){
-        if(err) tableData.error="Failed get data for table! Reason:"+err.message;
-        tableData.items= recordset;
+    if (!conditionQuery) {
         resultCallback(tableData);
-    });
+        return;
+    }                                                                               console.log("_getDataForTable selectQuery=",selectQuery);
+    if (conditionValues.length==0)
+        database.selectQuery(selectQuery,function(err, recordset, count, fields){
+            if(err) tableData.error="Failed get data for table! Reason:"+err.message;
+            tableData.items= recordset;
+            resultCallback(tableData);
+        });
+    else
+        database.selectParamsQuery(selectQuery,conditionValues,function(err, recordset, count, fields){
+            if(err) tableData.error="Failed get data for table! Reason:"+err.message;
+            tableData.items= recordset;
+            resultCallback(tableData);
+        });
 };
 
 /**

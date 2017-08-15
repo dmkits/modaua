@@ -24,11 +24,12 @@ module.exports.changeLog=changeLog;
 
 var tableName="dir_units", tableColumns=[
     {"data": "ID", "name": "ID", "width": 100, "type": "text", readOnly:true, visible:false},
-    {"data": "NAME", "name": "NAME", "width": 200, "type": "text"},
-    {"data": "FULL_NAME", "name": "FULL_NAME", "width": 200, "type": "text"},
-    {"data": "NOTE", "name": "NOTE", "width": 200, "type": "text"},
-    {"data": "CITY", "name": "CITY", "width": 200, "type": "text"},
-    {"data": "ADDRESS", "name": "ADDRESS", "width": 200, "type": "text"}
+    {"data": "NAME", "name": "Наименование", "width": 120, "type": "text"},
+    {"data": "FULL_NAME", "name": "Полное наименование", "width": 250, "type": "text"},
+    {"data": "NOTE", "name": "Примечание", "width": 200, "type": "text"},
+    {"data": "CITY", "name": "Город", "width": 120, "type": "text"},
+    {"data": "ADDRESS", "name": "Адрес", "width": 200, "type": "text"},
+    {"data": "NOT_USED", "name": "Не используется", "width": 100, "type": "checkbox", readOnly:true, visible:true}
 ], idField=tableColumns[0].data;
 module.exports.tableColumns=tableColumns;
 
@@ -38,8 +39,8 @@ var dm=this;
 /**
  * resultCallback = function(tableData={ columns, identifier, items, error })
  */
-module.exports.getDataForDirUnitsTable= function(resultCallback){
-    dm.getDataForTable({tableName:tableName, tableColumns:tableColumns, identifier:idField}, resultCallback);
+module.exports.getDataForDirUnitsTable= function(conditions, resultCallback){
+    dm.getDataForTable({tableName:tableName, tableColumns:tableColumns, identifier:idField, conditions:conditions}, resultCallback);
 };
 module.exports.getNewDataForDirUnitsTable= function(resultCallback){
     //resultCallback({});
