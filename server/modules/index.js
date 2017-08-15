@@ -27,9 +27,14 @@ module.exports.validateModules= function(resultCallback){
             validateError=errMsg;
             return;
         }
-        var module=require("./"+moduleName);                                                                log.info('validateModule: module:'+moduleName+"...");//test
-        module.validateModule(errs, function(){
-            validateModuleCallback(modules, index+1, errs);
+        var module=require("./"+moduleName);
+        var validateModule=module.validateModule;
+        if(!validateModule){                                                                                log.warn('validateModule: module:'+moduleName+" not validate! Reason: no validate function.");//test
+            validateModuleCallback(modules, index + 1, errs);
+            return;
+        }                                                                                                   log.info('validateModule: module:'+moduleName+"...");//test
+        module.validateModule(errs, function () {
+            validateModuleCallback(modules, index + 1, errs);
         });
     };
     dataModel.resetModelChanges();
@@ -43,7 +48,7 @@ function fillMainMenuItemModuleData(menuItem){
     menuItem.pageId= moduleName;
     menuItem.action= "open";
     menuItem.contentHref = require("./"+moduleName).modulePageURL;
-};
+}
 function fillMainMenuModuleData(appMenu){
     for(var mainMenuItemIndex in appMenu) {
         var mainMenuItem= appMenu[mainMenuItemIndex];
@@ -55,7 +60,7 @@ function fillMainMenuModuleData(appMenu){
             }
         }
     }
-};
+}
 
 module.exports.init = function(app){
     var modules= server.getConfigModules();

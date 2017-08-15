@@ -10,8 +10,7 @@
     </div>
 </body>
 <script type="text/javascript">
-    require(["app", "dijit/layout/BorderContainer", "dijit/layout/StackContainer",
-                "templateDocumentSimpleTableEditable"],
+    require(["app", "dijit/layout/BorderContainer", "dijit/layout/StackContainer", "templateDocumentSimpleTableEditable"],
             function (APP, BorderContainer, StackContainer, TDocumentSimpleTableEditable) {
                 var dir_units_PageContainer=
                         APP.instanceForID("dir_units_PageContainer", BorderContainer, {});
@@ -32,10 +31,6 @@
                                 .addToolPaneTableActionButton("Изменить", {action:"allowEditTableSelectedRow"}, "width:115px;")
                                 .addToolPaneTableActionButton("Сохранить", {action:"storeTableSelectedRow"}, "width:115px;")
                                 .addToolPaneTableActionButton("Удалить", {action:"deleteTableSelectedRow"}, "width:115px;")
-                                .addContentTableRowChangeCallback(function(changedRowData, params, nextCallback){       //console.log("dir_units_TableDirUnits RowChangeCallback ",changedRowData);
-                                    changedRowData.item("NOT_USED").setValue(0);
-                                    nextCallback();
-                                })
                                 .startUp();
                 dir_units_PageContainer.layout();
             })

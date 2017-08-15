@@ -13,9 +13,11 @@ function initValidateDataModel(dataModelName, dataModel, errs, nextValidateDataM
     dataModel.getDataItem= _getDataItem;
     dataModel.insDataItem= _insDataItem;
     dataModel.updDataItem= _updDataItem;
+    dataModel.delDataItem= _delDataItem;
     dataModel.insTableDataItem= _insTableDataItem;
     dataModel.updTableDataItem= _updTableDataItem;
     dataModel.storeTableDataItem= _storeTableDataItem;
+    dataModel.delTableDataItem= _delTableDataItem;
 
     if(!dataModel.validateData) {
         errs[dataModelName+"_validateError"]="Failed validate dataModel:"+dataModelName+"! Reason: data model no validate data!";
@@ -90,8 +92,8 @@ function _fillDataTypeForTableColumns(tableColumns){
             if(!tableColData.format) tableColData.format="#,###,###,##0.00[#######]";
             if(!tableColData.language) tableColData.language="ru-RU";
         } else if(tableColData.type=="checkbox"){
-            if(!tableColData.checkedTemplate) tableColData.checkedTemplate=1;
-            if(!tableColData.uncheckedTemplate) tableColData.uncheckedTemplate=0;
+            if(!tableColData.checkedTemplate) tableColData.checkedTemplate="1";
+            if(!tableColData.uncheckedTemplate) tableColData.uncheckedTemplate="0";
         }
     }
     return tableColumns;
@@ -107,7 +109,7 @@ function _getDataForTable(params, resultCallback){
     var conditionQuery, conditionValues=[];
     if (params.conditions) {
         for(var conditionItem in params.conditions) {
-            conditionQuery= (!conditionQuery)?conditionItem.replace("~","=")+"?":" and "+conditionItem.replace("~","=")+"?";
+            conditionQuery= (!conditionQuery)?conditionItem.replace("~","=")+"?":conditionQuery+" and "+conditionItem.replace("~","=")+"?";
             conditionValues.push(params.conditions[conditionItem]);
         }
         if (conditionQuery) selectQuery+=" where "+conditionQuery;
@@ -253,7 +255,6 @@ function _updDataItem(params, resultCallback) {
         resultCallback({ error:"Failed update data item! Reason:no update conditions!"});
         return;
     }
-
     var queryFields="", fieldsValues=[];
     for(var fieldName in params.updData) {
         if (queryFields!="") queryFields+= ",";
@@ -278,6 +279,46 @@ function _updDataItem(params, resultCallback) {
         updResult.updateCount= updateCount;
         if (updateCount==0) updResult.error="Failed update data item! Reason: no updated row count!";
         resultCallback(updResult);
+    });
+};
+
+/**
+ * params = (tableName,
+ *      conditions = { <tableFieldNameCondition>:<value>, ... } )
+ * resultCallback = function(result = { updateCount, error }
+ */
+function _delDataItem(params, resultCallback) {
+    if (!params) {
+        resultCallback({ error:"Failed delete data item! Reason:no function parameters!"});
+        return;
+    }
+    if (!params.tableName) {
+        resultCallback({ error:"Failed delete data item! Reason:no table name for delete!"});
+        return;
+    }
+    if (!params.conditions) {
+        resultCallback({ error:"Failed delete data item! Reason:no delete conditions!"});
+        return;
+    }
+    var fieldsValues=[];
+    var delQuery="delete from "+params.tableName;
+    var queryConditions="";
+    for(var fieldNameCondition in params.conditions) {
+        if (queryConditions!="") queryConditions+= " and ";
+        queryConditions+= fieldNameCondition.replace("~","=")+"?";
+        fieldsValues.push(params.conditions[fieldNameCondition]);
+    }
+    delQuery+= " where "+queryConditions;
+    database.executeParamsQuery(delQuery,fieldsValues,function(err, updateCount){
+        var delResult={};
+        if(err) {
+            delResult.error="Failed delete data item! Reason:"+err.message;
+            resultCallback(delResult);
+            return;
+        }
+        delResult.updateCount= updateCount;
+        if (updateCount==0) delResult.error="Failed delete data item! Reason: no updated row count!";
+        resultCallback(delResult);
     });
 };
 
@@ -374,12 +415,40 @@ function _storeTableDataItem(params, resultCallback) {
     }
     var idValue=params.storeTableData[idFieldName];
     if (idValue===undefined||idValue===null){//insert
-        params.storeTableData[idFieldName]=instauUID('decimal');                                        console.log("_storeTableDataItem insert newID=",params.storeTableData[idFieldName]);
+        params.storeTableData[idFieldName]=instauUID('decimal');
         _insTableDataItem({tableName:params.tableName, idFieldName:idFieldName, insTableData:params.storeTableData}, resultCallback);
         return;
     }
     //update
-                                                                                                        console.log("_storeTableDataItem update ID=",params.storeTableData[idFieldName]);
     _updTableDataItem({tableName:params.tableName, idFieldName:idFieldName, updTableData:params.storeTableData}, resultCallback);
+};
+
+/**
+ * params = (tableName, idFieldName
+ *      delTableData = {<tableFieldName>:<value>,<tableFieldName>:<value>,<tableFieldName>:<value>,...} )
+ * resultCallback = function(result = { updateCount, error }
+ */
+function _delTableDataItem(params, resultCallback) {
+    if (!params) {
+        resultCallback({ error:"Failed delete table data item! Reason:no function parameters!"});
+        return;
+    }
+    if (!params.delTableData) {
+        resultCallback({ error:"Failed delete table data item! Reason:no data for delete!"});
+        return;
+    }
+    var idFieldName= params.idFieldName;
+    if (!idFieldName) {
+        resultCallback({ error:"Failed delete table data item! Reason:no id field name!"});
+        return;
+    }
+    var idFieldValue=params.delTableData[idFieldName];
+    params.conditions={}; params.conditions[idFieldName+"="]=idFieldValue;
+    _delDataItem(params, function(delResult){
+        if (delResult.updateCount==1) {
+            delResult.resultItem= {}; delResult.resultItem[idFieldName]=idFieldValue;
+        }
+        resultCallback(delResult);
+    });
 };
 

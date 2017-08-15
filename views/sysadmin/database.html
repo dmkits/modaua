@@ -83,6 +83,13 @@
                                             if (sysadmin_database_PageContainer.getParent().updateDBState)
                                                 sysadmin_database_PageContainer.getParent().updateDBState({revalidate:true});
                                         })
+                                    .addPopupMenuItemForAction("applyAllRowsChanges", "Apply all changes...", "applyChangesRowData",
+                                    /*start action*/function (selRowsData, params, contentTable, startApplyChangesRowData) {
+                                        startApplyChangesRowData(contentTable.getContent());
+                                    },/*end action*/function () {
+                                        if (sysadmin_database_PageContainer.getParent().updateDBState)
+                                            sysadmin_database_PageContainer.getParent().updateDBState({revalidate:true});
+                                    })
                                     .startUp();
                     sysadmin_database_ContentPaneDetailContainer.selectChild(btnCurrentChanges.document);
                 };

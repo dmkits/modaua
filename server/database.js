@@ -14,11 +14,11 @@ function getDBConfig(){
 
 var connection=null, dbConnectError=null;
 
-function databaseConnection(callback){                                                                      log.info("databaseConnection dbConfig:", getDBConfig());
+function databaseConnection(callback){                                                                      log.info("database databaseConnection dbConfig:", getDBConfig());
     if(!connection) {
         connection = mysql.createConnection(getDBConfig());
         connection.connect(function (err) {
-            if (err) {                                                                                      log.error("databaseConnection connect err=", err.message);
+            if (err) {                                                                                      log.error("database databaseConnection connect err=", err.message);
                 callback(err.message);
                 return;
             }
@@ -29,7 +29,7 @@ function databaseConnection(callback){                                          
     connection.destroy();
     connection = mysql.createConnection(getDBConfig());
     connection.connect(function (err) {
-        if (err) {                                                                                          log.error("connect error:",err.message);
+        if (err) {                                                                                          log.error("database connect error:",err.message);
             callback(err.message);
             return;
         }
@@ -38,11 +38,11 @@ function databaseConnection(callback){                                          
 };
 module.exports.databaseConnection=databaseConnection;
 
-function tryDBConnect(postaction) {                                                                         log.info('tryDBConnect...');//test
+function tryDBConnect(postaction) {                                                                         log.info('database tryDBConnect...');//test
     databaseConnection(function (err) {
         dbConnectError = null;
         if (err) {
-            dbConnectError = "Failed to connect to database! Reason:" + err;                                log.info('tryDBConnect DBConnectError=', dbConnectError);//test
+            dbConnectError = "Failed to connect to database! Reason:" + err;                                log.info('database tryDBConnect DBConnectError=', dbConnectError);//test
         }
         if (postaction)postaction(err);
     });
@@ -51,7 +51,7 @@ module.exports.tryDBConnect=tryDBConnect;
 if (getDBConfig()) tryDBConnect();
 module.exports.getDBConnectError= function(){ return dbConnectError; };
 
-module.exports.mySQLAdminConnection = function (connParams, callback) {                                     log.info("mySQLAdminConnection");
+module.exports.mySQLAdminConnection = function (connParams, callback) {                                     log.info("database mySQLAdminConnection");
     if (connection) {
             connection.destroy();
             connection = mysql.createConnection(connParams);
@@ -192,10 +192,10 @@ module.exports.restoreDB= function(restoreParams,callback) {
  * for database query insert/update/delete
  * callback = function(err, updateCount)
  */
-module.exports.executeQuery= function(query, callback) {                                                        log.info("executeQuery: ",query);
+module.exports.executeQuery= function(query, callback) {                                                    log.info("database executeQuery:",query);
     connection.query(query,
         function (err, recordset, fields) {
-            if (err) {                                                                                          log.error("executeQuery err=",err.message);
+            if (err) {                                                                                      log.error("database executeQuery err=",err.message);
                 callback(err);
                 return;
             }
@@ -207,10 +207,10 @@ module.exports.executeQuery= function(query, callback) {                        
  * parameters = [ <value1>, <value2>, ...] - values for replace '?' in query
  * callback = function(err, updateCount)
  */
-module.exports.executeParamsQuery= function(query, parameters, callback) {                                      log.info("executeParamsQuery: ",query,parameters);
+module.exports.executeParamsQuery= function(query, parameters, callback) {                                  log.info("database executeParamsQuery:",query,parameters);
     connection.query(query, parameters,
         function (err, recordset, fields) {
-            if (err) {                                                                                          log.error("executeParamsQuery err=",err.message);
+            if (err) {                                                                                      log.error("database executeParamsQuery err=",err.message);
                 callback(err);
                 return;
             }
@@ -236,7 +236,7 @@ module.exports.selectQuery= function(query, callback) {
  * parameters = [ <value1>, <value2>, ...] - values for replace '?' in query
  * callback = function(err, recordset, count, fields)
  */
-module.exports.selectParamsQuery= function(query, parameters, callback) {
+module.exports.selectParamsQuery= function(query, parameters, callback) {                                   log.info("database selectParamsQuery:",query,parameters);
     connection.query(query, parameters,
         function (err, recordset, fields) {
             if (err) {
@@ -252,7 +252,7 @@ module.exports.selectParamsQuery= function(query, parameters, callback) {
  */
 function getDataItemsFromDatabase(dbQuery, outData, resultItemName, callback){
     exports.selectQuery(dbQuery,function(err, recordset){
-        if (err) {                                                                                              log.error("getDataItemsFromDatabase selectQuery err=",err.message);
+        if (err) {                                                                                          log.error("database getDataItemsFromDatabase selectQuery err=",err.message);
             outData.error= err.message;
             callback(outData);
             return;
@@ -268,7 +268,7 @@ module.exports.getDataItemsFromDatabase=getDataItemsFromDatabase;
  */
 function getDataItemFromDatabase(dbQuery, outData, resultItemName, callback){
     exports.selectQuery(dbQuery,function(err, recordset){
-        if (err) {                                                                                              log.error("getDataItemFromDatabase selectQuery err=",err.message);
+        if (err) {                                                                                          log.error("database getDataItemFromDatabase selectQuery err=",err.message);
             outData.error= err.message;
             callback(outData);
             return;

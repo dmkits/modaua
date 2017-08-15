@@ -8,6 +8,7 @@
   "modules":[
     "sysadmin",
     "main",
+    "print",
     "mainPage",
     "dir_units",
     "dir_contractors"

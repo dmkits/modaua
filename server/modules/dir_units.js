@@ -12,7 +12,6 @@ module.exports.validateModule = function(errs, nextValidateModuleCallback){
 module.exports.modulePageURL = "/dir/units";
 module.exports.modulePagePath = "dir/units.html";
 module.exports.init = function(app){
-
     app.get("/dir/units/getDataForDirUnitsTable", function(req, res){
         dirUnits.getDataForDirUnitsTable(req.query, function(result){
             res.send(result);
@@ -29,7 +28,7 @@ module.exports.init = function(app){
         });
     });
     app.post("/dir/units/deleteDirUnitsTableData", function(req, res){
-        dirUnits.deleteDirUnitsTableData(function(result){
+        dirUnits.deleteDirUnitsTableData(req.body, function(result){
             res.send(result);
         });
     });

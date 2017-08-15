@@ -10,8 +10,7 @@
 </div>
 </body>
 <script type="text/javascript">
-    require(["app", "dijit/layout/BorderContainer", "dijit/layout/StackContainer",
-                    "templateDocumentSimpleTableEditable"],
+    require(["app", "dijit/layout/BorderContainer", "dijit/layout/StackContainer", "templateDocumentSimpleTableEditable"],
             function (APP, BorderContainer, StackContainer, TDocumentSimpleTableEditable) {
                 var dir_contractors_PageContainer=
                         APP.instanceForID("dir_contractors_PageContainer", BorderContainer, {});
@@ -21,13 +20,12 @@
                 dir_contractors_ContentContainer.docDirContractors =
                         APP.childFor(dir_contractors_ContentContainer, "dir_contractors_TableDirContractors",
                                 TDocumentSimpleTableEditable, {titleText:"Контрагенты", rightPane:true, rightPaneWidth:150,
-                                    dataURL:"/dir/contractors/getDataForTable",
-                                    //dataNewURL:"/dir/contractors/get_new_contractor",
-                                    dataNewURL:"/dir/contractors/newDataForTable",
-                                    dataStoreURL:"/dir/contractors/storeTableData", dataDeleteURL:"/dir/contractors/deleteTableData"})
-                                .addCheckBtnCondition(120,"Поставщики",{"IS_SUPPLIER":"1"})
-                                .addCheckBtnCondition(120,"Покупатели",{"IS_BUYER":"1"})
-                                .addCheckBtnCondition(150,"Прочие",{"IS_SUPPLIER":"0","IS_BUYER":"0"})
+                                    dataURL:"/dir/contractors/getDataForDirContractorsTable",
+                                    dataNewURL:"/dir/contractors/newDataForDirContractorsTable",
+                                    dataStoreURL:"/dir/contractors/storeDirContractorsTableData", dataDeleteURL:"/dir/contractors/deleteDirContractorsTableData"})
+                                .addCheckBtnCondition(120,"Поставщики",{"IS_SUPPLIER~":"1"})
+                                .addCheckBtnCondition(120,"Покупатели",{"IS_BUYER~":"1"})
+                                .addCheckBtnCondition(150,"Прочие",{"IS_SUPPLIER~":"0","IS_BUYER~":"0"})
                                 .addTotalCountNumberBox("ИТОГО строк:", 150, {style:"font-weight:bold;",inputStyle:"width:50px"})
                                 .addToolPane("Действия")
                                 .addToolPaneTableActionButton("Добавить", {action:"insertTableRow"}, "width:115px;")
@@ -39,7 +37,6 @@
                                     nextCallback();
                                 })
                                 .startUp();
-
                 dir_contractors_PageContainer.layout();
             })
 </script>

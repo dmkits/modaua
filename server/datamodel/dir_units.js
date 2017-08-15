@@ -23,7 +23,7 @@ var changeLog=[
 module.exports.changeLog=changeLog;
 
 var tableName="dir_units", tableColumns=[
-    {"data": "ID", "name": "ID", "width": 100, "type": "text", readOnly:true, visible:false},
+    {"data": "ID", "name": "ID", "width": 80, "type": "text", readOnly:true, visible:false},
     {"data": "NAME", "name": "Наименование", "width": 120, "type": "text"},
     {"data": "FULL_NAME", "name": "Полное наименование", "width": 250, "type": "text"},
     {"data": "NOTE", "name": "Примечание", "width": 200, "type": "text"},
@@ -31,7 +31,6 @@ var tableName="dir_units", tableColumns=[
     {"data": "ADDRESS", "name": "Адрес", "width": 200, "type": "text"},
     {"data": "NOT_USED", "name": "Не используется", "width": 120, "type": "checkbox", visible:true}
 ], idField=tableColumns[0].data;
-module.exports.tableColumns=tableColumns;
 
 module.exports.validateData= {tableName:tableName, tableColumns:tableColumns, idField:idField};
 
@@ -43,16 +42,12 @@ module.exports.getDataForDirUnitsTable= function(conditions, resultCallback){
     dm.getDataForTable({tableName:tableName, tableColumns:tableColumns, identifier:idField, conditions:conditions}, resultCallback);
 };
 module.exports.getNewDataForDirUnitsTable= function(resultCallback){
-    //resultCallback({});
     dm.setDataItemForTable({tableColumns:tableColumns,
         values:[null,"Новое подразделение","Новое подразделение","Новое подразделение","Днепр","-","0"]}, resultCallback);
 };
-module.exports.storeDirUnitsTableData= function(storeTableData, resultCallback){                            console.log("storeDirUnitsTableData storeTableData",storeTableData);
-    //resultCallback({});
+module.exports.storeDirUnitsTableData= function(storeTableData, resultCallback){
     dm.storeTableDataItem({tableName:tableName, idFieldName:idField, storeTableData:storeTableData}, resultCallback);
 };
-module.exports.deleteDirUnitsTableData= function(resultCallback){
-    resultCallback({});
-    //dm.getDataForTable({tableName:tableName, tableColumns:tableColumns, identifier:idField}, resultCallback);
+module.exports.deleteDirUnitsTableData= function(delTableData, resultCallback){
+    dm.delTableDataItem({tableName:tableName, idFieldName:idField, delTableData:delTableData}, resultCallback);
 };
-

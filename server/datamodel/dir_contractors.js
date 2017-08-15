@@ -22,25 +22,42 @@ var changeLog = [
   { "changeID": "dir_contractors_11", "changeDatetime": "2016-09-12T00:06:00+03:00", "changeObj": "dir_contractors",
     "changeVal":
         "INSERT INTO dir_contractors (ID,NAME,FULL_NAME,NOTE,COUNTRY,CITY,ADDRESS,IS_SUPPLIER,IS_BUYER) "
-        +"values (0,'розничный покупатель','розничный покупатель','покупатель','украина','украина','украина',0,1)" },
+        +"values (0,'Розничный покупатель','Розничный покупатель','Розничный покупатель','Украина','Днепр','-',0,1)" },
   { "changeID": "dir_contractors_12", "changeDatetime": "2016-09-12T00:07:00+03:00", "changeObj": "dir_contractors",
     "changeVal":
         "INSERT INTO dir_contractors (ID,NAME,FULL_NAME,NOTE,COUNTRY,CITY,ADDRESS,IS_SUPPLIER,IS_BUYER) "
-        +"values (1,'поставщик 1','поставщик 1','','украина','украина','украина',1,0)" }
+        +"values (1,'Поставщик 1','Поставщик 1','Поставщик 1','Украина','Днепр','-',1,0)" }
 ];
 module.exports.changeLog=changeLog;
 
-var tableColumns=[
-  {"data": "ID", "name": "ID", "width": 100, "type": "text", readOnly:true, visible:false},
-  {"data": "NAME", "name": "NAME", "width": 200, "type": "text"},
-  {"data": "FULL_NAME", "name": "FULL_NAME", "width": 200, "type": "text"},
-  {"data": "NOTE", "name": "NOTE", "width": 200, "type": "text"},
-  {"data": "COUNTRY", "name": "COUNTRY", "width": 200, "type": "text"},
-  {"data": "CITY", "name": "CITY", "width": 200, "type": "text"},
-  {"data": "ADDRESS", "name": "ADDRESS", "width": 200, "type": "text"},
-  {"data": "IS_SUPPLIER", "name": "IS_SUPPLIER", "width": 200, "type": "text"},
-  {"data": "IS_BUYER", "name": "IS_BUYER", "width": 200, "type": "text"}
-];
-module.exports.tableColumns=tableColumns;
+var tableName="dir_contractors", tableColumns=[
+  {"data": "ID", "name": "ID", "width": 80, "type": "text", readOnly:true, visible:false},
+  {"data": "NAME", "name": "Наименование", "width": 120, "type": "text"},
+  {"data": "FULL_NAME", "name": "Полное наименование", "width": 250, "type": "text"},
+  {"data": "NOTE", "name": "Примечание", "width": 200, "type": "text"},
+  {"data": "COUNTRY", "name": "Страна", "width": 100, "type": "text"},
+  {"data": "CITY", "name": "Город", "width": 120, "type": "text"},
+  {"data": "ADDRESS", "name": "Адрес", "width": 200, "type": "text"},
+  {"data": "IS_SUPPLIER", "name": "Поставщик", "width": 120, "type": "checkbox"},
+  {"data": "IS_BUYER", "name": "Покупатель", "width": 120, "type": "checkbox"}
+], idField=tableColumns[0].data;
 
-module.exports.validateData= {tableName:"dir_contractors", tableColumns:tableColumns, idField:tableColumns[0].data};
+module.exports.validateData= {tableName:"dir_contractors", tableColumns:tableColumns, idField:idField};
+
+var dm=this;
+/**
+ * resultCallback = function(tableData={ columns, identifier, items, error })
+ */
+module.exports.getDataForDirContractorsTable= function(conditions, resultCallback){
+  dm.getDataForTable({tableName:tableName, tableColumns:tableColumns, identifier:idField, conditions:conditions}, resultCallback);
+};
+module.exports.getNewDataForDirContractorsTable= function(resultCallback){
+  dm.setDataItemForTable({tableColumns:tableColumns,
+    values:[null,"Новый контрагент","Новый контрагент","Новый контрагент","Украина","Днепр","-","0","0"]}, resultCallback);
+};
+module.exports.storeDirContractorsTableData= function(storeTableData, resultCallback){                            console.log("storeDirContractorsTableData storeTableData",storeTableData);
+  dm.storeTableDataItem({tableName:tableName, idFieldName:idField, storeTableData:storeTableData}, resultCallback);
+};
+module.exports.deleteDirContractorsTableData= function(delTableData, resultCallback){
+  dm.delTableDataItem({tableName:tableName, idFieldName:idField, delTableData:delTableData}, resultCallback);
+};
