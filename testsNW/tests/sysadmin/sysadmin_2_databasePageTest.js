@@ -41,8 +41,6 @@ module.exports= {
     },
 
     'Sysadmin ChangeLogTable Tests': function(browser) {
-
-        var sysadminHeader = browser.page.sysadminHeader();
         var database = browser.page.database();
 
         database
@@ -125,15 +123,50 @@ module.exports= {
 
         database.assertTotalRowContainsValue('@changeLogTable', '24');
 
+    },
+    'User tries go to sysadmin page': function(browser) {
+        //var startUpParams = browser.page.startUpParams();
+        var sysadminHeader = browser.page.sysadminHeader();
         sysadminHeader
-            .click('@StartUpParamsBtn');
-    }
-    ,
+            .click('@btnLogout');
+
+            var loginPage = browser.page.loginPage();
+            loginPage
+                .waitForElementVisible("@loginDialog")
+                .assert.valueContains("@userLoginNameInput","")
+                .assert.valueContains("@userLoginPasswordInput","")
+                .setValue("@userLoginNameInput",'user')
+                .setValue("@userLoginPasswordInput",'user')
+                .click("@loginDialog_submitBtn");
+            browser.pause(1000)
+                .assert.urlEquals("http://localhost:8181/")
+                .url("http://localhost:8181/sysadmin")
+                .pause(500)
+                .assert.urlEquals("http://localhost:8181/");
+
+            var mainPage=browser.page.mainPage();
+            mainPage
+                .waitForElementVisible('@menuBarItemCloseItem')
+                .click('@menuBarItemCloseItem')
+    },
         'Delete Test DB and reconnect': function(browser) {
+
+            var loginPage = browser.page.loginPage();
+            loginPage
+                .waitForElementVisible("@loginDialog")
+                .assert.valueContains("@userLoginNameInput","")
+                .assert.valueContains("@userLoginPasswordInput","")
+                .setValue("@userLoginNameInput",'admin')
+                .setValue("@userLoginPasswordInput",'admin')
+                .click("@loginDialog_submitBtn");
+
             var startUpParams = browser.page.startUpParams();
+            var sysadminHeader = browser.page.sysadminHeader();
+            sysadminHeader
+                .waitForElementVisible('@StartUpParamsBtn')
+                .click('@StartUpParamsBtn');
             startUpParams.dropTempDBAndReconnect();
               //  browser.end();
-
         }
 };
 
