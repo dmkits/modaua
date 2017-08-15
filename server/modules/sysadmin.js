@@ -35,6 +35,8 @@ module.exports.modulePagePath = "sysadmin.html";
 module.exports.init = function(app){
 
     app.get("/sysadmin/serverState", function(req, res){
+        var revalidateModules= false;
+        if (req.query&&req.query["REVALIDATE"]) revalidateModules= true;
         var outData= {};
         outData.mode= appParams.mode;
         outData.port=appParams.port;
@@ -47,19 +49,21 @@ module.exports.init = function(app){
         }
         outData.configuration= serverConfig;
         var dbConnectError= database.getDBConnectError();
-        if (dbConnectError)
+        if (dbConnectError) {
             outData.dbConnection= dbConnectError;
-        else {
-            outData.dbConnection = 'Connected';
-            var validateError=getValidateError();
-            if(validateError){
-                outData.dbValidation=validateError;
-                res.send(outData);
-                return;
-            }else {
-                outData.dbValidation = "success";
-            }
+            res.send(outData);
+            return
         }
+        outData.dbConnection = 'Connected';
+        if (revalidateModules) {
+            appModules.validateModules(function(errs, errMessage){
+                if(errMessage) outData.dbValidation = errMessage; else outData.dbValidation = "success";
+                res.send(outData);
+            });
+            return;
+        }
+        var validateError=getValidateError();
+        if(validateError) outData.dbValidation=validateError; else outData.dbValidation = "success";
         res.send(outData);
     });
 
@@ -467,7 +471,7 @@ module.exports.init = function(app){
     var matchChangeLogFields= function(changeData, logData) {
         if (logData["ID"]!=changeData.changeID) return false;
         if (logData["CHANGE_DATETIME"]!= new Date(changeData.changeDatetime).toString()) return false;
-        if (logData["CHANGE_VAL"]!=changeData.changeVal.replace(/'/g, "''")) return false;
+        if (logData["CHANGE_VAL"]!=changeData.changeVal) return false;
         if (logData["CHANGE_OBJ"]!=changeData.changeObj) return false;
         return true;
     };
@@ -593,7 +597,7 @@ module.exports.init = function(app){
                         return;
                     }
                     changeLog.insertToChangeLog({"ID":modelChange.changeID,
-                            "CHANGE_DATETIME":modelChange.changeDatetime,
+                            "CHANGE_DATETIME":dateFormat(new Date(modelChange.changeDatetime),"yyyy-mm-dd HH:MM:ss"),
                             "CHANGE_OBJ":modelChange.changeObj,"CHANGE_VAL":modelChange.changeVal, "APPLIED_DATETIME":null},
                         function (result) {
                             if (result.error) {

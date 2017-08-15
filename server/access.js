@@ -2,7 +2,7 @@ var server= require("./server"), log= server.log, config= server.getConfig(), mo
 
 module.exports= function(app){
 
-    app.use(function (req, res, next) {                                                     log.info("ACCESS CONTROLLER for check user access:",req.url,req.method," body:",req.body);
+    app.use(function (req, res, next) {                                                     log.info("ACCESS CONTROLLER for check user access:",req.url,req.method," params:",req.query," body:",req.body);
         if(req.originalUrl=="/login" && req.method=="POST"){
             var userName=req.body.user, userPswrd=req.body.pswrd;
             res.cookie("mduUser", userName);

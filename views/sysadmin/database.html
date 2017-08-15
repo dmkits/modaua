@@ -12,12 +12,13 @@
 </body>
 <script type="text/javascript">
     require(["app", "dojo/dom-style", "dijit/layout/BorderContainer", "dijit/layout/StackContainer", "dijit/layout/ContentPane",
-                "dijit/form/Button", "dijit/form/ToggleButton", "templateDocumentSimpleTable", "dojox/widget/DialogSimple", "request"],
+                "dijit/form/Button", "dijit/form/ToggleButton", "templateDocumentSimpleTable", "dojox/widget/DialogSimple", "request","dojo/dom"],
 
-            function (APP, domStyle, BorderContainer, StackContainer, ContentPane, Button, ToggleButton, TDocumentSimpleTable, DialogSimple, Request) {
-
+            function (APP, domStyle, BorderContainer, StackContainer, ContentPane, Button, ToggleButton, TDocumentSimpleTable, DialogSimple, Request,dom) {
                 var sysadmin_database_PageContainer =
-                        APP.instanceForID("sysadmin_database_PageContainer", BorderContainer, {});
+                        APP.instanceForID("sysadmin_database_PageContainer", BorderContainer, {});  console.log("sysadmin_database_PageContainer",sysadmin_database_PageContainer);
+
+
                 var sysadmin_database_ContentPaneTop =
                         APP.instanceForID("sysadmin_database_ContentPaneTop", ContentPane, {region: 'top',splitter: false});
                 var btnCurrentChanges= APP.childFor(sysadmin_database_ContentPaneTop,
@@ -76,9 +77,12 @@
                                                         startNextAction();
                                                     });
                                         } //else contentTableInstance.updateRowData(tableContentRowData, {"message": "Impossible to apply! Type must be \"new\""});
-
                                     })
-                                    .addPopupMenuItemForAction("applySelectedRowsChanges", "Apply selected changes...", "applyChangesRowData")
+                                    .addPopupMenuItemForAction("applySelectedRowsChanges", "Apply selected changes...", "applyChangesRowData",
+                                        null,/*end action*/function () {
+                                            if (sysadmin_database_PageContainer.getParent().updateDBState)
+                                                sysadmin_database_PageContainer.getParent().updateDBState({revalidate:true});
+                                        })
                                     .startUp();
                     sysadmin_database_ContentPaneDetailContainer.selectChild(btnCurrentChanges.document);
                 };

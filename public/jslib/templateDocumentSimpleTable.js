@@ -345,11 +345,15 @@ define(["dojo/_base/declare", "app", "templateDocumentBase", "hTableSimpleFilter
                 return this;
             },
             /*
+             * menuActionFunction - action on menu, if not defined, menu action call action by actionID from this.contentTableActions
              * menuActionFunction = function(selRowsData, params, this.contentTable, startActionFunction)
              * params = {}
-             * startActionFunction = function(rowsDataForAction) - starting process calls actionFunction for action actionID
+             * startActionFunction = function(rowsDataForAction) - starting process calls actionFunction for action by actionID
+             * menuActionEndFunction - action on end calls for all rows action by actionID
+             * menuActionEndFunction = function(selRowsData, params, this.contentTable)
              */
-            addPopupMenuItemForAction: function(itemID, itemName, actionID, menuActionFunction){
+            addPopupMenuItemForAction: function(itemID, itemName, actionID, menuActionFunction, menuActionEndFunction){
+
                 var actionFunction= this.contentTableActions[actionID];//function(tableContentRowData, params, this.contentTable, startNextAction)
 
                 var selRowAction= function(tableRowDataForAction, params, thisContentTable, startNextAction){
@@ -358,6 +362,7 @@ define(["dojo/_base/declare", "app", "templateDocumentBase", "hTableSimpleFilter
                 var selRowsAction= function(tableRowsDataForAction, dataInd, params, thisContentTable){                 //console.log("addPopupMenuItemForAction selRowsAction",tableRowsData);
                     var tableRowDataForAction=tableRowsDataForAction[dataInd];                                          //console.log("addPopupMenuItemForAction tableRowData",tableRowData);
                     if(!tableRowDataForAction){
+                        if (menuActionEndFunction) menuActionEndFunction(tableRowsDataForAction, params, thisContentTable);
                         return;
                     }
                     selRowAction(tableRowDataForAction, params, thisContentTable,

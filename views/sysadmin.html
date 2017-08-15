@@ -16,7 +16,7 @@
 </head>
 <body class="claro" style="display: none" id="hideAll">
 <div id="sysadmin_MainContainer">
-    <div id="sysadmin_TopContainer">
+    <div id="sysadmin_TopContainer" style="height:63px; margin:0; padding:0">
         <div id="sysadmin_TopImg"></div>
         <div id="sysadmin_TopStateInfo">
             <div id="sysadmin_app_user" style="display:inline;"></div>
@@ -94,10 +94,14 @@
                 var sysadmin_ContentContainer = APP.instanceForID("sysadmin_ContentContainer",
                         StackContainer, {region: "center", tabPosition: "top", class: "sysadmin_Content"});
                 sysadmin_MainContainer.startup();
-
-                sysadmin_MainContainer.getAppState = function () {   //getting main json data from server and run action parameter function
-                    Request.getJSONData({url: "/sysadmin/serverState", consoleLog: true},
-                            function (success, result) {                                                            console.log("result=",result);
+                /**
+                 * params = { revalidate:true/false }
+                 */
+                sysadmin_MainContainer.updateDBState = function (params) {   //getting main json data from server and run action parameter function
+                    var condition;
+                    if(params&&params.revalidate) condition={"REVALIDATE":true};
+                    Request.getJSONData({url: "/sysadmin/serverState", condition:condition, consoleLog: true},
+                            function (success, result) {
                                 if (success) {
                                     if (result === undefined || result == null) result = [];
                                     sysadmin_MainContainer.mainContentData = result;
@@ -116,54 +120,50 @@
                                             eAppMode.innerHTML = eAppMode.innerHTML + "<b style='color:dimgrey'>" + result.mode + "</b>";
                                     } else
                                         eAppMode.innerHTML = eAppMode.innerHTML + "<b>UNKNOWN!!!</b>";
-                                    if(result.port){
+                                    if(result.port)
                                         eAppPort.innerHTML=eAppPort.innerHTML+"<b style='color:dimgrey'>"+ result.port+"</b>";
-                                    }
-
+                                    else
+                                        eAppPort.innerHTML=eAppPort.innerHTML+"<b style='color:dimgrey'>UNKNOWN</b>";
                                     if (result.configuration) {
                                         document.getElementById("sysadmin_dbName").innerHTML =
                                                 "<b>DB NAME:<span style='color:dimgrey'>" + result.configuration.database + "</span></b>";
                                         document.getElementById("sysadmin_ConnUserName").innerHTML =
                                                 "<b>DB USER:<span style='color:dimgrey'>" + result.configuration.user + "</span></b>"
+                                    } else {
+                                        document.getElementById("sysadmin_dbName").innerHTML =
+                                                "<b>DB NAME:<span style='color:dimgrey'>UNKNOWN</span></b>";
+                                        document.getElementById("sysadmin_ConnUserName").innerHTML =
+                                                "<b>DB USER:<span style='color:dimgrey'>UNKNOWN</span></b>"
                                     }
                                     if (result.dbConnection) {
-                                        sysadmin_TopContainer.set("style","height:63px; margin:0; padding:0");
-                                        sysadmin_TopContainer.resize();
-                                        sysadmin_MainContainer.layout();
-
                                         document.getElementById("sysadmin_connectToDBState").innerHTML =
                                                 "<b>DB CONNECTION STATE:<span id ='dbConnection_color'>" + result.dbConnection + "</span></b>";
-
                                         var dbConnection_color = document.getElementById("dbConnection_color");
-
-                                        if (result.dbConnection != "Connected") {
+                                        if (result.dbConnection == "Connected") {
+                                            dbConnection_color.setAttribute("style", "color:dimgrey");
+                                            sysadmin_TopContainer.set("style","height:63px; margin:0; padding:0");
+                                        }else {
                                             dbConnection_color.setAttribute("style", "color:red");
-
                                             sysadmin_TopContainer.set("style","height:75px; margin:0; padding:0");
-                                             sysadmin_TopContainer.resize();
-                                            sysadmin_MainContainer.layout();
-
-                                        }else dbConnection_color.setAttribute("style", "color:dimgrey");
+                                        }
+                                    } else {
+                                        document.getElementById("sysadmin_connectToDBState").innerHTML =
+                                                "<b>DB CONNECTION STATE:<span id ='dbConnection_color'>UNKNOWN</span></b>";
                                     }
-
                                     if (result.dbValidation) {
-                                        sysadmin_TopContainer.set("style","height:63px; margin:0; padding:0");
-                                        sysadmin_TopContainer.resize();
-                                        sysadmin_MainContainer.layout();
-
                                         document.getElementById("sysadmin_dbValidateState").innerHTML =
                                                 "<b>DB VALIDATION STATE:<span id ='dbValidationcolor'>" + result.dbValidation + "</span></b>";
-
-                                        var dbConnection_color = document.getElementById("dbValidationcolor");
-
-                                        if (result.dbValidation != "success") {
-                                            dbConnection_color.setAttribute("style", "color:red");
+                                        var dbValidationColor = document.getElementById("dbValidationcolor");
+                                        if (result.dbValidation == "success") {
+                                            dbValidationColor.setAttribute("style", "color:dimgrey");
+                                            sysadmin_TopContainer.set("style","height:63px; margin:0; padding:0");
+                                        }else {
+                                            dbValidationColor.setAttribute("style", "color:red");
                                             sysadmin_TopContainer.set("style","height:75px; margin:0; padding:0");
-                                            sysadmin_TopContainer.resize();
-                                            sysadmin_MainContainer.layout();
-
-                                        }else dbConnection_color.setAttribute("style", "color:dimgrey");
+                                        }
                                     }
+                                    sysadmin_TopContainer.resize();
+                                    sysadmin_MainContainer.layout();
                                 } else {
                                     sysadmin_MainContainer.mainContentData = [];
                                     sysadmin_MainContainer.mainContentData["error"] = result;
@@ -171,20 +171,14 @@
                             }
                     )
                 };
-                sysadmin_MainContainer.runSysadminContentPage = function (owner, id, title, closable, contentURL) {
-                    console.log("sysadmin_MainContainer.runSysadminContentPage: ", contentURL);//!!!IT'S FOR TESTING!!!
+                sysadmin_MainContainer.runSysadminContentPage = function (owner, id, title, closable, contentURL) {     console.log("sysadmin_MainContainer.runSysadminContentPage: ", contentURL);//!!!IT'S FOR TESTING!!!
                     if(!owner.pageContentPane){
                         owner.pageContentPane=
                                 APP.childFor(sysadmin_ContentContainer, "PageContentPane_" + id,
                                         XContentPane, {title: title, closable: closable,parseOnLoad: false,style: "margin:0;padding:0;"});
                         owner.pageContentPane.set("content", "");
                         owner.pageContentPane.set("href", contentURL);
-                        owner.pageContentPane.updateDBState = function () {
-                            document.getElementById("sysadmin_app_mode").innerHTML = "";
-                            document.getElementById("sysadmin_dbName").innerHTML = "";
-                            document.getElementById("sysadmin_connectToDBState").innerHTML = "";
-                            sysadmin_MainContainer.getAppState();
-                        };
+                        owner.pageContentPane.updateDBState = sysadmin_MainContainer.updateDBState;
                     }
                     sysadmin_ContentContainer.selectChild(owner.pageContentPane);
                 };
@@ -209,7 +203,7 @@
                     checkButton(this);
                 };
 
-                sysadmin_MainContainer.getAppState();
+                sysadmin_MainContainer.updateDBState();
 
             });
 </script>
