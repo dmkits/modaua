@@ -5,9 +5,9 @@
 
   <testsuite name="sysadmin.sysadmin_2_databasePageTest"
     errors="0" failures="1" hostname="" id="" package="sysadmin" skipped="1"
-    tests="4" time="21.33" timestamp="Mon, 14 Aug 2017 15:03:02 GMT">
+    tests="4" time="39.24" timestamp="Tue, 15 Aug 2017 12:52:57 GMT">
   
-    <testcase name="Enter ADMIN login  and password" classname="sysadmin.sysadmin_2_databasePageTest" time="6.347" assertions="4">
+    <testcase name="Enter ADMIN login  and password" classname="sysadmin.sysadmin_2_databasePageTest" time="5.797" assertions="4">
 
     
 
@@ -18,7 +18,7 @@
     
     </testcase>
   
-    <testcase name="Sysadmin Header If  All Elements Visible Tests" classname="sysadmin.sysadmin_2_databasePageTest" time="9.357" assertions="17">
+    <testcase name="Sysadmin Header If  All Elements Visible Tests" classname="sysadmin.sysadmin_2_databasePageTest" time="8.712" assertions="17">
 
     
 
@@ -55,10 +55,138 @@
     
     </testcase>
   
-    <testcase name="Sysadmin ChangeLogTable Tests" classname="sysadmin.sysadmin_2_databasePageTest" time="5.629" assertions="2">
+    <testcase name="Sysadmin ChangeLogTable Tests" classname="sysadmin.sysadmin_2_databasePageTest" time="24.73" assertions="66">
 
-      <failure message="Timed out while waiting for element &lt;//*[@id='sysadmin_database_Tabledatabasecurrent_changes']//td/h1&gt; to be present for 5000 milliseconds.">    at Object.assertTableTitleHasText (/home/ianagez/IdeaProjects/modaua/testsNW/page_objects/database.js:170:14)
-    at Object.Sysadmin ChangeLogTable Tests (/home/ianagez/IdeaProjects/modaua/testsNW/tests/sysadmin/sysadmin_2_databasePageTest.js:50:14)</failure>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+      <failure message="Timed out while waiting for element &lt;//div[@id='sysadmin_database_TableChangeLog']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[1]&gt; to be present for 5000 milliseconds.">    at Object.assertCellContainsText (/home/ianagez/IdeaProjects/modaua/testsNW/page_objects/database.js:26:14)
+    at Object.Sysadmin ChangeLogTable Tests (/home/ianagez/IdeaProjects/modaua/testsNW/tests/sysadmin/sysadmin_2_databasePageTest.js:101:14)</failure>
 
     
     </testcase>

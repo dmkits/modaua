@@ -170,6 +170,15 @@ var databaseCommands = {
             .waitForElementVisible("@tableTitle")
             .assert.containsText("@tableTitle", text);
     },
+    //assertTableTitleHasText: function (text) {
+    //    var instance = this;
+    //        instance.elements.tableTitle = {
+    //            selector: "//*[@id='sysadmin_database_ContentPaneDetailContainer']//td/h1[contains(text(), '"+text+"')]",  /////////
+    //            locateStrategy: 'xpath'
+    //        };
+    //    return instance
+    //        .waitForElementVisible("@tableTitle");
+    //},
     assertTotalRowContainsValue: function (table, value) {
         var instance = this;
         getTableID(table, function (id) {
@@ -204,19 +213,21 @@ module.exports = {
     elements: {
         sysadmin_database_ContentPaneDetailContainer: "#sysadmin_database_ContentPaneDetailContainer",
 
-        currentChangesBtn: '#current_changes',
-        changeLogBtn: '#change_log',
+        currentChangesBtn: '#sysadmin_database_btnCurrentChanges',
+        changeLogBtn: '#sysadmin_database_btnChangeLog',
 
-        currentChangesTable: {
-            selector: "//*[@id='sysadmin_database_Tabledatabasecurrent_changes']//div[@class='ht_master handsontable']//table[@class='htCore']",
-            locateStrategy: 'xpath'
-        },
+        //currentChangesTable: {
+        //    selector: "//*[@id='sysadmin_database_TableCurrentChanges']//div[@class='ht_master handsontable']//table[@class='htCore']",
+        //    locateStrategy: 'xpath'
+        //},
+        //
+        //changeLogTable: {
+        //    selector: "//*[@id='sysadmin_database_TableCurrentChanges']//div[@class='ht_master handsontable']//table[@class='htCore']",
+        //    locateStrategy: 'xpath'
+        //},
 
-        changeLogTable: {
-            selector: "//*[@id='sysadmin_database_Tabledatabasechange_log']//div[@class='ht_master handsontable']//table[@class='htCore']",
-            locateStrategy: 'xpath'
-        },
-
+        currentChangesTable:'#sysadmin_database_TableCurrentChanges',
+        changeLogTable:'#sysadmin_database_TableChangeLog',
         applyChangesDialog: {
             selector: "//div[contains(text(), 'Apply selected changes')]/../..",
             locateStrategy: 'xpath'
@@ -226,10 +237,10 @@ module.exports = {
 
 function getTableID(table, callback) {
     if (table == '@currentChangesTable') {
-        callback('sysadmin_database_Tabledatabasecurrent_changes');
+        callback('sysadmin_database_TableCurrentChanges');   //sysadmin_database_TableCurrentChanges
     }
     if (table == '@changeLogTable') {
-        callback('sysadmin_database_Tabledatabasechange_log');
+        callback('sysadmin_database_TableChangeLog');   //sysadmin_database_TableChangeLog
     }
 }
 

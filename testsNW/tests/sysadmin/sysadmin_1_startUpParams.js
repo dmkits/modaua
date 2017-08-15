@@ -48,6 +48,22 @@ module.exports= {
             .waitForElementVisible('@loginDialog_cancelBtn')
 
     },
+    //'Enter NON_ADMIN login  and password': function (browser) {
+    //    var loginPage = browser.page.loginPage();
+    //    loginPage
+    //        .waitForElementVisible("@loginDialog")
+    //        .assert.valueContains("@userLoginNameInput","")
+    //        .assert.valueContains("@userLoginPasswordInput","")
+    //        .setValue("@userLoginNameInput",'user')
+    //        .setValue("@userLoginPasswordInput",'user')
+    //        .click("@loginDialog_submitBtn");
+    //    browser.pause(1000)
+    //        .assert.urlEquals("http://localhost:8181/");
+    //    var mainPage=browser.page.mainPage();
+    //    mainPage
+    //        .waitForElementVisible('@menuBarItemCloseItem')
+    //        .click('@menuBarItemCloseItem')
+    //},
     'Enter wrong login  and password': function (browser) {
 
         var loginPage = browser.page.loginPage();
@@ -64,21 +80,6 @@ module.exports= {
 
     },
 
-    //'Enter NON_ADMIN login  and password': function (browser) {
-    //    var loginPage = browser.page.loginPage();
-    //    loginPage
-    //        .assert.valueContains("@userLoginNameInput","")
-    //        .assert.valueContains("@userLoginPasswordInput","")
-    //        .setValue("@userLoginNameInput",'user')
-    //        .setValue("@userLoginPasswordInput",'user')
-    //        .click("@loginDialog_submitBtn");
-    //    browser.pause(1000)
-    //        .assert.urlEquals("http://localhost:8181/");
-    //    var mainPage=browser.page.mainPage();
-    //    mainPage
-    //        .waitForElementVisible('@menuBarItemCloseItem')
-    //        .click('@menuBarItemCloseItem')
-    //},
     'Enter ADMIN login  and password': function (browser) {
         browser.url("http://localhost:8181/sysadmin");
         var loginPage = browser.page.loginPage();
@@ -89,15 +90,6 @@ module.exports= {
             .setValue("@userLoginNameInput",'admin')
             .setValue("@userLoginPasswordInput",'admin')
             .click("@loginDialog_submitBtn");
-        //browser.pause(1000)
-        //    .assert.urlEquals("http://localhost:8181/sysadmin")
-        //    .pause(1000)
-        //    .url("http://localhost:8181");
-        //
-        //      var mainPage=browser.page.mainPage();
-        //mainPage
-        //    .waitForElementVisible('@main_username')
-        //    .assert.containsText('@main_username', "admin");
     },
     'Sysadmin Header If  All Elements Visible Tests': function (browser) {
 
@@ -121,22 +113,22 @@ module.exports= {
             .assert.attributeContains('@StartUpParamsBtn','aria-pressed','true');
     },
 
-    'Sysadmin Startup DB params Tests': function (browser) {
+    'Check initial DB Config Tests': function (browser) {
 
         var startUpParams = browser.page.startUpParams();
         var mainHeader = browser.page.sysadminHeader();
 
         startUpParams
             .waitForElementVisible('@dbHostLabel')
-            .assert.containsText('@dbHostLabel','db.host')
+            .assert.containsText('@dbHostLabel', 'db.host')
             .waitForElementVisible('@dbNameLabel')
-            .assert.containsText('@dbNameLabel','db.name')
+            .assert.containsText('@dbNameLabel', 'db.name')
             .waitForElementVisible('@dbUserLabel')
-            .assert.containsText('@dbUserLabel','db.user')
+            .assert.containsText('@dbUserLabel', 'db.user')
             .waitForElementVisible('@dbPasswordLabel')
-            .assert.containsText('@dbPasswordLabel','db.password')
+            .assert.containsText('@dbPasswordLabel', 'db.password')
             .waitForElementVisible('@configNamedLabel')
-            .assert.containsText('@configNamedLabel','configName');
+            .assert.containsText('@configNamedLabel', 'configName');
 
         startUpParams.expect.element('@dbHostInput').to.have.attribute('value').which.equal('localhost');
         startUpParams.expect.element('@dbNameInput').to.have.attribute('value').which.equal('modaua_uiTtest1');
@@ -151,7 +143,49 @@ module.exports= {
             .assert.containsText('@localConfigInfo', "Configuration reloaded.")
             .waitForElementVisible('@dbHostInput')
 
-            .createTempDB()
+            .createTempDB();
+            mainHeader.click("@logoutBtn");
+    },
+    'Enter NON_ADMIN login  and password DB is not Validated': function (browser) {
+        var loginPage = browser.page.loginPage();
+        var validationFailed = browser.page.validationFailed();
+        loginPage
+            .waitForElementVisible("@loginDialog")
+            .assert.valueContains("@userLoginNameInput","")
+            .assert.valueContains("@userLoginPasswordInput","")
+            .setValue("@userLoginNameInput",'user')
+            .setValue("@userLoginPasswordInput",'user')
+            .click("@loginDialog_submitBtn");
+        validationFailed
+            .waitForElementVisible('@auth_as_sysadmin')
+            .click('@auth_as_sysadmin');
+
+    },
+
+    'Enter ADMIN login  and password from validateFailed page': function (browser) {
+        browser.url("http://localhost:8181");
+        var loginPage = browser.page.loginPage();
+        loginPage
+            .waitForElementVisible('@loginDialog')
+            .assert.valueContains("@userLoginNameInput","")
+            .assert.valueContains("@userLoginPasswordInput","")
+            .setValue("@userLoginNameInput",'admin')
+            .setValue("@userLoginPasswordInput",'admin')
+            .click("@loginDialog_submitBtn");
+        browser.assert.urlEquals("http://localhost:8181/sysadmin");                     //assert no entrance to  main page
+    },
+
+        'Enter INVALID DB Config values Tests': function (browser) {
+
+            var startUpParams = browser.page.startUpParams();
+            var mainHeader = browser.page.sysadminHeader();
+
+            mainHeader
+                .waitForElementVisible('@StartUpParamsBtn')
+                .click("@StartUpParamsBtn");
+
+            startUpParams
+                .waitForElementVisible('@dbHostInput')
             .clearValue('@dbHostInput')
             .setValue('@dbHostInput', '192.168.0.93_false')
             .click('@StoreAndReconnectBtn')
@@ -254,8 +288,60 @@ module.exports= {
             .assert.containsText('@dropDBResultField', 'dropped!');
         mainHeader
             .assert.containsText('@dbConnectionState', 'Failed to connect to database!');
+    },
 
-        startUpParams.click('@backupBtn')
+    'Enter as user when DB Dropped': function (browser) {
+
+        var mainHeader = browser.page.sysadminHeader();
+        var validationFailed = browser.page.validationFailed();
+        var loginPage = browser.page.loginPage();
+
+        mainHeader
+            .click('@logoutBtn');
+
+            loginPage
+                .waitForElementVisible("@loginDialog")
+                .assert.valueContains("@userLoginNameInput","")
+                .assert.valueContains("@userLoginPasswordInput","")
+                .setValue("@userLoginNameInput",'user')
+                .setValue("@userLoginPasswordInput",'user')
+                .click("@loginDialog_submitBtn");
+
+             validationFailed
+                 .waitForElementVisible("@auth_as_sysadmin")
+                 .assert.containsText("body","Не удалось подключиться к базе данных!")
+                 .assert.containsText("body","Обратитесь к системному администратору!");
+
+
+        browser.url("http://localhost:8181/sysadmin")
+            .assert.urlEquals("http://localhost:8181/");
+        validationFailed
+            .click("@auth_as_sysadmin");
+
+        var loginPage = browser.page.loginPage();
+        loginPage
+            .waitForElementVisible('@loginDialog')
+            .assert.valueContains("@userLoginNameInput","")
+            .assert.valueContains("@userLoginPasswordInput","")
+            .setValue("@userLoginNameInput",'admin')
+            .setValue("@userLoginPasswordInput",'admin')
+            .click("@loginDialog_submitBtn");
+        browser.url("http://localhost:8181");
+        browser.assert.urlEquals("http://localhost:8181/sysadmin");
+    },
+
+   'BackupDB Tests':function(browser){
+
+       var startUpParams = browser.page.startUpParams();
+       var mainHeader = browser.page.sysadminHeader();
+
+       mainHeader
+           .waitForElementVisible("@StartUpParamsBtn")
+           .click("@StartUpParamsBtn");
+
+        startUpParams
+            .waitForElementVisible("@backupBtn")
+            .click('@backupBtn')
             .assertAdminDialogIsEmpty()
             .authorizeAsAdmin()
             .assert.visible("@backupDialog")

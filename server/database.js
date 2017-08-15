@@ -8,7 +8,8 @@ var log =server.log;
 
 function getDBConfig(){
     var serverConfig= server.getServerConfig();
-    return { host:serverConfig.host, database:serverConfig.database, user:serverConfig.user, password:serverConfig.password };
+    return { host:serverConfig.host, database:serverConfig.database, user:serverConfig.user, password:serverConfig.password,
+        supportBigNumbers:true };
 }
 
 var connection=null, dbConnectError=null;

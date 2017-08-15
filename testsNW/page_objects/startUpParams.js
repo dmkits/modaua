@@ -3,6 +3,9 @@ var fs=require('fs');
 var startUpParamsCommands = {
 
     createTempDB: function () {
+        this.api.perform(function(){
+            console.log("createTempDB");
+        });
         var instance=this;
         instance.waitForElementVisible('@dbHostInput')
             .waitForElementVisible('@dbNameInput')
@@ -125,6 +128,9 @@ var startUpParamsCommands = {
     },
 
     authorizeAsAdmin:function(){
+        this.api.perform(function(){
+            console.log("authorizeAsAdmin");
+        });
         var instance=this;
         return instance.waitForElementVisible('@authAdminDialog')
             .assert.containsText('@authAdminDialog', 'Admin authorisation')

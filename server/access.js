@@ -57,8 +57,8 @@ module.exports= function(app){
                 if (dbConnectError) res.send({ error:"Failed database connection!" }); else res.send({ error:"Failed validate database!" });
                 return;
             }
-            if (dbConnectError) res.sendFile(appViewsPath+'validateFailed.html');//dbConnectionFailed.html
-            else res.sendFile(appViewsPath+'validateFailed.html');
+            if (dbConnectError) res.sendFile(appViewsPath+'dbConnectionFailed.html');//dbConnectionFailed.html
+            else res.sendFile(appViewsPath+'dbConnectionFailed.html');
             return;
         }
         next();

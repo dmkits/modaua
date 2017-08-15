@@ -46,12 +46,11 @@ module.exports= {
         var database = browser.page.database();
 
         database
-            //.waitForElementVisible('@sysadmin_database_ContentPaneDetailContainer')
-            .assertTableTitleHasText('@currentChangesTable', 'Current Changes')
+            .waitForElementVisible('@sysadmin_database_ContentPaneDetailContainer')
             .waitForElementVisible('@currentChangesTable')
-            .assertTotalRowContainsValue('@currentChangesTable', '13')
+            .assertTotalRowContainsValue('@currentChangesTable', '24')
 
-            .assertTableTitleHasText('@currentChangesTable', 'Current Changes')
+           .assertTableTitleHasText('@currentChangesTable', 'Data model current changes')
             .assertHeaderContainsText('@currentChangesTable', '1', 'changeID')
             .assertHeaderContainsText('@currentChangesTable', '2', 'changeDatetime')
             .assertHeaderContainsText('@currentChangesTable', '3', 'changeObj')
@@ -82,18 +81,18 @@ module.exports= {
             .waitForElementVisible("@currentChangesTable");
         browser.pause(2000);
 
-        database.assertCellContainsText('@currentChangesTable', '1', '1', 'dir_units__1')
-            .assertCellContainsText('@currentChangesTable', '1', '2', '2016-08-29 11:41:00')
+        database.assertCellContainsText('@currentChangesTable', '1', '1', 'dir_units__2')
+            .assertCellContainsText('@currentChangesTable', '1', '2', '2016-08-29 11:42:00')
             .assertCellContainsText('@currentChangesTable', '1', '3', 'dir_units')
-            .assertCellContainsText('@currentChangesTable', '1', '4', 'CREATE TABLE dir_units')
+            .assertCellContainsText('@currentChangesTable', '1', '4', 'ALTER TABLE dir_units ADD COLUMN NAME VARCHAR(200) NOT NULL')
             .assertCellContainsText('@currentChangesTable', '1', '5', 'new')
             .assertCellContainsText('@currentChangesTable', '1', '6', 'not applied')
             .waitForElementVisible('@currentChangesTable')
-            .assertTotalRowContainsValue('@currentChangesTable', '10')
+            .assertTotalRowContainsValue('@currentChangesTable', '21')
 
             .click('@changeLogBtn')
             .waitForElementVisible('@changeLogTable')
-            .assertTableTitleHasText('@changeLogTable', 'Change Log')
+            .assertTableTitleHasText('@changeLogTable', 'database change log')
             .assertHeaderContainsText('@changeLogTable', '1', 'changeID')
             .assertHeaderContainsText('@changeLogTable', '2', 'changeDatetime')
             .assertHeaderContainsText('@changeLogTable', '3', 'changeObj')
@@ -124,7 +123,7 @@ module.exports= {
             .clickRefreshBtn("@changeLogTable");
         browser.pause(2000);
 
-        database.assertTotalRowContainsValue('@changeLogTable', '13');
+        database.assertTotalRowContainsValue('@changeLogTable', '24');
 
         sysadminHeader
             .click('@StartUpParamsBtn');
