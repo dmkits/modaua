@@ -11,7 +11,8 @@
     "print",
     "mainPage",
     "dir_units",
-    "dir_contractors"
+    "dir_contractors",
+    "dir_products"
   ],
   "appMenu":[
     { "menuTitle":"Главная страница", "menuItemName":"menuBarItemMainPage", "pageTitle":"Главная страница", "module":"mainPage", "closable":false},
@@ -19,7 +20,9 @@
       "popupMenu":[
         { "menuTitle":"Подразделения", "menuItemName":"menuBarDirsItemUnits", "pageTitle":"Подразделения", "module":"dir_units", "closable":true},
         { "menuItemName":"separator_dir1"},
-        { "menuTitle":"Контрагенты", "menuItemName":"menuBarDirsItemContractors", "pageTitle":"Контрагенты", "module":"dir_contractors", "closable":true}
+        { "menuTitle":"Контрагенты", "menuItemName":"menuBarDirsItemContractors", "pageTitle":"Контрагенты", "module":"dir_contractors", "closable":true},
+        { "menuItemName":"separator_dir2"},
+        { "menuTitle":"Товарные номенклатуры", "menuItemName":"menuBarDirsItemProducts", "pageTitle":"Товарные номенклатуры", "module":"dir_products", "closable":true}
       ]},
     { "menuItemName":"menuBarWrh", "menuTitle":"Склад",
       "popupMenu":[
@@ -41,7 +44,7 @@
   ],
   "usersRoleMenu":{
     "user":["menuBarItemMainPage",
-      "menuBarPopupMenuMain", "menuBarDirsItemUnits", "separator_dir1", "menuBarDirsItemContractors",
+      "menuBarPopupMenuMain", "menuBarDirsItemUnits", "separator_dir1", "menuBarDirsItemContractors", "separator_wrh2", "menuBarDirsItemProducts",
       "menuBarWrh", "menuBarWrhPInvoice", "separator_wrh1", "menuBarWrhInvoice", "menuBarWrhRetInvoice", "separator_wrh2", "menuBarWrhBalance", "menuBarWrhMoves",
       "menuBarPopupMenuSales", "menuBarSalesItemCashier",
       "menuBarItemClose","menuBarItemHelpAbout"],

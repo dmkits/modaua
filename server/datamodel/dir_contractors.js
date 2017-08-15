@@ -42,7 +42,7 @@ var tableName="dir_contractors", tableColumns=[
   {"data": "IS_BUYER", "name": "Покупатель", "width": 120, "type": "checkbox"}
 ], idField=tableColumns[0].data;
 
-module.exports.validateData= {tableName:"dir_contractors", tableColumns:tableColumns, idField:idField};
+module.exports.validateData= {tableName:tableName, tableColumns:tableColumns, idField:idField};
 
 var dm=this;
 /**
@@ -55,7 +55,7 @@ module.exports.getNewDataForDirContractorsTable= function(resultCallback){
   dm.setDataItemForTable({tableColumns:tableColumns,
     values:[null,"Новый контрагент","Новый контрагент","Новый контрагент","Украина","Днепр","-","0","0"]}, resultCallback);
 };
-module.exports.storeDirContractorsTableData= function(storeTableData, resultCallback){                            console.log("storeDirContractorsTableData storeTableData",storeTableData);
+module.exports.storeDirContractorsTableData= function(storeTableData, resultCallback){
   dm.storeTableDataItem({tableName:tableName, idFieldName:idField, storeTableData:storeTableData}, resultCallback);
 };
 module.exports.deleteDirContractorsTableData= function(delTableData, resultCallback){
