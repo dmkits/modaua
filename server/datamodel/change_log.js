@@ -37,13 +37,13 @@ module.exports.getChangeLogItemByID= function(id, resultCallback) {
 /**
  * resultCallback = function(tableData={ columns, identifier, items, error })
  */
-module.exports.getDataForChangeLogTable= function(resultCallback){
-    dm.getDataForTable({tableName:tableName, tableColumns:tableColumns, identifier:idField}, resultCallback);
+module.exports.getDataForChangeLogTable= function(conditions, resultCallback){
+    dm.getDataForTable({tableName:tableName, tableColumns:tableColumns, identifier:idField, conditions:conditions}, resultCallback);
 };
 
 /**
  * resultCallback = function(result = { updateCount, resultItem:{<tableFieldName>:<value>,...}, error } )
  */
 module.exports.insertToChangeLog= function(itemData, resultCallback) {
-    dm.insDataItem({tableName:tableName, idFieldName:"ID", insTableData:itemData}, resultCallback);
+    dm.insTableDataItem({tableName:tableName, idFieldName:"ID", insTableData:itemData}, resultCallback);
 };

@@ -94,7 +94,8 @@
                     }
                     btnChangeLog.document =
                             APP.childFor(sysadmin_database_ContentPaneDetailContainer, "sysadmin_database_TableChangeLog",
-                                    TDocumentSimpleTable, {titleText: "database change log", dataURL: '/sysadmin/database/getChangeLog', buttonPrint: false})
+                                    TDocumentSimpleTable, {titleText: "database change log",
+                                        dataURL: '/sysadmin/database/getChangeLog', dataURLCondition:{"1~":1}, buttonPrint: false})
                                     .addTotalCountNumberBox("ИТОГО строк:", 140, {style: "font-weight:bold;", inputStyle: "width:40px;"})
                                     .startUp();
                     sysadmin_database_ContentPaneDetailContainer.selectChild(btnChangeLog.document);

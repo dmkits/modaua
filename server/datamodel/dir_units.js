@@ -29,7 +29,7 @@ var tableName="dir_units", tableColumns=[
     {"data": "NOTE", "name": "Примечание", "width": 200, "type": "text"},
     {"data": "CITY", "name": "Город", "width": 120, "type": "text"},
     {"data": "ADDRESS", "name": "Адрес", "width": 200, "type": "text"},
-    {"data": "NOT_USED", "name": "Не используется", "width": 100, "type": "checkbox", readOnly:true, visible:true}
+    {"data": "NOT_USED", "name": "Не используется", "width": 120, "type": "checkbox", visible:true}
 ], idField=tableColumns[0].data;
 module.exports.tableColumns=tableColumns;
 
@@ -45,11 +45,11 @@ module.exports.getDataForDirUnitsTable= function(conditions, resultCallback){
 module.exports.getNewDataForDirUnitsTable= function(resultCallback){
     //resultCallback({});
     dm.setDataItemForTable({tableColumns:tableColumns,
-        values:[null,"Новое подразделение","Новое подразделение","Новое подразделение","Днепр","-"]}, resultCallback);
+        values:[null,"Новое подразделение","Новое подразделение","Новое подразделение","Днепр","-","0"]}, resultCallback);
 };
-module.exports.storeDirUnitsTableData= function(resultCallback){
-    resultCallback({});
-    //dm.getDataForTable({tableName:tableName, tableColumns:tableColumns, identifier:idField}, resultCallback);
+module.exports.storeDirUnitsTableData= function(storeTableData, resultCallback){                            console.log("storeDirUnitsTableData storeTableData",storeTableData);
+    //resultCallback({});
+    dm.storeTableDataItem({tableName:tableName, idFieldName:idField, storeTableData:storeTableData}, resultCallback);
 };
 module.exports.deleteDirUnitsTableData= function(resultCallback){
     resultCallback({});

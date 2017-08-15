@@ -24,7 +24,7 @@ module.exports.init = function(app){
         });
     });
     app.post("/dir/units/storeDirUnitsTableData", function(req, res){
-        dirUnits.storeDirUnitsTableData(function(result){
+        dirUnits.storeDirUnitsTableData(req.body, function(result){
             res.send(result);
         });
     });

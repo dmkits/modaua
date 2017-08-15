@@ -616,7 +616,7 @@ module.exports.init = function(app){
     });
 
     app.get("/sysadmin/database/getChangeLog", function (req, res) {
-        changeLog.getDataForChangeLogTable(function(result){
+        changeLog.getDataForChangeLogTable(req.query, function(result){
             res.send(result);
         });
     });
