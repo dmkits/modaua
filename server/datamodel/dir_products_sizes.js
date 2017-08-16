@@ -1,20 +1,13 @@
-var dir_products_sizes=[
-  {
-  "changeID": "dir_products_sizes__1",
-  "changeDatetime": "2016-09-10T20:01:00.000",
-  "changeObj": "dir_products_sizes",
-  "changeVal": "CREATE TABLE dir_products_sizes(ID BIGINT UNSIGNED NOT NULL PRIMARY KEY) CHARACTER SET utf8"
-},
-  {
-    "changeID": "dir_products_sizes__2",
-    "changeDatetime": "2016-09-10T20:02:00.000",
-    "changeObj": "dir_products_sizes",
-    "changeVal": "ALTER TABLE dir_products_sizes ADD COLUMN VALUE VARCHAR(255) NOT NULL"
-  },
-  {
-    "changeID": "dir_products_sizes__3",
-    "changeDatetime": "2016-09-10T20:03:00.000",
-    "changeObj": "dir_products_sizes",
-    "changeVal": "ALTER TABLE dir_products_sizes ADD CONSTRAINT DIR_DIR_PRODUCTS_SIZES_VALUE_UNIQUE UNIQUE(VALUE)"
-  }
+var changeLog=[
+  { "changeID": "dir_products_sizes__1", "changeDatetime": "2016-09-10T20:01:00+03:00", "changeObj": "dir_products_sizes",
+  "changeVal": "CREATE TABLE dir_products_sizes(ID BIGINT UNSIGNED NOT NULL PRIMARY KEY) CHARACTER SET utf8" },
+  { "changeID": "dir_products_sizes__2", "changeDatetime": "2016-09-10T20:02:00+03:00", "changeObj": "dir_products_sizes",
+    "changeVal": "ALTER TABLE dir_products_sizes ADD COLUMN VALUE VARCHAR(255) NOT NULL" },
+  { "changeID": "dir_products_sizes__3", "changeDatetime": "2016-09-10T20:03:00+03:00", "changeObj": "dir_products_sizes",
+    "changeVal": "ALTER TABLE dir_products_sizes ADD CONSTRAINT DIR_DIR_PRODUCTS_SIZES_VALUE_UNIQUE UNIQUE(VALUE)" }
 ];
+module.exports.changeLog=changeLog;
+
+var tableName="dir_products_sizes", tableFields=["ID","VALUE"], idField=tableFields[0];
+
+module.exports.validateData= {tableName:tableName, fields:tableFields, idField:idField};

@@ -1,7 +1,7 @@
 var server= require("./server"), log= server.log, config= server.getConfig(),
     getDBConnectError= require("./database").getDBConnectError, modules= require("./modules");
 
-module.exports= function(app){
+module.exports= function(app){                                                              log.info("Initing ACCESS CONTROLLER...");
 
     app.use(function (req, res, next) {                                                     log.info("ACCESS CONTROLLER for check user access:",req.url,req.method," params:",req.query," body:",req.body);
         if(req.originalUrl=="/login" && req.method=="POST"){

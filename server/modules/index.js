@@ -29,10 +29,10 @@ module.exports.validateModules= function(resultCallback){
         }
         var module=require("./"+moduleName);
         var validateModule=module.validateModule;
-        if(!validateModule){                                                                                log.warn('validateModule: module:'+moduleName+" not validate! Reason: no validate function.");//test
+        if(!validateModule){                                                                                log.warn('ValidateModule PASSED for Module:'+moduleName+"! Reason: no validate function.");//test
             validateModuleCallback(modules, index + 1, errs);
             return;
-        }                                                                                                   log.info('validateModule: module:'+moduleName+"...");//test
+        }                                                                                                   log.info('ValidateModule: module:'+moduleName+"...");//test
         module.validateModule(errs, function () {
             validateModuleCallback(modules, index + 1, errs);
         });
@@ -66,7 +66,7 @@ module.exports.init = function(app){
     var modules= server.getConfigModules();
     if (!modules) return;
     for(var i=0; i<modules.length; i++){
-        var moduleName=modules[i], module=require("./"+moduleName);                                         log.info('initing module '+moduleName+"...");//test
+        var moduleName=modules[i], module=require("./"+moduleName);                                         log.info('Initing module '+moduleName+"...");//test
         if (module.modulePageURL&&module.modulePagePath) {
             (function(){
                 var modulePagePath=module.modulePagePath;

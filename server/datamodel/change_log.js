@@ -38,7 +38,8 @@ module.exports.getChangeLogItemByID= function(id, resultCallback) {
  * resultCallback = function(tableData={ columns, identifier, items, error })
  */
 module.exports.getDataForChangeLogTable= function(conditions, resultCallback){
-    dm.getDataForTable({tableName:tableName, tableColumns:tableColumns, identifier:idField, conditions:conditions}, resultCallback);
+    dm.getDataForTable({tableName:tableName, tableColumns:tableColumns, identifier:idField, conditions:conditions,
+        order:"CHANGE_DATETIME, CHANGE_OBJ, ID"}, resultCallback);
 };
 
 /**

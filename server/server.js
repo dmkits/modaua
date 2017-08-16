@@ -63,8 +63,7 @@ global.appDataModelPath= path.join(__dirname,'/datamodel/','');
 
 var appModules=require("./modules");
 appModules.validateModules(function(errs, errMessage){
-    if (errMessage){
-        log.error("FAILED validate! Reason: ",errMessage);
+    if (errMessage){                                                                                log.error("FAILED validate! Reason: ",errMessage);
     }
     require("./access")(server);//check user access
 

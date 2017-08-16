@@ -5,7 +5,7 @@ module.exports.getModelChanges=function(){ return dataModelChanges; };
 module.exports.resetModelChanges=function(){ dataModelChanges=[]; };
 
 var database= require("../database");
-function initValidateDataModel(dataModelName, dataModel, errs, nextValidateDataModelCallback){          log.info('initValidateDataModel: dataModel:',dataModelName,"...");//test
+function initValidateDataModel(dataModelName, dataModel, errs, nextValidateDataModelCallback){              log.info('InitValidateDataModel: dataModel:',dataModelName,"...");//test
     if(dataModel.changeLog) dataModelChanges= dataModelChanges.concat(dataModel.changeLog);
 
     dataModel.getDataForTable= _getDataForTable;
@@ -20,12 +20,34 @@ function initValidateDataModel(dataModelName, dataModel, errs, nextValidateDataM
     dataModel.delTableDataItem= _delTableDataItem;
 
     if(!dataModel.validateData) {
-        errs[dataModelName+"_validateError"]="Failed validate dataModel:"+dataModelName+"! Reason: data model no validate data!";
+        errs[dataModelName+"_validateError"]="Failed validate dataModel:"+dataModelName
+            +"! Reason: data model no validate data!";                                                      log.error('Validate DataModel FAILED in dataModel:',dataModelName,"! Reason: no validate data!");//test
+        nextValidateDataModelCallback();
+        return;
+    }
+    if(!dataModel.validateData.tableName){
+        errs[dataModelName+"_validateError"]="Failed validate dataModel:"+dataModelName
+            +"! Reason: no table name for validate!";                                                       log.error('Validate DataModel FAILED in dataModel:',dataModelName,"! Reason: no table name for validate!");//test
+        nextValidateDataModelCallback();
+        return;
+    }
+    if(!dataModel.validateData.fields&&!dataModel.validateData.tableColumns){
+        errs[dataModelName+"_validateError"]="Failed validate dataModel:"+dataModelName
+            +"! Reason: no fields data for validate!";                                                      log.error('Validate DataModel FAILED in dataModel:',dataModelName,"! Reason: no fields data for validate!");//test
+        nextValidateDataModelCallback();
+        return;
     }
     var queryFields="";
-    for(var i in dataModel.validateData.tableColumns) {
-        if (queryFields!="") queryFields+= ",";
-        queryFields+= dataModel.validateData.tableColumns[i].data;
+    if(dataModel.validateData.fields){
+        for(var i in dataModel.validateData.fields) {
+            if (queryFields!="") queryFields+= ",";
+            queryFields+= dataModel.validateData.fields[i];
+        }
+    } else {
+        for(var i in dataModel.validateData.tableColumns) {
+            if (queryFields!="") queryFields+= ",";
+            queryFields+= dataModel.validateData.tableColumns[i].data;
+        }
     }
     var query="select "+queryFields+" from "+dataModel.validateData.tableName+" where "+dataModel.validateData.idField+" is NULL";
     database.selectQuery(query,function(err){
@@ -51,28 +73,19 @@ module.exports.initValidateDataModels=function(dataModels, errs, resultCallback)
     };
     validateDataModelCallback(dataModelsList, 0, errs);
 };
-
 /**
- * params = (tableName,
- *      tableColumns = [
- *          {data:<tableFieldName>, name:<tableColumnHeader>, width:<tableColumnWidth>, type:<dataType>, readOnly:true/false, visible:true/false},
- *          {data:<tableFieldName>, name:<tableColumnHeader>, width:<tableColumnWidth>, type:<dataType>, readOnly:true/false, visible:true/false},
- *          {data:<tableFieldName>, name:<tableColumnHeader>, width:<tableColumnWidth>, type:<dataType>, readOnly:true/false, visible:true/false},
- *          ...
- *      ],
- *      identifier= <tableIDFieldName>,
- *      conditions={ conditionName:<condition> }
- * )
+ *
+ * tableColumns = [
+ *      {data:<tableFieldName>, name:<tableColumnHeader>, width:<tableColumnWidth>, type:<dataType>, readOnly:true/false, visible:true/false},
+ *      {data:<tableFieldName>, name:<tableColumnHeader>, width:<tableColumnWidth>, type:<dataType>, readOnly:true/false, visible:true/false},
+ *      {data:<tableFieldName>, name:<tableColumnHeader>, width:<tableColumnWidth>, type:<dataType>, readOnly:true/false, visible:true/false},
+ *       ...
+ * ]
  * tableColumns: -<dataType> = text / html_text / text_date / text_datetime / date / numeric / numeric2 / checkbox
  * OR tableColumns: -<dataType> = text / text & dateFormat:"DD.MM.YY HH:mm:ss" / html_text / date /
  *              numeric format:"#,###,###,##0.00[#######]" language:"ru-RU" /
  *              checkbox checkedTemplate:1 uncheckedTemplate:0 /
  *              autocomplete strict allowInvalid sourceURL
- * tableColumns: -readOnly default false, visible default true
- * resultCallback = function(
- *      tableData = { columns:tableColumns, identifier:identifier,
- *      items:[ {<tableFieldName>:<value>,...}, {}, {}, ...],
- *      error:errorMessage } )
  */
 function _fillDataTypeForTableColumns(tableColumns){
     if (!tableColumns) return tableColumns;
@@ -98,6 +111,29 @@ function _fillDataTypeForTableColumns(tableColumns){
     }
     return tableColumns;
 };
+/**
+ * params = (tableName,
+ *      tableColumns = [
+ *          {data:<tableFieldName>, name:<tableColumnHeader>, width:<tableColumnWidth>, type:<dataType>, readOnly:true/false, visible:true/false},
+ *          {data:<tableFieldName>, name:<tableColumnHeader>, width:<tableColumnWidth>, type:<dataType>, readOnly:true/false, visible:true/false},
+ *          {data:<tableFieldName>, name:<tableColumnHeader>, width:<tableColumnWidth>, type:<dataType>, readOnly:true/false, visible:true/false},
+ *          ...
+ *      ],
+ *      identifier= <tableIDFieldName>,
+ *      conditions={ conditionName:<condition> },
+ *      order = "<orderFieldsList>"
+ * )
+ * tableColumns: -<dataType> = text / html_text / text_date / text_datetime / date / numeric / numeric2 / checkbox
+ * OR tableColumns: -<dataType> = text / text & dateFormat:"DD.MM.YY HH:mm:ss" / html_text / date /
+ *              numeric format:"#,###,###,##0.00[#######]" language:"ru-RU" /
+ *              checkbox checkedTemplate:1 uncheckedTemplate:0 /
+ *              autocomplete strict allowInvalid sourceURL
+ * tableColumns: -readOnly default false, visible default true
+ * resultCallback = function(
+ *      tableData = { columns:tableColumns, identifier:identifier,
+ *      items:[ {<tableFieldName>:<value>,...}, {}, {}, ...],
+ *      error:errorMessage } )
+ */
 function _getDataForTable(params, resultCallback){
     var tableData={ columns:_fillDataTypeForTableColumns(params.tableColumns), identifier:params.identifier};
     var queryFields="";
@@ -118,6 +154,7 @@ function _getDataForTable(params, resultCallback){
         resultCallback(tableData);
         return;
     }
+    if (params.order) selectQuery+=" order by "+params.order;
     if (conditionValues.length==0)
         database.selectQuery(selectQuery,function(err, recordset, count, fields){
             if(err) tableData.error="Failed get data for table! Reason:"+err.message;
