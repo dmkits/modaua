@@ -1,39 +1,88 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <testsuites errors="0"
             failures="0"
-            tests="5">
+            tests="12">
 
   <testsuite name="sysadmin.sysadmin_2_databasePageTest"
-    errors="0" failures="0" hostname="" id="" package="sysadmin" skipped="5"
-    tests="5" time="0.000" timestamp="Tue, 15 Aug 2017 15:10:16 GMT">
+    errors="0" failures="0" hostname="" id="" package="sysadmin" skipped="12"
+    tests="12" time="0.000" timestamp="Wed, 16 Aug 2017 15:23:45 GMT">
   
 
   
+    <system-err>
+      ERROR: Unable to locate element: &quot;//div[@id='dir_units_ContentContainer']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[3]/td[3]&quot; using: xpath
+    at Object.moveToElement (/usr/local/lib/node_modules/nightwatch/lib/page-object/command-wrapper.js:117:25)
+    at Object.moveToCell (/home/ianagez/IdeaProjects/modaua/testsNW/page_objects/mainPage.js:125:14)
+    at Object.Set Unused tip (/home/ianagez/IdeaProjects/modaua/testsNW/tests/main/main_1_headerTests.js:192:14)
+    at Module.call (/usr/local/lib/node_modules/nightwatch/lib/runner/module.js:62:34)
+    at /usr/local/lib/node_modules/nightwatch/lib/runner/testcase.js:70:29
+    at _fulfilled (/usr/local/lib/node_modules/nightwatch/node_modules/q/q.js:834:54)
+    at self.promiseDispatch.done (/usr/local/lib/node_modules/nightwatch/node_modules/q/q.js:863:30)
+    at Promise.promise.promiseDispatch (/usr/local/lib/node_modules/nightwatch/node_modules/q/q.js:796:13)
+    at /usr/local/lib/node_modules/nightwatch/node_modules/q/q.js:556:49
+    at runSingle (/usr/local/lib/node_modules/nightwatch/node_modules/q/q.js:137:13)
+    </system-err>
+  
 
   
     
     <testcase
-      name="Enter ADMIN login  and password" classname="sysadmin.sysadmin_2_databasePageTest">
+      name="step_1 login AS ADMIN Drop AND create new DB" classname="sysadmin.sysadmin_2_databasePageTest">
       <skipped />
     </testcase>
     
     <testcase
-      name="Sysadmin Header If  All Elements Visible Tests" classname="sysadmin.sysadmin_2_databasePageTest">
+      name="step_2 Assert first roe in  ChangeLog table contains values Tests" classname="sysadmin.sysadmin_2_databasePageTest">
       <skipped />
     </testcase>
     
     <testcase
-      name="Sysadmin ChangeLogTable Tests" classname="sysadmin.sysadmin_2_databasePageTest">
+      name="step_3 Select and apply first 3 rows" classname="sysadmin.sysadmin_2_databasePageTest">
       <skipped />
     </testcase>
     
     <testcase
-      name="User tries to go to sysadmin page" classname="sysadmin.sysadmin_2_databasePageTest">
+      name="step_4 Assert rows applied" classname="sysadmin.sysadmin_2_databasePageTest">
       <skipped />
     </testcase>
     
     <testcase
-      name="Delete Test DB and reconnect" classname="sysadmin.sysadmin_2_databasePageTest">
+      name="step_5 Assert rows not in the Current Changes table after refresh" classname="sysadmin.sysadmin_2_databasePageTest">
+      <skipped />
+    </testcase>
+    
+    <testcase
+      name="step_6 Assert the aaplied rows are visible in changeLog table" classname="sysadmin.sysadmin_2_databasePageTest">
+      <skipped />
+    </testcase>
+    
+    <testcase
+      name="step_7 Select and apply one more row" classname="sysadmin.sysadmin_2_databasePageTest">
+      <skipped />
+    </testcase>
+    
+    <testcase
+      name="step_8 Assert the applied row are no more visible in current Change table" classname="sysadmin.sysadmin_2_databasePageTest">
+      <skipped />
+    </testcase>
+    
+    <testcase
+      name="step_9 Assert the row visible in changeLog table" classname="sysadmin.sysadmin_2_databasePageTest">
+      <skipped />
+    </testcase>
+    
+    <testcase
+      name="step_10 Apply all rows" classname="sysadmin.sysadmin_2_databasePageTest">
+      <skipped />
+    </testcase>
+    
+    <testcase
+      name="step_11 Assert no more rows left in Changes Table" classname="sysadmin.sysadmin_2_databasePageTest">
+      <skipped />
+    </testcase>
+    
+    <testcase
+      name="step_12 Assert sysadminHeader DB Validation State is success" classname="sysadmin.sysadmin_2_databasePageTest">
       <skipped />
     </testcase>
     

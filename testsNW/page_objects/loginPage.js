@@ -1,4 +1,17 @@
+var loginCommands = {
+  loginAsAdmin:function(){
+      return this.waitForElementVisible('@loginDialog')
+          .assert.valueContains("@userLoginNameInput","")
+          .assert.valueContains("@userLoginPasswordInput","")
+          .setValue("@userLoginNameInput",'admin')
+          .setValue("@userLoginPasswordInput",'admin')
+          .click("@loginDialog_submitBtn");
+  }
+};
+
+
 module.exports = {
+    commands:[loginCommands],
     elements: {
 
         loginDialog:"#loginDialog",

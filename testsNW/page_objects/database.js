@@ -231,6 +231,10 @@ module.exports = {
         applyChangesDialog: {
             selector: "//div[contains(text(), 'Apply selected changes')]/../..",
             locateStrategy: 'xpath'
+        },
+        applyAllChangesDialog: {
+            selector: "//div[contains(text(), 'Apply all changes')]/../..",
+            locateStrategy: 'xpath'
         }
     }
 };

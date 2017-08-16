@@ -1,91 +1,106 @@
 var fs=require('fs');
 
-var startUpParamsCommands = {
+var rootPswd="root";
+var serverConfigCommands = {
 
-    createTempDB: function () {
+    //createTempDB: function () {
+    //    this.api.perform(function(){
+    //        console.log("createTempDB");
+    //    });
+    //    var instance=this;
+    //    instance.waitForElementVisible('@dbHostInput')
+    //        .waitForElementVisible('@dbNameInput')
+    //        .waitForElementVisible('@dbUserInput')
+    //        .waitForElementVisible('@dbPasswordInput')
+    //        .clearValue('@dbHostInput')
+    //        .setValue('@dbHostInput',"localhost")
+    //        .clearValue('@dbNameInput')
+    //        .setValue('@dbNameInput', "uiTestsTempDB")     //create temp DB sinta temp;
+    //        .clearValue('@dbUserInput')
+    //        .setValue('@dbUserInput',  "user")
+    //        .clearValue('@dbPasswordInput')
+    //        .setValue('@dbPasswordInput',  "user")
+    //        .click('@createDBBtn')
+    //        .authorizeAsAdmin()
+    //        .waitForElementVisible('@createDBResultField')
+    //        .assert.containsText('@createDBResultField',"created")
+    //        .click('@StoreAndReconnectBtn');
+    //    return instance;
+    //},
+    dropDB: function () {
         this.api.perform(function(){
-            console.log("createTempDB");
-        });
-        var instance=this;
-        instance.waitForElementVisible('@dbHostInput')
-            .waitForElementVisible('@dbNameInput')
-            .waitForElementVisible('@dbUserInput')
-            .waitForElementVisible('@dbPasswordInput')
-            .clearValue('@dbHostInput')
-            .setValue('@dbHostInput',"localhost")
-            .clearValue('@dbNameInput')
-            .setValue('@dbNameInput', "uiTestsTempDB")     //create temp DB sinta temp;
-            .clearValue('@dbUserInput')
-            .setValue('@dbUserInput',  "user")
-            .clearValue('@dbPasswordInput')
-            .setValue('@dbPasswordInput',  "user")
-            .click('@createDBBtn')
+                        console.log("dropDB");
+                    });
+        var instance = this;
+       // this.api.expect.element('@dbNameInput').to.have.attribute('value').which.equal('modaua_uiTtest1');
+        instance
+            .waitForElementVisible('@dropDBBtn')
+            .click('@dropDBBtn')
             .authorizeAsAdmin()
-            .waitForElementVisible('@createDBResultField')
-            .assert.containsText('@createDBResultField',"created")
-            .click('@StoreAndReconnectBtn');
+            .waitForElementVisible('@dropDBResultField');
+
         return instance;
     },
 
-    dropTempDBAndReconnect: function () {
-        this.api.perform(function(){
-            console.log("dropTempDBAndReconnect");
-        });
+    //dropTempDBAndReconnect: function () {
+    //    this.api.perform(function(){
+    //        console.log("dropTempDBAndReconnect");
+    //    });
+    //
+    //    var instance=this;
+    //    var dbConfig;
+    //    this.api.pause(2000);
+    //
+    //    fs.unlink('./uiTest.cfg', function (err) {              //dele file
+    //        if (err && err.code == 'ENOENT') {
+    //            // file doens't exist
+    //            console.info("File doesn't exist, won't remove it.");
+    //        } else if (err) {
+    //            // maybe we don't have enough permission
+    //            console.error("Error occurred while trying to remove file");
+    //        }
+    //        fs.rename('./test_temp_copy.cfg', './uiTest.cfg', function (err) {
+    //            if (err) console.log('ERROR: ' + err);
+    //            dbConfig = JSON.parse(fs.readFileSync("./uiTest.cfg", "utf-8"));
+    //        })
+    //    });
+    //
+    //    this.api.perform(function () {
+    //        instance.waitForElementVisible('@dbHostInput')
+    //            .waitForElementVisible('@dbNameInput')
+    //            .waitForElementVisible('@dbUserInput')
+    //            .waitForElementVisible('@dbPasswordInput')
+    //            .clearValue('@dbHostInput')
+    //            .setValue('@dbHostInput', "localhost")
+    //            .clearValue('@dbNameInput')
+    //            .setValue('@dbNameInput', "uiTestsTempDB")                             //create temp DB   //uiTestsTempDB
+    //            .clearValue('@dbUserInput')
+    //            .setValue('@dbUserInput', "user")
+    //            .clearValue('@dbPasswordInput')
+    //            .setValue('@dbPasswordInput', "user")
+    //            .click('@dropDBBtn')
+    //            .authorizeAsAdmin()
+    //            .waitForElementVisible('@dropDBResultField')
+    //            .assert.containsText('@dropDBResultField', "dropped")
+    //
+    //            .waitForElementVisible('@dbHostInput')
+    //            .waitForElementVisible('@dbNameInput')
+    //            .waitForElementVisible('@dbUserInput')
+    //            .waitForElementVisible('@dbPasswordInput')
+    //            .clearValue('@dbHostInput')
+    //            .setValue('@dbHostInput', dbConfig.host)
+    //            .clearValue('@dbNameInput')
+    //            .setValue('@dbNameInput', dbConfig.database)
+    //            .clearValue('@dbUserInput')
+    //            .setValue('@dbUserInput', dbConfig.user)
+    //            .clearValue('@dbPasswordInput')
+    //            .setValue('@dbPasswordInput', dbConfig.password)
+    //            .click('@StoreAndReconnectBtn');
+    //    });
+    //    return instance;
+    //},
 
-        var instance=this;
-        var dbConfig;
-        this.api.pause(2000);
-
-        fs.unlink('./uiTest.cfg', function (err) {              //dele file
-            if (err && err.code == 'ENOENT') {
-                // file doens't exist
-                console.info("File doesn't exist, won't remove it.");
-            } else if (err) {
-                // maybe we don't have enough permission
-                console.error("Error occurred while trying to remove file");
-            }
-            fs.rename('./test_temp_copy.cfg', './uiTest.cfg', function (err) {
-                if (err) console.log('ERROR: ' + err);
-                dbConfig = JSON.parse(fs.readFileSync("./uiTest.cfg", "utf-8"));
-            })
-        });
-
-        this.api.perform(function () {
-            instance.waitForElementVisible('@dbHostInput')
-                .waitForElementVisible('@dbNameInput')
-                .waitForElementVisible('@dbUserInput')
-                .waitForElementVisible('@dbPasswordInput')
-                .clearValue('@dbHostInput')
-                .setValue('@dbHostInput', "localhost")
-                .clearValue('@dbNameInput')
-                .setValue('@dbNameInput', "uiTestsTempDB")                             //create temp DB   //uiTestsTempDB
-                .clearValue('@dbUserInput')
-                .setValue('@dbUserInput', "user")
-                .clearValue('@dbPasswordInput')
-                .setValue('@dbPasswordInput', "user")
-                .click('@dropDBBtn')
-                .authorizeAsAdmin()
-                .waitForElementVisible('@dropDBResultField')
-                .assert.containsText('@dropDBResultField', "dropped")
-
-                .waitForElementVisible('@dbHostInput')
-                .waitForElementVisible('@dbNameInput')
-                .waitForElementVisible('@dbUserInput')
-                .waitForElementVisible('@dbPasswordInput')
-                .clearValue('@dbHostInput')
-                .setValue('@dbHostInput', dbConfig.host)
-                .clearValue('@dbNameInput')
-                .setValue('@dbNameInput', dbConfig.database)
-                .clearValue('@dbUserInput')
-                .setValue('@dbUserInput', dbConfig.user)
-                .clearValue('@dbPasswordInput')
-                .setValue('@dbPasswordInput', dbConfig.password)
-                .click('@StoreAndReconnectBtn');
-        });
-        return instance;
-    },
-
-    resetTempDBConfig: function () {
+    resetDBConfig: function () {
         var instance=this;
         instance.waitForElementVisible('@dbHostInput')
             .waitForElementVisible('@dbNameInput')
@@ -94,7 +109,7 @@ var startUpParamsCommands = {
             .clearValue('@dbHostInput')
             .setValue('@dbHostInput','localhost')
             .clearValue('@dbNameInput')
-            .setValue('@dbNameInput', 'uiTestsTempDB')
+            .setValue('@dbNameInput', 'modaua_uiTtest1')
             .clearValue('@dbUserInput')
             .setValue('@dbUserInput',  'user')
             .clearValue('@dbPasswordInput')
@@ -132,15 +147,18 @@ var startUpParamsCommands = {
             console.log("authorizeAsAdmin");
         });
         var instance=this;
-        return instance.waitForElementVisible('@authAdminDialog')
-            .assert.containsText('@authAdminDialog', 'Admin authorisation')
-            .assert.visible('@authAdminDialog_AdminName')
-            .assert.valueContains('@authAdminDialog_AdminName', 'root')
-            .assert.visible('@authAdminDialog_AdminPas')
-            .assert.valueContains('@authAdminDialog_AdminPas', '')
-            .setValue('@authAdminDialog_AdminPas','Rty1988')
-            .click('@authAdminDialog_submitBtn')
-            .waitForElementNotVisible('@authAdminDialog');
+        this.api.perform(function () {
+            instance.waitForElementVisible('@authAdminDialog')
+                .assert.containsText('@authAdminDialog', 'Admin authorisation')
+                .assert.visible('@authAdminDialog_AdminName')
+                .assert.valueContains('@authAdminDialog_AdminName', 'root')
+                .assert.visible('@authAdminDialog_AdminPas')
+                .assert.valueContains('@authAdminDialog_AdminPas', '')
+                .setValue('@authAdminDialog_AdminPas',rootPswd)                                   //root pswrd
+                .click('@authAdminDialog_submitBtn')
+                .waitForElementNotVisible('@authAdminDialog');
+        });
+        return instance;
     },
 
     assertBackupDialogIsEmpty:function(){
@@ -160,7 +178,7 @@ var startUpParamsCommands = {
 
 
 module.exports={
-    commands:[startUpParamsCommands],
+    commands:[serverConfigCommands],
     elements:{
         localConfigInfo:'#sa_serverConfig_configState',
 

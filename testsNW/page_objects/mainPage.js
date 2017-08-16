@@ -40,6 +40,13 @@ var mainPageCommands= {
             .waitForElementVisible('@refreshBtn')
             .waitForElementVisible('@printBtn')
     },
+    pressRefreshBtnInTable:function(tableID){
+        this.elements.refreshBtn = {
+            selector: "//*[@id='"+tableID+"_ContentContainer']//span[contains(text(),'Обновить')]",                     //*[@id='"+tableID+"_ContentContainer']
+            locateStrategy: 'xpath'
+        };
+        return this.click("@refreshBtn");
+    },
     assertActionPaneVisible: function (tableID) {
         var instance = this;
         instance.elements.actionPaneTitle = {
@@ -98,17 +105,53 @@ var mainPageCommands= {
         return this.click('@deleteBtn');
     },
     cellSetValue:function(tableID, RowNumber, ColumnNumber,value){
-        var instance=this;
+        //this.api.perform(function(){console.log("cellSetValue");});
         this.elements.tableCell = {
             selector: "//div[@id='"+tableID+"_ContentContainer']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[" + RowNumber + "]/td[" + ColumnNumber + "]",
             locateStrategy: 'xpath'
         };
-        return this
-            .clearValue("@tableCell",function(){
-
-        })
-            .setValue("@tableCell",value);
-    }
+        this.moveToElement("@tableCell",15,15)
+            .api.doubleClick();
+        this.api.keys(value);
+        return this;
+    },
+    moveToCell: function (tableID, RowNumber, ColumnNumber) {
+        var instance = this;
+        this.elements.tableCell = {
+            selector: "//div[@id='"+tableID+"_ContentContainer']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[" + RowNumber + "]/td[" + ColumnNumber + "]",
+            locateStrategy: 'xpath'
+        };
+        return instance
+            .moveToElement("@tableCell", 15, 15);
+    },
+    mouseButtonClick: function (btn) {
+        var instance = this;
+        this.api.mouseButtonClick(btn);
+        return instance;
+    },
+    changeNotUsedPropBtn:function(tableID,RowNumber){
+        var instance=this;
+        this.api.perform(function(){console.log("changeNotUsedPropBtn");});
+        this.elements.notUsedPropBtn = {
+            selector: "//div[@id='"+tableID+"_ContentContainer']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[" + RowNumber + "]/td[6]//input[@type='checkbox']",
+            locateStrategy: 'xpath'
+        };
+        this
+            .waitForElementVisible("@notUsedPropBtn")
+            .moveToElement("@notUsedPropBtn",7,7,function(){
+                instance.api.doubleClick();
+                instance.expect.element('@notUsedPropBtn').to.have.attribute('checked').which.equal('true');
+            });
+        //this.api.perform(function(){
+        //    instance.api.doubleClick();
+        //});
+       // this.api.doubleClick();
+       // this.api.perform(function(){
+       //     instance.expect.element('@notUsedPropBtn').to.have.attribute('checked').which.equal('true');
+       // });
+        //this.expect.element('@notUsedPropBtn').to.have.attribute('checked').which.equal('true');
+        return this;
+    },
 };
 
 module.exports = {
@@ -120,12 +163,13 @@ module.exports = {
         main_username:"#main_username",
 
 
-        mainMenuItem: '#main_MainMenu',
-        menuBarPopupMenuMain: '#menuBarPopupMenuMain',
-        menuBarWrh:"#menuBarWrh",
-        menuBarPopupMenuSales:"#menuBarPopupMenuSales",
-        menuBarItemCloseItem: '#menuBarItemClose',
-        menuBarItemHelpAboutItem: '#menuBarItemHelpAbout',
+        mainMenuItem: '#main_MainMenu',                      //Главная стр
+        menuBarPopupMenuMain: '#menuBarPopupMenuMain',       //Предприятие
+        menuBarWrh:"#menuBarWrh",                            //Склад
+        menuBarItemSalesCashier:"#menuBarItemSalesCashier",  //Отчеты кассира
+        menuBarPopupMenuSales:"#menuBarPopupMenuSales",      //Продажи
+        menuBarItemCloseItem: '#menuBarItemClose',            //Выход
+        menuBarItemHelpAboutItem: '#menuBarItemHelpAbout',    //О программе
 
         aboutProgramDialog:"#DialogSimple",
 
@@ -144,6 +188,8 @@ module.exports = {
         menuBarPopupMenuMain_menu:"#menuBarPopupMenuMain_menu",
         menuBarDirsItemUnits:"#menuBarDirsItemUnits",
         menuBarDirsItemContractors:"#menuBarDirsItemContractors",
+        menuBarDirsItemProducts:"#menuBarDirsItemProducts",
+
 
         main_ContentContainer_tablist_PageContentPane_dir_units:"#main_ContentContainer_tablist_PageContentPane_dir_units",
         closeTabMainDirUnits:{
@@ -166,6 +212,17 @@ module.exports = {
         menuBarSalesItemCashier:"#menuBarSalesItemCashier",
 
         dir_units_ContentContainer:"#dir_units_ContentContainer",
+        dir_units_TableDirUnits:"#dir_units_TableDirUnits",
+
+        usedDirUnitsBtn:{
+            selector:'//div[@id="dir_units_TableDirUnits"] //span[contains(text(), "Используемые")]/ancestor::span[@role="button"]',
+            locateStrategy:'xpath'
+        },
+        notUsedDirUnitsBtn:{
+            selector:'//div[@id="dir_units_TableDirUnits"] //span[contains(text(), "Не используемые")]/ancestor::span[@role="button"]',
+            locateStrategy:'xpath'
+        },
+//*[@id="dijit_form_ToggleButton_0_label"]
         finishedContentPane:"#finish"
     }
 };

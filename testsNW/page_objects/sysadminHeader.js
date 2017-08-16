@@ -7,8 +7,9 @@ module.exports = {
         port: '#sysadmin_app_port',
         dbName: '#sysadmin_dbName',
         dbConnectionState: '#sysadmin_connectToDBState',
+        dbValidateState:'#sysadmin_dbValidateState',
         dbUser: '#sysadmin_ConnUserName',
-        StartUpParamsBtn: '#sysadmin_btnServerConfig',
+        serverConfigBtn: '#sysadmin_btnServerConfig',
         btnDatabase: "#sysadmin_btnDatabase",
         logoutBtn:"#btnLogout"
     }
