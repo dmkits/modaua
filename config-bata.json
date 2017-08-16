@@ -2,6 +2,7 @@
   "title":"BATA.UA",
   "users":[
     { "userLogin":"admin", "pswrd":"admin", "userRole":"admin" },
+    { "userLogin":"adminDev", "pswrd":"admin", "userRole":"adminDev" },
     { "userLogin":"zina", "pswrd":"zinaBata", "userRole":"user" },
     { "userLogin":"marina", "pswrd":"marinaBata", "userRole":"user" },
     { "userLogin":"bata1", "pswrd":"bata1", "userRole":"cashier" }
@@ -53,7 +54,8 @@
       "menuBarItemClose","menuBarItemHelpAbout"]
   },
   "usersRoleAutorun":{
-    "admin":["menuBarItemMainPage","menuBarWrhPInvoice"],
+    "admin":["menuBarItemMainPage"],
+    "adminDev":["menuBarItemMainPage","menuBarDirsItemUnits","menuBarDirsItemProducts"],
     "user":["menuBarItemMainPage"],
     "cashier":["menuBarItemSalesCashier"]
   }

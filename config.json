@@ -2,6 +2,7 @@
   "title":"MODA.UA",
   "users":[
     { "userLogin":"admin", "pswrd":"admin", "userRole":"admin" },
+    { "userLogin":"adminDev", "pswrd":"admin", "userRole":"adminDev" },
     { "userLogin":"user", "pswrd":"user", "userRole":"user" },
     { "userLogin":"cashier", "pswrd":"cashier", "userRole":"cashier" }
   ],
@@ -53,6 +54,7 @@
   },
   "usersRoleAutorun":{
     "admin":["menuBarItemMainPage","menuBarWrhPInvoice"],
+    "adminDev":["menuBarItemMainPage","menuBarDirsItemUnits","menuBarDirsItemProducts"],
     "user":["menuBarItemMainPage"],
     "cashier":["menuBarItemSalesCashier"]
   }
