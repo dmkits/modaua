@@ -14,7 +14,7 @@
     <link rel="stylesheet" type="text/css" href="/css/sysadmin.css" media="screen">
     <title>MODA.UA</title>
 </head>
-<body class="claro" style="display: none" id="hideAll">
+<body class="claro" style="display:none">
 <div id="sysadmin_MainContainer">
     <div id="sysadmin_TopContainer" style="height:63px; margin:0; padding:0">
         <div id="sysadmin_TopImg"></div>
@@ -30,16 +30,11 @@
         <div id="sysadmin_TopActions">
             <table>
                 <tr>
-                    <td>
-                        <button id="sysadmin_btnServerConfig">Server configuration</button>
-                    </td>
-                    <td>
-                        <button id="sysadmin_btnDatabase">Database</button>
-                    </td>
+                    <td><button id="sysadmin_btnServerConfig">Server configuration</button></td>
+                    <td><button id="sysadmin_btnDatabase">Database</button></td>
+                    <td><button id="sysadmin_btnAppModelSettings">AppModelSettings</button></td>
                     <td width="500px"></td>
-                    <td>
-                        <button id="btnLogout">Logout</button>
-                    </td>
+                    <td><button id="btnLogout">Logout</button></td>
                 </tr>
             </table>
         </div>
@@ -51,48 +46,27 @@
     require(["app", "dijit/layout/BorderContainer", "dijit/layout/StackContainer", "dijit/layout/ContentPane",
                 "dijit/form/ToggleButton", "dojox/layout/ContentPane", "dijit/form/Button",  "request", "dojo/domReady!"],
             function (APP, BorderContainer, StackContainer, ContentPane, ToggleButton, XContentPane, Button, Request) {     console.log("STARTING SYSADMIN PAGE...");//!!!IT'S FOR TESTING!!!
-               moment.locale("uk");
-
-                document.getElementById("hideAll").style.display = "inline";
-
+                moment.locale("uk");
                 var sysadmin_MainContainer = APP.instanceForID("sysadmin_MainContainer", BorderContainer, {design: "headline"});
                 var sysadmin_TopContainer = APP.instanceForID("sysadmin_TopContainer",
-                        BorderContainer, {
-                            region: "top",
-                            design: "sidebar",
-                            class: "sysadmin_TopContent",
-                            gutters: true
-                        });
-                var sysadmin_TopImg = APP.instanceForID("sysadmin_TopImg", ContentPane, {
-                    region: "left",
-                    class: "sysadmin_TopContent"
-                });
-
-                var sysadmin_TopStateInfo = APP.instanceForID("sysadmin_TopStateInfo", ContentPane, {
-                    region: "top",
-                    class: "sysadmin_TopContent"
-                });
-                var sysadmin_TopActions = APP.instanceForID("sysadmin_TopActions", ContentPane, {
-                    region: "bottom",
-                    class: "sysadmin_TopContent"
-                });
-
+                        BorderContainer, { region: "top", design: "sidebar", class: "sysadmin_TopContent", gutters: true });
+                var sysadmin_TopImg = APP.instanceForID("sysadmin_TopImg",
+                        ContentPane, { region: "left", class: "sysadmin_TopContent" });
+                var sysadmin_TopStateInfo = APP.instanceForID("sysadmin_TopStateInfo",
+                        ContentPane, { region: "top", class: "sysadmin_TopContent" });
+                var sysadmin_TopActions = APP.instanceForID("sysadmin_TopActions",
+                        ContentPane, { region: "bottom", class: "sysadmin_TopContent" });
                 var functionalButtons=[];
-
                 var sysadmin_btnServerConfig = new ToggleButton({id:"sysadmin_btnServerConfig",iconClass:'dijitCheckBoxIcon'},"sysadmin_btnServerConfig");
                 functionalButtons.push(sysadmin_btnServerConfig);
                 var sysadmin_btnDatabase = new ToggleButton({id:"sysadmin_btnDatabase",iconClass:'dijitCheckBoxIcon'},"sysadmin_btnDatabase");
                 functionalButtons.push(sysadmin_btnDatabase);
+                var sysadmin_btnAppModelSettings = new ToggleButton({id:"sysadmin_btnAppModelSettings",iconClass:'dijitCheckBoxIcon'},"sysadmin_btnAppModelSettings");
+                functionalButtons.push(sysadmin_btnAppModelSettings);
                 var btnLogout = new ToggleButton({id:"btnLogout"},"btnLogout");
-
-                btnLogout.onClick=function(){
-                    document.cookie="mduUser=";
-                    document.cookie="mduPswrd=";
-                    location.reload();
-                };
-
                 var sysadmin_ContentContainer = APP.instanceForID("sysadmin_ContentContainer",
                         StackContainer, {region: "center", tabPosition: "top", class: "sysadmin_Content"});
+                document.body.style.display = "";
                 sysadmin_MainContainer.startup();
                 /**
                  * params = { revalidate:true/false }
@@ -192,18 +166,29 @@
                         }
                     }
                 };
-
                 sysadmin_btnServerConfig.onClick=function() {
-                   sysadmin_MainContainer.runSysadminContentPage(sysadmin_btnServerConfig, "sysadmin_ServerConfig", "Server configuration", false, "/sysadmin/serverConfig");
+                   sysadmin_MainContainer.runSysadminContentPage(sysadmin_btnServerConfig, "sysadmin_ServerConfig",
+                           "Server configuration", false, "/sysadmin/serverConfig");
                     checkButton(this);
                 };
-
                 sysadmin_btnDatabase.onClick=function(){
-                    sysadmin_MainContainer.runSysadminContentPage(sysadmin_btnDatabase, "sysadmin_btnDatabase", "Database", false, "/sysadmin/database");
+                    sysadmin_MainContainer.runSysadminContentPage(sysadmin_btnDatabase, "sysadmin_btnDatabase",
+                            "Database", false, "/sysadmin/database");
                     checkButton(this);
+                };
+                sysadmin_btnAppModelSettings.onClick=function(){
+                    sysadmin_MainContainer.runSysadminContentPage(sysadmin_btnAppModelSettings, "sysadmin_btnAppModelSettings",
+                            "Application model settings", false, "/sysadmin/appModelSettings");
+                    checkButton(this);
+                };
+                btnLogout.onClick=function(){
+                    document.cookie="mduUser=";
+                    document.cookie="mduPswrd=";
+                    location.reload();
                 };
 
                 sysadmin_MainContainer.updateDBState();
+                sysadmin_btnDatabase.onClick();
             });
 </script>
 </html>

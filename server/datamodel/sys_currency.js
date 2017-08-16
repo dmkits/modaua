@@ -30,7 +30,7 @@ var tableName="sys_currency", tableFields=["ID","CODE","NAME","NOTE"], idField=t
 module.exports.validateData= {tableName:tableName, fields:tableFields, idField:idField};
 
 var tableColumns=[
-    {"data": "ID", "name": "ID", "width": 200, "type": "text", visible:false}
+    {"data": "ID", "name": "ID", "width": 50, "type": "text", visible:true}
     , {"data": "CODE", "name": "CODE", "width": 120, "type": "text"}
     , {"data": "NAME", "name": "NAME", "width": 200, "type": "text"}
     , {"data": "NOTE", "name": "NOTE", "width": 450, "type": "text"}
@@ -39,3 +39,10 @@ var tableColumns=[
 module.exports.validateData= {tableName:tableName, tableColumns:tableColumns, idField:idField};
 
 var dm=this;
+/**
+ * resultCallback = function(tableData={ columns, identifier, items, error })
+ */
+module.exports.getDataForSysCurrencyTable= function(conditions, resultCallback){
+    dm.getDataForTable({tableName:tableName, tableColumns:tableColumns, identifier:idField,
+        order:"ID", conditions:conditions}, resultCallback);
+};

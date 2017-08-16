@@ -5,31 +5,36 @@
     <title></title>
 </head>
 <body>
-<div id="sysadmin_database_PageContainer" style="width:100%;height:100%;">
-    <div id="sysadmin_database_ContentPaneTop" style="width:100%;height:28px; margin:0;padding:0;"></div>
+<div id="sysadmin_database_PageContainer" style="width:100%;height:100%;display:none;">
+    <div id="sysadmin_database_ContentPaneTop" style="width:100%;height:30px; margin:0;padding:0;">
+        <table>
+            <tr>
+                <td><button id="sysadmin_database_btnCurrentChanges"></button></td>
+                <td><button id="sysadmin_database_btnChangeLog"></button></td>
+            </tr>
+        </table>
+    </div>
     <div id="sysadmin_database_ContentPaneDetailContainer" style="width:100%;height:100%; margin:0;padding:0;"></div>
 </div>
 </body>
 <script type="text/javascript">
     require(["app", "dojo/dom-style", "dijit/layout/BorderContainer", "dijit/layout/StackContainer", "dijit/layout/ContentPane",
-                "dijit/form/Button", "dijit/form/ToggleButton", "templateDocumentSimpleTable", "dojox/widget/DialogSimple", "request","dojo/dom"],
-
-            function (APP, domStyle, BorderContainer, StackContainer, ContentPane, Button, ToggleButton, TDocumentSimpleTable, DialogSimple, Request,dom) {
+                "dijit/form/Button", "dijit/form/ToggleButton", "templateDocumentSimpleTable", "dojox/widget/DialogSimple", "request"],
+            function (APP, domStyle, BorderContainer, StackContainer, ContentPane, Button, ToggleButton, TDocumentSimpleTable, DialogSimple, Request) {
                 var sysadmin_database_PageContainer =
-                        APP.instanceForID("sysadmin_database_PageContainer", BorderContainer, {});  console.log("sysadmin_database_PageContainer",sysadmin_database_PageContainer);
-
-
+                        APP.instanceForID("sysadmin_database_PageContainer", BorderContainer, {});
                 var sysadmin_database_ContentPaneTop =
                         APP.instanceForID("sysadmin_database_ContentPaneTop", ContentPane, {region: 'top',splitter: false});
-                var btnCurrentChanges= APP.childFor(sysadmin_database_ContentPaneTop,
-                        "sysadmin_database_btnCurrentChanges", ToggleButton, {showLabel: true, checked: true, label: "Current changes", iconClass:'dijitCheckBoxIcon', actionData:""});
+                var btnCurrentChanges= APP.instanceForID("sysadmin_database_btnCurrentChanges",
+                        ToggleButton, {showLabel: true, checked: true, label: "Current changes", iconClass:'dijitCheckBoxIcon'});
                 domStyle.set("sysadmin_database_btnCurrentChanges", "width", "150px");
-                var btnChangeLog= APP.childFor(sysadmin_database_ContentPaneTop,
-                        "sysadmin_database_btnChangeLog", ToggleButton, {showLabel: true, checked: false, label: "Change log", iconClass:'dijitCheckBoxIcon', actionData:""});
+                var btnChangeLog= APP.instanceForID("sysadmin_database_btnChangeLog",
+                        ToggleButton, {showLabel: true, checked: false, label: "Change log", iconClass:'dijitCheckBoxIcon'});
                 domStyle.set("sysadmin_database_btnChangeLog", "width", "150px");
-
                 var sysadmin_database_ContentPaneDetailContainer =
                         APP.instanceForID("sysadmin_database_ContentPaneDetailContainer", StackContainer, {region: 'center'});
+                sysadmin_database_PageContainer.domNode.style.display="";
+                sysadmin_database_PageContainer.startup();
 
                 var dialog = new DialogSimple({ style:"text-align:center", title:"FAIL", content: "No connection to the server!<br>", closable:true });
                 var okButton = new Button({label:"OK"});
@@ -40,6 +45,7 @@
                 dialog.startup();
 
                 btnCurrentChanges.onClick = function () {
+                    this.set("checked",true);
                     btnChangeLog.set("checked",false);
                     if (btnCurrentChanges.document) {
                         sysadmin_database_ContentPaneDetailContainer.selectChild(btnCurrentChanges.document);
@@ -94,6 +100,7 @@
                     sysadmin_database_ContentPaneDetailContainer.selectChild(btnCurrentChanges.document);
                 };
                 btnChangeLog.onClick = function () {
+                    this.set("checked",true);
                     btnCurrentChanges.set("checked",false);
                     if (btnChangeLog.document) {
                         sysadmin_database_ContentPaneDetailContainer.selectChild(btnChangeLog.document);

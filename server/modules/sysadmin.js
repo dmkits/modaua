@@ -22,9 +22,12 @@ var changesTableColumns=[
 
 var dataModel=require('../datamodel');
 var changeLog= require(appDataModelPath+"change_log");
+var sysCurrency= require(appDataModelPath+"sys_currency");
+var sysDocStates= require(appDataModelPath+"sys_docstates");
 
 module.exports.validateModule = function(errs, nextValidateModuleCallback){
-    dataModel.initValidateDataModels({"change_log":changeLog}, errs,
+    dataModel.initValidateDataModels({"change_log":changeLog,
+            "sys_docstates":sysDocStates,"sys_currency":sysCurrency}, errs,
         function(){
             nextValidateModuleCallback();
         });
@@ -617,6 +620,20 @@ module.exports.init = function(app){
 
     app.get("/sysadmin/database/getChangeLog", function (req, res) {
         changeLog.getDataForChangeLogTable(req.query, function(result){
+            res.send(result);
+        });
+    });
+
+    app.get("/sysadmin/appModelSettings", function (req, res) {
+        res.sendFile(appViewsPath+'sysadmin/appModelSettings.html');
+    });
+    app.get("/sysadmin/appModelSettings/getSysCurrencyDataForTable", function(req, res){
+        sysCurrency.getDataForSysCurrencyTable(req.query, function(result){
+            res.send(result);
+        });
+    });
+    app.get("/sysadmin/appModelSettings/getSysDocumentsStatesDataForTable", function(req, res){
+        sysDocStates.getDataForSysDocStatesTable(req.query, function(result){
             res.send(result);
         });
     });
