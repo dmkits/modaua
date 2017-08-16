@@ -91,19 +91,6 @@ define(["dojo/_base/declare", "dijit/layout/ContentPane", "request"], function(d
                 return;
             }
             this.htData = data.items;
-            for(var c=0;c<this.htVisibleColumns.length;c++){
-                var visColData=this.htVisibleColumns[c];
-                if (visColData.type==="autocomplete") {                                                                 //console.log("HTableSimple setData autocomplete",visColData.data,visColData.type);
-                    visColData.sourceValues={};
-                    for(var r=0;r<this.htData.length;r++) {
-                        var value=this.htData[r][visColData.data];
-                        if (!visColData.sourceValues[value]){
-                            visColData.sourceValues[value]=true;
-                            visColData.source.push(value);
-                        }
-                    }
-                }
-            }                                                                                                           console.log("HTableSimple setData htVisibleColumns",this.htVisibleColumns);
         },
         getData: function(){
             return this.htData;
@@ -154,13 +141,15 @@ define(["dojo/_base/declare", "dijit/layout/ContentPane", "request"], function(d
                     if(element.tagName==="TH") { event.stopImmediatePropagation(); }//disable column header click event
                 },
                 cellValueRenderer:function (instance, td, row, col, prop, value, cellProperties) {
-                    Handsontable.cellTypes[cellProperties.type].renderer.apply(this, arguments);
                     if(cellProperties["html"]){
                         Handsontable.renderers.HtmlRenderer.apply(this, arguments);
-                    } else if (cellProperties["type"]==="text"&&cellProperties["dateFormat"]){
-                        if(value!==null&&value!==undefined)
-                            td.innerHTML= moment(new Date(value) /*value,"YYYY-MM-DD"*/).format(cellProperties["dateFormat"]);
-                        else td.innerHTML="";
+                    } else {
+                        Handsontable.cellTypes[cellProperties.type].renderer.apply(this, arguments);
+                        if (cellProperties["type"]==="text"&&cellProperties["dateFormat"]){
+                            if(value!==null&&value!==undefined)
+                                td.innerHTML= moment(new Date(value) /*value,"YYYY-MM-DD"*/).format(cellProperties["dateFormat"]);
+                            else td.innerHTML="";
+                        }
                     }
                     var rowSourceData= instance.getContentRow(row);
                     if(rowSourceData&&rowSourceData[instance.getSettings().htDataSelectedProp]===true) td.classList.add('hTableCurrentRow');

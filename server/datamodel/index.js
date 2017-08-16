@@ -82,6 +82,7 @@ module.exports.initValidateDataModels=function(dataModels, errs, resultCallback)
  *       ...
  * ]
  * tableColumns: -<dataType> = text / html_text / text_date / text_datetime / date / numeric / numeric2 / checkbox
+ *                              / combobox sourceURL
  * OR tableColumns: -<dataType> = text / text & dateFormat:"DD.MM.YY HH:mm:ss" / html_text / date /
  *              numeric format:"#,###,###,##0.00[#######]" language:"ru-RU" /
  *              checkbox checkedTemplate:1 uncheckedTemplate:0 /
@@ -102,11 +103,16 @@ function _fillDataTypeForTableColumns(tableColumns){
             if(!tableColData.format) tableColData.format="#,###,###,##0.[#########]";
             if(!tableColData.language) tableColData.language="ru-RU";
         } else if(tableColData.type=="numeric2"){
+            tableColData.type="numeric";
             if(!tableColData.format) tableColData.format="#,###,###,##0.00[#######]";
             if(!tableColData.language) tableColData.language="ru-RU";
         } else if(tableColData.type=="checkbox"){
             if(!tableColData.checkedTemplate) tableColData.checkedTemplate="1";
             if(!tableColData.uncheckedTemplate) tableColData.uncheckedTemplate="0";
+        } else if(tableColData.type=="combobox") {
+            tableColData.type="autocomplete";
+            if (!tableColData.strict) tableColData.strict =true;
+            if (!tableColData.allowInvalid) tableColData.allowInvalid = false;
         }
     }
     return tableColumns;

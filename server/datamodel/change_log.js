@@ -13,7 +13,6 @@ var tableName="change_log", tableColumns=[
     , {"data": "CHANGE_VAL", "name": "changeVal", "width": 450, "type": "text"}
     , {"data": "APPLIED_DATETIME", "name": "appliedDatetime", "width": 120, "type": "text", "dateFormat":"YYYY-MM-DD HH:mm:ss"}
 ], idField=tableColumns[0].data;
-module.exports.tableColumns=tableColumns;
 
 module.exports.validateData= {tableName:tableName, tableColumns:tableColumns, idField:idField};
 

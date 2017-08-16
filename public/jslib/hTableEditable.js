@@ -7,6 +7,27 @@ define(["dojo/_base/declare", "hTableSimpleFiltered", "request"], function(decla
         constructor: function(args,parentName){
             declare.safeMixin(this,args);
         },
+        setData: function(data) {                                                                           console.log("HTableEditable setData ", data);
+            this._setData= hTableSimpleFiltered().setData;
+            this._setData(data);
+
+            for(var c=0;c<this.htVisibleColumns.length;c++){
+                var visColData=this.htVisibleColumns[c];
+                if (visColData.type==="autocomplete") {                                                                 //console.log("HTableSimple setData autocomplete",visColData.data,visColData.type);
+                    visColData.sourceValues={};
+                    for(var r=0;r<this.htData.length;r++) {
+                        var value=this.htData[r][visColData.data];
+                        if (!visColData.sourceValues[value]){
+                            visColData.sourceValues[value]=true;
+                            visColData.source.push(value);
+                        }
+                    }
+                    visColData.source.push("123");
+                    visColData.source.push("234");
+                }
+            }                                                                                                           console.log("HTableSimple setData htVisibleColumns",this.htVisibleColumns);
+
+        },
         setChangeSettings: function(){
             var parent= this;
             var parentCellValueRenderer=this.handsonTable.getSettings().cellValueRenderer;
@@ -14,6 +35,16 @@ define(["dojo/_base/declare", "hTableSimpleFiltered", "request"], function(decla
                 cellValueRenderer:function (instance, td, row, col, prop, value, cellProperties) {
                     parentCellValueRenderer(instance, td, row, col, prop, value, cellProperties);
                     var rowSourceData= instance.getContentRow(row);
+                    if (rowSourceData) {
+                        var colType=parent.htVisibleColumns[col].type;
+                        if (colType === "autocomplete") {                                                               //console.log("HTableEditable cellValueRenderer autocomplete",td);
+                            if (rowSourceData[parent.allowEditRowProp] != true) {
+                                if (td.lastChild) td.lastChild.setAttribute("style","display:none");
+                            } else {
+                                if (td.lastChild) td.lastChild.removeAttribute("style");
+                            }
+                        }
+                    }
                     if (rowSourceData&&rowSourceData[parent.allowEditRowProp]==true) td.classList.add('hTableRowInEditMode');//markAsEditMode-row data not stored to server
                     var markAsError= false;
                     for(var dataItemName in rowSourceData)
@@ -32,6 +63,7 @@ define(["dojo/_base/declare", "hTableSimpleFiltered", "request"], function(decla
                     //    }
                     //}
                     //if(markAsNotStored){ td.classList.add('hTableErrorRow'); }//markAsError
+                    return cellProperties;
                 }
             });
             this.handsonTable.updateSettings({

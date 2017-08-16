@@ -1,6 +1,6 @@
 var changeLog=[
   { "changeID":"dir_products_genders__1", "changeDatetime": "2016-08-31T18:01:00.000+0300", "changeObj": "dir_products_genders",
-    "changeVal": "CREATE TABLE dir_products_genders(ID BIGINT NOT NULL PRIMARY KEY) CHARACTER SET utf8" },
+    "changeVal": "CREATE TABLE dir_products_genders(ID BIGINT UNSIGNED NOT NULL PRIMARY KEY) CHARACTER SET utf8" },
   { "changeID":"dir_products_genders__2", "changeDatetime": "2016-08-31T18:02:00.000+0300", "changeObj": "dir_products_genders",
     "changeVal": "ALTER TABLE dir_products_genders ADD COLUMN CODE VARCHAR(1) NOT NULL" },
   { "changeID":"dir_products_genders__3", "changeDatetime": "2016-08-31T18:03:00.000+0300", "changeObj": "dir_products_genders",

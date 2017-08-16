@@ -9,6 +9,7 @@ var dirProductsCollections= require(appDataModelPath+"dir_products_collections")
 
 var dirProductsGendersBata= require(appDataModelPath+"dir_products_genders-bata");
 var dirProductsCategoriesBata= require(appDataModelPath+"dir_products_categories-bata");
+var dirProductsCategoriesVBata= require(appDataModelPath+"dir_products_categories_view-bata");
 var dirProductsSubCategoriesBata= require(appDataModelPath+"dir_products_subcategories-bata");
 var dirProductsCategoriesSubCatsBata= require(appDataModelPath+"dir_products_categories_subcats-bata");
 
@@ -18,7 +19,8 @@ module.exports.validateModule = function(errs, nextValidateModuleCallback){
             "dir_products_kinds":dirProductsKinds, "dir_products_compositions":dirProductsCompositions, "dir_products_sizes":dirProductsSizes,
             "dir_products_collections":dirProductsCollections,
             "dir_products_genders-bata":dirProductsGendersBata,
-            "dir_products_categories-bata":dirProductsCategoriesBata, "dir_products_subcategories-bata":dirProductsSubCategoriesBata,
+            "dir_products_categories-bata":dirProductsCategoriesBata, "dir_products_categories_view-bata":dirProductsCategoriesVBata,
+            "dir_products_subcategories-bata":dirProductsSubCategoriesBata,
             "dir_products_categories_subcategories-bata":dirProductsCategoriesSubCatsBata},
         errs,
         function(){
@@ -72,7 +74,7 @@ module.exports.init = function(app){
     });
 
     app.get("/dir/products/getDataForDirProductsCategoriesTable", function(req, res){
-        dirProductsCategoriesBata.getDataForDirProductsCategoriesTable(req.query, function(result){
+        dirProductsCategoriesVBata.getDataForDirProductsCategoriesTable(req.query, function(result){
             res.send(result);
         });
     });

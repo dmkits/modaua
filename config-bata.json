@@ -14,7 +14,9 @@
     "mainPage",
     "dir_units",
     "dir_contractors",
-    "dir_products-bata"
+    "dir_products-bata",
+    "sys_settings",
+    "wrh_orders-bata"
   ],
   "appMenu":[
     { "menuTitle":"Главная страница", "menuItemName":"menuBarItemMainPage", "pageTitle":"Главная страница", "module":"mainPage", "closable":false},
@@ -28,11 +30,13 @@
       ]},
     { "menuItemName":"menuBarWrh", "menuTitle":"Склад",
       "popupMenu":[
-        { "menuItemName":"menuBarWrhPInvoice", "menuTitle":"Приходные накладные", "pageTitle":"Приходные накладные", "module":"wrh_pinvoices", "closable":true},
+        { "menuItemName":"menuBarWrhOrderBata", "menuTitle":"Заказы (Bata)", "pageTitle":"Заказы (Bata)", "module":"wrh_orders-bata", "closable":true},
         { "menuItemName":"separator_wrh1"},
+        { "menuItemName":"menuBarWrhPInvoice", "menuTitle":"Приходные накладные", "pageTitle":"Приходные накладные", "module":"wrh_pinvoices", "closable":true},
+        { "menuItemName":"separator_wrh2"},
         {"menuItemName":"menuBarWrhInvoice", "menuTitle":"Расходные накладные", "pageTitle":"Расходные накладные", "module":"wrh_invoices", "closable":true},
         {"menuItemName":"menuBarWrhRetInvoice", "menuTitle":"Возвратные накладные", "pageTitle":"Возвратные накладные", "module":"wrh_ret_invoices", "closable":true},
-        { "menuItemName":"separator_wrh2"},
+        { "menuItemName":"separator_wrh3"},
         { "menuItemName":"menuBarWrhBalance", "menuTitle":"Остатки товара", "pageTitle":"Остатки товара", "module":"wrh_prods_balance", "closable":true},
         { "menuItemName":"menuBarWrhMoves", "menuTitle":"Движение товаров", "pageTitle":"Движение товаров", "module":"wrh_prods_moves", "closable":true}
       ]},
@@ -55,7 +59,7 @@
   },
   "usersRoleAutorun":{
     "admin":["menuBarItemMainPage"],
-    "adminDev":["menuBarItemMainPage","menuBarDirsItemUnits","menuBarDirsItemProducts"],
+    "adminDev":["menuBarItemMainPage","menuBarDirsItemUnits","menuBarDirsItemProducts","menuBarWrhOrderBata"],
     "user":["menuBarItemMainPage"],
     "cashier":["menuBarItemSalesCashier"]
   }
