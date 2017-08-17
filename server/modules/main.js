@@ -52,6 +52,10 @@ module.exports.init= function(app){
         outData.mode= appParams.mode;
         outData.mode_str= appParams.mode;
         outData.title=appConfig.title;
+        outData.icon32x32=appConfig.icon32x32;
+        outData.imageSmall=appConfig.imageSmall;
+        outData.imageMain=appConfig.imageMain;
+
         outData.appUserName= (req.mduUser)?req.mduUser:"unknown";
 
         var userRole=req.mduUserRole;

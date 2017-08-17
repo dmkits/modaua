@@ -5,7 +5,10 @@
     <!--[if IE]>
     <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7">
     <![endif]-->
-    <link rel="icon" type="image/gif" href="/icons/moda32x32.ico"/>
+
+    <!--<link rel="icon" type="image/gif" id="favicon_id"/>-->
+
+    <!--<link rel="icon" type="image/gif" href="/icons/moda32x32.ico"/>-->
     <!--[if IE]>
     <!---link rel="stylesheet" type="text/css" href="/css/main_ie.css"--!>
     <link rel="shortcut icon" href="icons/moda32x32.ico" />
@@ -30,7 +33,7 @@
     <link rel="stylesheet" type="text/css" href="/css/main.css" media="screen">
     <link rel="stylesheet" type="text/css" href="/jslib/contentController.css" media="screen">
     <script type="text/javascript" src="/jslib/jsBarcode/JsBarcode.ean-upc.min.js"></script>
-    <title>MODA.UA</title>
+    <!--<title>MODA.UA</title>-->
 </head>
 <body class="claro">
     <div id="main_MainContainer">
@@ -61,9 +64,9 @@
                 var main_ContentContainer = APP.instanceForID("main_ContentContainer", TabContainer, {region: "center", tabPosition: "top", class: "mainContent"});
                 main_MainContainer.startup();
 
-                main_MainContainer.getMainData = function(postaction){//getting main json data from server and run action parameter function
+                main_MainContainer.getMainData = function(postaction){                                //getting main json data from server and run action parameter function
                     Request.getJSONData({url:"/main/getMainData", consoleLog:true},
-                            function(success,result){
+                            function(success,result){                                        console.log("main_MainContainer.getMainData result=",result); //title,icon32x32,imageSmall,imageMain
                                 if(success){
                                     if(result===undefined||result==null) result = [];
                                     main_MainContainer.mainContentData = result;
@@ -80,8 +83,50 @@
                                     } else if (!result.mode)
                                         eAppMode.innerHTML =  eAppMode.innerHTML+"<b>UNKNOWN MODE!!!</b>";
 
-
                                     if(result.appUserName) document.getElementById("main_username").innerHTML =  "<b>"+result.appUserName+"</b>";
+
+                                    if(result.title){
+                                        document.title=result.title;
+                                    }
+                                    if(result.icon32x32){   console.log('result.icon32x32=',result.icon32x32);
+
+                                       // var a = document.getElementById('favicon_id'); //or grab it by tagname etc
+
+                                        var link =document.createElement('link');  console.log('result.icon32x32=',result.icon32x32);
+                                        link.setAttribute("type", "image/gif");
+                                        link.setAttribute( 'rel', 'icon' );
+                                        link.setAttribute("href", result.icon32x32+"");   //type="image/gif"
+                                        document.querySelector('head').appendChild(link);
+
+//                                        document.head || (document.head = document.getElementsByTagName('head')[0]);
+//
+//                                      //  function changeFavicon(src) {
+//                                            var link = document.createElement('link');
+//                                                  //  oldLink = document.getElementById('dynamic-favicon');
+//                                            link.id = 'dynamic-favicon';
+//                                            link.rel = 'shortcut icon';
+//                                            link.href = result.icon32x32;
+////                                            if (oldLink) {
+////                                                document.head.removeChild(oldLink);
+////                                            }
+//                                            document.head.appendChild(link);
+//                                      //  },
+
+
+//                                        (function() {
+//                                            var link =/* document.querySelector("link[rel*='icon']") ||*/ document.createElement('link');
+//                                            link.type = 'image/x-icon';
+//                                            link.rel = 'shortcut icon';
+//                                            link.href = result.icon32x32;
+//                                            document.getElementsByTagName('head')[0].appendChild(link);
+//                                        })();
+
+//                                            var link = document.querySelector("link[rel*='icon']") || document.createElement('link');
+//                                            link.type = 'image/gif';
+//                                            link.rel = 'icon';
+//                                            link.href =result.icon32x32;
+//                                            document.getElementsByTagName('head')[0].appendChild(link);
+                                    }
                                 } else {
                                     main_MainContainer.mainContentData = [];
                                     main_MainContainer.mainContentData["error"]= result;
