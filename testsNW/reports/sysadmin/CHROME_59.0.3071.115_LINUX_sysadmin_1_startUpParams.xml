@@ -5,23 +5,9 @@
 
   <testsuite name="sysadmin.sysadmin_1_startUpParams"
     errors="0" failures="0" hostname="" id="" package="sysadmin" skipped="10"
-    tests="10" time="0.000" timestamp="Wed, 16 Aug 2017 15:23:45 GMT">
+    tests="10" time="0.000" timestamp="Thu, 17 Aug 2017 12:47:50 GMT">
   
 
-  
-    <system-err>
-      ERROR: Unable to locate element: &quot;//div[@id='dir_units_ContentContainer']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[3]/td[3]&quot; using: xpath
-    at Object.moveToElement (/usr/local/lib/node_modules/nightwatch/lib/page-object/command-wrapper.js:117:25)
-    at Object.moveToCell (/home/ianagez/IdeaProjects/modaua/testsNW/page_objects/mainPage.js:125:14)
-    at Object.Set Unused tip (/home/ianagez/IdeaProjects/modaua/testsNW/tests/main/main_1_headerTests.js:192:14)
-    at Module.call (/usr/local/lib/node_modules/nightwatch/lib/runner/module.js:62:34)
-    at /usr/local/lib/node_modules/nightwatch/lib/runner/testcase.js:70:29
-    at _fulfilled (/usr/local/lib/node_modules/nightwatch/node_modules/q/q.js:834:54)
-    at self.promiseDispatch.done (/usr/local/lib/node_modules/nightwatch/node_modules/q/q.js:863:30)
-    at Promise.promise.promiseDispatch (/usr/local/lib/node_modules/nightwatch/node_modules/q/q.js:796:13)
-    at /usr/local/lib/node_modules/nightwatch/node_modules/q/q.js:556:49
-    at runSingle (/usr/local/lib/node_modules/nightwatch/node_modules/q/q.js:137:13)
-    </system-err>
   
 
   

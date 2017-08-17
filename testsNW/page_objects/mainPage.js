@@ -40,7 +40,7 @@ var mainPageCommands= {
             .waitForElementVisible('@refreshBtn')
             .waitForElementVisible('@printBtn')
     },
-    pressRefreshBtnInTable:function(tableID){
+    clickRefreshBtnInTable:function(tableID){
         this.elements.refreshBtn = {
             selector: "//*[@id='"+tableID+"_ContentContainer']//span[contains(text(),'Обновить')]",                     //*[@id='"+tableID+"_ContentContainer']
             locateStrategy: 'xpath'
@@ -105,14 +105,17 @@ var mainPageCommands= {
         return this.click('@deleteBtn');
     },
     cellSetValue:function(tableID, RowNumber, ColumnNumber,value){
-        //this.api.perform(function(){console.log("cellSetValue");});
+         var instance = this;
         this.elements.tableCell = {
             selector: "//div[@id='"+tableID+"_ContentContainer']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[" + RowNumber + "]/td[" + ColumnNumber + "]",
             locateStrategy: 'xpath'
         };
-        this.moveToElement("@tableCell",15,15)
-            .api.doubleClick();
-        this.api.keys(value);
+        this.moveToElement("@tableCell",15,15,function(){
+            instance.api.doubleClick();
+        });
+        this.api.perform(function () {
+            instance.api.keys(value);
+        });
         return this;
     },
     moveToCell: function (tableID, RowNumber, ColumnNumber) {
@@ -129,29 +132,26 @@ var mainPageCommands= {
         this.api.mouseButtonClick(btn);
         return instance;
     },
-    changeNotUsedPropBtn:function(tableID,RowNumber){
-        var instance=this;
-        this.api.perform(function(){console.log("changeNotUsedPropBtn");});
-        this.elements.notUsedPropBtn = {
-            selector: "//div[@id='"+tableID+"_ContentContainer']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[" + RowNumber + "]/td[6]//input[@type='checkbox']",
+    doubleClick: function (btn) {
+        var instance = this;
+        this.api.doubleClick(btn);
+        return instance;
+    },
+    changeTickBtnStatus: function (tableID, RowNumber, ColumnNumber) {
+        var instance = this;
+        this.api.perform(function () {console.log("changeNotUsedPropBtn");});
+        this.elements.tickBtn = {
+            selector: "//div[@id='" + tableID + "_ContentContainer']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[" + RowNumber + "]/td["+ColumnNumber+"]//input[@type='checkbox']",
             locateStrategy: 'xpath'
         };
-        this
-            .waitForElementVisible("@notUsedPropBtn")
-            .moveToElement("@notUsedPropBtn",7,7,function(){
-                instance.api.doubleClick();
-                instance.expect.element('@notUsedPropBtn').to.have.attribute('checked').which.equal('true');
+        instance
+            .waitForElementVisible("@tickBtn")
+            .moveToElement("@tickBtn", 5, 5, function () {
+                instance.mouseButtonClick();
+                instance.api.keys(' ');
             });
-        //this.api.perform(function(){
-        //    instance.api.doubleClick();
-        //});
-       // this.api.doubleClick();
-       // this.api.perform(function(){
-       //     instance.expect.element('@notUsedPropBtn').to.have.attribute('checked').which.equal('true');
-       // });
-        //this.expect.element('@notUsedPropBtn').to.have.attribute('checked').which.equal('true');
         return this;
-    },
+    }
 };
 
 module.exports = {
@@ -191,23 +191,17 @@ module.exports = {
         menuBarDirsItemProducts:"#menuBarDirsItemProducts",
 
 
-        main_ContentContainer_tablist_PageContentPane_dir_units:"#main_ContentContainer_tablist_PageContentPane_dir_units",
+        main_ContentContainer_tablist_PageContentPane_dir_units:"#main_ContentContainer_tablist_PageContentPane_dir_units",  //tab dirunits
         closeTabMainDirUnits:{
             selector:'//span[@id="main_ContentContainer_tablist_PageContentPane_dir_units"] /ancestor::div/span[@title="Закрыть"]',
             locateStrategy:'xpath'
         },
 
-        main_ContentContainer_tablist_PageContentPane_dir_contractors:"#main_ContentContainer_tablist_PageContentPane_dir_contractors",
-        closeTabMainDirContractors:{
-            selector:'//span[@id="main_ContentContainer_tablist_PageContentPane_dir_contractors"] /ancestor::div/span[@title="Закрыть"]',
-            locateStrategy:'xpath'
-        },
-
-        menuBarWrhPInvoice:"#menuBarWrhPInvoice",
-        menuBarWrhInvoice:"#menuBarWrhInvoice",
-        menuBarWrhRetInvoice:"#menuBarWrhRetInvoice",
-        menuBarWrhBalance:"#menuBarWrhBalance",
-        menuBarWrhMoves:"#menuBarWrhMoves",
+        menuBarWrhPInvoice:"#menuBarWrhPInvoice",               //Приходные накладные
+        menuBarWrhInvoice:"#menuBarWrhInvoice",                 //Расходные накладные
+        menuBarWrhRetInvoice:"#menuBarWrhRetInvoice",           //Возвратные накладные
+        menuBarWrhBalance:"#menuBarWrhBalance",                 //Остатки товара
+        menuBarWrhMoves:"#menuBarWrhMoves",                     //Движение товаров
 
         menuBarSalesItemCashier:"#menuBarSalesItemCashier",
 
@@ -222,7 +216,25 @@ module.exports = {
             selector:'//div[@id="dir_units_TableDirUnits"] //span[contains(text(), "Не используемые")]/ancestor::span[@role="button"]',
             locateStrategy:'xpath'
         },
-//*[@id="dijit_form_ToggleButton_0_label"]
-        finishedContentPane:"#finish"
+
+        main_ContentContainer_tablist_PageContentPane_dir_contractors:"#main_ContentContainer_tablist_PageContentPane_dir_contractors", //tab contractors
+        closeTabMainDirContractors:{
+            selector:'//span[@id="main_ContentContainer_tablist_PageContentPane_dir_contractors"] /ancestor::div/span[@title="Закрыть"]',
+            locateStrategy:'xpath'
+        },
+        dir_contractors_TableDirContractors:"#dir_contractors_TableDirContractors",
+
+        isSupplierContractorsBtn:{
+            selector:'//div[@id="dir_contractors_TableDirContractors"] //span[contains(text(), "Поставщики")]/ancestor::span[@role="button"]',
+            locateStrategy:'xpath'
+        },
+        isBuyerContractorsBtn:{
+            selector:'//div[@id="dir_contractors_TableDirContractors"] //span[contains(text(), "Покупатели")]/ancestor::span[@role="button"]',
+            locateStrategy:'xpath'
+        },
+        otherContractorsBtn:{
+            selector:'//div[@id="dir_contractors_TableDirContractors"] //span[contains(text(), "Прочие")]/ancestor::span[@role="button"]',
+            locateStrategy:'xpath'
+        }
     }
 };

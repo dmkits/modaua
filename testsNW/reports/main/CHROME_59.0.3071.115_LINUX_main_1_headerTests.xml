@@ -1,25 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuites errors="1"
-            failures="1"
-            tests="4">
+<testsuites errors="0"
+            failures="0"
+            tests="24">
 
   <testsuite name="main.main_1_headerTests"
-    errors="1" failures="1" hostname="" id="" package="main" skipped="0"
-    tests="4" time="13.87" timestamp="Wed, 16 Aug 2017 15:23:31 GMT">
+    errors="0" failures="0" hostname="" id="" package="main" skipped="0"
+    tests="24" time="56.23" timestamp="Thu, 17 Aug 2017 12:46:54 GMT">
   
-    <testcase name="Open browser" classname="main.main_1_headerTests" time="3.573" assertions="0">
+    <testcase name="step_1 Open browser" classname="main.main_1_headerTests" time="4.489" assertions="0">
     </testcase>
   
-    <testcase name="Login main page" classname="main.main_1_headerTests" time="0.8360" assertions="3">
-
-    
-
-    
-
-    
-    </testcase>
-  
-    <testcase name="Assert Main Dirs ItemUnits all elements are visible" classname="main.main_1_headerTests" time="1.793" assertions="3">
+    <testcase name="step_2 Login main page" classname="main.main_1_headerTests" time="0.8810" assertions="3">
 
     
 
@@ -28,28 +19,489 @@
     
     </testcase>
   
-    <testcase name="Set Unused tip" classname="main.main_1_headerTests" time="7.668" assertions="2">
+    <testcase name="step_3 Main Header If  All Elements Visible Tests" classname="main.main_1_headerTests" time="3.965" assertions="19">
 
-      <failure message="Expected element &lt;//div[@id='dir_units_ContentContainer']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[3]/td[6]//input[@type='checkbox']&gt; to have attribute &quot;checked&quot; which equals: &quot;true&quot; - element was not found">    at Object.&lt;anonymous&gt; (/home/ianagez/IdeaProjects/modaua/testsNW/page_objects/mainPage.js:143:33)</failure>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="step_4 Assert main page tab is visible" classname="main.main_1_headerTests" time="0.3180" assertions="3">
+
+    
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="step_5 About program dialog tests" classname="main.main_1_headerTests" time="2.217" assertions="6">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="step_6 Assert menuBarPopupMenuMain has all  menu choices tests" classname="main.main_1_headerTests" time="0.6620" assertions="5">
+
+    
+
+    
+
+    
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="step_7 Assert menuBarWrh has all  menu choices tests" classname="main.main_1_headerTests" time="0.8210" assertions="6">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="step_8 Assert menuBarPopupMenuSales has all  menu choices tests" classname="main.main_1_headerTests" time="0.3670" assertions="2">
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="step_9 Assert Main Dirs ItemUnits all elements are visible" classname="main.main_1_headerTests" time="4.002" assertions="34">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="step_10 Add row to Dirs ItemUnits" classname="main.main_1_headerTests" time="2.329" assertions="2">
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="Assert Added row to Dirs ItemUnits is saved" classname="main.main_1_headerTests" time="1.445" assertions="10">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="step_11 Change  row in Dirs ItemUnits " classname="main.main_1_headerTests" time="3.253" assertions="0">
+    </testcase>
+  
+    <testcase name="step_12 Check if changed was saved in Dirs ItemUnits " classname="main.main_1_headerTests" time="0.9790" assertions="10">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="step_13 Set Unused tip in Dirs ItemUnits" classname="main.main_1_headerTests" time="3.035" assertions="8">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="step_14 Delete row in Dirs ItemUnits " classname="main.main_1_headerTests" time="0.6810" assertions="1">
+
+    
+    </testcase>
+  
+    <testcase name="Main Dirs Contractors Tests" classname="main.main_1_headerTests" time="4.238" assertions="38">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="Assert Main Contractors BUYERS are visible" classname="main.main_1_headerTests" time="2.738" assertions="28">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="Add new Contractor " classname="main.main_1_headerTests" time="4.562" assertions="3">
+
+    
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="Assert new contractor saved to &quot;Other Contractors Table&quot;" classname="main.main_1_headerTests" time="0.5930" assertions="3">
+
+    
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="Change Contractors Values" classname="main.main_1_headerTests" time="4.850" assertions="0">
+    </testcase>
+  
+    <testcase name=" Check if changed was saved in &quot;Other Contractors Table&quot;" classname="main.main_1_headerTests" time="1.219" assertions="12">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="Set Supplier  tip to the Contractor" classname="main.main_1_headerTests" time="2.219" assertions="7">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="Mark new Contractor AS BUYER too" classname="main.main_1_headerTests" time="3.206" assertions="7">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="Delete Contractor" classname="main.main_1_headerTests" time="3.159" assertions="4">
+
+    
+
+    
+
+    
 
     
     </testcase>
   
 
-  
-    <system-err>
-      ERROR: Unable to locate element: &quot;//div[@id='dir_units_ContentContainer']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[3]/td[3]&quot; using: xpath
-    at Object.moveToElement (/usr/local/lib/node_modules/nightwatch/lib/page-object/command-wrapper.js:117:25)
-    at Object.moveToCell (/home/ianagez/IdeaProjects/modaua/testsNW/page_objects/mainPage.js:125:14)
-    at Object.Set Unused tip (/home/ianagez/IdeaProjects/modaua/testsNW/tests/main/main_1_headerTests.js:192:14)
-    at Module.call (/usr/local/lib/node_modules/nightwatch/lib/runner/module.js:62:34)
-    at /usr/local/lib/node_modules/nightwatch/lib/runner/testcase.js:70:29
-    at _fulfilled (/usr/local/lib/node_modules/nightwatch/node_modules/q/q.js:834:54)
-    at self.promiseDispatch.done (/usr/local/lib/node_modules/nightwatch/node_modules/q/q.js:863:30)
-    at Promise.promise.promiseDispatch (/usr/local/lib/node_modules/nightwatch/node_modules/q/q.js:796:13)
-    at /usr/local/lib/node_modules/nightwatch/node_modules/q/q.js:556:49
-    at runSingle (/usr/local/lib/node_modules/nightwatch/node_modules/q/q.js:137:13)
-    </system-err>
   
 
   
