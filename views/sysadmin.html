@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link rel="icon" type="image/gif" href="/icons/moda32x32.ico"/>
+    <!--<link rel="icon" type="image/gif" href="/icons/moda32x32.ico"/>-->
     <![endif]-->
     <script src="/jslib/handsontable/handsontable.full.min.js"></script>
     <link rel="stylesheet" media="screen" href="/jslib/handsontable/handsontable.full.min.css">
@@ -12,7 +12,7 @@
     <script type="text/javascript" src="/jslib/dojo/dojo.js" data-dojo-config="async:true,parseOnLoad:false"></script>
     <link rel="stylesheet" href="/jslib/htable.css" media="screen">
     <link rel="stylesheet" type="text/css" href="/css/sysadmin.css" media="screen">
-    <title>MODA.UA</title>
+    <!--<title>MODA.UA</title>-->
 </head>
 <body class="claro" style="display:none">
 <div id="sysadmin_MainContainer">
@@ -71,7 +71,7 @@
                 /**
                  * params = { revalidate:true/false }
                  */
-                sysadmin_MainContainer.updateDBState = function (params) {   //getting main json data from server and run action parameter function
+                sysadmin_MainContainer.updateDBState = function (params) {                           //getting main json data from server and run action parameter function
                     var condition;
                     if(params&&params.revalidate) condition={"REVALIDATE":true};
                     Request.getJSONData({url: "/sysadmin/serverState", condition:condition, consoleLog: true},
@@ -85,6 +85,7 @@
                                     eAppUser.innerHTML = "<b>USER:</b>";
                                     eAppMode.innerHTML = "<b>MODE:</b>";
                                     eAppPort.innerHTML = "<b>PORT:</b>";
+                                    if(result.config) setBrending(result.config);
                                     if (result.appUserName) eAppUser.innerHTML = eAppUser.innerHTML + "<b><span style='color:dimgrey'>" + result.appUserName + "</span></b>";
                                     else eAppUser.innerHTML = eAppUser.innerHTML + "<b>UNKNOWN!!!</b>";
                                     if (result.mode) {
@@ -186,7 +187,23 @@
                     document.cookie="mduPswrd=";
                     location.reload();
                 };
-
+                function setBrending(config){
+                    if(config.title) document.title=config.title;
+                    if(config.icon32x32)changeFavicon(config.icon32x32);
+                    if(config.imageSmall)sysadmin_TopImg.set("style","background-image: url(\""+config.imageSmall+"\")");
+                };
+                function changeFavicon(src) {
+                    document.head = document.head || document.getElementsByTagName('head')[0];
+                    var link = document.createElement('link'),
+                            oldLink = document.getElementById('dynamic-favicon');
+                    link.id = 'dynamic-favicon';
+                    link.rel = 'shortcut icon';
+                    link.href = src;
+                    if (oldLink) {
+                        document.head.removeChild(oldLink);
+                    }
+                    document.head.appendChild(link);
+                }
                 sysadmin_MainContainer.updateDBState();
                 sysadmin_btnDatabase.onClick();
             });

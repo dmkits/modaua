@@ -4,6 +4,7 @@ var fs = require('fs');
 var server=require('../server');
 var log = server.log;
 var appParams=server.getAppStartupParams(), getServerConfig=server.getServerConfig, setAppConfig=server.setAppConfig;
+var getConfig=server.getConfig;
 var loadServerConfiguration=server.loadServerConfiguration;
 
 var util=require('../util');
@@ -65,8 +66,13 @@ module.exports.init = function(app){
             });
             return;
         }
+
+        outData.config=getConfig();
+
         var validateError=getValidateError();
         if(validateError) outData.dbValidation=validateError; else outData.dbValidation = "success";
+
+        console.log("/sysadmin/serverState outData=",outData );
         res.send(outData);
     });
 

@@ -57,7 +57,6 @@
                       MenuBar, MenuBarItem, PopupMenuBarItem, Menu, MenuItem, MenuSeparator,
                       ToggleButton, XContentPane, dialogs, Request) {                                               console.log("START MAIN PAGE...");//!!!IT'S FOR TESTING!!!
 
-                document.head = document.head || document.getElementsByTagName('head')[0];
 
                 var main_MainContainer = APP.instanceForID("main_MainContainer", BorderContainer, {design: "headline"});
                 var main_TopContainer = APP.instanceForID("main_TopContainer", BorderContainer, {region: "top", design: "sidebar", class: "mainTopContent", gutters: true});
@@ -91,18 +90,10 @@
 
                                     if(result.appUserName) document.getElementById("main_username").innerHTML =  "<b>"+result.appUserName+"</b>";
 
-                                    if(result.title){
-                                        document.title=result.title;
-                                    }
-                                    if(result.icon32x32){   console.log('result.icon32x32=',result.icon32x32);
-                                        changeFavicon(result.icon32x32);
-                                    }
-                                    if(result.imageSmall){   console.log('result.imageSmall=',result.imageSmall);
-                                        main_TopImg.set("style","background-image: url(\""+result.imageSmall+"\")")
-                                    }
-//                                    if(result.imageMain){
-//
-//                                    }
+                                    if(result.title)document.title=result.title;
+
+                                    if(result.icon32x32) changeFavicon(result.icon32x32);
+                                    if(result.imageSmall)main_TopImg.set("style","background-image: url(\""+result.imageSmall+"\")");
                                 } else {
                                     main_MainContainer.mainContentData = [];
                                     main_MainContainer.mainContentData["error"]= result;
@@ -182,7 +173,8 @@
                         }
                     }
                 };
-                function changeFavicon(src) {                                                     console.log("changeFavicon");
+                function changeFavicon(src) {
+                    document.head = document.head || document.getElementsByTagName('head')[0];
                     var link = document.createElement('link'),
                             oldLink = document.getElementById('dynamic-favicon');
                     link.id = 'dynamic-favicon';
