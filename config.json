@@ -1,6 +1,6 @@
 {
   "title":"MODA.UA",
-  "icon32x32":"/icons/moda32x32.ico", "imageSmall":"", "imageMain":"",
+  "icon32x32":"/icons/moda32x32.ico", "imageSmall":"/imgs/moda_small.jpg", "imageMain":"/imgs/moda_big.jpg",
   "users":[
     { "userLogin":"admin", "pswrd":"admin", "userRole":"admin" },
     { "userLogin":"adminDev", "pswrd":"admin", "userRole":"adminDev" },

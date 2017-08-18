@@ -11,8 +11,8 @@
     <!--<link rel="icon" type="image/gif" href="/icons/moda32x32.ico"/>-->
     <!--[if IE]>
     <!---link rel="stylesheet" type="text/css" href="/css/main_ie.css"--!>
-    <link rel="shortcut icon" href="icons/moda32x32.ico" />
-    <![endif]-->
+    <!--<link rel="shortcut icon" href="icons/moda32x32.ico" />-->
+    <!--<![endif]&ndash;&gt;-->
     <!--[if !IE]><!-->
     <!--link rel="stylesheet" type="text/css" href="/css/main_nie.css"--!>
     <!--<![endif]-->
@@ -56,6 +56,9 @@
             function (APP, BorderContainer, LayoutContainer, TabContainer, ContentPane,
                       MenuBar, MenuBarItem, PopupMenuBarItem, Menu, MenuItem, MenuSeparator,
                       ToggleButton, XContentPane, dialogs, Request) {                                               console.log("START MAIN PAGE...");//!!!IT'S FOR TESTING!!!
+
+                document.head = document.head || document.getElementsByTagName('head')[0];
+
                 var main_MainContainer = APP.instanceForID("main_MainContainer", BorderContainer, {design: "headline"});
                 var main_TopContainer = APP.instanceForID("main_TopContainer", BorderContainer, {region: "top", design: "sidebar", class: "mainTopContent", gutters: true});
                 var main_TopImg = APP.instanceForID("main_TopImg", ContentPane, {region: "left", class: "mainTopContent"});
@@ -70,6 +73,9 @@
                                 if(success){
                                     if(result===undefined||result==null) result = [];
                                     main_MainContainer.mainContentData = result;
+                                    main_ContentContainer.getMainContentData=function(){
+                                        return result;
+                                    };
 
                                     var eAppMode = document.getElementById("main_app_mode");
                                    // var eAppUserName = document.getElementById("main_username");
@@ -89,44 +95,14 @@
                                         document.title=result.title;
                                     }
                                     if(result.icon32x32){   console.log('result.icon32x32=',result.icon32x32);
-
-                                       // var a = document.getElementById('favicon_id'); //or grab it by tagname etc
-
-                                        var link =document.createElement('link');  console.log('result.icon32x32=',result.icon32x32);
-                                        link.setAttribute("type", "image/gif");
-                                        link.setAttribute( 'rel', 'icon' );
-                                        link.setAttribute("href", result.icon32x32+"");   //type="image/gif"
-                                        document.querySelector('head').appendChild(link);
-
-//                                        document.head || (document.head = document.getElementsByTagName('head')[0]);
-//
-//                                      //  function changeFavicon(src) {
-//                                            var link = document.createElement('link');
-//                                                  //  oldLink = document.getElementById('dynamic-favicon');
-//                                            link.id = 'dynamic-favicon';
-//                                            link.rel = 'shortcut icon';
-//                                            link.href = result.icon32x32;
-////                                            if (oldLink) {
-////                                                document.head.removeChild(oldLink);
-////                                            }
-//                                            document.head.appendChild(link);
-//                                      //  },
-
-
-//                                        (function() {
-//                                            var link =/* document.querySelector("link[rel*='icon']") ||*/ document.createElement('link');
-//                                            link.type = 'image/x-icon';
-//                                            link.rel = 'shortcut icon';
-//                                            link.href = result.icon32x32;
-//                                            document.getElementsByTagName('head')[0].appendChild(link);
-//                                        })();
-
-//                                            var link = document.querySelector("link[rel*='icon']") || document.createElement('link');
-//                                            link.type = 'image/gif';
-//                                            link.rel = 'icon';
-//                                            link.href =result.icon32x32;
-//                                            document.getElementsByTagName('head')[0].appendChild(link);
+                                        changeFavicon(result.icon32x32);
                                     }
+                                    if(result.imageSmall){   console.log('result.imageSmall=',result.imageSmall);
+                                        main_TopImg.set("style","background-image: url(\""+result.imageSmall+"\")")
+                                    }
+//                                    if(result.imageMain){
+//
+//                                    }
                                 } else {
                                     main_MainContainer.mainContentData = [];
                                     main_MainContainer.mainContentData["error"]= result;
@@ -206,6 +182,17 @@
                         }
                     }
                 };
+                function changeFavicon(src) {                                                     console.log("changeFavicon");
+                    var link = document.createElement('link'),
+                            oldLink = document.getElementById('dynamic-favicon');
+                    link.id = 'dynamic-favicon';
+                    link.rel = 'shortcut icon';
+                    link.href = src;
+                    if (oldLink) {
+                        document.head.removeChild(oldLink);
+                    }
+                    document.head.appendChild(link);
+                }
                 main_MainContainer.getMainData(
                     /*postaction*/function(){
                             main_MainContainer.createMainMenu();

@@ -7,7 +7,7 @@
 <body>
     <div id="mainpage_MainContainer">
         <div id="mainpage_MainContent">
-            <table style="width: 100%; height: 100%; background: url('/imgs/moda_big.jpg'); background-repeat: no-repeat;">
+            <table id="mainpage_MainContent_table" style="width: 100%; height: 100%; /*background: url('/imgs/moda_big.jpg');*/ background-repeat: no-repeat;">
                 <tr><td></td></tr>
             </table>
         </div>
@@ -20,6 +20,15 @@
                       ToggleButton) {
                 var mainpage_MainContainer = APP.instanceForID("mainpage_MainContainer", BorderContainer, {design: "headline"});
                 var mainpage_MainContent = APP.instanceForID("mainpage_MainContent", ContentPane, {region: "center"});
+                mainpage_MainContainer.startup();
+
+                var main_ContentContainer = mainpage_MainContainer.getParent().getParent();
+
+                var mainData = main_ContentContainer.getMainContentData();
+                if(mainData&& mainData["imageMain"]){
+                    var imageMain = mainData["imageMain"];
+                    document.getElementById("mainpage_MainContent_table").style.background ='url(\''+imageMain+'\')';
+                }
             });
 </script>
 </html>

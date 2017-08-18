@@ -75,7 +75,7 @@ input {
 #main_TopImg{
     margin: 0; padding: 0;
     width: 53px;
-    background-image: url("/imgs/moda_small.jpg");
+   /* background-image: url("/imgs/moda_small.jpg");*/
     background-repeat: no-repeat;
 }
 #main_MainMenu{
