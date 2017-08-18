@@ -42,3 +42,9 @@ module.exports.storeProductsGendersTableData= function(storeTableData, resultCal
 module.exports.deleteProductsGendersTableData= function(delTableData, resultCallback){
   dm.delTableDataItem({tableName:tableName, idFieldName:idField, delTableData:delTableData}, resultCallback);
 };
+module.exports.getDataForProductsGendersCodesCombobox= function(resultCallback){
+  dm.getDataItems({tableName:tableName, tableFields:["CODE as GENDER_CODE"], order:"CODE"}, resultCallback);
+};
+module.exports.getDataForProductsGendersCombobox= function(resultCallback){
+  dm.getDataItems({tableName:tableName, tableFields:["NAME as GENDER"], order:"NAME"}, resultCallback);
+};

@@ -12,8 +12,10 @@ module.exports.validateData= {tableName:viewName, fields:tableFields, idField:id
 
 var tableColumns=[
     {"data": "ID", "name": "ID", "width": 80, "type": "text", readOnly:true, visible:false},
-    {"data": "GENDER_CODE", "name": "Код группы", "width": 90, "type": "combobox"},
-    {"data": "GENDER_NAME", "name": "Наименование группы", "width": 200, "type": "combobox"},
+    {"data": "GENDER_CODE", "name": "Код группы", "width": 90,
+        "type": "combobox", "sourceURL":"/dir/products/getDataForProductsGendersCombobox/genderCode"},
+    {"data": "GENDER", "name": "Наименование группы", "width": 200,
+        "type": "combobox", "sourceURL":"/dir/products/getDataForProductsGendersCombobox/gender"},
     {"data": "CODE", "name": "Код категории", "width": 100, "type": "text"},
     {"data": "NAME", "name": "Наименование категории", "width": 200, "type": "text"},
     {"data": "CONSTANT", "name": "Постоянная категория", "width": 150, "type": "checkbox"}

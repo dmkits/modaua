@@ -5,56 +5,75 @@ module.exports.getModelChanges=function(){ return dataModelChanges; };
 module.exports.resetModelChanges=function(){ dataModelChanges=[]; };
 
 var database= require("../database");
-function initValidateDataModel(dataModelName, dataModel, errs, nextValidateDataModelCallback){              log.info('InitValidateDataModel: dataModel:',dataModelName,"...");//test
-    if(dataModel.changeLog) dataModelChanges= dataModelChanges.concat(dataModel.changeLog);
-
-    dataModel.getDataForTable= _getDataForTable;
-    dataModel.setDataItemForTable= _setDataItemForTable;
-    dataModel.getDataItem= _getDataItem;
-    dataModel.insDataItem= _insDataItem;
-    dataModel.updDataItem= _updDataItem;
-    dataModel.delDataItem= _delDataItem;
-    dataModel.insTableDataItem= _insTableDataItem;
-    dataModel.updTableDataItem= _updTableDataItem;
-    dataModel.storeTableDataItem= _storeTableDataItem;
-    dataModel.delTableDataItem= _delTableDataItem;
-
-    if(!dataModel.validateData) {
-        errs[dataModelName+"_validateError"]="Failed validate dataModel:"+dataModelName
-            +"! Reason: data model no validate data!";                                                      log.error('Validate DataModel FAILED in dataModel:',dataModelName,"! Reason: no validate data!");//test
+//function initDataModel
+function initValidateDataModel(dataModelName, dataModel, errs, nextValidateDataModelCallback){              log.info('InitValidateDataModel: dataModel:'+dataModelName+"...");//test
+    if(!dataModel.changeLog&&!dataModel.modelData){
+        errs[dataModelName+"_initError"]="Failed init dataModel:"+dataModelName
+            +"! Reason: no model data and no change log!";                                                  log.error('FAILED init dataModel:'+dataModelName+"! Reason: no model data and no change log!");//test
         nextValidateDataModelCallback();
         return;
     }
-    if(!dataModel.validateData.tableName){
-        errs[dataModelName+"_validateError"]="Failed validate dataModel:"+dataModelName
-            +"! Reason: no table name for validate!";                                                       log.error('Validate DataModel FAILED in dataModel:',dataModelName,"! Reason: no table name for validate!");//test
-        nextValidateDataModelCallback();
-        return;
-    }
-    if(!dataModel.validateData.fields&&!dataModel.validateData.tableColumns){
-        errs[dataModelName+"_validateError"]="Failed validate dataModel:"+dataModelName
-            +"! Reason: no fields data for validate!";                                                      log.error('Validate DataModel FAILED in dataModel:',dataModelName,"! Reason: no fields data for validate!");//test
-        nextValidateDataModelCallback();
-        return;
-    }
-    var queryFields="";
-    if(dataModel.validateData.fields){
-        for(var i in dataModel.validateData.fields) {
-            if (queryFields!="") queryFields+= ",";
-            queryFields+= dataModel.validateData.fields[i];
+    var tableName, tableFieldsList=[],tableFields={}, idFieldName;
+    if(dataModel.changeLog){
+        dataModelChanges= dataModelChanges.concat(dataModel.changeLog);
+        for(var i=0;i<dataModel.changeLog.length;i++){
+            var changeLogItem=dataModel.changeLog[i];
+            if(changeLogItem.tableName&&!tableName) tableName=changeLogItem.tableName;
+            if(changeLogItem.fields){
+                for(var fieldIndex in changeLogItem.fields){
+                    var fieldName=changeLogItem.fields[fieldIndex];
+                    if(!tableFields[fieldName]){
+                        tableFields[fieldName]=true;tableFieldsList.push(fieldName);
+                    }
+                }
+            } else if(changeLogItem.field){
+                if(!tableFields[changeLogItem.field]){
+                    tableFields[changeLogItem.field]=true;tableFieldsList.push(changeLogItem.field);
+                }
+            }
+            if(changeLogItem.id&&!idFieldName) idFieldName=changeLogItem.id;
         }
-    } else {
-        for(var i in dataModel.validateData.tableColumns) {
-            if (queryFields!="") queryFields+= ",";
-            queryFields+= dataModel.validateData.tableColumns[i].data;
+    } else if(dataModel.modelData) {
+        //
+    }
+    if(!tableName) {
+        errs[dataModelName+"_initError"]="Failed init dataModel:"+dataModelName
+            +"! Reason: no model table name!";                                                          log.error('FAILED init dataModel:'+dataModelName+"! Reason: no model table name!");//test
+        nextValidateDataModelCallback();
+        return;
+    }
+    if(tableFieldsList.length==0) {
+        errs[dataModelName+"_initError"]="Failed init dataModel:"+dataModelName
+            +"! Reason: no model fields!";                                                              log.error('FAILED init dataModel:'+dataModelName+"! Reason: no model fields!");//test
+        nextValidateDataModelCallback();
+        return;
+    }
+    dataModel.sourceType="table"; dataModel.source=tableName;
+    dataModel.fields=tableFieldsList; dataModel.idField=idFieldName;                                    log.info('Init data model '+dataModel.sourceType+":"+dataModel.source+" fields:",dataModel.fields," idField:"+dataModel.idField);//test
+    if(!dataModel.idField)                                                                              log.warn('NO id filed name in data model '+dataModel.sourceType+":"+dataModel.source+"! Model cannot used functions insert/update/delete!");//test
+    if(dataModel.sourceType=="table"){
+        dataModel.getDataItems= _getDataItems;
+        dataModel.getDataItem= _getDataItem;
+        dataModel.getDataForTable= _getDataForTable;
+        dataModel.setDataItemForTable= _setDataItemForTable;
+        if(dataModel.idField){
+            dataModel.insDataItem= _insDataItem;
+            dataModel.updDataItem= _updDataItem;
+            dataModel.delDataItem= _delDataItem;
+            dataModel.insTableDataItem= _insTableDataItem;
+            dataModel.updTableDataItem= _updTableDataItem;
+            dataModel.storeTableDataItem= _storeTableDataItem;
+            dataModel.delTableDataItem= _delTableDataItem;
         }
     }
-    var query="select "+queryFields+" from "+dataModel.validateData.tableName+" where "+dataModel.validateData.idField+" is NULL";
-    database.selectQuery(query,function(err){
-        if(err) errs[dataModelName+"_validateError"]="Failed validate dataModel:"+dataModelName+"! Reason:"+err.message;
+
+    dataModel.getDataItems({conditions:{"ID is NULL":null}},function(result){
+        if(result.error) {                                                                              log.error('FAILED validate data model:'+dataModelName+"! Reason:"+result.error+"!");//test
+            errs[dataModelName+"_validateError"]="Failed validate dataModel:"+dataModelName+"! Reason:"+result.error;
+        }
         nextValidateDataModelCallback();
     });
-};
+}
 
 module.exports.initValidateDataModels=function(dataModels, errs, resultCallback){
     var dataModelsList=[];
@@ -73,6 +92,85 @@ module.exports.initValidateDataModels=function(dataModels, errs, resultCallback)
     };
     validateDataModelCallback(dataModelsList, 0, errs);
 };
+
+
+/**
+ * params = { source,
+ *      fields = [<tableFieldName>,<tableFieldName>,<tableFieldName>,...],
+ *      conditions={ conditionName:<condition>,
+ *      order = "<orderFieldsList>"
+ * }
+ * resultCallback = function(err, recordset)
+ */
+function _getSelectItems(params, resultCallback){
+    var queryFields="";
+    for(var fieldNameIndex in params.fields) {
+        if (queryFields!="") queryFields+= ",";
+        queryFields+= params.fields[fieldNameIndex];
+    }
+    var selectQuery="select "+queryFields+" from "+params.source;
+    var conditionQuery, coditionValues=[];
+    if (params.conditions) {
+        for(var conditionItem in params.conditions) {
+            var conditionItemValue= (params.conditions[conditionItem]==null)?conditionItem:conditionItem+"?";
+            conditionQuery= (!conditionQuery)?conditionItemValue:" and "+conditionItemValue;
+            if (params.conditions[conditionItem]!=null) coditionValues.push(params.conditions[conditionItem]);
+        }
+        selectQuery+=" where "+conditionQuery;
+    }
+    if (params.order) selectQuery+=" order by "+params.order;
+    if (coditionValues.length==0)
+        database.selectQuery(selectQuery,function(err, recordset, count, fields){
+            if(err) resultCallback(err); else resultCallback(null,recordset);
+        });
+    else
+        database.selectParamsQuery(selectQuery,coditionValues, function(err, recordset, count, fields){
+            if(err) resultCallback(err); else resultCallback(null,recordset);
+        });
+}
+/**
+ * params = {
+ *      fields = [<tableFieldName>,<tableFieldName>,<tableFieldName>,...],
+ *      conditions={ conditionName:<condition> }
+ * }
+ * resultCallback = function(result = { items:[ {<tableFieldName>:<value>,...}, ... ], error, errorCode } )
+ */
+function _getDataItems(params, resultCallback){
+    if(!params) params={};
+    params.source= this.source;
+    if(!params.fields) params.fields=this.fields;
+    _getSelectItems(params,function(err,recordset){
+        var selectResult={};
+        if(err) {
+            selectResult.error="Failed get table data items! Reason:"+err.message;
+            selectResult.errorCode=err.code;
+        }
+        if (recordset) selectResult.items= recordset;
+        resultCallback(selectResult);                                                                   log.info('_getDataItems: _getSelectItems:',selectResult,{});//test
+    });
+}
+/**
+ * params = {
+ *      fields = [<tableFieldName>,<tableFieldName>,<tableFieldName>,...],
+ *      conditions={ conditionName:<condition> }
+ * }
+ * resultCallback = function(result = { item:{<tableFieldName>:<value>,...}, error, errorCode } )
+ */
+function _getDataItem(params, resultCallback){
+    if(!params) params={};
+    params.source= this.source;
+    if(!params.fields) params.fields=this.fields;
+    _getSelectItems(params,function(err,recordset){
+        var selectResult={};
+        if(err) {
+            selectResult.error="Failed get data item! Reason:"+err.message;
+            selectResult.errorCode=err.code;
+        }
+        if (recordset&&recordset.length>0) selectResult.item= recordset[0];
+        resultCallback(selectResult);                                                                   log.info('_getDataItem: selectParamsQuery:',selectResult,{});//test
+    });
+}
+
 /**
  *
  * tableColumns = [
@@ -116,7 +214,7 @@ function _fillDataTypeForTableColumns(tableColumns){
         }
     }
     return tableColumns;
-};
+}
 /**
  * params = (tableName,
  *      tableColumns = [
@@ -173,7 +271,7 @@ function _getDataForTable(params, resultCallback){
             tableData.items= recordset;
             resultCallback(tableData);
         });
-};
+}
 
 /**
  * params = (
@@ -189,51 +287,7 @@ function _setDataItemForTable(params, resultCallback){
         if (value!=undefined) itemData[fieldName]=value;
     }
     resultCallback({item:itemData});
-};
-
-/**
- * params = (tableName,
- *      tableFields = [<tableFieldName>,<tableFieldName>,<tableFieldName>,...],
- *      conditions={ conditionName:<condition> }
- * resultCallback = function(result = { item:{<tableFieldName>:<value>,...}, error, errorCode } )
- */
-function _getDataItem(params, resultCallback){
-    var queryFields="";
-    for(var fieldNameIndex in params.tableFields) {
-        if (queryFields!="") queryFields+= ",";
-        queryFields+= params.tableFields[fieldNameIndex];
-    }
-    var selectQuery="select "+queryFields+" from "+params.tableName;
-    var conditionQuery, coditionValues=[];
-    if (params.conditions) {
-        for(var conditionItem in params.conditions) {
-            var conditionItemValue= (params.conditions[conditionItem]==null)?conditionItem:conditionItem+"?";
-            conditionQuery= (!conditionQuery)?conditionItemValue:" and "+conditionItemValue;
-            if (params.conditions[conditionItem]!=null) coditionValues.push(params.conditions[conditionItem]);
-        }
-        selectQuery+=" where "+conditionQuery;
-    }
-    if (coditionValues.length==0)
-        database.selectQuery(selectQuery,function(err, recordset, count, fields){
-            var selectResult={};
-            if(err) {
-                selectResult.error="Failed get data item! Reason:"+err.message;
-                selectResult.errorCode=err.code;
-            }
-            if (recordset&&recordset.length>0) selectResult.item= recordset[0];
-            resultCallback(selectResult);                                                                   log.info('_getDataItem: selectQuery: selectResult',selectResult,{});//test
-        });
-    else
-        database.selectParamsQuery(selectQuery,coditionValues, function(err, recordset, count, fields){
-            var selectResult={};
-            if(err) {
-                selectResult.error="Failed get data item! Reason:"+err.message;
-                selectResult.errorCode=err.code;
-            }
-            if (recordset&&recordset.length>0) selectResult.item= recordset[0];
-            resultCallback(selectResult);                                                                   log.info('_getDataItem: selectParamsQuery:',selectResult,{});//test
-        });
-};
+}
 
 /**
  * params = (tableName,
@@ -273,7 +327,7 @@ function _insDataItem(params, resultCallback) {
         if (updateCount==0) insResult.error="Failed insert data item! Reason: no inserted row count!";
         resultCallback(insResult);
     });
-};
+}
 
 /**
  * params = (tableName,
@@ -323,7 +377,7 @@ function _updDataItem(params, resultCallback) {
         if (updateCount==0) updResult.error="Failed update data item! Reason: no updated row count!";
         resultCallback(updResult);
     });
-};
+}
 
 /**
  * params = (tableName,
@@ -363,7 +417,7 @@ function _delDataItem(params, resultCallback) {
         if (updateCount==0) delResult.error="Failed delete data item! Reason: no updated row count!";
         resultCallback(delResult);
     });
-};
+}
 
 /**
  * params = (tableName, idFieldName
@@ -396,7 +450,7 @@ function _insTableDataItem(params, resultCallback) {
                 resultCallback(insResult);
             });
     });
-};
+}
 
 /**
  * params = (tableName, idFieldName
@@ -431,7 +485,7 @@ function _updTableDataItem(params, resultCallback) {
                 resultCallback(updResult);
             });
     });
-};
+}
 
 /**
  * params = (tableName, idFieldName
@@ -464,7 +518,7 @@ function _storeTableDataItem(params, resultCallback) {
     }
     //update
     _updTableDataItem({tableName:params.tableName, idFieldName:idFieldName, updTableData:params.storeTableData}, resultCallback);
-};
+}
 
 /**
  * params = (tableName, idFieldName
@@ -493,5 +547,4 @@ function _delTableDataItem(params, resultCallback) {
         }
         resultCallback(delResult);
     });
-};
-
+}

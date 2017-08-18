@@ -4,14 +4,14 @@ var util=require('./util'), appStartupParams = util.getStartupParams();
 
 if (!appStartupParams.logToConsole) {
     log.add(log.transports.File, {filename: 'history.log', level: 'debug', timestamp: function() {
-        return dateformat(Date.now(), "yyyy-mm-dd HH:MM:ss");
-    }});
+        return dateformat(Date.now(), "yyyy-mm-dd HH:MM:ss.l");
+    } });
     log.remove(log.transports.Console);
 } else {
     log.configure({
         transports: [
             new (log.transports.Console)({ colorize: true, timestamp: function() {
-                return dateformat(Date.now(), "yyyy-mm-dd HH:MM:ss");
+                return dateformat(Date.now(), "yyyy-mm-dd HH:MM:ss.l");
             } })
         ]
     });
@@ -57,7 +57,7 @@ server.use(bodyParser.json());
 server.use(bodyParser.text());
 server.use('/', express.static('public'));
 
-global.appViewsPath= path.join(__dirname,'/../views/','');
+global.appViewsPath= path.join(__dirname,'/../pages/','');
 global.appModulesPath= path.join(__dirname,'/modules/','');
 global.appDataModelPath= path.join(__dirname,'/datamodel/','');
 

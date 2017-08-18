@@ -36,6 +36,7 @@ module.exports.validateModule = function(errs, nextValidateModuleCallback){
 
 module.exports.modulePageURL = "/sysadmin";
 module.exports.modulePagePath = "sysadmin.html";
+var thisInstance=this;
 module.exports.init = function(app){
 
     app.get("/sysadmin/serverState", function(req, res){
@@ -490,7 +491,7 @@ module.exports.init = function(app){
             callback(outData);
             return;
         }
-        changeLog.getChangeLogItemByID(changeData.changeID, function (result) {                                log.info("getChangeLogItemByID changeID="+changeData.changeID+" result=",result);
+        getChangeLogItemByID(changeData.changeID, function (result) {                                       log.info("getChangeLogItemByID changeID="+changeData.changeID+" result=",result);
             if (result.error) {
                 outData.error = "ERROR FOR ID:"+changeData.changeID+" Error msg: "+result.error;
                 matchLogData(null, outData, ind+1, callback);
@@ -503,7 +504,6 @@ module.exports.init = function(app){
                 matchLogData(changesData, outData, ind+1,callback);
                 return;
             }
-            // else {
             if (!matchChangeLogFields(changeData,result.item)){
                 changeData.type = "warning";
                 changeData.message = "Current update has not identical fields in change_log!";
@@ -517,22 +517,22 @@ module.exports.init = function(app){
 
     app.get("/sysadmin/database/getCurrentChanges", function (req, res) {
         var outData = { columns:changesTableColumns, identifier:changesTableColumns[0].data, items:[] };
-        changeLog.checkIfChangeLogExists(function(tableData) {
-            if (tableData.error&& (tableData.errorCode=="ER_NO_SUCH_TABLE")) {                                 log.info("tableData.error:",tableData.error);
+        checkIfChangeLogExists(function(tableData) {
+            if (tableData.error&& (tableData.errorCode=="ER_NO_SUCH_TABLE")) {                              log.info("checkIfChangeLogExists resultCallback errorCode=='ER_NO_SUCH_TABLE' tableData.error:",tableData.error);
                 outData.noTable = true;
-                var arr=dataModel.getModelChanges();               log.info("arr=",arr,{});
+                var arr=dataModel.getModelChanges();
                 var items=util.sortArray(arr);
                 for(var i in items){
                     var item=items[i];
                     item.type="new";
                     item.message="not applied";
                 }
-                outData.items=items;                              log.info("outData.items 518=",outData.items,{});
+                outData.items=items;
                 res.send(outData);
                 return;
             }
-            if (tableData.error) {                                                                              log.error("tableData.error:",tableData.error);
-                outData.error = tableData.error.message;
+            if (tableData.error) {                                                                          log.error("checkIfChangeLogExists resultCallback tableData.error:",tableData.error);
+                outData.error = tableData.error;
                 res.send(outData);
                 return;
             }
@@ -558,7 +558,7 @@ module.exports.init = function(app){
                 break;
             }
         }
-        changeLog.checkIfChangeLogExists(function(result) {
+        checkIfChangeLogExists(function(result) {
             if (result.error && (result.errorCode == "ER_NO_SUCH_TABLE")) {
                 database.executeQuery(CHANGE_VAL, function (err) {
                     if (err) {
@@ -566,7 +566,7 @@ module.exports.init = function(app){
                         res.send(outData);
                         return;
                     }
-                    changeLog.insertToChangeLog({"ID":modelChange.changeID,
+                    insertToChangeLog({"ID":modelChange.changeID,
                             "CHANGE_DATETIME":dateFormat(new Date(modelChange.changeDatetime),"yyyy-mm-dd HH:MM:ss"), ///2016-09-04T18:15:00.000
                             "CHANGE_OBJ":modelChange.changeObj,"CHANGE_VAL":modelChange.changeVal, "APPLIED_DATETIME":null},    //
                         function (result) {
@@ -588,7 +588,7 @@ module.exports.init = function(app){
                 res.send(outData);
                 return;
             }
-            changeLog.getChangeLogItemByID(ID, function (result) {
+            getChangeLogItemByID(ID, function (result) {
                 if (result.error) {
                     outData.error = result.error;
                     res.send(outData);
@@ -605,7 +605,7 @@ module.exports.init = function(app){
                         res.send(outData);                                                  //console.log("executeQuery outData=",outData);
                         return;
                     }
-                    changeLog.insertToChangeLog({"ID":modelChange.changeID,
+                    insertToChangeLog({"ID":modelChange.changeID,
                             "CHANGE_DATETIME":dateFormat(new Date(modelChange.changeDatetime),"yyyy-mm-dd HH:MM:ss"),
                             "CHANGE_OBJ":modelChange.changeObj,"CHANGE_VAL":modelChange.changeVal, "APPLIED_DATETIME":null},
                         function (result) {
@@ -625,7 +625,7 @@ module.exports.init = function(app){
     });
 
     app.get("/sysadmin/database/getChangeLog", function (req, res) {
-        changeLog.getDataForChangeLogTable(req.query, function(result){
+        getDataForChangeLogTable(req.query, function(result){
             res.send(result);
         });
     });
@@ -643,4 +643,33 @@ module.exports.init = function(app){
             res.send(result);
         });
     });
+};
+
+/**
+ * resultCallback = function(result={ item, error, errorCode })
+ */
+var checkIfChangeLogExists= function(resultCallback) {
+    changeLog.getDataItems({conditions:{"ID IS NULL":null}}, resultCallback);
+};
+
+/**
+ * resultCallback = function(result={ item, error, errorCode })
+ */
+var getChangeLogItemByID= function(id, resultCallback) {
+    changeLog.getDataItem({ conditions:{"ID=":id} }, resultCallback);
+};
+
+/**
+ * resultCallback = function(tableData={ columns, identifier, items, error })
+ */
+var getDataForChangeLogTable= function(conditions, resultCallback){
+    changeLog.getDataForTable({tableName:tableName, tableColumns:tableColumns, identifier:idField, conditions:conditions,
+        order:"CHANGE_DATETIME, CHANGE_OBJ, ID"}, resultCallback);
+};
+
+/**
+ * resultCallback = function(result = { updateCount, resultItem:{<tableFieldName>:<value>,...}, error } )
+ */
+var insertToChangeLog= function(itemData, resultCallback) {
+    changeLog.insTableDataItem({tableName:tableName, idFieldName:"ID", insTableData:itemData}, resultCallback);
 };

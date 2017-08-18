@@ -83,6 +83,16 @@ module.exports.init = function(app){
             res.send(result);
         });
     });
+    app.get("/dir/products/getDataForProductsGendersCombobox/genderCode", function(req, res){
+        dirProductsGendersBata.getDataForProductsGendersCodesCombobox(function(result){
+            res.send(result);
+        });
+    });
+    app.get("/dir/products/getDataForProductsGendersCombobox/gender", function(req, res){
+        dirProductsGendersBata.getDataForProductsGendersCombobox(function(result){
+            res.send(result);
+        });
+    });
     app.post("/dir/products/storeProductsCategoriesTableData", function(req, res){
         dirProductsCategoriesBata.storeProductsCategoriesTableData(req.body, function(result){
             res.send(result);

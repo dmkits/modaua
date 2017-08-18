@@ -39,6 +39,7 @@ var changeLog=[
     "changeVal": "ALTER TABLE dir_products ADD CONSTRAINT DIR_PRODUCTS_COLLECTION_ID_FK FOREIGN KEY (COLLECTION_ID) REFERENCES dir_products_collections(ID)" }
 ];
 module.exports.changeLog=changeLog;
+//module.exports.modelData= {tableName:tableName, idField:idField, tableFields:["ID","","","",""]};
 
 var tableName="dir_products", tableColumns=[
   {"data": "ID", "name": "ID", "width": 80, "type": "text", readOnly:true, visible:false},
@@ -54,7 +55,7 @@ var tableName="dir_products", tableColumns=[
   {"data": "COLLECTION_ID", "name": "COLLECTION_ID", "width": 80, "type": "text"}
 ], idField=tableColumns[0].data;
 
-module.exports.validateData= {tableName:tableName, tableColumns:tableColumns, idField:idField};
+
 
 var dm=this;
 /**

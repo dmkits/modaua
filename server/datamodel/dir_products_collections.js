@@ -14,4 +14,4 @@ module.exports.changeLog=changeLog;
 
 var tableName="dir_products_collections", tableFields=["ID","NAME","CODE"], idField=tableFields[0];
 
-module.exports.validateData= {tableName:tableName, fields:tableFields, idField:idField};
+module.exports.modelData= {tableName:tableName, fields:tableFields, idField:idField};

@@ -10,23 +10,56 @@ define(["dojo/_base/declare", "hTableSimpleFiltered", "request"], function(decla
         setData: function(data) {                                                                           console.log("HTableEditable setData ", data);
             this._setData= hTableSimpleFiltered().setData;
             this._setData(data);
-
+            var setAutocompleteColumnValues=this.setAutocompleteColumnValues, tableData=this.htData;
             for(var c=0;c<this.htVisibleColumns.length;c++){
                 var visColData=this.htVisibleColumns[c];
-                if (visColData.type==="autocomplete") {                                                                 //console.log("HTableSimple setData autocomplete",visColData.data,visColData.type);
-                    visColData.sourceValues={};
-                    for(var r=0;r<this.htData.length;r++) {
-                        var value=this.htData[r][visColData.data];
-                        if (!visColData.sourceValues[value]){
-                            visColData.sourceValues[value]=true;
-                            visColData.source.push(value);
+                if (visColData.type==="autocomplete")
+                    this.loadAutocompleteColumnValues(visColData,/*failed*/function(){
+                        setAutocompleteColumnValues(visColData,tableData);
+                    });
+
+            }                                                                                               console.log("HTableSimple setData htVisibleColumns",this.htVisibleColumns);
+        },
+        setAutocompleteColumnValues:function(colData,tableData){                                            console.log("HTableSimple setAutocompleteColumnValues",colData.data);
+            colData.sourceValues={};
+            for(var r=0;r<tableData.length;r++) {
+                var value=tableData[r][colData.data];
+                if (!colData.sourceValues[value]){
+                    colData.sourceValues[value]=true;
+                    colData.source.push(value);
+                }
+            }
+            colData.source.push("123");
+            colData.source.push("234");
+        },
+        loadAutocompleteColumnValues:function(colData,failedCallback){
+            colData.sourceValues={};
+            if(!colData.sourceURL) {
+                failedCallback();
+                return;
+            }
+            //colData.source.push("12345677890");
+            //colData.source.push("0987654321");
+            Request.getJSONData({url:colData.sourceURL, consoleLog:true}
+                ,function(success,result){
+                    if(!success){
+                        console.log("HTableEditable.loadAutocompleteColumnValues getJSONData failed!");/*!!!TEST LOG!!!*/
+                        return;
+                    }
+                    var resultItems = result["items"], error = result["error"];
+                    if(error) console.log("HTableEditable.loadAutocompleteColumnValues data ERROR! error=",error);/*!!!TEST LOG!!!*/
+                    if(!resultItems) {
+                       return;
+                    }
+                    colData.sourceValues={};
+                    for(var r=0;r<resultItems.length;r++) {
+                        var value=resultItems[r][colData.data];
+                        if (!colData.sourceValues[value]){
+                            colData.sourceValues[value]=true;
+                            colData.source.push(value);
                         }
                     }
-                    visColData.source.push("123");
-                    visColData.source.push("234");
-                }
-            }                                                                                                           console.log("HTableSimple setData htVisibleColumns",this.htVisibleColumns);
-
+                })
         },
         setChangeSettings: function(){
             var parent= this;

@@ -34,6 +34,7 @@ module.exports.getNewDataForProductsCategoriesTable= function(resultCallback){
     dm.setDataItemForTable({tableColumns:tableColumns,
         values:[null,"","","","Новая категория","0"]}, resultCallback);
 };
+
 module.exports.storeProductsCategoriesTableData= function(storeTableData, resultCallback){
 
     dm.storeTableDataItem({tableName:tableName, idFieldName:idField, storeTableData:storeTableData}, resultCallback);

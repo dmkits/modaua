@@ -15,7 +15,7 @@ define(["dojo/_base/declare", "app", "templateDocumentSimpleTable", "hTableEdita
             },
             postCreate: function(){
                 this.createTopContent();
-                this.createContentTable(HTableEditable, {readOnly:false});
+                this.createContentTable(HTableEditable, {readOnly:false,allowFillHandle:true});
                 this.createRightContent();
             },
 
