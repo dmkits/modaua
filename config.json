@@ -13,8 +13,8 @@
     "print",
     "mainPage",
     "dir_units",
-    "dir_contractors"/*,
-    "dir_products"*/
+    "dir_contractors",
+    "dir_products"
   ],
   "appMenu":[
     { "menuTitle":"Главная страница", "menuItemName":"menuBarItemMainPage", "pageTitle":"Главная страница", "module":"mainPage", "closable":false},
