@@ -2,7 +2,7 @@ var fs = require('fs');
 
 module.exports = {
 
-    '@disabled': true,
+    //'@disabled': true,
 
     before: function (browser) {
         fs.createReadStream('./uiTest.cfg').pipe(fs.createWriteStream('./test_temp_copy.cfg'));
@@ -31,7 +31,7 @@ module.exports = {
             .assert.containsText('@createDBResultField', 'created')
     },
 
-    'step_2 Assert first roe in  ChangeLog table contains values Tests': function (browser) {
+    'step_2 Assert first raw in  ChangeLog table contains values Tests': function (browser) {
         var sysadminHeader = browser.page.sysadminHeader();
         var database = browser.page.database();
         browser.maximizeWindow();
@@ -155,34 +155,35 @@ module.exports = {
             .assertCellContainsText('@changeLogTable', '4', '3', 'dir_units')
             .assertCellContainsText('@changeLogTable', '4', '4', 'ALTER TABLE dir_units ADD COLUMN NAME VARCHAR(200) NOT NULL')
             .assertTotalRowContainsValue('@changeLogTable', '4')
-    },
-    'step_10 Apply all rows': function (browser) {
-        var database = browser.page.database();
-        database
-            .click('@currentChangesBtn')
-            .waitForElementVisible('@currentChangesTable')
-            .moveToCell('@currentChangesTable', '1', '1')
-            .mouseButtonClick('right')
-            .waitForElementVisible('@applyAllChangesDialog')
-            .click('@applyAllChangesDialog');
-        browser.pause(60000);
-    },
-
-    'step_11 Assert no more rows left in Changes Table': function (browser) {
-        var database = browser.page.database();
-        database
-            .scrollTableToTop('@currentChangesTable')
-            .assertCellContainsText('@currentChangesTable', '1', '6', 'applied')
-            .clickRefreshBtn("@currentChangesTable")
-            .assertTotalRowContainsValue('@currentChangesTable', '0');
-    },
-
-    'step_12 Assert sysadminHeader DB Validation State is success': function (browser) {
-        var sysadminHeader = browser.page.sysadminHeader();
-        sysadminHeader
-            .waitForElementVisible("@dbValidateState")
-            .assert.containsText("@dbValidateState", "success");
     }
+    //,
+    //'step_10 Apply all rows': function (browser) {
+    //    var database = browser.page.database();
+    //    database
+    //        .click('@currentChangesBtn')
+    //        .waitForElementVisible('@currentChangesTable')
+    //        .moveToCell('@currentChangesTable', '1', '1')
+    //        .mouseButtonClick('right')
+    //        .waitForElementVisible('@applyAllChangesDialog')
+    //        .click('@applyAllChangesDialog');
+    //    browser.pause(60000);
+    //},
+
+    //'step_11 Assert no more rows left in Changes Table': function (browser) {
+    //    var database = browser.page.database();
+    //    database
+    //        .scrollTableToTop('@currentChangesTable')
+    //        .assertCellContainsText('@currentChangesTable', '1', '6', 'applied')
+    //        .clickRefreshBtn("@currentChangesTable")
+    //        .assertTotalRowContainsValue('@currentChangesTable', '0');
+    //},
+
+    //'step_12 Assert sysadminHeader DB Validation State is success': function (browser) {
+    //    var sysadminHeader = browser.page.sysadminHeader();
+    //    sysadminHeader
+    //        .waitForElementVisible("@dbValidateState")
+    //        .assert.containsText("@dbValidateState", "success");
+    //}
 };
 
 

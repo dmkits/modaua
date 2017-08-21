@@ -56,6 +56,7 @@ server.use(bodyParser.urlencoded({extended: true}));
 server.use(bodyParser.json());
 server.use(bodyParser.text());
 server.use('/', express.static('public'));
+server.set('view engine','ejs');
 
 global.appViewsPath= path.join(__dirname,'/../pages/','');
 global.appModulesPath= path.join(__dirname,'/modules/','');
