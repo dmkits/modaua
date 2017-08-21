@@ -27,12 +27,18 @@ module.exports.validateModules= function(resultCallback){
             validateError=errMsg;
             return;
         }
-        var module=require("./"+moduleName);
+        var module;                                                                                         log.info('ValidateModule: module:'+moduleName+"...");//test
+        try{
+            module=require("./"+moduleName);
+        }catch(e){                                                                                          log.error('FAILED validate module:'+moduleName+"! Reason:",e.message);//test
+            validateModuleCallback(modules, index + 1, errs);
+            return;
+        }
         var validateModule=module.validateModule;
         if(!validateModule){                                                                                log.warn('ValidateModule PASSED for Module:'+moduleName+"! Reason: no validate function.");//test
             validateModuleCallback(modules, index + 1, errs);
             return;
-        }                                                                                                   log.info('ValidateModule: module:'+moduleName+"...");//test
+        }
         module.validateModule(errs, function () {
             validateModuleCallback(modules, index + 1, errs);
         });
@@ -41,13 +47,41 @@ module.exports.validateModules= function(resultCallback){
     validateModuleCallback(modules, 0, errs);
 };
 
+module.exports.init = function(app){
+    var modules= server.getConfigModules();
+    if (!modules) return;
+    for(var i=0; i<modules.length; i++){
+        var moduleName=modules[i], module;                                                                  log.info('Initing module '+moduleName+"...");//test
+        try{
+            module=require("./"+moduleName);
+        }catch(e){                                                                                          log.error('FAILED loaded module '+moduleName+"! Reason:", e.message);//test
+            continue;
+        }
+        if (module.modulePageURL&&module.modulePagePath) {
+            (function(){
+                var modulePagePath=module.modulePagePath;
+                app.get(module.modulePageURL, function (req, res) {
+                    res.sendFile(appViewsPath+modulePagePath);
+                });
+            })();
+        }
+        try{
+            module.init(app);
+        }catch(e){                                                                                          log.error('FAILED inited module '+moduleName+"! Reason:", e.message);//test
+            continue;
+        }
+        loadedModules[moduleName]= module;
+    }
+    fillMainMenuModuleData(server.getConfigAppMenu());
+};
+
 function fillMainMenuItemModuleData(menuItem){
     if (!menuItem.module) return;
     var moduleName=menuItem.module;
     if (!loadedModules[moduleName]) return;
     menuItem.pageId= moduleName;
     menuItem.action= "open";
-    menuItem.contentHref = require("./"+moduleName).modulePageURL;
+    menuItem.contentHref = loadedModules[moduleName].modulePageURL;
 }
 function fillMainMenuModuleData(appMenu){
     for(var mainMenuItemIndex in appMenu) {
@@ -61,23 +95,3 @@ function fillMainMenuModuleData(appMenu){
         }
     }
 }
-
-module.exports.init = function(app){
-    var modules= server.getConfigModules();
-    if (!modules) return;
-    for(var i=0; i<modules.length; i++){
-        var moduleName=modules[i], module=require("./"+moduleName);                                         log.info('Initing module '+moduleName+"...");//test
-        if (module.modulePageURL&&module.modulePagePath) {
-            (function(){
-                var modulePagePath=module.modulePagePath;
-                app.get(module.modulePageURL, function (req, res) {
-                    res.sendFile(appViewsPath+modulePagePath);
-                });
-            })();
-        }
-        module.init(app);
-        loadedModules[moduleName]= true;
-    }
-    fillMainMenuModuleData(server.getConfigAppMenu());
-};
-

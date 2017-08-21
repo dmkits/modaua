@@ -39,6 +39,8 @@ module.exports.modulePagePath = "sysadmin.html";
 var thisInstance=this;
 module.exports.init = function(app){
 
+
+
     app.get("/sysadmin/serverState", function(req, res){
         var revalidateModules= false;
         if (req.query&&req.query["REVALIDATE"]) revalidateModules= true;
@@ -67,13 +69,9 @@ module.exports.init = function(app){
             });
             return;
         }
-
         outData.config=getConfig();
-
         var validateError=getValidateError();
-        if(validateError) outData.dbValidation=validateError; else outData.dbValidation = "success";
-
-        console.log("/sysadmin/serverState outData=",outData );
+        if(validateError) outData.dbValidation=validateError; else outData.dbValidation = "success";        console.log("/sysadmin/serverState outData=",outData );
         res.send(outData);
     });
 
@@ -151,7 +149,7 @@ module.exports.init = function(app){
                     return;
                 }
                 database.createNewDB(newDBName,function(err, ok){
-                    if(err){                console.log("createNewDB err=", err);
+                    if(err){                                                                        console.log("createNewDB err=", err);
                         outData.error=err.message;
                         res.send(outData);
                         return;
@@ -176,14 +174,14 @@ module.exports.init = function(app){
                             })
                         }else{
                             database.createNewUser(host,newUserName,newUserPassword, function(err, ok){
-                                if(err){                console.log("createNewUser err=", err);
+                                if(err){                                                            console.log("createNewUser err=", err);
                                     outData.error=err.message;
                                     res.send(outData);
                                     return;
                                 }
                                 outData.userCreated=ok;
                                 database.grantUserAccess(host,newUserName,newDBName, function(err, ok){
-                                    if(err){                console.log("createNewUser err=", err);
+                                    if(err){                                                        console.log("createNewUser err=", err);
                                         outData.error=err.message;
                                         res.send(outData);
                                         return;
@@ -366,24 +364,21 @@ module.exports.init = function(app){
 
             if (req.body.rewrite) {
                 database.dropDB(DBName, function (err, ok) {
-                    if (err) {
-                        console.log("checkIfDBExists err=", err);
+                    if (err) {                                                                          console.log("checkIfDBExists err=", err);
                         outData.error = err.message;
                         res.send(outData);
                         return;
                     }
                     outData.DBdropped = ok;
                     database.createNewDB(DBName, function (err, ok) {
-                        if (err) {
-                            console.log("createNewDB err=", err);
+                        if (err) {                                                                      console.log("createNewDB err=", err);
                             outData.error = err.message;
                             res.send(outData);
                             return;
                         }
                         outData.DBCreated = ok;
                         database.checkIfUserExists(userName, function (err, result) {
-                            if (err) {
-                                console.log("checkIfUserExists err=", err);
+                            if (err) {                                                                  console.log("checkIfUserExists err=", err);
                                 outData.error = err.message;
                                 res.send(outData);
                                 return;
@@ -391,16 +386,14 @@ module.exports.init = function(app){
                             if (result.length > 0) {
                                 outData.userExists = "User " + userName + " is already exists!";
                                 database.grantUserAccess(host, userName, DBName, function (err, ok) {
-                                    if (err) {
-                                        console.log("createNewUser err=", err);
+                                    if (err) {                                                          console.log("createNewUser err=", err);
                                         outData.error = err.message;
                                         res.send(outData);
                                         return;
                                     }
                                     outData.accessAdded = ok;
                                     database.restoreDB(restoreParams, function (err, ok) {
-                                        if (err) {
-                                            console.log("restoreDB err=", err);
+                                        if (err) {                                                      console.log("restoreDB err=", err);
                                             outData.error = err.message;
                                             res.send(outData);
                                             return;
@@ -411,24 +404,21 @@ module.exports.init = function(app){
                                 })
                             } else {
                                 database.createNewUser(host, userName, userPassword, function (err, ok) {
-                                    if (err) {
-                                        console.log("createNewUser err=", err);
+                                    if (err) {                                                          console.log("createNewUser err=", err);
                                         outData.error = err.message;
                                         res.send(outData);
                                         return;
                                     }
                                     outData.userCreated = ok;
                                     database.grantUserAccess(host, userName, DBName, function (err, ok) {
-                                        if (err) {
-                                            console.log("grantUserAccess err=", err);
+                                        if (err) {                                                      console.log("grantUserAccess err=", err);
                                             outData.error = err.message;
                                             res.send(outData);
                                             return;
                                         }
                                         outData.accessAdded = ok;
                                         database.restoreDB(restoreParams, function (err, ok) {
-                                            if (err) {
-                                                console.log("restoreDB err=", err);
+                                            if (err) {                                                  console.log("restoreDB err=", err);
                                                 outData.error = err.message;
                                                 res.send(outData);
                                                 return;
@@ -443,18 +433,15 @@ module.exports.init = function(app){
                     });
                 })
             } else {
-                database.isDBEmpty(DBName, function (err, recodrset) {
-                    console.log("isDBEmpty recodrset =", recodrset);
-                    if (err) {
-                        console.log("restoreDB err=", err);
+                database.isDBEmpty(DBName, function (err, recodrset) {                                  console.log("isDBEmpty recodrset =", recodrset);
+                    if (err) {                                                                          console.log("restoreDB err=", err);
                         outData.error = err.message;
                         res.send(outData);
                         return;
                     }
                     if (!recodrset) {
                         database.restoreDB(restoreParams, function (err, ok) {
-                            if (err) {
-                                console.log("restoreDB err=", err);
+                            if (err) {                                                                  console.log("restoreDB err=", err);
                                 outData.error = err.message;
                                 res.send(outData);
                                 return;
@@ -659,11 +646,18 @@ var getChangeLogItemByID= function(id, resultCallback) {
     changeLog.getDataItem({ conditions:{"ID=":id} }, resultCallback);
 };
 
+var tableColumns=[
+    {"data": "ID", "name": "changeID", "width": 200, "type": "text"}
+    , {"data": "CHANGE_DATETIME", "name": "changeDatetime", "width": 120, "type": "text", "dateFormat":"YYYY-MM-DD HH:mm:ss"}
+    , {"data": "CHANGE_OBJ", "name": "changeObj", "width": 200, "type": "text"}
+    , {"data": "CHANGE_VAL", "name": "changeVal", "width": 450, "type": "text"}
+    , {"data": "APPLIED_DATETIME", "name": "appliedDatetime", "width": 120, "type": "text", "dateFormat":"YYYY-MM-DD HH:mm:ss"}
+];
 /**
  * resultCallback = function(tableData={ columns, identifier, items, error })
  */
 var getDataForChangeLogTable= function(conditions, resultCallback){
-    changeLog.getDataForTable({tableName:tableName, tableColumns:tableColumns, identifier:idField, conditions:conditions,
+    changeLog.getDataForTable({tableColumns:tableColumns, identifier:tableColumns[0].data, conditions:conditions,
         order:"CHANGE_DATETIME, CHANGE_OBJ, ID"}, resultCallback);
 };
 
