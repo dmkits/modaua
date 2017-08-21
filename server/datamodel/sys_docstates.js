@@ -26,17 +26,3 @@ var changeLog= [
 ];
 module.exports.changeLog=changeLog;
 
-var tableName="sys_docstates", tableFields=["ID","ALIAS","NAME","NOTE"], idField=tableFields[0];
-
-module.exports.validateData= {tableName:tableName, fields:tableFields, idField:idField};
-
-var tableColumns=[
-      {"data": "ID", "name": "ID", "width": 200, "type": "text", visible:false}
-    , {"data": "ALIAS", "name": "ALIAS", "width": 120, "type": "text"}
-    , {"data": "NAME", "name": "NAME", "width": 200, "type": "text"}
-    , {"data": "NOTE", "name": "NOTE", "width": 450, "type": "text"}
-];
-
-module.exports.validateData= {tableName:tableName, tableColumns:tableColumns, idField:idField};
-
-var dm=this;

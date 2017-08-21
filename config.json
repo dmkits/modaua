@@ -8,12 +8,12 @@
     { "userLogin":"cashier", "pswrd":"cashier", "userRole":"cashier" }
   ],
   "modules":[
-    "sysadmin"/*,
+    "sysadmin",
     "main",
     "print",
     "mainPage",
     "dir_units",
-    "dir_contractors",
+    "dir_contractors"/*,
     "dir_products"*/
   ],
   "appMenu":[

@@ -124,7 +124,7 @@ function _getSelectItems(params, resultCallback){
         for(var conditionItem in params.conditions) {
             var conditionItemValue= (params.conditions[conditionItem]==null)?conditionItem:conditionItem+"?";
             conditionItemValue= conditionItemValue.replace("~","=");
-            conditionQuery= (!conditionQuery)?conditionItemValue:" and "+conditionItemValue;
+            conditionQuery= (!conditionQuery)?conditionItemValue:conditionQuery+" and "+conditionItemValue;
             if (params.conditions[conditionItem]!=null) coditionValues.push(params.conditions[conditionItem]);
         }
         selectQuery+=" where "+conditionQuery;
@@ -268,6 +268,14 @@ function _getDataForTable(params, resultCallback){
     for(var i in params.tableColumns) fieldsList.push(params.tableColumns[i].data);
     params.fields=fieldsList;
     if (!params.conditions) {
+        resultCallback(tableData);
+        return;
+    }
+    var hasConditions=false;
+    for(var conditionItem in params.conditions){
+        hasConditions=true; break;
+    }
+    if (!hasConditions) {
         resultCallback(tableData);
         return;
     }
@@ -504,6 +512,7 @@ function _storeTableDataItem(params, resultCallback) {
         resultCallback({ error:"Failed store table data item! Reason:no function parameters!"});
         return;
     }
+    if (!params.tableName) params.tableName=this.source;
     if (!params.tableName) {                                                                            log.error("FAILED _storeTableDataItem! Reason: no table name!");//test
         resultCallback({ error:"Failed store table data item! Reason:no table name for store!"});
         return;
@@ -537,6 +546,7 @@ function _delTableDataItem(params, resultCallback) {
         resultCallback({ error:"Failed delete table data item! Reason:no function parameters!"});
         return;
     }
+    if (!params.tableName) params.tableName=this.source;
     if (!params.delTableData) {                                                                         log.error("FAILED _delTableDataItem "+params.tableName+"! Reason: no data for delete!");//test
         resultCallback({ error:"Failed delete table data item! Reason:no data for delete!"});
         return;

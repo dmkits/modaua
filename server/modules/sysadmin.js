@@ -463,6 +463,12 @@ module.exports.init = function(app){
     });
 
     /**
+     * resultCallback = function(result={ item, error, errorCode })
+     */
+    var getChangeLogItemByID= function(id, resultCallback) {
+        changeLog.getDataItem({ conditions:{"ID=":id} }, resultCallback);
+    };
+    /**
      * result = true/false
      */
     var matchChangeLogFields= function(changeData, logData) {
@@ -530,7 +536,18 @@ module.exports.init = function(app){
             });
         });
     });
-
+    /**
+     * resultCallback = function(result={ item, error, errorCode })
+     */
+    var checkIfChangeLogExists= function(resultCallback) {
+        changeLog.getDataItems({conditions:{"ID IS NULL":null}}, resultCallback);
+    };
+    /**
+     * resultCallback = function(result = { updateCount, resultItem:{<tableFieldName>:<value>,...}, error } )
+     */
+    var insertToChangeLog= function(itemData, resultCallback) {
+        changeLog.insTableDataItem({idFieldName:"ID", insTableData:itemData}, resultCallback);
+    };
     app.post("/sysadmin/database/applyChange", function (req, res) {
         var outData={};
         var ID=req.body.CHANGE_ID;
@@ -610,9 +627,16 @@ module.exports.init = function(app){
             })
         });
     });
-
+    var changeLogTableColumns=[
+        {"data": "ID", "name": "changeID", "width": 200, "type": "text"}
+        , {"data": "CHANGE_DATETIME", "name": "changeDatetime", "width": 120, "type": "text", "dateFormat":"YYYY-MM-DD HH:mm:ss"}
+        , {"data": "CHANGE_OBJ", "name": "changeObj", "width": 200, "type": "text"}
+        , {"data": "CHANGE_VAL", "name": "changeVal", "width": 450, "type": "text"}
+        , {"data": "APPLIED_DATETIME", "name": "appliedDatetime", "width": 120, "type": "text", "dateFormat":"YYYY-MM-DD HH:mm:ss"}
+    ];
     app.get("/sysadmin/database/getChangeLog", function (req, res) {
-        getDataForChangeLogTable(req.query, function(result){
+        changeLog.getDataForTable({tableColumns:changeLogTableColumns, identifier:changeLogTableColumns[0].data, conditions:req.query,
+            order:"CHANGE_DATETIME, CHANGE_OBJ, ID"}, function(result){
             res.send(result);
         });
     });
@@ -620,50 +644,29 @@ module.exports.init = function(app){
     app.get("/sysadmin/appModelSettings", function (req, res) {
         res.sendFile(appViewsPath+'sysadmin/appModelSettings.html');
     });
+    var sysCurrencyTableColumns=[
+        {"data": "ID", "name": "ID", "width": 50, "type": "text", visible:true}
+        , {"data": "CODE", "name": "CODE", "width": 120, "type": "text"}
+        , {"data": "NAME", "name": "NAME", "width": 200, "type": "text"}
+        , {"data": "NOTE", "name": "NOTE", "width": 450, "type": "text"}
+    ];
     app.get("/sysadmin/appModelSettings/getSysCurrencyDataForTable", function(req, res){
-        sysCurrency.getDataForSysCurrencyTable(req.query, function(result){
+        sysCurrency.getDataForTable({tableColumns:sysCurrencyTableColumns, identifier:sysCurrencyTableColumns[0].data,
+            order:"ID", conditions:req.query}, function(result){
             res.send(result);
         });
     });
+    var sysDocsStatesTableColumns=[
+        {"data": "ID", "name": "ID", "width": 200, "type": "text", visible:false}
+        , {"data": "ALIAS", "name": "ALIAS", "width": 120, "type": "text"}
+        , {"data": "NAME", "name": "NAME", "width": 200, "type": "text"}
+        , {"data": "NOTE", "name": "NOTE", "width": 450, "type": "text"}
+    ];
     app.get("/sysadmin/appModelSettings/getSysDocumentsStatesDataForTable", function(req, res){
-        sysDocStates.getDataForSysDocStatesTable(req.query, function(result){
+        sysDocStates.getDataForTable({tableColumns:sysDocsStatesTableColumns, identifier:sysCurrencyTableColumns[0].data,
+            order:"ID", conditions:req.query}, function(result){
             res.send(result);
         });
     });
 };
 
-/**
- * resultCallback = function(result={ item, error, errorCode })
- */
-var checkIfChangeLogExists= function(resultCallback) {
-    changeLog.getDataItems({conditions:{"ID IS NULL":null}}, resultCallback);
-};
-
-/**
- * resultCallback = function(result={ item, error, errorCode })
- */
-var getChangeLogItemByID= function(id, resultCallback) {
-    changeLog.getDataItem({ conditions:{"ID=":id} }, resultCallback);
-};
-
-var tableColumns=[
-    {"data": "ID", "name": "changeID", "width": 200, "type": "text"}
-    , {"data": "CHANGE_DATETIME", "name": "changeDatetime", "width": 120, "type": "text", "dateFormat":"YYYY-MM-DD HH:mm:ss"}
-    , {"data": "CHANGE_OBJ", "name": "changeObj", "width": 200, "type": "text"}
-    , {"data": "CHANGE_VAL", "name": "changeVal", "width": 450, "type": "text"}
-    , {"data": "APPLIED_DATETIME", "name": "appliedDatetime", "width": 120, "type": "text", "dateFormat":"YYYY-MM-DD HH:mm:ss"}
-];
-/**
- * resultCallback = function(tableData={ columns, identifier, items, error })
- */
-var getDataForChangeLogTable= function(conditions, resultCallback){
-    changeLog.getDataForTable({tableColumns:tableColumns, identifier:tableColumns[0].data, conditions:conditions,
-        order:"CHANGE_DATETIME, CHANGE_OBJ, ID"}, resultCallback);
-};
-
-/**
- * resultCallback = function(result = { updateCount, resultItem:{<tableFieldName>:<value>,...}, error } )
- */
-var insertToChangeLog= function(itemData, resultCallback) {
-    changeLog.insTableDataItem({idFieldName:"ID", insTableData:itemData}, resultCallback);
-};

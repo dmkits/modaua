@@ -28,25 +28,3 @@ var changeLog= [
         "changeVal":"INSERT INTO sys_currency(ID,CODE,NAME,NOTE) values(4,'GBR','Английский фунт стерлингов','Английский фунт стерлингов')"}
 ];
 module.exports.changeLog=changeLog;
-
-var tableName="sys_currency", tableFields=["ID","CODE","NAME","NOTE"], idField=tableFields[0];
-
-module.exports.validateData= {tableName:tableName, fields:tableFields, idField:idField};
-
-var tableColumns=[
-    {"data": "ID", "name": "ID", "width": 50, "type": "text", visible:true}
-    , {"data": "CODE", "name": "CODE", "width": 120, "type": "text"}
-    , {"data": "NAME", "name": "NAME", "width": 200, "type": "text"}
-    , {"data": "NOTE", "name": "NOTE", "width": 450, "type": "text"}
-];
-
-module.exports.validateData= {tableName:tableName, tableColumns:tableColumns, idField:idField};
-
-var dm=this;
-/**
- * resultCallback = function(tableData={ columns, identifier, items, error })
- */
-module.exports.getDataForSysCurrencyTable= function(conditions, resultCallback){
-    dm.getDataForTable({tableName:tableName, tableColumns:tableColumns, identifier:idField,
-        order:"ID", conditions:conditions}, resultCallback);
-};
