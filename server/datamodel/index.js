@@ -140,7 +140,7 @@ function _getSelectItems(params, resultCallback){
         });
 }
 /**
- * params = {
+ * params = { source,
  *      fields = [<tableFieldName>,<tableFieldName>,<tableFieldName>,...],
  *      conditions={ conditionName:<condition> }
  * }
@@ -148,12 +148,12 @@ function _getSelectItems(params, resultCallback){
  */
 function _getDataItems(params, resultCallback){
     if(!params) params={};
-    params.source= this.source;
+    if(!params.source) params.source= this.source;
     if(!params.fields) params.fields=this.fields;
     _getSelectItems(params,function(err,recordset){
         var selectResult={};
         if(err) {
-            selectResult.error="Failed get table data items! Reason:"+err.message;
+            selectResult.error="Failed get data items! Reason:"+err.message;
             selectResult.errorCode=err.code;
         }
         if (recordset) selectResult.items= recordset;
@@ -161,7 +161,7 @@ function _getDataItems(params, resultCallback){
     });
 }
 /**
- * params = {
+ * params = { source,
  *      fields = [<tableFieldName>,<tableFieldName>,<tableFieldName>,...],
  *      conditions={ conditionName:<condition> }
  * }
@@ -169,7 +169,7 @@ function _getDataItems(params, resultCallback){
  */
 function _getDataItem(params, resultCallback){
     if(!params) params={};
-    params.source= this.source;
+    if(!params.source) params.source= this.source;
     if(!params.fields) params.fields=this.fields;
     _getSelectItems(params,function(err,recordset){
         var selectResult={};
@@ -435,6 +435,7 @@ function _insTableDataItem(params, resultCallback) {
         resultCallback({ error:"Failed insert table data item! Reason:no id field name!"});
         return;
     }
+    if(!params.tableName&&this.source) params.tableName=this.source;
     params.insData=params.insTableData;
     _insDataItem(params, function(insResult){
         if(insResult.error){
@@ -444,7 +445,7 @@ function _insTableDataItem(params, resultCallback) {
         var resultFields=[];
         for(var fieldName in params.insTableData) resultFields.push(fieldName);
         var getResultConditions={}; getResultConditions[idFieldName+"="]=params.insTableData[idFieldName];
-        _getDataItem({tableName:params.tableName, tableFields:resultFields, conditions:getResultConditions},
+        _getDataItem({source:params.tableName, fields:resultFields, conditions:getResultConditions},
             function(result){
                 if(result.error) insResult.error="Failed get result inserted data item! Reason:"+result.error;
                 if (result.item) insResult.resultItem= result.item;
@@ -472,6 +473,7 @@ function _updTableDataItem(params, resultCallback) {
         resultCallback({ error:"Failed update table data item! Reason:no id field name!"});
         return;
     }
+    if(!params.tableName&&this.source) params.tableName=this.source;
     params.updData={};
     for(var updFieldName in params.updTableData) if(updFieldName!=idFieldName) params.updData[updFieldName]=params.updTableData[updFieldName];
     params.conditions={}; params.conditions[idFieldName+"="]=params.updTableData[idFieldName];
@@ -483,7 +485,7 @@ function _updTableDataItem(params, resultCallback) {
         var resultFields=[];
         for(var fieldName in params.updTableData) resultFields.push(fieldName);
         var getResultConditions={}; getResultConditions[idFieldName+"="]=params.updTableData[idFieldName];
-        _getDataItem({tableName:params.tableName, tableFields:resultFields, conditions:getResultConditions},
+        _getDataItem({source:params.tableName, fields:resultFields, conditions:getResultConditions},
             function(result){
                 if(result.error) updResult.error="Failed get result updated data item! Reason:"+result.error;
                 if (result.item) updResult.resultItem= result.item;
@@ -545,6 +547,7 @@ function _delTableDataItem(params, resultCallback) {
         return;
     }
     var idFieldValue=params.delTableData[idFieldName];
+    if(!params.tableName&&this.source) params.tableName=this.source;
     params.conditions={}; params.conditions[idFieldName+"="]=idFieldValue;
     _delDataItem(params, function(delResult){
         if (delResult.updateCount==1) {

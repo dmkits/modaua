@@ -665,5 +665,5 @@ var getDataForChangeLogTable= function(conditions, resultCallback){
  * resultCallback = function(result = { updateCount, resultItem:{<tableFieldName>:<value>,...}, error } )
  */
 var insertToChangeLog= function(itemData, resultCallback) {
-    changeLog.insTableDataItem({tableName:tableName, idFieldName:"ID", insTableData:itemData}, resultCallback);
+    changeLog.insTableDataItem({idFieldName:"ID", insTableData:itemData}, resultCallback);
 };
