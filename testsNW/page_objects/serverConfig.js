@@ -100,7 +100,8 @@ var serverConfigCommands = {
     //    return instance;
     //},
 
-    resetDBConfig: function () {
+
+    setInitialDBConfig: function () {
         var instance=this;
         instance.waitForElementVisible('@dbHostInput')
             .waitForElementVisible('@dbNameInput')
@@ -114,6 +115,8 @@ var serverConfigCommands = {
             .setValue('@dbUserInput',  'user')
             .clearValue('@dbPasswordInput')
             .setValue('@dbPasswordInput',  'user')
+            .clearValue('@configNameInput')
+            .setValue('@configNameInput',  'config.json')
             .click('@StoreAndReconnectBtn');
         return instance;
     },

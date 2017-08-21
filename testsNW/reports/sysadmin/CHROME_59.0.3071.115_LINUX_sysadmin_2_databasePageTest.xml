@@ -1,77 +1,290 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <testsuites errors="0"
             failures="0"
-            tests="12">
+            tests="9">
 
   <testsuite name="sysadmin.sysadmin_2_databasePageTest"
-    errors="0" failures="0" hostname="" id="" package="sysadmin" skipped="12"
-    tests="12" time="0.000" timestamp="Thu, 17 Aug 2017 12:47:50 GMT">
+    errors="0" failures="0" hostname="" id="" package="sysadmin" skipped="0"
+    tests="9" time="51.76" timestamp="Mon, 21 Aug 2017 13:09:14 GMT">
+  
+    <testcase name="step_1 login AS ADMIN Drop AND create new DB" classname="sysadmin.sysadmin_2_databasePageTest" time="10.25" assertions="23">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="step_2 Assert first raw in  ChangeLog table contains values Tests" classname="sysadmin.sysadmin_2_databasePageTest" time="3.189" assertions="29">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="step_3 Select and apply first 3 rows" classname="sysadmin.sysadmin_2_databasePageTest" time="6.754" assertions="1">
+
+    
+    </testcase>
+  
+    <testcase name="step_4 Assert rows applied" classname="sysadmin.sysadmin_2_databasePageTest" time="0.4670" assertions="6">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="step_5 Assert rows not in the Current Changes table after refresh" classname="sysadmin.sysadmin_2_databasePageTest" time="6.859" assertions="14">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="step_6 Assert the aaplied rows are visible in changeLog table" classname="sysadmin.sysadmin_2_databasePageTest" time="2.571" assertions="23">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="step_7 Select and apply one more row" classname="sysadmin.sysadmin_2_databasePageTest" time="10.71" assertions="2">
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="step_8 Assert the applied row are no more visible in current Change table" classname="sysadmin.sysadmin_2_databasePageTest" time="6.456" assertions="14">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="step_9 Assert the row visible in changeLog table" classname="sysadmin.sysadmin_2_databasePageTest" time="4.497" assertions="12">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    </testcase>
   
 
   
 
-  
-    
-    <testcase
-      name="step_1 login AS ADMIN Drop AND create new DB" classname="sysadmin.sysadmin_2_databasePageTest">
-      <skipped />
-    </testcase>
-    
-    <testcase
-      name="step_2 Assert first roe in  ChangeLog table contains values Tests" classname="sysadmin.sysadmin_2_databasePageTest">
-      <skipped />
-    </testcase>
-    
-    <testcase
-      name="step_3 Select and apply first 3 rows" classname="sysadmin.sysadmin_2_databasePageTest">
-      <skipped />
-    </testcase>
-    
-    <testcase
-      name="step_4 Assert rows applied" classname="sysadmin.sysadmin_2_databasePageTest">
-      <skipped />
-    </testcase>
-    
-    <testcase
-      name="step_5 Assert rows not in the Current Changes table after refresh" classname="sysadmin.sysadmin_2_databasePageTest">
-      <skipped />
-    </testcase>
-    
-    <testcase
-      name="step_6 Assert the aaplied rows are visible in changeLog table" classname="sysadmin.sysadmin_2_databasePageTest">
-      <skipped />
-    </testcase>
-    
-    <testcase
-      name="step_7 Select and apply one more row" classname="sysadmin.sysadmin_2_databasePageTest">
-      <skipped />
-    </testcase>
-    
-    <testcase
-      name="step_8 Assert the applied row are no more visible in current Change table" classname="sysadmin.sysadmin_2_databasePageTest">
-      <skipped />
-    </testcase>
-    
-    <testcase
-      name="step_9 Assert the row visible in changeLog table" classname="sysadmin.sysadmin_2_databasePageTest">
-      <skipped />
-    </testcase>
-    
-    <testcase
-      name="step_10 Apply all rows" classname="sysadmin.sysadmin_2_databasePageTest">
-      <skipped />
-    </testcase>
-    
-    <testcase
-      name="step_11 Assert no more rows left in Changes Table" classname="sysadmin.sysadmin_2_databasePageTest">
-      <skipped />
-    </testcase>
-    
-    <testcase
-      name="step_12 Assert sysadminHeader DB Validation State is success" classname="sysadmin.sysadmin_2_databasePageTest">
-      <skipped />
-    </testcase>
-    
   
   </testsuite>
 </testsuites>

@@ -1,5 +1,5 @@
 module.exports= {
-    '@disabled': true,
+    //'@disabled': true,
 
     before: function (browser) {
         browser.maximizeWindow();
@@ -66,7 +66,7 @@ module.exports= {
 
         var dbConnectionFailed= browser.page.dbConnectionFailed();
         dbConnectionFailed
-            .waitForElementVisible('@auth_as_sysadmin')
+          //  .waitForElementVisible('@auth_as_sysadmin')
             .assert.containsText('body','Не удалось подключиться к базе данных!')
             .assert.containsText('body','Обратитесь к системному администратору!');
 

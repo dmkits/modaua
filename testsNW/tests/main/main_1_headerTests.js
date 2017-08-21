@@ -14,6 +14,44 @@ module.exports= {
         mainPage
             .navigate();
     },
+    'step_1.1 Validate DB': function (browser) {
+        browser.url('localhost:8181/sysadmin');
+        var loginPage = browser.page.loginPage();
+        loginPage.
+            loginAsAdmin();
+        var sysadminHeader=browser.page.sysadminHeader();
+        var database=browser.page.database();
+
+        sysadminHeader
+            .click('@serverConfigBtn')
+            .assert.attributeContains('@serverConfigBtn','aria-pressed','true');
+        var serverConfig = browser.page.serverConfig();
+        serverConfig
+            .dropDB()
+            .waitForElementVisible('@createDBBtn')
+            .assert.visible('@createDBBtn')
+            .click('@createDBBtn')
+            .assertAdminDialogIsEmpty()
+            .authorizeAsAdmin()
+            .waitForElementVisible('@createDBResultField')
+            .assert.containsText('@createDBResultField', 'Database created!');
+
+
+        sysadminHeader
+            .waitForElementVisible('@btnDatabase')
+            .click('@btnDatabase');
+        database
+            .waitForElementVisible('@currentChangesTable')
+            .moveToCell('@currentChangesTable', 1, 1)
+            .mouseButtonClick('right')
+            .waitForElementVisible('@applyAllChangesDialog')
+            .click('@applyAllChangesDialog');
+        browser.pause(60000);
+
+        sysadminHeader  //dbValidateState
+            .assert.containsText('@dbValidateState','success')
+            .click("@logoutBtn");
+    },
     'step_2 Login main page':function(browser){
         var loginPage = browser.page.loginPage();
         loginPage
@@ -24,7 +62,6 @@ module.exports= {
             .setValue("@userLoginPasswordInput",'user')
             .click("@loginDialog_submitBtn");
     },
-
     'step_3 Main Header If  All Elements Visible Tests': function (browser) {
 
         browser.pause(2000);

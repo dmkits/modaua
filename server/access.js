@@ -53,13 +53,21 @@ module.exports= function(app){                                                  
             res.redirect("/sysadmin");
             return;
         } else if ( (dbConnectError||validateError) && !sysadminAccess){
+            var img =config['imageMain'] ||  "/imgs/modaua_big.jpg";
+            var title=config['title'] ||  "UNKNOWN";
+            var icon32x32=config['icon32x32'] ||  "/icons/modaua32x32.ico";
             if (req.headers&&req.headers["content-type"]=="application/x-www-form-urlencoded"&&req.headers["x-requested-with"]=="XMLHttpRequest"){
                 if (dbConnectError) res.send({ error:"Failed database connection!" }); else res.send({ error:"Failed validate database!" });
                 return;
             }
-            if (dbConnectError) res.sendFile(appViewsPath+'dbConnectionFailed.html');
-            else res.sendFile(appViewsPath+'validateFailed.html');
-            return;
+            if (dbConnectError){
+                res.render(appViewsPath+'dbFailed.ejs',{title:title, bigImg:img,icon:icon32x32, errorReason:"Не удалось подключиться к базе данных!"});
+                return;
+            }
+            else {
+                res.render(appViewsPath+'dbFailed.ejs',{title:title, bigImg:img,icon:icon32x32, errorReason:"База данных не прошла проверку!"});
+                return;
+            }
         }
         next();
     });

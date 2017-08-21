@@ -17,7 +17,7 @@ function deleteTestBackUpFile() {
 }
 
 module.exports= {
-    '@disabled': true,
+   // '@disabled': true,
     before: function (browser) {
         fs.createReadStream('./uiTest.cfg').pipe(fs.createWriteStream('./test_temp_copy.cfg'));
     },
@@ -32,14 +32,27 @@ module.exports= {
         sysadminHeader
             .navigate();
     },
-    'step_1 Sysadmin Header If  All Elements Visible Tests': function (browser) {
+
+    'step_0.1 Login and Enter test params':function(browser){
         var loginPage = browser.page.loginPage();
         loginPage.loginAsAdmin();
         var sysadminHeader = browser.page.sysadminHeader();
         sysadminHeader
+            .click('@serverConfigBtn');
+        var serverConfig = browser.page.serverConfig();
+        serverConfig.setInitialDBConfig();
+        sysadminHeader.click("@logoutBtn");
+    },
+
+    'step_1 Sysadmin Header If  All Elements Visible Tests': function (browser) {
+        var loginPage = browser.page.loginPage();
+        loginPage.loginAsAdmin();
+
+        var sysadminHeader = browser.page.sysadminHeader();
+        sysadminHeader
             .waitForElementVisible("@img")
             .assert.visible("@img")
-            .assert.title('MODA.UA')
+            //.assert.title('MODA.UA')
             .assert.containsText('@user', "USER:admin")
             .assert.containsText('@mode', "MODE:uiTest")
             .assert.containsText('@port', "PORT:8181")
@@ -95,7 +108,7 @@ module.exports= {
         sysadminHeader
             .waitForElementVisible("@img")
             .assert.visible("@img")
-            .assert.title('MODA.UA')
+            //.assert.title('MODA.UA')
             .assert.containsText('@user', "USER:admin")
             .assert.containsText('@mode', "MODE:uiTest")
             .assert.containsText('@port', "PORT:8181")
@@ -120,14 +133,16 @@ module.exports= {
             .setValue('@dbHostInput', '192.168.0.93_false')
             .click('@StoreAndReconnectBtn')
             .waitForElementVisible('@localConfigInfo')
-            .assert.containsText('@localConfigInfo', "Configuration sav")
+            .assert.containsText('@localConfigInfo', "Configuration sav");
+           browser.pause(1000);
+            serverConfig
             .assert.containsText('@localConfigInfo', "Failed to connect to database!");
 
         sysadminHeader.waitForElementVisible('@dbConnectionState')
             .assert.containsText("@dbConnectionState", "Failed to connect to database!");
 
         serverConfig
-            .resetDBConfig()
+            .setInitialDBConfig()
             .waitForElementVisible('@dbNameInput')
             .clearValue('@dbNameInput')
             .setValue('@dbNameInput', 'GMSSample38xml_false')
@@ -142,7 +157,7 @@ module.exports= {
             .assert.containsText("@dbConnectionState", "Failed to connect to database!");
 
         serverConfig
-            .resetDBConfig()
+            .setInitialDBConfig()
             .waitForElementVisible('@dbUserInput')
             .clearValue('@dbUserInput')
             .setValue('@dbUserInput','sa1')
@@ -153,7 +168,7 @@ module.exports= {
             .waitForElementVisible('@dbConnectionState')
             .assert.containsText("@dbConnectionState", "Failed to connect to database!");
 
-        serverConfig.resetDBConfig()
+        serverConfig.setInitialDBConfig()
             .waitForElementVisible('@dbPasswordInput')
             .clearValue('@dbPasswordInput')
             .setValue('@dbPasswordInput','false')
@@ -164,7 +179,7 @@ module.exports= {
             .assert.containsText("@dbConnectionState", "Failed to connect to database!");
 
         serverConfig
-            .resetDBConfig();
+            .setInitialDBConfig();
     },
 
     'Empty  Dialog Values': function (browser) {
@@ -336,23 +351,24 @@ module.exports= {
             .submitDialog('@rewriteBackupDialog')
             .waitForElementVisible('@backupDBResultField')
             .assert.containsText('@backupDBResultField', 'backup saved');
-    },
-    'Validate DB and check Validation State':function(browser){
-        var sysadminHeader=browser.page.sysadminHeader();
-        var database=browser.page.database();
-
-        sysadminHeader
-            .waitForElementVisible('@btnDatabase')
-            .click('@btnDatabase');
-        database
-            .waitForElementVisible('@currentChangesTable')
-            .moveToCell('@currentChangesTable', 1, 1)
-            .mouseButtonClick('right')
-            .waitForElementVisible('@applyAllChangesDialog')
-            .click('@applyAllChangesDialog');
-        browser.pause(60000);
-
-        sysadminHeader
-            .assert.containsText('@dbValidateState','success');
     }
+    //,
+    //'Validate DB and check Validation State':function(browser){
+    //    var sysadminHeader=browser.page.sysadminHeader();
+    //    var database=browser.page.database();
+    //
+    //    sysadminHeader
+    //        .waitForElementVisible('@btnDatabase')
+    //        .click('@btnDatabase');
+    //    database
+    //        .waitForElementVisible('@currentChangesTable')
+    //        .moveToCell('@currentChangesTable', 1, 1)
+    //        .mouseButtonClick('right')
+    //        .waitForElementVisible('@applyAllChangesDialog')
+    //        .click('@applyAllChangesDialog');
+    //    browser.pause(60000);
+    //
+    //    sysadminHeader
+    //        .assert.containsText('@dbValidateState','success');
+    //}
 };
