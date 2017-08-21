@@ -1,5 +1,6 @@
 {
   "title":"BATA.UA",
+  "icon32x32":"/icons/bata32x32.ico", "imageSmall":"/imgs/bata_small.jpg", "imageMain":"/imgs/bata.jpg",
   "users":[
     { "userLogin":"admin", "pswrd":"admin", "userRole":"admin" },
     { "userLogin":"adminDev", "pswrd":"admin", "userRole":"adminDev" },
