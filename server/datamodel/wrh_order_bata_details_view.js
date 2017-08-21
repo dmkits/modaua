@@ -14,31 +14,31 @@ var changeLog=[
 ];
 module.exports.changeLog=changeLog;
 
-var viewName="wrh_order_bata_details_v", tableColumns=[
-    {"data": "ID", "name": "ID", "width": 50, "type": "text", readOnly:true, visible:false},
-    {"data": "ORDER_BATA_ID", "name": "ORDER_BATA_ID", "width": 50, "type": "text", readOnly:true, visible:false},
-    {"data": "POS", "name": "Номер п/п", "width": 45, "type": "text"},
-    {"data": "PRODUCT_GENDER_CODE", "name": "Код группы", "width": 50, "type": "text"},
-    {"data": "PRODUCT_GENDER", "name": "Группа", "width": 90, "type": "text"},
-    {"data": "PRODUCT_CATEGORY_CODE", "name": "Код категории", "width": 60, "type": "text"},
-    {"data": "PRODUCT_CATEGORY", "name": "Категория", "width": 170, "type": "text"},
-    {"data": "PRODUCT_SUBCATEGORY_CODE", "name": "Код подкатегории", "width": 75, "type": "text"},
-    {"data": "PRODUCT_SUBCATEGORY", "name": "Подкатегория", "width": 130, "type": "text"},
-    {"data": "PRODUCT_ARTICLE", "name": "Артикул", "width": 80, "type": "text"},
-    {"data": "QTY", "name": "Кол-во", "width": 50, "type": "numeric"},
-    {"data": "RETAIL_PRICE", "name": "Цена Retail", "width": 60, "type": "numeric2"},
-    {"data": "PRICE", "name": "Цена", "width": 60, "type": "numeric2"},
-    {"data": "POSSUM", "name": "Сумма", "width": 80, "type": "numeric2"}
-], idField=tableColumns[0].data;
-
-module.exports.validateData= {tableName:viewName, tableColumns:tableColumns, idField:idField};
-
-var dm=this;
-/**
- * resultCallback = function(tableData={ columns, identifier, items, error })
- */
-module.exports.getDataForWrhOrdersBataDetailsTable= function(conditions, resultCallback){
-    dm.getDataForTable({tableName:viewName,
-        tableColumns:tableColumns,
-        identifier:idField, conditions:conditions}, resultCallback);
-};
+//var viewName="wrh_order_bata_details_v", tableColumns=[
+//    {"data": "ID", "name": "ID", "width": 50, "type": "text", readOnly:true, visible:false},
+//    {"data": "ORDER_BATA_ID", "name": "ORDER_BATA_ID", "width": 50, "type": "text", readOnly:true, visible:false},
+//    {"data": "POS", "name": "Номер п/п", "width": 45, "type": "text"},
+//    {"data": "PRODUCT_GENDER_CODE", "name": "Код группы", "width": 50, "type": "text"},
+//    {"data": "PRODUCT_GENDER", "name": "Группа", "width": 90, "type": "text"},
+//    {"data": "PRODUCT_CATEGORY_CODE", "name": "Код категории", "width": 60, "type": "text"},
+//    {"data": "PRODUCT_CATEGORY", "name": "Категория", "width": 170, "type": "text"},
+//    {"data": "PRODUCT_SUBCATEGORY_CODE", "name": "Код подкатегории", "width": 75, "type": "text"},
+//    {"data": "PRODUCT_SUBCATEGORY", "name": "Подкатегория", "width": 130, "type": "text"},
+//    {"data": "PRODUCT_ARTICLE", "name": "Артикул", "width": 80, "type": "text"},
+//    {"data": "QTY", "name": "Кол-во", "width": 50, "type": "numeric"},
+//    {"data": "RETAIL_PRICE", "name": "Цена Retail", "width": 60, "type": "numeric2"},
+//    {"data": "PRICE", "name": "Цена", "width": 60, "type": "numeric2"},
+//    {"data": "POSSUM", "name": "Сумма", "width": 80, "type": "numeric2"}
+//], idField=tableColumns[0].data;
+//
+//module.exports.validateData= {tableName:viewName, tableColumns:tableColumns, idField:idField};
+//
+//var dm=this;
+///**
+// * resultCallback = function(tableData={ columns, identifier, items, error })
+// */
+//module.exports.getDataForWrhOrdersBataDetailsTable= function(conditions, resultCallback){
+//    dm.getDataForTable({tableName:viewName,
+//        tableColumns:tableColumns,
+//        identifier:idField, conditions:conditions}, resultCallback);
+//};

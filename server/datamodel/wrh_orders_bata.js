@@ -28,7 +28,8 @@ var changeLog=[
         "field":["UNIT_ID"] },
     { "changeID": "wrh_orders_bata_10", "changeDatetime": "2016-09-04T19:40:00.000+0300", "changeObj": "wrh_orders_bata",
       "changeVal": "ALTER TABLE wrh_orders_bata ADD CONSTRAINT WRH_ORDERS_BATA_UNIT_ID_FK"
-      +" FOREIGN KEY (UNIT_ID) REFERENCES dir_units(ID)" },
+      +" FOREIGN KEY (UNIT_ID) REFERENCES dir_units(ID)",
+        "field":["UNIT_ID"], "source":"dir_units", "linkField":"ID" },
     { "changeID": "wrh_orders_bata_11", "changeDatetime": "2016-09-04T19:41:00.000+0300", "changeObj": "wrh_orders_bata",
       "changeVal": "ALTER TABLE wrh_orders_bata ADD COLUMN SUPPLIER_ID BIGINT UNSIGNED NOT NULL",
         "field":["SUPPLIER_ID"] },

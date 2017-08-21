@@ -25,14 +25,16 @@
                             titleForNothing:"Заказ не выбран", titleForFailedLoad:"Нет данных",
                             numberDataItemName:"NUMBER", dateDataItemName:"DOCDATE", titleDatePrefix:"от"},25)
                         .addDetailHeaderRow(25,true)
-                        .addDetailHeaderTextBox("UNIT_NAME", "Подразделение", 330, {inputStyle:"width:200px"})
+                        .addDetailHeaderSelect("UNIT_NAME","Подразделение", 330,
+                            {inputStyle:"width:200px", loadDropDownURL:"/dir/units/getDirUnitsForSelect", labelDataItem:"UNIT_NAME"})
                         .addDetailHeaderTextBox("NUMBER", "Номер", 120, {inputStyle:"width:50px"})
-                        .addDetailHeaderDateTextBox("SDOCDATE", "Дата", 150, "width:80px")
+                        .addDetailHeaderDateTextBox("DOCDATE", "Дата", 150, "width:80px")
                         .addDetailHeaderRow(25,true)
-                        .addDetailHeaderTextBox("SUPPLIER_NAME", "Поставщик", 300, {inputStyle:"width:200px"})
+                        .addDetailHeaderSelect("SUPPLIER_NAME","Поставщик", 300,
+                            {inputStyle:"width:200px", loadDropDownURL:"/dir/contractors/getDirContractorsForSelect", labelDataItem:"SUPPLIER_NAME"})
                         .addDetailHeaderTextBox("SUPPLIER_ORDER_NUM", "Номер заказа. поставщика", 220, {inputStyle:"width:60px"})
                         .addDetailHeaderSelect("CURRENCY_CODE","Валюта", 280,
-                            {inputStyle:"width:220px", loadDropDownURL:"/sys/documents_settings/get_currency_for_select", labelDataItem:"CURRENCY_CODENAME"})
+                            {inputStyle:"width:220px", loadDropDownURL:"/sys/currency/getCurrencyForSelect", labelDataItem:"CURRENCY_CODENAME"})
                         .setDetailTableParameters({conditionIDName:"ORDER_BATA_ID",
                             getDataUrl:"/wrh/ordersBata/getDataForWrhOrdersBataDetailsTable",
                             storeDataUrl:"/wrh/ordersBata/orderBataDetailStore", deleteDataUrl:"/wrh/ordersBata/orderBataDetailDelete"})

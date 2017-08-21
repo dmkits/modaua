@@ -221,7 +221,7 @@ module.exports.executeParamsQuery= function(query, parameters, callback) {      
  * for database query select
  * callback = function(err, recordset, count, fields)
  */
-module.exports.selectQuery= function(query, callback) {
+module.exports.selectQuery= function(query, callback) {                                                     log.info("database selectQuery query:",query);
     connection.query(query,
         function (err, recordset, fields) {
             if (err) {

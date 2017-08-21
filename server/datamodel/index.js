@@ -23,12 +23,18 @@ function initValidateDataModel(dataModelName, dataModel, errs, nextValidateDataM
                 for(var fieldIndex in changeLogItem.fields){
                     var fieldName=changeLogItem.fields[fieldIndex];
                     if(!tableFields[fieldName]){
-                        tableFields[fieldName]=true;tableFieldsList.push(fieldName);
+                        tableFields[fieldName]={name:fieldName};
+                        tableFieldsList.push(fieldName);
                     }
                 }
             } else if(changeLogItem.field){
                 if(!tableFields[changeLogItem.field]){
-                    tableFields[changeLogItem.field]=true;tableFieldsList.push(changeLogItem.field);
+                    tableFields[changeLogItem.field]={name:changeLogItem.field};
+                    tableFieldsList.push(changeLogItem.field);
+                }
+                if(changeLogItem.source){
+                    tableFields[changeLogItem.field].source=changeLogItem.source;
+                    tableFields[changeLogItem.field].linkField=changeLogItem.linkField;
                 }
             }
             if(changeLogItem.id&&!idFieldName) idFieldName=changeLogItem.id;
@@ -38,7 +44,9 @@ function initValidateDataModel(dataModelName, dataModel, errs, nextValidateDataM
     }
 
     dataModel.getDataItems= _getDataItems;
+    dataModel.getDataItemsForSelect= _getDataItemsForSelect;
     dataModel.getDataItem= _getDataItem;
+    dataModel.setDataItem= _setDataItem;
     dataModel.getDataForTable= _getDataForTable;
     dataModel.setDataItemForTable= _setDataItemForTable;
     dataModel.insDataItem= _insDataItem;
@@ -63,6 +71,7 @@ function initValidateDataModel(dataModelName, dataModel, errs, nextValidateDataM
     }
     dataModel.sourceType="table"; dataModel.source=tableName;
     dataModel.fields=tableFieldsList; dataModel.idField=idFieldName;                                    log.info('Init data model '+dataModel.sourceType+":"+dataModel.source+" fields:",dataModel.fields," idField:"+dataModel.idField);//test
+    dataModel.fieldsMetadata=tableFields;                                                               log.info('Init data model '+dataModel.sourceType+":"+dataModel.source+" fields metadata:",dataModel.fieldsMetadata,{});//test
     if(!dataModel.idField)                                                                              log.warn('NO id filed name in data model '+dataModel.sourceType+":"+dataModel.source+"! Model cannot used functions insert/update/delete!");//test
 
     dataModel.getDataItems({conditions:{"ID is NULL":null}},function(result){
@@ -142,7 +151,8 @@ function _getSelectItems(params, resultCallback){
 /**
  * params = { source,
  *      fields = [<tableFieldName>,<tableFieldName>,<tableFieldName>,...],
- *      conditions={ conditionName:<condition> }
+ *      conditions={ conditionName:<condition>,
+  *     order = "<orderFieldsList>" }
  * }
  * resultCallback = function(result = { items:[ {<tableFieldName>:<value>,...}, ... ], error, errorCode } )
  */
@@ -157,12 +167,49 @@ function _getDataItems(params, resultCallback){
             selectResult.errorCode=err.code;
         }
         if (recordset) selectResult.items= recordset;
-        resultCallback(selectResult);                                                                   log.info('_getDataItems: _getSelectItems:',selectResult,{});//test
+        resultCallback(selectResult);                                                                   //log.info('_getDataItems: _getSelectItems:',selectResult,{});//test
+    });
+}
+/**
+ * params = { source, valueField, labelField,
+ *      conditions={ conditionName:<condition>,
+  *     order = "<orderFieldsList>" }
+ * }
+ * resultCallback = function(result = { items:[ {value:<valueOfValueField>,label:<valueOfLabelField>}, ... ], error, errorCode } )
+ *      if no labelField label=<valueOfValueField>
+ */
+function _getDataItemsForSelect(params, resultCallback){
+    if(!params) {                                                                                       log.error("FAILED _getDataItemsForSelect! Reason: no function parameters!");//test
+        resultCallback("FAILED _getDataItemsForSelect! Reason: no function parameters!");
+        return;
+    }
+    if(!params.valueField) {                                                                            log.error("FAILED _getDataItemsForSelect! Reason: no value field!");//test
+        resultCallback("FAILED _getDataItemsForSelect! Reason: no value field!");
+        return;
+    }
+    if(!params.source) params.source=this.source;
+    params.fields=[params.valueField];
+    if(params.labelField&&params.labelField!=params.valueField) params.fields.push(params.labelField);
+    _getDataItems(params,function(result){
+        if(result.items){
+            var resultItems=result.items;
+            result.items=[];
+            for(var i in resultItems){
+                var resultItem=resultItems[i];
+                var selectItem={value:resultItem[params.valueField]};
+                if(params.labelField&&params.labelField!=params.valueField) selectItem.label=resultItem[params.labelField];
+                else selectItem.label=resultItem[params.valueField];
+                result.items.push(selectItem);
+            }
+        }
+        resultCallback(result);
     });
 }
 /**
  * params = { source,
  *      fields = [<tableFieldName>,<tableFieldName>,<tableFieldName>,...],
+ *      fieldFunction = { name:<fieldName>, function:<function>, sourceField:<function field name> }
+ *          <function> - maxPlus1
  *      conditions={ conditionName:<condition> }
  * }
  * resultCallback = function(result = { item:{<tableFieldName>:<value>,...}, error, errorCode } )
@@ -171,6 +218,12 @@ function _getDataItem(params, resultCallback){
     if(!params) params={};
     if(!params.source) params.source= this.source;
     if(!params.fields) params.fields=this.fields;
+    if(params.fieldFunction) {
+        params.fields=[];
+        if(params.fieldFunction.function=="maxPlus1") {
+            params.fields.push("COALESCE(MAX(" + params.fieldFunction.sourceField + "),1) as " + params.fieldFunction.name);
+        }
+    }
     _getSelectItems(params,function(err,recordset){
         var selectResult={};
         if(err) {
@@ -178,8 +231,23 @@ function _getDataItem(params, resultCallback){
             selectResult.errorCode=err.code;
         }
         if (recordset&&recordset.length>0) selectResult.item= recordset[0];
-        resultCallback(selectResult);                                                                   log.info('_getDataItem: selectParamsQuery:',selectResult,{});//test
+        resultCallback(selectResult);                                                                   log.info('_getDataItem: _getSelectItems:',selectResult,{});//test
     });
+}
+/**
+ * params = (
+ *      fields = [<tableField1Name>,...],
+ *      values=[ <valueField1>,<valueField2>,<valueField3>,...]
+ * resultCallback = function(
+ *      itemData = { item:{<tableFieldName>:<value>,...} } )
+ */
+function _setDataItem(params, resultCallback){
+    var itemData={};
+    for(var index=0; index<params.fields.length; index++){
+        var fieldName= params.fields[index], value=params.values[index];
+        if (value!=undefined) itemData[fieldName]=value;
+    }
+    resultCallback({item:itemData});
 }
 
 /**
@@ -565,4 +633,8 @@ function _delTableDataItem(params, resultCallback) {
         }
         resultCallback(delResult);
     });
+
+    function _delTableDataItem1(){
+
+    }
 }

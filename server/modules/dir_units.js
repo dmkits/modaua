@@ -46,4 +46,10 @@ module.exports.init = function(app){
                 res.send(result);
             });
     });
+    app.get("/dir/units/getDirUnitsForSelect", function(req, res){
+        dirUnits.getDataItemsForSelect({valueField:"NAME",labelField:"NAME", conditions:{"NOT_USED=":0}, order: "NAME" },
+            function (result) {
+                res.send(result);
+            });
+    });
 };
