@@ -67,7 +67,34 @@ module.exports.init = function(app){
             });
     });
     app.post("/wrh/ordersBata/storeOrderBataData", function(req, res){
-        res.send({});
+        var storeData=req.body;
+        dirUnits.getDataItem({fields:["ID"],conditions:{"NAME=":storeData["UNIT_NAME"]}}, function(result){
+            if(!result.item){
+                res.send({ error:"Cannot finded unit by name!"});
+                return;
+            }
+            dirContractors.getDataItem({fields:["ID"],conditions:{"NAME=":storeData["SUPPLIER_NAME"]}}, function(result){
+                if(!result.item){
+                    res.send({ error:"Cannot finded conractor by name!"});
+                    return;
+                }
+                sysCurrency.getDataItem({fields:["ID"],conditions:{"CODE=":storeData["CURRENCY_CODE"]}}, function(result){
+                    if(!result.item){
+                        res.send({ error:"Cannot finded currency by code!"});
+                        return;
+                    }
+                    var docStateID=0;
+                    sysDocStates.getDataItem({fields:["ID"],conditions:{"NAME=":storeData["DOCSTATE_NAME"]}}, function(result){
+                        if(result.item) docStateID=result.item["ID"];
+
+                        res.send({ error:"SUCCESS"});
+                    });
+                });
+            });
+        });
+
+
+        //res.send({});
         //wrhOrdersBataView.getDataForWrhOrdersBataListTable(req.query, function(result){
         //    res.send(result);
         //});

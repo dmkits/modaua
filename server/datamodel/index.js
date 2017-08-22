@@ -103,10 +103,12 @@ module.exports.initValidateDataModels=function(dataModels, errs, resultCallback)
 
 /**
  * params = { source,
- *      fields = [<tableFieldName>,<tableFieldName>,<tableFieldName>,...],
+ *      fields = [ <tableFieldName> or <fieldName>, ... ],
+ *      fieldsFunctions = { <fieldName>:{ function:<function>, source:<functionSource>, sourceField:<functionSourceField> }, ... },
  *      conditions={ conditionName:<condition>,
  *      order = "<orderFieldsList>"
  * }
+ * fieldsFunctions[].function: "maxPlus1"
  * resultCallback = function(err, recordset)
  */
 function _getSelectItems(params, resultCallback){
@@ -125,7 +127,13 @@ function _getSelectItems(params, resultCallback){
     var queryFields="";
     for(var fieldNameIndex in params.fields) {
         if (queryFields!="") queryFields+= ",";
-        queryFields+= params.fields[fieldNameIndex];
+        var fieldName=params.fields[fieldNameIndex], fieldFunction=null;
+        if(params.fieldsFunctions&&params.fieldsFunctions[fieldName]){
+            var fieldFunctionData= params.fieldsFunctions[fieldName];
+            if(fieldFunctionData.function=="maxPlus1")
+                fieldFunction="COALESCE(MAX("+((fieldFunctionData.source)?fieldFunctionData.source+".":"")+fieldFunctionData.sourceField+"),1)";
+        }
+        queryFields+= ((fieldFunction)?fieldFunction+" as ":"") + fieldName;
     }
     var selectQuery="select "+queryFields+" from "+params.source;
     var conditionQuery, coditionValues=[];
@@ -208,10 +216,10 @@ function _getDataItemsForSelect(params, resultCallback){
 /**
  * params = { source,
  *      fields = [<tableFieldName>,<tableFieldName>,<tableFieldName>,...],
- *      fieldFunction = { name:<fieldName>, function:<function>, sourceField:<function field name> }
- *          <function> - maxPlus1
+ *      fieldFunction = { name:<fieldName>, function:<function>, sourceField:<function field name> },
  *      conditions={ conditionName:<condition> }
  * }
+ * fieldFunction: "maxPlus1"
  * resultCallback = function(result = { item:{<tableFieldName>:<value>,...}, error, errorCode } )
  */
 function _getDataItem(params, resultCallback){
@@ -219,10 +227,9 @@ function _getDataItem(params, resultCallback){
     if(!params.source) params.source= this.source;
     if(!params.fields) params.fields=this.fields;
     if(params.fieldFunction) {
-        params.fields=[];
-        if(params.fieldFunction.function=="maxPlus1") {
-            params.fields.push("COALESCE(MAX(" + params.fieldFunction.sourceField + "),1) as " + params.fieldFunction.name);
-        }
+        params.fields=[params.fieldFunction.name];
+        params.fieldsFunctions = {};
+        params.fieldsFunctions[params.fieldFunction.name]={ function:params.fieldFunction.function, sourceField:params.fieldFunction.sourceField };
     }
     _getSelectItems(params,function(err,recordset){
         var selectResult={};
