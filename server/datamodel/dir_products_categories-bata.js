@@ -21,30 +21,3 @@ var changeLog=[
         +" FOREIGN KEY (GENDER_ID) REFERENCES dir_products_genders(ID)" }
 ];
 module.exports.changeLog=changeLog;
-
-var tableName="dir_products_categories", tableFields=["ID","CODE","NAME","CONSTANT","GENDER_ID"], idField=tableFields[0];
-
-module.exports.validateData= {tableName:tableName, fields:tableFields, idField:idField};
-
-var tableColumns=[
-    {"data": "ID", "name": "ID", "width": 80, "type": "text", readOnly:true, visible:false},
-    {"data": "GENDER_CODE", "name": "Код группы", "width": 90, "type": "combobox"},
-    {"data": "GENDER_NAME", "name": "Наименование группы", "width": 200, "type": "combobox"},
-    {"data": "CODE", "name": "Код категории", "width": 100, "type": "text"},
-    {"data": "NAME", "name": "Наименование категории", "width": 200, "type": "text"},
-    {"data": "CONSTANT", "name": "Постоянная категория", "width": 150, "type": "checkbox"}
-];
-
-var dm=this;
-module.exports.getNewDataForProductsCategoriesTable= function(resultCallback){
-    dm.setDataItemForTable({tableColumns:tableColumns,
-        values:[null,"","","","Новая категория","0"]}, resultCallback);
-};
-
-module.exports.storeProductsCategoriesTableData= function(storeTableData, resultCallback){
-
-    dm.storeTableDataItem({tableName:tableName, idFieldName:idField, storeTableData:storeTableData}, resultCallback);
-};
-module.exports.deleteProductsCategoriesTableData= function(delTableData, resultCallback){
-    dm.delTableDataItem({tableName:tableName, idFieldName:idField, delTableData:delTableData}, resultCallback);
-};

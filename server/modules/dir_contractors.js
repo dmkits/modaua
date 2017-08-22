@@ -48,4 +48,10 @@ module.exports.init = function(app){
                 res.send(result);
             });
     });
+    app.get("/dir/contractors/getDirContractorsForSelect", function(req, res){
+        dirContractors.getDataItemsForSelect({valueField:"NAME",labelField:"NAME", conditions:{"IS_SUPPLIER=":1}, order: "NAME" },
+            function (result) {
+                res.send(result);
+            });
+    });
 };

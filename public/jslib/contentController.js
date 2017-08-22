@@ -239,17 +239,16 @@ define(["dojo/_base/declare", "dijit/layout/ContentPane", "request"],
             postCreate : function(){
             },
             setSelectDropDown: function (selectObj) {
-                selectObj.selectloadDropDown = selectObj.loadDropDown;
-                var loadDropDownURL = selectObj.loadDropDownURL;
-                selectObj.loadDropDown = function (loadCallback) {                                                      //console.log("ContentController.setSelectDropDown loadDropDown ",this);
-                    Request.getJSONData({url: loadDropDownURL, consoleLog: true},
+                selectObj.selectToggleDropDown= selectObj.toggleDropDown;
+                selectObj.toggleDropDown= function(){                                                                   //console.log("ContentController.setSelectDropDown toggleDropDown");
+                    Request.getJSONData({url: selectObj.loadDropDownURL, consoleLog: true},
                         function (success,data) {
-                            if (success) {                                                                              //console.log("ContentController.setSelectDropDown loadDropDown getJSONData data=",data);
-                                var value = selectObj.get("value");
+                            var options=selectObj.get("options"),value = selectObj.get("value");
+                            if (success&&data.items) {
                                 selectObj.set("options", data.items);
                                 selectObj.set("value", value);
-                            }
-                            selectObj.selectloadDropDown(loadCallback);
+                            } else if (success&&!data.items) console.log("ContentController.setSelectDropDown loadDropDown getJSONData data error:",data);
+                            selectObj.selectToggleDropDown();
                         });
                 };
             },
@@ -275,13 +274,9 @@ define(["dojo/_base/declare", "dijit/layout/ContentPane", "request"],
                 elementObj.set("disabled",!enabled);
                 if (elementObj.declaredClass.indexOf("Select") >= 0) {
                     if (newValue!==null) {
-                        var labelItemName=elementObj.labelDataItem, newLabel="";
+                        var labelItemName=elementObj.labelDataItem, newLabel=newValue;
                         if (newDataItem&&newDataItem[labelItemName]!=undefined) newLabel =newDataItem[labelItemName];
-                        var newOption = {
-                            label: newLabel,
-                            value: newValue,
-                            selected: true
-                        };
+                        var newOption = { label: newLabel, value: newValue, selected: true };
                         if (!elementObj.options || elementObj.options.length == 0) elementObj.set("options", [newOption]);
                         else if (elementObj.options && elementObj.options.length > 0) {
                             var founded = false;
@@ -290,7 +285,7 @@ define(["dojo/_base/declare", "dijit/layout/ContentPane", "request"],
                                     founded = true;
                                     break;
                                 }
-                            if (founded == false)  elementObj.options[elementObj.options.length] = newOption;
+                            if (founded == false) elementObj.options.push(newOption);
                         }
                     }
                 }

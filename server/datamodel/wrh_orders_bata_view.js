@@ -10,26 +10,26 @@ var changeLog=[
 ];
 module.exports.changeLog=changeLog;
 
-var viewName="wrh_orders_bata_v", tableColumns=[
-    {"data": "ID", "name": "ID", "width": 50, "type": "text", readOnly:true, visible:false},
-    {"data": "NUMBER", "name": "Номер", "width": 45, "type": "text"},
-    {"data": "DOCDATE", "name": "Дата", "width": 45, "type": "text_date"},
-    {"data": "SUPPLIER_ORDER_NUM", "name": "Номер заказа поставщика", "width": 100, "type": "text"},
-    {"data": "UNIT_NAME", "name": "Подразделение", "width": 120, "type": "text"},
-    {"data": "SUPPLIER_NAME", "name": "Поставщик", "width": 120, "type": "text"},
-    {"data": "DOCSUM", "name": "Сумма", "width": 60, "type": "numeric2"},
-    {"data": "CURRENCY_CODE", "name": "Валюта", "width": 50, "type": "text"},
-    {"data": "DOCSTATE_NAME", "name": "Статус", "width": 110, "type": "text"}
-], idField=tableColumns[0].data;
-
-module.exports.validateData= {tableName:viewName, tableColumns:tableColumns, idField:idField};
-
-var dm=this;
-/**
- * resultCallback = function(tableData={ columns, identifier, items, error })
- */
-module.exports.getDataForWrhOrdersBataListTable= function(conditions, resultCallback){
-    dm.getDataForTable({tableName:viewName,
-        tableColumns:tableColumns,
-        identifier:idField, conditions:conditions}, resultCallback);
-};
+//var viewName="wrh_orders_bata_v", tableColumns=[
+//    {"data": "ID", "name": "ID", "width": 50, "type": "text", readOnly:true, visible:false},
+//    {"data": "NUMBER", "name": "Номер", "width": 45, "type": "text"},
+//    {"data": "DOCDATE", "name": "Дата", "width": 45, "type": "text_date"},
+//    {"data": "SUPPLIER_ORDER_NUM", "name": "Номер заказа поставщика", "width": 100, "type": "text"},
+//    {"data": "UNIT_NAME", "name": "Подразделение", "width": 120, "type": "text"},
+//    {"data": "SUPPLIER_NAME", "name": "Поставщик", "width": 120, "type": "text"},
+//    {"data": "DOCSUM", "name": "Сумма", "width": 60, "type": "numeric2"},
+//    {"data": "CURRENCY_CODE", "name": "Валюта", "width": 50, "type": "text"},
+//    {"data": "DOCSTATE_NAME", "name": "Статус", "width": 110, "type": "text"}
+//], idField=tableColumns[0].data;
+//
+//module.exports.validateData= {tableName:viewName, tableColumns:tableColumns, idField:idField};
+//
+//var dm=this;
+///**
+// * resultCallback = function(tableData={ columns, identifier, items, error })
+// */
+//module.exports.getDataForWrhOrdersBataListTable= function(conditions, resultCallback){
+//    dm.getDataForTable({tableName:viewName,
+//        tableColumns:tableColumns,
+//        identifier:idField, conditions:conditions}, resultCallback);
+//};
