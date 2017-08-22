@@ -108,6 +108,7 @@ module.exports.initValidateDataModels=function(dataModels, errs, resultCallback)
  * params = { source,
  *      fields = [ <tableFieldName> or <functionFieldName>, ... ],
  *      fieldsFunctions = { <functionFieldName>:{ function:<function>, source:<functionSource>, sourceField:<functionSourceField> }, ... },
+ *      joinedSources = { source, conditions = { <linkCondition>:null or <linkCondition>:<value>, ... } },
  *      conditions={ <condition>:<conditionValue>, ... },
  *      order = "<orderFieldsList>"
  * }
@@ -345,8 +346,12 @@ function _getDataForTable(params, resultCallback){
     var fieldsList=[];
     for(var i in params.tableColumns) {
         var tableColumnData=params.tableColumns[i], fieldName=tableColumnData.data, fieldSource=null;
+
         if(tableColumnData.dataSource&&tableColumnData.sourceField) fieldSource=tableColumnData.dataSource+"."+tableColumnData.sourceField;
         else if(tableColumnData.dataSource) fieldSource=tableColumnData.dataSource+"."+tableColumnData.fieldName;
+
+        //params.joinedSources = { source, conditions = { <linkCondition>:null or <linkCondition>:<value>, ... } },
+
         var selectField= (fieldSource)?fieldSource+" as "+fieldName:fieldName;
         if(!fieldSource&&this.fieldsMetadata&&this.fieldsMetadata[fieldName]) fieldsList.push(selectField);
         else if(fieldSource||!this.fieldsMetadata) fieldsList.push(selectField);
