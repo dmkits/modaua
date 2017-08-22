@@ -22,8 +22,8 @@ module.exports.modulePagePath = "wrh/orders-bata.html";
 module.exports.init = function(app){
     var wrhOrdersBataListTableColumns=[
         {"data": "ID", "name": "ID", "width": 50, "type": "text", readOnly:true, visible:false},
-        {"data": "NUMBER", "name": "Номер", "width": 45, "type": "text"},
-        {"data": "DOCDATE", "name": "Дата", "width": 45, "type": "text_date"},
+        {"data": "NUMBER", "name": "Номер", "width": 50, "type": "text"},
+        {"data": "DOCDATE", "name": "Дата", "width": 55, "type": "text_date"},
         {"data": "SUPPLIER_ORDER_NUM", "name": "Номер заказа поставщика", "width": 100, "type": "text"},
         {"data": "UNIT_NAME", "name": "Подразделение", "width": 120, "type": "text", dataSource:"dir_units", sourceField:"NAME"},
         {"data": "SUPPLIER_NAME", "name": "Поставщик", "width": 120, "type": "text"},
@@ -41,7 +41,12 @@ module.exports.init = function(app){
     });
 
     app.get("/wrh/ordersBata/getOrderBataData", function(req, res){
-        res.send({});
+        wrhOrdersBata.getDataItem({fields:["ID","NUMBER","DOCDATE","SUPPLIER_ORDER_NUM"],
+                conditions:req.query},
+            function(result){
+                res.send(result);
+            });
+        //res.send({});
     });
     app.get("/wrh/ordersBata/getNewOrderBataData", function(req, res){
         wrhOrdersBata.getDataItem({fieldFunction:{name:"MAXNUMBER", function:"maxPlus1", sourceField:"NUMBER"}},
@@ -73,21 +78,31 @@ module.exports.init = function(app){
                 res.send({ error:"Cannot finded unit by name!"});
                 return;
             }
+            storeData["UNIT_ID"]=result.item["ID"];
             dirContractors.getDataItem({fields:["ID"],conditions:{"NAME=":storeData["SUPPLIER_NAME"]}}, function(result){
                 if(!result.item){
                     res.send({ error:"Cannot finded conractor by name!"});
                     return;
                 }
+                storeData["SUPPLIER_ID"]=result.item["ID"];
                 sysCurrency.getDataItem({fields:["ID"],conditions:{"CODE=":storeData["CURRENCY_CODE"]}}, function(result){
                     if(!result.item){
                         res.send({ error:"Cannot finded currency by code!"});
                         return;
                     }
+                    storeData["CURRENCY_ID"]=result.item["ID"];
                     var docStateID=0;
                     sysDocStates.getDataItem({fields:["ID"],conditions:{"NAME=":storeData["DOCSTATE_NAME"]}}, function(result){
                         if(result.item) docStateID=result.item["ID"];
-
-                        res.send({ error:"SUCCESS"});
+                        storeData["DOCSTATE_ID"]=docStateID;
+                        var storeTableData={};
+                        wrhOrdersBata.storeTableDataItem({idFieldName:"ID", storeTableData:storeData},function(result){
+                            //if(!result.resultItem){
+                            //
+                            //    return;
+                            //}
+                            res.send(result);
+                        });
                     });
                 });
             });

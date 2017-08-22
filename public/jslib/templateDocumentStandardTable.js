@@ -142,9 +142,9 @@ define(["dojo/_base/declare", "dijit/layout/BorderContainer", "dijit/layout/Cont
             loadListTableContentFromServer: function(selectedRowDataID){
                 var condition = this.listTable.getDataCondition;
                 if (!condition) condition={};
-                if (this.listBDate) condition[this.listBDate.conditionName] =
+                if (this.listBDate) condition[this.listBDate.conditionName.replace("=","~")] =
                     this.listBDate.format(this.listBDate.get("value"),{selector:"date",datePattern:"yyyy-MM-dd"});
-                if (this.listEDate) condition[this.listEDate.conditionName] =
+                if (this.listEDate) condition[this.listEDate.conditionName.replace("=","~")] =
                     this.listEDate.format(this.listEDate.get("value"),{selector:"date",datePattern:"yyyy-MM-dd"});
                 var thisListTable=this.listTable;
                 thisListTable.selectedRowDataIDForSet=selectedRowDataID;
@@ -202,7 +202,7 @@ define(["dojo/_base/declare", "dijit/layout/BorderContainer", "dijit/layout/Cont
                 if(this.detailHeader.getContentDataIDValue()===newID&&reloadData!==true) return;
                 if(clearBeforeLoad===true) this.detailHeader.clearData();
                 var detailHeaderGetDataCondition={};
-                detailHeaderGetDataCondition[this.detailHeader.dataIDName]=newID;                           //console.log("TemplateDocumentStandardTable.setDetailHeaderContentByListSelectedRow this.detailHeader.loadDataFromUrl");
+                detailHeaderGetDataCondition[(this.detailHeader.dataIDName+"=").replace("=","~")]=newID;                //console.log("TemplateDocumentStandardTable.setDetailHeaderContentByListSelectedRow this.detailHeader.loadDataFromUrl");
                 this.detailHeader.loadDataFromUrl({ url:this.detailHeader.getDataUrl, condition:detailHeaderGetDataCondition });
             },
             reloadDetailHeaderContentFromServer: function(){

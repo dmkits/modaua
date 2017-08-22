@@ -5,7 +5,10 @@ module.exports.getModelChanges=function(){ return dataModelChanges; };
 module.exports.resetModelChanges=function(){ dataModelChanges=[]; };
 
 var database= require("../database");
-//function initDataModel
+/**
+ * created for data model fields: sourceType, source, fields, idField, fieldsMetadata
+ * created data model functions
+ */
 function initValidateDataModel(dataModelName, dataModel, errs, nextValidateDataModelCallback){              log.info('InitValidateDataModel: dataModel:'+dataModelName+"...");//test
     if(!dataModel.changeLog&&!dataModel.modelData){
         errs[dataModelName+"_initError"]="Failed init dataModel:"+dataModelName
@@ -71,7 +74,7 @@ function initValidateDataModel(dataModelName, dataModel, errs, nextValidateDataM
     }
     dataModel.sourceType="table"; dataModel.source=tableName;
     dataModel.fields=tableFieldsList; dataModel.idField=idFieldName;                                    log.info('Init data model '+dataModel.sourceType+":"+dataModel.source+" fields:",dataModel.fields," idField:"+dataModel.idField);//test
-    dataModel.fieldsMetadata=tableFields;                                                               log.info('Init data model '+dataModel.sourceType+":"+dataModel.source+" fields metadata:",dataModel.fieldsMetadata,{});//test
+    dataModel.fieldsMetadata=tableFields;                                                               log.debug('Init data model '+dataModel.sourceType+":"+dataModel.source+" fields metadata:",dataModel.fieldsMetadata,{});//test
     if(!dataModel.idField)                                                                              log.warn('NO id filed name in data model '+dataModel.sourceType+":"+dataModel.source+"! Model cannot used functions insert/update/delete!");//test
 
     dataModel.getDataItems({conditions:{"ID is NULL":null}},function(result){
@@ -103,9 +106,9 @@ module.exports.initValidateDataModels=function(dataModels, errs, resultCallback)
 
 /**
  * params = { source,
- *      fields = [ <tableFieldName> or <fieldName>, ... ],
- *      fieldsFunctions = { <fieldName>:{ function:<function>, source:<functionSource>, sourceField:<functionSourceField> }, ... },
- *      conditions={ conditionName:<condition>,
+ *      fields = [ <tableFieldName> or <functionFieldName>, ... ],
+ *      fieldsFunctions = { <functionFieldName>:{ function:<function>, source:<functionSource>, sourceField:<functionSourceField> }, ... },
+ *      conditions={ <condition>:<conditionValue>, ... },
  *      order = "<orderFieldsList>"
  * }
  * fieldsFunctions[].function: "maxPlus1"
@@ -131,7 +134,7 @@ function _getSelectItems(params, resultCallback){
         if(params.fieldsFunctions&&params.fieldsFunctions[fieldName]){
             var fieldFunctionData= params.fieldsFunctions[fieldName];
             if(fieldFunctionData.function=="maxPlus1")
-                fieldFunction="COALESCE(MAX("+((fieldFunctionData.source)?fieldFunctionData.source+".":"")+fieldFunctionData.sourceField+"),1)";
+                fieldFunction="COALESCE(MAX("+((fieldFunctionData.source)?fieldFunctionData.source+".":"")+fieldFunctionData.sourceField+")+1,1)";
         }
         queryFields+= ((fieldFunction)?fieldFunction+" as ":"") + fieldName;
     }
@@ -149,18 +152,24 @@ function _getSelectItems(params, resultCallback){
     if (params.order) selectQuery+=" order by "+params.order;
     if (coditionValues.length==0)
         database.selectQuery(selectQuery,function(err, recordset, count, fields){
-            if(err) resultCallback(err); else resultCallback(null,recordset);
+            if(err) {                                                                                       log.error("FAILED _getSelectItems selectQuery! Reason:",err.message,"!");//test
+                resultCallback(err);
+            } else
+                resultCallback(null,recordset);
         });
     else
         database.selectParamsQuery(selectQuery,coditionValues, function(err, recordset, count, fields){
-            if(err) resultCallback(err); else resultCallback(null,recordset);
+            if(err) {                                                                                       log.error("FAILED _getSelectItems selectParamsQuery! Reason:",err.message,"!");//test
+                resultCallback(err);
+            } else
+                resultCallback(null,recordset);
         });
 }
 /**
  * params = { source,
  *      fields = [<tableFieldName>,<tableFieldName>,<tableFieldName>,...],
- *      conditions={ conditionName:<condition>,
-  *     order = "<orderFieldsList>" }
+ *      conditions={ <condition>:<conditionValue>, ... },
+  *     order = "<orderFieldsList>"
  * }
  * resultCallback = function(result = { items:[ {<tableFieldName>:<value>,...}, ... ], error, errorCode } )
  */
@@ -180,8 +189,8 @@ function _getDataItems(params, resultCallback){
 }
 /**
  * params = { source, valueField, labelField,
- *      conditions={ conditionName:<condition>,
-  *     order = "<orderFieldsList>" }
+ *      conditions={ <condition>:<conditionValue>, ... },
+  *     order = "<orderFieldsList>"
  * }
  * resultCallback = function(result = { items:[ {value:<valueOfValueField>,label:<valueOfLabelField>}, ... ], error, errorCode } )
  *      if no labelField label=<valueOfValueField>
@@ -217,7 +226,7 @@ function _getDataItemsForSelect(params, resultCallback){
  * params = { source,
  *      fields = [<tableFieldName>,<tableFieldName>,<tableFieldName>,...],
  *      fieldFunction = { name:<fieldName>, function:<function>, sourceField:<function field name> },
- *      conditions={ conditionName:<condition> }
+ *      conditions={ <condition>:<conditionValue>, ... },
  * }
  * fieldFunction: "maxPlus1"
  * resultCallback = function(result = { item:{<tableFieldName>:<value>,...}, error, errorCode } )
@@ -245,8 +254,7 @@ function _getDataItem(params, resultCallback){
  * params = (
  *      fields = [<tableField1Name>,...],
  *      values=[ <valueField1>,<valueField2>,<valueField3>,...]
- * resultCallback = function(
- *      itemData = { item:{<tableFieldName>:<value>,...} } )
+ * resultCallback = function( itemData = { item:{<tableFieldName>:<value>,...} } )
  */
 function _setDataItem(params, resultCallback){
     var itemData={};
@@ -260,9 +268,7 @@ function _setDataItem(params, resultCallback){
 /**
  *
  * tableColumns = [
- *      {data:<tableFieldName>, name:<tableColumnHeader>, width:<tableColumnWidth>, type:<dataType>, readOnly:true/false, visible:true/false},
- *      {data:<tableFieldName>, name:<tableColumnHeader>, width:<tableColumnWidth>, type:<dataType>, readOnly:true/false, visible:true/false},
- *      {data:<tableFieldName>, name:<tableColumnHeader>, width:<tableColumnWidth>, type:<dataType>, readOnly:true/false, visible:true/false},
+ *      { data:<tableFieldName>, name:<tableColumnHeader>, width:<tableColumnWidth>, type:<dataType>, readOnly:true/false, visible:true/false },
  *       ...
  * ]
  * tableColumns: -<dataType> = text / html_text / text_date / text_datetime / date / numeric / numeric2 / checkbox
@@ -302,26 +308,23 @@ function _fillDataTypeForTableColumns(tableColumns){
     return tableColumns;
 }
 /**
- * params = (tableName,
+ * params = { tableName,
  *      tableColumns = [
- *          {data:<tableFieldName>, name:<tableColumnHeader>, width:<tableColumnWidth>, type:<dataType>, readOnly:true/false, visible:true/false},
- *          {data:<tableFieldName>, name:<tableColumnHeader>, width:<tableColumnWidth>, type:<dataType>, readOnly:true/false, visible:true/false},
- *          {data:<tableFieldName>, name:<tableColumnHeader>, width:<tableColumnWidth>, type:<dataType>, readOnly:true/false, visible:true/false},
+ *          {data:<tableFieldName>, name:<tableColumnHeader>, width:<tableColumnWidth>, type:<dataType>, readOnly:true/false, visible:true/false,
+ *                dataSource:<sourceName>, sourceField:<sourceFieldName> },
  *          ...
  *      ],
  *      identifier= <tableIDFieldName>,
- *      conditions={ conditionName:<condition> },
+ *      conditions={ <condition>:<conditionValue>, ... },
  *      order = "<orderFieldsList>"
- * )
+ * }
  * tableColumns: -<dataType> = text / html_text / text_date / text_datetime / date / numeric / numeric2 / checkbox
  * OR tableColumns: -<dataType> = text / text & dateFormat:"DD.MM.YY HH:mm:ss" / html_text / date /
  *              numeric format:"#,###,###,##0.00[#######]" language:"ru-RU" /
  *              checkbox checkedTemplate:1 uncheckedTemplate:0 /
  *              autocomplete strict allowInvalid sourceURL
  * tableColumns: -readOnly default false, visible default true
- * resultCallback = function(
- *      tableData = { columns:tableColumns, identifier:identifier,
- *      items:[ {<tableFieldName>:<value>,...}, {}, {}, ...],
+ * resultCallback = function( tableData = { columns:tableColumns, identifier:identifier, items:[ {<tableFieldName>:<value>,...}, {}, {}, ...],
  *      error:errorMessage } )
  */
 function _getDataForTable(params, resultCallback){
@@ -337,10 +340,17 @@ function _getDataForTable(params, resultCallback){
         return;
     }
     tableData.columns= _fillDataTypeForTableColumns(params.tableColumns);
-    params.source=this.source;
+    if(!params.source&&this.source) params.source=this.source;
     tableData.identifier=params.identifier;
     var fieldsList=[];
-    for(var i in params.tableColumns) fieldsList.push(params.tableColumns[i].data);
+    for(var i in params.tableColumns) {
+        var tableColumnData=params.tableColumns[i], fieldName=tableColumnData.data, fieldSource=null;
+        if(tableColumnData.dataSource&&tableColumnData.sourceField) fieldSource=tableColumnData.dataSource+"."+tableColumnData.sourceField;
+        else if(tableColumnData.dataSource) fieldSource=tableColumnData.dataSource+"."+tableColumnData.fieldName;
+        var selectField= (fieldSource)?fieldSource+" as "+fieldName:fieldName;
+        if(!fieldSource&&this.fieldsMetadata&&this.fieldsMetadata[fieldName]) fieldsList.push(selectField);
+        else if(fieldSource||!this.fieldsMetadata) fieldsList.push(selectField);
+    }
     params.fields=fieldsList;
     if (!params.conditions) {
         resultCallback(tableData);
@@ -362,11 +372,11 @@ function _getDataForTable(params, resultCallback){
 }
 
 /**
- * params = (
+ * params = {
  *      tableColumns = [{data:<tableField1Name>},{data:<tableField2Name>},{data:<tableField3Name>},...],
  *      values=[ <valueField1>,<valueField2>,<valueField3>,...]
- * resultCallback = function(
- *      itemData = { item:{<tableFieldName>:<value>,...} } )
+ * }
+ * resultCallback = function( itemData = { item:{<tableFieldName>:<value>,...} } )
  */
 function _setDataItemForTable(params, resultCallback){
     var itemData={};
@@ -378,8 +388,9 @@ function _setDataItemForTable(params, resultCallback){
 }
 
 /**
- * params = (tableName,
- *      insData = {<tableFieldName>:<value>,<tableFieldName>:<value>,<tableFieldName>:<value>,...} )
+ * params = { tableName,
+ *      insData = {<tableFieldName>:<value>,<tableFieldName>:<value>,<tableFieldName>:<value>,...}
+ * }
  * resultCallback = function(result = { updateCount, error }
  */
 function _insDataItem(params, resultCallback) {
@@ -418,10 +429,11 @@ function _insDataItem(params, resultCallback) {
 }
 
 /**
- * params = (tableName,
+ * params = { tableName,
  *      updData = {<tableFieldName>:<value>,<tableFieldName>:<value>,<tableFieldName>:<value>,...},
- *      conditions = { <tableFieldNameCondition>:<value>, ... } )
- * resultCallback = function(result = { updateCount, error }
+ *      conditions = { <tableFieldNameCondition>:<value>, ... }
+ * }
+ * resultCallback = function(result = { updateCount, error })
  */
 function _updDataItem(params, resultCallback) {
     if (!params) {                                                                                      log.error("FAILED _updDataItem! Reason: no parameters!");//test
@@ -468,9 +480,10 @@ function _updDataItem(params, resultCallback) {
 }
 
 /**
- * params = (tableName,
- *      conditions = { <tableFieldNameCondition>:<value>, ... } )
- * resultCallback = function(result = { updateCount, error }
+ * params = { tableName,
+ *      conditions = { <tableFieldNameCondition>:<value>, ... }
+ * }
+ * resultCallback = function(result = { updateCount, error })
  */
 function _delDataItem(params, resultCallback) {
     if (!params) {                                                                                      log.error("FAILED _delDataItem! Reason: no parameters!");//test
@@ -508,18 +521,37 @@ function _delDataItem(params, resultCallback) {
 }
 
 /**
- * params = (tableName, idFieldName
- *      insTableData = {<tableFieldName>:<value>,<tableFieldName>:<value>,<tableFieldName>:<value>,...} )
- * resultCallback = function(result = { updateCount, resultItem:{<tableFieldName>:<value>,...}, error }
+ * params = { tableName, idFieldName
+ *      insTableData = {<tableFieldName>:<value>,<tableFieldName>:<value>,<tableFieldName>:<value>,...}
+ * }
+ * resultCallback = function(result = { updateCount, resultItem:{<tableFieldName>:<value>,...}, error })
  */
 function _insTableDataItem(params, resultCallback) {
+    if (!params) {                                                                                          log.error("FAILED _insTableDataItem! Reason: no parameters!");//test
+        resultCallback({ error:"Failed insert table data item! Reason:no parameters!"});
+        return;
+    }
+    if(!params.tableName&&this.source) params.tableName=this.source;
+    if (!params.tableName) {                                                                                log.error("FAILED _insTableDataItem! Reason: no table name!");//test
+        resultCallback({ error:"Failed insert table data item! Reason:no table name!"});
+        return;
+    }
+    if (!params.insTableData) {                                                                             log.error("FAILED _insTableDataItem "+params.tableName+"! Reason: no data for insert!");//test
+        resultCallback({ error:"Failed insert table data item! Reason:no data for insert!"});
+        return;
+    }
     var idFieldName= params.idFieldName;
     if (!idFieldName) {                                                                                     log.error("FAILED _insTableDataItem "+params.tableName+"! Reason: no id field!");//test
         resultCallback({ error:"Failed insert table data item! Reason:no id field name!"});
         return;
     }
-    if(!params.tableName&&this.source) params.tableName=this.source;
-    params.insData=params.insTableData;
+    params.insData={};
+    if(this.fields){
+        for(var i in this.fields){
+            var fieldName=this.fields[i];
+            params.insData[fieldName]=(params.insTableData[fieldName]==undefined)?null:params.insTableData[fieldName];
+        }
+    } else params.insData=params.insTableData;                                                      console.log("_insTableDataItem params.insData",params.insData);
     _insDataItem(params, function(insResult){
         if(insResult.error){
             resultCallback(insResult);
@@ -538,13 +570,19 @@ function _insTableDataItem(params, resultCallback) {
 }
 
 /**
- * params = (tableName, idFieldName
- *      updTableData = {<tableFieldName>:<value>,<tableFieldName>:<value>,<tableFieldName>:<value>,...} )
- * resultCallback = function(result = { updateCount, resultItem:{<tableFieldName>:<value>,...}, error }
+ * params = { tableName, idFieldName
+ *      updTableData = {<tableFieldName>:<value>,<tableFieldName>:<value>,<tableFieldName>:<value>,...}
+ * }
+ * resultCallback = function(result = { updateCount, resultItem:{<tableFieldName>:<value>,...}, error })
  */
 function _updTableDataItem(params, resultCallback) {
     if (!params) {                                                                                      log.error("FAILED _updTableDataItem! Reason: no parameters!");//test
         resultCallback({ error:"Failed update table data item! Reason:no function parameters!"});
+        return;
+    }
+    if(!params.tableName&&this.source) params.tableName=this.source;
+    if (!params.tableName) {                                                                            log.error("FAILED _updTableDataItem! Reason: no table name!");//test
+        resultCallback({ error:"Failed update table data item! Reason:no table name!"});
         return;
     }
     if (!params.updTableData) {                                                                         log.error("FAILED _updTableDataItem "+params.tableName+"! Reason: no data for update!");//test
@@ -556,9 +594,16 @@ function _updTableDataItem(params, resultCallback) {
         resultCallback({ error:"Failed update table data item! Reason:no id field name!"});
         return;
     }
-    if(!params.tableName&&this.source) params.tableName=this.source;
     params.updData={};
-    for(var updFieldName in params.updTableData) if(updFieldName!=idFieldName) params.updData[updFieldName]=params.updTableData[updFieldName];
+    if(this.fields){
+        for(var i in this.fields){
+            var fieldName=this.fields[i];
+            if(fieldName!=idFieldName)params.updData[fieldName]=params.updTableData[fieldName];
+        }
+    } else {
+        for(var updFieldName in params.updTableData)
+            if(updFieldName!=idFieldName) params.updData[updFieldName]=params.updTableData[updFieldName];
+    }
     params.conditions={}; params.conditions[idFieldName+"="]=params.updTableData[idFieldName];
     _updDataItem(params, function(updResult){
         if(updResult.error){
@@ -578,8 +623,9 @@ function _updTableDataItem(params, resultCallback) {
 }
 
 /**
- * params = (tableName, idFieldName
+ * params = { tableName, idFieldName
  *      storeTableData = {<tableFieldName>:<value>,<tableFieldName>:<value>,<tableFieldName>:<value>,...}
+ * }
  * resultCallback = function(result = { updateCount, resultItem:{<tableFieldName>:<value>,...}, error } )
  */
 function _storeTableDataItem(params, resultCallback) {
@@ -604,17 +650,18 @@ function _storeTableDataItem(params, resultCallback) {
     var idValue=params.storeTableData[idFieldName];
     if (idValue===undefined||idValue===null){//insert
         params.storeTableData[idFieldName]=instauUID('decimal');
-        _insTableDataItem({tableName:params.tableName, idFieldName:idFieldName, insTableData:params.storeTableData}, resultCallback);
+        this.insTableDataItem({tableName:params.tableName, idFieldName:idFieldName, insTableData:params.storeTableData}, resultCallback);
         return;
     }
     //update
-    _updTableDataItem({tableName:params.tableName, idFieldName:idFieldName, updTableData:params.storeTableData}, resultCallback);
+    this.updTableDataItem({tableName:params.tableName, idFieldName:idFieldName, updTableData:params.storeTableData}, resultCallback);
 }
 
 /**
- * params = (tableName, idFieldName
- *      delTableData = {<tableFieldName>:<value>,<tableFieldName>:<value>,<tableFieldName>:<value>,...} )
- * resultCallback = function(result = { updateCount, error }
+ * params = { tableName, idFieldName
+ *      delTableData = {<tableFieldName>:<value>,<tableFieldName>:<value>,<tableFieldName>:<value>,...}
+ * }
+ * resultCallback = function(result = { updateCount, error })
  */
 function _delTableDataItem(params, resultCallback) {
     if (!params) {                                                                                      log.error("FAILED _delTableDataItem! Reason: no parameters!");//test

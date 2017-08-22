@@ -221,7 +221,7 @@ module.exports.executeParamsQuery= function(query, parameters, callback) {      
  * for database query select
  * callback = function(err, recordset, count, fields)
  */
-module.exports.selectQuery= function(query, callback) {                                                     log.info("database selectQuery query:",query);
+module.exports.selectQuery= function(query, callback) {                                                     log.debug("database selectQuery query:",query);
     connection.query(query,
         function (err, recordset, fields) {
             if (err) {
@@ -236,7 +236,7 @@ module.exports.selectQuery= function(query, callback) {                         
  * parameters = [ <value1>, <value2>, ...] - values for replace '?' in query
  * callback = function(err, recordset, count, fields)
  */
-module.exports.selectParamsQuery= function(query, parameters, callback) {                                   log.info("database selectParamsQuery query:",query," parameters:",parameters,{});
+module.exports.selectParamsQuery= function(query, parameters, callback) {                                   log.debug("database selectParamsQuery query:",query," parameters:",parameters,{});
     connection.query(query, parameters,
         function (err, recordset, fields) {
             if (err) {
