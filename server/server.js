@@ -5,14 +5,14 @@ var util=require('./util'), appStartupParams = util.getStartupParams();
 var ENV=process.env.NODE_ENV; console.log("ENV=",ENV);
 
 if (!appStartupParams.logToConsole) {
-    log.add(log.transports.File, {filename: 'history.log', level:ENV=='development'?'debug':'error', timestamp: function() {
+    log.add(log.transports.File, {filename: 'history.log', level:ENV=='development'?'silly':'info', timestamp: function() {
         return dateformat(Date.now(), "yyyy-mm-dd HH:MM:ss.l");
     } });
     log.remove(log.transports.Console);
 } else {
     log.configure({
         transports: [
-            new (log.transports.Console)({ colorize: true,level:ENV=='development'?'debug':'error', timestamp: function() {
+            new (log.transports.Console)({ colorize: true,level:ENV=='development'?'silly':'info', timestamp: function() {
                 return dateformat(Date.now(), "yyyy-mm-dd HH:MM:ss.l");
             } })
         ]

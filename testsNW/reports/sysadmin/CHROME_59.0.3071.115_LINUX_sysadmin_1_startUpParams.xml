@@ -5,45 +5,12 @@
 
   <testsuite name="sysadmin.sysadmin_1_startUpParams"
     errors="0" failures="0" hostname="" id="" package="sysadmin" skipped="0"
-    tests="10" time="62.77" timestamp="Mon, 21 Aug 2017 13:08:11 GMT">
+    tests="10" time="66.80" timestamp="Fri, 01 Sep 2017 11:37:02 GMT">
   
-    <testcase name="Open  browser" classname="sysadmin.sysadmin_1_startUpParams" time="4.178" assertions="0">
+    <testcase name="Open  browser" classname="sysadmin.sysadmin_1_startUpParams" time="3.972" assertions="0">
     </testcase>
   
-    <testcase name="step_0.1 Login and Enter test params" classname="sysadmin.sysadmin_1_startUpParams" time="5.637" assertions="7">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    </testcase>
-  
-    <testcase name="step_1 Sysadmin Header If  All Elements Visible Tests" classname="sysadmin.sysadmin_1_startUpParams" time="3.273" assertions="15">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
+    <testcase name="step_0.1 Login and Enter test params" classname="sysadmin.sysadmin_1_startUpParams" time="6.537" assertions="7">
 
     
 
@@ -60,15 +27,7 @@
     
     </testcase>
   
-    <testcase name="step_2 Check initial DB Config Tests" classname="sysadmin.sysadmin_1_startUpParams" time="1.878" assertions="19">
-
-    
-
-    
-
-    
-
-    
+    <testcase name="step_1 Sysadmin Header If  All Elements Visible Tests" classname="sysadmin.sysadmin_1_startUpParams" time="3.410" assertions="15">
 
     
 
@@ -101,91 +60,7 @@
     
     </testcase>
   
-    <testcase name="step_3 drop DB" classname="sysadmin.sysadmin_1_startUpParams" time="2.541" assertions="10">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    </testcase>
-  
-    <testcase name="step_4 Sysadmin Header when BD dropped Tests" classname="sysadmin.sysadmin_1_startUpParams" time="0.5480" assertions="9">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    </testcase>
-  
-    <testcase name="Enter INVALID DB Config values Tests" classname="sysadmin.sysadmin_1_startUpParams" time="9.681" assertions="39">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
+    <testcase name="step_2 Check initial DB Config Tests" classname="sysadmin.sysadmin_1_startUpParams" time="2.006" assertions="19">
 
     
 
@@ -226,57 +101,7 @@
     
     </testcase>
   
-    <testcase name="Empty  Dialog Values" classname="sysadmin.sysadmin_1_startUpParams" time="5.462" assertions="35">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
+    <testcase name="step_3 drop DB" classname="sysadmin.sysadmin_1_startUpParams" time="3.600" assertions="10">
 
     
 
@@ -299,7 +124,7 @@
     
     </testcase>
   
-    <testcase name="DB Button Actions Tests" classname="sysadmin.sysadmin_1_startUpParams" time="5.268" assertions="52">
+    <testcase name="step_4 Sysadmin Header when BD dropped Tests" classname="sysadmin.sysadmin_1_startUpParams" time="0.5380" assertions="9">
 
     
 
@@ -318,14 +143,9 @@
     
 
     
-
-    
-
-    
-
-    
-
-    
+    </testcase>
+  
+    <testcase name="Enter INVALID DB Config values Tests" classname="sysadmin.sysadmin_1_startUpParams" time="10.60" assertions="39">
 
     
 
@@ -406,7 +226,187 @@
     
     </testcase>
   
-    <testcase name="BackupDB Tests" classname="sysadmin.sysadmin_1_startUpParams" time="24.30" assertions="177">
+    <testcase name="Empty  Dialog Values" classname="sysadmin.sysadmin_1_startUpParams" time="5.724" assertions="35">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="DB Button Actions Tests" classname="sysadmin.sysadmin_1_startUpParams" time="5.351" assertions="52">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="BackupDB Tests" classname="sysadmin.sysadmin_1_startUpParams" time="25.07" assertions="177">
 
     
 

@@ -418,7 +418,10 @@
                                 if (data.error) {
                                     document.getElementById("drop_db_result").innerHTML = "<b style='color:red'>FAIL! Reason:" + data.error+"<b>";
                                     sa_serverConfig_PageContent.getServerConfiguration();
-                                    if (sa_serverConfig_PageContent.getParent().updateDBState)  sa_serverConfig_PageContent.getParent().updateDBState();
+                                    if (sa_serverConfig_PageContent.getParent().updateDBState)   {
+                                        console.log('inside if');
+                                        sa_serverConfig_PageContent.getParent().updateDBState();
+                                    }
                                 } else {
                                     var successMsgStr = data.dropped;
                                     document.getElementById("drop_db_result").innerHTML = successMsgStr;

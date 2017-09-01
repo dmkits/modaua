@@ -26,7 +26,8 @@ var changeLog = [
     "changeVal": "ALTER TABLE dir_contractors ADD COLUMN IS_BUYER SMALLINT NOT NULL",
     "field":"IS_BUYER" },
   { "changeID": "dir_contractors_10", "changeDatetime": "2016-09-12T00:05:00+03:00", "changeObj": "dir_contractors",
-    "changeVal": "ALTER TABLE dir_contractors ADD COLUMN COUNTRY VARCHAR(100) NOT NULL" },
+    "changeVal": "ALTER TABLE dir_contractors ADD COLUMN COUNTRY VARCHAR(100) NOT NULL",
+    "field":"COUNTRY" },
   { "changeID": "dir_contractors_11", "changeDatetime": "2016-09-12T00:06:00+03:00", "changeObj": "dir_contractors",
     "changeVal":
         "INSERT INTO dir_contractors (ID,NAME,FULL_NAME,NOTE,COUNTRY,CITY,ADDRESS,IS_SUPPLIER,IS_BUYER) "

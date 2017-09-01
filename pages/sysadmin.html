@@ -71,11 +71,11 @@
                 /**
                  * params = { revalidate:true/false }
                  */
-                sysadmin_MainContainer.updateDBState = function (params) {                           //getting main json data from server and run action parameter function
+                sysadmin_MainContainer.updateDBState = function (params) {  console.log("updateDBState");                          //getting main json data from server and run action parameter function
                     var condition;
                     if(params&&params.revalidate) condition={"REVALIDATE":true};
                     Request.getJSONData({url: "/sysadmin/serverState", condition:condition, consoleLog: true},
-                            function (success, result) {
+                            function (success, result) {                               console.log("sysadmin_MainContainer.updateDBState result",result);
                                 if (success) {
                                     if (result === undefined || result == null) result = [];
                                     sysadmin_MainContainer.mainContentData = result;
