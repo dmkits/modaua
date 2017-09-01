@@ -329,19 +329,20 @@ define(["dojo/_base/declare", "app", "templateDocumentBase", "hTableSimpleFilter
             },
 
             /*
-             * actionFunction = function(tableContentRowData, params, this.contentTable, startNextAction)
-             */
-            addContentTableRowAction: function(actionID, actionFunction){
-                if(!this.contentTableActions) this.contentTableActions={};
-                this.contentTableActions[actionID] = actionFunction;
-                return this;
-            },
-            /*
              * menuActionFunction = function(selRowsData, {}, this.contentTable)
              * selRowsData= non numeric index array of selected rows in this.contentTable
              */
             addPopupMenuItem: function(itemID, itemName, menuActionFunction){
                 this.contentTable.setMenuItem(itemID, itemName, {}, menuActionFunction);
+                return this;
+            },
+
+            /*
+             * actionFunction = function(tableContentRowData, params, this.contentTable, startNextAction)
+             */
+            addContentTableRowAction: function(actionID, actionFunction){
+                if(!this.contentTableActions) this.contentTableActions={};
+                this.contentTableActions[actionID] = actionFunction;
                 return this;
             },
             /*
@@ -352,15 +353,14 @@ define(["dojo/_base/declare", "app", "templateDocumentBase", "hTableSimpleFilter
              * menuActionEndFunction - action on end calls for all rows action by actionID
              * menuActionEndFunction = function(selRowsData, params, this.contentTable)
              */
-            addPopupMenuItemForAction: function(itemID, itemName, actionID, menuActionFunction, menuActionEndFunction){
-
-                var actionFunction= this.contentTableActions[actionID];//function(tableContentRowData, params, this.contentTable, startNextAction)
-
+            addContentTablePopupMenuItemForAction: function(itemID, itemName, actionID, menuActionFunction, menuActionEndFunction){
+                var actionFunction=
+                    this.contentTableActions[actionID];//function(tableContentRowData, params, this.contentTable, startNextAction)
                 var selRowAction= function(tableRowDataForAction, params, thisContentTable, startNextAction){
                     actionFunction(tableRowDataForAction, params, thisContentTable, startNextAction);
                 };
-                var selRowsAction= function(tableRowsDataForAction, dataInd, params, thisContentTable){                 //console.log("addPopupMenuItemForAction selRowsAction",tableRowsData);
-                    var tableRowDataForAction=tableRowsDataForAction[dataInd];                                          //console.log("addPopupMenuItemForAction tableRowData",tableRowData);
+                var selRowsAction= function(tableRowsDataForAction, dataInd, params, thisContentTable){                 //console.log("addContentTablePopupMenuItemForAction selRowsAction",tableRowsData);
+                    var tableRowDataForAction=tableRowsDataForAction[dataInd];                                          //console.log("addContentTablePopupMenuItemForAction tableRowData",tableRowData);
                     if(!tableRowDataForAction){
                         if (menuActionEndFunction) menuActionEndFunction(tableRowsDataForAction, params, thisContentTable);
                         return;

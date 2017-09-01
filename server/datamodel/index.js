@@ -679,7 +679,8 @@ function _insTableDataItem(params, resultCallback) {
 }
 
 /**
- * params = { tableName, idFieldName
+ * params = { tableName, idFieldName,
+ *      tableColumns=[ {<tableColumnData>},... ],
  *      updTableData = {<tableFieldName>:<value>,<tableFieldName>:<value>,<tableFieldName>:<value>,...}
  * }
  * resultCallback = function(result = { updateCount, resultItem:{<tableFieldName>:<value>,...}, error })
@@ -722,6 +723,8 @@ function _updTableDataItem(params, resultCallback) {
         var resultFields=[];
         for(var fieldName in params.updTableData) resultFields.push(fieldName);
         var getResultConditions={}; getResultConditions[idFieldName+"="]=params.updTableData[idFieldName];
+
+        //_getDataItemForTable
         _getDataItem({source:params.tableName, fields:resultFields, conditions:getResultConditions},
             function(result){
                 if(result.error) updResult.error="Failed get result updated data item! Reason:"+result.error;

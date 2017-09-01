@@ -84,12 +84,12 @@
                                                     });
                                         } //else contentTableInstance.updateRowData(tableContentRowData, {"message": "Impossible to apply! Type must be \"new\""});
                                     })
-                                    .addPopupMenuItemForAction("applySelectedRowsChanges", "Apply selected changes...", "applyChangesRowData",
+                                    .addContentTablePopupMenuItemForAction("applySelectedRowsChanges", "Apply selected changes...", "applyChangesRowData",
                                         null,/*end action*/function () {
                                             if (sysadmin_database_PageContainer.getParent().updateDBState)
                                                 sysadmin_database_PageContainer.getParent().updateDBState({revalidate:true});
                                         })
-                                    .addPopupMenuItemForAction("applyAllRowsChanges", "Apply all changes...", "applyChangesRowData",
+                                    .addContentTablePopupMenuItemForAction("applyAllRowsChanges", "Apply all changes...", "applyChangesRowData",
                                     /*start action*/function (selRowsData, params, contentTable, startApplyChangesRowData) {
                                         startApplyChangesRowData(contentTable.getContent());
                                     },/*end action*/function () {

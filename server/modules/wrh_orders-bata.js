@@ -60,17 +60,21 @@ module.exports.init = function(app){
                     var unitName=(result&&result.item)?result.item["NAME"]:"";
                     dirContractors.getDataItem({fields:["NAME"],conditions:{"ID=":"1"}}, function(result){
                         var supplierName=(result&&result.item)?result.item["NAME"]:"";
-                        sysCurrency.getDataItem({fields:["CODE"],conditions:{"ID=":"0"}}, function(result){
-                            var sysCurrencyCode=(result&&result.item)?result.item["CODE"]:"";
-                            //sysDocStates.getDataItem({fields:["NAME"],conditions:{"ID=":"0"}}, function(result){
-                            //});
-                            wrhOrdersBata.setDataItem({fields:["NUMBER","DOCDATE","SUPPLIER_ORDER_NUM","UNIT_NAME","SUPPLIER_NAME",
-                                    "CURRENCY_CODE","DOCSTATE_NAME", "DOCCOUNT","DOCQTYSUM","DOCSUM"],
-                                    values:[newNumber,docDate,"",unitName,supplierName,sysCurrencyCode,"",0,0,0]},
-                                function(result){
-                                    res.send(result);
-                                });
-                        });
+                        sysCurrency.getDataItem({ fields:["CODE","CODENAME"],
+                                fieldsFunctions:{"CODENAME":{function:"concat",fields:["CODE","' ('","NAME","')'"]}},
+                                conditions:{"ID=":"0"} },
+                            function(result){
+                                var sysCurrencyCode=(result&&result.item)?result.item["CODE"]:"";
+                                var sysCurrencyCodeName=(result&&result.item)?result.item["CODENAME"]:"";
+                                //sysDocStates.getDataItem({fields:["NAME"],conditions:{"ID=":"0"}}, function(result){
+                                //});
+                                wrhOrdersBata.setDataItem({fields:["NUMBER","DOCDATE","SUPPLIER_ORDER_NUM","UNIT_NAME","SUPPLIER_NAME",
+                                        "CURRENCY_CODE","CURRENCY_CODENAME", "DOCSTATE_NAME", "DOCCOUNT","DOCQTYSUM","DOCSUM"],
+                                        values:[newNumber,docDate,"",unitName,supplierName,sysCurrencyCode,sysCurrencyCodeName,"",0,0,0]},
+                                    function(result){
+                                        res.send(result);
+                                    });
+                            });
                     });
                 });
             });
@@ -100,13 +104,14 @@ module.exports.init = function(app){
                         if(result.item) docStateID=result.item["ID"];
                         storeData["DOCSTATE_ID"]=docStateID;
                         var storeTableData={};
-                        wrhOrdersBata.storeTableDataItem({idFieldName:"ID", storeTableData:storeData},function(result){
-                            //if(!result.resultItem){
-                            //
-                            //    return;
-                            //}
-                            res.send(result);
-                        });
+                        wrhOrdersBata.storeTableDataItem({tableColumns:wrhOrdersBataListTableColumns, idFieldName:"ID", storeTableData:storeData},
+                            function(result){
+                                //if(!result.resultItem){
+                                //
+                                //    return;
+                                //}
+                                res.send(result);
+                            });
                     });
                 });
             });

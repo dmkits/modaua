@@ -73,6 +73,35 @@ define(["dojo/_base/declare", "app", "templateDocumentSimpleTable", "hTableEdita
                     };
                 }
                 return actionFunction;
+            },
+
+            /*
+             * actionParams = { action: "insertTableRowsAfterSelected" / "allowEditTableSelectedRows" / "storeTableSelectedRows" }
+             *
+             */
+            addContentTablePopupMenuItemAction: function(itemName, actionParams){
+                var menuItemCallback, thisInstance=this;
+                if (actionParams.action==="insertTableRowsAfterSelected"){
+                    menuItemCallback= function(selRowsData){
+                        var count=0;
+                        if(selRowsData.length>0) {
+                            for (var rowIndex in selRowsData) count++;
+                            thisInstance.contentTable.insertRowsAfterSelected(count);
+                        } else
+                            thisInstance.contentTable.insertRowAfterSelected();
+                    }
+                } else if (actionParams.action==="allowEditTableSelectedRows"){
+                    menuItemCallback= function(selRowsData){
+                        thisInstance.contentTable.allowEditRows(selRowsData);
+                    }
+                } else if (actionParams.action==="storeTableSelectedRows"){
+                    menuItemCallback= function(selRowsData){
+                        thisInstance.contentTable.storeRowsDataByURL({url:thisInstance.dataStoreURL, rowsData:selRowsData, condition:null});
+                    }
+                }
+                if (menuItemCallback)
+                    this.contentTable.setMenuItem(this.id+actionParams.action, itemName, {}, menuItemCallback);
+                return this;
             }
         });
     });

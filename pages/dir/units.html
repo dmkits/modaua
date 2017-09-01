@@ -31,6 +31,10 @@
                                 .addToolPaneTableActionButton("Изменить", {action:"allowEditTableSelectedRow"}, "width:115px;")
                                 .addToolPaneTableActionButton("Сохранить", {action:"storeTableSelectedRow"}, "width:115px;")
                                 .addToolPaneTableActionButton("Удалить", {action:"deleteTableSelectedRow"}, "width:115px;")
+
+                                .addContentTablePopupMenuItemAction("Добавить строки",{action:"insertTableRowsAfterSelected",rowPosName:"POS"})//rowPosIndexName:"POSIND"
+                                .addContentTablePopupMenuItemAction("Изменить строки",{action:"allowEditTableSelectedRows"})
+                                .addContentTablePopupMenuItemAction("Сохранить строки",{action:"storeTableSelectedRows"})
                                 .startUp();
                 dir_units_PageContainer.layout();
             })

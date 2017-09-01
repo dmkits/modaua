@@ -776,7 +776,6 @@ define(["dojo/_base/declare", "dijit/layout/BorderContainer", "dijit/layout/Cont
                             thisInstance.detailTable.insertRowsAfterSelected(count);//, actionParams.rowPosName,actionParams.rowPosIndexName
                         } else
                             thisInstance.detailTable.insertRowAfterSelected();
-
                     }
                 } else if (actionParams.action==="allowEditDetailTableSelectedRows"){
                     menuItemCallback= function(selRowsData){
