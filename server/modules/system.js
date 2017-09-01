@@ -11,8 +11,8 @@ module.exports.validateModule = function(errs, nextValidateModuleCallback){
 
 module.exports.init = function(app) {
     app.get("/sys/currency/getCurrencyForSelect", function (req, res) {
-        sysCurrency.getDataItemsForSelect({ addFields:[{}],
-                valueField:"CODE",labelField:"NAME", order: "CODE" },
+        sysCurrency.getDataItemsForSelect({ valueField:"CODE",labelField:"CODENAME", order: "CODE",
+                fieldsFunctions:{ "CODENAME":{function:"concat",fields:["CODE","' ('","NAME","')'"] } } },
             function (result) {
                 res.send(result);
             });

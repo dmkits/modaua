@@ -114,14 +114,18 @@ module.exports.initValidateDataModels=function(dataModels, errs, resultCallback)
 
 /**
  * params = { source,
- *      fields = [ <tableFieldName> or <functionFieldName>, ... ],
- *      fieldsSources = { <tableFieldName>:<sourceName>.<sourceFieldName>, ... },
- *      fieldsFunctions = { <functionFieldName>:{ function:<function>, source:<functionSource>, sourceField:<functionSourceField> }, ... },
+ *      fields = [ <sourceFieldName> or <functionFieldName>, ... ],
+ *      fieldsSources = { <sourceFieldName>:<sourceName>.<sourceFieldName>, ... },
+ *      fieldsFunctions = {
+ *          <sourceFieldName>:{
+ *              function:<function>, source:<functionSource>, sourceField:<functionSourceField>, fields:[ <functionBodySourceFieldName> ]
+ *           },
+ *      ... },
  *      joinedSources = { <sourceName>:<linkConditions> = { <linkCondition>:null or <linkCondition>:<value>, ... } },
- *      conditions={ <condition>:<conditionValue>, ... } OR conditions=[ { fieldName, condition, value }, ... ],
+ *      conditions={ <condition>:<conditionValue>, ... } OR conditions=[ { fieldName:"...", condition:"...", value:"..." }, ... ],
  *      order = "<orderFieldsList>"
  * }
- * fieldsFunctions[].function: "maxPlus1"
+ * fieldsFunctions[].function: "maxPlus1" / "concat"
  * resultCallback = function(err, recordset)
  */
 function _getSelectItems(params, resultCallback){
@@ -147,6 +151,12 @@ function _getSelectItems(params, resultCallback){
             var fieldFunctionData= params.fieldsFunctions[fieldName];
             if(fieldFunctionData.function=="maxPlus1")
                 fieldFunction="COALESCE(MAX("+((fieldFunctionData.source)?fieldFunctionData.source+".":"")+fieldFunctionData.sourceField+")+1,1)";
+            else if(fieldFunctionData.function=="concat"&&fieldFunctionData.fields) {
+                for(var ind in fieldFunctionData.fields){
+                    fieldFunction= (!fieldFunction)?fieldFunctionData.fields[ind]:fieldFunction+","+fieldFunctionData.fields[ind];
+                }
+                fieldFunction="CONCAT("+fieldFunction+")";
+            }
         }
         queryFields+= ((fieldFunction)?fieldFunction+" as ":"") + fieldName;
     }
@@ -300,9 +310,9 @@ function _setDataItem(params, resultCallback){
 }
 
 /**
- * params = { tableName,
+ * params = { source,
  *      tableColumns = [
- *          {data:<tableFieldName>, name:<tableColumnHeader>, width:<tableColumnWidth>, type:<dataType>, readOnly:true/false, visible:true/false,
+ *          {data:<sourceFieldName>, name:<tableColumnHeader>, width:<tableColumnWidth>, type:<dataType>, readOnly:true/false, visible:true/false,
  *                dataSource:<sourceName>, sourceField:<sourceFieldName> },
  *          ...
  *      ],
@@ -331,24 +341,28 @@ function _getDataItemsForTable(params, resultCallback){
         resultCallback(tableData);
         return;
     }
-    if(!params.source&&params.tableName) params.tableName;
     if(!params.source&&this.source) params.source=this.source;
-    var fieldsList=[], fieldsSources={};
+    var fieldsList=[], fieldsSources={}, fieldsFunctions;
     for(var i in params.tableColumns) {
         var tableColumnData=params.tableColumns[i], fieldName=tableColumnData.data;
         if(this.fieldsMetadata&&this.fieldsMetadata[fieldName]) fieldsList.push(fieldName);
         else if(!this.fieldsMetadata) fieldsList.push(fieldName);
         if(tableColumnData.dataSource){
             fieldsList.push(fieldName);
-            if(tableColumnData.sourceField) fieldsSources[fieldName]=tableColumnData.dataSource+"."+tableColumnData.sourceField;
-            else fieldsSources[fieldName]=tableColumnData.dataSource+"."+tableColumnData.data;
+            if(tableColumnData.sourceField)
+                fieldsSources[fieldName]=tableColumnData.dataSource+"."+tableColumnData.sourceField;
+            else if(tableColumnData.sourceFieldFunction) {
+                if(!fieldsFunctions)fieldsFunctions={};
+                fieldsFunctions[fieldName]= tableColumnData.sourceFieldFunction;
+            } else
+                fieldsSources[fieldName]=tableColumnData.dataSource+"."+tableColumnData.data;
             if(this.joinedSources[tableColumnData.dataSource]){
                 if(!params.joinedSources) params.joinedSources={};
                 params.joinedSources[tableColumnData.dataSource]=this.joinedSources[tableColumnData.dataSource];
             }
         }
     }
-    params.fields=fieldsList; params.fieldsSources=fieldsSources;
+    params.fields=fieldsList; params.fieldsSources=fieldsSources; params.fieldsFunctions=fieldsFunctions;
     _getSelectItems(params, function(err, recordset){
         if(err) tableData.error="Failed get data for table! Reason:"+err.message;
         tableData.items= recordset;
@@ -376,7 +390,6 @@ function _getDataItemForTable(params, resultCallback){
     });
 }
 /**
- *
  * tableColumns = [
  *      { data:<tableFieldName>, name:<tableColumnHeader>, width:<tableColumnWidth>, type:<dataType>, readOnly:true/false, visible:true/false },
  *       ...
@@ -418,13 +431,13 @@ function _fillDataTypeForTableColumns(tableColumns){
     return tableColumns;
 }
 /**
- * params = { tableName,
+ * params = { source,
  *      tableColumns = [
- *          {data:<tableFieldName>, name:<tableColumnHeader>, width:<tableColumnWidth>, type:<dataType>, readOnly:true/false, visible:true/false,
+ *          {data:<sourceFieldName>, name:<tableColumnHeader>, width:<tableColumnWidth>, type:<dataType>, readOnly:true/false, visible:true/false,
  *                dataSource:<sourceName>, sourceField:<sourceFieldName> },
  *          ...
  *      ],
- *      identifier= <tableIDFieldName>,
+ *      identifier= <sourceIDFieldName>,
  *      conditions={ <condition>:<conditionValue>, ... },
  *      order = "<orderFieldsList>"
  * }

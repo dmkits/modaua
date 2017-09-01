@@ -29,6 +29,8 @@ module.exports.init = function(app){
         {"data": "SUPPLIER_NAME", "name": "Поставщик", "width": 120, "type": "text", dataSource:"dir_contractors", sourceField:"NAME"},
         {"data": "DOCSUM", "name": "Сумма", "width": 60, "type": "numeric2"},
         {"data": "CURRENCY_CODE", "name": "Валюта", "width": 50, "type": "text", dataSource:"sys_currency", sourceField:"CODE"},
+        {"data": "CURRENCY_CODENAME", "name": "Валюта", "width": 50, "type": "text", visible:false,
+            dataSource:"sys_currency", sourceFieldFunction:{function:"concat",fields:["sys_currency.CODE","' ('","sys_currency.NAME","')'"]} },
         {"data": "DOCSTATE_NAME", "name": "Статус", "width": 110, "type": "text", dataSource:"sys_docstates", sourceField:"NAME"}
     ];
     app.get("/wrh/ordersBata/getDataForWrhOrdersBataListTable", function(req, res){
@@ -41,7 +43,6 @@ module.exports.init = function(app){
                 res.send(result);
             });
     });
-
     app.get("/wrh/ordersBata/getOrderBataData", function(req, res){
         var conditions={};
         for(var condItem in req.query) conditions["wrh_orders_bata."+condItem]=req.query[condItem];
@@ -50,12 +51,6 @@ module.exports.init = function(app){
             function(result){
                 res.send(result);
             });
-        //wrhOrdersBata.getDataItem({fields:["ID","NUMBER","DOCDATE","SUPPLIER_ORDER_NUM"],
-        //        conditions:req.query},
-        //    function(result){
-        //        res.send(result);
-        //    });
-        //res.send({});
     });
     app.get("/wrh/ordersBata/getNewOrderBataData", function(req, res){
         wrhOrdersBata.getDataItem({fieldFunction:{name:"MAXNUMBER", function:"maxPlus1", sourceField:"NUMBER"}},

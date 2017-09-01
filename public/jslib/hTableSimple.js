@@ -120,6 +120,7 @@ define(["dojo/_base/declare", "dijit/layout/ContentPane", "request"], function(d
                     return this.getColumnHeader(colIndex);
                 },
                 data: parent.htData, comments: parent.enableComments,//copyPaste: true,default
+                copyRowsLimit: 5000,
                 htDataSelectedProp: "<!$selected$!>",
                 rowHeaders: false,
                 //stretchH: "all",
