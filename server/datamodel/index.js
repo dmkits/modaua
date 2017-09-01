@@ -16,31 +16,36 @@ function initValidateDataModel(dataModelName, dataModel, errs, nextValidateDataM
         nextValidateDataModelCallback();
         return;
     }
-    var tableName, tableFieldsList=[],tableFields={}, idFieldName;
+    var tableName, tableFieldsList=[],tableFields={}, idFieldName, joinedSources={};
     if(dataModel.changeLog){
         dataModelChanges= dataModelChanges.concat(dataModel.changeLog);
         for(var i=0;i<dataModel.changeLog.length;i++){
             var changeLogItem=dataModel.changeLog[i];
             if(changeLogItem.tableName&&!tableName) tableName=changeLogItem.tableName;
+            if(changeLogItem.id&&!idFieldName) idFieldName=changeLogItem.id;
             if(changeLogItem.fields){
                 for(var fieldIndex in changeLogItem.fields){
                     var fieldName=changeLogItem.fields[fieldIndex];
                     if(!tableFields[fieldName]){
-                        tableFields[fieldName]={name:fieldName};
+                        tableFields[fieldName]=true;
                         tableFieldsList.push(fieldName);
                     }
                 }
             } else if(changeLogItem.field){
                 if(!tableFields[changeLogItem.field]){
-                    tableFields[changeLogItem.field]={name:changeLogItem.field};
+                    tableFields[changeLogItem.field]=true;
                     tableFieldsList.push(changeLogItem.field);
                 }
                 if(changeLogItem.source){
-                    tableFields[changeLogItem.field].source=changeLogItem.source;
-                    tableFields[changeLogItem.field].linkField=changeLogItem.linkField;
+                    var joinedSourceLinkConditions=joinedSources[changeLogItem.source];
+                    if(!joinedSourceLinkConditions){
+                        joinedSourceLinkConditions={};
+                        joinedSources[changeLogItem.source]=joinedSourceLinkConditions;
+                    }
+                    if(changeLogItem.linkField)
+                        joinedSourceLinkConditions[tableName+"."+changeLogItem.field+"="+changeLogItem.source+"."+changeLogItem.linkField]=null;
                 }
             }
-            if(changeLogItem.id&&!idFieldName) idFieldName=changeLogItem.id;
         }
     } else if(dataModel.modelData) {
         //
@@ -75,6 +80,7 @@ function initValidateDataModel(dataModelName, dataModel, errs, nextValidateDataM
     dataModel.sourceType="table"; dataModel.source=tableName;
     dataModel.fields=tableFieldsList; dataModel.idField=idFieldName;                                    log.info('Init data model '+dataModel.sourceType+":"+dataModel.source+" fields:",dataModel.fields," idField:"+dataModel.idField);//test
     dataModel.fieldsMetadata=tableFields;                                                               log.debug('Init data model '+dataModel.sourceType+":"+dataModel.source+" fields metadata:",dataModel.fieldsMetadata,{});//test
+    dataModel.joinedSources=joinedSources;
     if(!dataModel.idField)                                                                              log.warn('NO id filed name in data model '+dataModel.sourceType+":"+dataModel.source+"! Model cannot used functions insert/update/delete!");//test
 
     dataModel.getDataItems({conditions:{"ID is NULL":null}},function(result){
@@ -107,8 +113,9 @@ module.exports.initValidateDataModels=function(dataModels, errs, resultCallback)
 /**
  * params = { source,
  *      fields = [ <tableFieldName> or <functionFieldName>, ... ],
+ *      fieldsSources = { <tableFieldName>:<sourceName>.<sourceFieldName>, ... },
  *      fieldsFunctions = { <functionFieldName>:{ function:<function>, source:<functionSource>, sourceField:<functionSourceField> }, ... },
- *      joinedSources = { source, conditions = { <linkCondition>:null or <linkCondition>:<value>, ... } },
+ *      joinedSources = { <sourceName>:<linkConditions> = { <linkCondition>:null or <linkCondition>:<value>, ... } },
  *      conditions={ <condition>:<conditionValue>, ... },
  *      order = "<orderFieldsList>"
  * }
@@ -132,7 +139,9 @@ function _getSelectItems(params, resultCallback){
     for(var fieldNameIndex in params.fields) {
         if (queryFields!="") queryFields+= ",";
         var fieldName=params.fields[fieldNameIndex], fieldFunction=null;
-        if(params.fieldsFunctions&&params.fieldsFunctions[fieldName]){
+        if(params.fieldsSources&&params.fieldsSources[fieldName]){
+            fieldName= params.fieldsSources[fieldName]+" as "+fieldName;
+        } else if(params.fieldsFunctions&&params.fieldsFunctions[fieldName]){
             var fieldFunctionData= params.fieldsFunctions[fieldName];
             if(fieldFunctionData.function=="maxPlus1")
                 fieldFunction="COALESCE(MAX("+((fieldFunctionData.source)?fieldFunctionData.source+".":"")+fieldFunctionData.sourceField+")+1,1)";
@@ -140,6 +149,16 @@ function _getSelectItems(params, resultCallback){
         queryFields+= ((fieldFunction)?fieldFunction+" as ":"") + fieldName;
     }
     var selectQuery="select "+queryFields+" from "+params.source;
+    var joins="";
+    if(params.joinedSources){
+        for(var joinSourceName in params.joinedSources) {
+            var joinedSourceConditions=params.joinedSources[joinSourceName], joinedSourceOnCondition;
+            for(var linkCondition in joinedSourceConditions)
+                joinedSourceOnCondition= (!joinedSourceOnCondition)?linkCondition:joinedSourceOnCondition+" and "+linkCondition;
+            joins += " inner join " + joinSourceName + " on "+joinedSourceOnCondition;
+        }
+    }
+    selectQuery+=joins;
     var conditionQuery, coditionValues=[];
     if (params.conditions) {
         for(var conditionItem in params.conditions) {
@@ -343,20 +362,22 @@ function _getDataForTable(params, resultCallback){
     tableData.columns= _fillDataTypeForTableColumns(params.tableColumns);
     if(!params.source&&this.source) params.source=this.source;
     tableData.identifier=params.identifier;
-    var fieldsList=[];
+    var fieldsList=[], fieldsSources={};
     for(var i in params.tableColumns) {
-        var tableColumnData=params.tableColumns[i], fieldName=tableColumnData.data, fieldSource=null;
-
-        if(tableColumnData.dataSource&&tableColumnData.sourceField) fieldSource=tableColumnData.dataSource+"."+tableColumnData.sourceField;
-        else if(tableColumnData.dataSource) fieldSource=tableColumnData.dataSource+"."+tableColumnData.fieldName;
-
-        //params.joinedSources = { source, conditions = { <linkCondition>:null or <linkCondition>:<value>, ... } },
-
-        var selectField= (fieldSource)?fieldSource+" as "+fieldName:fieldName;
-        if(!fieldSource&&this.fieldsMetadata&&this.fieldsMetadata[fieldName]) fieldsList.push(selectField);
-        else if(fieldSource||!this.fieldsMetadata) fieldsList.push(selectField);
+        var tableColumnData=params.tableColumns[i], fieldName=tableColumnData.data;
+        if(this.fieldsMetadata&&this.fieldsMetadata[fieldName]) fieldsList.push(fieldName);
+        else if(!this.fieldsMetadata) fieldsList.push(fieldName);
+        if(tableColumnData.dataSource){
+            fieldsList.push(fieldName);
+            if(tableColumnData.sourceField) fieldsSources[fieldName]=tableColumnData.dataSource+"."+tableColumnData.sourceField;
+            else fieldsSources[fieldName]=tableColumnData.dataSource+"."+tableColumnData.data;
+            if(this.joinedSources[tableColumnData.dataSource]){
+                if(!params.joinedSources) params.joinedSources={};
+                params.joinedSources[tableColumnData.dataSource]=this.joinedSources[tableColumnData.dataSource];
+            }
+        }
     }
-    params.fields=fieldsList;
+    params.fields=fieldsList; params.fieldsSources=fieldsSources;
     if (!params.conditions) {
         resultCallback(tableData);
         return;

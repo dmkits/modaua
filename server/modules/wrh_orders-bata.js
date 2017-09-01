@@ -21,15 +21,15 @@ module.exports.modulePageURL = "/wrh/orders-bata";
 module.exports.modulePagePath = "wrh/orders-bata.html";
 module.exports.init = function(app){
     var wrhOrdersBataListTableColumns=[
-        {"data": "ID", "name": "ID", "width": 50, "type": "text", readOnly:true, visible:false},
-        {"data": "NUMBER", "name": "Номер", "width": 50, "type": "text"},
-        {"data": "DOCDATE", "name": "Дата", "width": 55, "type": "text_date"},
-        {"data": "SUPPLIER_ORDER_NUM", "name": "Номер заказа поставщика", "width": 100, "type": "text"},
+        {"data": "ID", "name": "ID", "width": 50, "type": "text", readOnly:true, visible:false, dataSource:"wrh_orders_bata"},
+        {"data": "NUMBER", "name": "Номер", "width": 50, "type": "text", dataSource:"wrh_orders_bata"},
+        {"data": "DOCDATE", "name": "Дата", "width": 55, "type": "text_date", dataSource:"wrh_orders_bata"},
+        {"data": "SUPPLIER_ORDER_NUM", "name": "Номер заказа поставщика", "width": 100, "type": "text", dataSource:"wrh_orders_bata"},
         {"data": "UNIT_NAME", "name": "Подразделение", "width": 120, "type": "text", dataSource:"dir_units", sourceField:"NAME"},
-        {"data": "SUPPLIER_NAME", "name": "Поставщик", "width": 120, "type": "text"},
+        {"data": "SUPPLIER_NAME", "name": "Поставщик", "width": 120, "type": "text", dataSource:"dir_contractors", sourceField:"NAME"},
         {"data": "DOCSUM", "name": "Сумма", "width": 60, "type": "numeric2"},
-        {"data": "CURRENCY_CODE", "name": "Валюта", "width": 50, "type": "text"},
-        {"data": "DOCSTATE_NAME", "name": "Статус", "width": 110, "type": "text"}
+        {"data": "CURRENCY_CODE", "name": "Валюта", "width": 50, "type": "text", dataSource:"sys_currency", sourceField:"CODE"},
+        {"data": "DOCSTATE_NAME", "name": "Статус", "width": 110, "type": "text", dataSource:"sys_docstates", sourceField:"NAME"}
     ];
     app.get("/wrh/ordersBata/getDataForWrhOrdersBataListTable", function(req, res){
         wrhOrdersBata.getDataForTable({tableColumns:wrhOrdersBataListTableColumns,

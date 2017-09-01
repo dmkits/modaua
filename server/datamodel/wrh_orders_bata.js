@@ -16,13 +16,15 @@ var changeLog=[
         "field":"DOCSTATE_ID" },
     { "changeID": "wrh_orders_bata__6", "changeDatetime": "2016-09-04T19:36:00.000+0300", "changeObj": "wrh_orders_bata",
       "changeVal": "ALTER TABLE wrh_orders_bata ADD CONSTRAINT WRH_ORDERS_BATA_DOCSTATE_ID_FK"
-      +" FOREIGN KEY (DOCSTATE_ID) REFERENCES sys_docstates(ID)" },
+      +" FOREIGN KEY (DOCSTATE_ID) REFERENCES sys_docstates(ID)",
+        "field":"DOCSTATE_ID", "source":"sys_docstates", "linkField":"ID" },
     { "changeID": "wrh_orders_bata__7", "changeDatetime": "2016-09-04T19:37:00.000+0300", "changeObj": "wrh_orders_bata",
       "changeVal": "ALTER TABLE wrh_orders_bata ADD COLUMN CURRENCY_ID INTEGER NOT NULL",
         "field":"CURRENCY_ID" },
     { "changeID": "wrh_orders_bata__8", "changeDatetime": "2016-09-04T19:38:00.000+0300", "changeObj": "wrh_orders_bata",
       "changeVal": "ALTER TABLE wrh_orders_bata ADD CONSTRAINT WRH_ORDERS_BATA_CURRENCY_ID_FK"
-      +" FOREIGN KEY (CURRENCY_ID) REFERENCES sys_currency(ID)" },
+      +" FOREIGN KEY (CURRENCY_ID) REFERENCES sys_currency(ID)",
+        "field":"CURRENCY_ID", "source":"sys_currency", "linkField":"ID" },
     { "changeID": "wrh_orders_bata__9", "changeDatetime": "2016-09-04T19:39:00.000+0300", "changeObj": "wrh_orders_bata",
       "changeVal": "ALTER TABLE wrh_orders_bata ADD COLUMN UNIT_ID BIGINT UNSIGNED NOT NULL",
         "field":"UNIT_ID" },
@@ -35,7 +37,8 @@ var changeLog=[
         "field":"SUPPLIER_ID" },
     { "changeID": "wrh_orders_bata_12", "changeDatetime": "2016-09-04T19:42:00.000+0300", "changeObj": "wrh_orders_bata",
       "changeVal": "ALTER TABLE wrh_orders_bata ADD CONSTRAINT WRH_ORDERS_BATA_SUPPLIER_ID_FK"
-      +" FOREIGN KEY (SUPPLIER_ID) REFERENCES dir_contractors(ID)" },
+      +" FOREIGN KEY (SUPPLIER_ID) REFERENCES dir_contractors(ID)",
+        "field":"SUPPLIER_ID", "source":"dir_contractors", "linkField":"ID" },
     { "changeID": "wrh_orders_bata_13", "changeDatetime": "2016-09-12T22:25:00.000+0300", "changeObj": "wrh_orders_bata",
       "changeVal": "ALTER TABLE wrh_orders_bata ADD CONSTRAINT WRH_ORDERS_BATA_SUPPLIER_ID_SUPPLIER_ORDER_NUM_UNIQUE"
         +" UNIQUE(SUPPLIER_ID,SUPPLIER_ORDER_NUM)" },
