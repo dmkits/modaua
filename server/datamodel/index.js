@@ -55,6 +55,8 @@ function initValidateDataModel(dataModelName, dataModel, errs, nextValidateDataM
     dataModel.getDataItemsForSelect= _getDataItemsForSelect;
     dataModel.getDataItem= _getDataItem;
     dataModel.setDataItem= _setDataItem;
+    dataModel.getDataItemsForTable= _getDataItemsForTable;
+    dataModel.getDataItemForTable= _getDataItemForTable;
     dataModel.getDataForTable= _getDataForTable;
     dataModel.setDataItemForTable= _setDataItemForTable;
     dataModel.insDataItem= _insDataItem;
@@ -79,8 +81,8 @@ function initValidateDataModel(dataModelName, dataModel, errs, nextValidateDataM
     }
     dataModel.sourceType="table"; dataModel.source=tableName;
     dataModel.fields=tableFieldsList; dataModel.idField=idFieldName;                                    log.info('Init data model '+dataModel.sourceType+":"+dataModel.source+" fields:",dataModel.fields," idField:"+dataModel.idField);//test
-    dataModel.fieldsMetadata=tableFields;                                                               log.debug('Init data model '+dataModel.sourceType+":"+dataModel.source+" fields metadata:",dataModel.fieldsMetadata,{});//test
-    dataModel.joinedSources=joinedSources;
+    dataModel.fieldsMetadata=tableFields;
+    dataModel.joinedSources=joinedSources;                                                              log.debug('Init data model '+dataModel.sourceType+":"+dataModel.source+" joined sources:",dataModel.joinedSources,{});//test
     if(!dataModel.idField)                                                                              log.warn('NO id filed name in data model '+dataModel.sourceType+":"+dataModel.source+"! Model cannot used functions insert/update/delete!");//test
 
     dataModel.getDataItems({conditions:{"ID is NULL":null}},function(result){
@@ -116,7 +118,7 @@ module.exports.initValidateDataModels=function(dataModels, errs, resultCallback)
  *      fieldsSources = { <tableFieldName>:<sourceName>.<sourceFieldName>, ... },
  *      fieldsFunctions = { <functionFieldName>:{ function:<function>, source:<functionSource>, sourceField:<functionSourceField> }, ... },
  *      joinedSources = { <sourceName>:<linkConditions> = { <linkCondition>:null or <linkCondition>:<value>, ... } },
- *      conditions={ <condition>:<conditionValue>, ... },
+ *      conditions={ <condition>:<conditionValue>, ... } OR conditions=[ { fieldName, condition, value }, ... ],
  *      order = "<orderFieldsList>"
  * }
  * fieldsFunctions[].function: "maxPlus1"
@@ -160,14 +162,26 @@ function _getSelectItems(params, resultCallback){
     }
     selectQuery+=joins;
     var conditionQuery, coditionValues=[];
-    if (params.conditions) {
+    if (params.conditions&&typeof(params.conditions)=="object") {
         for(var conditionItem in params.conditions) {
-            var conditionItemValue= (params.conditions[conditionItem]==null)?conditionItem:conditionItem+"?";
-            conditionItemValue= conditionItemValue.replace("~","=");
-            conditionQuery= (!conditionQuery)?conditionItemValue:conditionQuery+" and "+conditionItemValue;
-            if (params.conditions[conditionItem]!=null) coditionValues.push(params.conditions[conditionItem]);
+            var conditionItemValue=params.conditions[conditionItem];
+            var conditionItemValueQuery= (conditionItemValue==null)?conditionItem:conditionItem+"?";
+            conditionItemValueQuery= conditionItemValueQuery.replace("~","=");
+            conditionQuery= (!conditionQuery)?conditionItemValueQuery:conditionQuery+" and "+conditionItemValueQuery;
+            if (conditionItemValue!=null) coditionValues.push(conditionItemValue);
         }
         selectQuery+=" where "+conditionQuery;
+    } else if (params.conditions) {
+        for(var ind in params.conditions) {
+            var conditionItem= params.conditions[ind];
+            var conditionFieldName=conditionItem.fieldName;
+            if(params.fieldsSources&&params.fieldsSources[conditionFieldName])
+                conditionFieldName= params.fieldsSources[conditionFieldName];
+            var conditionItemValueQuery=
+                (conditionItem.value==null)?conditionFieldName+conditionItem.condition:conditionFieldName+conditionItem.condition+"?";
+            conditionQuery= (!conditionQuery)?conditionItemValueQuery:conditionQuery+" and "+conditionItemValueQuery;
+            if (conditionItem.value!=null) coditionValues.push(conditionItem.value);
+        }
     }
     if (params.order) selectQuery+=" order by "+params.order;
     if (coditionValues.length==0)
@@ -286,6 +300,82 @@ function _setDataItem(params, resultCallback){
 }
 
 /**
+ * params = { tableName,
+ *      tableColumns = [
+ *          {data:<tableFieldName>, name:<tableColumnHeader>, width:<tableColumnWidth>, type:<dataType>, readOnly:true/false, visible:true/false,
+ *                dataSource:<sourceName>, sourceField:<sourceFieldName> },
+ *          ...
+ *      ],
+ *      conditions={ <condition>:<conditionValue>, ... },
+ *      order = "<orderFieldsList>"
+ * }
+ * tableColumns: -<dataType> = text / html_text / text_date / text_datetime / date / numeric / numeric2 / checkbox
+ * OR tableColumns: -<dataType> = text / text & dateFormat:"DD.MM.YY HH:mm:ss" / html_text / date /
+ *              numeric format:"#,###,###,##0.00[#######]" language:"ru-RU" /
+ *              checkbox checkedTemplate:1 uncheckedTemplate:0 /
+ *              autocomplete strict allowInvalid sourceURL
+ * tableColumns: -readOnly default false, visible default true
+ * resultCallback = function( tableData = { columns:tableColumns, identifier:identifier, items:[ {<tableFieldName>:<value>,...}, {}, {}, ...],
+ *      error:errorMessage } )
+ */
+function _getDataItemsForTable(params, resultCallback){
+    var tableData={};
+    if(!params){                                                                                        log.error("FAILED _getDataItemsForTable! Reason: no function parameters!");//test
+        tableData.error="FAILED _getDataItemsForTable! Reason: no function parameters!";
+        resultCallback(tableData);
+        return;
+    }
+    if(params.tableData) tableData=params.tableData;
+    if(!params.tableColumns){                                                                           log.error("FAILED _getDataItemsForTable! Reason: no table columns!");//test
+        tableData.error="FAILED _getDataItemsForTable! Reason: no table columns!";
+        resultCallback(tableData);
+        return;
+    }
+    if(!params.source&&params.tableName) params.tableName;
+    if(!params.source&&this.source) params.source=this.source;
+    var fieldsList=[], fieldsSources={};
+    for(var i in params.tableColumns) {
+        var tableColumnData=params.tableColumns[i], fieldName=tableColumnData.data;
+        if(this.fieldsMetadata&&this.fieldsMetadata[fieldName]) fieldsList.push(fieldName);
+        else if(!this.fieldsMetadata) fieldsList.push(fieldName);
+        if(tableColumnData.dataSource){
+            fieldsList.push(fieldName);
+            if(tableColumnData.sourceField) fieldsSources[fieldName]=tableColumnData.dataSource+"."+tableColumnData.sourceField;
+            else fieldsSources[fieldName]=tableColumnData.dataSource+"."+tableColumnData.data;
+            if(this.joinedSources[tableColumnData.dataSource]){
+                if(!params.joinedSources) params.joinedSources={};
+                params.joinedSources[tableColumnData.dataSource]=this.joinedSources[tableColumnData.dataSource];
+            }
+        }
+    }
+    params.fields=fieldsList; params.fieldsSources=fieldsSources;
+    _getSelectItems(params, function(err, recordset){
+        if(err) tableData.error="Failed get data for table! Reason:"+err.message;
+        tableData.items= recordset;
+        resultCallback(tableData);
+    });
+}
+function _getDataItemForTable(params, resultCallback){
+    this.getDataItemsForTable(params,function(tableData){
+        var itemTableData={};
+        for(var itemName in tableData){
+            if(itemName!="items"){
+                itemTableData[itemName]=tableData[itemName];
+                continue;
+            }
+            var tableDataItems=tableData.items;
+            if(tableDataItems&&tableDataItems.length>1){
+                itemTableData.error="Failed get data item for table! Reason: result contains more that one items!";
+                continue;
+            } else if(!tableDataItems||tableDataItems.length==0){
+                continue;
+            }
+            itemTableData.item=tableDataItems[0];
+        }
+        resultCallback(itemTableData);
+    });
+}
+/**
  *
  * tableColumns = [
  *      { data:<tableFieldName>, name:<tableColumnHeader>, width:<tableColumnWidth>, type:<dataType>, readOnly:true/false, visible:true/false },
@@ -360,24 +450,7 @@ function _getDataForTable(params, resultCallback){
         return;
     }
     tableData.columns= _fillDataTypeForTableColumns(params.tableColumns);
-    if(!params.source&&this.source) params.source=this.source;
     tableData.identifier=params.identifier;
-    var fieldsList=[], fieldsSources={};
-    for(var i in params.tableColumns) {
-        var tableColumnData=params.tableColumns[i], fieldName=tableColumnData.data;
-        if(this.fieldsMetadata&&this.fieldsMetadata[fieldName]) fieldsList.push(fieldName);
-        else if(!this.fieldsMetadata) fieldsList.push(fieldName);
-        if(tableColumnData.dataSource){
-            fieldsList.push(fieldName);
-            if(tableColumnData.sourceField) fieldsSources[fieldName]=tableColumnData.dataSource+"."+tableColumnData.sourceField;
-            else fieldsSources[fieldName]=tableColumnData.dataSource+"."+tableColumnData.data;
-            if(this.joinedSources[tableColumnData.dataSource]){
-                if(!params.joinedSources) params.joinedSources={};
-                params.joinedSources[tableColumnData.dataSource]=this.joinedSources[tableColumnData.dataSource];
-            }
-        }
-    }
-    params.fields=fieldsList; params.fieldsSources=fieldsSources;
     if (!params.conditions) {
         resultCallback(tableData);
         return;
@@ -390,11 +463,8 @@ function _getDataForTable(params, resultCallback){
         resultCallback(tableData);
         return;
     }
-    _getSelectItems(params, function(err, recordset){
-        if(err) tableData.error="Failed get data for table! Reason:"+err.message;
-        tableData.items= recordset;
-        resultCallback(tableData);
-    });
+    params.tableData=tableData;
+    this.getDataItemsForTable(params, resultCallback);
 }
 
 /**

@@ -32,20 +32,29 @@ module.exports.init = function(app){
         {"data": "DOCSTATE_NAME", "name": "Статус", "width": 110, "type": "text", dataSource:"sys_docstates", sourceField:"NAME"}
     ];
     app.get("/wrh/ordersBata/getDataForWrhOrdersBataListTable", function(req, res){
+        var conditions={};
+        for(var condItem in req.query) conditions["wrh_orders_bata."+condItem]=req.query[condItem];
         wrhOrdersBata.getDataForTable({tableColumns:wrhOrdersBataListTableColumns,
                 identifier:wrhOrdersBataListTableColumns[0].data,
-                conditions:req.query},
+                conditions:conditions},
             function(result){
                 res.send(result);
             });
     });
 
     app.get("/wrh/ordersBata/getOrderBataData", function(req, res){
-        wrhOrdersBata.getDataItem({fields:["ID","NUMBER","DOCDATE","SUPPLIER_ORDER_NUM"],
-                conditions:req.query},
+        var conditions={};
+        for(var condItem in req.query) conditions["wrh_orders_bata."+condItem]=req.query[condItem];
+        wrhOrdersBata.getDataItemForTable({tableColumns:wrhOrdersBataListTableColumns,
+                conditions:conditions},
             function(result){
                 res.send(result);
             });
+        //wrhOrdersBata.getDataItem({fields:["ID","NUMBER","DOCDATE","SUPPLIER_ORDER_NUM"],
+        //        conditions:req.query},
+        //    function(result){
+        //        res.send(result);
+        //    });
         //res.send({});
     });
     app.get("/wrh/ordersBata/getNewOrderBataData", function(req, res){
