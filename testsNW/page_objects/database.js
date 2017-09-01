@@ -35,6 +35,7 @@ var databaseCommands = {
             };
         });
         return instance
+            .waitForElementVisible("@tableCell")
             .moveToElement("@tableCell", 15, 15);
     },
 
