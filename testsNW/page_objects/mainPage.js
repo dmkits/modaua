@@ -125,6 +125,7 @@ var mainPageCommands= {
             locateStrategy: 'xpath'
         };
         return instance
+            .waitForElementVisible('@tableCell')
             .moveToElement("@tableCell", 15, 15);
     },
     mouseButtonClick: function (btn) {
@@ -135,6 +136,16 @@ var mainPageCommands= {
     doubleClick: function (btn) {
         var instance = this;
         this.api.doubleClick(btn);
+        return instance;
+    },
+    mouseButtonDown: function (btn) {
+        var instance = this;
+        this.api.mouseButtonDown(btn);
+        return instance;
+    },
+    mouseButtonUp: function (btn) {
+        var instance = this;
+        this.api.mouseButtonUp(btn);
         return instance;
     },
     changeTickBtnStatus: function (tableID, RowNumber, ColumnNumber) {
@@ -235,6 +246,23 @@ module.exports = {
         otherContractorsBtn:{
             selector:'//div[@id="dir_contractors_TableDirContractors"] //span[contains(text(), "Прочие")]/ancestor::span[@role="button"]',
             locateStrategy:'xpath'
+        },
+
+        rightClickMenu:{
+            selector: '//div[contains(text(),"Добавить строки")]/ancestor::div[@class="ht_master handsontable"]',
+            locateStrategy: 'xpath'
+        },
+        rightClickAdd:{
+            selector: "//div[contains(text(),'Добавить строки')]",
+            locateStrategy: 'xpath'
+        },
+        rightClickChange:{
+            selector: "//div[contains(text(),'Изменить строки')]",
+            locateStrategy: 'xpath'
+        },
+        rightClickSave:{
+            selector: "//div[contains(text(),'Сохранить строки')]",
+            locateStrategy: 'xpath'
         }
     }
 };

@@ -28,15 +28,18 @@ var databaseCommands = {
     },
     moveToCell: function (table, RowNumber, ColumnNumber) {
         var instance = this;
-        getTableID(table, function (id) {
-            instance.elements.tableCell = {
-                selector: "//div[@id='" + id + "']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[" + RowNumber + "]/td[" + ColumnNumber + "]",
-                locateStrategy: 'xpath'
-            };
-        });
-        return instance
-            .waitForElementVisible("@tableCell")
-            .moveToElement("@tableCell", 15, 15);
+
+     //   instance.api.perform(function () {
+            getTableID(table, function (id) {
+                instance.elements.tableCell = {
+                    selector: "//div[@id='" + id + "']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[" + RowNumber + "]/td[" + ColumnNumber + "]",
+                    locateStrategy: 'xpath'
+                };
+
+            });
+       // });
+        return instance.waitForElementVisible("@tableCell",30000)
+                       .moveToElement("@tableCell", 15, 15);
     },
 
     scrollTableToValue: function (table, value) {   /// bug

@@ -46,7 +46,9 @@ module.exports= {
         serverConfig
             .waitForElementVisible('@dropDBBtn')
             .click("@dropDBBtn")
-            .authorizeAsAdmin();
+            .authorizeAsAdmin()
+            .waitForElementVisible('@dropDBResultField');
+           // .assert.containsText("@dropDBResultField", "dropped");
         mainHeader
             .click('@logoutBtn');
     },

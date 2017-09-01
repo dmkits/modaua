@@ -14,7 +14,7 @@ module.exports= {
         mainPage
             .navigate();
     },
-    'step_1.1 Validate DB': function (browser) {
+  /*  'step_1.1 Validate DB': function (browser) {
         browser.url('localhost:8181/sysadmin');
         var loginPage = browser.page.loginPage();
         loginPage.
@@ -52,6 +52,7 @@ module.exports= {
             .assert.containsText('@dbValidateState','success')
             .click("@logoutBtn");
     },
+    */
     'step_2 Login main page':function(browser){
         var loginPage = browser.page.loginPage();
         loginPage
@@ -62,7 +63,7 @@ module.exports= {
             .setValue("@userLoginPasswordInput",'user')
             .click("@loginDialog_submitBtn");
     },
-    'step_3 Main Header If  All Elements Visible Tests': function (browser) {
+ /*  'step_3 Main Header If  All Elements Visible Tests': function (browser) {
 
         browser.pause(2000);
 
@@ -300,7 +301,7 @@ module.exports= {
             .assertCellContainsText('dir_contractors', '1', '1', "Розничный покупатель")
             .assertCellContainsText('dir_contractors', '1', '2', "Розничный покупатель")
             .assertCellContainsText('dir_contractors', '1', '3', "Розничный покупатель")
-            .assertCellContainsText('dir_contractors', '1', '4', "")
+            .assertCellContainsText('dir_contractors', '1', '4', "Украина")
             .assertCellContainsText('dir_contractors', '1', '5', "Днепр")
     },
 
@@ -422,6 +423,96 @@ module.exports= {
            assert.containsText("@dir_contractors_TableDirContractors",'Поставщик 1');
        browser.expect.element('#dir_contractors_TableDirContractors').text.to.not.contain('Changed').after(500);
     },
+
+    */
+    'Right click menu tests add and save new rows': function (browser) {
+        var mainPage = browser.page.mainPage();
+        mainPage
+            .click('@menuBarPopupMenuMain')
+            .waitForElementVisible('@menuBarDirsItemUnits')
+            .click('@menuBarDirsItemUnits')
+            .moveToCell('dir_units',1,1)
+            .mouseButtonDown('left')
+            .moveToCell('dir_units',2,1)
+            .mouseButtonUp('left')
+            .mouseButtonClick('right')
+            .waitForElementVisible('@rightClickMenu')
+            .click('@rightClickAdd')
+            .cellSetValue('dir_units','4','1',"Name_4")
+            .cellSetValue('dir_units','4','2',"FULL_Name_4")
+            .cellSetValue('dir_units','4','3',"Note_4")
+            .cellSetValue('dir_units','4','4',"City_4")
+            .cellSetValue('dir_units','4','5',"Address_4")
+
+            .cellSetValue('dir_units','3','1',"Name_3")
+            .cellSetValue('dir_units','3','2',"FULL_Name_3")
+            .cellSetValue('dir_units','3','3',"Note_3")
+            .cellSetValue('dir_units','3','4',"City_3")
+            .cellSetValue('dir_units','3','5',"Address_3")
+
+          //  .moveToCell('dir_units',3,1)
+            .mouseButtonClick('right')
+            .waitForElementVisible('@rightClickMenu')
+            .click('@rightClickSave')
+
+            .moveToCell('dir_units',4,1)
+            .mouseButtonClick('right')
+            .waitForElementVisible('@rightClickMenu')
+            .click('@rightClickSave')
+            .clickRefreshBtnInTable('dir_units')
+            .assert.containsText('@dir_units_TableDirUnits', "Name_4")
+            .assert.containsText('@dir_units_TableDirUnits', "Name_3")
+    },
+    'Right click menu change rows': function (browser) {
+        var mainPage = browser.page.mainPage();
+        mainPage
+            .moveToCell('dir_units',3,1)
+            .mouseButtonDown('left')
+            .moveToCell('dir_units',4,1)
+            .mouseButtonUp('left')
+            .mouseButtonClick('right')
+            .waitForElementVisible('@rightClickMenu')
+            .click('@rightClickChange')
+            .cellSetValue('dir_units','4','1',"Name_4C")
+            .cellSetValue('dir_units','4','2',"FULL_Name_4C")
+            .cellSetValue('dir_units','4','3',"Note_4C")
+            .cellSetValue('dir_units','4','4',"City_4C")
+            .cellSetValue('dir_units','4','5',"Address_4C")
+
+            .cellSetValue('dir_units','3','1',"Name_3C")
+            .cellSetValue('dir_units','3','2',"FULL_Name_3C")
+            .cellSetValue('dir_units','3','3',"Note_3C")
+            .cellSetValue('dir_units','3','4',"City_3C")
+            .cellSetValue('dir_units','3','5',"Address_3C")
+
+            //  .moveToCell('dir_units',3,1)
+            .mouseButtonClick('right')
+            .waitForElementVisible('@rightClickMenu')
+            .click('@rightClickSave')
+
+            .moveToCell('dir_units',4,1)
+            .mouseButtonClick('right')
+            .waitForElementVisible('@rightClickMenu')
+            .click('@rightClickSave')
+            .clickRefreshBtnInTable('dir_units')
+            .assert.containsText('@dir_units_TableDirUnits', "Name_4C")
+            .assert.containsText('@dir_units_TableDirUnits', "Name_3C")
+    },
+    'Right click menu delete rows': function (browser) {
+        var mainPage = browser.page.mainPage();
+        mainPage
+            .moveToCell('dir_units',4,1)
+            .mouseButtonClick()
+            .clickDeleteBtn('dir_units')
+
+            .moveToCell('dir_units',3,1)
+            .mouseButtonClick()
+            .clickDeleteBtn('dir_units');
+
+        browser.expect.element('#dir_units_TableDirUnits').text.to.not.contain('Name_4C').after(500);
+        browser.expect.element('#dir_units_TableDirUnits').text.to.not.contain('Name_3C').after(500);
+    },
+
     'Logout': function (browser) {
         var mainPage = browser.page.mainPage();
         var loginPage = browser.page.loginPage();
@@ -431,5 +522,4 @@ module.exports= {
         loginPage
             .waitForElementVisible("@loginDialog");
     }
-
 };
