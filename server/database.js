@@ -1,10 +1,9 @@
 var fs = require('fs');
-//var sql = require('mssql');
-var mysqlDump = require('mysqldump');
-var MysqlTools= require('mysql-tools');
 var mysql      = require('mysql');
 var server = require('./server');
+var child_process = require('child_process');
 var log =server.log;
+var path=require('path');
 
 function getDBConfig(){
     var serverConfig= server.getServerConfig();
@@ -154,37 +153,43 @@ module.exports.isDBEmpty= function(DBName,callback) {
 };
 
 module.exports.backupDB= function(backupParam,callback) {
-    mysqlDump({
-        host: backupParam.host,
-        user: backupParam.user,
-        password: backupParam.password,
-        database: backupParam.database,
-        dest:'./backups/'+backupParam.fileName
-    },function (err) {
-            if (err) {
-                callback(err);
-                return;
-            }
-            callback(null,"Database "+backupParam.database+" backup saved to "+backupParam.fileName);
-        });
+    var filePath=path.join(__dirname+'/../backups/'+backupParam.fileName);
+    var command ='mysqldump -u ' + backupParam.user + ' --password="'+backupParam.password+'" --host='+backupParam.host +' '+backupParam.database+' --result-file='+filePath;               log.info("command=",command);
+
+    child_process.exec(command, function(err,stdout,stderr){
+        if(err){                                         log.error("err backupDB=", err);
+            callback(err);
+            return;
+        }
+        if(stdout){
+            console.log("stdout backupDB=",stdout);
+        }
+        if(stderr && stderr.indexOf("Warning")<0){       log.error("stderr backupDB=",stderr);
+            callback(stderr);
+            return;
+        }
+        callback(null,"Database "+backupParam.database+" backup saved to "+backupParam.fileName);
+    });
 };
 
 module.exports.restoreDB= function(restoreParams,callback) {
-    var tool = new MysqlTools();
-    tool.restoreDatabase({
-        host: restoreParams.host
-        , user: restoreParams.user
-        , password: restoreParams.password
-        , sqlFilePath: './backups/' + restoreParams.fileName
-        , database: restoreParams.database
-       // ,dropTable:true
-    }, function (error, output, message) {
-        if (error) {
-            console.log("restoreDatabase error=",error);
-            callback(error);
-        } else {
-            callback(null,message);
+
+    var filePath=path.join(__dirname+'/../backups/'+restoreParams.fileName);
+    var command ='mysql -u '+restoreParams.user+' --password="'+restoreParams.password+'" -h '+restoreParams.host+' '+restoreParams.database+' < '+ filePath;               log.info("command=",command);
+
+    child_process.exec(command, function(err,stdout,stderr){
+        if(err){                                                       log.error("err restoreDB=", err);
+            callback(err);
+            return;
         }
+        if(stdout){
+            console.log("stdout restoreDB=",stdout);
+        }
+        if(stderr && stderr.indexOf("Warning")<0){                      log.error("stderr restoreDB=",stderr);
+            callback(stderr);
+            return;
+        }
+        callback(null,"Database "+restoreParams.database+" restored successfully!");
     });
 };
 

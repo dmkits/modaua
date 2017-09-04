@@ -308,7 +308,7 @@ module.exports.init = function(app){
                         }
                     }
                     database.backupDB(backupParam, function (err, ok) {
-                        if (err) {                                                  clog.error("checkIfDBExists err=", err);
+                        if (err) {                                                  log.error("checkIfDBExists err=", err);
                             outData.error = err.message;
                             res.send(outData);
                             return;
