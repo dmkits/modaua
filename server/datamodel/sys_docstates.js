@@ -16,13 +16,19 @@ var changeLog= [
         "changeVal":"ALTER TABLE sys_docstates ADD COLUMN NOTE VARCHAR(255) NOT NULL",
         "field":"NOTE" },
     { "changeID":"sys_docstates__7", "changeDatetime":"2016-08-30T09:07:00.000+0300", "changeObj":"sys_docstates",
-        "changeVal":"INSERT INTO sys_docstates(ID,ALIAS,NAME,NOTE) values(0,'saved','Документ сохранен','Документ сохранен')"},
+        "changeVal":
+            "INSERT INTO sys_docstates(ID,ALIAS,NAME,NOTE)" +
+                " values(0,'saved','Документ сохранен','Документ сохранен')"},
     { "changeID":"sys_docstates__8", "changeDatetime":"2016-08-30T09:08:00.000+0300", "changeObj":"sys_docstates",
-        "changeVal":"INSERT INTO sys_docstates(ID,ALIAS,NAME,NOTE) values(-255,'deleted','Документ удален','Документ удален (помечен на удаление)')"},
+        "changeVal":
+            "INSERT INTO sys_docstates(ID,ALIAS,NAME,NOTE)" +
+                " values(-255,'deleted','Документ удален','Документ удален (помечен на удаление)')"},
     { "changeID":"sys_docstates__9", "changeDatetime":"2016-08-30T09:09:00.000+0300", "changeObj":"sys_docstates",
-        "changeVal":"INSERT INTO sys_docstates(ID,ALIAS,NAME,NOTE) values(1,'conducted','Документ проведен','Документ проведен')"},
+        "changeVal":"INSERT INTO sys_docstates(ID,ALIAS,NAME,NOTE)" +
+            " values(1,'conducted','Документ проведен','Документ проведен')"},
     { "changeID":"sys_docstates_10", "changeDatetime":"2016-08-30T09:10:00.000+0300", "changeObj":"sys_docstates",
-        "changeVal":"INSERT INTO sys_docstates(ID,ALIAS,NAME,NOTE) values(-1,'not_conducted','Документ не проведен (ошибка)','Документ не проведен (ошибка проведения)')"}
+        "changeVal":"INSERT INTO sys_docstates(ID,ALIAS,NAME,NOTE)" +
+            " values(-1,'not_conducted','Документ не проведен (ошибка)','Документ не проведен (ошибка проведения)')"}
 ];
 module.exports.changeLog=changeLog;
 

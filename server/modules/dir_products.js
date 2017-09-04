@@ -47,4 +47,10 @@ module.exports.init = function(app){
                 res.send(result);
             });
     });
-};
+
+    app.get("/dir/products/getProductsCollectionsForSelect", function (req, res) {
+        dirProductsCollections.getDataItemsForSelect({ valueField:"NAME",labelField:"NAME", order: "NAME" },
+            function (result) {
+                res.send(result);
+            });
+    });};

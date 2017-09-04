@@ -16,7 +16,8 @@
     "mainPage",
     "dir_units",
     "dir_contractors",
-    "dir_products"
+    "dir_products",
+    "wrh_pinvoices"
   ],
   "appMenu":[
     { "menuTitle":"Главная страница", "menuItemName":"menuBarItemMainPage", "pageTitle":"Главная страница", "module":"mainPage", "closable":false},
@@ -30,13 +31,13 @@
       ]},
     { "menuItemName":"menuBarWrh", "menuTitle":"Склад",
       "popupMenu":[
-        { "menuItemName":"menuBarWrhPInvoice", "menuTitle":"Приходные накладные", "pageTitle":"Приходные накладные", "module":"wrh_pinvoices", "closable":true},
+        { "menuItemName":"menuBarWrhPInvoices", "menuTitle":"Приходные накладные", "pageTitle":"Приходные накладные", "module":"wrh_pinvoices", "closable":true},
         { "menuItemName":"separator_wrh1"},
-        {"menuItemName":"menuBarWrhInvoice", "menuTitle":"Расходные накладные", "pageTitle":"Расходные накладные", "module":"wrh_invoices", "closable":true},
-        {"menuItemName":"menuBarWrhRetInvoice", "menuTitle":"Возвратные накладные", "pageTitle":"Возвратные накладные", "module":"wrh_ret_invoices", "closable":true},
+        {"menuItemName":"menuBarWrhInvoices", "menuTitle":"Расходные накладные", "pageTitle":"Расходные накладные", "module":"wrh_invoices", "closable":true},
+        {"menuItemName":"menuBarWrhRetInvoices", "menuTitle":"Возвратные накладные", "pageTitle":"Возвратные накладные", "module":"wrh_ret_invoices", "closable":true},
         { "menuItemName":"separator_wrh2"},
-        { "menuItemName":"menuBarWrhBalance", "menuTitle":"Остатки товара", "pageTitle":"Остатки товара", "module":"wrh_prods_balance", "closable":true},
-        { "menuItemName":"menuBarWrhMoves", "menuTitle":"Движение товаров", "pageTitle":"Движение товаров", "module":"wrh_prods_moves", "closable":true}
+        { "menuItemName":"menuBarWrhProdsBalance", "menuTitle":"Остатки товара", "pageTitle":"Остатки товара", "module":"wrh_prods_balance", "closable":true},
+        { "menuItemName":"menuBarWrhProdsMoves", "menuTitle":"Движение товаров", "pageTitle":"Движение товаров", "module":"wrh_prods_moves", "closable":true}
       ]},
     { "menuTitle":"Отчеты кассира", "menuItemName":"menuBarItemSalesCashier", "pageTitle":"Отчеты кассира", "module":"sales_cashier", "closable":false},
     { "menuItemName":"menuBarPopupMenuSales", "menuTitle":"Продажи",
@@ -57,7 +58,7 @@
   },
   "usersRoleAutorun":{
     "admin":["menuBarItemMainPage","menuBarWrhPInvoice"],
-    "adminDev":["menuBarItemMainPage","menuBarDirsItemUnits","menuBarDirsItemProducts"],
+    "adminDev":["menuBarItemMainPage","menuBarDirsItemUnits","menuBarDirsItemProducts","menuBarWrhPInvoices"],
     "user":["menuBarItemMainPage"],
     "cashier":["menuBarItemSalesCashier"]
   }

@@ -23,8 +23,12 @@ var changeLog=[
         "changeVal": "ALTER TABLE dir_units ADD COLUMN NOT_USED SMALLINT NOT NULL",
         "field":"NOT_USED" },
     { "changeID": "dir_units__9", "changeDatetime": "2016-08-29T11:49:00+03:00", "changeObj": "dir_units",
-        "changeVal": "INSERT INTO dir_units(ID,NAME,FULL_NAME,NOTE,CITY,ADDRESS,NOT_USED) values (0,'Гл.офис','офис','офис','Днипро','Днипро',0)" },
+        "changeVal":
+            "INSERT INTO dir_units(ID,NAME,FULL_NAME,NOTE,CITY,ADDRESS,NOT_USED)" +
+                " values (0,'Гл.офис','офис','офис','Днипро','Днипро',0)" },
     { "changeID": "dir_units_10", "changeDatetime": "2016-08-29T11:50:00+03:00", "changeObj": "dir_units",
-        "changeVal": "INSERT INTO dir_units(ID,NAME,FULL_NAME,NOTE,CITY,ADDRESS,NOT_USED) values (1,'Магазин 1','Магазин 1','Магазин 1','Днипро','Днипро',0);" }
+        "changeVal":
+            "INSERT INTO dir_units(ID,NAME,FULL_NAME,NOTE,CITY,ADDRESS,NOT_USED)" +
+                " values (1,'Магазин 1','Магазин 1','Магазин 1','Днипро','Днипро',0);" }
 ];
 module.exports.changeLog=changeLog;

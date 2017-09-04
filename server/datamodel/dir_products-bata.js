@@ -33,26 +33,26 @@ var changeLog=[
     "changeVal": "ALTER TABLE dir_products ADD COLUMN KIND_ID BIGINT UNSIGNED NOT NULL",
     "field":"KIND_ID" },
   { "changeID": "dir_products_17", "changeDatetime": "2016-09-09T16:12:00+03:00", "changeObj": "dir_products",
-    "changeVal": "ALTER TABLE dir_products ADD CONSTRAINT DIR_PRODUCTS_KIND_ID_FK"
-    +" FOREIGN KEY (KIND_ID) REFERENCES dir_products_kinds(ID)" },
+    "changeVal": "ALTER TABLE dir_products ADD CONSTRAINT DIR_PRODUCTS_KIND_ID_FK" +
+        " FOREIGN KEY (KIND_ID) REFERENCES dir_products_kinds(ID)" },
   { "changeID": "dir_products_18", "changeDatetime": "2016-09-09T16:31:00+03:00", "changeObj": "dir_products",
     "changeVal": "ALTER TABLE dir_products ADD COLUMN COMPOSITION_ID BIGINT UNSIGNED NOT NULL",
     "field":"COMPOSITION_ID" },
   { "changeID": "dir_products_19", "changeDatetime": "2016-09-09T16:32:00+03:00", "changeObj": "dir_products",
-    "changeVal": "ALTER TABLE dir_products ADD CONSTRAINT DIR_PRODUCTS_COMPOSITION_ID_FK"
-    +" FOREIGN KEY (COMPOSITION_ID) REFERENCES dir_products_compositions(ID)" },
+    "changeVal": "ALTER TABLE dir_products ADD CONSTRAINT DIR_PRODUCTS_COMPOSITION_ID_FK" +
+        " FOREIGN KEY (COMPOSITION_ID) REFERENCES dir_products_compositions(ID)" },
   { "changeID": "dir_products_20", "changeDatetime": "2016-09-10T20:11:00+03:00", "changeObj": "dir_products",
     "changeVal": "ALTER TABLE dir_products ADD COLUMN SIZE_ID BIGINT UNSIGNED NOT NULL",
     "field":"SIZE_ID" },
   { "changeID": "dir_products_21", "changeDatetime": "2016-09-10T20:12:00+03:00", "changeObj": "dir_products",
-    "changeVal": "ALTER TABLE dir_products ADD CONSTRAINT DIR_PRODUCTS_SIZE_ID_FK"
-    +" FOREIGN KEY (SIZE_ID) REFERENCES dir_products_sizes(ID)" },
+    "changeVal": "ALTER TABLE dir_products ADD CONSTRAINT DIR_PRODUCTS_SIZE_ID_FK" +
+        " FOREIGN KEY (SIZE_ID) REFERENCES dir_products_sizes(ID)" },
   { "changeID": "dir_products_24", "changeDatetime": "2016-09-12T09:41:00+03:00", "changeObj": "dir_products",
     "changeVal": "ALTER TABLE dir_products ADD COLUMN COLLECTION_ID BIGINT UNSIGNED NOT NULL",
     "field":"COLLECTION_ID" },
   { "changeID": "dir_products_25", "changeDatetime": "2016-09-12T09:42:00+03:00", "changeObj": "dir_products",
-    "changeVal": "ALTER TABLE dir_products ADD CONSTRAINT DIR_PRODUCTS_COLLECTION_ID_FK"
-    +" FOREIGN KEY (COLLECTION_ID) REFERENCES dir_products_collections(ID)" }
+    "changeVal": "ALTER TABLE dir_products ADD CONSTRAINT DIR_PRODUCTS_COLLECTION_ID_FK" +
+        " FOREIGN KEY (COLLECTION_ID) REFERENCES dir_products_collections(ID)" }
 ];
 module.exports.changeLog=changeLog;
 

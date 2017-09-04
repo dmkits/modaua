@@ -17,4 +17,4 @@ module.exports.init = function(app) {
                 res.send(result);
             });
     });
-}
+};

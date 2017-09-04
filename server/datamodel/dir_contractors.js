@@ -30,11 +30,11 @@ var changeLog = [
     "field":"COUNTRY" },
   { "changeID": "dir_contractors_11", "changeDatetime": "2016-09-12T00:06:00+03:00", "changeObj": "dir_contractors",
     "changeVal":
-        "INSERT INTO dir_contractors (ID,NAME,FULL_NAME,NOTE,COUNTRY,CITY,ADDRESS,IS_SUPPLIER,IS_BUYER) "
-        +"values (0,'Розничный покупатель','Розничный покупатель','Розничный покупатель','Украина','Днепр','-',0,1)" },
+        "INSERT INTO dir_contractors (ID,NAME,FULL_NAME,NOTE,COUNTRY,CITY,ADDRESS,IS_SUPPLIER,IS_BUYER) " +
+            "values (0,'Розничный покупатель','Розничный покупатель','Розничный покупатель','Украина','Днепр','-',0,1)" },
   { "changeID": "dir_contractors_12", "changeDatetime": "2016-09-12T00:07:00+03:00", "changeObj": "dir_contractors",
     "changeVal":
-        "INSERT INTO dir_contractors (ID,NAME,FULL_NAME,NOTE,COUNTRY,CITY,ADDRESS,IS_SUPPLIER,IS_BUYER) "
-        +"values (1,'Поставщик 1','Поставщик 1','Поставщик 1','Украина','Днепр','-',1,0)" }
+        "INSERT INTO dir_contractors (ID,NAME,FULL_NAME,NOTE,COUNTRY,CITY,ADDRESS,IS_SUPPLIER,IS_BUYER) " +
+            "values (1,'Поставщик 1','Поставщик 1','Поставщик 1','Украина','Днепр','-',1,0)" }
 ];
 module.exports.changeLog=changeLog;
