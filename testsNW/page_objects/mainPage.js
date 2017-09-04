@@ -162,7 +162,20 @@ var mainPageCommands= {
                 instance.api.keys(' ');
             });
         return this;
+    },
+    pressPrintBtnForTableID: function (tableID) {
+        var instance = this;
+        this.api.perform(function () {console.log("pressPrintBtnForTableID");});
+        this.elements.printBtn = {
+            selector: '//div[@id="' + tableID + '_ContentContainer"]//span[contains(text(), "Печатать")]',
+            locateStrategy: 'xpath'
+        };
+        instance
+            .waitForElementVisible("@printBtn")
+            .click("@printBtn");
+        return this;
     }
+
 };
 
 module.exports = {

@@ -425,13 +425,14 @@ module.exports= {
     },
 
     */
+
     'Right click menu tests add and save new rows': function (browser) {
         var mainPage = browser.page.mainPage();
         mainPage
             .click('@menuBarPopupMenuMain')
             .waitForElementVisible('@menuBarDirsItemUnits')
-            .click('@menuBarDirsItemUnits')
-            .moveToCell('dir_units',1,1)
+            .click('@menuBarDirsItemUnits');
+          /*  .moveToCell('dir_units',1,1)
             .mouseButtonDown('left')
             .moveToCell('dir_units',2,1)
             .mouseButtonUp('left')
@@ -462,8 +463,9 @@ module.exports= {
             .clickRefreshBtnInTable('dir_units')
             .assert.containsText('@dir_units_TableDirUnits', "Name_4")
             .assert.containsText('@dir_units_TableDirUnits', "Name_3")
+            */
     },
-    'Right click menu change rows': function (browser) {
+ /*  'Right click menu change rows': function (browser) {
         var mainPage = browser.page.mainPage();
         mainPage
             .moveToCell('dir_units',3,1)
@@ -512,12 +514,65 @@ module.exports= {
         browser.expect.element('#dir_units_TableDirUnits').text.to.not.contain('Name_4C').after(500);
         browser.expect.element('#dir_units_TableDirUnits').text.to.not.contain('Name_3C').after(500);
     },
+    */
+    'Print table tests': function (browser) {
+        var mainPage = browser.page.mainPage();
+        mainPage
+            .pressPrintBtnForTableID('dir_units');
+        browser
+        .windowHandles(function(result) {
+            var newWindow;
+            this.verify.equal(result.value.length, 2, 'There should be 2 windows   open');
+            newWindow = result.value[1];
+            this.switchWindow(newWindow);
+            this.verify.urlContains('http://localhost:8181/print/printSimpleDocument');
+        });
 
-    'Logout': function (browser) {
+
+        var printTable = browser.page.printTable();
+        printTable
+            .waitForElementVisible('@tableTitle')   //tableBottom
+            .assert.containsText('@tableTitle','Подразделения')
+            .waitForElementVisible('@tableBottom')
+            .assert.containsText('@tableBottom','ИТОГО строк:')
+            .assert.containsText('@tableBottom','2')
+/*
+            .assertDataTableHeaderContainsText(1,"Наименование")
+            .assertDataTableHeaderContainsText(2,"Полное наименование")
+            .assertDataTableHeaderContainsText(3,"Примечание")
+            .assertDataTableHeaderContainsText(4,"Город")
+            .assertDataTableHeaderContainsText(5,"Адрес")
+            .assertDataTableHeaderContainsText(6,"Не используется")
+
+            .assertDataTableCellContainsText(1,1,"Гл.офис")
+            .assertDataTableCellContainsText(1,2,"офис")
+            .assertDataTableCellContainsText(1,3,"офис")
+            .assertDataTableCellContainsText(1,4,"Днипро")
+            .assertDataTableCellContainsText(1,5,"Днипро")
+            .assertDataTableCellContainsText(1,6,"0")
+
+            .assertDataTableCellContainsText(2,1,"Магазин 1")
+            .assertDataTableCellContainsText(2,2,"Магазин 1")
+            .assertDataTableCellContainsText(2,3,"Магазин 1")
+            .assertDataTableCellContainsText(2,4,"Днипро")
+            .assertDataTableCellContainsText(2,5,"Днипро")
+            .assertDataTableCellContainsText(2,6,"0");
+*/
+        browser
+            .windowHandles(function(result) {
+                var oldWindow;
+                this.verify.equal(result.value.length, 2, 'There should be 2 windows   open');
+                oldWindow = result.value[0];
+                this.switchWindow(oldWindow);
+                this.verify.urlEquals('http://localhost:8181/');
+            });
+    }
+    ,'Logout': function (browser) {
         var mainPage = browser.page.mainPage();
         var loginPage = browser.page.loginPage();
 
         mainPage
+        .waitForElementVisible("@menuBarItemCloseItem")
             .click('@menuBarItemCloseItem');
         loginPage
             .waitForElementVisible("@loginDialog");

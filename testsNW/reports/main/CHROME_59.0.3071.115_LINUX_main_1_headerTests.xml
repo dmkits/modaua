@@ -5,33 +5,12 @@
 
   <testsuite name="main.main_1_headerTests"
     errors="0" failures="0" hostname="" id="" package="main" skipped="0"
-    tests="5" time="21.60" timestamp="Fri, 01 Sep 2017 15:16:43 GMT">
+    tests="5" time="10.60" timestamp="Mon, 04 Sep 2017 08:51:00 GMT">
   
-    <testcase name="step_1 Open browser" classname="main.main_1_headerTests" time="3.889" assertions="0">
+    <testcase name="step_1 Open browser" classname="main.main_1_headerTests" time="5.297" assertions="0">
     </testcase>
   
-    <testcase name="step_2 Login main page" classname="main.main_1_headerTests" time="0.8520" assertions="3">
-
-    
-
-    
-
-    
-    </testcase>
-  
-    <testcase name="Right click menu tests add and save new rows" classname="main.main_1_headerTests" time="9.391" assertions="9">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
+    <testcase name="step_2 Login main page" classname="main.main_1_headerTests" time="0.8980" assertions="3">
 
     
 
@@ -40,7 +19,16 @@
     
     </testcase>
   
-    <testcase name="Right click menu change rows" classname="main.main_1_headerTests" time="5.872" assertions="8">
+    <testcase name="Right click menu tests add and save new rows" classname="main.main_1_headerTests" time="1.545" assertions="1">
+
+    
+    </testcase>
+  
+    <testcase name="Print table tests" classname="main.main_1_headerTests" time="2.008" assertions="10">
+
+    
+
+    
 
     
 
@@ -59,11 +47,7 @@
     
     </testcase>
   
-    <testcase name="Right click menu delete rows" classname="main.main_1_headerTests" time="1.598" assertions="4">
-
-    
-
-    
+    <testcase name="Logout" classname="main.main_1_headerTests" time="0.8500" assertions="2">
 
     
 
