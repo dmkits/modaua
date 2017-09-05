@@ -1,14 +1,16 @@
 var dataModel=require('../datamodel');
-var dirProducts= require(appDataModelPath+"dir_products");
-var dirProductsArticles= require(appDataModelPath+"dir_products_articles");
-var dirProductsKinds= require(appDataModelPath+"dir_products_kinds");
-var dirProductsCompositions= require(appDataModelPath+"dir_products_compositions");
-var dirProductsSizes= require(appDataModelPath+"dir_products_sizes");
-var dirProductsCollections= require(appDataModelPath+"dir_products_collections");
+var dirProducts= require(appDataModelPath+"dir_products"),
+    dirProductsBarcodes= require(appDataModelPath+"dir_products_barcodes");
+var dirProductsArticles= require(appDataModelPath+"dir_products_articles"),
+    dirProductsKinds= require(appDataModelPath+"dir_products_kinds"),
+    dirProductsCompositions= require(appDataModelPath+"dir_products_compositions"),
+    dirProductsSizes= require(appDataModelPath+"dir_products_sizes"),
+    dirProductsCollections= require(appDataModelPath+"dir_products_collections");
 //var dirProductsBarcodes= require(appDataModelPath+"dir_products_barcodes");
 
 module.exports.validateModule = function(errs, nextValidateModuleCallback){
     dataModel.initValidateDataModels({"dir_products":dirProducts,
+            "dir_products_barcodes":dirProductsBarcodes,
             "dir_products_articles":dirProductsArticles,
             "dir_products_kinds":dirProductsKinds, "dir_products_compositions":dirProductsCompositions, "dir_products_sizes":dirProductsSizes,
             "dir_products_collections":dirProductsCollections},

@@ -5,7 +5,7 @@ var dirUnits= require(appDataModelPath+"dir_units"), dirContractors= require(app
     dirProdsCollections= require(appDataModelPath+"dir_products_collections");
 
 module.exports.validateModule = function(errs, nextValidateModuleCallback){
-    dataModel.initValidateDataModels({"wrh_pinvs":wrhPInvs/*,"wrh_pinvs_products":wrhPInvsProducts*/},
+    dataModel.initValidateDataModels({"wrh_pinvs":wrhPInvs,"wrh_pinvs_products":wrhPInvsProducts},
         errs,
         function(){
             nextValidateModuleCallback();
@@ -115,13 +115,8 @@ module.exports.init = function(app){
                         sysDocStates.getDataItem({fields:["ID"],conditions:{"NAME=":storeData["DOCSTATE_NAME"]}}, function(result){
                             if(result.item) docStateID=result.item["ID"];
                             storeData["DOCSTATE_ID"]=docStateID;
-                            var storeTableData={};
                             wrhPInvs.storeTableDataItem({tableColumns:wrhPInvsListTableColumns, idFieldName:"ID", storeTableData:storeData},
                                 function(result){
-                                    //if(!result.resultItem){
-                                    //
-                                    //    return;
-                                    //}
                                     res.send(result);
                                 });
                         });
@@ -136,27 +131,25 @@ module.exports.init = function(app){
             function(result){
                 res.send(result);
             });
-        //res.send({});
-        //wrhOrdersBataView.getDataForWrhOrdersBataListTable(req.query, function(result){
-        //    res.send(result);
-        //});
     });
 
     var wrhPInvProductsTableColumns=[
         {"data": "ID", "name": "ID", "width": 50, "type": "text", readOnly:true, visible:false},
         {"data": "PINV_ID", "name": "PINV_ID", "width": 50, "type": "text", readOnly:true, visible:false},
-        {"data": "POSIND", "name": "Номер п/п", "width": 45, "type": "text"},
-        {"data": "PRODUCT_ID", "name": "Код группы", "width": 50, "type": "text"},
-
-        {"data": "BARCODE", "name": "Код подкатегории", "width": 75, "type": "text"},
-        {"data": "BATCH_NUMBER", "name": "Артикул", "width": 80, "type": "text"},
-
+        {"data": "POSIND", "name": "POSIND", "width": 45, "type": "numeric", visible:false},
+        {"data": "POS", "name": "Номер п/п", "width": 45, "type": "numeric", dataFunction:"TRUNCATE(POSIND,0)"},
+        {"data": "PRODUCT_ID", "name": "PRODUCT_ID", "width": 50, "type": "text", visible:false},
+        {"data": "PRODUCT_CODE", "name": "Код товара", "width": 65, "type": "text", dataSource:"dir_products", dataField:"CODE"},
+        {"data": "BARCODE", "name": "Штрихкод", "width": 75, "type": "text", visible:false},
+        {"data": "PRODUCT_NAME", "name": "Товар", "width": 250, "type": "text", dataSource:"dir_products", dataField:"NAME"},
+        {"data": "PRODUCT_UM", "name": "Ед.изм.", "width": 55, "type": "text", dataSource:"dir_products", dataField:"UM"},
         {"data": "QTY", "name": "Кол-во", "width": 50, "type": "numeric"},
-        {"data": "PRICE", "name": "Цена Retail", "width": 60, "type": "numeric2"},
-        {"data": "FACTOR", "name": "Цена", "width": 60, "type": "numeric2"},
-        {"data": "SALE_PRICE", "name": "Цена", "width": 60, "type": "numeric2"},
-
-        {"data": "POSSUM", "name": "Сумма", "width": 80, "type": "numeric2"}
+        {"data": "PRICE", "name": "Цена", "width": 60, "type": "numeric2"},
+        {"data": "POSSUM", "name": "Сумма", "width": 80, "type": "numeric2"},
+        {"data": "FACTOR", "name": "Коэфф.", "width": 60, "type": "numeric2"},
+        {"data": "SALE_PRICE", "name": "Цена продажи", "width": 75, "type": "numeric2"},
+        {"data": "PRICELIST_PRICE", "name": "Цена по прайс-листу", "width": 75, "type": "numeric2"},
+        {"data": "BATCH_NUMBER", "name": "BATCH_NUMBER", "width": 60, "type": "numeric", visible:false}
     ];
     app.get("/wrh/pInvoices/getDataForPInvProductsTable", function(req, res){
         wrhPInvsProducts.getDataForTable({tableColumns:wrhPInvProductsTableColumns,

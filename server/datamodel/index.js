@@ -84,8 +84,9 @@ function initValidateDataModel(dataModelName, dataModel, errs, nextValidateDataM
     dataModel.fieldsMetadata=tableFields;
     dataModel.joinedSources=joinedSources;                                                              log.debug('Init data model '+dataModel.sourceType+":"+dataModel.source+" joined sources:",dataModel.joinedSources,{});//test
     if(!dataModel.idField)                                                                              log.warn('NO id filed name in data model '+dataModel.sourceType+":"+dataModel.source+"! Model cannot used functions insert/update/delete!");//test
-
-    dataModel.getDataItems({conditions:{"ID is NULL":null}},function(result){
+    var validateCondition={};
+    validateCondition[tableFieldsList[0]+" is NULL"]=null;
+    dataModel.getDataItems({conditions:validateCondition},function(result){
         if(result.error) {                                                                              log.error('FAILED validate data model:'+dataModelName+"! Reason:"+result.error+"!");//test
             errs[dataModelName+"_validateError"]="Failed validate dataModel:"+dataModelName+"! Reason:"+result.error;
         }
@@ -110,7 +111,6 @@ module.exports.initValidateDataModels=function(dataModels, errs, resultCallback)
     };
     validateDataModelCallback(dataModelsList, 0, errs);
 };
-
 
 /**
  * params = { source,
