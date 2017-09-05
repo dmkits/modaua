@@ -117,9 +117,9 @@ module.exports.initValidateDataModels=function(dataModels, errs, resultCallback)
  *      fields = [ <sourceFieldName> or <functionFieldName>, ... ],
  *      fieldsSources = { <sourceFieldName>:<sourceName>.<sourceFieldName>, ... },
  *      fieldsFunctions = {
- *          <sourceFieldName>:{
- *              function:<function>, source:<functionSource>, sourceField:<functionSourceField>, fields:[ <functionBodySourceFieldName> ]
- *           },
+ *          <sourceFieldName>:
+ *              "<function>" OR
+ *              { function:<function>, source:<functionSource>, sourceField:<functionSourceField>, fields:[ <functionBodySourceFieldName> ] },
  *      ... },
  *      joinedSources = { <sourceName>:<linkConditions> = { <linkCondition>:null or <linkCondition>:<value>, ... } },
  *      conditions={ <condition>:<conditionValue>, ... } OR conditions=[ { fieldName:"...", condition:"...", value:"..." }, ... ],
@@ -149,13 +149,16 @@ function _getSelectItems(params, resultCallback){
             fieldName= params.fieldsSources[fieldName]+" as "+fieldName;
         } else if(params.fieldsFunctions&&params.fieldsFunctions[fieldName]){
             var fieldFunctionData= params.fieldsFunctions[fieldName];
-            if(fieldFunctionData.function=="maxPlus1")
-                fieldFunction="COALESCE(MAX("+((fieldFunctionData.source)?fieldFunctionData.source+".":"")+fieldFunctionData.sourceField+")+1,1)";
-            else if(fieldFunctionData.function=="concat"&&fieldFunctionData.fields) {
-                for(var ind in fieldFunctionData.fields){
-                    fieldFunction= (!fieldFunction)?fieldFunctionData.fields[ind]:fieldFunction+","+fieldFunctionData.fields[ind];
+            if(typeof(fieldFunctionData)=="string") fieldFunction= fieldFunctionData;
+            else if(typeof(fieldFunctionData)=="object") {
+                if(fieldFunctionData.function=="maxPlus1")
+                    fieldFunction="COALESCE(MAX("+((fieldFunctionData.source)?fieldFunctionData.source+".":"")+fieldFunctionData.sourceField+")+1,1)";
+                else if(fieldFunctionData.function=="concat"&&fieldFunctionData.fields) {
+                    for(var ind in fieldFunctionData.fields){
+                        fieldFunction= (!fieldFunction)?fieldFunctionData.fields[ind]:fieldFunction+","+fieldFunctionData.fields[ind];
+                    }
+                    fieldFunction="CONCAT("+fieldFunction+")";
                 }
-                fieldFunction="CONCAT("+fieldFunction+")";
             }
         }
         queryFields+= ((fieldFunction)?fieldFunction+" as ":"") + fieldName;
@@ -313,7 +316,7 @@ function _setDataItem(params, resultCallback){
  * params = { source,
  *      tableColumns = [
  *          {data:<sourceFieldName>, name:<tableColumnHeader>, width:<tableColumnWidth>, type:<dataType>, readOnly:true/false, visible:true/false,
- *                dataSource:<sourceName>, sourceField:<sourceFieldName> },
+ *                dataSource:<sourceName>, dataField:<sourceFieldName> },
  *          ...
  *      ],
  *      conditions={ <condition>:<conditionValue>, ... },
@@ -345,21 +348,26 @@ function _getDataItemsForTable(params, resultCallback){
     var fieldsList=[], fieldsSources={}, fieldsFunctions;
     for(var i in params.tableColumns) {
         var tableColumnData=params.tableColumns[i], fieldName=tableColumnData.data;
-        if(this.fieldsMetadata&&this.fieldsMetadata[fieldName]) fieldsList.push(fieldName);
-        else if(!this.fieldsMetadata) fieldsList.push(fieldName);
-        if(tableColumnData.dataSource){
+
+        if(this.fieldsMetadata&&this.fieldsMetadata[fieldName]) {
             fieldsList.push(fieldName);
-            if(tableColumnData.sourceField)
-                fieldsSources[fieldName]=tableColumnData.dataSource+"."+tableColumnData.sourceField;
-            else if(tableColumnData.sourceFieldFunction) {
-                if(!fieldsFunctions)fieldsFunctions={};
-                fieldsFunctions[fieldName]= tableColumnData.sourceFieldFunction;
-            } else
-                fieldsSources[fieldName]=tableColumnData.dataSource+"."+tableColumnData.data;
-            if(this.joinedSources[tableColumnData.dataSource]){
-                if(!params.joinedSources) params.joinedSources={};
-                params.joinedSources[tableColumnData.dataSource]=this.joinedSources[tableColumnData.dataSource];
-            }
+            if(tableColumnData.dataSource&&tableColumnData.dataField)
+                fieldsSources[fieldName]=tableColumnData.dataSource+"."+tableColumnData.dataField;
+            else if(tableColumnData.dataSource)
+                fieldsSources[fieldName]=tableColumnData.dataSource+"."+fieldName;
+        } else if(tableColumnData.dataField){
+            fieldsList.push(fieldName);
+            if(tableColumnData.dataSource) fieldsSources[fieldName]=tableColumnData.dataSource+"."+tableColumnData.dataField;
+            else fieldsSources[fieldName]=tableColumnData.dataSource+"."+fieldName;
+        } else if(tableColumnData.dataFunction){
+            fieldsList.push(fieldName);
+            if(!fieldsFunctions)fieldsFunctions={};
+            fieldsFunctions[fieldName]= tableColumnData.dataFunction;
+        } else if(!this.fieldsMetadata)
+            fieldsList.push(fieldName);
+        if(tableColumnData.dataSource && this.joinedSources&&this.joinedSources[tableColumnData.dataSource]){
+            if(!params.joinedSources) params.joinedSources={};
+            params.joinedSources[tableColumnData.dataSource]=this.joinedSources[tableColumnData.dataSource];
         }
     }
     params.fields=fieldsList; params.fieldsSources=fieldsSources; params.fieldsFunctions=fieldsFunctions;
@@ -434,7 +442,7 @@ function _fillDataTypeForTableColumns(tableColumns){
  * params = { source,
  *      tableColumns = [
  *          {data:<sourceFieldName>, name:<tableColumnHeader>, width:<tableColumnWidth>, type:<dataType>, readOnly:true/false, visible:true/false,
- *                dataSource:<sourceName>, sourceField:<sourceFieldName> },
+ *                dataSource:<sourceName>, dataField:<sourceFieldName> },
  *          ...
  *      ],
  *      identifier= <sourceIDFieldName>,
@@ -654,6 +662,10 @@ function _insTableDataItem(params, resultCallback) {
         resultCallback({ error:"Failed insert table data item! Reason:no id field name!"});
         return;
     }
+    if (!params.tableColumns) {                                                                             log.error("FAILED _insTableDataItem "+params.tableName+"! Reason: no table columns!");//test
+        resultCallback({ error:"Failed insert table data item! Reason:no table columns!"});
+        return;
+    }
     params.insData={};
     if(this.fields){
         for(var i in this.fields){
@@ -661,6 +673,7 @@ function _insTableDataItem(params, resultCallback) {
             params.insData[fieldName]=(params.insTableData[fieldName]==undefined)?null:params.insTableData[fieldName];
         }
     } else params.insData=params.insTableData;                                                      console.log("_insTableDataItem params.insData",params.insData);
+    var thisInstance=this;
     _insDataItem(params, function(insResult){
         if(insResult.error){
             resultCallback(insResult);
@@ -668,9 +681,8 @@ function _insTableDataItem(params, resultCallback) {
         }
         var resultFields=[];
         for(var fieldName in params.insTableData) resultFields.push(fieldName);
-        var getResultConditions={}; getResultConditions[idFieldName+"="]=params.insTableData[idFieldName];
-        //_getDataItemForTable
-        _getDataItem({source:params.tableName, fields:resultFields, conditions:getResultConditions},
+        var getResultConditions={}; getResultConditions[params.tableName+"."+idFieldName+"="]=params.insTableData[idFieldName];
+        thisInstance.getDataItemForTable({source:params.tableName, tableColumns:params.tableColumns, conditions:getResultConditions},
             function(result){
                 if(result.error) insResult.error="Failed get result inserted data item! Reason:"+result.error;
                 if (result.item) insResult.resultItem= result.item;
@@ -716,6 +728,7 @@ function _updTableDataItem(params, resultCallback) {
             if(updFieldName!=idFieldName) params.updData[updFieldName]=params.updTableData[updFieldName];
     }
     params.conditions={}; params.conditions[idFieldName+"="]=params.updTableData[idFieldName];
+    var thisInstance=this;
     _updDataItem(params, function(updResult){
         if(updResult.error){
             resultCallback(updResult);
@@ -723,10 +736,8 @@ function _updTableDataItem(params, resultCallback) {
         }
         var resultFields=[];
         for(var fieldName in params.updTableData) resultFields.push(fieldName);
-        var getResultConditions={}; getResultConditions[idFieldName+"="]=params.updTableData[idFieldName];
-
-        //_getDataItemForTable
-        _getDataItem({source:params.tableName, fields:resultFields, conditions:getResultConditions},
+        var getResultConditions={}; getResultConditions[params.tableName+"."+idFieldName+"="]=params.updTableData[idFieldName];
+        thisInstance.getDataItemForTable({source:params.tableName, tableColumns:params.tableColumns, conditions:getResultConditions},
             function(result){
                 if(result.error) updResult.error="Failed get result updated data item! Reason:"+result.error;
                 if (result.item) updResult.resultItem= result.item;
@@ -760,14 +771,20 @@ function _storeTableDataItem(params, resultCallback) {
         resultCallback({ error:"Failed store table data item! Reason:no id field name!"});
         return;
     }
+    if (!params.tableColumns) {                                                                             log.error("FAILED _storeTableDataItem "+params.tableName+"! Reason: no table columns!");//test
+        resultCallback({ error:"Failed store table data item! Reason:no table columns!"});
+        return;
+    }
     var idValue=params.storeTableData[idFieldName];
     if (idValue===undefined||idValue===null){//insert
         params.storeTableData[idFieldName]=instauUID('decimal');
-        this.insTableDataItem({tableName:params.tableName, idFieldName:idFieldName, insTableData:params.storeTableData}, resultCallback);
+        this.insTableDataItem({tableName:params.tableName, idFieldName:idFieldName, tableColumns:params.tableColumns,
+            insTableData:params.storeTableData}, resultCallback);
         return;
     }
     //update
-    this.updTableDataItem({tableName:params.tableName, idFieldName:idFieldName, updTableData:params.storeTableData}, resultCallback);
+    this.updTableDataItem({tableName:params.tableName, idFieldName:idFieldName, tableColumns:params.tableColumns,
+        updTableData:params.storeTableData}, resultCallback);
 }
 
 /**
@@ -792,16 +809,12 @@ function _delTableDataItem(params, resultCallback) {
         return;
     }
     var idFieldValue=params.delTableData[idFieldName];
-    if(!params.tableName&&this.source) params.tableName=this.source;
-    params.conditions={}; params.conditions[idFieldName+"="]=idFieldValue;
+    params.conditions={}; params.conditions[params.tableName+"."+idFieldName+"="]=idFieldValue;
     _delDataItem(params, function(delResult){
         if (delResult.updateCount==1) {
-            delResult.resultItem= {}; delResult.resultItem[idFieldName]=idFieldValue;
+            delResult.resultItem= {};
+            delResult.resultItem[idFieldName]=idFieldValue;
         }
         resultCallback(delResult);
     });
-
-    function _delTableDataItem1(){
-
-    }
 }

@@ -12,15 +12,6 @@ var database=require('../database');
 var appModules=require(appModulesPath), getValidateError=appModules.getValidateError;
 var dateFormat = require('dateformat');
 
-var changesTableColumns=[
-    {"data": "changeID", "name": "changeID", "width": 200, "type": "text"}
-    , {"data": "changeDatetime", "name": "changeDatetime", "width": 120, "type": "text", "dateFormat":"YYYY-MM-DD HH:mm:ss"}
-    , {"data": "changeObj", "name": "changeObj", "width": 200, "type": "text"}
-    , {"data": "changeVal", "name": "changeVal", "width": 450, "type": "text"}
-    , {"data": "type", "name": "type", "width": 100, "type": "text"}
-    , {"data": "message", "name": "message", "width": 200, "type": "text"}
-];
-
 var dataModel=require('../datamodel');
 var changeLog= require(appDataModelPath+"change_log");
 var sysCurrency= require(appDataModelPath+"sys_currency");
@@ -38,8 +29,6 @@ module.exports.modulePageURL = "/sysadmin";
 module.exports.modulePagePath = "sysadmin.html";
 var thisInstance=this;
 module.exports.init = function(app){
-
-
 
     app.get("/sysadmin/serverState", function(req, res){
         var revalidateModules= false;
@@ -308,7 +297,7 @@ module.exports.init = function(app){
                         }
                     }
                     database.backupDB(backupParam, function (err, ok) {
-                        if (err) {                                                  log.error("checkIfDBExists err=", err);
+                        if (err) {                                                      log.error("checkIfDBExists err=", err);
                             outData.error = err.message;
                             res.send(outData);
                             return;
@@ -508,6 +497,15 @@ module.exports.init = function(app){
         });
     };
 
+    var changesTableColumns=[
+        {"data": "changeID", "name": "changeID", "width": 200, "type": "text"}
+        , {"data": "changeDatetime", "name": "changeDatetime", "width": 120, "type": "text", "dateFormat":"YYYY-MM-DD HH:mm:ss"}
+        , {"data": "changeObj", "name": "changeObj", "width": 200, "type": "text"}
+        , {"data": "changeVal", "name": "changeVal", "width": 450, "type": "text"}
+        , {"data": "type", "name": "type", "width": 100, "type": "text"}
+        , {"data": "message", "name": "message", "width": 200, "type": "text"}
+    ];
+
     app.get("/sysadmin/database/getCurrentChanges", function (req, res) {
         var outData = { columns:changesTableColumns, identifier:changesTableColumns[0].data, items:[] };
         checkIfChangeLogExists(function(tableData) {
@@ -542,11 +540,19 @@ module.exports.init = function(app){
     var checkIfChangeLogExists= function(resultCallback) {
         changeLog.getDataItems({conditions:{"ID IS NULL":null}}, resultCallback);
     };
+
+    var changeLogTableColumns=[
+        {"data": "ID", "name": "changeID", "width": 200, "type": "text"}
+        , {"data": "CHANGE_DATETIME", "name": "changeDatetime", "width": 120, "type": "text", "dateFormat":"YYYY-MM-DD HH:mm:ss"}
+        , {"data": "CHANGE_OBJ", "name": "changeObj", "width": 200, "type": "text"}
+        , {"data": "CHANGE_VAL", "name": "changeVal", "width": 450, "type": "text"}
+        , {"data": "APPLIED_DATETIME", "name": "appliedDatetime", "width": 120, "type": "text", "dateFormat":"YYYY-MM-DD HH:mm:ss"}
+    ];
     /**
      * resultCallback = function(result = { updateCount, resultItem:{<tableFieldName>:<value>,...}, error } )
      */
     var insertToChangeLog= function(itemData, resultCallback) {
-        changeLog.insTableDataItem({idFieldName:"ID", insTableData:itemData}, resultCallback);
+        changeLog.insTableDataItem({tableColumns:changeLogTableColumns,idFieldName:"ID", insTableData:itemData}, resultCallback);
     };
     app.post("/sysadmin/database/applyChange", function (req, res) {
         var outData={};
@@ -627,13 +633,6 @@ module.exports.init = function(app){
             })
         });
     });
-    var changeLogTableColumns=[
-        {"data": "ID", "name": "changeID", "width": 200, "type": "text"}
-        , {"data": "CHANGE_DATETIME", "name": "changeDatetime", "width": 120, "type": "text", "dateFormat":"YYYY-MM-DD HH:mm:ss"}
-        , {"data": "CHANGE_OBJ", "name": "changeObj", "width": 200, "type": "text"}
-        , {"data": "CHANGE_VAL", "name": "changeVal", "width": 450, "type": "text"}
-        , {"data": "APPLIED_DATETIME", "name": "appliedDatetime", "width": 120, "type": "text", "dateFormat":"YYYY-MM-DD HH:mm:ss"}
-    ];
     app.get("/sysadmin/database/getChangeLog", function (req, res) {
         changeLog.getDataForTable({tableColumns:changeLogTableColumns, identifier:changeLogTableColumns[0].data, conditions:req.query,
             order:"CHANGE_DATETIME, CHANGE_OBJ, ID"}, function(result){

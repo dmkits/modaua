@@ -35,7 +35,8 @@ module.exports.init = function(app){
             });
     });
     app.post("/dir/units/storeDirUnitsTableData", function(req, res){
-        dirUnits.storeTableDataItem({idFieldName:dirUnitsTableColumns[0].data, storeTableData:req.body},
+        dirUnits.storeTableDataItem({tableColumns:dirUnitsTableColumns, idFieldName:dirUnitsTableColumns[0].data,
+                storeTableData:req.body},
             function(result){
                 res.send(result);
             });

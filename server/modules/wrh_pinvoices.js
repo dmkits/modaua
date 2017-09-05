@@ -19,21 +19,23 @@ module.exports.init = function(app){
         {"data": "ID", "name": "ID", "width": 50, "type": "text", readOnly:true, visible:false, dataSource:"wrh_pinvs"},
         {"data": "NUMBER", "name": "Номер", "width": 50, "type": "text", dataSource:"wrh_pinvs"},
         {"data": "DOCDATE", "name": "Дата", "width": 55, "type": "text_date", dataSource:"wrh_pinvs"},
-        {"data": "UNIT_NAME", "name": "Подразделение", "width": 120, "type": "text", dataSource:"dir_units", sourceField:"NAME"},
-        {"data": "SUPPLIER_NAME", "name": "Поставщик", "width": 120, "type": "text", dataSource:"dir_contractors", sourceField:"NAME"},
+        {"data": "UNIT_NAME", "name": "Подразделение", "width": 120, "type": "text", dataSource:"dir_units", dataField:"NAME"},
+        {"data": "SUPPLIER_NAME", "name": "Поставщик", "width": 120, "type": "text", dataSource:"dir_contractors", dataField:"NAME"},
         {"data": "SUPPLIER_ORDER_NUM", "name": "Номер заказа поставщика", "width": 100, "type": "text", dataSource:"wrh_pinvs"},
         {"data": "SUPPLIER_INV_NUM", "name": "Номер накл. поставщика", "width": 100, "type": "text", dataSource:"wrh_pinvs"},
-        {"data": "PRODUCT_COLLECTION", "name": "Коллекция", "width": 50, "type": "text", dataSource:"dir_products_collections", sourceField:"NAME"},
-        {"data": "DOCSUM", "name": "Сумма", "width": 60, "type": "numeric2"},
-        {"data": "CURRENCY_CODE", "name": "Валюта", "width": 50, "type": "text", dataSource:"sys_currency", sourceField:"CODE"},
+        {"data": "PRODUCT_COLLECTION", "name": "Коллекция", "width": 150, "type": "text", dataSource:"dir_products_collections", dataField:"NAME"},
+        {"data": "DOCCOUNT", "name": "Строк", "width": 60, "type": "numeric", visible:false, dataFunction:"0" },
+        {"data": "DOCQTYSUM", "name": "Кол-во", "width": 60, "type": "numeric", dataFunction:"0" },
+        {"data": "DOCSUM", "name": "Сумма", "width": 60, "type": "numeric2", dataFunction:"0.00" },
+        {"data": "CURRENCY_CODE", "name": "Валюта", "width": 50, "type": "text", dataSource:"sys_currency", dataField:"CODE"},
         {"data": "CURRENCY_CODENAME", "name": "Валюта", "width": 50, "type": "text", visible:false,
-            dataSource:"sys_currency", sourceFieldFunction:{function:"concat",fields:["sys_currency.CODE","' ('","sys_currency.NAME","')'"]} },
-        {"data": "DOCSTATE_NAME", "name": "Статус", "width": 110, "type": "text", dataSource:"sys_docstates", sourceField:"NAME"},
+            dataSource:"sys_currency", dataFunction:{function:"concat",fields:["sys_currency.CODE","' ('","sys_currency.NAME","')'"]} },
+        {"data": "DOCSTATE_NAME", "name": "Статус", "width": 110, "type": "text", dataSource:"sys_docstates", dataField:"NAME"},
         {"data": "RATE", "name": "Курс валюты", "width": 60, "type": "numeric2", visible:false, dataSource:"wrh_pinvs"},
         {"data": "RATE", "name": "Курс валюты", "width": 60, "type": "numeric2", visible:false, dataSource:"wrh_pinvs"},
         {"data": "BASE_FACTOR", "name": "Базов.коэфф.", "width": 60, "type": "numeric2", visible:false, dataSource:"wrh_pinvs"}
     ];
-    app.get("/wrh/pInvoices/getDataForWrhPInvsListTable", function(req, res){
+    app.get("/wrh/pInvoices/getDataForPInvsListTable", function(req, res){
         var conditions={};
         for(var condItem in req.query) conditions["wrh_pinvs."+condItem]=req.query[condItem];
         wrhPInvs.getDataForTable({tableColumns:wrhPInvsListTableColumns,
@@ -107,7 +109,6 @@ module.exports.init = function(app){
                         return;
                     }
                     storeData["CURRENCY_ID"]=result.item["ID"];
-
                     dirProdsCollections.getDataItem({fields:["ID"],conditions:{"NAME=":storeData["PRODUCT_COLLECTION"]}}, function(result){
                         storeData["COLLECTION_ID"]=result.item["ID"];
                         var docStateID=0;
@@ -128,57 +129,53 @@ module.exports.init = function(app){
                 });
             });
         });
-
-
+    });
+    app.post("/wrh/pInvoices/deletePInvData", function(req, res){
+        var delData=req.body;
+        wrhPInvs.delTableDataItem({idFieldName:"ID", delTableData:delData},
+            function(result){
+                res.send(result);
+            });
         //res.send({});
         //wrhOrdersBataView.getDataForWrhOrdersBataListTable(req.query, function(result){
         //    res.send(result);
         //});
     });
-    app.post("/wrh/pInvoices/deletePInvData", function(req, res){
-        res.send({});
-        //wrhOrdersBataView.getDataForWrhOrdersBataListTable(req.query, function(result){
-        //    res.send(result);
-        //});
-    });
 
-    var wrhOrderBataDetailsTableColumns=[
+    var wrhPInvProductsTableColumns=[
         {"data": "ID", "name": "ID", "width": 50, "type": "text", readOnly:true, visible:false},
-        {"data": "ORDER_BATA_ID", "name": "ORDER_BATA_ID", "width": 50, "type": "text", readOnly:true, visible:false},
-        {"data": "POS", "name": "Номер п/п", "width": 45, "type": "text"},
-        {"data": "PRODUCT_GENDER_CODE", "name": "Код группы", "width": 50, "type": "text"},
-        {"data": "PRODUCT_GENDER", "name": "Группа", "width": 90, "type": "text"},
-        {"data": "PRODUCT_CATEGORY_CODE", "name": "Код категории", "width": 60, "type": "text"},
-        {"data": "PRODUCT_CATEGORY", "name": "Категория", "width": 170, "type": "text"},
-        {"data": "PRODUCT_SUBCATEGORY_CODE", "name": "Код подкатегории", "width": 75, "type": "text"},
-        {"data": "PRODUCT_SUBCATEGORY", "name": "Подкатегория", "width": 130, "type": "text"},
-        {"data": "PRODUCT_ARTICLE", "name": "Артикул", "width": 80, "type": "text"},
+        {"data": "PINV_ID", "name": "PINV_ID", "width": 50, "type": "text", readOnly:true, visible:false},
+        {"data": "POSIND", "name": "Номер п/п", "width": 45, "type": "text"},
+        {"data": "PRODUCT_ID", "name": "Код группы", "width": 50, "type": "text"},
+
+        {"data": "BARCODE", "name": "Код подкатегории", "width": 75, "type": "text"},
+        {"data": "BATCH_NUMBER", "name": "Артикул", "width": 80, "type": "text"},
+
         {"data": "QTY", "name": "Кол-во", "width": 50, "type": "numeric"},
-        {"data": "RETAIL_PRICE", "name": "Цена Retail", "width": 60, "type": "numeric2"},
-        {"data": "PRICE", "name": "Цена", "width": 60, "type": "numeric2"},
+        {"data": "PRICE", "name": "Цена Retail", "width": 60, "type": "numeric2"},
+        {"data": "FACTOR", "name": "Цена", "width": 60, "type": "numeric2"},
+        {"data": "SALE_PRICE", "name": "Цена", "width": 60, "type": "numeric2"},
+
         {"data": "POSSUM", "name": "Сумма", "width": 80, "type": "numeric2"}
     ];
-    app.get("/wrh/pInvoices/getDataForWrhOrdersBataDetailsTable", function(req, res){
-        wrhPInvsProducts.getDataForTable({tableColumns:wrhOrderBataDetailsTableColumns,
-                identifier:wrhOrderBataDetailsTableColumns[0].data,
+    app.get("/wrh/pInvoices/getDataForPInvProductsTable", function(req, res){
+        wrhPInvsProducts.getDataForTable({tableColumns:wrhPInvProductsTableColumns,
+                identifier:wrhPInvProductsTableColumns[0].data,
                 conditions:req.body},
             function(result){
                 res.send(result);
             });
     });
-    //app.get("/dir/contractors/newDataForDirContractorsTable", function(req, res){
-    //    dirProducts.getNewDataForDirContractorsTable(function(result){
-    //        res.send(result);
-    //    });
-    //});
-    //app.post("/dir/products/storeDirProductsTableData", function(req, res){
-    //    wrhOrderBataDetailsView.getDataForWrhOrdersBataDetailsTable(req.body, function(result){
-    //        res.send(result);
-    //    });
-    //});
-    //app.post("/dir/contractors/deleteDirContractorsTableData", function(req, res){
-    //    dirProducts.deleteDirContractorsTableData(req.body, function(result){
-    //        res.send(result);
-    //    });
-    //});
+    app.post("/wrh/pInvoices/storePInvProductsTableData", function(req, res){
+        wrhPInvsProducts.storeTableDataItem({tableColumns:wrhPInvProductsTableColumns, idFieldName:"ID"},
+            function(result){
+                res.send(result);
+            });
+    });
+    app.post("/wrh/pInvoices/deletePInvProductsTableData", function(req, res){
+        wrhPInvsProducts.delTableDataItem({idFieldName:"ID"},
+            function(result){
+                res.send(result);
+            });
+    });
 };

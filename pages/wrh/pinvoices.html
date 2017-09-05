@@ -16,7 +16,7 @@
                             { idListContainer:"wrh_pinv_ListContainer",idDetailContainer:"wrh_pinv_DetailContainer",
                                 idDetailHeader:"wrh_pinv_DetailHeader",idDetailTable:"wrh_pinv_ProductsTable",idDetailTotal:"wrh_pinv_DetailTotal",
                                 idRightContainer:"wrh_pinv_RightContainer" })
-                        .setListTable({getDataUrl:"/wrh/pInvoices/getDataForWrhPInvsListTable"})
+                        .setListTable({getDataUrl:"/wrh/pInvoices/getDataForPInvsListTable"})
                         .setListDatesContent({header:"Список накладных", bdatelabelText:"c",bdateCondition:"DOCDATE>=", edatelabelText:"по",edateCondition:"DOCDATE<="})
                         .setDetailHeaderParameters({dataIDName:"ID",
                             getDataUrl:"/wrh/pInvoices/getPInvData", getDataForNewUrl:"/wrh/pInvoices/getNewPInvData",
@@ -42,8 +42,8 @@
                             {inputStyle:"width:150px", loadDropDownURL:"/dir/products/getProductsCollectionsForSelect", labelDataItem:"NAME"})
                         .addDetailHeaderNumberTextBox("BASE_FACTOR", "Базовый коэффициент", 180, {inputStyle:"width:40px", pattern:"####0.00"})
                         .setDetailTableParameters({conditionIDName:"PINV_ID",
-                            getDataUrl:"/wrh/pInvoices/get_pinv_products",
-                            storeDataUrl:"/wrh/pInvoices/pinv_product_store", deleteDataUrl:"/wrh/pInvoices/pinv_product_delete"})
+                            getDataUrl:"/wrh/pInvoices/getDataForPInvProductsTable",
+                            storeDataUrl:"/wrh/pInvoices/storePInvProductsTableData", deleteDataUrl:"/wrh/pInvoices/deletePInvProductsTableData"})
                         .addDetailTotalRow()
                         .addDetailSubTotalCountNumberTextBox("ИТОГО СТРОК:", 190, {inputStyle:"width:40px;"})
                         .addDetailSubtotalNumberTextBox("ИТОГО КОЛИЧЕСТВО:", 700, "QTY", {pattern:"###,###,##0.#########", inputStyle:"width:50px;"})

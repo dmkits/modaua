@@ -25,13 +25,13 @@ module.exports.init = function(app){
         {"data": "NUMBER", "name": "Номер", "width": 50, "type": "text", dataSource:"wrh_orders_bata"},
         {"data": "DOCDATE", "name": "Дата", "width": 55, "type": "text_date", dataSource:"wrh_orders_bata"},
         {"data": "SUPPLIER_ORDER_NUM", "name": "Номер заказа поставщика", "width": 100, "type": "text", dataSource:"wrh_orders_bata"},
-        {"data": "UNIT_NAME", "name": "Подразделение", "width": 120, "type": "text", dataSource:"dir_units", sourceField:"NAME"},
-        {"data": "SUPPLIER_NAME", "name": "Поставщик", "width": 120, "type": "text", dataSource:"dir_contractors", sourceField:"NAME"},
+        {"data": "UNIT_NAME", "name": "Подразделение", "width": 120, "type": "text", dataSource:"dir_units", dataField:"NAME"},
+        {"data": "SUPPLIER_NAME", "name": "Поставщик", "width": 120, "type": "text", dataSource:"dir_contractors", dataField:"NAME"},
         {"data": "DOCSUM", "name": "Сумма", "width": 60, "type": "numeric2"},
-        {"data": "CURRENCY_CODE", "name": "Валюта", "width": 50, "type": "text", dataSource:"sys_currency", sourceField:"CODE"},
+        {"data": "CURRENCY_CODE", "name": "Валюта", "width": 50, "type": "text", dataSource:"sys_currency", dataField:"CODE"},
         {"data": "CURRENCY_CODENAME", "name": "Валюта", "width": 50, "type": "text", visible:false,
-            dataSource:"sys_currency", sourceFieldFunction:{function:"concat",fields:["sys_currency.CODE","' ('","sys_currency.NAME","')'"]} },
-        {"data": "DOCSTATE_NAME", "name": "Статус", "width": 110, "type": "text", dataSource:"sys_docstates", sourceField:"NAME"}
+            dataSource:"sys_currency", dataFunction:{function:"concat",fields:["sys_currency.CODE","' ('","sys_currency.NAME","')'"]} },
+        {"data": "DOCSTATE_NAME", "name": "Статус", "width": 110, "type": "text", dataSource:"sys_docstates", dataField:"NAME"}
     ];
     app.get("/wrh/ordersBata/getDataForWrhOrdersBataListTable", function(req, res){
         var conditions={};

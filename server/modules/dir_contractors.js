@@ -37,7 +37,8 @@ module.exports.init = function(app){
             });
     });
     app.post("/dir/contractors/storeDirContractorsTableData", function(req, res){
-        dirContractors.storeTableDataItem({idFieldName:dirContractorsTableColumns[0].data, storeTableData:req.body},
+        dirContractors.storeTableDataItem({tableColumns:dirContractorsTableColumns, idFieldName:dirContractorsTableColumns[0].data,
+                storeTableData:req.body},
             function(result){
                 res.send(result);
             });

@@ -54,6 +54,9 @@ var changeLog = [
         "field":"COLLECTION_ID", "source":"dir_products_collections", "linkField":"ID" },
     { 'changeID':'wrh_pinvs_17', 'changeDatetime':'2016-09-12T22:20:00.000+0300', 'changeObj':'wrh_pinvs',
         'changeVal':'ALTER TABLE wrh_pinvs ADD COLUMN SUPPLIER_ORDER_NUM VARCHAR(255)',
-        "field":"SUPPLIER_ORDER_NUM"}
+        "field":"SUPPLIER_ORDER_NUM"},
+    { "changeID": "wrh_pinvs_18", "changeDatetime": "2016-09-12T22:21:00.000+0300", "changeObj": "wrh_pinvs",
+        "changeVal": "ALTER TABLE wrh_pinvs ADD CONSTRAINT WRH_PINVS_UNIT_ID_NUMBER_UNIQUE" +
+            " UNIQUE(UNIT_ID,NUMBER)" }
 ];
 module.exports.changeLog=changeLog;
