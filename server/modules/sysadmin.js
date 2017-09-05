@@ -252,6 +252,8 @@ module.exports.init = function(app){
 
     app.post("/sysadmin/backup_db", function (req, res) {
         log.info("/sysadmin/backup_db");
+        var onlyData=false;
+        if(req.body.onlyData)onlyData=true;
         var host = req.body.host;
         var DBName = req.body.database;
         var adminUser = req.body.adminName;
@@ -262,7 +264,8 @@ module.exports.init = function(app){
             user: adminUser,
             password: adminPassword,
             database: DBName,
-            fileName: backupFileName
+            fileName: backupFileName,
+            onlyData:onlyData
         };
         var outData = {};
 
@@ -351,21 +354,21 @@ module.exports.init = function(app){
                 return;
             }
 
-            if (req.body.rewrite) {
-                database.dropDB(DBName, function (err, ok) {
-                    if (err) {                                                                          console.log("checkIfDBExists err=", err);
-                        outData.error = err.message;
-                        res.send(outData);
-                        return;
-                    }
-                    outData.DBdropped = ok;
-                    database.createNewDB(DBName, function (err, ok) {
-                        if (err) {                                                                      console.log("createNewDB err=", err);
-                            outData.error = err.message;
-                            res.send(outData);
-                            return;
-                        }
-                        outData.DBCreated = ok;
+            //if (req.body.rewrite) {
+            //    database.dropDB(DBName, function (err, ok) {
+            //        if (err) {                                                                          console.log("checkIfDBExists err=", err);
+            //            outData.error = err.message;
+            //            res.send(outData);
+            //            return;
+            //        }
+            //        outData.DBdropped = ok;
+            //        database.createNewDB(DBName, function (err, ok) {
+            //            if (err) {                                                                      console.log("createNewDB err=", err);
+            //                outData.error = err.message;
+            //                res.send(outData);
+            //                return;
+            //            }
+            //            outData.DBCreated = ok;
                         database.checkIfUserExists(userName, function (err, result) {
                             if (err) {                                                                  console.log("checkIfUserExists err=", err);
                                 outData.error = err.message;
@@ -418,32 +421,33 @@ module.exports.init = function(app){
                                     })
                                 });
                             }
-                        });
-                    });
-                })
-            } else {
-                database.isDBEmpty(DBName, function (err, recodrset) {                                  console.log("isDBEmpty recodrset =", recodrset);
-                    if (err) {                                                                          console.log("restoreDB err=", err);
-                        outData.error = err.message;
-                        res.send(outData);
-                        return;
-                    }
-                    if (!recodrset) {
-                        database.restoreDB(restoreParams, function (err, ok) {
-                            if (err) {                                                                  console.log("restoreDB err=", err);
-                                outData.error = err.message;
-                                res.send(outData);
-                                return;
-                            }
-                            outData.restore = ok;
-                            res.send(outData);
-                        })
-                    } else {
-                        outData.dropDBConfirm = "dropDBConfirm";
-                        res.send(outData);
-                    }
-                });
-            }
+                      //  });
+                  //  });
+               // });
+            //} else {
+            //    database.isDBEmpty(DBName, function (err, recodrset) {                                  console.log("isDBEmpty recodrset =", recodrset);
+            //        if (err) {                                                                          console.log("restoreDB err=", err);
+            //            outData.error = err.message;
+            //            res.send(outData);
+            //            return;
+            //        }
+            //        if (!recodrset) {
+            //            database.restoreDB(restoreParams, function (err, ok) {
+            //                if (err) {                                                                  console.log("restoreDB err=", err);
+            //                    outData.error = err.message;
+            //                    res.send(outData);
+            //                    return;
+            //                }
+            //                outData.restore = ok;
+            //                res.send(outData);
+            //            })
+            //        }
+            //        //else {
+            //        //    outData.dropDBConfirm = "dropDBConfirm";
+            //        //    res.send(outData);
+            //        //}
+            //    });
+            });
         });
     });
 
