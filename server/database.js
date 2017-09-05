@@ -152,7 +152,7 @@ module.exports.isDBEmpty= function(DBName,callback) {
         });
 };
 /**
- * backupParam = { fileName, user,  onlyData:true/false}
+ * backupParam = {host, database, fileName, user, password,  onlyData:true/false}
  * default onlyData=false
  */
 module.exports.backupDB= function(backupParam,callback) {
@@ -176,7 +176,10 @@ module.exports.backupDB= function(backupParam,callback) {
         callback(null,"Database "+backupParam.database+" backup saved to "+backupParam.fileName);
     });
 };
-
+/**
+ * restoreParams = {host, database, fileName, user, password}
+ * default onlyData=false
+ */
 module.exports.restoreDB= function(restoreParams,callback) {
 
     var filePath=path.join(__dirname+'/../backups/'+restoreParams.fileName);

@@ -130,7 +130,6 @@
                 restoreBtn.domNode.firstChild.setAttribute("style", "width:70px;");
 
                 var authAdminInfo = {};
-             //   var backupFilename;
                 var restoreFilename;
 
                 var adminAuthDialog = new ConfirmDialog({
@@ -185,6 +184,14 @@
                 }, "backupDialog");
                 backupDialog.set("buttonOk", "Save");
                 backupDialog.set("buttonCancel", "Cancel");
+
+                backupDialog.onShow=function(){
+                    var DBName= document.getElementById('db.name').value;
+                    var now=moment().format("YYYYMMDD_HHm");
+                    var defaultFileName =DBName+"_"+now;
+                    if(backupDialog.onlyDataBackup)defaultFileName=defaultFileName+"_data";
+                          document.getElementById('backup_fileName').value=defaultFileName;
+                };
 
                 backupDialog.onExecute = function () {
                     backupDialog.backupFilename = document.getElementById("backup_fileName").value;
@@ -256,27 +263,6 @@
                     restoreDialog.hide();
                     adminAuthDialog.onCancel();
                 };
-
-//                var rewriteDBDialog = new ConfirmDialog({
-//                    id: "rewriteDBDialog",
-//                    content: "Database contains data!\n Rewrite Database?",
-//                    title: "Rewrite Database"
-//                }, "rewriteDBDialog");
-//                rewriteDBDialog.set("buttonOk", "Rewrite");
-//                rewriteDBDialog.set("buttonCancel", "Cancel");
-//                rewriteDBDialog.onExecute=function(){
-//                    makeRestore(true);
-//                    rewriteDBDialog.hide();
-//                };
-//                rewriteDBDialog.on("keypress", function (event) {
-//                    if (event.keyCode == keys.ENTER) {
-//                        rewriteDBDialog.onExecute();
-//                    }
-//                });
-//                rewriteDBDialog.onCancel=function(){
-//                    restoreDialog.onCancel();
-//                    rewriteDBDialog.hide();
-//                };
 
                 createDBBtn.onClick=function() {
                     adminAuthDialog.action="createDB";
@@ -458,9 +444,7 @@
                                 callback();
                             });
                 }
-                function makeBackup(backupParams,rewrite){
-                    //backupParams.onlyData
-                    //filename:backupDialog.backupFilename,resultTagName:backupDialog.resultFieldId, onlyData:backupDialog.onlyDataBackup
+                function makeBackup(backupParams,rewrite){p
                     var DB = {};
                     DB.adminName = authAdminInfo.adminName;
                     DB.adminPassword = authAdminInfo.adminPassword;
@@ -469,8 +453,7 @@
                     DB.database = databaseInput.get('value');
                     DB.user = userInput.get('value');
                     DB.password = dbPasswordInput.get('value');
-                    DB.onlyDataBackup=onlyDataBackup;
-                    if (backupParams.onlyData)DB.onlyData = true;
+                    DB.onlyDataBackup=backupParams.onlyData;
                     if (rewrite)DB.rewrite = true;
                     Request.postJSONData({url: "/sysadmin/backup_db", data: DB, consoleLog: true},
                             function (success, data) {
@@ -564,12 +547,8 @@
                                     document.getElementById("restore_db_result").innerHTML = "<b style='color:red'>FAIL! Reason:" + data.error + "<b>";
                                     sa_serverConfig_PageContent.getServerConfiguration();
                                     if (sa_serverConfig_PageContent.getParent().updateDBState)  sa_serverConfig_PageContent.getParent().updateDBState();
-//                                } else if (data.dropDBConfirm) {
-//                                    rewriteDBDialog.show();
                                 } else {
                                     var successMsgStr = '';
-                                   // if (data.DBdropped)successMsgStr = successMsgStr + data.DBdropped;
-                                   // if (data.DBCreated)successMsgStr = successMsgStr + data.DBCreated;
                                     if (data.userExists)successMsgStr = successMsgStr + data.userExists;
                                     if (data.userCreated)successMsgStr = successMsgStr + data.userCreated;
                                     if (data.accessAdded)successMsgStr = successMsgStr + data.accessAdded;
@@ -584,6 +563,7 @@
                     document.getElementById("drop_db_result").innerHTML = "";
                     document.getElementById("create_db_result").innerHTML = "";
                     document.getElementById("backup_db_result").innerHTML = "";
+                    document.getElementById("backup_data_result").innerHTML = "";
                     document.getElementById("restore_db_result").innerHTML = "";
                 }
                 sa_serverConfig_PageContent.getServerConfiguration();
