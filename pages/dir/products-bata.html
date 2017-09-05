@@ -57,6 +57,9 @@
                                         .addToolPaneTableActionButton("Изменить строку", {action:"allowEditTableSelectedRow"}, "width:145px;")
                                         .addToolPaneTableActionButton("Сохранить строку", {action:"storeTableSelectedRow"}, "width:145px;")
 //                                        .addToolPaneTableActionButton("Удалить строку", {action:"deleteTableSelectedRow"}, "width:145px;")
+//                                        .addContentTablePopupMenuItemAction("Добавить строки",{action:"insertTableRowsAfterSelected",rowPosName:"POS"})//rowPosIndexName:"POSIND"
+                                        .addContentTablePopupMenuItemAction("Изменить строки",{action:"allowEditTableSelectedRows"})
+                                        .addContentTablePopupMenuItemAction("Сохранить строки",{action:"storeTableSelectedRows"})
                                         .startUp();
                     }
                     dir_products_ContentContainer.selectChild(dir_products_Btn_viewProducts.document);
@@ -66,8 +69,8 @@
                         dir_products_Btn_viewGenders.document =
                                 APP.childFor(dir_products_ContentContainer, "dir_products_TableProductsGenders",
                                         TDocumentSimpleTableEditable, {titleText:"Группы номенклатур", rightPane:true, rightPaneWidth:150,
-                                            dataURL:"/dir/products/getDataForDirProductsGendersTable", dataURLCondition:{"1~":1},
-                                            dataNewURL:"/dir/products/newDataForDirProductsGendersTable",
+                                            dataURL:"/dir/products/getDataForProductsGendersTable", dataURLCondition:{"1~":1},
+                                            dataNewURL:"/dir/products/newDataForProductsGendersTable",
                                             dataStoreURL:"/dir/products/storeProductsGendersTableData",
                                             dataDeleteURL:"/dir/products/deleteProductsGendersTableData"
                                         })
@@ -77,6 +80,9 @@
                                         .addToolPaneTableActionButton("Изменить", {action:"allowEditTableSelectedRow"}, "width:115px;")
                                         .addToolPaneTableActionButton("Сохранить", {action:"storeTableSelectedRow"}, "width:115px;")
                                         .addToolPaneTableActionButton("Удалить", {action:"deleteTableSelectedRow"}, "width:115px;")
+                                        .addContentTablePopupMenuItemAction("Добавить строки",{action:"insertTableRowsAfterSelected",rowPosName:"POS"})//rowPosIndexName:"POSIND"
+                                        .addContentTablePopupMenuItemAction("Изменить строки",{action:"allowEditTableSelectedRows"})
+                                        .addContentTablePopupMenuItemAction("Сохранить строки",{action:"storeTableSelectedRows"})
                                         .startUp();
                     }
                     dir_products_ContentContainer.selectChild(dir_products_Btn_viewGenders.document);
@@ -86,8 +92,8 @@
                         dir_products_Btn_viewCategories.document =
                                 APP.childFor(dir_products_ContentContainer, "dir_products_TableProductsCategories",
                                         TDocumentSimpleTableEditable, {titleText:"Категории номенклатур", rightPane:true, rightPaneWidth:150,
-                                            dataURL:"/dir/products/getDataForDirProductsCategoriesTable", dataURLCondition:{"1~":1},
-                                            dataNewURL:"/dir/products/newDataForDirProductsCategoriesTable",
+                                            dataURL:"/dir/products/getDataForProductsCategoriesTable", dataURLCondition:{"1~":1},
+                                            dataNewURL:"/dir/products/newDataForProductsCategoriesTable",
                                             dataStoreURL:"/dir/products/storeProductsCategoriesTableData",
                                             dataDeleteURL:"/dir/products/deleteProductsCategoriesTableData"})
                                         .addTotalCountNumberBox("ИТОГО строк:", 140, {style:"font-weight:bold;",inputStyle:"width:50px"})
@@ -96,6 +102,9 @@
                                         .addToolPaneTableActionButton("Изменить", {action:"allowEditTableSelectedRow"}, "width:115px;")
                                         .addToolPaneTableActionButton("Сохранить", {action:"storeTableSelectedRow"}, "width:115px;")
                                         .addToolPaneTableActionButton("Удалить", {action:"deleteTableSelectedRow"}, "width:115px;")
+                                        .addContentTablePopupMenuItemAction("Добавить строки",{action:"insertTableRowsAfterSelected",rowPosName:"POS"})//rowPosIndexName:"POSIND"
+                                        .addContentTablePopupMenuItemAction("Изменить строки",{action:"allowEditTableSelectedRows"})
+                                        .addContentTablePopupMenuItemAction("Сохранить строки",{action:"storeTableSelectedRows"})
                                         .startUp();
                     }
                     dir_products_ContentContainer.selectChild(dir_products_Btn_viewCategories.document);
@@ -115,6 +124,9 @@
                                         .addToolPaneTableActionButton("Изменить", {action:"allowEditTableSelectedRow"}, "width:115px;")
                                         .addToolPaneTableActionButton("Сохранить", {action:"storeTableSelectedRow"}, "width:115px;")
                                         .addToolPaneTableActionButton("Удалить", {action:"deleteTableSelectedRow"}, "width:115px;")
+                                        .addContentTablePopupMenuItemAction("Добавить строки",{action:"insertTableRowsAfterSelected",rowPosName:"POS"})//rowPosIndexName:"POSIND"
+                                        .addContentTablePopupMenuItemAction("Изменить строки",{action:"allowEditTableSelectedRows"})
+                                        .addContentTablePopupMenuItemAction("Сохранить строки",{action:"storeTableSelectedRows"})
                                         .startUp();
                     }
                     dir_products_ContentContainer.selectChild(dir_products_Btn_viewSubcategories.document);

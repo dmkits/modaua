@@ -6,7 +6,7 @@
         <div id="wrh_order_bata_DetailTable" style="width:100%;height:auto; margin:0;padding:0;"></div>
         <div id="wrh_order_bata_DetailTotal" style="width:100%;height:auto;; margin:0;padding:0;"></div>
     </div>
-    <div id="wrh_order_bata_RightPane" style="width:200px;height: 100%; margin:0;padding:0;"></div>
+    <div id="wrh_order_bata_RightPane" style="width:180px;height:100%; margin:0;padding:0;"></div>
 </div>
 </body>
 <script type="text/javascript">
@@ -16,7 +16,7 @@
                             { idListContainer:"wrh_order_bata_LeftContainer",idDetailContainer:"wrh_order_bata_DetailContainer",
                                 idDetailHeader:"wrh_order_bata_DetailHeader",idDetailTable:"wrh_order_bata_DetailTable",idDetailTotal:"wrh_order_bata_DetailTotal",
                                 idRightContainer:"wrh_order_bata_RightPane" })
-                        .setListTable({getDataUrl:"/wrh/ordersBata/getDataForWrhOrdersBataListTable"})
+                        .setListTable({getDataUrl:"/wrh/ordersBata/getDataForOrdersBataListTable"})
                         .setListDatesContent({header:"Список заказов", bdatelabelText:"c",bdateCondition:"DOCDATE>=", edatelabelText:"по",edateCondition:"DOCDATE<="})
                         .setDetailHeaderParameters({dataIDName:"ID",
                             getDataUrl:"/wrh/ordersBata/getOrderBataData", getDataForNewUrl:"/wrh/ordersBata/getNewOrderBataData",
@@ -36,8 +36,8 @@
                         .addDetailHeaderSelect("CURRENCY_CODE","Валюта", 280,
                             {inputStyle:"width:220px", loadDropDownURL:"/sys/currency/getCurrencyForSelect", labelDataItem:"CURRENCY_CODENAME"})
                         .setDetailTableParameters({conditionIDName:"ORDER_BATA_ID",
-                            getDataUrl:"/wrh/ordersBata/getDataForWrhOrdersBataDetailsTable",
-                            storeDataUrl:"/wrh/ordersBata/orderBataDetailStore", deleteDataUrl:"/wrh/ordersBata/orderBataDetailDelete"})
+                            getDataUrl:"/wrh/ordersBata/getDataForOrdersBataDetailsTable",
+                            storeDataUrl:"/wrh/ordersBata/storeOrdersBataDetailsTable", deleteDataUrl:"/wrh/ordersBata/deleteOrdersBataDetailsTable"})
                         .addDetailTotalRow()
                         .addDetailSubTotalCountNumberTextBox("ИТОГО СТРОК:", 190, {inputStyle:"width:40px;"})
                         .addDetailSubtotalNumberTextBox("ИТОГО КОЛИЧЕСТВО:", 640, "QTY", {pattern:"###,###,##0.#########", inputStyle:"width:50px;"})

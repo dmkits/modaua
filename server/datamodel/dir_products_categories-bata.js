@@ -9,7 +9,8 @@ var changeLog=[
         "changeVal": "ALTER TABLE dir_products_categories ADD COLUMN NAME VARCHAR(255) NOT NULL",
         "field":"NAME" },
     { "changeID":"dir_products_categories__4", "changeDatetime": "2016-08-31T18:18:00.000+0300", "changeObj": "dir_products_categories",
-        "changeVal": "ALTER TABLE dir_products_categories ADD CONSTRAINT DIR_PRODUCTS_CATEGORIES_CODE_NAME_UNIQUE UNIQUE(CODE,NAME)" },
+        "changeVal": "ALTER TABLE dir_products_categories ADD CONSTRAINT DIR_PRODUCTS_CATEGORIES_CODE_NAME_UNIQUE" +
+            " UNIQUE(CODE,NAME)" },
     { "changeID":"dir_products_categories__5", "changeDatetime": "2016-09-01T13:21:00.000+0300", "changeObj": "dir_products_categories",
         "changeVal": "ALTER TABLE dir_products_categories ADD COLUMN CONSTANT SMALLINT NOT NULL",
         "field":"CONSTANT" },
@@ -18,6 +19,7 @@ var changeLog=[
         "field":"GENDER_ID" },
     { "changeID":"dir_products_categories__7", "changeDatetime": "2016-09-11T20:02:00.000+0300", "changeObj": "dir_products_categories",
         "changeVal": "ALTER TABLE dir_products_categories ADD CONSTRAINT DIR_PRODUCTS_CATEGORIES_GENDER_ID_FK"
-        +" FOREIGN KEY (GENDER_ID) REFERENCES dir_products_genders(ID)" }
+        +" FOREIGN KEY (GENDER_ID) REFERENCES dir_products_genders(ID)",
+        "field":"GENDER_ID", "source":"dir_products_genders", "linkField":"ID" }
 ];
 module.exports.changeLog=changeLog;
