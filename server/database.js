@@ -151,10 +151,15 @@ module.exports.isDBEmpty= function(DBName,callback) {
             callback(null,recordset[0]);
         });
 };
-
+/**
+ * backupParam = { fileName, user,  onlyData:true/false}
+ * default onlyData=false
+ */
 module.exports.backupDB= function(backupParam,callback) {
+    var onlyDataCommand=backupParam.onlyData?" --no-create-info ":" ";                                     log.warn("onlyDataCommand=",onlyDataCommand);
+
     var filePath=path.join(__dirname+'/../backups/'+backupParam.fileName);
-    var command ='mysqldump -u ' + backupParam.user + ' --password="'+backupParam.password+'" --host='+backupParam.host +' '+backupParam.database+' --result-file='+filePath;               log.info("command=",command);
+    var command ='mysqldump'+onlyDataCommand + '-u'+ backupParam.user + ' --password="'+backupParam.password+'" --host='+backupParam.host +' '+backupParam.database+' --result-file='+filePath;               log.info("command=",command);
 
     child_process.exec(command, function(err,stdout,stderr){
         if(err){                                         log.error("err backupDB=", err);

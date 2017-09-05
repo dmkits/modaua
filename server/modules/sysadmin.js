@@ -252,6 +252,8 @@ module.exports.init = function(app){
 
     app.post("/sysadmin/backup_db", function (req, res) {
         log.info("/sysadmin/backup_db");
+        var onlyData=false;
+        if(req.body.onlyData)onlyData=true;
         var host = req.body.host;
         var DBName = req.body.database;
         var adminUser = req.body.adminName;
@@ -262,7 +264,8 @@ module.exports.init = function(app){
             user: adminUser,
             password: adminPassword,
             database: DBName,
-            fileName: backupFileName
+            fileName: backupFileName,
+            onlyData:onlyData
         };
         var outData = {};
 
