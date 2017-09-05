@@ -131,6 +131,7 @@
 
                 var authAdminInfo = {};
              //   var backupFilename;
+                var restoreFilename;
 
                 var adminAuthDialog = new ConfirmDialog({
                     autofocus:false,
@@ -256,26 +257,26 @@
                     adminAuthDialog.onCancel();
                 };
 
-                var rewriteDBDialog = new ConfirmDialog({
-                    id: "rewriteDBDialog",
-                    content: "Database contains data!\n Rewrite Database?",
-                    title: "Rewrite Database"
-                }, "rewriteDBDialog");
-                rewriteDBDialog.set("buttonOk", "Rewrite");
-                rewriteDBDialog.set("buttonCancel", "Cancel");
-                rewriteDBDialog.onExecute=function(){
-                    makeRestore(true);
-                    rewriteDBDialog.hide();
-                };
-                rewriteDBDialog.on("keypress", function (event) {
-                    if (event.keyCode == keys.ENTER) {
-                        rewriteDBDialog.onExecute();
-                    }
-                });
-                rewriteDBDialog.onCancel=function(){
-                    restoreDialog.onCancel();
-                    rewriteDBDialog.hide();
-                };
+//                var rewriteDBDialog = new ConfirmDialog({
+//                    id: "rewriteDBDialog",
+//                    content: "Database contains data!\n Rewrite Database?",
+//                    title: "Rewrite Database"
+//                }, "rewriteDBDialog");
+//                rewriteDBDialog.set("buttonOk", "Rewrite");
+//                rewriteDBDialog.set("buttonCancel", "Cancel");
+//                rewriteDBDialog.onExecute=function(){
+//                    makeRestore(true);
+//                    rewriteDBDialog.hide();
+//                };
+//                rewriteDBDialog.on("keypress", function (event) {
+//                    if (event.keyCode == keys.ENTER) {
+//                        rewriteDBDialog.onExecute();
+//                    }
+//                });
+//                rewriteDBDialog.onCancel=function(){
+//                    restoreDialog.onCancel();
+//                    rewriteDBDialog.hide();
+//                };
 
                 createDBBtn.onClick=function() {
                     adminAuthDialog.action="createDB";
@@ -539,7 +540,7 @@
                 }
 
 
-                function makeRestore(rewrite) {
+                function makeRestore(/*rewrite*/) {
                     cleanResultFields();
                     var DB = {};
                     DB.adminName = authAdminInfo.adminName;
@@ -563,12 +564,12 @@
                                     document.getElementById("restore_db_result").innerHTML = "<b style='color:red'>FAIL! Reason:" + data.error + "<b>";
                                     sa_serverConfig_PageContent.getServerConfiguration();
                                     if (sa_serverConfig_PageContent.getParent().updateDBState)  sa_serverConfig_PageContent.getParent().updateDBState();
-                                } else if (data.dropDBConfirm) {
-                                    rewriteDBDialog.show();
+//                                } else if (data.dropDBConfirm) {
+//                                    rewriteDBDialog.show();
                                 } else {
                                     var successMsgStr = '';
-                                    if (data.DBdropped)successMsgStr = successMsgStr + data.DBdropped;
-                                    if (data.DBCreated)successMsgStr = successMsgStr + data.DBCreated;
+                                   // if (data.DBdropped)successMsgStr = successMsgStr + data.DBdropped;
+                                   // if (data.DBCreated)successMsgStr = successMsgStr + data.DBCreated;
                                     if (data.userExists)successMsgStr = successMsgStr + data.userExists;
                                     if (data.userCreated)successMsgStr = successMsgStr + data.userCreated;
                                     if (data.accessAdded)successMsgStr = successMsgStr + data.accessAdded;
