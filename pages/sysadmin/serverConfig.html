@@ -19,9 +19,16 @@
                     </tr>
                 </table>
             </td>
+            <td height="20px">
+                <table width="200px">
+                    <tr>
+                        <th height="30px"><b>DATABASES LIST:</b></th>
+                    </tr>
+                </table>
+            </td>
         </tr>
         <tr>
-            <td height="100px">
+            <td height="120px" width="500px">
                 <table width="500px">
                     <tr>
                         <td><label for="db.host">db.host </label></td>
@@ -42,6 +49,18 @@
                     <tr>
                         <td><label for="configName">configName</label></td>
                         <td><input id="configName" type="text" aria-disabled="false"/></td>
+                    </tr>
+                    <tr>
+                        <td><label for="backup_date">scheduleBackupDate</label></td>
+                        <td><input id="backup_date" type="text" aria-disabled="false"/></td>
+                        <td><div id="cron_note" style="color: dimgray">cron-format ss mm HH DD MM DaysOfWeek</div></td>
+                    </tr>
+                </table>
+            </td>
+            <td height="120x">
+                <table width="200px">
+                    <tr>
+                        <td><div  id="db_list" style="height:120px; overflow-y:scroll"></div></td>
                     </tr>
                 </table>
             </td>
@@ -114,6 +133,7 @@
                 var userInput=new TextBox({id:"db.user"},"db.user");
                 var dbPasswordInput=new TextBox({id:"db.password"},"db.password");
                 var configNameInput=new TextBox({id:"configName"},"configName");
+                var backupDateInput=new TextBox({id:"backup_date"},"backup_date");
 
                 var sa_serverConfig_configState = document.getElementById("sa_serverConfig_configState");
                 var reloadBtn = new Button({id: "SA_serverConfig_btnLoadConfig"}, "SA_serverConfig_btnLoadConfig");
@@ -293,7 +313,7 @@
 
                 sa_serverConfig_PageContent.getServerConfiguration = function(){
                     Request.getJSONData({url: "/sysadmin/server/getServerConfig", consoleLog: true},
-                            function (success, result) {
+                            function (success, result) {                                                            console.log("result=",result);
                                 if (!success) {
                                     sa_serverConfig_configState.innerHTML = "<div><b style='color:red'>No connection to the server!</b></div>";
                                     return;
@@ -301,6 +321,14 @@
                                 if (result.error) {
                                     sa_serverConfig_configState.innerHTML = "<div><b style='color:red'>Cannot get configuration parameters!</b> Reason:"+result.error+"</div>";
                                     return;
+                                }
+                                if(result.dbList){
+                                    var DBArray=result.dbList;
+                                    var DBstr="";
+                                    for(var i in DBArray){
+                                        DBstr=DBstr+DBArray[i].Database+"\n";
+                                    }
+                                    document.getElementById("db_list").innerText=DBstr;
                                 }
                                 sa_serverConfig_configState.innerHTML = "<div><b>Configuration loaded.</b></div>";
                                 setServerConfigContent(result);
@@ -330,6 +358,7 @@
                     userInput.set("value", DBConfigData["user"]);
                     dbPasswordInput.set("value",  DBConfigData["password"]);
                     configNameInput.set("value", DBConfigData["configName"] || "config.json");
+                    backupDateInput.set("value", DBConfigData["scheduleBackupDate"] || "59 59 23 * * * ");
                 }
 
                 saveAndReconnectBtn.onClick = function () {
@@ -339,12 +368,15 @@
                         database: databaseInput.get('value'),
                         user: userInput.get('value'),
                         password: dbPasswordInput.get('value'),
-                        configName: configNameInput.get('value')
+                        configName: configNameInput.get('value'),
+                        scheduleBackupDate: backupDateInput.get('value')
                     };
                     Request.postJSONData({url:  "/sysadmin/serverConfig/storeServerConfigAndReconnect", data: newDBConfig, consoleLog: true},
                             function (success, data) {
                                 if (!success) {
                                     sa_serverConfig_configState.innerHTML = "<div><b style='color:red'>No connection!</b></div>";
+                                    if (sa_serverConfig_PageContent.getParent().updateDBState)  sa_serverConfig_PageContent.getParent().updateDBState();
+                                    console.log("updateDBState=",sa_serverConfig_PageContent.getParent().updateDBState());
                                     return;
                                 }
                                 if (data.error) {
@@ -444,7 +476,7 @@
                                 callback();
                             });
                 }
-                function makeBackup(backupParams,rewrite){p
+                function makeBackup(backupParams,rewrite){
                     var DB = {};
                     DB.adminName = authAdminInfo.adminName;
                     DB.adminPassword = authAdminInfo.adminPassword;
@@ -558,7 +590,6 @@
                                 }
                             });
                 }
-
                 function cleanResultFields(){
                     document.getElementById("drop_db_result").innerHTML = "";
                     document.getElementById("create_db_result").innerHTML = "";

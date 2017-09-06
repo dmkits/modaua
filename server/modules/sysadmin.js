@@ -11,6 +11,8 @@ var util=require('../util');
 var database=require('../database');
 var appModules=require(appModulesPath), getValidateError=appModules.getValidateError;
 var dateFormat = require('dateformat');
+var cron = require('node-cron');
+var moment = require('moment');
 
 var dataModel=require('../datamodel');
 var changeLog= require(appDataModelPath+"change_log");
@@ -28,6 +30,92 @@ module.exports.validateModule = function(errs, nextValidateModuleCallback){
 module.exports.modulePageURL = "/sysadmin";
 module.exports.modulePagePath = "sysadmin.html";
 var thisInstance=this;
+
+
+
+/**
+ *logBackUp={logDate, DBName, fileName, schedule:false/true, error}
+ * @param logBackUp
+ */
+function writeToBackUpLog(logBackUp) {
+    var srt=fs.readFileSync(path.join(__dirname+ "/../../backups/log_backup.json"), "utf8");
+    var logData = srt ? JSON.parse(srt):[];
+    var newBackup = {};
+
+
+    if(logBackUp.invalidCrone){
+        newBackup.logDate=moment().format("DD.MM.YYYY HH:m:s");
+        newBackup.INVALIDE_CRONE_ERROR="Invalide CRONE format";
+        logData.push(newBackup);
+        fs.writeFileSync(path.join(__dirname, "/../../backups/log_backup.json"), JSON.stringify(logData),"utf8");
+        return;
+    }
+    if(logBackUp.error)newBackup.ERROR=logBackUp.error;
+    newBackup.logDate=logBackUp.logDate;
+    newBackup.DBName=logBackUp.DBName;
+    newBackup.fileName=logBackUp.fileName;
+    newBackup.schedule=logBackUp.schedule;
+    logData.push(newBackup);
+    fs.writeFileSync(path.join(__dirname, "/../../backups/log_backup.json"), JSON.stringify(logData),"utf8");
+}
+var scheduleBackup;
+function startBackupBySchedule(){                                           console.log("startBackupBySchedule=");
+    var serverConfig=getServerConfig();
+    var valid = cron.validate(serverConfig.scheduleBackupDate);           console.log("valid=",valid);
+    if(valid==false){
+        writeToBackUpLog({invalidCrone:true});
+        return;
+    }
+    if(scheduleBackup)scheduleBackup.destroy();
+    console.log("before scheduleBackup");
+    scheduleBackup =cron.schedule(getServerConfig().scheduleBackupDate, function(){      console.log("getServerConfig getServerConfig().scheduleBackupDate=",getServerConfig().scheduleBackupDate);
+        makeScheduleBackup(serverConfig);
+    });
+    scheduleBackup.start();
+}
+startBackupBySchedule();
+
+function makeScheduleBackup(serverConfig) {
+
+    var now = moment().format("YYYYMMDD_HHms");
+    var backupFileName = serverConfig.database + "_" + now + "_data";
+    var DBName = serverConfig.database;
+    var logData={};
+    logData.logDate=moment().format("DD.MM.YYYY HH:m:s");
+    logData.DBName=serverConfig.database;
+    logData.fileName=backupFileName;
+    logData.schedule=true;
+
+    var backupParam = {
+        host: serverConfig.host,
+        user: serverConfig.user,
+        password: serverConfig.password,
+        database: serverConfig.database,
+        fileName: backupFileName,
+        onlyData: true
+    };
+    database.checkIfDBExists(DBName, function (err, result) {
+        if (err) {                                                                                                      log.error("makeScheduleBackup err=", err);
+            logData.error=err;
+            writeToBackUpLog(logData);
+            return;
+        }
+        if (result.length == 0) {                                                                                       log.error("Impossible to back up DB! Database " + DBName + " is not exists!", err);
+            logData.error="Database not found!";
+            writeToBackUpLog(logData);
+            return;
+        }
+        database.backupDB(backupParam, function (err) {
+            if (err) {                                                                                                  log.error("makeScheduleBackup err=", err);
+                logData.error=err;
+                writeToBackUpLog(logData);
+                return;
+            }
+            writeToBackUpLog(logData);                                                                                  log.info("DB backup saved successfully to the file "+backupFileName);
+        })
+    });
+}
+
 module.exports.init = function(app){
 
     app.get("/sysadmin/serverState", function(req, res){
@@ -74,7 +162,19 @@ module.exports.init = function(app){
             res.send({error:(serverConfig&&serverConfig.error)?serverConfig.error:"unknown"});
             return;
         }
-        res.send(serverConfig);
+        database.executeQuery("SHOW DATABASES",function(err,result){
+            if(err){
+                res.send({error:err});
+                return;
+            }
+            serverConfig.dbList=result;
+            res.send(serverConfig);
+        });
+
+
+
+      //  res.send(serverConfig);
+
     });
     app.get("/sysadmin/server/loadServerConfig", function (req, res) {
         loadServerConfiguration();
@@ -102,6 +202,7 @@ module.exports.init = function(app){
                     appModules.validateModules(function(errs, errMessage){
                         if(errMessage) outData.dbValidation = errMessage;
                         res.send(outData);
+                        startBackupBySchedule();
                     });
                 });
             }
@@ -259,6 +360,13 @@ module.exports.init = function(app){
         var adminUser = req.body.adminName;
         var adminPassword = req.body.adminPassword;
         var backupFileName = req.body.backupFilename + '.sql';
+
+        var logData={};
+        logData.logDate=moment().format("DD.MM.YYYY HH:m:s");;
+        logData.fileName=backupFileName;
+        logData.schedule=false;
+        logData.DBName=DBName;
+
         var backupParam = {
             host: host,
             user: adminUser,
@@ -272,21 +380,28 @@ module.exports.init = function(app){
         database.checkIfDBExists(DBName, function (err, result) {
             if (err) {                                                                  log.error("checkIfDBExists err=", err);
                 outData.error = err.message;
+                logData.error = err.message;
+                writeToBackUpLog(logData);
                 res.send(outData);
                 return;
             }
             if (result.length == 0) {
                 outData.error = "Impossible to back up DB! Database " + DBName + " is not exists!";
+                logData.error = "Impossible to back up DB! Database " + DBName + " is not exists!";
+                writeToBackUpLog(logData);
                 res.send(outData);
                 return;
             }
             if (req.body.rewrite) {
                 database.backupDB(backupParam, function (err, ok) {
                     if (err) {                                                      log.error("checkIfDBExists err=", err);
+                        logData.error = err.message;
+                        writeToBackUpLog(logData);
                         outData.error = err.message;
                         res.send(outData);
                         return;
                     }
+                    writeToBackUpLog(logData);
                     outData.backup = ok;
                     res.send(outData);
                 })
@@ -295,6 +410,8 @@ module.exports.init = function(app){
                     for (var i in files) {
                         if (files[i] == backupFileName) {
                             outData.fileExists = true;
+                            logData.error = err.message;
+                            writeToBackUpLog(logData);
                             res.send(outData);
                             return;
                         }
@@ -302,9 +419,12 @@ module.exports.init = function(app){
                     database.backupDB(backupParam, function (err, ok) {
                         if (err) {                                                      log.error("checkIfDBExists err=", err);
                             outData.error = err.message;
+                            logData.error = err.message;
+                            writeToBackUpLog(logData);
                             res.send(outData);
                             return;
                         }
+                        writeToBackUpLog(logData);
                         outData.backup = ok;
                         res.send(outData);
                     })
