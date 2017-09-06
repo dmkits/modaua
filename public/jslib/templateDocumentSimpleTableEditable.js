@@ -20,7 +20,7 @@ define(["dojo/_base/declare", "app", "templateDocumentSimpleTable", "hTableEdita
             },
 
             /*
-             * callback(changedRowData, params, nextCallback)
+             * callback(changedRowData, contentTableInstance, params, nextCallback)
              */
             addContentTableRowChangeCallback: function(callback){
                 this.contentTable.addRowChangeCallback(callback);
