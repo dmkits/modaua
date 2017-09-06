@@ -51,7 +51,7 @@
                         <td><input id="configName" type="text" aria-disabled="false"/></td>
                     </tr>
                     <tr>
-                        <td><label for="backup_date">scheduleBackupDate</label></td>
+                        <td><label for="backup_date">backupSchedule</label></td>
                         <td><input id="backup_date" type="text" aria-disabled="false"/></td>
                         <td><div id="cron_note" style="color: dimgray">cron-format ss mm HH DD MM DaysOfWeek</div></td>
                     </tr>
@@ -69,6 +69,9 @@
             <td height="40px">
                 <button id="SA_serverConfig_btnLoadConfig">Load config</button>
                 <button id="SA_serverConfig_btnSaveConfigAndReconnect">Store config & reconnect to database</button>
+            </td>
+            <td height="40px" >
+                <button id="get_databases_for_user">Get databases for user</button>
             </td>
         </tr>
         <tr>
@@ -133,11 +136,12 @@
                 var userInput=new TextBox({id:"db.user"},"db.user");
                 var dbPasswordInput=new TextBox({id:"db.password"},"db.password");
                 var configNameInput=new TextBox({id:"configName"},"configName");
-                var backupDateInput=new TextBox({id:"backup_date"},"backup_date");
+                var backupScheduleInput=new TextBox({id:"backup_date"},"backup_date");
 
                 var sa_serverConfig_configState = document.getElementById("sa_serverConfig_configState");
                 var reloadBtn = new Button({id: "SA_serverConfig_btnLoadConfig"}, "SA_serverConfig_btnLoadConfig");
                 var saveAndReconnectBtn = new Button({id: "SA_serverConfig_btnSaveConfigAndReconnect"}, "SA_serverConfig_btnSaveConfigAndReconnect");
+                var dbForUserBtn=new Button({id: "get_databases_for_user"}, "get_databases_for_user");
                 var createDBBtn= new Button({id: "create_db_btn"}, "create_db_btn");
                 createDBBtn.domNode.firstChild.setAttribute("style", "width:70px;");
                 var dropDBBtn= new Button({id: "drop_db_btn"}, "drop_db_btn");
@@ -284,6 +288,25 @@
                     adminAuthDialog.onCancel();
                 };
 
+                var dbForUserDialog = new ConfirmDialog({
+                    autofocus:false,
+                    id: "dbForUserDialog",
+                    content: '<table id="auth_admin_dialog_table">'+
+                    '<tr>'+
+                    '<td><label for="db_user_name">Name:</label></td>'+
+                    '<td><input type="text" name="db_user_name" id="db_user_name"></td>'+
+                    '</tr>'+
+                    '<tr>'+
+                    '<td><label for="db_user_password">Password:</label></td>'+
+                    '<td><input type="password" name="db_user_password" id="db_user_password"></td>'+
+                    '</tr>'+
+                    '</table>',
+                    title: "Please, enter user name"
+                }, "dbForUserDialog");
+                adminAuthDialog.set("buttonOk","Login");
+                adminAuthDialog.set("buttonCancel","Cancel");
+
+
                 createDBBtn.onClick=function() {
                     adminAuthDialog.action="createDB";
                     adminAuthDialog.show();
@@ -332,7 +355,7 @@
                                 }
                                 sa_serverConfig_configState.innerHTML = "<div><b>Configuration loaded.</b></div>";
                                 setServerConfigContent(result);
-                            })
+                            });
                 };
                 reloadBtn.onClick= function() {
                     sa_serverConfig_configState.innerHTML = "<div><b>Loading configuration parameters...</b></div>";
@@ -358,7 +381,7 @@
                     userInput.set("value", DBConfigData["user"]);
                     dbPasswordInput.set("value",  DBConfigData["password"]);
                     configNameInput.set("value", DBConfigData["configName"] || "config.json");
-                    backupDateInput.set("value", DBConfigData["scheduleBackupDate"] || "59 59 23 * * * ");
+                    backupScheduleInput.set("value", DBConfigData["backupSchedule"] || "59 59 23 * * * ");
                 }
 
                 saveAndReconnectBtn.onClick = function () {
@@ -369,7 +392,7 @@
                         user: userInput.get('value'),
                         password: dbPasswordInput.get('value'),
                         configName: configNameInput.get('value'),
-                        scheduleBackupDate: backupDateInput.get('value')
+                        backupSchedule: backupScheduleInput.get('value')
                     };
                     Request.postJSONData({url:  "/sysadmin/serverConfig/storeServerConfigAndReconnect", data: newDBConfig, consoleLog: true},
                             function (success, data) {
@@ -380,10 +403,17 @@
                                     return;
                                 }
                                 if (data.error) {
-
                                     sa_serverConfig_configState.innerHTML = "<div><b style='color:red'>Failed store configuration! Reason:" + data["error"] + "</b></div>";
                                 } else {
                                     sa_serverConfig_configState.innerHTML = "<div><b>Configuration saved.</b></div>";
+                                }
+                                if(data.dbList){
+                                    var DBArray=data.dbList;
+                                    var DBstr="";
+                                    for(var i in DBArray){
+                                        DBstr=DBstr+DBArray[i].Database+"\n";
+                                    }
+                                    document.getElementById("db_list").innerText=DBstr;
                                 }
                                 if (data.DBConnectError) {
                                     sa_serverConfig_configState.innerHTML=
@@ -395,6 +425,51 @@
                                if (sa_serverConfig_PageContent.getParent().updateDBState)  sa_serverConfig_PageContent.getParent().updateDBState();
                             });
                 };
+
+                dbForUserBtn.onClick = function () {   ////
+                    dbForUserDialog.show();
+                };
+
+     //               sa_serverConfig_configState.innerHTML = "<div><b>Configuration saving and reconnecting to database...</b></div>";
+//                    var newDBConfig={
+//                        host: hostInput.get('value'),
+//                        database: databaseInput.get('value'),
+//                        user: userInput.get('value'),
+//                        password: dbPasswordInput.get('value'),
+//                        configName: configNameInput.get('value'),
+//                        backupSchedule: backupScheduleInput.get('value')
+//                    };
+//                    Request.postJSONData({url:  "/sysadmin/getDBForUser", data: newDBConfig, consoleLog: true},
+//                            function (success, data) {
+//                                if (!success) {
+//                                    sa_serverConfig_configState.innerHTML = "<div><b style='color:red'>No connection!</b></div>";
+//                                    if (sa_serverConfig_PageContent.getParent().updateDBState)  sa_serverConfig_PageContent.getParent().updateDBState();
+//                                    console.log("updateDBState=",sa_serverConfig_PageContent.getParent().updateDBState());
+//                                    return;
+//                                }
+//                                if (data.error) {
+//                                    sa_serverConfig_configState.innerHTML = "<div><b style='color:red'>Failed store configuration! Reason:" + data["error"] + "</b></div>";
+//                                } else {
+//                                    sa_serverConfig_configState.innerHTML = "<div><b>Configuration saved.</b></div>";
+//                                }
+//                                if(data.dbList){
+//                                    var DBArray=data.dbList;
+//                                    var DBstr="";
+//                                    for(var i in DBArray){
+//                                        DBstr=DBstr+DBArray[i].Database+"\n";
+//                                    }
+//                                    document.getElementById("db_list").innerText=DBstr;
+//                                }
+//                                if (data.DBConnectError) {
+//                                    sa_serverConfig_configState.innerHTML=
+//                                            sa_serverConfig_configState.innerHTML+ "<br><div><b style='color:red'>Failed connect to database ! Reason:" + data["DBConnectError"] + "</b></div>";
+//                                } else {
+//                                    sa_serverConfig_configState.innerHTML =
+//                                            sa_serverConfig_configState.innerHTML+ "<br><div><b>Reconnected to database.</b></div>";
+//                                }
+//                                if (sa_serverConfig_PageContent.getParent().updateDBState)  sa_serverConfig_PageContent.getParent().updateDBState();
+//                            });
+              //  });
 
                 function createDataBase() {
                     cleanResultFields();

@@ -41,8 +41,6 @@ function writeToBackUpLog(logBackUp) {
     var srt=fs.readFileSync(path.join(__dirname+ "/../../backups/log_backup.json"), "utf8");
     var logData = srt ? JSON.parse(srt):[];
     var newBackup = {};
-
-
     if(logBackUp.invalidCrone){
         newBackup.logDate=moment().format("DD.MM.YYYY HH:m:s");
         newBackup.INVALIDE_CRONE_ERROR="Invalide CRONE format";
@@ -170,11 +168,6 @@ module.exports.init = function(app){
             serverConfig.dbList=result;
             res.send(serverConfig);
         });
-
-
-
-      //  res.send(serverConfig);
-
     });
     app.get("/sysadmin/server/loadServerConfig", function (req, res) {
         loadServerConfiguration();
@@ -191,7 +184,10 @@ module.exports.init = function(app){
         util.saveConfig(appParams.mode+".cfg", newDBConfig,
             function (err) {
                 var outData = {};
-                if (err) outData.error = err;
+                if (err){
+                    outData.error = err;
+                    res.send(outData);
+                }
                 database.tryDBConnect(/*postaction*/function (err) {
                     var dbConnectError= database.getDBConnectError();                                           log.info("database.tryDBConnect dbConnectError",dbConnectError);
                     if (dbConnectError) {
@@ -201,8 +197,16 @@ module.exports.init = function(app){
                     }
                     appModules.validateModules(function(errs, errMessage){
                         if(errMessage) outData.dbValidation = errMessage;
-                        res.send(outData);
-                        startBackupBySchedule();
+                        database.executeQuery("SHOW DATABASES",function(err,result){
+                            if(err){
+                                outData.error = err;
+                                res.send(outData);
+                                return;
+                            }
+                            outData.dbList=result;
+                            res.send(outData);
+                            startBackupBySchedule();
+                        });
                     });
                 });
             }
