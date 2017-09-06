@@ -76,6 +76,12 @@
                     if(params&&params.revalidate) condition={"REVALIDATE":true};
                     Request.getJSONData({url: "/sysadmin/serverState", condition:condition, consoleLog: true},
                             function (success, result) {                               console.log("sysadmin_MainContainer.updateDBState result",result);
+                               if(!success){
+                                   document.getElementById("sysadmin_connectToDBState").innerHTML =
+                                           "<b>DB CONNECTION STATE:<span id ='dbConnection_color'>No connection to the server!</span></b>";
+                                   var dbConnection_color = document.getElementById("dbConnection_color");
+                                   dbConnection_color.setAttribute("style", "color:red");
+                               }
                                 if (success) {
                                     if (result === undefined || result == null) result = [];
                                     sysadmin_MainContainer.mainContentData = result;
@@ -141,7 +147,7 @@
                                     sysadmin_MainContainer.layout();
                                 } else {
                                     sysadmin_MainContainer.mainContentData = [];
-                                    sysadmin_MainContainer.mainContentData["error"] = result;
+                                    sysadmin_MainContainer.mainContentData["error"] = result; ///
                                 }
                             }
                     )

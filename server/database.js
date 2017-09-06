@@ -1,9 +1,11 @@
 var fs = require('fs');
 var mysql      = require('mysql');
+
 var server = require('./server');
 var child_process = require('child_process');
 var log =server.log;
 var path=require('path');
+
 
 function getDBConfig(){
     var serverConfig= server.getServerConfig();
@@ -35,6 +37,7 @@ function databaseConnection(callback){                                          
         callback(null, "connected");
     });
 };
+
 module.exports.databaseConnection=databaseConnection;
 
 function tryDBConnect(postaction) {                                                                         log.info('database tryDBConnect...');//test
@@ -212,7 +215,7 @@ module.exports.executeQuery= function(query, callback) {                        
                 callback(err);
                 return;
             }
-            callback(null, recordset.affectedRows);
+            callback(null, recordset, recordset.affectedRows);
         });
 };
 /**

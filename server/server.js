@@ -53,6 +53,7 @@ module.exports.getConfig=function(){ return config; }
 module.exports.getConfigAppMenu=function(){ return (config&&config.appMenu)?config.appMenu:null; };
 module.exports.getConfigModules=function(){ return (config&&config.modules)?config.modules:null; };
 
+
 server.use(cookieParser());
 server.use(bodyParser.urlencoded({extended: true}));
 server.use(bodyParser.json());
