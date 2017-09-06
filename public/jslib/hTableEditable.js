@@ -18,9 +18,9 @@ define(["dojo/_base/declare", "hTableSimpleFiltered", "request"], function(decla
                         setAutocompleteColumnValues(visColData,tableData);
                     });
 
-            }                                                                                               console.log("HTableSimple setData htVisibleColumns",this.htVisibleColumns);
+            }                                                                                               console.log("HTableEditable setData htVisibleColumns",this.htVisibleColumns);
         },
-        setAutocompleteColumnValues:function(colData,tableData){                                            console.log("HTableSimple setAutocompleteColumnValues",colData.data);
+        setAutocompleteColumnValues:function(colData,tableData){                                            //console.log("HTableEditable setAutocompleteColumnValues",colData.data);
             colData.sourceValues={};
             for(var r=0;r<tableData.length;r++) {
                 var value=tableData[r][colData.data];
@@ -29,8 +29,8 @@ define(["dojo/_base/declare", "hTableSimpleFiltered", "request"], function(decla
                     colData.source.push(value);
                 }
             }
-            colData.source.push("123");
-            colData.source.push("234");
+            //colData.source.push("123");
+            //colData.source.push("234");
         },
         loadAutocompleteColumnValues:function(colData,failedCallback){
             colData.sourceValues={};
@@ -38,8 +38,6 @@ define(["dojo/_base/declare", "hTableSimpleFiltered", "request"], function(decla
                 failedCallback();
                 return;
             }
-            //colData.source.push("12345677890");
-            //colData.source.push("0987654321");
             Request.getJSONData({url:colData.sourceURL, consoleLog:true}
                 ,function(success,result){
                     if(!success){
@@ -53,13 +51,24 @@ define(["dojo/_base/declare", "hTableSimpleFiltered", "request"], function(decla
                     }
                     colData.sourceValues={};
                     for(var r=0;r<resultItems.length;r++) {
-                        var value=resultItems[r][colData.data];
+                        var resultItemsData=resultItems[r], value=resultItemsData[colData.data];
                         if (!colData.sourceValues[value]){
-                            colData.sourceValues[value]=true;
+                            colData.sourceValues[value]=resultItemsData;
                             colData.source.push(value);
                         }
                     }
                 })
+        },
+        getAutocompleteColumnValueForItem:function(colItemName, itemValue, valueItemName){
+            for(var c=0;c<this.htVisibleColumns.length;c++){
+                var visColData=this.htVisibleColumns[c];
+                if (visColData.data===colItemName&&visColData.type==="autocomplete"){
+                    if(!visColData.sourceValues) return undefined;
+                    var sourceValuesItemData= visColData.sourceValues[itemValue];
+                    if(!sourceValuesItemData) return undefined;
+                    return sourceValuesItemData[valueItemName];
+                }
+            }
         },
         setChangeSettings: function(){
             var parent= this;
@@ -436,19 +445,19 @@ define(["dojo/_base/declare", "hTableSimpleFiltered", "request"], function(decla
             nextCallback();//without fail call this!
         },
         /*
-         * callback(changedRowData, params, nextCallback)
+         * callback(changedRowData, thisInstance, params, nextCallback)
          */
         addRowChangeCallback: function(callback){
             if (!this.rowChangeCallbacks) {
                 this.rowChangeCallbacks=[];
                 var thisInstance=this;
-                var rowChangeCallbackProcess= function(i, changedRowData, params, callUpdateContent, nextCallback){            //console.log("TemplateDocumentStandardTable this.detailTable.onChangeRowsData rowCallback",i,changedRowData/*,nextCallback*/);
+                var rowChangeCallbackProcess= function(i, changedRowData, thisInstance, params, callUpdateContent, nextCallback){            //console.log("TemplateDocumentStandardTable this.detailTable.onChangeRowsData rowCallback",i,changedRowData/*,nextCallback*/);
                     var rowChangeCallback=thisInstance.rowChangeCallbacks[i];
                     if(rowChangeCallback) {
-                        rowChangeCallback(changedRowData, params,
+                        rowChangeCallback(changedRowData, thisInstance, params,
                             function(callUpdateContentNext){
                                 callUpdateContentNext= (callUpdateContentNext===undefined)? false : callUpdateContentNext;      //console.log("TemplateDocumentStandardTable this.detailTable.onChangeRowData callback NEXT",changedRowData,callUpdateContentNext,callUpdateContent);
-                                rowChangeCallbackProcess(i+1, changedRowData, params, callUpdateContent||callUpdateContentNext, nextCallback);
+                                rowChangeCallbackProcess(i+1, changedRowData, thisInstance, params, callUpdateContent||callUpdateContentNext, nextCallback);
                             });
                         return;
                     }
@@ -456,7 +465,7 @@ define(["dojo/_base/declare", "hTableSimpleFiltered", "request"], function(decla
                     nextCallback();
                 };
                 this.onChangeRowData= function(changedRowData, params, nextCallback) {                                  //console.log("HTableEditable.onChangeRowData changedRowData=",changedRowData);
-                    rowChangeCallbackProcess(0, changedRowData, params, true, nextCallback);
+                    rowChangeCallbackProcess(0, changedRowData, thisInstance, params, true, nextCallback);
                 };
             }
             this.rowChangeCallbacks.push(callback);

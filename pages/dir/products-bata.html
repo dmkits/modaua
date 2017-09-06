@@ -105,6 +105,18 @@
                                         .addContentTablePopupMenuItemAction("Добавить строки",{action:"insertTableRowsAfterSelected",rowPosName:"POS"})//rowPosIndexName:"POSIND"
                                         .addContentTablePopupMenuItemAction("Изменить строки",{action:"allowEditTableSelectedRows"})
                                         .addContentTablePopupMenuItemAction("Сохранить строки",{action:"storeTableSelectedRows"})
+                                        .addContentTableRowChangeCallback(function(crd/*changedRowData*/, contentTable, params, nextCallback){
+                                            if(crd.item("GENDER_CODE").isChanged()&&!crd.item("GENDER_CODE").isUNDEFNULL()){
+                                                var genderValueForGenderCode=
+                                                        contentTable.getAutocompleteColumnValueForItem("GENDER_CODE",crd.item("GENDER_CODE").getValue(),"GENDER");
+                                                if(genderValueForGenderCode!=undefined) crd.item("GENDER").setValue(genderValueForGenderCode);
+                                            } else if(crd.item("GENDER").isChanged()&&!crd.item("GENDER").isUNDEFNULL()){
+                                                var genderCodeValueForGender=
+                                                        contentTable.getAutocompleteColumnValueForItem("GENDER",crd.item("GENDER").getValue(),"GENDER_CODE");
+                                                if(genderCodeValueForGender!=undefined) crd.item("GENDER_CODE").setValue(genderCodeValueForGender);
+                                            }
+                                            nextCallback();
+                                        })
                                         .startUp();
                     }
                     dir_products_ContentContainer.selectChild(dir_products_Btn_viewCategories.document);
@@ -127,6 +139,32 @@
                                         .addContentTablePopupMenuItemAction("Добавить строки",{action:"insertTableRowsAfterSelected",rowPosName:"POS"})//rowPosIndexName:"POSIND"
                                         .addContentTablePopupMenuItemAction("Изменить строки",{action:"allowEditTableSelectedRows"})
                                         .addContentTablePopupMenuItemAction("Сохранить строки",{action:"storeTableSelectedRows"})
+                                        .addContentTableRowChangeCallback(function(crd/*changedRowData*/, contentTable, params, nextCallback){
+//                                            if (crd.item("GENDER_CODE").isChanged()&&!crd.item("GENDER_CODE").isUNDEFNULL()){
+//                                                var genderValueForGenderCode=
+//                                                        contentTable.getAutocompleteColumnValueForItem("GENDER_CODE",crd.item("GENDER_CODE").getValue(),"GENDER");
+//                                                if(genderValueForGenderCode!=undefined) crd.item("GENDER").setValue(genderValueForGenderCode);
+//                                            }
+                                            if (crd.item("CATEGORY_CODE").isChanged()&&!crd.item("CATEGORY_CODE").isUNDEFNULL()){
+                                                var categoryValueForCategoryCode=
+                                                        contentTable.getAutocompleteColumnValueForItem("CATEGORY_CODE",crd.item("CATEGORY_CODE").getValue(),"CATEGORY");
+                                                if(categoryValueForCategoryCode!=undefined) crd.item("CATEGORY").setValue(categoryValueForCategoryCode);
+                                            } else if(crd.item("CATEGORY").isChanged()&&!crd.item("CATEGORY").isUNDEFNULL()){
+                                                var categoryCodeValueForCategory=
+                                                        contentTable.getAutocompleteColumnValueForItem("CATEGORY",crd.item("CATEGORY").getValue(),"CATEGORY_CODE");
+                                                if(categoryCodeValueForCategory!=undefined) crd.item("CATEGORY_CODE").setValue(categoryCodeValueForCategory);
+                                            }
+                                            if (crd.item("SUBCATEGORY_CODE").isChanged()&&!crd.item("SUBCATEGORY_CODE").isUNDEFNULL()){
+                                                var subcategoryValueForSubcategoryCode=
+                                                        contentTable.getAutocompleteColumnValueForItem("SUBCATEGORY_CODE",crd.item("SUBCATEGORY_CODE").getValue(),"SUBCATEGORY");
+                                                if(subcategoryValueForSubcategoryCode!=undefined) crd.item("CATEGORY").setValue(subcategoryValueForSubcategoryCode);
+                                            } else if(crd.item("CATEGORY").isChanged()&&!crd.item("SUBCATEGORY").isUNDEFNULL()){
+                                                var subcategoryCodeValueForSubcategory=
+                                                        contentTable.getAutocompleteColumnValueForItem("SUBCATEGORY",crd.item("SUBCATEGORY").getValue(),"SUBCATEGORY_CODE");
+                                                if(subcategoryCodeValueForSubcategory!=undefined) crd.item("SUBCATEGORY_CODE").setValue(subcategoryCodeValueForSubcategory);
+                                            }
+                                            nextCallback();
+                                        })
                                         .startUp();
                     }
                     dir_products_ContentContainer.selectChild(dir_products_Btn_viewSubcategories.document);

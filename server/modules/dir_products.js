@@ -1,19 +1,19 @@
 var dataModel=require('../datamodel');
-var dirProducts= require(appDataModelPath+"dir_products"),
-    dirProductsBarcodes= require(appDataModelPath+"dir_products_barcodes");
-var dirProductsArticles= require(appDataModelPath+"dir_products_articles"),
-    dirProductsKinds= require(appDataModelPath+"dir_products_kinds"),
-    dirProductsCompositions= require(appDataModelPath+"dir_products_compositions"),
-    dirProductsSizes= require(appDataModelPath+"dir_products_sizes"),
-    dirProductsCollections= require(appDataModelPath+"dir_products_collections");
-//var dirProductsBarcodes= require(appDataModelPath+"dir_products_barcodes");
+var dir_products= require(appDataModelPath+"dir_products"),
+    dir_products_barcodes= require(appDataModelPath+"dir_products_barcodes");
+var dir_products_articles= require(appDataModelPath+"dir_products_articles"),
+    dir_products_kinds= require(appDataModelPath+"dir_products_kinds"),
+    dir_products_compositions= require(appDataModelPath+"dir_products_compositions"),
+    dir_products_sizes= require(appDataModelPath+"dir_products_sizes"),
+    dir_products_collections= require(appDataModelPath+"dir_products_collections");
+//var dir_products_barcodes= require(appDataModelPath+"dir_products_barcodes");
 
 module.exports.validateModule = function(errs, nextValidateModuleCallback){
-    dataModel.initValidateDataModels({"dir_products":dirProducts,
-            "dir_products_barcodes":dirProductsBarcodes,
-            "dir_products_articles":dirProductsArticles,
-            "dir_products_kinds":dirProductsKinds, "dir_products_compositions":dirProductsCompositions, "dir_products_sizes":dirProductsSizes,
-            "dir_products_collections":dirProductsCollections},
+    dataModel.initValidateDataModels({"dir_products":dir_products,
+            "dir_products_barcodes":dir_products_barcodes,
+            "dir_products_articles":dir_products_articles,
+            "dir_products_kinds":dir_products_kinds, "dir_products_compositions":dir_products_compositions, "dir_products_sizes":dir_products_sizes,
+            "dir_products_collections":dir_products_collections},
         errs,
         function(){
             nextValidateModuleCallback();
@@ -37,21 +37,21 @@ module.exports.init = function(app){
         {"data": "COLLECTION_ID", "name": "COLLECTION_ID", "width": 80, "type": "text"}
     ];
     app.get("/dir/products/getDataForDirProductsTable", function(req, res){
-        dirProducts.getDataForTable({tableColumns:dirProductsTableColumns, identifier:dirProductsTableColumns[0].data,
+        dir_products.getDataForTable({tableColumns:dirProductsTableColumns, identifier:dirProductsTableColumns[0].data,
             conditions:req.query},
             function(result){
                 res.send(result);
             });
     });
     app.post("/dir/products/storeDirProductsTableData", function(req, res){
-        dirProducts.storeTableDataItem({idFieldName:dirProductsTableColumns[0].data, storeTableData:req.body},
+        dir_products.storeTableDataItem({idFieldName:dirProductsTableColumns[0].data, storeTableData:req.body},
             function(result){
                 res.send(result);
             });
     });
 
     app.get("/dir/products/getProductsCollectionsForSelect", function (req, res) {
-        dirProductsCollections.getDataItemsForSelect({ valueField:"NAME",labelField:"NAME", order: "NAME" },
+        dir_products_collections.getDataItemsForSelect({ valueField:"NAME",labelField:"NAME", order: "NAME" },
             function (result) {
                 res.send(result);
             });

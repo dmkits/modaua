@@ -53,6 +53,7 @@ function initValidateDataModel(dataModelName, dataModel, errs, nextValidateDataM
 
     dataModel.getDataItems= _getDataItems;
     dataModel.getDataItemsForSelect= _getDataItemsForSelect;
+    dataModel.getDataItemsForTableCombobox= _getDataItemsForTableCombobox;
     dataModel.getDataItem= _getDataItem;
     dataModel.setDataItem= _setDataItem;
     dataModel.getDataItemsForTable= _getDataItemsForTable;
@@ -61,6 +62,7 @@ function initValidateDataModel(dataModelName, dataModel, errs, nextValidateDataM
     dataModel.setDataItemForTable= _setDataItemForTable;
     dataModel.insDataItem= _insDataItem;
     dataModel.updDataItem= _updDataItem;
+    dataModel.storeDataItem= _storeDataItem;
     dataModel.delDataItem= _delDataItem;
     dataModel.insTableDataItem= _insTableDataItem;
     dataModel.updTableDataItem= _updTableDataItem;
@@ -270,6 +272,41 @@ function _getDataItemsForSelect(params, resultCallback){
     });
 }
 /**
+ * params = { source, comboboxFields = { <tableComboboxFieldName>:<sourceFieldName>, ... },
+ *      conditions={ <condition>:<conditionValue>, ... },
+  *     order = "<orderFieldsList>"
+ * }
+ * resultCallback = function(result = { items:[ {<tableComboboxFieldName>:<value>, ... }, ... ], error, errorCode } )
+ */
+function _getDataItemsForTableCombobox(params, resultCallback){
+    if(!params) {                                                                                       log.error("FAILED _getDataItemsForTableCombobox! Reason: no function parameters!");//test
+        resultCallback("FAILED _getDataItemsForTableCombobox! Reason: no function parameters!");
+        return;
+    }
+    if(!params.comboboxFields) {                                                                        log.error("FAILED _getDataItemsForTableCombobox! Reason: no comboboxFields!");//test
+        resultCallback("FAILED _getDataItemsForTableCombobox! Reason: no comboboxFields!");
+        return;
+    }
+    if(!params.source) params.source=this.source;
+    params.fields=[];
+    for(var cFieldName in params.comboboxFields){
+        params.fields.push(params.comboboxFields[cFieldName]+" as "+cFieldName);
+    }
+    _getDataItems(params,function(result){
+        if(result.items){
+            for(var i in result.items){
+                var resultItemData=result.items[i];
+                for(var rItemName in resultItemData){
+                    var rItemDataValue=resultItemData[rItemName];
+                    if(rItemDataValue==null) continue;
+                    if(typeof(rItemDataValue)!=="string") resultItemData[rItemName]=rItemDataValue.toString();
+                }
+            }
+        }
+        resultCallback(result);
+    });
+}
+/**
  * params = { source,
  *      fields = [<tableFieldName>,<tableFieldName>,<tableFieldName>,...],
  *      fieldFunction = { name:<fieldName>, function:<function>, sourceField:<function field name> },
@@ -403,11 +440,11 @@ function _getDataItemForTable(params, resultCallback){
  *       ...
  * ]
  * tableColumns: -<dataType> = text / html_text / text_date / text_datetime / date / numeric / numeric2 / checkbox
- *                              / combobox sourceURL
+ *                              / combobox,sourceURL / comboboxWN,sourceURL
  * OR tableColumns: -<dataType> = text / text & dateFormat:"DD.MM.YY HH:mm:ss" / html_text / date /
  *              numeric format:"#,###,###,##0.00[#######]" language:"ru-RU" /
- *              checkbox checkedTemplate:1 uncheckedTemplate:0 /
- *              autocomplete strict allowInvalid sourceURL
+ *              checkbox, checkedTemplate:1, uncheckedTemplate:0 /
+ *              autocomplete, strict, allowInvalid, sourceURL
  */
 function _fillDataTypeForTableColumns(tableColumns){
     if (!tableColumns) return tableColumns;
@@ -430,10 +467,11 @@ function _fillDataTypeForTableColumns(tableColumns){
         } else if(tableColData.type=="checkbox"){
             if(!tableColData.checkedTemplate) tableColData.checkedTemplate="1";
             if(!tableColData.uncheckedTemplate) tableColData.uncheckedTemplate="0";
-        } else if(tableColData.type=="combobox") {
+        } else if(tableColData.type=="combobox"||tableColData.type=="comboboxWN") {
+            if (!tableColData.strict)
+                if(tableColData.type=="combobox") tableColData.strict =true; else tableColData.strict= false;
+            if (!tableColData.allowInvalid) tableColData.allowInvalid= false;
             tableColData.type="autocomplete";
-            if (!tableColData.strict) tableColData.strict =true;
-            if (!tableColData.allowInvalid) tableColData.allowInvalid = false;
         }
     }
     return tableColumns;
@@ -515,6 +553,7 @@ function _insDataItem(params, resultCallback) {
         resultCallback({ error:"Failed insert data item! Reason:no function parameters!"});
         return;
     }
+    if(!params.tableName&&this.source) params.tableName=this.source;
     if (!params.tableName) {                                                                            log.error("FAILED _insDataItem! Reason: no table name!");//test
         resultCallback({ error:"Failed insert data item! Reason:no table name for insert!"});
         return;
@@ -557,6 +596,7 @@ function _updDataItem(params, resultCallback) {
         resultCallback({ error:"Failed update data item! Reason:no function parameters!"});
         return;
     }
+    if(!params.tableName&&this.source) params.tableName=this.source;
     if (!params.tableName) {                                                                            log.error("FAILED _updDataItem! Reason: no table name!");//test
         resultCallback({ error:"Failed update data item! Reason:no table name for update!"});
         return;
@@ -595,7 +635,50 @@ function _updDataItem(params, resultCallback) {
         resultCallback(updResult);
     });
 }
-
+/**
+ * params = { tableName, idFieldName,
+ *      storeData = {<tableFieldName>:<value>,<tableFieldName>:<value>,<tableFieldName>:<value>,...}
+ * }
+ * resultCallback = function(result = { updateCount, resultItem, error } )
+ */
+function _storeDataItem(params, resultCallback) {
+    if (!params) {                                                                                      log.error("FAILED _storeDataItem! Reason: no parameters!");//test
+        resultCallback({ error:"Failed store data item! Reason:no function parameters!"});
+        return;
+    }
+    if (!params.tableName) params.tableName=this.source;
+    if (!params.tableName) {                                                                            log.error("FAILED _storeDataItem! Reason: no table name!");//test
+        resultCallback({ error:"Failed store data item! Reason:no table name for store!"});
+        return;
+    }
+    if (!params.storeData) {                                                                            log.error("FAILED _storeDataItem "+params.tableName+"! Reason: no data for store!");//test
+        resultCallback({ error:"Failed store data item! Reason:no data for store!"});
+        return;
+    }
+    var idFieldName= params.idFieldName;
+    if (!idFieldName) {                                                                                 log.error("FAILED _storeDataItem "+params.tableName+"! Reason: no id field!");//test
+        resultCallback({ error:"Failed store data item! Reason:no id field name!"});
+        return;
+    }
+    var idValue=params.storeData[idFieldName];
+    if (idValue===undefined||idValue===null){//insert
+        params.storeData[idFieldName]=instauUID('decimal');
+        this.insDataItem({idFieldName:idFieldName, insData:params.storeData}, function(result){
+            if(result&&result.updateCount>0)result.resultItem=params.storeData;
+            resultCallback(result);
+        });
+        return;
+    }
+    //update
+    var updCondition={}; updCondition[idFieldName]=params.storeData[idFieldName];
+    var updData={};
+    for(var storeItemName in params.storeData)
+        if(storeItemName!=idFieldName) updData[storeItemName]= params.storeData[storeItemName];
+    this.updDataItem({idFieldName:idFieldName, updData:updData, conditions:updCondition}, function(result){
+        if(result&&result.updateCount>0)result.resultItem=params.storeData;
+        resultCallback(result);
+    });
+}
 /**
  * params = { tableName,
  *      conditions = { <tableFieldNameCondition>:<value>, ... }
@@ -607,6 +690,7 @@ function _delDataItem(params, resultCallback) {
         resultCallback({ error:"Failed delete data item! Reason:no function parameters!"});
         return;
     }
+    if(!params.tableName&&this.source) params.tableName=this.source;
     if (!params.tableName) {                                                                            log.error("FAILED _delDataItem! Reason: no table name!");//test
         resultCallback({ error:"Failed delete data item! Reason:no table name for delete!"});
         return;
