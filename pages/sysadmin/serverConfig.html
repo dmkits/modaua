@@ -125,8 +125,8 @@
 </body>
 <script type="text/javascript">
     require(["app", "dijit/layout/BorderContainer", "dijit/layout/LayoutContainer", "dijit/layout/ContentPane",
-                "dijit/form/TextBox", "dijit/form/DateTextBox", "dijit/form/Button","dijit/ConfirmDialog","dojo/keys","dojo/on","request"],
-            function (APP, BorderContainer, LayoutContainer, ContentPane, TextBox, DateTextBox, Button, ConfirmDialog,keys,on,Request) {
+                "dijit/form/TextBox", "dijit/form/DateTextBox", "dijit/form/Button","dijit/ConfirmDialog","sysadminDialogs","dojo/keys","dojo/on","request"],
+            function (APP, BorderContainer, LayoutContainer, ContentPane, TextBox, DateTextBox, Button, ConfirmDialog,sysadminDialogs,keys,on,Request) {
 
                 var sa_serverConfig_PageContent = APP.instanceForID("sa_serverConfig_PageContent", ContentPane, {});
                 sa_serverConfig_PageContent.domNode.style.display = "inline-block";
@@ -156,23 +156,7 @@
                 var authAdminInfo = {};
                 var restoreFilename;
 
-                var adminAuthDialog = new ConfirmDialog({
-                    autofocus:false,
-                    id: "adminAuthDialog",
-                    content: '<table id="auth_admin_dialog_table">'+
-                        '<tr>'+
-                        '<td><label for="admin_name">Name:</label></td>'+
-                '<td><input type="text" name="admin_name" id="admin_name" value="root"></td>'+
-                        '</tr>'+
-                        '<tr>'+
-                        '<td><label for="admin_password">Password:</label></td>'+
-                '<td><input type="password" name="admin_password" id="admin_password"></td>'+
-                        '</tr>'+
-                        '</table>',
-                    title: "Admin authorisation"
-                }, "adminAuthDialog");
-                adminAuthDialog.set("buttonOk","Login");
-                adminAuthDialog.set("buttonCancel","Cancel");
+                var adminAuthDialog = sysadminDialogs.adminAuthDialog();
 
                 adminAuthDialog.onExecute=function(){
                     if(adminAuthDialog.action=="createDB") createDataBase();
@@ -188,34 +172,7 @@
                     adminAuthDialog.hide();
                 };
 
-                adminAuthDialog.on("keypress", function (event) {
-                    if (event.keyCode == keys.ENTER) {
-                        adminAuthDialog.onExecute();
-                    }
-                });
-
-                var backupDialog = new ConfirmDialog({
-                    id: "backupDialog",
-                    content: '<table id="backup_fileName_dialog_table">' +
-                    '<tr>' +
-                    '<td><label for="backup_fileName">file name:</label></td>' +
-                    '<td><input type="text" name="backup_fileName" id="backup_fileName">.sql</td>' +
-                    '</tr>' +
-                    '</table>',
-                    title: "Save backup as",
-                    //buttonOk:"Save",
-                    onExecute:function(){}
-                }, "backupDialog");
-                backupDialog.set("buttonOk", "Save");
-                backupDialog.set("buttonCancel", "Cancel");
-
-                backupDialog.onShow=function(){
-                    var DBName= document.getElementById('db.name').value;
-                    var now=moment().format("YYYYMMDD_HHm");
-                    var defaultFileName =DBName+"_"+now;
-                    if(backupDialog.onlyDataBackup)defaultFileName=defaultFileName+"_data";
-                          document.getElementById('backup_fileName').value=defaultFileName;
-                };
+                var backupDialog = sysadminDialogs.backupDialog();
 
                 backupDialog.onExecute = function () {
                     backupDialog.backupFilename = document.getElementById("backup_fileName").value;
@@ -229,11 +186,7 @@
                     makeBackup(backupDialog.backUpParams);
                     backupDialog.hide();
                 };
-                backupDialog.on("keypress", function (event) {
-                    if (event.keyCode == keys.ENTER) {
-                        backupDialog.onExecute();
-                    }
-                });
+
                 backupDialog.onCancel=function(){
                     document.getElementById("backup_fileName").value="";
                     sa_serverConfig_PageContent.getServerConfiguration();
@@ -242,13 +195,7 @@
                     adminAuthDialog.onCancel();
                 };
 
-                var rewriteBackupDialog = new ConfirmDialog({
-                    id: "rewriteBackupDialog",
-                    content: "File exists!\n Rewrite file?",
-                    title: "Rewrite file"
-                }, "rewriteBackupDialog");
-                rewriteBackupDialog.set("buttonOk", "Rewrite");
-                rewriteBackupDialog.set("buttonCancel", "Cancel");
+                var rewriteBackupDialog =sysadminDialogs.rewriteBackupDialog();
                 rewriteBackupDialog.onExecute=function(){
                     makeBackup(backupDialog.backUpParams,true);
                     rewriteBackupDialog.hide();
@@ -258,28 +205,14 @@
                     rewriteBackupDialog.hide();
                 };
 
-                var restoreDialog = new ConfirmDialog({
-                    id: "restoreDialog",
-                    content: '<table id="restore_fileName_dialog_table">' +
-                    '<tr>' +
-                    '<td><label for="restore_fileName">file name:</label></td>' +
-                    '<td><input type="text" name="restore_fileName" id="restore_fileName">.sql</td>' +
-                    '</tr>' +
-                    '</table>,',
-                    title: "Restore from file"
-                }, "restoreDialog");
-                restoreDialog.set("buttonOk", "Restore");
-                restoreDialog.set("buttonCancel", "Cancel");
+                var restoreDialog=sysadminDialogs.restoreDialog();
+
                 restoreDialog.onExecute=function(){
                     restoreFilename = document.getElementById("restore_fileName").value;
                     makeRestore();
                     restoreDialog.hide();
                 };
-                restoreDialog.on("keypress", function (event) {
-                    if (event.keyCode == keys.ENTER) {
-                        restoreDialog.onExecute();
-                    }
-                });
+
                 restoreDialog.onCancel=function(){
                     document.getElementById("restore_fileName").value="";
                     sa_serverConfig_PageContent.getServerConfiguration();
@@ -288,38 +221,18 @@
                     adminAuthDialog.onCancel();
                 };
 
-                var dbForUserDialog = new ConfirmDialog({
-                    autofocus:false,
-                    id: "dbForUserDialog",
-                    content: '<table id="auth_admin_dialog_table">'+
-                    '<tr>'+
-                    '<td><label for="db_user_name">Name:</label></td>'+
-                    '<td><input type="text" name="db_user_name" id="db_user_name"></td>'+
-                    '</tr>'+
-                    '<tr>'+
-                    '<td><label for="db_user_password">Password:</label></td>'+
-                    '<td><input type="password" name="db_user_password" id="db_user_password"></td>'+
-                    '</tr>'+
-                    '</table>',
-                    title: "Please, enter user name"
-                }, "dbForUserDialog");
-                adminAuthDialog.set("buttonOk","Get list");
-                adminAuthDialog.set("buttonCancel","Cancel");
-                dbForUserDialog.on("keypress", function (event) {
-                    if (event.keyCode == keys.ENTER) {
-                        restoreDialog.onExecute();
-                    }
-                });
-                dbForUserDialog.onExecute=function() {
+                var dbListForUserDialog = sysadminDialogs.dbListForUserDialog();
+
+                dbListForUserDialog.onExecute=function() {
                     getDatabasesForUser();
-                    dbForUserDialog.hide();
+                    dbListForUserDialog.hide();
                 };
-                dbForUserDialog.onCancel=function(){
+                dbListForUserDialog.onCancel=function(){
                     document.getElementById("db_user_name").value="";
                     document.getElementById("db_user_password").value="";
-                    dbForUserDialog.hide();
+                    dbListForUserDialog.hide();
                 };
-                dbForUserDialog.onShow=function(){
+                dbListForUserDialog.onShow=function(){
                     document.getElementById("db_user_name").value="";
                     document.getElementById("db_user_password").value="";
                 };
@@ -340,7 +253,7 @@
                     document.getElementById("admin_password").focus();
                 };
                 backupDataBtn.onClick=function(){
-                    onlyDataBackup=true;
+                    backupDialog.onlyDataBackup=true;
                     adminAuthDialog.action="backupData";
                     adminAuthDialog.show();
                     document.getElementById("admin_password").focus();
@@ -358,7 +271,7 @@
                                     sa_serverConfig_configState.innerHTML = "<div><b style='color:red'>No connection to the server!</b></div>";
                                     return;
                                 }
-                                if (result.error) {
+                                if (result.error) { console.log("result.error=",result.error);
                                     sa_serverConfig_configState.innerHTML = "<div><b style='color:red'>Cannot get configuration parameters!</b> Reason:"+result.error+"</div>";
                                     return;
                                 }
@@ -444,7 +357,7 @@
                 };
 
                 dbForUserBtn.onClick = function () {   ////
-                    dbForUserDialog.show();
+                    dbListForUserDialog.show();
                 };
 
                 function getDatabasesForUser() {
@@ -462,6 +375,7 @@
                                 }
                                 if (data.error) {
                                     document.getElementById("db_list").innerHTML= "<div><b style='color:red'>Failed store configuration! Reason:" + data["error"] + "</b></div>";
+                                    return;
                                 }
                                 if (data.dbList) {
                                     var DBArray = data.dbList;
@@ -631,8 +545,7 @@
                     });
                 }
 
-
-                function makeRestore(/*rewrite*/) {
+                function makeRestore() {
                     cleanResultFields();
                     var DB = {};
                     DB.adminName = authAdminInfo.adminName;
@@ -642,7 +555,8 @@
                     DB.database = databaseInput.get('value');
                     DB.user = userInput.get('value');
                     DB.password = dbPasswordInput.get('value');
-                    if (rewrite)DB.rewrite = true;
+
+                    document.getElementById("restore_db_result").innerHTML = "Restoring started...";
 
                     Request.postJSONData({url: "/sysadmin/restore_db", data: DB, consoleLog: true},
                             function (success, data) {

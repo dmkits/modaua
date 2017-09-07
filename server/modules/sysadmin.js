@@ -34,7 +34,7 @@ var thisInstance=this;
 
 
 /**
- *logBackUp={logDate, DBName, fileName, schedule:false/true, error}
+ *logBackUp={logDate, DBName, fileName, schedule:false/true, error, info}
  * @param logBackUp
  */
 function writeToBackUpLog(logBackUp) {
@@ -42,13 +42,14 @@ function writeToBackUpLog(logBackUp) {
     var logData = srt ? JSON.parse(srt):[];
     var newBackup = {};
     if(logBackUp.invalidCrone){
-        newBackup.logDate=moment().format("DD.MM.YYYY HH:m:s");
+        newBackup.logDate=moment().format("DD.MM.YYYY HH:m:ss");
         newBackup.INVALIDE_CRONE_ERROR="Invalide CRONE format";
         logData.push(newBackup);
         fs.writeFileSync(path.join(__dirname, "/../../backups/log_backup.json"), JSON.stringify(logData),"utf8");
         return;
     }
     if(logBackUp.error)newBackup.ERROR=logBackUp.error;
+    if(logBackUp.info)newBackup.info=logBackUp.info;
     newBackup.logDate=logBackUp.logDate;
     newBackup.DBName=logBackUp.DBName;
     newBackup.fileName=logBackUp.fileName;
@@ -79,7 +80,7 @@ function makeScheduleBackup(serverConfig) {
     var backupFileName = serverConfig.database + "_" + now + "_data";
     var DBName = serverConfig.database;
     var logData={};
-    logData.logDate=moment().format("DD.MM.YYYY HH:m:s");
+    logData.logDate=moment().format("DD.MM.YYYY HH:m:ss");
     logData.DBName=serverConfig.database;
     logData.fileName=backupFileName;
     logData.schedule=true;
@@ -366,7 +367,7 @@ module.exports.init = function(app){
         var backupFileName = req.body.backupFilename + '.sql';
 
         var logData={};
-        logData.logDate=moment().format("DD.MM.YYYY HH:m:s");;
+        logData.logDate=moment().format("DD.MM.YYYY HH:m:ss");
         logData.fileName=backupFileName;
         logData.schedule=false;
         logData.DBName=DBName;
@@ -405,6 +406,7 @@ module.exports.init = function(app){
                         res.send(outData);
                         return;
                     }
+                    logData.info = "file update";
                     writeToBackUpLog(logData);
                     outData.backup = ok;
                     res.send(outData);
@@ -414,8 +416,6 @@ module.exports.init = function(app){
                     for (var i in files) {
                         if (files[i] == backupFileName) {
                             outData.fileExists = true;
-                            logData.error = err.message;
-                            writeToBackUpLog(logData);
                             res.send(outData);
                             return;
                         }

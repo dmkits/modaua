@@ -310,7 +310,7 @@ module.exports.getDatabasesForUser= function(user,pswd,callback) {
             return;
         }
         dbListForUserConn.query("SHOW DATABASES",
-            function (err,result) {                         console.log("dbListForUserConn result=",result);
+            function (err,result) {
                 if (err) {
                     callback(err);
                     return;
