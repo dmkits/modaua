@@ -293,4 +293,32 @@ function getDataItemFromDatabase(dbQuery, outData, resultItemName, callback){
         callback(outData);
     })
 };
+
+
+module.exports.getDatabasesForUser= function(user,pswd,callback) {
+    var dbListForUserConfig = {
+        host: getDBConfig().host,
+        database: getDBConfig().database,
+        user: user,
+        password:pswd
+    };
+
+    var dbListForUserConn = mysql.createConnection(dbListForUserConfig);
+    dbListForUserConn.connect(function (err) {
+        if (err) {                                                                                          log.error("database dbListForUserConn connect error:",err.message);
+            callback(err.message);
+            return;
+        }
+        dbListForUserConn.query("SHOW DATABASES",
+            function (err,result) {                         console.log("dbListForUserConn result=",result);
+                if (err) {
+                    callback(err);
+                    return;
+                }
+                callback(null,result);
+                dbListForUserConn.destroy();
+            });
+    });
+};
+
 module.exports.getDataItemFromDatabase=getDataItemFromDatabase;

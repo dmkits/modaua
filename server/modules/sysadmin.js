@@ -795,5 +795,17 @@ module.exports.init = function(app){
             res.send(result);
         });
     });
+    app.post("/sysadmin/getDBListForUser", function (req, res) {
+        database.getDatabasesForUser(req.body.user, req.body.pswd,function (err, result) {
+           var  outData={};
+            if (err) {
+                outData.error = err.message;
+                res.send(outData);
+                return;
+            }
+            outData.dbList=result;
+            res.send(outData);
+        });
+    });
 };
 

@@ -303,9 +303,26 @@
                     '</table>',
                     title: "Please, enter user name"
                 }, "dbForUserDialog");
-                adminAuthDialog.set("buttonOk","Login");
+                adminAuthDialog.set("buttonOk","Get list");
                 adminAuthDialog.set("buttonCancel","Cancel");
-
+                dbForUserDialog.on("keypress", function (event) {
+                    if (event.keyCode == keys.ENTER) {
+                        restoreDialog.onExecute();
+                    }
+                });
+                dbForUserDialog.onExecute=function() {
+                    getDatabasesForUser();
+                    dbForUserDialog.hide();
+                };
+                dbForUserDialog.onCancel=function(){
+                    document.getElementById("db_user_name").value="";
+                    document.getElementById("db_user_password").value="";
+                    dbForUserDialog.hide();
+                };
+                dbForUserDialog.onShow=function(){
+                    document.getElementById("db_user_name").value="";
+                    document.getElementById("db_user_password").value="";
+                };
 
                 createDBBtn.onClick=function() {
                     adminAuthDialog.action="createDB";
@@ -430,46 +447,32 @@
                     dbForUserDialog.show();
                 };
 
-     //               sa_serverConfig_configState.innerHTML = "<div><b>Configuration saving and reconnecting to database...</b></div>";
-//                    var newDBConfig={
-//                        host: hostInput.get('value'),
-//                        database: databaseInput.get('value'),
-//                        user: userInput.get('value'),
-//                        password: dbPasswordInput.get('value'),
-//                        configName: configNameInput.get('value'),
-//                        backupSchedule: backupScheduleInput.get('value')
-//                    };
-//                    Request.postJSONData({url:  "/sysadmin/getDBForUser", data: newDBConfig, consoleLog: true},
-//                            function (success, data) {
-//                                if (!success) {
-//                                    sa_serverConfig_configState.innerHTML = "<div><b style='color:red'>No connection!</b></div>";
-//                                    if (sa_serverConfig_PageContent.getParent().updateDBState)  sa_serverConfig_PageContent.getParent().updateDBState();
-//                                    console.log("updateDBState=",sa_serverConfig_PageContent.getParent().updateDBState());
-//                                    return;
-//                                }
-//                                if (data.error) {
-//                                    sa_serverConfig_configState.innerHTML = "<div><b style='color:red'>Failed store configuration! Reason:" + data["error"] + "</b></div>";
-//                                } else {
-//                                    sa_serverConfig_configState.innerHTML = "<div><b>Configuration saved.</b></div>";
-//                                }
-//                                if(data.dbList){
-//                                    var DBArray=data.dbList;
-//                                    var DBstr="";
-//                                    for(var i in DBArray){
-//                                        DBstr=DBstr+DBArray[i].Database+"\n";
-//                                    }
-//                                    document.getElementById("db_list").innerText=DBstr;
-//                                }
-//                                if (data.DBConnectError) {
-//                                    sa_serverConfig_configState.innerHTML=
-//                                            sa_serverConfig_configState.innerHTML+ "<br><div><b style='color:red'>Failed connect to database ! Reason:" + data["DBConnectError"] + "</b></div>";
-//                                } else {
-//                                    sa_serverConfig_configState.innerHTML =
-//                                            sa_serverConfig_configState.innerHTML+ "<br><div><b>Reconnected to database.</b></div>";
-//                                }
-//                                if (sa_serverConfig_PageContent.getParent().updateDBState)  sa_serverConfig_PageContent.getParent().updateDBState();
-//                            });
-              //  });
+                function getDatabasesForUser() {
+                    var user = document.getElementById("db_user_name").value;
+                    var pswd = document.getElementById("db_user_password").value;
+                    var userAuthData = {user: user, pswd: pswd};
+
+                    Request.postJSONData({url: "/sysadmin/getDBListForUser", data: userAuthData, consoleLog: true},
+                            function (success, data) {         console.log("data getDatabasesForUser=",data);
+                                if (!success) {
+                                    sa_serverConfig_configState.innerHTML = "<div><b style='color:red'>No connection!</b></div>";
+                                    if (sa_serverConfig_PageContent.getParent().updateDBState)  sa_serverConfig_PageContent.getParent().updateDBState();
+                                    console.log("updateDBState=", sa_serverConfig_PageContent.getParent().updateDBState());
+                                    return;
+                                }
+                                if (data.error) {
+                                    document.getElementById("db_list").innerHTML= "<div><b style='color:red'>Failed store configuration! Reason:" + data["error"] + "</b></div>";
+                                }
+                                if (data.dbList) {
+                                    var DBArray = data.dbList;
+                                    var DBstr = "";
+                                    for (var i in DBArray) {
+                                        DBstr = DBstr + DBArray[i].Database + "\n";
+                                    }
+                                    document.getElementById("db_list").innerText = DBstr;
+                                }
+                            });
+                }
 
                 function createDataBase() {
                     cleanResultFields();
@@ -509,7 +512,6 @@
                     DB.adminName = document.getElementById("admin_name").value;
                     DB.adminPassword = document.getElementById("admin_password").value;
                     DB.host = hostInput.get('value');
-                    // "port": portInput.get('value'),
                     DB.database = databaseInput.get('value');
                     DB.user = userInput.get('value');
                     DB.password = dbPasswordInput.get('value');
