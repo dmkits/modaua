@@ -57,16 +57,16 @@ function writeToBackUpLog(logBackUp) {
     fs.writeFileSync(path.join(__dirname, "/../../backups/log_backup.json"), JSON.stringify(logData),"utf8");
 }
 var scheduleBackup;
-function startBackupBySchedule(){                                           console.log("startBackupBySchedule=");
+function startBackupBySchedule(){                                           log.debug("startBackupBySchedule");
     var serverConfig=getServerConfig();
-    var valid = cron.validate(serverConfig.scheduleBackupDate);           console.log("valid=",valid);
-    if(valid==false){
+    var valid = cron.validate(serverConfig.backupSchedule);
+    if(valid==false){                                                       log.error("CRON format for startBackupBySchedule is not valid.");
         writeToBackUpLog({invalidCrone:true});
         return;
     }
     if(scheduleBackup)scheduleBackup.destroy();
     console.log("before scheduleBackup");
-    scheduleBackup =cron.schedule(getServerConfig().scheduleBackupDate, function(){      console.log("getServerConfig getServerConfig().scheduleBackupDate=",getServerConfig().scheduleBackupDate);
+    scheduleBackup =cron.schedule(getServerConfig().backupSchedule, function(){      console.log("getServerConfig getServerConfig().scheduleBackupDate=",getServerConfig().scheduleBackupDate);
         makeScheduleBackup(serverConfig);
     });
     scheduleBackup.start();
@@ -75,7 +75,7 @@ startBackupBySchedule();
 
 function makeScheduleBackup(serverConfig) {
 
-    var now = moment().format("YYYYMMDD_HHms");
+    var now = moment().format("YYYYMMDD_HHm");
     var backupFileName = serverConfig.database + "_" + now + "_data";
     var DBName = serverConfig.database;
     var logData={};
