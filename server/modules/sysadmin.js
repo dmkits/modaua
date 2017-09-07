@@ -156,12 +156,12 @@ module.exports.init = function(app){
     });
 
     app.get("/sysadmin/server/getServerConfig", function (req, res) {
-        var serverConfig=getServerConfig();
+        var serverConfig=getServerConfig();                 console.log("getServerConfig serverConfig=",serverConfig);
         if (!serverConfig||serverConfig.error) {
             res.send({error:(serverConfig&&serverConfig.error)?serverConfig.error:"unknown"});
             return;
         }
-        database.executeQuery("SHOW DATABASES",function(err,result){
+        database.executeQuery("SHOW DATABASES",function(err,result){   console.log("SHOW DATABASES result=",result);
             if(err){
                 res.send({error:err});
                 return;

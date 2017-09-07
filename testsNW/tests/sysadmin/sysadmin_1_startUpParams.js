@@ -1,5 +1,6 @@
 
 var fs=require('fs');
+var moment = require('moment');
 
 function deleteTestBackUpFile() {
 
@@ -15,7 +16,7 @@ function deleteTestBackUpFile() {
         }
     });
 }
-
+//var now=moment().format("YYYYMMDD_HHm");
 module.exports= {
    // '@disabled': true,
     before: function (browser) {
@@ -248,7 +249,7 @@ module.exports= {
             .assert.containsText('@dbConnectionState', 'Failed to connect to database!');
     },
 
-   'BackupDB Tests':function(browser){
+   'BackupDB DB with schema Tests':function(browser){
 
        var serverConfig = browser.page.serverConfig();
        var sysadminHeader = browser.page.sysadminHeader();
@@ -263,8 +264,18 @@ module.exports= {
             .assertAdminDialogIsEmpty()
             .authorizeAsAdmin()
             .assert.visible("@backupDialog")
-            .assert.visible("@backupFileName")
-            .assertBackupDialogIsEmpty()
+            .assert.visible("@backupFileName");
+
+       /*
+       var now=moment().format("YYYYMMDD_HHm");
+       browser.perform(function(){
+           console.log('!!!!!!!!!!!!!! BEFORE !!!!restore_fileName');
+           browser.element('#restore_fileName').to.have.value.that.equals(now);
+           console.log('!!!!!!!!!!!!!! restore_fileName');
+       });
+       */
+       serverConfig
+            .clearValue("@backupFileName")
             .setValue("@backupFileName","test_DB")
             .submitDialog('@backupDialog')
             .waitForElementVisible('@backupDBResultField')
@@ -274,8 +285,10 @@ module.exports= {
             .click('@restoreBtn')
             .assertAdminDialogIsEmpty()
             .authorizeAsAdmin()
-            .waitForElementVisible('@restoreDialog')
-            .assertRestoreDialogIsEmpty()
+            .waitForElementVisible('@restoreDialog');
+      // browser.element('#restore_fileName').to.have.value.that.equals('');
+       serverConfig
+           // .assertRestoreDialogIsEmpty()
             .clearValue("@restoreFileName")
             .setValue("@restoreFileName","test_DB")
             .submitDialog('@restoreDialog')
@@ -291,35 +304,40 @@ module.exports= {
         sysadminHeader
             .assert.containsText('@dbConnectionState', 'Connected');
 
-        serverConfig.click('@restoreBtn')
-            .assertAdminDialogIsEmpty()
-            .authorizeAsAdmin()
-            .waitForElementVisible('@restoreDialog')
-            .assertRestoreDialogIsEmpty()
-            .clearValue("@restoreFileName")
-            .setValue("@restoreFileName","test_DB")
-            .submitDialog('@restoreDialog')
-            .waitForElementVisible('@restoreDBResultField')
-            .assert.containsText('@restoreDBResultField', 'Db dump file restored successfully')
+        serverConfig
+            //.click('@restoreBtn')
+            //.assertAdminDialogIsEmpty()
+            //.authorizeAsAdmin()
+            //.waitForElementVisible('@restoreDialog')
+            //.assertRestoreDialogIsEmpty()
+            //.clearValue("@restoreFileName")
+            //.setValue("@restoreFileName","test_DB")
+            //.submitDialog('@restoreDialog')
+            //.waitForElementVisible('@restoreDBResultField')
+            //.assert.containsText('@restoreDBResultField', 'Db dump file restored successfully')
 
+            /*
             .click('@restoreBtn')
             .assertAdminDialogIsEmpty()
             .authorizeAsAdmin()
             .waitForElementVisible('@restoreDialog')
-            .assertRestoreDialogIsEmpty()
-            .clearValue("@restoreFileName")
+    //   browser.element('#restore_fileName').to.have.value.that.equals('');
+          //  .assertRestoreDialogIsEmpty()
+           // .clearValue("@restoreFileName")
             .setValue("@restoreFileName","test_DB")
             .submitDialog('@restoreDialog')
             .waitForElementVisible('@rewriteDBDialog')
             .submitDialog('@rewriteDBDialog')
             .waitForElementVisible('@restoreDBResultField')
             .assert.containsText('@restoreDBResultField', 'Db dump file restored successfully')
-
+*/
             .click('@restoreBtn')
             .assertAdminDialogIsEmpty()
             .authorizeAsAdmin()
             .waitForElementVisible('@restoreDialog')
-            .assertRestoreDialogIsEmpty()
+      // browser.perform({})
+      // browser.element('#restore_fileName').to.have.value.that.equals('');
+           // .assertRestoreDialogIsEmpty()
             .clearValue("@restoreFileName")
             .setValue("@restoreFileName","fail0000")
             .submitDialog('@restoreDialog')

@@ -1,8 +1,8 @@
 /**
  * Created by dmkits on 30.12.16.
  */
-define(["app", "dijit/ConfirmDialog", "dijit/form/Button", "dijit/form/TextBox", "dojo/keys", "dojo/on", "dojo/domReady!"],
-    function (APP, ConfirmDialog, Button, TextBox, keys, on) {
+define([ "dijit/ConfirmDialog", "dojo/keys", "dojo/on", "dojo/domReady!"],
+    function (ConfirmDialog, keys, on) {
         return {
 
             /**
@@ -11,7 +11,6 @@ define(["app", "dijit/ConfirmDialog", "dijit/form/Button", "dijit/form/TextBox",
              * params = {ConfirmDialog params}
              */
             makeDialog: function (params) {
-                //var myDialog = APP.instance("DialogSimple", ConfirmDialog, {});
                 var myDialog = new ConfirmDialog();
                 for (var paramName in params) {
                     console.log("paramName=", paramName, params[paramName]);
@@ -83,13 +82,13 @@ define(["app", "dijit/ConfirmDialog", "dijit/form/Button", "dijit/form/TextBox",
                     '<td><label for="restore_fileName">file name:</label></td>' +
                     '<td><input type="text" name="restore_fileName" id="restore_fileName">.sql</td>' +
                     '</tr>' +
-                    '</table>,',
+                    '</table>',
                     title: "Restore from file",
                     buttonOk:"Restore",
                     buttonCancel:"Cancel"
                 });
             },
-            dbListForUserDialog:function(){                 //dbForUserDialog
+            dbListForUserDialog:function(){
                 return this.makeDialog({
                     autofocus:false,
                     id: "dbForUserDialog",

@@ -266,12 +266,12 @@
 
                 sa_serverConfig_PageContent.getServerConfiguration = function(){
                     Request.getJSONData({url: "/sysadmin/server/getServerConfig", consoleLog: true},
-                            function (success, result) {                                                            console.log("result=",result);
+                            function (success, result) {                                                            console.log("sa_serverConfig_PageContent.getServerConfiguration result=",result);
                                 if (!success) {
                                     sa_serverConfig_configState.innerHTML = "<div><b style='color:red'>No connection to the server!</b></div>";
                                     return;
                                 }
-                                if (result.error) { console.log("result.error=",result.error);
+                                if (result.error) {                                              console.log("sa_serverConfig_PageContent.getServerConfiguration  result.error=",result.error);
                                     sa_serverConfig_configState.innerHTML = "<div><b style='color:red'>Cannot get configuration parameters!</b> Reason:"+result.error+"</div>";
                                     return;
                                 }

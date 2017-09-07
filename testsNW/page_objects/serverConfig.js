@@ -171,12 +171,16 @@ var serverConfigCommands = {
             .assert.valueContains('@backupFileName', '')
     },
 
-    assertRestoreDialogIsEmpty:function(){
-        var instance=this;
-        return instance.waitForElementVisible('@restoreDialog')
-            .waitForElementVisible('@restoreFileName')
-            .assert.valueContains('@restoreFileName', '')
-    }
+    //assertRestoreDialogIsEmpty:function(){
+    //    var instance=this;
+    //    instance
+    //        .waitForElementVisible('@restoreDialog')
+    //        .waitForElementVisible('@restoreFileName');
+    //    instance.api.element('#restore_fileName').to.have.value.that.equals('');
+    //    instance
+    //        .assert.valueContains('@restoreFileName', '');
+    //    return instance;
+    //}
 };
 
 
@@ -252,16 +256,16 @@ module.exports={
                 restoreDialog_cancelBtn:{
                     selector:'//div[@id="restoreDialog"]//span[@class="dijitReset dijitInline dijitButtonText" and text()="Cancel"]',
                     locateStrategy:'xpath'
-                },
-
-        rewriteDBDialog: '#rewriteDBDialog',
-                rewriteDBDialog_submitBtn:{
-                    selector:'//div[@id="rewriteDBDialog"]//span[@class="dijitReset dijitInline dijitButtonText" and text()="Rewrite"]',
-                    locateStrategy:'xpath'
-                },
-                rewriteDBDialog_cancelBtn:{
-                selector:'//div[@id="rewriteDBDialog"]//span[@class="dijitReset dijitInline dijitButtonText" and text()="Cancel"]',
-                    locateStrategy:'xpath'
                 }
+
+        //rewriteDBDialog: '#rewriteDBDialog',
+        //        rewriteDBDialog_submitBtn:{
+        //            selector:'//div[@id="rewriteDBDialog"]//span[@class="dijitReset dijitInline dijitButtonText" and text()="Rewrite"]',
+        //            locateStrategy:'xpath'
+        //        },
+        //        rewriteDBDialog_cancelBtn:{
+        //        selector:'//div[@id="rewriteDBDialog"]//span[@class="dijitReset dijitInline dijitButtonText" and text()="Cancel"]',
+        //            locateStrategy:'xpath'
+        //        }
     }
 };
