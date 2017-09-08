@@ -175,7 +175,7 @@ module.exports.init = function(app){
 
     app.get("/sysadmin/server/loadServerConfig", function (req, res) {
         loadServerConfiguration();
-        var serverConfig=getServerConfig();
+        var serverConfig=getServerConfig();                         console.log("serverConfig=",serverConfig);
         if (!serverConfig||serverConfig.error) {
             res.send({error: (serverConfig&&serverConfig.error)?serverConfig.error:"unknown"});
             return;

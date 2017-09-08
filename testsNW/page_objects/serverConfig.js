@@ -194,12 +194,14 @@ module.exports={
         dbUserLabel:'label[for="db.user"]',
         dbPasswordLabel:'label[for="db.password"]',
         configNamedLabel:'label[for="configName"]',
+        backupScheduleLabel:'label[for="backup_schedule"]',
 
         dbHostInput:'input[id="db.host"]',
         dbNameInput:'input[id="db.name"]',
         dbUserInput:'input[id="db.user"]',
         dbPasswordInput:'input[id="db.password"]',
         configNameInput:'input[id="configName"]',
+        backupScheduleInput:'input[id="backup_schedule"]',
 
         loadSettingsBtn:"#SA_serverConfig_btnLoadConfig",
         StoreAndReconnectBtn:'#SA_serverConfig_btnSaveConfigAndReconnect',
@@ -207,12 +209,29 @@ module.exports={
         createDBBtn:'#create_db_btn',
         dropDBBtn:'#drop_db_btn',
         backupBtn:'#backup_db_btn',
+        backupDataBtn:'#backup_data_btn',
         restoreBtn:'#restore_db_btn',
 
         createDBResultField:"#create_db_result",
         dropDBResultField:'#drop_db_result',
         backupDBResultField:'#backup_db_result',
+        backupDataResultField:'#backup_data_result',
         restoreDBResultField:'#restore_db_result',
+
+        dbListHeading:"#server_db_list_th",
+        dbListContent:'#db_list',
+        dbListBtn:'#databases_for_btn',
+        dbListDialog: '#dbForUserDialog',
+        dbListDialog_UserName:'input[id="server_db_user_name"]',
+        dbListDialog_UserPas:'#server_db_user_password',
+        dbListDialog_submitBtn:{
+            selector:'//div[@id="dbForUserDialog"]//span[@class="dijitReset dijitInline dijitButtonText" and text()="Get list"]',
+            locateStrategy:'xpath'
+        },
+        dbListDialog_cancelBtn:{
+            selector:'//div[@id="dbForUserDialog"]//span[@class="dijitReset dijitInline dijitButtonText" and text()="Cancel"]',
+            locateStrategy:'xpath'
+        },
 
         authAdminDialog: '#adminAuthDialog',
                 authAdminDialog_AdminName:'input[id="admin_name"]',

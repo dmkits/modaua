@@ -92,14 +92,14 @@ define([ "dijit/ConfirmDialog", "dojo/keys", "dojo/on", "dojo/domReady!"],
                 return this.makeDialog({
                     autofocus:false,
                     id: "dbForUserDialog",
-                    content: '<table id="auth_admin_dialog_table">'+
+                    content: '<table id="db_for_user_dialog_table">'+
                     '<tr>'+
-                    '<td><label for="db_user_name">Name:</label></td>'+
-                    '<td><input type="text" name="db_user_name" id="db_user_name"></td>'+
+                    '<td><label for="server_db_user_name">Name:</label></td>'+
+                    '<td><input type="text" name="server_db_user_name" id="server_db_user_name"></td>'+
                     '</tr>'+
                     '<tr>'+
-                    '<td><label for="db_user_password">Password:</label></td>'+
-                    '<td><input type="password" name="db_user_password" id="db_user_password"></td>'+
+                    '<td><label for="server_db_user_password">Password:</label></td>'+
+                    '<td><input type="password" name="server_db_user_password" id="server_db_user_password"></td>'+
                     '</tr>'+
                     '</table>',
                     title: "Please, enter user name",

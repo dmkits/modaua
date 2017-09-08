@@ -22,7 +22,7 @@
             <td height="20px">
                 <table width="200px">
                     <tr>
-                        <th height="30px"><b>Databases list for <span id ="server_dblist_user"></span>:</b></th>
+                        <th id="server_db_list_th" height="30px"><b>Databases list for <span id ="server_dblist_user"></span>:</b></th>
                     </tr>
                 </table>
             </td>
@@ -51,8 +51,8 @@
                         <td><input id="configName" type="text" aria-disabled="false"/></td>
                     </tr>
                     <tr>
-                        <td><label for="backup_date">backupSchedule</label></td>
-                        <td><input id="backup_date" type="text" aria-disabled="false"/></td>
+                        <td><label for="backup_schedule">backupSchedule</label></td>
+                        <td><input id="backup_schedule" type="text" aria-disabled="false"/></td>
                         <td><div id="cron_note" style="color: dimgray">cron-format ss mm HH DD MM DaysOfWeek</div></td>
                     </tr>
                 </table>
@@ -71,7 +71,7 @@
                 <button id="SA_serverConfig_btnSaveConfigAndReconnect">Store config & reconnect to database</button>
             </td>
             <td height="40px" >
-                <button id="get_databases_for_user">Get databases for user</button>
+                <button id="databases_for_btn">Get databases for user</button>
             </td>
         </tr>
         <tr>
@@ -136,12 +136,12 @@
                 var userInput=new TextBox({id:"db.user"},"db.user");
                 var dbPasswordInput=new TextBox({id:"db.password"},"db.password");
                 var configNameInput=new TextBox({id:"configName"},"configName");
-                var backupScheduleInput=new TextBox({id:"backup_date"},"backup_date");
+                var backupScheduleInput=new TextBox({id:"backup_schedule"},"backup_schedule");
 
                 var sa_serverConfig_configState = document.getElementById("sa_serverConfig_configState");
                 var reloadBtn = new Button({id: "SA_serverConfig_btnLoadConfig"}, "SA_serverConfig_btnLoadConfig");
                 var saveAndReconnectBtn = new Button({id: "SA_serverConfig_btnSaveConfigAndReconnect"}, "SA_serverConfig_btnSaveConfigAndReconnect");
-                var dbForUserBtn=new Button({id: "get_databases_for_user"}, "get_databases_for_user");
+                var dbForUserBtn=new Button({id: "databases_for_btn"}, "databases_for_btn");
                 var createDBBtn= new Button({id: "create_db_btn"}, "create_db_btn");
                 createDBBtn.domNode.firstChild.setAttribute("style", "width:70px;");
                 var dropDBBtn= new Button({id: "drop_db_btn"}, "drop_db_btn");
@@ -228,13 +228,13 @@
                     dbListForUserDialog.hide();
                 };
                 dbListForUserDialog.onCancel=function(){
-                    document.getElementById("db_user_name").value="";
-                    document.getElementById("db_user_password").value="";
+                    document.getElementById("server_db_user_name").value="";
+                    document.getElementById("server_db_user_password").value="";
                     dbListForUserDialog.hide();
                 };
                 dbListForUserDialog.onShow=function(){
-                    document.getElementById("db_user_name").value="";
-                    document.getElementById("db_user_password").value="";
+                    document.getElementById("server_db_user_name").value="";
+                    document.getElementById("server_db_user_password").value="";
                 };
 
                 createDBBtn.onClick=function() {
@@ -312,7 +312,7 @@
                             }
                     );
                 };
-                function setServerConfigContent(DBConfigData) {
+                function setServerConfigContent(DBConfigData) {         console.log("DBConfigData 315=",DBConfigData);
                     hostInput.set("value", DBConfigData["host"]);
                     databaseInput.set("value", DBConfigData["database"]);
                     userInput.set("value", DBConfigData["user"]);
@@ -374,8 +374,8 @@
                 };
 
                 function getDatabasesForUser() {
-                    var user = document.getElementById("db_user_name").value;
-                    var pswd = document.getElementById("db_user_password").value;
+                    var user = document.getElementById("server_db_user_name").value;
+                    var pswd = document.getElementById("server_db_user_password").value;
                     var userAuthData = {user: user, pswd: pswd};
 
                     Request.postJSONData({url: "/sysadmin/getDBListForUser", data: userAuthData, consoleLog: true},
