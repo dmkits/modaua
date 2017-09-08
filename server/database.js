@@ -76,14 +76,22 @@ module.exports.mySQLAdminConnection = function (connParams, callback) {         
     });
 };
 
-module.exports.checkIfDBExists= function(DBName,callback) {
-    connection.query("SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME = '"+DBName+"'",
+module.exports.checkIfDBExists = function (DBName, callback) {
+    var serverConfig = server.getServerConfig();
+    var connToMySQL = mysql.createConnection({
+        host: serverConfig.host, user: serverConfig.user, password: serverConfig.password,
+        supportBigNumbers: true
+    });
+
+    connToMySQL.query("SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME = '" + DBName + "'",
         function (err, recordset) {
             if (err) {
                 callback(err);
+                connToMySQL.destroy();
                 return;
             }
-            callback(null,recordset);
+            callback(null, recordset);
+            connToMySQL.destroy();
         });
 };
 
@@ -295,10 +303,10 @@ function getDataItemFromDatabase(dbQuery, outData, resultItemName, callback){
 };
 
 
-module.exports.getDatabasesForUser= function(user,pswd,callback) {
+module.exports.getDatabasesForUser= function(user,pswd,callback) { console.log( "getDatabasesForUser user=",user); console.log( "getDatabasesForUser pswd=",pswd);
     var dbListForUserConfig = {
         host: getDBConfig().host,
-        database: getDBConfig().database,
+       // database: getDBConfig().database,
         user: user,
         password:pswd
     };
@@ -310,12 +318,12 @@ module.exports.getDatabasesForUser= function(user,pswd,callback) {
             return;
         }
         dbListForUserConn.query("SHOW DATABASES",
-            function (err,result) {
+            function (err,dbList) {    console.log( "getDatabasesForUser err=",err);
                 if (err) {
                     callback(err);
                     return;
                 }
-                callback(null,result);
+                callback(null,dbList,user);     console.log( "getDatabasesForUser result=",dbList);
                 dbListForUserConn.destroy();
             });
     });

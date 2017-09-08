@@ -22,7 +22,7 @@
             <td height="20px">
                 <table width="200px">
                     <tr>
-                        <th height="30px"><b>DATABASES LIST:</b></th>
+                        <th height="30px"><b>Databases list for <span id ="server_dblist_user"></span>:</b></th>
                     </tr>
                 </table>
             </td>
@@ -276,6 +276,9 @@
                                     return;
                                 }
                                 if(result.dbList){
+                                    if(result.dbListUser){
+                                        document.getElementById("server_dblist_user").innerHTML=result.dbListUser;
+                                    }
                                     var DBArray=result.dbList;
                                     var DBstr="";
                                     for(var i in DBArray){
@@ -338,6 +341,9 @@
                                     sa_serverConfig_configState.innerHTML = "<div><b>Configuration saved.</b></div>";
                                 }
                                 if(data.dbList){
+                                    if(data.dbListUser){
+                                        document.getElementById("server_dblist_user").innerHTML=data.dbListUser;
+                                    }
                                     var DBArray=data.dbList;
                                     var DBstr="";
                                     for(var i in DBArray){
@@ -378,6 +384,9 @@
                                     return;
                                 }
                                 if (data.dbList) {
+                                    if(data.dbListUser){     console.log("data.dbListUserr=",data.dbListUser);
+                                    document.getElementById("server_dblist_user").innerHTML=data.dbListUser;
+                                    }
                                     var DBArray = data.dbList;
                                     var DBstr = "";
                                     for (var i in DBArray) {

@@ -161,15 +161,17 @@ module.exports.init = function(app){
             res.send({error:(serverConfig&&serverConfig.error)?serverConfig.error:"unknown"});
             return;
         }
-        database.executeQuery("SHOW DATABASES",function(err,result){   console.log("SHOW DATABASES result=",result);
-            if(err){
-                res.send({error:err});
-                return;
-            }
-            serverConfig.dbList=result;
-            res.send(serverConfig);
-        });
+            database.getDatabasesForUser(serverConfig.user,serverConfig.password,function(err,dbList,user){                //  console.log("getDBListForUser result=",result);
+                if(err){
+                    res.send({error:err});
+                    return;
+                }
+                serverConfig.dbList=dbList;
+                serverConfig.dbListUser=user;
+                res.send(serverConfig);
+             });
     });
+
     app.get("/sysadmin/server/loadServerConfig", function (req, res) {
         loadServerConfiguration();
         var serverConfig=getServerConfig();
@@ -193,20 +195,30 @@ module.exports.init = function(app){
                     var dbConnectError= database.getDBConnectError();                                           log.info("database.tryDBConnect dbConnectError",dbConnectError);
                     if (dbConnectError) {
                         outData.DBConnectError = dbConnectError;
-                        res.send(outData);
-                        return;
-                    }
-                    appModules.validateModules(function(errs, errMessage){
-                        if(errMessage) outData.dbValidation = errMessage;
-                        database.executeQuery("SHOW DATABASES",function(err,result){
-                            if(err){
+                        database.getDatabasesForUser(newDBConfig.user,newDBConfig.password,function(err,dbList,user) {
+                            if (err) {
                                 outData.error = err;
                                 res.send(outData);
                                 return;
                             }
-                            outData.dbList=result;
+                            outData.dbList = dbList;
+                            outData.dbListUser=user;
                             res.send(outData);
-                            startBackupBySchedule();
+                        });
+                        return;
+                    }
+                    appModules.validateModules(function(errs, errMessage){
+                        if(errMessage) outData.dbValidation = errMessage;
+                        database.getDatabasesForUser(newDBConfig.user,newDBConfig.password,function(err,dbList,user){                 // console.log("getDBListForUser result=",result);
+                            if(err){
+                                outData.error = err;
+                                        res.send(outData);
+                                        return
+                            }
+                            outData.dbList=dbList;
+                            outData.dbListUser=user;
+                                res.send(outData);
+                                startBackupBySchedule();
                         });
                     });
                 });
@@ -796,14 +808,15 @@ module.exports.init = function(app){
         });
     });
     app.post("/sysadmin/getDBListForUser", function (req, res) {
-        database.getDatabasesForUser(req.body.user, req.body.pswd,function (err, result) {
+        database.getDatabasesForUser(req.body.user, req.body.pswd,function (err, dbList, user) {
            var  outData={};
             if (err) {
                 outData.error = err.message;
                 res.send(outData);
                 return;
             }
-            outData.dbList=result;
+            outData.dbList=dbList;
+            outData.dbListUser=user;
             res.send(outData);
         });
     });
