@@ -157,13 +157,14 @@ module.exports.init = function(app){
 
     app.get("/sysadmin/server/getServerConfig", function (req, res) {
         var serverConfig=getServerConfig();                 console.log("getServerConfig serverConfig=",serverConfig);
-        if (!serverConfig||serverConfig.error) {
+        if (!serverConfig||serverConfig.error) {           console.log("serverConfig.error=",serverConfig.error);
             res.send({error:(serverConfig&&serverConfig.error)?serverConfig.error:"unknown"});
             return;
         }
-            database.getDatabasesForUser(serverConfig.user,serverConfig.password,function(err,dbList,user){                //  console.log("getDBListForUser result=",result);
+            database.getDatabasesForUser(serverConfig.user,serverConfig.password,function(err,dbList,user){        console.log("getServerConfig getDBListForUser result=",dbList);
                 if(err){
-                    res.send({error:err});
+                    serverConfig.dbListError=err;
+                    res.send(serverConfig);
                     return;
                 }
                 serverConfig.dbList=dbList;
@@ -197,7 +198,7 @@ module.exports.init = function(app){
                         outData.DBConnectError = dbConnectError;
                         database.getDatabasesForUser(newDBConfig.user,newDBConfig.password,function(err,dbList,user) {
                             if (err) {
-                                outData.error = err;
+                                outData.dbListError = err;
                                 res.send(outData);
                                 return;
                             }
@@ -210,15 +211,15 @@ module.exports.init = function(app){
                     appModules.validateModules(function(errs, errMessage){
                         if(errMessage) outData.dbValidation = errMessage;
                         database.getDatabasesForUser(newDBConfig.user,newDBConfig.password,function(err,dbList,user){                 // console.log("getDBListForUser result=",result);
-                            if(err){
-                                outData.error = err;
-                                        res.send(outData);
-                                        return
+                            if (err) {
+                                outData.dbListError = err;
+                                res.send(outData);
+                                return
                             }
                             outData.dbList=dbList;
                             outData.dbListUser=user;
-                                res.send(outData);
-                                startBackupBySchedule();
+                            res.send(outData);
+                            startBackupBySchedule();
                         });
                     });
                 });
@@ -811,7 +812,7 @@ module.exports.init = function(app){
         database.getDatabasesForUser(req.body.user, req.body.pswd,function (err, dbList, user) {
            var  outData={};
             if (err) {
-                outData.error = err.message;
+                outData.dbListError = err;
                 res.send(outData);
                 return;
             }

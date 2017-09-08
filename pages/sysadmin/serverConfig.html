@@ -273,7 +273,7 @@
                                 }
                                 if (result.error) {                                              console.log("sa_serverConfig_PageContent.getServerConfiguration  result.error=",result.error);
                                     sa_serverConfig_configState.innerHTML = "<div><b style='color:red'>Cannot get configuration parameters!</b> Reason:"+result.error+"</div>";
-                                    return;
+                                   // return;
                                 }
                                 if(result.dbList){
                                     if(result.dbListUser){
@@ -285,6 +285,9 @@
                                         DBstr=DBstr+DBArray[i].Database+"\n";
                                     }
                                     document.getElementById("db_list").innerText=DBstr;
+                                }
+                                if(result.dbListError){
+                                    document.getElementById("db_list").innerText=result.dbListError;
                                 }
                                 sa_serverConfig_configState.innerHTML = "<div><b>Configuration loaded.</b></div>";
                                 setServerConfigContent(result);
@@ -300,6 +303,7 @@
                                 }
                                 if (result.error) {
                                     sa_serverConfig_configState.innerHTML = "<div><b style='color:red'>Cannot load configuration parameters!</b> Reason:"+result.error+"</div>";
+                                    setServerConfigContent(result);
                                     return;
                                 }
                                 sa_serverConfig_configState.innerHTML = "<div><b>Configuration reloaded.</b></div>";
@@ -351,6 +355,9 @@
                                     }
                                     document.getElementById("db_list").innerText=DBstr;
                                 }
+                                if(data.dbListError){
+                                    document.getElementById("db_list").innerText=data.dbListError;
+                                }
                                 if (data.DBConnectError) {
                                     sa_serverConfig_configState.innerHTML=
                                             sa_serverConfig_configState.innerHTML+ "<br><div><b style='color:red'>Failed connect to database ! Reason:" + data["DBConnectError"] + "</b></div>";
@@ -379,10 +386,6 @@
                                     console.log("updateDBState=", sa_serverConfig_PageContent.getParent().updateDBState());
                                     return;
                                 }
-                                if (data.error) {
-                                    document.getElementById("db_list").innerHTML= "<div><b style='color:red'>Failed store configuration! Reason:" + data["error"] + "</b></div>";
-                                    return;
-                                }
                                 if (data.dbList) {
                                     if(data.dbListUser){     console.log("data.dbListUserr=",data.dbListUser);
                                     document.getElementById("server_dblist_user").innerHTML=data.dbListUser;
@@ -393,6 +396,9 @@
                                         DBstr = DBstr + DBArray[i].Database + "\n";
                                     }
                                     document.getElementById("db_list").innerText = DBstr;
+                                }
+                                if(data.dbListError){
+                                    document.getElementById("db_list").innerText=data.dbListError;
                                 }
                             });
                 }
