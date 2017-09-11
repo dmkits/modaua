@@ -7,7 +7,7 @@
 <body>
 <div id="sa_serverConfig_PageContent" style="width:510px;height:100%; margin:0;padding:0; display: none;">
     <table width="100%">
-        <tr>
+        <tr height=100%>
             <td height="20px">
                 <table width="100%">
                     <tr>
@@ -19,10 +19,10 @@
                     </tr>
                 </table>
             </td>
-            <td height="20px">
-                <table width="200px">
+            <td height=100%>
+                <table width="200px" height=100%>
                     <tr>
-                        <th id="server_db_list_th" height="30px"><b>Databases list for <span id ="server_dblist_user"></span>:</b></th>
+                        <th id="server_db_list_th" height=100%><b>Databases list for <span id ="server_dblist_user"></span>:</b></th>   <!--"height="30px"-->
                     </tr>
                 </table>
             </td>
@@ -178,7 +178,8 @@
                     backupDialog.backupFilename = document.getElementById("backup_fileName").value;
                     if(backupDialog.backupFilename.length<1){
                         cleanResultFields();
-                        document.getElementById(backupDialog.resultFieldId).innerHTML = "<b style='color:red'> File name for backup wasn't specified </b>";
+                        var now = moment().format('DD.MM.YYYY HH:mm:ss');
+                        document.getElementById(backupDialog.resultFieldId).innerHTML = "<b style='color:red'>"+now+"</br> File name for backup wasn't specified </br>";
                         backupDialog.hide();
                         return;
                     }
@@ -416,15 +417,16 @@
                     Request.postJSONData({url: "/sysadmin/create_new_db", data: newDB, consoleLog: true},
                             function (success, data) {
                                 document.getElementById("admin_password").value="";                                     console.log("createDataBase data=", data);
+                                var now = moment().format('DD.MM.YYYY HH:mm:ss');
                                 if (!success) {
                                     sa_serverConfig_configState.innerHTML = "<div><b style='color:red'>No connection!</b></div>";
                                 }
                                 if (data.error) {
-                                    document.getElementById("create_db_result").innerHTML = "<b style='color:red'>FAIL! Reason:" + data.error+"</b>";
+                                    document.getElementById("create_db_result").innerHTML = "<b style='color:red'>"+now+"</br>FAIL! Reason:" + data.error+"</b>";
                                     sa_serverConfig_PageContent.getServerConfiguration();
                                     if (sa_serverConfig_PageContent.getParent().updateDBState)  sa_serverConfig_PageContent.getParent().updateDBState();
                                 } else {
-                                    var successMsgStr = '';
+                                    var successMsgStr = now+'</br>';
                                     if (data.DBCreated) successMsgStr += data.DBCreated + " ";
                                     if (data.userCreated) successMsgStr += data.userCreated + " ";
                                     if (data.userExists) successMsgStr += data.userExists + " ";
@@ -448,18 +450,19 @@
                     Request.postJSONData({url: "/sysadmin/drop_db", data: DB, consoleLog: true},
                             function (success, data) {                                                                    console.log("dropDataBase data=", data);
                                 document.getElementById("admin_password").value="";
+                                var now = moment().format('DD.MM.YYYY HH:mm:ss');
                                 if (!success) {
                                     sa_serverConfig_configState.innerHTML = "<div><b style='color:red'>No connection!</b></div>";
                                 }
                                 if (data.error) {
-                                    document.getElementById("drop_db_result").innerHTML = "<b style='color:red'>FAIL! Reason:" + data.error+"<b>";
+                                    document.getElementById("drop_db_result").innerHTML = "<b style='color:red'>"+now+"<br/>FAIL! Reason:" + data.error+"<b>";
                                     sa_serverConfig_PageContent.getServerConfiguration();
                                     if (sa_serverConfig_PageContent.getParent().updateDBState)   {
                                         console.log('inside if');
                                         sa_serverConfig_PageContent.getParent().updateDBState();
                                     }
                                 } else {
-                                    var successMsgStr = data.dropped;
+                                    var successMsgStr = now+'<br/>'+data.dropped;
                                     document.getElementById("drop_db_result").innerHTML = successMsgStr;
                                     saveAndReconnectBtn.onClick();
                                 }
@@ -496,18 +499,19 @@
                     Request.postJSONData({url: "/sysadmin/backup_db", data: DB, consoleLog: true},
                             function (success, data) {
                                 document.getElementById(backupParams.resultTagName).value = "";                                  console.log("makeBackup data=", data);
+                                var now = moment().format('DD.MM.YYYY HH:mm:ss');
                                 if (!success) {
                                     sa_serverConfig_configState.innerHTML = "<div><b style='color:red'>No connection!</b></div>";
                                     return;
                                 }
                                 if (data.error) {
-                                    document.getElementById(backupParams.resultTagName).innerHTML = "<b style='color:red'>FAIL! Reason:" + data.error + "<b>";
+                                    document.getElementById(backupParams.resultTagName).innerHTML = "<b style='color:red'>"+now+"<br/>FAIL! Reason:" + data.error + "<b>";
                                     sa_serverConfig_PageContent.getServerConfiguration();
                                     saveAndReconnectBtn.onClick();
                                 } else if (data.fileExists) {
                                     rewriteBackupDialog.show();
                                 } else {
-                                    var successMsgStr = data.backup;
+                                    var successMsgStr = now+'<br/>'+data.backup;
                                     document.getElementById(backupParams.resultTagName).innerHTML = successMsgStr;
                                     saveAndReconnectBtn.onClick();
                                 }
@@ -578,15 +582,16 @@
                                 document.getElementById("admin_password").value = "";
                                 document.getElementById("backup_fileName").value = "";
                                 document.getElementById("restore_fileName").value = "";
+                                var now = moment().format('DD.MM.YYYY HH:mm:ss');
                                 if (!success) {
                                     sa_serverConfig_configState.innerHTML = "<div><b style='color:red'>No connection!</b></div>";
                                 }
                                 if (data.error) {
-                                    document.getElementById("restore_db_result").innerHTML = "<b style='color:red'>FAIL! Reason:" + data.error + "<b>";
+                                    document.getElementById("restore_db_result").innerHTML = "<b style='color:red'>"+now+"<br/>FAIL! Reason:" + data.error + "<b>";
                                     sa_serverConfig_PageContent.getServerConfiguration();
                                     if (sa_serverConfig_PageContent.getParent().updateDBState)  sa_serverConfig_PageContent.getParent().updateDBState();
                                 } else {
-                                    var successMsgStr = '';
+                                    var successMsgStr = now+'<br/>';
                                     if (data.userExists)successMsgStr = successMsgStr + data.userExists;
                                     if (data.userCreated)successMsgStr = successMsgStr + data.userCreated;
                                     if (data.accessAdded)successMsgStr = successMsgStr + data.accessAdded;
