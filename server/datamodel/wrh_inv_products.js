@@ -1,6 +1,6 @@
 var changeLog = [
     { 'changeID':'wrh_inv_products__1', 'changeDatetime':'2017-05-04T09:15:00.000+0300', 'changeObj':'model.wrh_inv_products',
-        'changeVal':'CREATE TABLE wrh_inv_products(ID BIGINT NOT NULL PRIMARY KEY) CHARACTER SET utf8',
+        'changeVal':'CREATE TABLE wrh_inv_products(ID BIGINT UNSIGNED NOT NULL PRIMARY KEY) CHARACTER SET utf8',
         "tableName":"wrh_inv_products", "field":"ID"},
     { 'changeID':'wrh_inv_products__2', 'changeDatetime':'2017-05-04T09:16:00.000+0300', 'changeObj':'model.wrh_inv_products',
         'changeVal':'ALTER TABLE wrh_inv_products ADD COLUMN INV_ID BIGINT NOT NULL',
@@ -11,7 +11,7 @@ var changeLog = [
         'changeVal':'ALTER TABLE wrh_inv_products ADD COLUMN POSIND FLOAT NOT NULL',
         "field":"POSIND"},
     { 'changeID':'wrh_inv_products__5', 'changeDatetime':'2017-05-04T09:19:00.000+0300', 'changeObj':'model.wrh_inv_products',
-        'changeVal':'ALTER TABLE wrh_inv_products ADD COLUMN PRODUCT_ID BIGINT NOT NULL',
+        'changeVal':'ALTER TABLE wrh_inv_products ADD COLUMN PRODUCT_ID BIGINT UNSIGNED NOT NULL',
         "field":"PRODUCT_ID"},
     { 'changeID':'wrh_inv_products__6', 'changeDatetime':'2017-05-04T09:20:00.000+0300', 'changeObj':'model.wrh_inv_products',
         'changeVal':'ALTER TABLE wrh_inv_products ADD CONSTRAINT WRH_INV_PRODUCTS_PRODUCT_ID_FK FOREIGN KEY (PRODUCT_ID) REFERENCES dir_products(ID)' },
@@ -25,10 +25,11 @@ var changeLog = [
         'changeVal':'ALTER TABLE wrh_inv_products ADD COLUMN POSSUM DECIMAL(12,2) NOT NULL',
         "field":"POSSUM"},
     { 'changeID':'wrh_inv_products_10', 'changeDatetime':'2017-05-04T09:24:00.000+0300', 'changeObj':'model.wrh_inv_products',
-        'changeVal':'ALTER TABLE wrh_inv_products ADD COLUMN BARCODE BIGINT NOT NULL',
+        'changeVal':'ALTER TABLE wrh_inv_products ADD COLUMN BARCODE BIGINT UNSIGNED NOT NULL',
         "field":"BARCODE"},
     { 'changeID':'wrh_inv_products_11', 'changeDatetime':'2017-05-04T09:25:00.000+0300', 'changeObj':'model.wrh_inv_products',
-        'changeVal':'ALTER TABLE wrh_inv_products ADD CONSTRAINT WRH_INV_PRODUCTS_BARCODE_PRODUCT_ID_FK FOREIGN KEY (BARCODE,PRODUCT_ID) REFERENCES dir_products_barcodes(BARCODE,PRODUCT_ID)' },
+        'changeVal':'ALTER TABLE wrh_inv_products ADD CONSTRAINT WRH_INV_PRODUCTS_BARCODE_PRODUCT_ID_FK ' +
+            'FOREIGN KEY (BARCODE,PRODUCT_ID) REFERENCES dir_products_barcodes(BARCODE,PRODUCT_ID)' },
     { 'changeID':'wrh_inv_products_12', 'changeDatetime':'2017-05-04T09:26:00.000+0300', 'changeObj':'model.wrh_inv_products',
         'changeVal':'ALTER TABLE wrh_inv_products ADD CONSTRAINT WRH_INV_PRODUCTS_INV_ID_POSIND_UNIQUE UNIQUE(INV_ID,POSIND)' }
 ];

@@ -48,10 +48,12 @@
                 var sysadmin_appModelSettingsBtn_sysDocstates= APP.instanceForID("sysadmin_appModelSettingsBtn_sysDocstates",
                         ToggleButton, {showLabel: true, checked: false, label: "Documents states", iconClass:'dijitCheckBoxIcon'});
                 domStyle.set("sysadmin_appModelSettingsBtn_sysDocstates", "width", "150px");
+
                 var sysadmin_appModelSettingsContentPaneDetailContainer =
                         APP.instanceForID("sysadmin_appModelSettingsContentPaneDetailContainer", StackContainer, {region: 'center'});
                 sysadmin_appModelSettingsPageContainer.domNode.style.display="";
                 sysadmin_appModelSettingsPageContainer.startup();
+
 
                 sysadmin_appModelSettingsBtn_sysCurrency.onClick = function () {
                     this.set("checked",true);
@@ -68,6 +70,8 @@
                                     .startUp();
                     sysadmin_appModelSettingsContentPaneDetailContainer.selectChild(sysadmin_appModelSettingsBtn_sysCurrency.document);
                 };
+
+
                 sysadmin_appModelSettingsBtn_sysDocstates.onClick = function () {
                     this.set("checked",true);
                     sysadmin_appModelSettingsBtn_sysCurrency.set("checked",false);

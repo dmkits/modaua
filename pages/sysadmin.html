@@ -33,6 +33,7 @@
                     <td><button id="sysadmin_btnServerConfig">Server configuration</button></td>
                     <td><button id="sysadmin_btnDatabase">Database</button></td>
                     <td><button id="sysadmin_btnAppModelSettings">AppModelSettings</button></td>
+                    <td><button id="sysadmin_btnSynchronization">Synchronization</button></td>
                     <td width="500px"></td>
                     <td><button id="btnLogout">Logout</button></td>
                 </tr>
@@ -63,6 +64,8 @@
                 functionalButtons.push(sysadmin_btnDatabase);
                 var sysadmin_btnAppModelSettings = new ToggleButton({id:"sysadmin_btnAppModelSettings",iconClass:'dijitCheckBoxIcon'},"sysadmin_btnAppModelSettings");
                 functionalButtons.push(sysadmin_btnAppModelSettings);
+                var sysadmin_btnSynchronization=new ToggleButton({id:"sysadmin_btnSynchronization",iconClass:'dijitCheckBoxIcon'},"sysadmin_btnSynchronization" );
+                functionalButtons.push(sysadmin_btnSynchronization);
                 var btnLogout = new ToggleButton({id:"btnLogout"},"btnLogout");
                 var sysadmin_ContentContainer = APP.instanceForID("sysadmin_ContentContainer",
                         StackContainer, {region: "center", tabPosition: "top", class: "sysadmin_Content"});
@@ -186,6 +189,11 @@
                 sysadmin_btnAppModelSettings.onClick=function(){
                     sysadmin_MainContainer.runSysadminContentPage(sysadmin_btnAppModelSettings, "sysadmin_btnAppModelSettings",
                             "Application model settings", false, "/sysadmin/appModelSettings");
+                    checkButton(this);
+                };
+                sysadmin_btnSynchronization.onClick=function(){
+                    sysadmin_MainContainer.runSysadminContentPage(sysadmin_btnSynchronization, "sysadmin_btnSynchronization",
+                            "Synchronization", false, "/sysadmin/synchronization");
                     checkButton(this);
                 };
                 btnLogout.onClick=function(){

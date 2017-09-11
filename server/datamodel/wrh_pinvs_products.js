@@ -48,7 +48,7 @@ var changeLog = [
         'changeVal':'ALTER TABLE wrh_pinvs_products ADD COLUMN BATCH_NUMBER INTEGER UNSIGNED NOT NULL',
         "field":"BATCH_NUMBER"},
     { 'changeID':'wrh_pinvs_products_16', 'changeDatetime':'2017-06-09T11:12:00.000+0300', 'changeObj':'wrh_pinvs_products',
-        'changeVal':'ALTER TABLE wrh_pinvs_products ADD CONSTRAINT WRH_PINVS_PRODUCTS_PRODUCT_BATCH_NUMBER_PRODUCT_ID_FK' +
-            ' FOREIGN KEY (BATCH_NUMBER,PRODUCT_ID) REFERENCES dir_products_batches(BATCH_NUMBER,PRODUCT_ID)' }
+        'changeVal':'ALTER TABLE wrh_pinvs_products ADD CONSTRAINT WRH_PINVS_PRODUCTS_PRODUCT_BATCH_NUMBER_PRODUCT_ID_FK ' +
+            'FOREIGN KEY (BATCH_NUMBER,PRODUCT_ID) REFERENCES dir_products_batches(BATCH_NUMBER,PRODUCT_ID)' }
 ];
 module.exports.changeLog=changeLog;

@@ -17,11 +17,17 @@ var moment = require('moment');
 var dataModel=require('../datamodel');
 var changeLog= require(appDataModelPath+"change_log");
 var sys_currency= require(appDataModelPath+"sys_currency"),
-    sys_docstates= require(appDataModelPath+"sys_docstates");
+    sys_docstates= require(appDataModelPath+"sys_docstates"),
+    sys_sync_databases= require(appDataModelPath+"sys_sync_databases"),
+    sys_sync_errors_log= require(appDataModelPath+"sys_sync_errors_log"),
+    sys_sync_incoming_data=require(appDataModelPath+"sys_sync_incoming_data"),
+    sys_sync_output_data=require(appDataModelPath+"sys_sync_output_data");
 
 module.exports.validateModule = function(errs, nextValidateModuleCallback){
     dataModel.initValidateDataModels({"change_log":changeLog,
-            "sys_docstates":sys_docstates,"sys_currency":sys_currency}, errs,
+            "sys_docstates":sys_docstates,"sys_currency":sys_currency, "sys_sync_databases":sys_sync_databases,
+       "sys_sync_errors_log":sys_sync_errors_log,"sys_sync_incoming_data":sys_sync_incoming_data,
+        "sys_sync_output_data":sys_sync_output_data}, errs,
         function(){
             nextValidateModuleCallback();
         });
@@ -30,7 +36,6 @@ module.exports.validateModule = function(errs, nextValidateModuleCallback){
 module.exports.modulePageURL = "/sysadmin";
 module.exports.modulePagePath = "sysadmin.html";
 var thisInstance=this;
-
 
 /**
  *logBackUp={logDate, DBName, fileName, schedule:false/true, error, info}
@@ -818,6 +823,82 @@ module.exports.init = function(app){
             outData.dbList=dbList;
             outData.dbListUser=user;
             res.send(outData);
+        });
+    });
+
+    app.get("/sysadmin/synchronization", function (req, res) {
+        res.sendFile(appViewsPath+'sysadmin/synchronization.html');
+    });
+    var sysSyncDatabasesTableColumns=[
+        {"data": "ID", "name": "DatabaseID", "width": 90, "type": "text"}
+        , {"data": "POS_NAME", "name": "POSName", "width": 200, "type": "text"}
+        , {"data": "DATABASE_NAME", "name": "DatabaseName", "width": 200, "type": "text"}
+        , {"data": "STOCK_NAME", "name": "UnitName", "width": 200, "type": "text"}
+
+    ];
+    app.get('/sysadmin/synchronization/get_sys_sync_databasesDataForTable', function(req, res){
+        sys_sync_databases.getDataForTable({tableColumns:sysSyncDatabasesTableColumns, identifier:sysSyncDatabasesTableColumns[0].data,
+            order:"ID", conditions:req.query}, function(result){
+            res.send(result);
+        });
+    });
+
+    var sysSyncErrorsLogTableColumns=[
+          {"data": "CREATE_DATE", "name": "Log date", "width": 70, "type": "text"}
+        , {"data": "ERROR_MSG", "name": "Error msg", "width": 350, "type": "text"}
+        , {"data": "HEADER", "name": "SOAP Message Header", "width": 250, "type": "text"}
+        , {"data": "CLIENT_POS_NAME", "name": "Client POS Name", "width": 100, "type": "text"}
+        , {"data": "CLIENT_CREATE_DATE", "name": "Client create date", "width": 70, "type": "text"}
+        , {"data": "CLIENT_SYNC_DATA_ID", "name": "Client ID", "width": 70, "type": "text"}
+
+    ];
+    app.get('/sysadmin/synchronization/get_sys_sync_errors_logDataForTable', function(req, res){
+        sys_sync_errors_log.getDataForTable({tableColumns:sysSyncErrorsLogTableColumns, identifier:sysSyncErrorsLogTableColumns[0].data,
+            order:"ID", conditions:req.query}, function(result){
+            res.send(result);
+        });
+    });
+
+    var sysSyncIncomingDataTableColumns=[
+          {"data": "CREATE_DATE", "name": "Create date", "width": 70, "type": "text"}
+        , {"data": "SYNC_DATABASE_ID", "name": "Sync database ID", "width": 90, "type": "text"}
+        , {"data": "CLIENT_DATA_ID", "name": "Client data ID", "width": 70, "type": "text"}
+        , {"data": "CLIENT_CREATE_DATE", "name": "Client create date", "width": 80, "type": "text"}
+        , {"data": "OPERATION_TYPE", "name": "Operation type", "width": 60, "type": "text"}
+        , {"data": "CLIENT_TABLE_NAME", "name": "Client table name", "width": 160, "type": "text"}
+        , {"data": "CLIENT_TABLE_KEY1_NAME", "name": "Client table key1 name", "width": 100, "type": "text"}
+        , {"data": "CLIENT_TABLE_KEY1_VALUE", "name": "Client table key1 value", "width": 160, "type": "text"}
+        , {"data": "LAST_UPDATE_DATE", "name": "Last update date", "width": 70, "type": "text"}
+        , {"data": "STATE", "name": "State", "width": 40, "type": "text"}
+        , {"data": "MSG", "name": "Message", "width": 70, "type": "text"}
+        , {"data": "APPLIED_DATE", "name": "Applied date", "width": 60, "type": "text"}
+        , {"data": "DEST_TABLE_CODE", "name": "Dest.t code", "width": 60, "type": "text"}
+        , {"data": "DEST_TABLE_DATA_ID", "name": "Dest.t ID", "width": 130, "type": "text"}
+
+    ];
+    app.get('/sysadmin/synchronization/get_sys_sync_incoming_dataDataForTable', function(req, res){
+        sys_sync_incoming_data.getDataForTable({tableColumns:sysSyncIncomingDataTableColumns, identifier:sysSyncIncomingDataTableColumns[0].data,
+            order:"ID", conditions:req.query}, function(result){
+            res.send(result);
+        });
+    });
+
+    var sysSyncOutputDataTableColumns=[
+          {"data": "CREATE_DATE", "name": "CreateDate", "width": 75, "type": "text"}
+        , {"data": "SYNC_DATABASE_ID", "name": "SyncDatabaseID", "width": 90, "type": "text"}
+        , {"data": "TABLE_NAME", "name": "TableName", "width": 250, "type": "text"}
+        , {"data": "KEY_DATA_NAME", "name": "KeyName", "width": 150, "type": "text"}
+        , {"data": "KEY_DATA_VALUE", "name": "KeyValue", "width": 150, "type": "text"}
+        , {"data": "LAST_UPDATE_DATE", "name": "LastUpdateDate", "width": 90, "type": "text"}
+        , {"data": "STATE", "name": "State", "width": 60, "type": "text"}
+        , {"data": "CLIENT_SYNC_DATA_ID", "name": "ClientDataID", "width": 80, "type": "text"}
+        , {"data": "APPLIED_DATE", "name": "AppliedDate", "width": 80, "type": "text"}
+        , {"data": "CLIENT_MESSAGE", "name": "ClientMessage", "width": 250, "type": "text"}
+    ];
+    app.get('/sysadmin/synchronization/get_sys_sync_output_dataDataForTable', function(req, res){
+        sys_sync_output_data.getDataForTable({tableColumns:sysSyncOutputDataTableColumns, identifier:sysSyncOutputDataTableColumns[0].data,
+            order:"ID", conditions:req.query}, function(result){
+            res.send(result);
         });
     });
 };
