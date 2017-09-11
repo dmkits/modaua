@@ -403,7 +403,7 @@ module.exports = {
             .assert.visible("@backupDialog")
             .assert.visible("@backupFileName");
 
-        var now = moment().format("YYYYMMDD_HHm");
+        var now = moment().format("YYYYMMDD_HH");
         browser.perform(function () {
             serverConfig.expect.element('@backupFileName').to.have.attribute('value').which.contain(now);
         });
@@ -429,7 +429,7 @@ module.exports = {
             .submitDialog('@restoreDialog')
             .waitForElementVisible('@restoreDBResultField', 10000)
             .assert.containsText('@restoreDBResultField', 'Restoring started...');
-        browser.pause(10000);
+        browser.pause(20000);
         serverConfig
             .assert.containsText('@restoreDBResultField', 'restored successfully!')
     },
@@ -442,29 +442,29 @@ module.exports = {
             .assert.visible("@dbListBtn")
             .click("@dbListBtn")
             .waitForElementVisible('@dbListDialog')
-            .setValue('@authAdminDialog_AdminName','root')
-            .setValue('@authAdminDialog_AdminPas','root')
+            .setValue('@dbListDialog_UserName','root')
+            .setValue('@dbListDialog_UserPas','root')
             .submitDialog('@dbListDialog');
         browser.pause(5000);
         serverConfig
             .assert.containsText('@dbListContent','information_schema')
     },
-    //,'Validate DB and check Validation State':function(browser){
-    //    var sysadminHeader=browser.page.sysadminHeader();
-    //    var database=browser.page.database();
-    //
-    //    sysadminHeader
-    //        .waitForElementVisible('@btnDatabase')
-    //        .click('@btnDatabase');
-    //    database
-    //        .waitForElementVisible('@currentChangesTable')
-    //        .moveToCell('@currentChangesTable', 1, 1)
-    //        .mouseButtonClick('right')
-    //        .waitForElementVisible('@applyAllChangesDialog')
-    //        .click('@applyAllChangesDialog');
-    //    browser.pause(60000);
-    //
-    //    sysadminHeader
-    //        .assert.containsText('@dbValidateState','success');
-    //}
+    'Validate DB and check Validation State':function(browser){
+        var sysadminHeader=browser.page.sysadminHeader();
+        var database=browser.page.database();
+
+        sysadminHeader
+            .waitForElementVisible('@btnDatabase')
+            .click('@btnDatabase');
+        database
+            .waitForElementVisible('@currentChangesTable')
+            .moveToCell('@currentChangesTable', 1, 1)
+            .mouseButtonClick('right')
+            .waitForElementVisible('@applyAllChangesDialog')
+            .click('@applyAllChangesDialog');
+        browser.pause(60000);
+
+        sysadminHeader
+            .assert.containsText('@dbValidateState','success');
+    }
 };
