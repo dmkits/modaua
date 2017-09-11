@@ -16,12 +16,12 @@ var moment = require('moment');
 
 var dataModel=require('../datamodel');
 var changeLog= require(appDataModelPath+"change_log");
-var sysCurrency= require(appDataModelPath+"sys_currency");
-var sysDocStates= require(appDataModelPath+"sys_docstates");
+var sys_currency= require(appDataModelPath+"sys_currency"),
+    sys_docstates= require(appDataModelPath+"sys_docstates");
 
 module.exports.validateModule = function(errs, nextValidateModuleCallback){
     dataModel.initValidateDataModels({"change_log":changeLog,
-            "sys_docstates":sysDocStates,"sys_currency":sysCurrency}, errs,
+            "sys_docstates":sys_docstates,"sys_currency":sys_currency}, errs,
         function(){
             nextValidateModuleCallback();
         });
@@ -30,7 +30,6 @@ module.exports.validateModule = function(errs, nextValidateModuleCallback){
 module.exports.modulePageURL = "/sysadmin";
 module.exports.modulePagePath = "sysadmin.html";
 var thisInstance=this;
-
 
 
 /**
@@ -791,7 +790,7 @@ module.exports.init = function(app){
         , {"data": "NOTE", "name": "NOTE", "width": 450, "type": "text"}
     ];
     app.get("/sysadmin/appModelSettings/getSysCurrencyDataForTable", function(req, res){
-        sysCurrency.getDataForTable({tableColumns:sysCurrencyTableColumns, identifier:sysCurrencyTableColumns[0].data,
+        sys_currency.getDataForTable({tableColumns:sysCurrencyTableColumns, identifier:sysCurrencyTableColumns[0].data,
             order:"ID", conditions:req.query}, function(result){
             res.send(result);
         });
@@ -803,7 +802,7 @@ module.exports.init = function(app){
         , {"data": "NOTE", "name": "NOTE", "width": 450, "type": "text"}
     ];
     app.get("/sysadmin/appModelSettings/getSysDocumentsStatesDataForTable", function(req, res){
-        sysDocStates.getDataForTable({tableColumns:sysDocsStatesTableColumns, identifier:sysCurrencyTableColumns[0].data,
+        sys_docstates.getDataForTable({tableColumns:sysDocsStatesTableColumns, identifier:sysCurrencyTableColumns[0].data,
             order:"ID", conditions:req.query}, function(result){
             res.send(result);
         });
