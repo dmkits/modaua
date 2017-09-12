@@ -1,5 +1,5 @@
 var changeLog = [
-{ 'changeID':'wrh_products_operations_01', 'changeDatetime':'2017-06-13T13:20:00.000+0300', 'changeObj':'model.wrh_products_operations',
+{ 'changeID':'wrh_products_operations_01', 'changeDatetime':'2017-06-13 13:20:00', 'changeObj':'model.wrh_products_operations',
     'changeVal':'CREATE VIEW wrh_products_operations(PRODUCT_ID, UNIT_ID, DOCCODE, DOCDATE, DOCNUMBER, DOCPOSIND, DOCOPERID, DOCQTY, BATCH_NUMBER, BATCH_QTY) '+
 +'AS '+
 +'SELECT wpip.PRODUCT_ID, wpi.UNIT_ID, 10 as DOCCODE, wpi.DOCDATE, wpi.NUMBER, wpip.POSIND, wpip.ID, wpip.QTY, wpip.BATCH_NUMBER, wpip.QTY '+
@@ -40,7 +40,7 @@ var changeLog = [
 +'LEFT JOIN wrh_retail_ticket_products_wob wrtpw ON wrtpw.RETAIL_TICKET_PRODUCTS_ID=wrtp.ID '+
 +'LEFT JOIN dir_products_batches dpb ON dpb.PRODUCT_ID=wrtp.PRODUCT_ID AND dpb.BATCH_NUMBER=wrtpw.BATCH_NUMBER '+
 +'WHERE wrtp.QTY<0 '},
-{ 'changeID':'wrh_products_operations_02', 'changeDatetime':'2017-06-13T14:01:00.000+0300', 'changeObj':'model.wrh_products_operations',
+{ 'changeID':'wrh_products_operations_02', 'changeDatetime':'2017-06-13 14:01:00', 'changeObj':'model.wrh_products_operations',
     'changeVal':'CREATE VIEW wrh_products_inc_batches(PRODUCT_ID, UNIT_ID, DOCCODE, DOCDATE, DOCNUMBER, DOCPOSIND, DOCOPERID, BATCH_NUMBER, INC_BATCH_QTY, INC_PRICE, CURRENCY_ID, INC_CURRENCY_RATE) '+
 +'AS '+
 +'SELECT wpip.PRODUCT_ID, wpi.UNIT_ID, 10 as DOCCODE, wpi.DOCDATE, wpi.NUMBER, wpip.POSIND, wpip.ID, wpip.BATCH_NUMBER, wpip.QTY, wpip.PRICE, '+
