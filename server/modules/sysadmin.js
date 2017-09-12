@@ -62,16 +62,15 @@ function writeToBackUpLog(logBackUp) {
     fs.writeFileSync(path.join(__dirname, "/../../backups/log_backup.json"), JSON.stringify(logData),"utf8");
 }
 var scheduleBackup;
-function startBackupBySchedule(){                                           log.debug("startBackupBySchedule");
+function startBackupBySchedule(){                                                                                       log.debug("startBackupBySchedule");
     var serverConfig=getServerConfig();
     var valid = cron.validate(serverConfig.backupSchedule);
-    if(valid==false){                                                       log.error("CRON format for startBackupBySchedule is not valid.");
+    if(valid==false){                                                                                                   log.error("CRON format for startBackupBySchedule is not valid.");
         writeToBackUpLog({invalidCrone:true});
         return;
     }
     if(scheduleBackup)scheduleBackup.destroy();
-    console.log("before scheduleBackup");
-    scheduleBackup =cron.schedule(getServerConfig().backupSchedule, function(){      console.log("getServerConfig getServerConfig().scheduleBackupDate=",getServerConfig().scheduleBackupDate);
+    scheduleBackup =cron.schedule(getServerConfig().backupSchedule, function(){
         makeScheduleBackup(serverConfig);
     });
     scheduleBackup.start();
@@ -151,7 +150,7 @@ module.exports.init = function(app){
         }
         outData.config=getConfig();
         var validateError=getValidateError();
-        if(validateError) outData.dbValidation=validateError; else outData.dbValidation = "success";        console.log("/sysadmin/serverState outData=",outData );
+        if(validateError) outData.dbValidation=validateError; else outData.dbValidation = "success";
         res.send(outData);
     });
 
@@ -160,12 +159,12 @@ module.exports.init = function(app){
     });
 
     app.get("/sysadmin/server/getServerConfig", function (req, res) {
-        var serverConfig=getServerConfig();                 console.log("getServerConfig serverConfig=",serverConfig);
-        if (!serverConfig||serverConfig.error) {           console.log("serverConfig.error=",serverConfig.error);
+        var serverConfig=getServerConfig();               
+        if (!serverConfig||serverConfig.error) {
             res.send({error:(serverConfig&&serverConfig.error)?serverConfig.error:"unknown"});
             return;
         }
-            database.getDatabasesForUser(serverConfig.user,serverConfig.password,function(err,dbList,user){        console.log("getServerConfig getDBListForUser result=",dbList);
+            database.getDatabasesForUser(serverConfig.user,serverConfig.password,function(err,dbList,user){
                 if(err){
                     serverConfig.dbListError=err;
                     res.send(serverConfig);
@@ -179,13 +178,14 @@ module.exports.init = function(app){
 
     app.get("/sysadmin/server/loadServerConfig", function (req, res) {
         loadServerConfiguration();
-        var serverConfig=getServerConfig();                         console.log("serverConfig=",serverConfig);
+        var serverConfig=getServerConfig();                         log.info("serverConfig=",serverConfig);
         if (!serverConfig||serverConfig.error) {
             res.send({error: (serverConfig&&serverConfig.error)?serverConfig.error:"unknown"});
             return;
         }
         res.send(serverConfig);
     });
+
     app.post("/sysadmin/serverConfig/storeServerConfigAndReconnect", function (req, res) {
         var newDBConfig = req.body;
         setAppConfig(newDBConfig);
@@ -197,7 +197,7 @@ module.exports.init = function(app){
                     res.send(outData);
                 }
                 database.tryDBConnect(/*postaction*/function (err) {
-                    var dbConnectError= database.getDBConnectError();                                           log.info("database.tryDBConnect dbConnectError",dbConnectError);
+                    var dbConnectError= database.getDBConnectError();                                                   log.info("database.tryDBConnect dbConnectError",dbConnectError);
                     if (dbConnectError) {
                         outData.DBConnectError = dbConnectError;
                         database.getDatabasesForUser(newDBConfig.user,newDBConfig.password,function(err,dbList,user) {
@@ -214,7 +214,7 @@ module.exports.init = function(app){
                     }
                     appModules.validateModules(function(errs, errMessage){
                         if(errMessage) outData.dbValidation = errMessage;
-                        database.getDatabasesForUser(newDBConfig.user,newDBConfig.password,function(err,dbList,user){                 // console.log("getDBListForUser result=",result);
+                        database.getDatabasesForUser(newDBConfig.user,newDBConfig.password,function(err,dbList,user){
                             if (err) {
                                 outData.dbListError = err;
                                 res.send(outData);
@@ -231,6 +231,20 @@ module.exports.init = function(app){
         );
     });
 
+    app.post("/sysadmin/getDBListForUser", function (req, res) {
+        database.getDatabasesForUser(req.body.user, req.body.pswd,function (err, dbList, user) {
+            var  outData={};
+            if (err) {
+                outData.dbListError = err;
+                res.send(outData);
+                return;
+            }
+            outData.dbList=dbList;
+            outData.dbListUser=user;
+            res.send(outData);
+        });
+    });
+
     app.post("/sysadmin/create_new_db", function (req, res) {
         var host=req.body.host;
         var newDBName=req.body.newDatabase;
@@ -245,13 +259,13 @@ module.exports.init = function(app){
         var outData={};
 
         database.mySQLAdminConnection(connParams,function(err){
-            if (err) {                                                                    log.error("mySQLAdminConnection err=", err);
+            if (err) {                                                                                                  log.error("mySQLAdminConnection err=", err);
                 outData.error=err.message;
                 res.send(outData);
                 return;
             }
             database.checkIfDBExists(newDBName, function(err, result){
-                if (err) {                                                                log.error("checkIfDBExists err=", err);
+                if (err) {                                                                                              log.error("checkIfDBExists err=", err);
                     outData.error=err.message;
                     res.send(outData);
                     return;
@@ -261,14 +275,14 @@ module.exports.init = function(app){
                     return;
                 }
                 database.createNewDB(newDBName,function(err, ok){
-                    if(err){                                                                        console.log("createNewDB err=", err);
+                    if(err){                                                                                            log.error("createNewDB err=", err);
                         outData.error=err.message;
                         res.send(outData);
                         return;
                     }
                     outData.DBCreated=ok;
                     database.checkIfUserExists(newUserName,function(err,result){
-                        if(err){                                                                     log.error("checkIfUserExists err=", err);
+                        if(err){                                                                                        log.error("checkIfUserExists err=", err);
                             outData.error=err.message;
                             res.send(outData);
                             return;
@@ -276,7 +290,7 @@ module.exports.init = function(app){
                         if(result.length>0){
                             outData.userExists="User "+newUserName+" is already exists!";
                             database.grantUserAccess(host,newUserName,newDBName, function(err, ok){
-                                if(err){                                                              log.error("createNewUser err=", err);
+                                if(err){                                                                                log.error("createNewUser err=", err);
                                     outData.error=err.message;
                                     res.send(outData);
                                     return;
@@ -286,14 +300,14 @@ module.exports.init = function(app){
                             })
                         }else{
                             database.createNewUser(host,newUserName,newUserPassword, function(err, ok){
-                                if(err){                                                            console.log("createNewUser err=", err);
+                                if(err){                                                                                log.error("createNewUser err=", err);
                                     outData.error=err.message;
                                     res.send(outData);
                                     return;
                                 }
                                 outData.userCreated=ok;
                                 database.grantUserAccess(host,newUserName,newDBName, function(err, ok){
-                                    if(err){                                                        console.log("createNewUser err=", err);
+                                    if(err){                                                                            log.error("createNewUser err=", err);
                                         outData.error=err.message;
                                         res.send(outData);
                                         return;
@@ -322,13 +336,13 @@ module.exports.init = function(app){
         var outData = {};
 
         database.mySQLAdminConnection(connParams, function (err) {
-            if (err) {                                                                      log.error("mySQLAdminConnection err=", err);
+            if (err) {                                                                                                  log.error("mySQLAdminConnection err=", err);
                 outData.error = err.message;
                 res.send(outData);
                 return;
             }
             database.checkIfDBExists(DBName, function (err, result) {
-                if (err) {                                                                  log.error("checkIfDBExists err=", err);
+                if (err) {                                                                                              log.error("checkIfDBExists err=", err);
                     outData.error = err.message;
                     res.send(outData);
                     return;
@@ -339,7 +353,7 @@ module.exports.init = function(app){
                     return;
                 }
                 database.dropDB(DBName,function(err,ok){
-                    if (err) {                                                               log.error("checkIfDBExists err=", err);
+                    if (err) {                                                                                          log.error("checkIfDBExists err=", err);
                         outData.error = err.message;
                         res.send(outData);
                         return;
@@ -363,7 +377,7 @@ module.exports.init = function(app){
         };
         var outData = {};
         database.mySQLAdminConnection(connParams, function (err) {
-            if (err) {                                                                   log.error("mySQLAdminConnection err=", err);
+            if (err) {                                                                                                  log.error("mySQLAdminConnection err=", err);
                 outData.error = err.message;
                 res.send(outData);
                 return;
@@ -400,7 +414,7 @@ module.exports.init = function(app){
         var outData = {};
 
         database.checkIfDBExists(DBName, function (err, result) {
-            if (err) {                                                                  log.error("checkIfDBExists err=", err);
+            if (err) {                                                                                                  log.error("checkIfDBExists err=", err);
                 outData.error = err.message;
                 logData.error = err.message;
                 writeToBackUpLog(logData);
@@ -416,7 +430,7 @@ module.exports.init = function(app){
             }
             if (req.body.rewrite) {
                 database.backupDB(backupParam, function (err, ok) {
-                    if (err) {                                                      log.error("checkIfDBExists err=", err);
+                    if (err) {                                                                                          log.error("checkIfDBExists err=", err);
                         logData.error = err.message;
                         writeToBackUpLog(logData);
                         outData.error = err.message;
@@ -438,7 +452,7 @@ module.exports.init = function(app){
                         }
                     }
                     database.backupDB(backupParam, function (err, ok) {
-                        if (err) {                                                      log.error("checkIfDBExists err=", err);
+                        if (err) {                                                                                      log.error("checkIfDBExists err=", err);
                             outData.error = err.message;
                             logData.error = err.message;
                             writeToBackUpLog(logData);
@@ -472,7 +486,7 @@ module.exports.init = function(app){
         };
         var outData = {};
         database.checkIfDBExists(DBName, function (err, result) {
-            if (err) {                                                                       log.error("checkIfDBExists err=", err);
+            if (err) {                                                                                                  log.error("checkIfDBExists err=", err);
                 outData.error = err.message;
                 res.send(outData);
                 return;
@@ -494,24 +508,8 @@ module.exports.init = function(app){
                 res.send(outData);
                 return;
             }
-
-            //if (req.body.rewrite) {
-            //    database.dropDB(DBName, function (err, ok) {
-            //        if (err) {                                                                          console.log("checkIfDBExists err=", err);
-            //            outData.error = err.message;
-            //            res.send(outData);
-            //            return;
-            //        }
-            //        outData.DBdropped = ok;
-            //        database.createNewDB(DBName, function (err, ok) {
-            //            if (err) {                                                                      console.log("createNewDB err=", err);
-            //                outData.error = err.message;
-            //                res.send(outData);
-            //                return;
-            //            }
-            //            outData.DBCreated = ok;
                         database.checkIfUserExists(userName, function (err, result) {
-                            if (err) {                                                                  console.log("checkIfUserExists err=", err);
+                            if (err) {                                                                                  log.error("checkIfUserExists err=", err);
                                 outData.error = err.message;
                                 res.send(outData);
                                 return;
@@ -519,14 +517,14 @@ module.exports.init = function(app){
                             if (result.length > 0) {
                                 outData.userExists = "User " + userName + " is already exists!";
                                 database.grantUserAccess(host, userName, DBName, function (err, ok) {
-                                    if (err) {                                                          console.log("createNewUser err=", err);
+                                    if (err) {                                                                          log.error("createNewUser err=", err);
                                         outData.error = err.message;
                                         res.send(outData);
                                         return;
                                     }
                                     outData.accessAdded = ok;
                                     database.restoreDB(restoreParams, function (err, ok) {
-                                        if (err) {                                                      console.log("restoreDB err=", err);
+                                        if (err) {                                                                      log.error("restoreDB err=", err);
                                             outData.error = err.message;
                                             res.send(outData);
                                             return;
@@ -537,21 +535,21 @@ module.exports.init = function(app){
                                 })
                             } else {
                                 database.createNewUser(host, userName, userPassword, function (err, ok) {
-                                    if (err) {                                                          console.log("createNewUser err=", err);
+                                    if (err) {                                                                          log.error("createNewUser err=", err);
                                         outData.error = err.message;
                                         res.send(outData);
                                         return;
                                     }
                                     outData.userCreated = ok;
                                     database.grantUserAccess(host, userName, DBName, function (err, ok) {
-                                        if (err) {                                                      console.log("grantUserAccess err=", err);
+                                        if (err) {                                                                      log.error("grantUserAccess err=", err);
                                             outData.error = err.message;
                                             res.send(outData);
                                             return;
                                         }
                                         outData.accessAdded = ok;
                                         database.restoreDB(restoreParams, function (err, ok) {
-                                            if (err) {                                                  console.log("restoreDB err=", err);
+                                            if (err) {                                                                  log.error("restoreDB err=", err);
                                                 outData.error = err.message;
                                                 res.send(outData);
                                                 return;
@@ -562,32 +560,6 @@ module.exports.init = function(app){
                                     })
                                 });
                             }
-                      //  });
-                  //  });
-               // });
-            //} else {
-            //    database.isDBEmpty(DBName, function (err, recodrset) {                                  console.log("isDBEmpty recodrset =", recodrset);
-            //        if (err) {                                                                          console.log("restoreDB err=", err);
-            //            outData.error = err.message;
-            //            res.send(outData);
-            //            return;
-            //        }
-            //        if (!recodrset) {
-            //            database.restoreDB(restoreParams, function (err, ok) {
-            //                if (err) {                                                                  console.log("restoreDB err=", err);
-            //                    outData.error = err.message;
-            //                    res.send(outData);
-            //                    return;
-            //                }
-            //                outData.restore = ok;
-            //                res.send(outData);
-            //            })
-            //        }
-            //        //else {
-            //        //    outData.dropDBConfirm = "dropDBConfirm";
-            //        //    res.send(outData);
-            //        //}
-            //    });
             });
         });
     });
@@ -618,7 +590,7 @@ module.exports.init = function(app){
             callback(outData);
             return;
         }
-        getChangeLogItemByID(changeData.changeID, function (result) {                                       log.info("getChangeLogItemByID changeID="+changeData.changeID+" result=",result);
+        getChangeLogItemByID(changeData.changeID, function (result) {                                                   log.info("getChangeLogItemByID changeID="+changeData.changeID+" result=",result);
             if (result.error) {
                 outData.error = "ERROR FOR ID:"+changeData.changeID+" Error msg: "+result.error;
                 matchLogData(null, outData, ind+1, callback);
@@ -654,7 +626,7 @@ module.exports.init = function(app){
     app.get("/sysadmin/database/getCurrentChanges", function (req, res) {
         var outData = { columns:changesTableColumns, identifier:changesTableColumns[0].data, items:[] };
         checkIfChangeLogExists(function(tableData) {
-            if (tableData.error&& (tableData.errorCode=="ER_NO_SUCH_TABLE")) {                              log.info("checkIfChangeLogExists resultCallback errorCode=='ER_NO_SUCH_TABLE' tableData.error:",tableData.error);
+            if (tableData.error&& (tableData.errorCode=="ER_NO_SUCH_TABLE")) {                                          log.info("checkIfChangeLogExists resultCallback errorCode=='ER_NO_SUCH_TABLE' tableData.error:",tableData.error);
                 outData.noTable = true;
                 var arr=dataModel.getModelChanges();
                 var items=util.sortArray(arr);
@@ -667,7 +639,7 @@ module.exports.init = function(app){
                 res.send(outData);
                 return;
             }
-            if (tableData.error) {                                                                          log.error("checkIfChangeLogExists resultCallback tableData.error:",tableData.error);
+            if (tableData.error) {                                                                                      log.error("checkIfChangeLogExists resultCallback tableData.error:",tableData.error);
                 outData.error = tableData.error;
                 res.send(outData);
                 return;
@@ -754,10 +726,10 @@ module.exports.init = function(app){
                     res.send(outData);
                     return;
                 }
-                database.executeQuery(CHANGE_VAL, function (err) {                          //console.log("executeQuery err=",err.message);
+                database.executeQuery(CHANGE_VAL, function (err) {
                     if (err) {
                         outData.error = err.message;
-                        res.send(outData);                                                  //console.log("executeQuery outData=",outData);
+                        res.send(outData);
                         return;
                     }
                     insertToChangeLog({"ID":modelChange.changeID,
@@ -813,20 +785,6 @@ module.exports.init = function(app){
         });
     });
 
-    app.post("/sysadmin/getDBListForUser", function (req, res) {
-        database.getDatabasesForUser(req.body.user, req.body.pswd,function (err, dbList, user) {
-           var  outData={};
-            if (err) {
-                outData.dbListError = err;
-                res.send(outData);
-                return;
-            }
-            outData.dbList=dbList;
-            outData.dbListUser=user;
-            res.send(outData);
-        });
-    });
-
     app.get("/sysadmin/synchronization", function (req, res) {
         res.sendFile(appViewsPath+'sysadmin/synchronization.html');
     });
@@ -837,7 +795,7 @@ module.exports.init = function(app){
         , {"data": "STOCK_NAME", "name": "UnitName", "width": 200, "type": "text"}
 
     ];
-    app.get('/sysadmin/synchronization/get_sys_sync_databasesDataForTable', function(req, res){
+    app.get('/sysadmin/synchronization/getDatabasesDataForTable', function(req, res){
         sys_sync_databases.getDataForTable({tableColumns:sysSyncDatabasesTableColumns, identifier:sysSyncDatabasesTableColumns[0].data,
             order:"ID", conditions:req.query}, function(result){
             res.send(result);
@@ -853,7 +811,7 @@ module.exports.init = function(app){
         , {"data": "CLIENT_SYNC_DATA_ID", "name": "Client ID", "width": 70, "type": "text"}
 
     ];
-    app.get('/sysadmin/synchronization/get_sys_sync_errors_logDataForTable', function(req, res){
+    app.get('/sysadmin/synchronization/getErrorLogDataForTable', function(req, res){
         sys_sync_errors_log.getDataForTable({tableColumns:sysSyncErrorsLogTableColumns, identifier:sysSyncErrorsLogTableColumns[0].data,
             order:"ID", conditions:req.query}, function(result){
             res.send(result);
@@ -877,7 +835,7 @@ module.exports.init = function(app){
         , {"data": "DEST_TABLE_DATA_ID", "name": "Dest.t ID", "width": 130, "type": "text"}
 
     ];
-    app.get('/sysadmin/synchronization/get_sys_sync_incoming_dataDataForTable', function(req, res){
+    app.get('/sysadmin/synchronization/getIncomingDataForTable', function(req, res){
         sys_sync_incoming_data.getDataForTable({tableColumns:sysSyncIncomingDataTableColumns, identifier:sysSyncIncomingDataTableColumns[0].data,
             order:"ID", conditions:req.query}, function(result){
             res.send(result);
@@ -896,7 +854,7 @@ module.exports.init = function(app){
         , {"data": "APPLIED_DATE", "name": "AppliedDate", "width": 80, "type": "text"}
         , {"data": "CLIENT_MESSAGE", "name": "ClientMessage", "width": 250, "type": "text"}
     ];
-    app.get('/sysadmin/synchronization/get_sys_sync_output_dataDataForTable', function(req, res){
+    app.get('/sysadmin/synchronization/getOutputDataForTable', function(req, res){
         sys_sync_output_data.getDataForTable({tableColumns:sysSyncOutputDataTableColumns, identifier:sysSyncOutputDataTableColumns[0].data,
             order:"ID", conditions:req.query}, function(result){
             res.send(result);
