@@ -3,7 +3,7 @@ var changeLog = [
         'changeVal':'CREATE TABLE wrh_inv_products(ID BIGINT UNSIGNED NOT NULL PRIMARY KEY) CHARACTER SET utf8',
         "tableName":"wrh_inv_products", "field":"ID"},
     { 'changeID':'wrh_inv_products__2', 'changeDatetime':'2017-05-04T09:16:00.000+0300', 'changeObj':'model.wrh_inv_products',
-        'changeVal':'ALTER TABLE wrh_inv_products ADD COLUMN INV_ID BIGINT NOT NULL',
+        'changeVal':'ALTER TABLE wrh_inv_products ADD COLUMN INV_ID BIGINT UNSIGNED NOT NULL',
         "field":"INV_ID"},
     { 'changeID':'wrh_inv_products__3', 'changeDatetime':'2017-05-04T09:17:00.000+0300', 'changeObj':'model.wrh_inv_products',
         'changeVal':'ALTER TABLE wrh_inv_products ADD CONSTRAINT WRH_INV_PRODUCTS_INV_ID_FK FOREIGN KEY (INV_ID) REFERENCES wrh_invs(ID)' },

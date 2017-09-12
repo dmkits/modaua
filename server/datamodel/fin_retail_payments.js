@@ -1,9 +1,9 @@
 var changeLog = [
     { 'changeID':'fin_retail_payments__1', 'changeDatetime':'2016-09-26T21:31:00.000+0300', 'changeObj':'model.fin_retail_payments',
-        'changeVal':'CREATE TABLE fin_retail_payments(ID BIGINT NOT NULL PRIMARY KEY) CHARACTER SET utf8',
+        'changeVal':'CREATE TABLE fin_retail_payments(ID BIGINT UNSIGNED NOT NULL PRIMARY KEY) CHARACTER SET utf8',
         "tableName":"fin_retail_payments", "field":"ID"},
     { 'changeID':'fin_retail_payments__2', 'changeDatetime':'2016-09-26T21:32:00.000+0300', 'changeObj':'model.fin_retail_payments',
-        'changeVal':'ALTER TABLE fin_retail_payments ADD COLUMN RETAIL_RECEIPT_ID BIGINT NOT NULL',
+        'changeVal':'ALTER TABLE fin_retail_payments ADD COLUMN RETAIL_RECEIPT_ID BIGINT UNSIGNED NOT NULL',
         "field":"RETAIL_RECEIPT_ID"},
     { 'changeID':'fin_retail_payments__3', 'changeDatetime':'2016-09-26T21:33:00.000+0300', 'changeObj':'model.fin_retail_payments',
         'changeVal':'ALTER TABLE fin_retail_payments ADD CONSTRAINT FIN_RETAIL_PAYMENTS_RETAIL_RECEIPT_ID_FK FOREIGN KEY (RETAIL_RECEIPT_ID) REFERENCES fin_retail_receipts(ID)'},

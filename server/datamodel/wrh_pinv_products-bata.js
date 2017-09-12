@@ -31,7 +31,7 @@ var changeLog = [
         'changeVal':'ALTER TABLE wrh_pinv_products ADD COLUMN SALE_PRICE DECIMAL(12,2) NOT NULL',
         "field":"SALE_PRICE"},
     { 'changeID':'wrh_pinv_products_11', 'changeDatetime':'2016-09-08T11:41:00.000+0300', 'changeObj':'wrh_pinv_products',
-        'changeVal':'ALTER TABLE wrh_pinv_products ADD COLUMN BARCODE BIGINT NOT NULL',
+        'changeVal':'ALTER TABLE wrh_pinv_products ADD COLUMN BARCODE BIGINT UNSIGNED NOT NULL',
         "field":"BARCODE"},
     { 'changeID':'wrh_pinv_products_12', 'changeDatetime':'2016-09-08T11:42:00.000+0300', 'changeObj':'wrh_pinv_products',
         'changeVal':'ALTER TABLE wrh_pinv_products ADD CONSTRAINT WRH_PINV_PRODUCTS_BARCODE_PRODUCT_ID_FK' +

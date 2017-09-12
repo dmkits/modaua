@@ -812,6 +812,7 @@ module.exports.init = function(app){
             res.send(result);
         });
     });
+
     app.post("/sysadmin/getDBListForUser", function (req, res) {
         database.getDatabasesForUser(req.body.user, req.body.pswd,function (err, dbList, user) {
            var  outData={};

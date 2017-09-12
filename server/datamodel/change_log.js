@@ -1,5 +1,5 @@
 var changeLog= [
-    { "changeID":"chl__1", "changeDatetime":"2016-08-29T09:01:00+03:00",  "changeObj":"change_log",
+    { "changeID":"chl__1", "changeDatetime":"2016-08-29 09:01:00",  "changeObj":"change_log",
         "changeVal":"CREATE TABLE change_log(" +
             "ID VARCHAR(64) NOT NULL PRIMARY KEY, CHANGE_DATETIME DATETIME NOT NULL," +
             "CHANGE_OBJ VARCHAR(255) NOT NULL, CHANGE_VAL VARCHAR(20000) NOT NULL," +

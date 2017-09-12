@@ -1,9 +1,9 @@
 var changeLog = [
     { 'changeID':'wrh_inv_products_wob__1', 'changeDatetime':'2017-06-09T14:01:00.000+0300', 'changeObj':'model.wrh_inv_products_wob',
-        'changeVal':'CREATE TABLE wrh_inv_products_wob(ID BIGINT NOT NULL PRIMARY KEY) CHARACTER SET utf8',
+        'changeVal':'CREATE TABLE wrh_inv_products_wob(ID BIGINT UNSIGNED NOT NULL PRIMARY KEY) CHARACTER SET utf8',
         "tableName":"wrh_inv_products_wob", "field":"ID"},
     { 'changeID':'wrh_inv_products_wob__2', 'changeDatetime':'2017-06-09T14:02:00.000+0300', 'changeObj':'model.wrh_inv_products_wob',
-        'changeVal':'ALTER TABLE wrh_inv_products_wob ADD COLUMN INV_PRODUCTS_ID BIGINT NOT NULL',
+        'changeVal':'ALTER TABLE wrh_inv_products_wob ADD COLUMN INV_PRODUCTS_ID BIGINT UNSIGNED NOT NULL',
         'field':'INV_PRODUCTS_ID'},
     { 'changeID':'wrh_inv_products_wob__3', 'changeDatetime':'2017-06-09T14:03:00.000+0300', 'changeObj':'model.wrh_inv_products_wob',
         'changeVal':'ALTER TABLE wrh_inv_products_wob ADD CONSTRAINT WRH_INV_PRODUCTS_WOB_INV_PRODUCTS_ID_FK FOREIGN KEY (INV_PRODUCTS_ID) REFERENCES wrh_inv_products(ID)' },

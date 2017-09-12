@@ -53,8 +53,7 @@ module.exports.getJSONWithoutComments=function(text){
 
 module.exports.sortArray=function(arr){
     function compareBychangeDatetime(a, b) {
-        if (a.changeDatetime > b.changeDatetime) return 1;
-        if (a.changeDatetime < b.changeDatetime) return -1;
+        if (new Date(a.changeDatetime) > new Date(b.changeDatetime)) return 1; else return -1;
     }
     arr.sort(compareBychangeDatetime);
     return arr;

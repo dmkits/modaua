@@ -571,8 +571,8 @@ function _insDataItem(params, resultCallback) {
         if (queryFieldsValues!="") queryFieldsValues+= ",";
         queryFields+= fieldName;
         queryFieldsValues+= "?";
-        var insDataItemValue=params.insData[fieldName];                                                 console.log("==========================INS DATA VALUE=========================",fieldName,insDataItemValue,typeof(insDataItemValue));
-        if(insDataItemValue&&(insDataItemValue instanceof Date)) {                                      console.log("==========================CONVERT=========================",fieldName,insDataItemValue);
+        var insDataItemValue=params.insData[fieldName];
+        if(insDataItemValue&&(insDataItemValue instanceof Date)) {
             insDataItemValue=dateFormat(insDataItemValue,"yyyy-mm-dd HH:MM:ss");
         }
         fieldsValues.push(insDataItemValue);
@@ -620,7 +620,11 @@ function _updDataItem(params, resultCallback) {
     for(var fieldName in params.updData) {
         if (queryFields!="") queryFields+= ",";
         queryFields+= fieldName+"=?";
-        fieldsValues.push(params.updData[fieldName]);
+        var updDataItemValue=params.updData[fieldName];
+        if(updDataItemValue&&(updDataItemValue instanceof Date)) {
+            updDataItemValue=dateFormat(updDataItemValue,"yyyy-mm-dd HH:MM:ss");
+        }
+        fieldsValues.push(updDataItemValue);
     }
     var updQuery="update "+params.tableName+" set "+queryFields;
     var queryConditions="";

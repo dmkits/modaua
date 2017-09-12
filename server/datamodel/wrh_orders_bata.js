@@ -6,7 +6,7 @@ var changeLog=[
       "changeVal": "ALTER TABLE wrh_orders_bata ADD COLUMN NUMBER INTEGER NOT NULL",
         "field":"NUMBER" },
     { "changeID": "wrh_orders_bata__3", "changeDatetime": "2016-09-04T19:33:00.000+0300", "changeObj": "wrh_orders_bata",
-      "changeVal": "ALTER TABLE wrh_orders_bata ADD COLUMN DOCDATE TIMESTAMP NOT NULL",
+      "changeVal": "ALTER TABLE wrh_orders_bata ADD COLUMN DOCDATE DATETIME NOT NULL",
         "field":"DOCDATE" },
     { "changeID": "wrh_orders_bata__4", "changeDatetime": "2016-09-04T19:34:00.000+0300", "changeObj": "wrh_orders_bata",
       "changeVal": "ALTER TABLE wrh_orders_bata ADD COLUMN SUPPLIER_ORDER_NUM VARCHAR(255) NOT NULL",

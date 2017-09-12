@@ -1,6 +1,6 @@
 var changeLog = [
     { 'changeID':'fin_retail_receipts__1', 'changeDatetime':'2016-09-26T21:01:00.000+0300', 'changeObj':'model.fin_retail_receipts',
-        'changeVal':'CREATE TABLE fin_retail_receipts(ID BIGINT NOT NULL PRIMARY KEY) CHARACTER SET utf8',
+        'changeVal':'CREATE TABLE fin_retail_receipts(ID BIGINT UNSIGNED NOT NULL PRIMARY KEY) CHARACTER SET utf8',
         "tableName":"fin_retail_receipts", "field":"ID"},
     { 'changeID':'fin_retail_receipts__2', 'changeDatetime':'2016-09-26T21:02:00.000+0300', 'changeObj':'model.fin_retail_receipts',
         'changeVal':'ALTER TABLE fin_retail_receipts ADD COLUMN NUMBER INTEGER NOT NULL',
@@ -10,12 +10,12 @@ var changeLog = [
         "field":"DOCDATE"
     },
     { 'changeID':'fin_retail_receipts__4', 'changeDatetime':'2016-09-26T21:04:00.000+0300', 'changeObj':'model.fin_retail_receipts',
-        'changeVal':'ALTER TABLE fin_retail_receipts ADD COLUMN UNIT_ID BIGINT NOT NULL',
+        'changeVal':'ALTER TABLE fin_retail_receipts ADD COLUMN UNIT_ID BIGINT UNSIGNED NOT NULL',
         "field":"UNIT_ID"},
     { 'changeID':'fin_retail_receipts__5', 'changeDatetime':'2016-09-26T21:05:00.000+0300', 'changeObj':'model.fin_retail_receipts',
         'changeVal':'ALTER TABLE fin_retail_receipts ADD CONSTRAINT FIN_RETAIL_RECEIPTS_UNIT_ID_FK FOREIGN KEY (UNIT_ID) REFERENCES dir_units(ID)' },
     { 'changeID':'fin_retail_receipts__6', 'changeDatetime':'2016-09-26T21:06:00.000+0300', 'changeObj':'model.fin_retail_receipts',
-        'changeVal':'ALTER TABLE fin_retail_receipts ADD COLUMN BUYER_ID BIGINT NOT NULL',
+        'changeVal':'ALTER TABLE fin_retail_receipts ADD COLUMN BUYER_ID BIGINT UNSIGNED NOT NULL',
         "field":"BUYER_ID"},
     { 'changeID':'fin_retail_receipts__7', 'changeDatetime':'2016-09-26T21:07:00.000+0300', 'changeObj':'model.fin_retail_receipts',
         'changeVal':'ALTER TABLE fin_retail_receipts ADD CONSTRAINT FIN_RETAIL_RECEIPTS_BUYER_ID_FK FOREIGN KEY (BUYER_ID) REFERENCES dir_contractors(ID)' },

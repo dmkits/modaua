@@ -1,6 +1,6 @@
 var changeLog = [
 { 'changeID':'fin_retail_receipts_purposes__1', 'changeDatetime':'2017-06-26T16:55:00.000+0300', 'changeObj':'model.fin_retail_receipts_purposes',
-    'changeVal':'CREATE TABLE fin_retail_receipts_purposes(RETAIL_RECEIPT_ID BIGINT NOT NULL PRIMARY KEY) CHARACTER SET utf8',
+    'changeVal':'CREATE TABLE fin_retail_receipts_purposes(RETAIL_RECEIPT_ID BIGINT UNSIGNED NOT NULL PRIMARY KEY) CHARACTER SET utf8',
     "tableName":"fin_retail_receipts_purposes", "field":"ID"},
 { 'changeID':'fin_retail_receipts_purposes__2', 'changeDatetime':'2017-06-26T16:56:00.000+0300', 'changeObj':'model.fin_retail_receipts_purposes',
     'changeVal':'ALTER TABLE fin_retail_receipts_purposes ADD COLUMN RETAIL_RECEIPT_PURPOSE_ID INTEGER NOT NULL',
