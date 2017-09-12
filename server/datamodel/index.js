@@ -1,4 +1,4 @@
-var server= require("../server"), log= server.log, instauUID = require('instauuid');
+var server= require("../server"), log= server.log, instauUID = require('instauuid'), dateFormat = require('dateformat');
 
 var dataModelChanges= [];
 module.exports.getModelChanges=function(){ return dataModelChanges; };
@@ -233,7 +233,7 @@ function _getDataItems(params, resultCallback){
             selectResult.errorCode=err.code;
         }
         if (recordset) selectResult.items= recordset;
-        resultCallback(selectResult);                                                                   //log.info('_getDataItems: _getSelectItems:',selectResult,{});//test
+        resultCallback(selectResult);
     });
 }
 /**
@@ -451,12 +451,14 @@ function _fillDataTypeForTableColumns(tableColumns){
     for(var col=0;col<tableColumns.length;col++){
         var tableColData=tableColumns[col];
         if(!tableColData) continue;
-        if (tableColData.type=="text_date"){
+        if (tableColData.type=="dateAsText"){
             tableColData.type="text";
-            if(!tableColData.dateFormat) tableColData.dateFormat="DD.MM.YY";
-        } else if (tableColData.type=="text_datetime"){
+            //if(!tableColData.dateFormat) tableColData.dateFormat="DD.MM.YY";
+            if(!tableColData.datetimeFormat) tableColData.datetimeFormat="DD.MM.YY";
+        } else if (tableColData.type=="datetimeAsText"){
             tableColData.type="text";
-            if(!tableColData.dateFormat) tableColData.dateFormat="DD.MM.YY HH:mm:ss";
+            //if(!tableColData.dateFormat) tableColData.dateFormat="DD.MM.YY HH:mm:ss";
+            if(!tableColData.datetimeFormat) tableColData.datetimeFormat="DD.MM.YY HH:mm:ss";
         } else if(tableColData.type=="numeric"){
             if(!tableColData.format) tableColData.format="#,###,###,##0.[#########]";
             if(!tableColData.language) tableColData.language="ru-RU";
@@ -546,6 +548,7 @@ function _setDataItemForTable(params, resultCallback){
  * params = { tableName,
  *      insData = {<tableFieldName>:<value>,<tableFieldName>:<value>,<tableFieldName>:<value>,...}
  * }
+ * <value> instanceof Date converted to sting by format yyyy-mm-dd HH:MM:ss !!!
  * resultCallback = function(result = { updateCount, error }
  */
 function _insDataItem(params, resultCallback) {
@@ -568,7 +571,11 @@ function _insDataItem(params, resultCallback) {
         if (queryFieldsValues!="") queryFieldsValues+= ",";
         queryFields+= fieldName;
         queryFieldsValues+= "?";
-        fieldsValues.push(params.insData[fieldName]);
+        var insDataItemValue=params.insData[fieldName];                                                 console.log("==========================INS DATA VALUE=========================",fieldName,insDataItemValue,typeof(insDataItemValue));
+        if(insDataItemValue&&(insDataItemValue instanceof Date)) {                                      console.log("==========================CONVERT=========================",fieldName,insDataItemValue);
+            insDataItemValue=dateFormat(insDataItemValue,"yyyy-mm-dd HH:MM:ss");
+        }
+        fieldsValues.push(insDataItemValue);
     }
     var insQuery="insert into "+params.tableName+"("+queryFields+") values("+queryFieldsValues+")";
     database.executeParamsQuery(insQuery,fieldsValues,function(err, updateCount){
@@ -756,7 +763,7 @@ function _insTableDataItem(params, resultCallback) {
             var fieldName=this.fields[i];
             params.insData[fieldName]=(params.insTableData[fieldName]==undefined)?null:params.insTableData[fieldName];
         }
-    } else params.insData=params.insTableData;                                                      console.log("_insTableDataItem params.insData",params.insData);
+    } else params.insData=params.insTableData;
     var thisInstance=this;
     _insDataItem(params, function(insResult){
         if(insResult.error){

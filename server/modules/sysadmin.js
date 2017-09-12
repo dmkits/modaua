@@ -644,7 +644,7 @@ module.exports.init = function(app){
 
     var changesTableColumns=[
         {"data": "changeID", "name": "changeID", "width": 200, "type": "text"}
-        , {"data": "changeDatetime", "name": "changeDatetime", "width": 120, "type": "text", "dateFormat":"YYYY-MM-DD HH:mm:ss"}
+        , {"data": "changeDatetime", "name": "changeDatetime", "width": 120, "type":"text", "datetimeFormat":"YYYY-MM-DD HH:mm:ss"}
         , {"data": "changeObj", "name": "changeObj", "width": 200, "type": "text"}
         , {"data": "changeVal", "name": "changeVal", "width": 450, "type": "text"}
         , {"data": "type", "name": "type", "width": 100, "type": "text"}
@@ -688,10 +688,10 @@ module.exports.init = function(app){
 
     var changeLogTableColumns=[
         {"data": "ID", "name": "changeID", "width": 200, "type": "text"}
-        , {"data": "CHANGE_DATETIME", "name": "changeDatetime", "width": 120, "type": "text", "dateFormat":"YYYY-MM-DD HH:mm:ss"}
+        , {"data": "CHANGE_DATETIME", "name": "changeDatetime", "width": 120, "type": "datetimeAsText"}
         , {"data": "CHANGE_OBJ", "name": "changeObj", "width": 200, "type": "text"}
         , {"data": "CHANGE_VAL", "name": "changeVal", "width": 450, "type": "text"}
-        , {"data": "APPLIED_DATETIME", "name": "appliedDatetime", "width": 120, "type": "text", "dateFormat":"YYYY-MM-DD HH:mm:ss"}
+        , {"data": "APPLIED_DATETIME", "name": "appliedDatetime", "width": 120, "type": "datetimeAsText"}
     ];
     /**
      * resultCallback = function(result = { updateCount, resultItem:{<tableFieldName>:<value>,...}, error } )
@@ -701,7 +701,7 @@ module.exports.init = function(app){
     };
     app.post("/sysadmin/database/applyChange", function (req, res) {
         var outData={};
-        var ID=req.body.CHANGE_ID;
+        var ID=req.body.CHANGE_ID, appliedDatetime=req.body.appliedDatetime;
         var CHANGE_VAL;
         var fullModelChanges=dataModel.getModelChanges();
         var rowData;
@@ -722,8 +722,8 @@ module.exports.init = function(app){
                         return;
                     }
                     insertToChangeLog({"ID":modelChange.changeID,
-                            "CHANGE_DATETIME":dateFormat(new Date(modelChange.changeDatetime),"yyyy-mm-dd HH:MM:ss"), ///2016-09-04T18:15:00.000
-                            "CHANGE_OBJ":modelChange.changeObj,"CHANGE_VAL":modelChange.changeVal, "APPLIED_DATETIME":null},    //
+                            "CHANGE_DATETIME":modelChange.changeDatetime, "CHANGE_OBJ":modelChange.changeObj,
+                            "CHANGE_VAL":modelChange.changeVal, "APPLIED_DATETIME":appliedDatetime},
                         function (result) {
                             if (result.error) {
                                 outData.error = result.error;
@@ -761,8 +761,8 @@ module.exports.init = function(app){
                         return;
                     }
                     insertToChangeLog({"ID":modelChange.changeID,
-                            "CHANGE_DATETIME":dateFormat(new Date(modelChange.changeDatetime),"yyyy-mm-dd HH:MM:ss"),
-                            "CHANGE_OBJ":modelChange.changeObj,"CHANGE_VAL":modelChange.changeVal, "APPLIED_DATETIME":null},
+                            "CHANGE_DATETIME":modelChange.changeDatetime, "CHANGE_OBJ":modelChange.changeObj,
+                            "CHANGE_VAL":modelChange.changeVal, "APPLIED_DATETIME":appliedDatetime},
                         function (result) {
                             if (result.error) {
                                 outData.error = result.error;

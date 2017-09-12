@@ -266,7 +266,7 @@ module.exports.selectParamsQuery= function(query, parameters, callback) {       
             if (err) {
                 callback(err);
                 return;
-            }
+            }                                                                                               //log.debug('database: selectParamsQuery:',recordset,{});//test
             callback(null, recordset, recordset.affectedRows, fields);
         });
 };

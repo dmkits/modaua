@@ -59,7 +59,8 @@
                                         var changeID = tableContentRowData.changeID;
                                         var type = tableContentRowData.type;
                                         if (type == "new") {
-                                            Request.postJSONData({url: "/sysadmin/database/applyChange", condition: null, data: {"CHANGE_ID": changeID}, consoleLog: true },
+                                            Request.postJSONData({url: "/sysadmin/database/applyChange", condition: null,
+                                                        data: {"CHANGE_ID": changeID, appliedDatetime:moment().format("YYYY.MM.DD hh:mm:ss")}, consoleLog: true },
                                                     function (success, result) {
                                                         var typeValue = type, changeMsg = null;
                                                         if (success) {

@@ -146,9 +146,9 @@ define(["dojo/_base/declare", "dijit/layout/ContentPane", "request"], function(d
                         Handsontable.renderers.HtmlRenderer.apply(this, arguments);
                     } else {
                         Handsontable.cellTypes[cellProperties.type].renderer.apply(this, arguments);
-                        if (cellProperties["type"]==="text"&&cellProperties["dateFormat"]){
+                        if (cellProperties["type"]==="text"&&cellProperties["datetimeFormat"]){
                             if(value!==null&&value!==undefined)
-                                td.innerHTML= moment(new Date(value) /*value,"YYYY-MM-DD"*/).format(cellProperties["dateFormat"]);
+                                td.innerHTML= moment(new Date(value) /*value,"YYYY-MM-DD"*/).format(cellProperties["datetimeFormat"]);
                             else td.innerHTML="";
                         }
                     }
