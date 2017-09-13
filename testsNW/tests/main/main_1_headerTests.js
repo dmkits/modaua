@@ -14,7 +14,7 @@ module.exports= {
         mainPage
             .navigate();
     },
-    'step_1.1 Validate DB': function (browser) {
+  /* 'step_1.1 Validate DB': function (browser) {
         browser.url('localhost:8181/sysadmin');
         var loginPage = browser.page.loginPage();
         loginPage.
@@ -54,7 +54,7 @@ module.exports= {
             .assert.containsText('@dbValidateState','success')
             .click("@logoutBtn");
     },
-
+*/
     'step_2 Login main page':function(browser){
         var loginPage = browser.page.loginPage();
         loginPage
@@ -65,7 +65,8 @@ module.exports= {
             .setValue("@userLoginPasswordInput",'user')
             .click("@loginDialog_submitBtn");
     },
-   'step_3 Main Header If  All Elements Visible Tests': function (browser) {
+
+  /* 'step_3 Main Header If  All Elements Visible Tests': function (browser) {
 
         browser.pause(2000);
 
@@ -125,7 +126,7 @@ module.exports= {
             .assert.containsText('@menuBarDirsItemContractors', "Контрагенты")  //menuBarDirsItemProducts
             .assert.containsText('@menuBarDirsItemProducts', "Товарные номенклатуры")
     },
-    /*
+
     'step_7 Assert menuBarWrh has all  menu choices tests': function (browser) {               //Склад
         var mainPage = browser.page.mainPage();
         mainPage
@@ -137,7 +138,7 @@ module.exports= {
             .assert.containsText('@menuBarWrhBalance', "Остатки товара")
             .assert.containsText('@menuBarWrhMoves', "Движение товаров")
     },
-    */
+
     'step_8 Assert menuBarPopupMenuSales has all  menu choices tests': function (browser) {    // Продажи
         var mainPage = browser.page.mainPage();
         mainPage
@@ -571,14 +572,80 @@ module.exports= {
                 this.verify.urlEquals('http://localhost:8181/');
             });
     }
-    ,'Logout': function (browser) {
-        var mainPage = browser.page.mainPage();
-        var loginPage = browser.page.loginPage();
+   */
 
+    'Open pinvs table': function (browser) {
+        var mainPage = browser.page.mainPage();
+        var pinvs = browser.page.pinvs();
         mainPage
-        .waitForElementVisible("@menuBarItemCloseItem")
-            .click('@menuBarItemCloseItem');
-        loginPage
-            .waitForElementVisible("@loginDialog");
-    }
+            .waitForElementVisible('@menuBarWrh')
+            .click('@menuBarWrh')
+            .waitForElementVisible('@menuBarWrhPInvoice')
+            .click('@menuBarWrhPInvoice');
+        pinvs
+            .waitForElementVisible('@wrh_pinv_DetailHeader');
+
+    },
+    'Pinvs check if DetailHeader elements are visible': function (browser) {
+        var pinvs = browser.page.pinvs();
+        pinvs
+            .waitForElementVisible('@detailHeaderTitle')
+            .assert.containsText("@detailHeaderTitle","не выбрана")
+            .waitForElementVisible('@leftContainerHeading')
+            .assert.containsText("@leftContainerHeading","Список накладных")
+            .waitForElementVisible('@refreshBtn')
+            .waitForElementVisible('@printBtn')
+            .assert.visible('@pickUpUnitLabel')
+            .assert.containsText("@pickUpUnitLabel","Подразделение")
+            .assert.visible('@dateLabel')
+            .assert.containsText("@dateLabel","Дата")
+            .assert.visible('@supplierLabel')
+            .assert.containsText("@supplierLabel","Поставщик")
+            .assert.visible('@currencyLabel')
+            .assert.containsText("@currencyLabel","Валюта");
+    },
+
+   /* 'assert Pinvs  Header Contains Text': function (browser) {
+        var pinvs = browser.page.pinvs();
+        pinvs
+            .assertHeaderContainsText("1","Номер п/п")
+            .assertHeaderContainsText("2","Код товара")
+            .assertHeaderContainsText("3","Товар")
+            .assertHeaderContainsText("4","Ед.изм.")
+            .assertHeaderContainsText("5","Кол-во")
+            .assertHeaderContainsText("6","Цена")
+            .assertHeaderContainsText("7","Сумма")
+            .assertHeaderContainsText("8","Коэфф.")
+            .assertHeaderContainsText("9","Цена продажи")
+            .assertHeaderContainsText("10","Цена по прайс-листу");
+
+    },*/
+
+    'create new pinv': function (browser) {
+        var pinvs = browser.page.pinvs();
+
+        pinvs
+            .waitForElementVisible('@createNewPinvBtn')
+            .click('@createNewPinvBtn');
+        browser.
+            pause(1000);
+        pinvs
+            .assert.containsText("@detailHeaderTitle","Новая приходная накладная")
+            .assert.containsText("@pickUpUnitInput","офис")
+            .assert.containsText("@supplierInput","Поставщик")
+            .assert.containsText("@currencyInput","UAH (Украинская гривна)")
+            .waitForElementVisible('@saveNewPinvBtn')
+            .click("@saveNewPinvBtn");
+    ;}
+
+    //,'Logout': function (browser) {
+    //    var mainPage = browser.page.mainPage();
+    //    var loginPage = browser.page.loginPage();
+    //
+    //    mainPage
+    //    .waitForElementVisible("@menuBarItemCloseItem")
+    //        .click('@menuBarItemCloseItem');
+    //    loginPage
+    //        .waitForElementVisible("@loginDialog");
+    //}
 };
