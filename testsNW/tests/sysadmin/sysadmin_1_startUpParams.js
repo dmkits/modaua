@@ -229,6 +229,7 @@ module.exports = {
             .waitForElementVisible('@dbValidateState')
             .assert.containsText('@dbValidateState', 'Fail');
     },
+
     'step_7.1 DB Button Actions Tests Try to create DB when it is already exists': function (browser) {
         var serverConfig = browser.page.serverConfig();
 

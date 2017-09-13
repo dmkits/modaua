@@ -83,7 +83,7 @@ define(["dojo/_base/declare", "dijit/layout/BorderContainer", "dijit/layout/Cont
                 if (params.edateCondition) {
                     this.listEDate = this.addTableCellDateBoxTo(this.listPeriodTableRow,
                         {labelText:params.edatelabelText, labelStyle:"margin-left:5px;", cellWidth:110, cellStyle:"text-align:right;",
-                            inputParams:{conditionName:params.edateCondition}, initValueDate:APP.today()});
+                            inputParams:{conditionName:params.edateCondition}, initValueDate:APP.curMonthEDate()});
                     this.listEDate.onChange = function(){
                         instance.loadListTableContentFromServer();
                     }

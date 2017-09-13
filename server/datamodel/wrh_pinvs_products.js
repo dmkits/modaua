@@ -7,7 +7,7 @@ var changeLog = [
         'changeVal':'ALTER TABLE wrh_pinvs_products ADD COLUMN PINV_ID BIGINT UNSIGNED NOT NULL',
         "field":"PINV_ID"},
     { 'changeID':'wrh_pinvs_products__3', 'changeDatetime':'2016-09-08 11:33:00', 'changeObj':'wrh_pinvs_products',
-        'changeVal':'ALTER TABLE wrh_pinvs_products ADD CONSTRAINT WRH_PINV_PRODUCTS_PINV_ID_FK' +
+        'changeVal':'ALTER TABLE wrh_pinvs_products ADD CONSTRAINT WRH_PINVS_PRODUCTS_PINV_ID_FK' +
             ' FOREIGN KEY (PINV_ID) REFERENCES wrh_pinvs(ID)',
         "field":"PINV_ID", "source":"wrh_pinvs", "linkField":"ID" },
     { 'changeID':'wrh_pinvs_products__4', 'changeDatetime':'2016-09-08 11:34:00', 'changeObj':'wrh_pinvs_products',

@@ -14,7 +14,7 @@ module.exports= {
         mainPage
             .navigate();
     },
-  /*  'step_1.1 Validate DB': function (browser) {
+    'step_1.1 Validate DB': function (browser) {
         browser.url('localhost:8181/sysadmin');
         var loginPage = browser.page.loginPage();
         loginPage.
@@ -41,18 +41,20 @@ module.exports= {
             .waitForElementVisible('@btnDatabase')
             .click('@btnDatabase');
         database
+           // .waitForElementVisible('@currentChangesTable')  //refresh
+            .clickRefreshBtn('@currentChangesTable')
             .waitForElementVisible('@currentChangesTable')
             .moveToCell('@currentChangesTable', 1, 1)
             .mouseButtonClick('right')
             .waitForElementVisible('@applyAllChangesDialog')
             .click('@applyAllChangesDialog');
-        browser.pause(60000);
+        browser.pause(180000);
 
         sysadminHeader  //dbValidateState
             .assert.containsText('@dbValidateState','success')
             .click("@logoutBtn");
     },
-    */
+
     'step_2 Login main page':function(browser){
         var loginPage = browser.page.loginPage();
         loginPage
@@ -63,7 +65,7 @@ module.exports= {
             .setValue("@userLoginPasswordInput",'user')
             .click("@loginDialog_submitBtn");
     },
- /*  'step_3 Main Header If  All Elements Visible Tests': function (browser) {
+   'step_3 Main Header If  All Elements Visible Tests': function (browser) {
 
         browser.pause(2000);
 
@@ -123,17 +125,19 @@ module.exports= {
             .assert.containsText('@menuBarDirsItemContractors', "Контрагенты")  //menuBarDirsItemProducts
             .assert.containsText('@menuBarDirsItemProducts', "Товарные номенклатуры")
     },
+    /*
     'step_7 Assert menuBarWrh has all  menu choices tests': function (browser) {               //Склад
         var mainPage = browser.page.mainPage();
         mainPage
             .click('@menuBarWrh')
-            .waitForElementVisible("@menuBarWrhPInvoice")
+            .waitForElementPresent("@menuBarWrhPInvoice")
             .assert.containsText('@menuBarWrhPInvoice', "Приходные накладные")
             .assert.containsText('@menuBarWrhInvoice', "Расходные накладные")
             .assert.containsText('@menuBarWrhRetInvoice', "Возвратные накладные")
             .assert.containsText('@menuBarWrhBalance', "Остатки товара")
             .assert.containsText('@menuBarWrhMoves', "Движение товаров")
     },
+    */
     'step_8 Assert menuBarPopupMenuSales has all  menu choices tests': function (browser) {    // Продажи
         var mainPage = browser.page.mainPage();
         mainPage
@@ -424,15 +428,15 @@ module.exports= {
        browser.expect.element('#dir_contractors_TableDirContractors').text.to.not.contain('Changed').after(500);
     },
 
-    */
+
 
     'Right click menu tests add and save new rows': function (browser) {
         var mainPage = browser.page.mainPage();
         mainPage
             .click('@menuBarPopupMenuMain')
             .waitForElementVisible('@menuBarDirsItemUnits')
-            .click('@menuBarDirsItemUnits');
-          /*  .moveToCell('dir_units',1,1)
+            .click('@menuBarDirsItemUnits')
+            .moveToCell('dir_units',1,1)
             .mouseButtonDown('left')
             .moveToCell('dir_units',2,1)
             .mouseButtonUp('left')
@@ -463,9 +467,9 @@ module.exports= {
             .clickRefreshBtnInTable('dir_units')
             .assert.containsText('@dir_units_TableDirUnits', "Name_4")
             .assert.containsText('@dir_units_TableDirUnits', "Name_3")
-            */
+
     },
- /*  'Right click menu change rows': function (browser) {
+  'Right click menu change rows': function (browser) {
         var mainPage = browser.page.mainPage();
         mainPage
             .moveToCell('dir_units',3,1)
@@ -514,7 +518,7 @@ module.exports= {
         browser.expect.element('#dir_units_TableDirUnits').text.to.not.contain('Name_4C').after(500);
         browser.expect.element('#dir_units_TableDirUnits').text.to.not.contain('Name_3C').after(500);
     },
-    */
+
     'Print table tests': function (browser) {
         var mainPage = browser.page.mainPage();
         mainPage
@@ -536,7 +540,7 @@ module.exports= {
             .waitForElementVisible('@tableBottom')
             .assert.containsText('@tableBottom','ИТОГО строк:')
             .assert.containsText('@tableBottom','2')
-/*
+
             .assertDataTableHeaderContainsText(1,"Наименование")
             .assertDataTableHeaderContainsText(2,"Полное наименование")
             .assertDataTableHeaderContainsText(3,"Примечание")
@@ -557,7 +561,7 @@ module.exports= {
             .assertDataTableCellContainsText(2,4,"Днипро")
             .assertDataTableCellContainsText(2,5,"Днипро")
             .assertDataTableCellContainsText(2,6,"0");
-*/
+
         browser
             .windowHandles(function(result) {
                 var oldWindow;

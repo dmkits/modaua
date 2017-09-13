@@ -1,28 +1,28 @@
 var dataModel=require('../datamodel'), dateFormat = require('dateformat');
-var wrhPInvs= require(appDataModelPath+"wrh_pinvs"), wrhPInvsProducts= require(appDataModelPath+"wrh_pinvs_products");
-var dirUnits= require(appDataModelPath+"dir_units"), dirContractors= require(appDataModelPath+"dir_contractors"),
+var wrh_invs= require(appDataModelPath+"wrh_invs"), wrh_invs_products= require(appDataModelPath+"wrh_invs_products");
+var dir_units= require(appDataModelPath+"dir_units"), dir_contractors= require(appDataModelPath+"dir_contractors"),
     sysCurrency= require(appDataModelPath+"sys_currency"), sysDocStates= require(appDataModelPath+"sys_docstates"),
     dirProdsCollections= require(appDataModelPath+"dir_products_collections");
 
 module.exports.validateModule = function(errs, nextValidateModuleCallback){
-    dataModel.initValidateDataModels({"wrh_pinvs":wrhPInvs,"wrh_pinvs_products":wrhPInvsProducts},
+    dataModel.initValidateDataModels({"wrh_invs":wrh_invs,"wrh_invs_products":wrh_invs_products},
         errs,
         function(){
             nextValidateModuleCallback();
         });
 };
 
-module.exports.modulePageURL = "/wrh/pinvoices";
-module.exports.modulePagePath = "wrh/pinvoices.html";
+module.exports.modulePageURL = "/wrh/invoices";
+module.exports.modulePagePath = "wrh/invoices.html";
 module.exports.init = function(app){
-    var wrhPInvsListTableColumns=[
-        {"data": "ID", "name": "ID", "width": 50, "type": "text", readOnly:true, visible:false, dataSource:"wrh_pinvs"},
-        {"data": "NUMBER", "name": "Номер", "width": 50, "type": "text", dataSource:"wrh_pinvs"},
-        {"data": "DOCDATE", "name": "Дата", "width": 55, "type": "dateAsText", dataSource:"wrh_pinvs"},
+    var wrhInvsListTableColumns=[
+        {"data": "ID", "name": "ID", "width": 50, "type": "text", readOnly:true, visible:false, dataSource:"wrh_invs"},
+        {"data": "NUMBER", "name": "Номер", "width": 50, "type": "text", dataSource:"wrh_invs"},
+        {"data": "DOCDATE", "name": "Дата", "width": 55, "type": "datetimeAsText", dataSource:"wrh_invs"},
         {"data": "UNIT_NAME", "name": "Подразделение", "width": 120, "type": "text", dataSource:"dir_units", dataField:"NAME"},
         {"data": "SUPPLIER_NAME", "name": "Поставщик", "width": 120, "type": "text", dataSource:"dir_contractors", dataField:"NAME"},
-        {"data": "SUPPLIER_ORDER_NUM", "name": "Номер заказа поставщика", "width": 100, "type": "text", dataSource:"wrh_pinvs"},
-        {"data": "SUPPLIER_INV_NUM", "name": "Номер накл. поставщика", "width": 100, "type": "text", dataSource:"wrh_pinvs"},
+        {"data": "SUPPLIER_ORDER_NUM", "name": "Номер заказа поставщика", "width": 100, "type": "text", dataSource:"wrh_invs"},
+        {"data": "SUPPLIER_INV_NUM", "name": "Номер накл. поставщика", "width": 100, "type": "text", dataSource:"wrh_invs"},
         {"data": "PRODUCT_COLLECTION", "name": "Коллекция", "width": 150, "type": "text", dataSource:"dir_products_collections", dataField:"NAME"},
         {"data": "DOCCOUNT", "name": "Строк", "width": 60, "type": "numeric", visible:false, dataFunction:"0" },
         {"data": "DOCQTYSUM", "name": "Кол-во", "width": 60, "type": "numeric", dataFunction:"0" },
@@ -31,35 +31,35 @@ module.exports.init = function(app){
         {"data": "CURRENCY_CODENAME", "name": "Валюта", "width": 50, "type": "text", visible:false,
             dataSource:"sys_currency", dataFunction:{function:"concat",fields:["sys_currency.CODE","' ('","sys_currency.NAME","')'"]} },
         {"data": "DOCSTATE_NAME", "name": "Статус", "width": 110, "type": "text", dataSource:"sys_docstates", dataField:"NAME"},
-        {"data": "RATE", "name": "Курс валюты", "width": 60, "type": "numeric2", visible:false, dataSource:"wrh_pinvs"},
-        {"data": "BASE_FACTOR", "name": "Базов.коэфф.", "width": 60, "type": "numeric2", visible:false, dataSource:"wrh_pinvs"}
+        {"data": "RATE", "name": "Курс валюты", "width": 60, "type": "numeric2", visible:false, dataSource:"wrh_invs"},
+        {"data": "BASE_FACTOR", "name": "Базов.коэфф.", "width": 60, "type": "numeric2", visible:false, dataSource:"wrh_invs"}
     ];
-    app.get("/wrh/pInvoices/getDataForPInvsListTable", function(req, res){
+    app.get("/wrh/invoices/getDataForInvsListTable", function(req, res){
         var conditions={};
-        for(var condItem in req.query) conditions["wrh_pinvs."+condItem]=req.query[condItem];
-        wrhPInvs.getDataForTable({tableColumns:wrhPInvsListTableColumns,
-                identifier:wrhPInvsListTableColumns[0].data,
+        for(var condItem in req.query) conditions["wrh_invs."+condItem]=req.query[condItem];
+        wrh_invs.getDataForTable({tableColumns:wrhInvsListTableColumns,
+                identifier:wrhInvsListTableColumns[0].data,
                 conditions:conditions},
             function(result){
                 res.send(result);
             });
     });
-    app.get("/wrh/pInvoices/getPInvData", function(req, res){
+    app.get("/wrh/invoices/getInvData", function(req, res){
         var conditions={};
-        for(var condItem in req.query) conditions["wrh_pinvs."+condItem]=req.query[condItem];
-        wrhPInvs.getDataItemForTable({tableColumns:wrhPInvsListTableColumns,
+        for(var condItem in req.query) conditions["wrh_invs."+condItem]=req.query[condItem];
+        wrh_invs.getDataItemForTable({tableColumns:wrhInvsListTableColumns,
                 conditions:conditions},
             function(result){
                 res.send(result);
             });
     });
-    app.get("/wrh/pInvoices/getNewPInvData", function(req, res){
-        wrhPInvs.getDataItem({fieldFunction:{name:"MAXNUMBER", function:"maxPlus1", sourceField:"NUMBER"}},
+    app.get("/wrh/invoices/getNewInvData", function(req, res){
+        wrh_invs.getDataItem({fieldFunction:{name:"MAXNUMBER", function:"maxPlus1", sourceField:"NUMBER"}},
             function(result){
                 var newNumber=(result&&result.item)?result.item["MAXNUMBER"]:"", docDate=dateFormat(new Date(),"yyyy-mm-dd");
-                dirUnits.getDataItem({fields:["NAME"],conditions:{"ID=":"0"}}, function(result){
+                dir_units.getDataItem({fields:["NAME"],conditions:{"ID=":"0"}}, function(result){
                     var unitName=(result&&result.item)?result.item["NAME"]:"";
-                    dirContractors.getDataItem({fields:["NAME"],conditions:{"ID=":"1"}}, function(result){
+                    dir_contractors.getDataItem({fields:["NAME"],conditions:{"ID=":"1"}}, function(result){
                         var supplierName=(result&&result.item)?result.item["NAME"]:"";
                         sysCurrency.getDataItem({ fields:["CODE","CODENAME"],
                                 fieldsFunctions:{"CODENAME":{function:"concat",fields:["CODE","' ('","NAME","')'"]}},
@@ -72,7 +72,7 @@ module.exports.init = function(app){
                                         var dirProductsCollectionName=(result&&result.item)?result.item["NAME"]:"";
                                         //sysDocStates.getDataItem({fields:["NAME"],conditions:{"ID=":"0"}}, function(result){
                                         //});
-                                        wrhPInvs.setDataItem({
+                                        wrh_invs.setDataItem({
                                                 fields:["NUMBER","DOCDATE","UNIT_NAME","SUPPLIER_NAME","SUPPLIER_ORDER_NUM","SUPPLIER_INV_NUM",
                                                     "CURRENCY_CODE","CURRENCY_CODENAME", "PRODUCT_COLLECTION", "DOCSTATE_NAME", "DOCCOUNT","DOCQTYSUM","DOCSUM",
                                                     "RATE","BASE_FACTOR"],
@@ -88,15 +88,15 @@ module.exports.init = function(app){
                 });
             });
     });
-    app.post("/wrh/pInvoices/storePInvData", function(req, res){
+    app.post("/wrh/invoices/storeInvData", function(req, res){
         var storeData=req.body;
-        dirUnits.getDataItem({fields:["ID"],conditions:{"NAME=":storeData["UNIT_NAME"]}}, function(result){
+        dir_units.getDataItem({fields:["ID"],conditions:{"NAME=":storeData["UNIT_NAME"]}}, function(result){
             if(!result.item){
                 res.send({ error:"Cannot finded unit by name!"});
                 return;
             }
             storeData["UNIT_ID"]=result.item["ID"];
-            dirContractors.getDataItem({fields:["ID"],conditions:{"NAME=":storeData["SUPPLIER_NAME"]}}, function(result){
+            dir_contractors.getDataItem({fields:["ID"],conditions:{"NAME=":storeData["SUPPLIER_NAME"]}}, function(result){
                 if(!result.item){
                     res.send({ error:"Cannot finded conractor by name!"});
                     return;
@@ -114,7 +114,7 @@ module.exports.init = function(app){
                         sysDocStates.getDataItem({fields:["ID"],conditions:{"NAME=":storeData["DOCSTATE_NAME"]}}, function(result){
                             if(result.item) docStateID=result.item["ID"];
                             storeData["DOCSTATE_ID"]=docStateID;
-                            wrhPInvs.storeTableDataItem({tableColumns:wrhPInvsListTableColumns, idFieldName:"ID", storeTableData:storeData},
+                            wrh_invs.storeTableDataItem({tableColumns:wrhInvsListTableColumns, idFieldName:"ID", storeTableData:storeData},
                                 function(result){
                                     res.send(result);
                                 });
@@ -124,17 +124,17 @@ module.exports.init = function(app){
             });
         });
     });
-    app.post("/wrh/pInvoices/deletePInvData", function(req, res){
+    app.post("/wrh/invoices/deleteInvData", function(req, res){
         var delData=req.body;
-        wrhPInvs.delTableDataItem({idFieldName:"ID", delTableData:delData},
+        wrh_invs.delTableDataItem({idFieldName:"ID", delTableData:delData},
             function(result){
                 res.send(result);
             });
     });
 
-    var wrhPInvProductsTableColumns=[
+    var wrhInvProductsTableColumns=[
         {"data": "ID", "name": "ID", "width": 50, "type": "text", readOnly:true, visible:false},
-        {"data": "PINV_ID", "name": "PINV_ID", "width": 50, "type": "text", readOnly:true, visible:false},
+        {"data": "INV_ID", "name": "INV_ID", "width": 50, "type": "text", readOnly:true, visible:false},
         {"data": "POSIND", "name": "POSIND", "width": 45, "type": "numeric", visible:false},
         {"data": "POS", "name": "Номер п/п", "width": 45, "type": "numeric", dataFunction:"TRUNCATE(POSIND,0)"},
         {"data": "PRODUCT_ID", "name": "PRODUCT_ID", "width": 50, "type": "text", visible:false},
@@ -150,22 +150,22 @@ module.exports.init = function(app){
         {"data": "PRICELIST_PRICE", "name": "Цена по прайс-листу", "width": 75, "type": "numeric2"},
         {"data": "BATCH_NUMBER", "name": "BATCH_NUMBER", "width": 60, "type": "numeric", visible:false}
     ];
-    app.get("/wrh/pInvoices/getDataForPInvProductsTable", function(req, res){
-        wrhPInvsProducts.getDataForTable({tableColumns:wrhPInvProductsTableColumns,
-                identifier:wrhPInvProductsTableColumns[0].data,
+    app.get("/wrh/invoices/getDataForInvProductsTable", function(req, res){
+        wrh_invs_products.getDataForTable({tableColumns:wrhInvProductsTableColumns,
+                identifier:wrhInvProductsTableColumns[0].data,
                 conditions:req.body},
             function(result){
                 res.send(result);
             });
     });
-    app.post("/wrh/pInvoices/storePInvProductsTableData", function(req, res){
-        wrhPInvsProducts.storeTableDataItem({tableColumns:wrhPInvProductsTableColumns, idFieldName:"ID"},
+    app.post("/wrh/invoices/storeInvProductsTableData", function(req, res){
+        wrh_invs_products.storeTableDataItem({tableColumns:wrhInvProductsTableColumns, idFieldName:"ID"},
             function(result){
                 res.send(result);
             });
     });
-    app.post("/wrh/pInvoices/deletePInvProductsTableData", function(req, res){
-        wrhPInvsProducts.delTableDataItem({idFieldName:"ID"},
+    app.post("/wrh/invoices/deleteInvProductsTableData", function(req, res){
+        wrh_invs_products.delTableDataItem({idFieldName:"ID"},
             function(result){
                 res.send(result);
             });

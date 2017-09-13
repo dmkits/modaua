@@ -1,28 +1,28 @@
 <body>
-<div id="wrh_pinv_PageContainer" style="width:100%;height:100%;">
-    <div id="wrh_pinv_ListContainer" style="width:310px;height:100%; margin:0;padding:0;"></div>
-    <div id="wrh_pinv_DetailContainer" style="width:100%;height:100%; margin:0;padding:0;">
-        <div id="wrh_pinv_DetailHeader" style="width:100%;height:auto; margin:0;padding:0;"></div>
-        <div id="wrh_pinv_ProductsTable" style="width:100%;height:100%; margin:0;padding:0;"></div>
-        <div id="wrh_pinv_DetailTotal" style="width:100%;height:auto;; margin:0;padding:0;"></div>
+<div id="wrh_inv_PageContainer" style="width:100%;height:100%;">
+    <div id="wrh_inv_ListContainer" style="width:310px;height:100%; margin:0;padding:0;"></div>
+    <div id="wrh_inv_DetailContainer" style="width:100%;height:100%; margin:0;padding:0;">
+        <div id="wrh_inv_DetailHeader" style="width:100%;height:auto; margin:0;padding:0;"></div>
+        <div id="wrh_inv_ProductsTable" style="width:100%;height:100%; margin:0;padding:0;"></div>
+        <div id="wrh_inv_DetailTotal" style="width:100%;height:auto;; margin:0;padding:0;"></div>
     </div>
-    <div id="wrh_pinv_RightContainer" style="width:250px;height:100%; margin:0;padding:0;"></div>
+    <div id="wrh_inv_RightContainer" style="width:250px;height:100%; margin:0;padding:0;"></div>
 </div>
 </body>
 <script type="text/javascript">
     require(["app","templateDocumentStandardTable", "request"],
             function (APP, TDocumentStandardTable, Request) {
-                var wrh_pinv= APP.instanceForID("wrh_pinv_PageContainer", TDocumentStandardTable,
-                            { idListContainer:"wrh_pinv_ListContainer",idDetailContainer:"wrh_pinv_DetailContainer",
-                                idDetailHeader:"wrh_pinv_DetailHeader",idDetailTable:"wrh_pinv_ProductsTable",idDetailTotal:"wrh_pinv_DetailTotal",
-                                idRightContainer:"wrh_pinv_RightContainer" })
-                        .setListTable({getDataUrl:"/wrh/pInvoices/getDataForPInvsListTable"})
+                var wrh_inv= APP.instanceForID("wrh_inv_PageContainer", TDocumentStandardTable,
+                            { idListContainer:"wrh_inv_ListContainer",idDetailContainer:"wrh_inv_DetailContainer",
+                                idDetailHeader:"wrh_inv_DetailHeader",idDetailTable:"wrh_inv_ProductsTable",idDetailTotal:"wrh_inv_DetailTotal",
+                                idRightContainer:"wrh_inv_RightContainer" })
+                        .setListTable({getDataUrl:"/wrh/invoices/getDataForInvsListTable"})
                         .setListDatesContent({header:"Список накладных", bdatelabelText:"c",bdateCondition:"DOCDATE>=", edatelabelText:"по",edateCondition:"DOCDATE<="})
                         .setDetailHeaderParameters({dataIDName:"ID",
-                            getDataUrl:"/wrh/pInvoices/getPInvData", getDataForNewUrl:"/wrh/pInvoices/getNewPInvData",
-                            postDataUrl:"/wrh/pInvoices/storePInvData", postForDeleteDataUrl:"/wrh/pInvoices/deletePInvData"})
-                        .addDetailHeaderTitle({title:"Приходная накладная",titleForNew:"Новая приходная накладная",
-                            titleForNothing:"Приходная накладная не выбрана", titleForFailedLoad:"Нет данных",
+                            getDataUrl:"/wrh/invoices/getInvData", getDataForNewUrl:"/wrh/invoices/getNewInvData",
+                            postDataUrl:"/wrh/invoices/storeInvData", postForDeleteDataUrl:"/wrh/invoices/deleteInvData"})
+                        .addDetailHeaderTitle({title:"Расходная накладная",titleForNew:"Новая расходная накладная",
+                            titleForNothing:"Расходная накладная не выбрана", titleForFailedLoad:"Нет данных",
                             numberDataItemName:"NUMBER", dateDataItemName:"DOCDATE", titleDatePrefix:"от"},25)
                         .addDetailHeaderRow(25,true)
                         .addDetailHeaderSelect("UNIT_NAME","Подразделение", 330,
@@ -32,19 +32,18 @@
                         .addDetailHeaderRow(25,true)
                         .addDetailHeaderSelect("SUPPLIER_NAME","Поставщик", 280,
                             {inputStyle:"width:200px", loadDropDownURL:"/dir/contractors/getDirContractorsForSelect", labelDataItem:"SUPPLIER_NAME"})
-                        .addDetailHeaderSelect("PRODUCT_COLLECTION","Коллекция", 300,
-                            {inputStyle:"width:150px", loadDropDownURL:"/dir/products/getProductsCollectionsForSelect", labelDataItem:"NAME"})
                         .addDetailHeaderTextBox("SUPPLIER_INV_NUM", "Номер накл. поставщика", 200, {inputStyle:"width:50px"})
                         .addDetailHeaderTextBox("SUPPLIER_ORDER_NUM", "Номер заказа. поставщика", 220, {inputStyle:"width:50px"})
-
-                        .addDetailHeaderRow(25,true)
-                        .addDetailHeaderSelect("CURRENCY_CODE","Валюта", 300,
-                            {inputStyle:"width:250px", loadDropDownURL:"/sys/currency/getCurrencyForSelect", labelDataItem:"CURRENCY_CODENAME"})
+                        .addDetailHeaderSelect("CURRENCY_CODE","Валюта", 260,
+                            {inputStyle:"width:200px", loadDropDownURL:"/sys/currency/getCurrencyForSelect", labelDataItem:"CURRENCY_CODENAME"})
                         .addDetailHeaderNumberTextBox("RATE", "Курс валюты", 130, {inputStyle:"width:40px", pattern:"########0.00"})
+                        .addDetailHeaderRow(25,true)
+                        .addDetailHeaderSelect("PRODUCT_COLLECTION","Коллекция", 1000,
+                            {inputStyle:"width:150px", loadDropDownURL:"/dir/products/getProductsCollectionsForSelect", labelDataItem:"NAME"})
                         .addDetailHeaderNumberTextBox("BASE_FACTOR", "Базовый коэффициент", 180, {inputStyle:"width:40px", pattern:"####0.00"})
-                        .setDetailTableParameters({conditionIDName:"PINV_ID",
-                            getDataUrl:"/wrh/pInvoices/getDataForPInvProductsTable",
-                            storeDataUrl:"/wrh/pInvoices/storePInvProductsTableData", deleteDataUrl:"/wrh/pInvoices/deletePInvProductsTableData"})
+                        .setDetailTableParameters({conditionIDName:"INV_ID",
+                            getDataUrl:"/wrh/invoices/getDataForInvProductsTable",
+                            storeDataUrl:"/wrh/invoices/storeInvProductsTableData", deleteDataUrl:"/wrh/invoices/deleteInvProductsTableData"})
                         .addDetailTotalRow()
                         .addDetailSubTotalCountNumberTextBox("ИТОГО СТРОК:", 190, {inputStyle:"width:40px;"})
                         .addDetailSubtotalNumberTextBox("ИТОГО КОЛИЧЕСТВО:", 700, "QTY", {pattern:"###,###,##0.#########", inputStyle:"width:50px;"})
@@ -78,13 +77,13 @@
                             crd.item("PRODUCT_COLLECTION").setValue(thisInstance.detailHeader.getContentDataItem("PRODUCT_COLLECTION"));
                             var supplierOrderNum= thisInstance.detailHeader.getContentDataItem("SUPPLIER_ORDER_NUM");
                             if (supplierOrderNum && supplierOrderNum.trim().length>0
-                                    && crd.item("PRODUCT_ARTICLE").isChanged() && !crd.item("PRODUCT_ARTICLE").isEMPTY()){              console.log("PINV detailTableRowChangeCallback1 prod article from order bata ");
+                                    && crd.item("PRODUCT_ARTICLE").isChanged() && !crd.item("PRODUCT_ARTICLE").isEMPTY()){              console.log("INV detailTableRowChangeCallback1 prod article from order bata ");
                                 var condition={};
                                 condition["SUPPLIER_ORDER_NUM"]= supplierOrderNum;
                                 condition["PRODUCT_ARTICLE"]= crd.item("PRODUCT_ARTICLE").getValue();
                                 Request.getJSONData({url:"/wrh/order_bata/get_order_bata_details_by_article", condition:condition, consoleLog:true},
                                         function(success,result){
-                                            if (success&&result.item) {                                                 //console.log("PINV detailTableRowChangeCallback2 getJSONData success ",result);
+                                            if (success&&result.item) {                                                 //console.log("INV detailTableRowChangeCallback2 getJSONData success ",result);
                                                 var prodDataFromOrderBata = result.item;
                                                 crd.item("PRODUCT_GENDER_CODE").setValue(prodDataFromOrderBata["PRODUCT_GENDER_CODE"]);
                                                 crd.item("PRODUCT_GENDER").setValue(prodDataFromOrderBata["PRODUCT_GENDER"]);
@@ -104,7 +103,7 @@
                                         });
                                 return;
                             } else {
-                                //wrh_pinv_pinvproductslisthst.setProdDataByArticleFromPInv(changedRow,newProdData);
+                                //wrh_inv_invproductslisthst.setProdDataByArticleFromInv(changedRow,newProdData);
                             }
                             nextCallback();
                         })
@@ -183,21 +182,21 @@
 
                             if(crd.item("FACTOR").isEMPTYZERO()) crd.item("FACTOR").setValue(thisInstance.detailHeader.getContentDataItem("BASE_FACTOR"));
                             var posrate = thisInstance.detailHeader.getContentDataItem("RATE");
-                            if (crd.item("SALE_PRICE").isChanged()) {                                                   console.log("PINV detailTableRowChangeCallback1 SALE_PRICE isChanged");
+                            if (crd.item("SALE_PRICE").isChanged()) {                                                   console.log("inv detailTableRowChangeCallback1 SALE_PRICE isChanged");
                                 if (!crd.item("QTY").isEMPTY()
                                         && !crd.item("PRICE").isEMPTYZERO()
                                         && posrate!==0) {
                                     crd.item("FACTOR").setValue( crd.item("SALE_PRICE").getValue() / posrate / crd.item("PRICE").getValue() );
                                 } else
                                     crd.item("FACTOR").setValue("");
-                            } else if (crd.item("PRICE").isChanged() || crd.item("FACTOR").isChanged()) {               console.log("PINV detailTableRowChangeCallback1 PRICE or FACTOR isChanged");
+                            } else if (crd.item("PRICE").isChanged() || crd.item("FACTOR").isChanged()) {               console.log("INV detailTableRowChangeCallback1 PRICE or FACTOR isChanged");
                                 if (!crd.item("PRICE").isEMPTY() && !crd.item("FACTOR").isEMPTY()) {
                                     crd.item("SALE_PRICE").setValue( crd.item("PRICE").getValue() * posrate * crd.item("FACTOR").getValue() );
                                 } else
                                     crd.item("SALE_PRICE").setValue("");
                             }
                             if (crd.item("SALE_PRICE").isChanged() && !crd.item("SALE_PRICE").isEMPTYZERO()){
-                                var posSelPrice = crd.item("SALE_PRICE").getValue();                                    console.log("PINV detailTableRowChangeCallback1 SALE_PRICE correct 0.49 ",posSelPrice);
+                                var posSelPrice = crd.item("SALE_PRICE").getValue();                                    console.log("INV detailTableRowChangeCallback1 SALE_PRICE correct 0.49 ",posSelPrice);
                                 posSelPrice = Math.round(posSelPrice+0.49);
                                 crd.item("SALE_PRICE").setValue(posSelPrice);
                                 var price = crd.item("PRICE").getValue();
@@ -217,7 +216,7 @@
                                 data["PRICE_WITH_DISCOUNT"]= selRowData["SALE_PRICE"];
                                 data["CHANGE_DATETIME"]= moment(new Date()).format("YYYY-MM-DD HH:mm:ss");
                                 Request.postJSONData({url:"/dir/products_prices/store_product_price", data:data, consoleLog:true},
-                                        function(success,result){                                                       console.log("PINV detailTableMenuItemAction postJSONData ", success,result);
+                                        function(success,result){                                                       console.log("INV detailTableMenuItemAction postJSONData ", success,result);
                                             if (success&&result.item) {
                                                 //var prodDataFromOrderBata = result.item;
                                             }
@@ -227,13 +226,13 @@
                         .addToolPane("Печать")
                         .addToolPaneActionButton("Печать ценников", {action:"printProdTags"}, "width:200px;", {}, function(){
                             var printWindow= window.open("/print/prod_tags");                                           //console.log("printProdTags.onClick printWindow=",printWindow);
-                            //window.open("/print?pinvid="+wrh_pinv_ContentController.getDataIDValue(), "", "location=1,status=1,scrollbars=1,width=650,height=600");
+                            //window.open("/print?invid="+wrh_inv_ContentController.getDataIDValue(), "", "location=1,status=1,scrollbars=1,width=650,height=600");
                             printWindow["prodTagsContentData"]= this.detailTable.getContent();
                             printWindow["pageProdTagType"]= "tag58X30";
                         })
                         .addToolPaneActionButton("Печать цен", {action:"printProdPricesTags"}, "width:200px;", {}, function(){
                             var printWindow= window.open("/print/prod_tags");                                           //console.log("printProdPricesTags.onClick printWindow=",printWindow);
-                            //window.open("/print?pinvid="+wrh_pinv_ContentController.getDataIDValue(), "", "location=1,status=1,scrollbars=1,width=650,height=600");
+                            //window.open("/print?invid="+wrh_inv_ContentController.getDataIDValue(), "", "location=1,status=1,scrollbars=1,width=650,height=600");
                             printWindow["prodTagsContentData"]= this.detailTable.getContent();
                             printWindow["pageProdTagType"]= "tag40X25";
                         })
@@ -263,7 +262,6 @@
                                 toolPane.set("href","/pages/print/product_tag_58x30.html");
                             }
                         })
-
                         .startUp();
     });
 </script>

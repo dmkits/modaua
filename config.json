@@ -14,10 +14,12 @@
     "main",
     "print",
     "mainPage",
+    "system",
     "dir_units",
     "dir_contractors",
     "dir_products",
-    "wrh_pinvoices"
+    "wrh_pinvoices",
+    "wrh_invoices"
   ],
   "appMenu":[
     { "menuTitle":"Главная страница", "menuItemName":"menuBarItemMainPage", "pageTitle":"Главная страница", "module":"mainPage", "closable":false},
@@ -50,7 +52,7 @@
   "usersRoleMenu":{
     "user":["menuBarItemMainPage",
       "menuBarPopupMenuMain", "menuBarDirsItemUnits", "separator_dir1", "menuBarDirsItemContractors", "separator_wrh2", "menuBarDirsItemProducts",
-      "menuBarWrh", "menuBarWrhPInvoice", "separator_wrh1", "menuBarWrhInvoice", "menuBarWrhRetInvoice", "separator_wrh2", "menuBarWrhBalance", "menuBarWrhMoves",
+      "menuBarWrh", "menuBarWrhPInvoices", "separator_wrh1", "menuBarWrhInvoices", "menuBarWrhRetInvoices", "separator_wrh2", "menuBarWrhProdsBalance", "menuBarWrhProdsMoves",
       "menuBarPopupMenuSales", "menuBarSalesItemCashier",
       "menuBarItemClose","menuBarItemHelpAbout"],
     "cashier":["menuBarItemSalesCashier",
@@ -58,7 +60,7 @@
   },
   "usersRoleAutorun":{
     "admin":["menuBarItemMainPage","menuBarWrhPInvoice"],
-    "adminDev":["menuBarItemMainPage","menuBarDirsItemUnits","menuBarDirsItemProducts","menuBarWrhPInvoices"],
+    "adminDev":["menuBarItemMainPage","menuBarDirsItemUnits","menuBarDirsItemProducts","menuBarWrhPInvoices","menuBarWrhInvoices"],
     "user":["menuBarItemMainPage"],
     "cashier":["menuBarItemSalesCashier"]
   }

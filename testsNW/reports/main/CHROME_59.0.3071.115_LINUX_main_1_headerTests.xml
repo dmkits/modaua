@@ -1,16 +1,68 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <testsuites errors="0"
             failures="0"
-            tests="5">
+            tests="29">
 
   <testsuite name="main.main_1_headerTests"
     errors="0" failures="0" hostname="" id="" package="main" skipped="0"
-    tests="5" time="10.60" timestamp="Mon, 04 Sep 2017 08:51:00 GMT">
+    tests="29" time="267.3" timestamp="Wed, 13 Sep 2017 08:32:15 GMT">
   
-    <testcase name="step_1 Open browser" classname="main.main_1_headerTests" time="5.297" assertions="0">
+    <testcase name="step_1 Open browser" classname="main.main_1_headerTests" time="4.152" assertions="0">
     </testcase>
   
-    <testcase name="step_2 Login main page" classname="main.main_1_headerTests" time="0.8980" assertions="3">
+    <testcase name="step_1.1 Validate DB" classname="main.main_1_headerTests" time="194.0" assertions="29">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
 
     
 
@@ -19,26 +71,7 @@
     
     </testcase>
   
-    <testcase name="Right click menu tests add and save new rows" classname="main.main_1_headerTests" time="1.545" assertions="1">
-
-    
-    </testcase>
-  
-    <testcase name="Print table tests" classname="main.main_1_headerTests" time="2.008" assertions="10">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
+    <testcase name="step_2 Login main page" classname="main.main_1_headerTests" time="0.7420" assertions="3">
 
     
 
@@ -47,7 +80,636 @@
     
     </testcase>
   
-    <testcase name="Logout" classname="main.main_1_headerTests" time="0.8500" assertions="2">
+    <testcase name="step_3 Main Header If  All Elements Visible Tests" classname="main.main_1_headerTests" time="3.910" assertions="19">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="step_4 Assert main page tab is visible" classname="main.main_1_headerTests" time="0.2940" assertions="3">
+
+    
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="step_5 About program dialog tests" classname="main.main_1_headerTests" time="2.134" assertions="6">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="step_6 Assert menuBarPopupMenuMain has all  menu choices tests" classname="main.main_1_headerTests" time="0.6830" assertions="5">
+
+    
+
+    
+
+    
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="step_8 Assert menuBarPopupMenuSales has all  menu choices tests" classname="main.main_1_headerTests" time="0.3790" assertions="2">
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="step_9 Assert Main Dirs ItemUnits all elements are visible" classname="main.main_1_headerTests" time="3.963" assertions="34">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="step_10 Add row to Dirs ItemUnits" classname="main.main_1_headerTests" time="2.183" assertions="2">
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="Assert Added row to Dirs ItemUnits is saved" classname="main.main_1_headerTests" time="1.457" assertions="10">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="step_11 Change  row in Dirs ItemUnits " classname="main.main_1_headerTests" time="3.019" assertions="1">
+
+    
+    </testcase>
+  
+    <testcase name="step_12 Check if changed was saved in Dirs ItemUnits " classname="main.main_1_headerTests" time="1.058" assertions="10">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="step_13 Set Unused tip in Dirs ItemUnits" classname="main.main_1_headerTests" time="3.130" assertions="9">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="step_14 Delete row in Dirs ItemUnits " classname="main.main_1_headerTests" time="0.7840" assertions="2">
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="Main Dirs Contractors Tests" classname="main.main_1_headerTests" time="4.449" assertions="38">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="Assert Main Contractors BUYERS are visible" classname="main.main_1_headerTests" time="2.570" assertions="28">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="Add new Contractor " classname="main.main_1_headerTests" time="4.091" assertions="3">
+
+    
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="Assert new contractor saved to &quot;Other Contractors Table&quot;" classname="main.main_1_headerTests" time="0.5870" assertions="3">
+
+    
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="Change Contractors Values" classname="main.main_1_headerTests" time="4.349" assertions="1">
+
+    
+    </testcase>
+  
+    <testcase name=" Check if changed was saved in &quot;Other Contractors Table&quot;" classname="main.main_1_headerTests" time="1.136" assertions="12">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="Set Supplier  tip to the Contractor" classname="main.main_1_headerTests" time="2.206" assertions="8">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="Mark new Contractor AS BUYER too" classname="main.main_1_headerTests" time="3.378" assertions="9">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="Delete Contractor" classname="main.main_1_headerTests" time="2.360" assertions="5">
+
+    
+
+    
+
+    
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="Right click menu tests add and save new rows" classname="main.main_1_headerTests" time="7.465" assertions="9">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="Right click menu change rows" classname="main.main_1_headerTests" time="5.591" assertions="8">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="Right click menu delete rows" classname="main.main_1_headerTests" time="1.655" assertions="4">
+
+    
+
+    
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="Print table tests" classname="main.main_1_headerTests" time="4.776" assertions="46">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="Logout" classname="main.main_1_headerTests" time="0.8660" assertions="2">
 
     
 
