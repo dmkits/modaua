@@ -30,17 +30,14 @@
                         .addDetailHeaderTextBox("NUMBER", "Номер", 120, {inputStyle:"width:50px"})
                         .addDetailHeaderDateTextBox("DOCDATE", "Дата", 150, "width:80px")
                         .addDetailHeaderRow(25,true)
-                        .addDetailHeaderSelect("SUPPLIER_NAME","Поставщик", 280,
-                            {inputStyle:"width:200px", loadDropDownURL:"/dir/contractors/getDirContractorsForSelect", labelDataItem:"SUPPLIER_NAME"})
-                        .addDetailHeaderTextBox("SUPPLIER_INV_NUM", "Номер накл. поставщика", 200, {inputStyle:"width:50px"})
-                        .addDetailHeaderTextBox("SUPPLIER_ORDER_NUM", "Номер заказа. поставщика", 220, {inputStyle:"width:50px"})
+                        .addDetailHeaderSelect("BUYER_NAME","Покупатель", 280,
+                            {inputStyle:"width:200px", loadDropDownURL:"/dir/contractors/getDirContractorsForSelect", labelDataItem:"BUYER_NAME"})
+                       // .addDetailHeaderTextBox("BUYER_INV_NUM", "Номер накл. поставщика", 200, {inputStyle:"width:50px"})
+                       // .addDetailHeaderTextBox("BUYER_ORDER_NUM", "Номер заказа. поставщика", 220, {inputStyle:"width:50px"})
                         .addDetailHeaderSelect("CURRENCY_CODE","Валюта", 260,
                             {inputStyle:"width:200px", loadDropDownURL:"/sys/currency/getCurrencyForSelect", labelDataItem:"CURRENCY_CODENAME"})
                         .addDetailHeaderNumberTextBox("RATE", "Курс валюты", 130, {inputStyle:"width:40px", pattern:"########0.00"})
                         .addDetailHeaderRow(25,true)
-                        .addDetailHeaderSelect("PRODUCT_COLLECTION","Коллекция", 1000,
-                            {inputStyle:"width:150px", loadDropDownURL:"/dir/products/getProductsCollectionsForSelect", labelDataItem:"NAME"})
-                        .addDetailHeaderNumberTextBox("BASE_FACTOR", "Базовый коэффициент", 180, {inputStyle:"width:40px", pattern:"####0.00"})
                         .setDetailTableParameters({conditionIDName:"INV_ID",
                             getDataUrl:"/wrh/invoices/getDataForInvProductsTable",
                             storeDataUrl:"/wrh/invoices/storeInvProductsTableData", deleteDataUrl:"/wrh/invoices/deleteInvProductsTableData"})
@@ -75,11 +72,13 @@
                         .addDetailTableMenuItemAction("Сохранить строки",{action:"storeDetailTableSelectedRows"})
                         .addDetailTableRowChangeCallback(function(crd/*changedRowData*/, detailTable, thisInstance, nextCallback){
                             crd.item("PRODUCT_COLLECTION").setValue(thisInstance.detailHeader.getContentDataItem("PRODUCT_COLLECTION"));
-                            var supplierOrderNum= thisInstance.detailHeader.getContentDataItem("SUPPLIER_ORDER_NUM");
-                            if (supplierOrderNum && supplierOrderNum.trim().length>0
-                                    && crd.item("PRODUCT_ARTICLE").isChanged() && !crd.item("PRODUCT_ARTICLE").isEMPTY()){              console.log("INV detailTableRowChangeCallback1 prod article from order bata ");
+                            //var supplierOrderNum= thisInstance.detailHeader.getContentDataItem("BUYER_ORDER_NUM");
+//                            if (supplierOrderNum && supplierOrderNum.trim().length>0
+//                                    && crd.item("PRODUCT_ARTICLE").isChanged() && !crd.item("PRODUCT_ARTICLE").isEMPTY()){              console.log("INV detailTableRowChangeCallback1 prod article from order bata ");
+                             //   var condition={};
+                           //     condition["BUYER_ORDER_NUM"]= supplierOrderNum;
+                            if ( crd.item("PRODUCT_ARTICLE").isChanged() && !crd.item("PRODUCT_ARTICLE").isEMPTY()){              console.log("INV detailTableRowChangeCallback1 prod article from order bata ");
                                 var condition={};
-                                condition["SUPPLIER_ORDER_NUM"]= supplierOrderNum;
                                 condition["PRODUCT_ARTICLE"]= crd.item("PRODUCT_ARTICLE").getValue();
                                 Request.getJSONData({url:"/wrh/order_bata/get_order_bata_details_by_article", condition:condition, consoleLog:true},
                                         function(success,result){

@@ -60,28 +60,22 @@ module.exports.init = function(app){
                 dir_units.getDataItem({fields:["NAME"],conditions:{"ID=":"0"}}, function(result){
                     var unitName=(result&&result.item)?result.item["NAME"]:"";
                     dir_contractors.getDataItem({fields:["NAME"],conditions:{"ID=":"1"}}, function(result){
-                        var supplierName=(result&&result.item)?result.item["NAME"]:"";
+                        var buyerName=(result&&result.item)?result.item["NAME"]:"";
                         sysCurrency.getDataItem({ fields:["CODE","CODENAME"],
                                 fieldsFunctions:{"CODENAME":{function:"concat",fields:["CODE","' ('","NAME","')'"]}},
                                 conditions:{"ID=":"0"} },
                             function(result){
                                 var sysCurrencyCode=(result&&result.item)?result.item["CODE"]:"";
                                 var sysCurrencyCodeName=(result&&result.item)?result.item["CODENAME"]:"";
-                                dirProdsCollections.getDataItem({ fields:["NAME"], conditions:{"ID=":"1"} },
+                                wrh_invs.setDataItem({
+                                        fields:["NUMBER","DOCDATE","UNIT_NAME","BUYER_NAME",
+                                            "CURRENCY_CODE","CURRENCY_CODENAME", "DOCSTATE_NAME", "DOCCOUNT","DOCQTYSUM","DOCSUM",
+                                            "RATE"],
+                                        values:[newNumber,docDate,unitName,buyerName,
+                                            sysCurrencyCode,sysCurrencyCodeName, "",0,0,0,
+                                            1]},
                                     function(result){
-                                        var dirProductsCollectionName=(result&&result.item)?result.item["NAME"]:"";
-                                        //sysDocStates.getDataItem({fields:["NAME"],conditions:{"ID=":"0"}}, function(result){
-                                        //});
-                                        wrh_invs.setDataItem({
-                                                fields:["NUMBER","DOCDATE","UNIT_NAME","SUPPLIER_NAME","SUPPLIER_ORDER_NUM","SUPPLIER_INV_NUM",
-                                                    "CURRENCY_CODE","CURRENCY_CODENAME", "PRODUCT_COLLECTION", "DOCSTATE_NAME", "DOCCOUNT","DOCQTYSUM","DOCSUM",
-                                                    "RATE","BASE_FACTOR"],
-                                                values:[newNumber,docDate,unitName,supplierName,"","",
-                                                    sysCurrencyCode,sysCurrencyCodeName, dirProductsCollectionName, "",0,0,0,
-                                                    1, 2]},
-                                            function(result){
-                                                res.send(result);
-                                            });
+                                        res.send(result);
                                     });
                             });
                     });
