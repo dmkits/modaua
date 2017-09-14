@@ -636,7 +636,103 @@ module.exports= {
             .assert.containsText("@currencyInput","UAH (Украинская гривна)")
             .waitForElementVisible('@saveNewPinvBtn')
             .click("@saveNewPinvBtn");
+
+        browser.
+            pause(1000);
     ;}
+
+    ,'Assert new pinv added to left container': function (browser) {
+        var pinvs = browser.page.pinvs();
+
+        pinvs
+            .showFullLeftContainer()
+            .waitForElementVisible('@leftContainerHeading')
+            .assert.containsText("@leftContainerHeading","Список накладных")
+            .assertLeftContainerHeaderContainsText('1','Номер')
+            .assertLeftContainerHeaderContainsText('2','Дата')
+            .assertLeftContainerHeaderContainsText('3','Подразделение')
+            .assertLeftContainerHeaderContainsText('4','Поставщик')
+            .assertLeftContainerHeaderContainsText('5','Номер заказа поставщика')
+            .assertLeftContainerHeaderContainsText('6','Номер накл. поставщика')
+            .assertLeftContainerHeaderContainsText('7','Коллекция')
+            .assertLeftContainerHeaderContainsText('8','Кол-во')
+            .assertLeftContainerHeaderContainsText('9','Сумма')
+            .assertLeftContainerHeaderContainsText('10','Валюта')
+            .assertLeftContainerHeaderContainsText('11','Статус')
+
+            .assertLeftContainerCellContainsText('1','1','1')
+            .assertLeftContainerCellContainsText('1','2','14.09.17')
+            .assertLeftContainerCellContainsText('1','3','Гл.офис')
+            .assertLeftContainerCellContainsText('1','4','Поставщик 1')
+            .assertLeftContainerCellContainsText('1','7','коллекция 1 2017')
+            .assertLeftContainerCellContainsText('1','8','0')
+            .assertLeftContainerCellContainsText('1','9','0,00')
+            .assertLeftContainerCellContainsText('1','10','UAH')
+            .assertLeftContainerCellContainsText('1','11','Документ сохранен')
+
+        ;}
+
+    ,'change pinv and save changes': function (browser) {
+        var pinvs = browser.page.pinvs();
+
+        pinvs
+            .showFullDetailContainer()
+            .moveToElement('@currencyInput',5,5)
+            .doubleClick()
+            .waitForElementVisible("@currencyUSDinList")
+            .click("@currencyUSDinList")
+            .waitForElementVisible("@saveNewPinvBtn")
+            .click("@saveNewPinvBtn")
+            .showFullLeftContainer();
+        browser
+            .pause(1000);
+        pinvs
+            .assertLeftContainerCellContainsText('1','10','USD')
+        ;}
+
+    ,'create second pinv': function (browser) {
+        var pinvs = browser.page.pinvs();
+
+        pinvs
+            .showFullDetailContainer()
+            .waitForElementVisible('@createNewPinvBtn')
+            .click('@createNewPinvBtn');
+        pinvs
+            .assert.containsText("@detailHeaderTitle", "Новая приходная накладная")
+            .assert.containsText("@pickUpUnitInput", "офис")
+            .assert.containsText("@supplierInput", "Поставщик")
+            .assert.containsText("@currencyInput", "UAH (Украинская гривна)")
+            .waitForElementVisible('@saveNewPinvBtn')
+            .click("@saveNewPinvBtn");
+    }
+
+    ,'Assert second pinv added to left container': function (browser) {
+        var pinvs = browser.page.pinvs();
+
+        pinvs
+            .showFullLeftContainer()
+            .assertLeftContainerCellContainsText('2','1','2')
+            .assertLeftContainerCellContainsText('2','2','14.09.17')
+            .assertLeftContainerCellContainsText('2','3','Гл.офис')
+            .assertLeftContainerCellContainsText('2','4','Поставщик 1')
+            .assertLeftContainerCellContainsText('2','7','коллекция 1 2017')
+            .assertLeftContainerCellContainsText('2','8','0')
+            .assertLeftContainerCellContainsText('2','9','0,00')
+            .assertLeftContainerCellContainsText('2','10','UAH')
+            .assertLeftContainerCellContainsText('2','11','Документ сохранен')
+        ;}
+
+    ,"delete pinv num 1 and assert it doesn't exists": function (browser) {
+        var pinvs = browser.page.pinvs();
+        pinvs
+            .selectLeftContainerTableRow('1')
+            .click('@deletePinvBtn')
+            .assertLeftContainerCellContainsText('1','1','2')
+            .selectLeftContainerTableRow('1')
+            .click('@deletePinvBtn')
+            .assertLeftContainerTableisEmpty();
+
+        ;}
 
     //,'Logout': function (browser) {
     //    var mainPage = browser.page.mainPage();
