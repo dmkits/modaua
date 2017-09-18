@@ -18,12 +18,12 @@ module.exports.init = function(app){
     var wrhInvsListTableColumns=[
         {"data": "ID", "name": "ID", "width": 50, "type": "text", readOnly:true, visible:false, dataSource:"wrh_invs"},
         {"data": "NUMBER", "name": "Номер", "width": 50, "type": "text", dataSource:"wrh_invs"},
-        {"data": "DOCDATE", "name": "Дата", "width": 55, "type": "datetimeAsText", dataSource:"wrh_invs"},
+        {"data": "DOCDATE", "name": "Дата", "width": 55, "type": "dateAsText", dataSource:"wrh_invs"},
         {"data": "UNIT_NAME", "name": "Подразделение", "width": 120, "type": "text", dataSource:"dir_units", dataField:"NAME"},
-        {"data": "SUPPLIER_NAME", "name": "Поставщик", "width": 120, "type": "text", dataSource:"dir_contractors", dataField:"NAME"},
-        {"data": "SUPPLIER_ORDER_NUM", "name": "Номер заказа поставщика", "width": 100, "type": "text", dataSource:"wrh_invs"},
-        {"data": "SUPPLIER_INV_NUM", "name": "Номер накл. поставщика", "width": 100, "type": "text", dataSource:"wrh_invs"},
-        {"data": "PRODUCT_COLLECTION", "name": "Коллекция", "width": 150, "type": "text", dataSource:"dir_products_collections", dataField:"NAME"},
+        {"data": "BUYER_NAME", "name": "Покупатель", "width": 150, "type": "text", dataSource:"dir_contractors", dataField:"NAME"},
+        //{"data": "SUPPLIER_ORDER_NUM", "name": "Номер заказа поставщика", "width": 100, "type": "text", dataSource:"wrh_invs"},
+        //{"data": "SUPPLIER_INV_NUM", "name": "Номер накл. поставщика", "width": 100, "type": "text", dataSource:"wrh_invs"},
+        //{"data": "PRODUCT_COLLECTION", "name": "Коллекция", "width": 150, "type": "text", dataSource:"dir_products_collections", dataField:"NAME"},
         {"data": "DOCCOUNT", "name": "Строк", "width": 60, "type": "numeric", visible:false, dataFunction:"0" },
         {"data": "DOCQTYSUM", "name": "Кол-во", "width": 60, "type": "numeric", dataFunction:"0" },
         {"data": "DOCSUM", "name": "Сумма", "width": 60, "type": "numeric2", dataFunction:"0.00" },
@@ -31,8 +31,8 @@ module.exports.init = function(app){
         {"data": "CURRENCY_CODENAME", "name": "Валюта", "width": 50, "type": "text", visible:false,
             dataSource:"sys_currency", dataFunction:{function:"concat",fields:["sys_currency.CODE","' ('","sys_currency.NAME","')'"]} },
         {"data": "DOCSTATE_NAME", "name": "Статус", "width": 110, "type": "text", dataSource:"sys_docstates", dataField:"NAME"},
-        {"data": "RATE", "name": "Курс валюты", "width": 60, "type": "numeric2", visible:false, dataSource:"wrh_invs"},
-        {"data": "BASE_FACTOR", "name": "Базов.коэфф.", "width": 60, "type": "numeric2", visible:false, dataSource:"wrh_invs"}
+        {"data": "RATE", "name": "Курс валюты", "width": 60, "type": "numeric2", visible:false, dataSource:"wrh_invs"}
+       // ,{"data": "BASE_FACTOR", "name": "Базов.коэфф.", "width": 60, "type": "numeric2", visible:false, dataSource:"wrh_invs"}
     ];
     app.get("/wrh/invoices/getDataForInvsListTable", function(req, res){
         var conditions={};
@@ -59,7 +59,7 @@ module.exports.init = function(app){
                 var newNumber=(result&&result.item)?result.item["MAXNUMBER"]:"", docDate=dateFormat(new Date(),"yyyy-mm-dd");
                 dir_units.getDataItem({fields:["NAME"],conditions:{"ID=":"0"}}, function(result){
                     var unitName=(result&&result.item)?result.item["NAME"]:"";
-                    dir_contractors.getDataItem({fields:["NAME"],conditions:{"ID=":"1"}}, function(result){
+                    dir_contractors.getDataItem({fields:["NAME"],conditions:{"ID=":"0"}}, function(result){
                         var buyerName=(result&&result.item)?result.item["NAME"]:"";
                         sysCurrency.getDataItem({ fields:["CODE","CODENAME"],
                                 fieldsFunctions:{"CODENAME":{function:"concat",fields:["CODE","' ('","NAME","')'"]}},
@@ -90,20 +90,20 @@ module.exports.init = function(app){
                 return;
             }
             storeData["UNIT_ID"]=result.item["ID"];
-            dir_contractors.getDataItem({fields:["ID"],conditions:{"NAME=":storeData["SUPPLIER_NAME"]}}, function(result){
+            dir_contractors.getDataItem({fields:["ID"],conditions:{"NAME=":storeData["BUYER_NAME"]}}, function(result){
                 if(!result.item){
                     res.send({ error:"Cannot finded conractor by name!"});
                     return;
                 }
-                storeData["SUPPLIER_ID"]=result.item["ID"];
+                storeData["BUYER_ID"]=result.item["ID"];
                 sysCurrency.getDataItem({fields:["ID"],conditions:{"CODE=":storeData["CURRENCY_CODE"]}}, function(result){
                     if(!result.item){
                         res.send({ error:"Cannot finded currency by code!"});
                         return;
                     }
                     storeData["CURRENCY_ID"]=result.item["ID"];
-                    dirProdsCollections.getDataItem({fields:["ID"],conditions:{"NAME=":storeData["PRODUCT_COLLECTION"]}}, function(result){
-                        storeData["COLLECTION_ID"]=result.item["ID"];
+                   // dirProdsCollections.getDataItem({fields:["ID"],conditions:{"NAME=":storeData["PRODUCT_COLLECTION"]}}, function(result){
+                       // storeData["COLLECTION_ID"]=result.item["ID"];
                         var docStateID=0;
                         sysDocStates.getDataItem({fields:["ID"],conditions:{"NAME=":storeData["DOCSTATE_NAME"]}}, function(result){
                             if(result.item) docStateID=result.item["ID"];
@@ -113,7 +113,7 @@ module.exports.init = function(app){
                                     res.send(result);
                                 });
                         });
-                    });
+                  //  });
                 });
             });
         });

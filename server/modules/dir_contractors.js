@@ -55,4 +55,10 @@ module.exports.init = function(app){
                 res.send(result);
             });
     });
+    app.get("/dir/contractors/getDirBuyersForSelect", function(req, res){
+        dirContractors.getDataItemsForSelect({valueField:"NAME",labelField:"NAME", conditions:{"IS_SUPPLIER=":0}, order: "NAME" },
+            function (result) {
+                res.send(result);
+            });
+    });
 };

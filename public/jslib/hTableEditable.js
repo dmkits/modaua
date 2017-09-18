@@ -464,7 +464,7 @@ define(["dojo/_base/declare", "hTableSimpleFiltered", "request"], function(decla
                     //if (callUpdateContent===true) thisInstanceDetailTable.handsonTable.render();//render after end row callbacks
                     nextCallback();
                 };
-                this.onChangeRowData= function(changedRowData, params, nextCallback) {                                  //console.log("HTableEditable.onChangeRowData changedRowData=",changedRowData);
+                this.onChangeRowData= function(changedRowData, params, nextCallback) {                                  console.log("HTableEditable.onChangeRowData changedRowData=",changedRowData);
                     rowChangeCallbackProcess(0, changedRowData, thisInstance, params, true, nextCallback);
                 };
             }
