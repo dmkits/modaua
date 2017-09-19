@@ -1,510 +1,560 @@
-16:21:53.479 INFO - Selenium build info: version: '3.4.0', revision: 'unknown'
-16:21:53.480 INFO - Launching a standalone Selenium Server
-2017-09-14 16:21:53.507:INFO::main: Logging initialized @382ms to org.seleniumhq.jetty9.util.log.StdErrLog
-16:21:53.580 INFO - Driver provider org.openqa.selenium.ie.InternetExplorerDriver registration is skipped:
+12:01:27.961 INFO - Selenium build info: version: '3.4.0', revision: 'unknown'
+12:01:27.962 INFO - Launching a standalone Selenium Server
+2017-09-19 12:01:27.994:INFO::main: Logging initialized @411ms to org.seleniumhq.jetty9.util.log.StdErrLog
+12:01:28.074 INFO - Driver provider org.openqa.selenium.ie.InternetExplorerDriver registration is skipped:
  registration capabilities Capabilities [{ensureCleanSession=true, browserName=internet explorer, version=, platform=WINDOWS}] does not match the current platform LINUX
-16:21:53.580 INFO - Driver provider org.openqa.selenium.edge.EdgeDriver registration is skipped:
+12:01:28.075 INFO - Driver provider org.openqa.selenium.edge.EdgeDriver registration is skipped:
  registration capabilities Capabilities [{browserName=MicrosoftEdge, version=, platform=WINDOWS}] does not match the current platform LINUX
-16:21:53.581 INFO - Driver class not found: com.opera.core.systems.OperaDriver
-16:21:53.581 INFO - Driver provider com.opera.core.systems.OperaDriver registration is skipped:
+12:01:28.075 INFO - Driver class not found: com.opera.core.systems.OperaDriver
+12:01:28.076 INFO - Driver provider com.opera.core.systems.OperaDriver registration is skipped:
 Unable to create new instances on this machine.
-16:21:53.581 INFO - Driver class not found: com.opera.core.systems.OperaDriver
-16:21:53.581 INFO - Driver provider com.opera.core.systems.OperaDriver is not registered
-16:21:53.582 INFO - Driver provider org.openqa.selenium.safari.SafariDriver registration is skipped:
+12:01:28.076 INFO - Driver class not found: com.opera.core.systems.OperaDriver
+12:01:28.076 INFO - Driver provider com.opera.core.systems.OperaDriver is not registered
+12:01:28.077 INFO - Driver provider org.openqa.selenium.safari.SafariDriver registration is skipped:
  registration capabilities Capabilities [{browserName=safari, version=, platform=MAC}] does not match the current platform LINUX
-2017-09-14 16:21:53.643:INFO:osjs.Server:main: jetty-9.4.3.v20170317
-2017-09-14 16:21:53.698:INFO:osjsh.ContextHandler:main: Started o.s.j.s.ServletContextHandler@3e6fa38a{/,null,AVAILABLE}
-2017-09-14 16:21:53.721:INFO:osjs.AbstractConnector:main: Started ServerConnector@6500df86{HTTP/1.1,[http/1.1]}{0.0.0.0:4444}
-2017-09-14 16:21:53.722:INFO:osjs.Server:main: Started @597ms
-16:21:53.722 INFO - Selenium Server is up and running
-16:21:54.184 INFO - SessionCleaner initialized with insideBrowserTimeout 0 and clientGoneTimeout 1800000 polling every 180000
-16:21:54.224 INFO - Executing: [new session: Capabilities [{acceptSslCerts=true, name=Main / Main 1 Header Tests, browserName=chrome, javascriptEnabled=true, platform=ANY}]])
-16:21:54.259 INFO - Creating a new session for Capabilities [{acceptSslCerts=true, name=Main / Main 1 Header Tests, browserName=chrome, javascriptEnabled=true, platform=ANY}]
-Starting ChromeDriver 2.29.461571 (8a88bbe0775e2a23afda0ceaf2ef7ee74e822cc5) on port 32016
+2017-09-19 12:01:28.152:INFO:osjs.Server:main: jetty-9.4.3.v20170317
+2017-09-19 12:01:28.206:INFO:osjsh.ContextHandler:main: Started o.s.j.s.ServletContextHandler@3e6fa38a{/,null,AVAILABLE}
+2017-09-19 12:01:28.230:INFO:osjs.AbstractConnector:main: Started ServerConnector@6500df86{HTTP/1.1,[http/1.1]}{0.0.0.0:4444}
+2017-09-19 12:01:28.231:INFO:osjs.Server:main: Started @649ms
+12:01:28.231 INFO - Selenium Server is up and running
+12:01:28.687 INFO - SessionCleaner initialized with insideBrowserTimeout 0 and clientGoneTimeout 1800000 polling every 180000
+12:01:28.730 INFO - Executing: [new session: Capabilities [{acceptSslCerts=true, name=Main / Main 1 Header Tests, browserName=chrome, javascriptEnabled=true, platform=ANY}]])
+12:01:28.763 INFO - Creating a new session for Capabilities [{acceptSslCerts=true, name=Main / Main 1 Header Tests, browserName=chrome, javascriptEnabled=true, platform=ANY}]
+Starting ChromeDriver 2.29.461571 (8a88bbe0775e2a23afda0ceaf2ef7ee74e822cc5) on port 11013
 Only local connections are allowed.
-16:21:55.827 INFO - Detected dialect: OSS
-16:21:55.887 INFO - Done: [new session: Capabilities [{acceptSslCerts=true, name=Main / Main 1 Header Tests, browserName=chrome, javascriptEnabled=true, platform=ANY}]]
-16:21:55.933 INFO - Executing: [maximise window])
-16:21:56.135 INFO - Done: [maximise window]
-16:21:56.148 INFO - Executing: [get: http://localhost:8181])
-16:21:57.897 INFO - Done: [get: http://localhost:8181]
-16:21:57.942 INFO - Executing: [find elements: By.cssSelector: #loginDialog])
-16:21:58.028 INFO - Done: [find elements: By.cssSelector: #loginDialog]
-16:21:58.044 INFO - Executing: [is displayed: 0 [[ChromeDriver: chrome on LINUX (ce008d2efb122855b333c44a4ea7a450)] -> css selector: #loginDialog]])
-16:21:58.110 INFO - Done: [is displayed: 0 [[ChromeDriver: chrome on LINUX (ce008d2efb122855b333c44a4ea7a450)] -> css selector: #loginDialog]]
-16:21:58.126 INFO - Executing: [find element: By.cssSelector: #user_name])
-16:21:58.167 INFO - Done: [find element: By.cssSelector: #user_name]
-16:21:58.182 INFO - Executing: [get element attribute: 1 [[ChromeDriver: chrome on LINUX (ce008d2efb122855b333c44a4ea7a450)] -> css selector: #user_name], value])
-16:21:58.199 INFO - Done: [get element attribute: 1 [[ChromeDriver: chrome on LINUX (ce008d2efb122855b333c44a4ea7a450)] -> css selector: #user_name], value]
-16:21:58.209 INFO - Executing: [find element: By.cssSelector: #user_password])
-16:21:58.255 INFO - Done: [find element: By.cssSelector: #user_password]
-16:21:58.261 INFO - Executing: [get element attribute: 2 [[ChromeDriver: chrome on LINUX (ce008d2efb122855b333c44a4ea7a450)] -> css selector: #user_password], value])
-16:21:58.277 INFO - Done: [get element attribute: 2 [[ChromeDriver: chrome on LINUX (ce008d2efb122855b333c44a4ea7a450)] -> css selector: #user_password], value]
-16:21:58.285 INFO - Executing: [find element: By.cssSelector: #user_name])
-16:21:58.308 INFO - Done: [find element: By.cssSelector: #user_name]
-16:21:58.319 INFO - Executing: [send keys: 1 [[ChromeDriver: chrome on LINUX (ce008d2efb122855b333c44a4ea7a450)] -> css selector: #user_name], [u, s, e, r]])
-16:21:58.436 INFO - Done: [send keys: 1 [[ChromeDriver: chrome on LINUX (ce008d2efb122855b333c44a4ea7a450)] -> css selector: #user_name], [u, s, e, r]]
-16:21:58.446 INFO - Executing: [find element: By.cssSelector: #user_password])
-16:21:58.464 INFO - Done: [find element: By.cssSelector: #user_password]
-16:21:58.474 INFO - Executing: [send keys: 2 [[ChromeDriver: chrome on LINUX (ce008d2efb122855b333c44a4ea7a450)] -> css selector: #user_password], [u, s, e, r]])
-16:21:58.589 INFO - Done: [send keys: 2 [[ChromeDriver: chrome on LINUX (ce008d2efb122855b333c44a4ea7a450)] -> css selector: #user_password], [u, s, e, r]]
-16:21:58.598 INFO - Executing: [find element: By.xpath: //div[@id="loginDialog"]//span[@class="dijitReset dijitInline dijitButtonText" and text()="Войти"]])
-16:21:58.645 INFO - Done: [find element: By.xpath: //div[@id="loginDialog"]//span[@class="dijitReset dijitInline dijitButtonText" and text()="Войти"]]
-16:21:58.652 INFO - Executing: [click: 3 [[ChromeDriver: chrome on LINUX (ce008d2efb122855b333c44a4ea7a450)] -> xpath: //div[@id="loginDialog"]//span[@class="dijitReset dijitInline dijitButtonText" and text()="Войти"]]])
-16:21:58.780 INFO - Done: [click: 3 [[ChromeDriver: chrome on LINUX (ce008d2efb122855b333c44a4ea7a450)] -> xpath: //div[@id="loginDialog"]//span[@class="dijitReset dijitInline dijitButtonText" and text()="Войти"]]]
-16:21:58.822 INFO - Executing: [find elements: By.cssSelector: #menuBarWrh])
-16:21:59.946 INFO - Done: [find elements: By.cssSelector: #menuBarWrh]
-16:21:59.955 INFO - Executing: [is displayed: 4 [[ChromeDriver: chrome on LINUX (ce008d2efb122855b333c44a4ea7a450)] -> css selector: #menuBarWrh]])
-16:22:00.010 INFO - Done: [is displayed: 4 [[ChromeDriver: chrome on LINUX (ce008d2efb122855b333c44a4ea7a450)] -> css selector: #menuBarWrh]]
-16:22:00.019 INFO - Executing: [find element: By.cssSelector: #menuBarWrh])
-16:22:00.065 INFO - Done: [find element: By.cssSelector: #menuBarWrh]
-16:22:00.072 INFO - Executing: [click: 4 [[ChromeDriver: chrome on LINUX (ce008d2efb122855b333c44a4ea7a450)] -> css selector: #menuBarWrh]])
-16:22:00.206 INFO - Done: [click: 4 [[ChromeDriver: chrome on LINUX (ce008d2efb122855b333c44a4ea7a450)] -> css selector: #menuBarWrh]]
-16:22:00.214 INFO - Executing: [find elements: By.cssSelector: #menuBarWrhPInvoices])
-16:22:00.257 INFO - Done: [find elements: By.cssSelector: #menuBarWrhPInvoices]
-16:22:00.262 INFO - Executing: [is displayed: 5 [[ChromeDriver: chrome on LINUX (ce008d2efb122855b333c44a4ea7a450)] -> css selector: #menuBarWrhPInvoices]])
-16:22:00.304 INFO - Done: [is displayed: 5 [[ChromeDriver: chrome on LINUX (ce008d2efb122855b333c44a4ea7a450)] -> css selector: #menuBarWrhPInvoices]]
-16:22:00.313 INFO - Executing: [find element: By.cssSelector: #menuBarWrhPInvoices])
-16:22:00.351 INFO - Done: [find element: By.cssSelector: #menuBarWrhPInvoices]
-16:22:00.359 INFO - Executing: [click: 5 [[ChromeDriver: chrome on LINUX (ce008d2efb122855b333c44a4ea7a450)] -> css selector: #menuBarWrhPInvoices]])
-16:22:00.508 INFO - Done: [click: 5 [[ChromeDriver: chrome on LINUX (ce008d2efb122855b333c44a4ea7a450)] -> css selector: #menuBarWrhPInvoices]]
-16:22:00.524 INFO - Executing: [find elements: By.cssSelector: #wrh_pinv_DetailHeader])
-16:22:00.575 INFO - Done: [find elements: By.cssSelector: #wrh_pinv_DetailHeader]
-16:22:00.584 INFO - Executing: [is displayed: 6 [[ChromeDriver: chrome on LINUX (ce008d2efb122855b333c44a4ea7a450)] -> css selector: #wrh_pinv_DetailHeader]])
-16:22:00.643 INFO - Done: [is displayed: 6 [[ChromeDriver: chrome on LINUX (ce008d2efb122855b333c44a4ea7a450)] -> css selector: #wrh_pinv_DetailHeader]]
-16:22:01.155 INFO - Executing: [is displayed: 6 [[ChromeDriver: chrome on LINUX (ce008d2efb122855b333c44a4ea7a450)] -> css selector: #wrh_pinv_DetailHeader]])
-16:22:01.472 INFO - Done: [is displayed: 6 [[ChromeDriver: chrome on LINUX (ce008d2efb122855b333c44a4ea7a450)] -> css selector: #wrh_pinv_DetailHeader]]
-16:22:01.495 INFO - Executing: [find elements: By.xpath: //div[@id="wrh_pinv_DetailHeader"]/table[1]/tbody/tr/th[1]])
-16:22:01.633 INFO - Done: [find elements: By.xpath: //div[@id="wrh_pinv_DetailHeader"]/table[1]/tbody/tr/th[1]]
-16:22:01.640 INFO - Executing: [is displayed: 7 [[ChromeDriver: chrome on LINUX (ce008d2efb122855b333c44a4ea7a450)] -> xpath: //div[@id="wrh_pinv_DetailHeader"]/table[1]/tbody/tr/th[1]]])
-16:22:01.683 INFO - Done: [is displayed: 7 [[ChromeDriver: chrome on LINUX (ce008d2efb122855b333c44a4ea7a450)] -> xpath: //div[@id="wrh_pinv_DetailHeader"]/table[1]/tbody/tr/th[1]]]
-16:22:01.698 INFO - Executing: [find element: By.xpath: //div[@id="wrh_pinv_DetailHeader"]/table[1]/tbody/tr/th[1]])
-16:22:01.769 INFO - Done: [find element: By.xpath: //div[@id="wrh_pinv_DetailHeader"]/table[1]/tbody/tr/th[1]]
-16:22:01.778 INFO - Executing: [get text: 7 [[ChromeDriver: chrome on LINUX (ce008d2efb122855b333c44a4ea7a450)] -> xpath: //div[@id="wrh_pinv_DetailHeader"]/table[1]/tbody/tr/th[1]]])
-16:22:01.836 INFO - Done: [get text: 7 [[ChromeDriver: chrome on LINUX (ce008d2efb122855b333c44a4ea7a450)] -> xpath: //div[@id="wrh_pinv_DetailHeader"]/table[1]/tbody/tr/th[1]]]
-16:22:01.844 INFO - Executing: [find elements: By.xpath: //div[@id="wrh_pinv_ListContainer"]//div[1]/table[1]//th])
-16:22:01.901 INFO - Done: [find elements: By.xpath: //div[@id="wrh_pinv_ListContainer"]//div[1]/table[1]//th]
-16:22:01.909 INFO - Executing: [is displayed: 8 [[ChromeDriver: chrome on LINUX (ce008d2efb122855b333c44a4ea7a450)] -> xpath: //div[@id="wrh_pinv_ListContainer"]//div[1]/table[1]//th]])
-16:22:01.956 INFO - Done: [is displayed: 8 [[ChromeDriver: chrome on LINUX (ce008d2efb122855b333c44a4ea7a450)] -> xpath: //div[@id="wrh_pinv_ListContainer"]//div[1]/table[1]//th]]
-16:22:01.966 INFO - Executing: [find element: By.xpath: //div[@id="wrh_pinv_ListContainer"]//div[1]/table[1]//th])
-16:22:02.018 INFO - Done: [find element: By.xpath: //div[@id="wrh_pinv_ListContainer"]//div[1]/table[1]//th]
-16:22:02.024 INFO - Executing: [get text: 8 [[ChromeDriver: chrome on LINUX (ce008d2efb122855b333c44a4ea7a450)] -> xpath: //div[@id="wrh_pinv_ListContainer"]//div[1]/table[1]//th]])
-16:22:02.073 INFO - Done: [get text: 8 [[ChromeDriver: chrome on LINUX (ce008d2efb122855b333c44a4ea7a450)] -> xpath: //div[@id="wrh_pinv_ListContainer"]//div[1]/table[1]//th]]
-16:22:02.081 INFO - Executing: [find elements: By.xpath: //div[@id="wrh_pinv_DetailHeader"]//span[text()="Обновить"]])
-16:22:02.128 INFO - Done: [find elements: By.xpath: //div[@id="wrh_pinv_DetailHeader"]//span[text()="Обновить"]]
-16:22:02.139 INFO - Executing: [is displayed: 27 [[ChromeDriver: chrome on LINUX (ce008d2efb122855b333c44a4ea7a450)] -> xpath: //div[@id="wrh_pinv_DetailHeader"]//span[text()="Обновить"]]])
-16:22:02.182 INFO - Done: [is displayed: 27 [[ChromeDriver: chrome on LINUX (ce008d2efb122855b333c44a4ea7a450)] -> xpath: //div[@id="wrh_pinv_DetailHeader"]//span[text()="Обновить"]]]
-16:22:02.190 INFO - Executing: [find elements: By.xpath: //div[@id="wrh_pinv_DetailHeader"]/table[1]/tbody/tr/th[3]//span[text()="Печатать"]])
-16:22:02.249 INFO - Done: [find elements: By.xpath: //div[@id="wrh_pinv_DetailHeader"]/table[1]/tbody/tr/th[3]//span[text()="Печатать"]]
-16:22:02.255 INFO - Executing: [is displayed: 28 [[ChromeDriver: chrome on LINUX (ce008d2efb122855b333c44a4ea7a450)] -> xpath: //div[@id="wrh_pinv_DetailHeader"]/table[1]/tbody/tr/th[3]//span[text()="Печатать"]]])
-16:22:02.298 INFO - Done: [is displayed: 28 [[ChromeDriver: chrome on LINUX (ce008d2efb122855b333c44a4ea7a450)] -> xpath: //div[@id="wrh_pinv_DetailHeader"]/table[1]/tbody/tr/th[3]//span[text()="Печатать"]]]
-16:22:02.307 INFO - Executing: [find element: By.xpath: //div[@id="wrh_pinv_DetailHeader"]/table[2]/tbody/tr/td[1]/label])
-16:22:02.351 INFO - Done: [find element: By.xpath: //div[@id="wrh_pinv_DetailHeader"]/table[2]/tbody/tr/td[1]/label]
-16:22:02.357 INFO - Executing: [is displayed: 29 [[ChromeDriver: chrome on LINUX (ce008d2efb122855b333c44a4ea7a450)] -> xpath: //div[@id="wrh_pinv_DetailHeader"]/table[2]/tbody/tr/td[1]/label]])
-16:22:02.402 INFO - Done: [is displayed: 29 [[ChromeDriver: chrome on LINUX (ce008d2efb122855b333c44a4ea7a450)] -> xpath: //div[@id="wrh_pinv_DetailHeader"]/table[2]/tbody/tr/td[1]/label]]
-16:22:02.411 INFO - Executing: [find element: By.xpath: //div[@id="wrh_pinv_DetailHeader"]/table[2]/tbody/tr/td[1]/label])
-16:22:02.431 INFO - Done: [find element: By.xpath: //div[@id="wrh_pinv_DetailHeader"]/table[2]/tbody/tr/td[1]/label]
-16:22:02.436 INFO - Executing: [get text: 29 [[ChromeDriver: chrome on LINUX (ce008d2efb122855b333c44a4ea7a450)] -> xpath: //div[@id="wrh_pinv_DetailHeader"]/table[2]/tbody/tr/td[1]/label]])
-16:22:02.488 INFO - Done: [get text: 29 [[ChromeDriver: chrome on LINUX (ce008d2efb122855b333c44a4ea7a450)] -> xpath: //div[@id="wrh_pinv_DetailHeader"]/table[2]/tbody/tr/td[1]/label]]
-16:22:02.502 INFO - Executing: [find element: By.xpath: //div[@id="wrh_pinv_DetailHeader"]/table[2]/tbody/tr/td[3]/label])
-16:22:02.542 INFO - Done: [find element: By.xpath: //div[@id="wrh_pinv_DetailHeader"]/table[2]/tbody/tr/td[3]/label]
-16:22:02.549 INFO - Executing: [is displayed: 30 [[ChromeDriver: chrome on LINUX (ce008d2efb122855b333c44a4ea7a450)] -> xpath: //div[@id="wrh_pinv_DetailHeader"]/table[2]/tbody/tr/td[3]/label]])
-16:22:02.590 INFO - Done: [is displayed: 30 [[ChromeDriver: chrome on LINUX (ce008d2efb122855b333c44a4ea7a450)] -> xpath: //div[@id="wrh_pinv_DetailHeader"]/table[2]/tbody/tr/td[3]/label]]
-16:22:02.599 INFO - Executing: [find element: By.xpath: //div[@id="wrh_pinv_DetailHeader"]/table[2]/tbody/tr/td[3]/label])
-16:22:02.622 INFO - Done: [find element: By.xpath: //div[@id="wrh_pinv_DetailHeader"]/table[2]/tbody/tr/td[3]/label]
-16:22:02.628 INFO - Executing: [get text: 30 [[ChromeDriver: chrome on LINUX (ce008d2efb122855b333c44a4ea7a450)] -> xpath: //div[@id="wrh_pinv_DetailHeader"]/table[2]/tbody/tr/td[3]/label]])
-16:22:02.673 INFO - Done: [get text: 30 [[ChromeDriver: chrome on LINUX (ce008d2efb122855b333c44a4ea7a450)] -> xpath: //div[@id="wrh_pinv_DetailHeader"]/table[2]/tbody/tr/td[3]/label]]
-16:22:02.681 INFO - Executing: [find element: By.xpath: //div[@id="wrh_pinv_DetailHeader"]/table[3]/tbody/tr/td[1]/label])
-16:22:02.724 INFO - Done: [find element: By.xpath: //div[@id="wrh_pinv_DetailHeader"]/table[3]/tbody/tr/td[1]/label]
-16:22:02.729 INFO - Executing: [is displayed: 31 [[ChromeDriver: chrome on LINUX (ce008d2efb122855b333c44a4ea7a450)] -> xpath: //div[@id="wrh_pinv_DetailHeader"]/table[3]/tbody/tr/td[1]/label]])
-16:22:02.765 INFO - Done: [is displayed: 31 [[ChromeDriver: chrome on LINUX (ce008d2efb122855b333c44a4ea7a450)] -> xpath: //div[@id="wrh_pinv_DetailHeader"]/table[3]/tbody/tr/td[1]/label]]
-16:22:02.772 INFO - Executing: [find element: By.xpath: //div[@id="wrh_pinv_DetailHeader"]/table[3]/tbody/tr/td[1]/label])
-16:22:02.790 INFO - Done: [find element: By.xpath: //div[@id="wrh_pinv_DetailHeader"]/table[3]/tbody/tr/td[1]/label]
-16:22:02.795 INFO - Executing: [get text: 31 [[ChromeDriver: chrome on LINUX (ce008d2efb122855b333c44a4ea7a450)] -> xpath: //div[@id="wrh_pinv_DetailHeader"]/table[3]/tbody/tr/td[1]/label]])
-16:22:02.839 INFO - Done: [get text: 31 [[ChromeDriver: chrome on LINUX (ce008d2efb122855b333c44a4ea7a450)] -> xpath: //div[@id="wrh_pinv_DetailHeader"]/table[3]/tbody/tr/td[1]/label]]
-16:22:02.848 INFO - Executing: [find element: By.xpath: //div[@id="wrh_pinv_DetailHeader"]/table[4]/tbody/tr/td[1]/label])
-16:22:02.893 INFO - Done: [find element: By.xpath: //div[@id="wrh_pinv_DetailHeader"]/table[4]/tbody/tr/td[1]/label]
-16:22:02.902 INFO - Executing: [is displayed: 32 [[ChromeDriver: chrome on LINUX (ce008d2efb122855b333c44a4ea7a450)] -> xpath: //div[@id="wrh_pinv_DetailHeader"]/table[4]/tbody/tr/td[1]/label]])
-16:22:02.945 INFO - Done: [is displayed: 32 [[ChromeDriver: chrome on LINUX (ce008d2efb122855b333c44a4ea7a450)] -> xpath: //div[@id="wrh_pinv_DetailHeader"]/table[4]/tbody/tr/td[1]/label]]
-16:22:02.953 INFO - Executing: [find element: By.xpath: //div[@id="wrh_pinv_DetailHeader"]/table[4]/tbody/tr/td[1]/label])
-16:22:02.977 INFO - Done: [find element: By.xpath: //div[@id="wrh_pinv_DetailHeader"]/table[4]/tbody/tr/td[1]/label]
-16:22:02.982 INFO - Executing: [get text: 32 [[ChromeDriver: chrome on LINUX (ce008d2efb122855b333c44a4ea7a450)] -> xpath: //div[@id="wrh_pinv_DetailHeader"]/table[4]/tbody/tr/td[1]/label]])
-16:22:03.029 INFO - Done: [get text: 32 [[ChromeDriver: chrome on LINUX (ce008d2efb122855b333c44a4ea7a450)] -> xpath: //div[@id="wrh_pinv_DetailHeader"]/table[4]/tbody/tr/td[1]/label]]
-16:22:03.049 INFO - Executing: [find elements: By.xpath: //div[@id="wrh_pinv_RightContainer"]//span[text()="Новая накладная"]])
-16:22:03.103 INFO - Done: [find elements: By.xpath: //div[@id="wrh_pinv_RightContainer"]//span[text()="Новая накладная"]]
-16:22:03.110 INFO - Executing: [is displayed: 33 [[ChromeDriver: chrome on LINUX (ce008d2efb122855b333c44a4ea7a450)] -> xpath: //div[@id="wrh_pinv_RightContainer"]//span[text()="Новая накладная"]]])
-16:22:03.148 INFO - Done: [is displayed: 33 [[ChromeDriver: chrome on LINUX (ce008d2efb122855b333c44a4ea7a450)] -> xpath: //div[@id="wrh_pinv_RightContainer"]//span[text()="Новая накладная"]]]
-16:22:03.156 INFO - Executing: [find element: By.xpath: //div[@id="wrh_pinv_RightContainer"]//span[text()="Новая накладная"]])
-16:22:03.209 INFO - Done: [find element: By.xpath: //div[@id="wrh_pinv_RightContainer"]//span[text()="Новая накладная"]]
-16:22:03.215 INFO - Executing: [click: 33 [[ChromeDriver: chrome on LINUX (ce008d2efb122855b333c44a4ea7a450)] -> xpath: //div[@id="wrh_pinv_RightContainer"]//span[text()="Новая накладная"]]])
-16:22:03.351 INFO - Done: [click: 33 [[ChromeDriver: chrome on LINUX (ce008d2efb122855b333c44a4ea7a450)] -> xpath: //div[@id="wrh_pinv_RightContainer"]//span[text()="Новая накладная"]]]
-16:22:04.362 INFO - Executing: [find element: By.xpath: //div[@id="wrh_pinv_DetailHeader"]/table[1]/tbody/tr/th[1]])
-16:22:04.386 INFO - Done: [find element: By.xpath: //div[@id="wrh_pinv_DetailHeader"]/table[1]/tbody/tr/th[1]]
-16:22:04.392 INFO - Executing: [get text: 7 [[ChromeDriver: chrome on LINUX (ce008d2efb122855b333c44a4ea7a450)] -> xpath: //div[@id="wrh_pinv_DetailHeader"]/table[1]/tbody/tr/th[1]]])
-16:22:04.414 INFO - Done: [get text: 7 [[ChromeDriver: chrome on LINUX (ce008d2efb122855b333c44a4ea7a450)] -> xpath: //div[@id="wrh_pinv_DetailHeader"]/table[1]/tbody/tr/th[1]]]
-16:22:04.424 INFO - Executing: [find element: By.xpath: //div[@id="wrh_pinv_DetailHeader"]/table[2]/tbody/tr/td[1]/table//input[@role="presentation"]/ancestor::tr])
-16:22:04.467 INFO - Done: [find element: By.xpath: //div[@id="wrh_pinv_DetailHeader"]/table[2]/tbody/tr/td[1]/table//input[@role="presentation"]/ancestor::tr]
-16:22:04.472 INFO - Executing: [get text: 34 [[ChromeDriver: chrome on LINUX (ce008d2efb122855b333c44a4ea7a450)] -> xpath: //div[@id="wrh_pinv_DetailHeader"]/table[2]/tbody/tr/td[1]/table//input[@role="presentation"]/ancestor::tr]])
-16:22:04.553 INFO - Done: [get text: 34 [[ChromeDriver: chrome on LINUX (ce008d2efb122855b333c44a4ea7a450)] -> xpath: //div[@id="wrh_pinv_DetailHeader"]/table[2]/tbody/tr/td[1]/table//input[@role="presentation"]/ancestor::tr]]
-16:22:04.561 INFO - Executing: [find element: By.xpath: //div[@id="wrh_pinv_DetailHeader"]/table[3]/tbody/tr/td[1]/table//span[@role="option"]])
-16:22:04.602 INFO - Done: [find element: By.xpath: //div[@id="wrh_pinv_DetailHeader"]/table[3]/tbody/tr/td[1]/table//span[@role="option"]]
-16:22:04.608 INFO - Executing: [get text: 35 [[ChromeDriver: chrome on LINUX (ce008d2efb122855b333c44a4ea7a450)] -> xpath: //div[@id="wrh_pinv_DetailHeader"]/table[3]/tbody/tr/td[1]/table//span[@role="option"]]])
-16:22:04.652 INFO - Done: [get text: 35 [[ChromeDriver: chrome on LINUX (ce008d2efb122855b333c44a4ea7a450)] -> xpath: //div[@id="wrh_pinv_DetailHeader"]/table[3]/tbody/tr/td[1]/table//span[@role="option"]]]
-16:22:04.660 INFO - Executing: [find element: By.xpath: //div[@id="wrh_pinv_DetailHeader"]/table[4]/tbody/tr/td[1]/table//span[@role="option"]])
-16:22:04.700 INFO - Done: [find element: By.xpath: //div[@id="wrh_pinv_DetailHeader"]/table[4]/tbody/tr/td[1]/table//span[@role="option"]]
-16:22:04.706 INFO - Executing: [get text: 36 [[ChromeDriver: chrome on LINUX (ce008d2efb122855b333c44a4ea7a450)] -> xpath: //div[@id="wrh_pinv_DetailHeader"]/table[4]/tbody/tr/td[1]/table//span[@role="option"]]])
-16:22:04.752 INFO - Done: [get text: 36 [[ChromeDriver: chrome on LINUX (ce008d2efb122855b333c44a4ea7a450)] -> xpath: //div[@id="wrh_pinv_DetailHeader"]/table[4]/tbody/tr/td[1]/table//span[@role="option"]]]
-16:22:04.759 INFO - Executing: [find elements: By.xpath: //div[@id="wrh_pinv_RightContainer"]//span[text()="Сохранить накладную"]])
-16:22:04.815 INFO - Done: [find elements: By.xpath: //div[@id="wrh_pinv_RightContainer"]//span[text()="Сохранить накладную"]]
-16:22:04.819 INFO - Executing: [is displayed: 37 [[ChromeDriver: chrome on LINUX (ce008d2efb122855b333c44a4ea7a450)] -> xpath: //div[@id="wrh_pinv_RightContainer"]//span[text()="Сохранить накладную"]]])
-16:22:04.857 INFO - Done: [is displayed: 37 [[ChromeDriver: chrome on LINUX (ce008d2efb122855b333c44a4ea7a450)] -> xpath: //div[@id="wrh_pinv_RightContainer"]//span[text()="Сохранить накладную"]]]
-16:22:04.864 INFO - Executing: [find element: By.xpath: //div[@id="wrh_pinv_RightContainer"]//span[text()="Сохранить накладную"]])
-16:22:04.923 INFO - Done: [find element: By.xpath: //div[@id="wrh_pinv_RightContainer"]//span[text()="Сохранить накладную"]]
-16:22:04.927 INFO - Executing: [click: 37 [[ChromeDriver: chrome on LINUX (ce008d2efb122855b333c44a4ea7a450)] -> xpath: //div[@id="wrh_pinv_RightContainer"]//span[text()="Сохранить накладную"]]])
-16:22:05.059 INFO - Done: [click: 37 [[ChromeDriver: chrome on LINUX (ce008d2efb122855b333c44a4ea7a450)] -> xpath: //div[@id="wrh_pinv_RightContainer"]//span[text()="Сохранить накладную"]]]
-16:22:06.103 INFO - Executing: [find elements: By.cssSelector: #wrh_pinv_ListContainer_splitter])
-16:22:06.162 INFO - Done: [find elements: By.cssSelector: #wrh_pinv_ListContainer_splitter]
-16:22:06.169 INFO - Executing: [find element: By.cssSelector: #wrh_pinv_ListContainer_splitter])
-16:22:06.209 INFO - Done: [find element: By.cssSelector: #wrh_pinv_ListContainer_splitter]
-16:22:06.215 INFO - Executing: [mousemove: 38 true])
-16:22:06.272 INFO - Done: [mousemove: 38 true]
-16:22:06.279 INFO - Executing: [mousedown: no args])
-16:22:06.293 INFO - Done: [mousedown: no args]
-16:22:06.307 INFO - Executing: [find element: By.cssSelector: #wrh_pinv_PageContainer])
-16:22:06.351 INFO - Done: [find element: By.cssSelector: #wrh_pinv_PageContainer]
-16:22:06.358 INFO - Executing: [mousemove: 39 true])
-16:22:06.468 INFO - Done: [mousemove: 39 true]
-16:22:06.474 INFO - Executing: [mouseup: nothing])
-16:22:06.580 INFO - Done: [mouseup: nothing]
-16:22:06.588 INFO - Executing: [find elements: By.xpath: //div[@id="wrh_pinv_ListContainer"]//div[1]/table[1]//th])
-16:22:06.617 INFO - Done: [find elements: By.xpath: //div[@id="wrh_pinv_ListContainer"]//div[1]/table[1]//th]
-16:22:06.623 INFO - Executing: [is displayed: 8 [[ChromeDriver: chrome on LINUX (ce008d2efb122855b333c44a4ea7a450)] -> xpath: //div[@id="wrh_pinv_ListContainer"]//div[1]/table[1]//th]])
-16:22:06.643 INFO - Done: [is displayed: 8 [[ChromeDriver: chrome on LINUX (ce008d2efb122855b333c44a4ea7a450)] -> xpath: //div[@id="wrh_pinv_ListContainer"]//div[1]/table[1]//th]]
-16:22:06.649 INFO - Executing: [find element: By.xpath: //div[@id="wrh_pinv_ListContainer"]//div[1]/table[1]//th])
-16:22:06.665 INFO - Done: [find element: By.xpath: //div[@id="wrh_pinv_ListContainer"]//div[1]/table[1]//th]
-16:22:06.669 INFO - Executing: [get text: 8 [[ChromeDriver: chrome on LINUX (ce008d2efb122855b333c44a4ea7a450)] -> xpath: //div[@id="wrh_pinv_ListContainer"]//div[1]/table[1]//th]])
-16:22:06.691 INFO - Done: [get text: 8 [[ChromeDriver: chrome on LINUX (ce008d2efb122855b333c44a4ea7a450)] -> xpath: //div[@id="wrh_pinv_ListContainer"]//div[1]/table[1]//th]]
-16:22:06.700 INFO - Executing: [find elements: By.xpath: //div[@id="wrh_pinv_ListContainer"]//div[2]//div[@class="ht_clone_top handsontable"]//thead/tr[2]/th[1]])
-16:22:06.737 INFO - Done: [find elements: By.xpath: //div[@id="wrh_pinv_ListContainer"]//div[2]//div[@class="ht_clone_top handsontable"]//thead/tr[2]/th[1]]
-16:22:06.743 INFO - Executing: [find element: By.xpath: //div[@id="wrh_pinv_ListContainer"]//div[2]//div[@class="ht_clone_top handsontable"]//thead/tr[2]/th[1]])
-16:22:06.783 INFO - Done: [find element: By.xpath: //div[@id="wrh_pinv_ListContainer"]//div[2]//div[@class="ht_clone_top handsontable"]//thead/tr[2]/th[1]]
-16:22:06.788 INFO - Executing: [get text: 53 [[ChromeDriver: chrome on LINUX (ce008d2efb122855b333c44a4ea7a450)] -> xpath: //div[@id="wrh_pinv_ListContainer"]//div[1]/table[1]//th]])
-16:22:06.835 INFO - Done: [get text: 53 [[ChromeDriver: chrome on LINUX (ce008d2efb122855b333c44a4ea7a450)] -> xpath: //div[@id="wrh_pinv_ListContainer"]//div[1]/table[1]//th]]
-16:22:06.841 INFO - Executing: [find elements: By.xpath: //div[@id="wrh_pinv_ListContainer"]//div[2]//div[@class="ht_clone_top handsontable"]//thead/tr[2]/th[2]])
-16:22:06.882 INFO - Done: [find elements: By.xpath: //div[@id="wrh_pinv_ListContainer"]//div[2]//div[@class="ht_clone_top handsontable"]//thead/tr[2]/th[2]]
-16:22:06.890 INFO - Executing: [find element: By.xpath: //div[@id="wrh_pinv_ListContainer"]//div[2]//div[@class="ht_clone_top handsontable"]//thead/tr[2]/th[2]])
-16:22:06.949 INFO - Done: [find element: By.xpath: //div[@id="wrh_pinv_ListContainer"]//div[2]//div[@class="ht_clone_top handsontable"]//thead/tr[2]/th[2]]
-16:22:06.954 INFO - Executing: [get text: 54 [[ChromeDriver: chrome on LINUX (ce008d2efb122855b333c44a4ea7a450)] -> xpath: //div[@id="wrh_pinv_ListContainer"]//div[1]/table[1]//th]])
-16:22:07.005 INFO - Done: [get text: 54 [[ChromeDriver: chrome on LINUX (ce008d2efb122855b333c44a4ea7a450)] -> xpath: //div[@id="wrh_pinv_ListContainer"]//div[1]/table[1]//th]]
-16:22:07.011 INFO - Executing: [find elements: By.xpath: //div[@id="wrh_pinv_ListContainer"]//div[2]//div[@class="ht_clone_top handsontable"]//thead/tr[2]/th[3]])
-16:22:07.069 INFO - Done: [find elements: By.xpath: //div[@id="wrh_pinv_ListContainer"]//div[2]//div[@class="ht_clone_top handsontable"]//thead/tr[2]/th[3]]
-16:22:07.077 INFO - Executing: [find element: By.xpath: //div[@id="wrh_pinv_ListContainer"]//div[2]//div[@class="ht_clone_top handsontable"]//thead/tr[2]/th[3]])
-16:22:07.118 INFO - Done: [find element: By.xpath: //div[@id="wrh_pinv_ListContainer"]//div[2]//div[@class="ht_clone_top handsontable"]//thead/tr[2]/th[3]]
-16:22:07.123 INFO - Executing: [get text: 55 [[ChromeDriver: chrome on LINUX (ce008d2efb122855b333c44a4ea7a450)] -> xpath: //div[@id="wrh_pinv_ListContainer"]//div[1]/table[1]//th]])
-16:22:07.175 INFO - Done: [get text: 55 [[ChromeDriver: chrome on LINUX (ce008d2efb122855b333c44a4ea7a450)] -> xpath: //div[@id="wrh_pinv_ListContainer"]//div[1]/table[1]//th]]
-16:22:07.194 INFO - Executing: [find elements: By.xpath: //div[@id="wrh_pinv_ListContainer"]//div[2]//div[@class="ht_clone_top handsontable"]//thead/tr[2]/th[4]])
-16:22:07.255 INFO - Done: [find elements: By.xpath: //div[@id="wrh_pinv_ListContainer"]//div[2]//div[@class="ht_clone_top handsontable"]//thead/tr[2]/th[4]]
-16:22:07.269 INFO - Executing: [find element: By.xpath: //div[@id="wrh_pinv_ListContainer"]//div[2]//div[@class="ht_clone_top handsontable"]//thead/tr[2]/th[4]])
-16:22:07.310 INFO - Done: [find element: By.xpath: //div[@id="wrh_pinv_ListContainer"]//div[2]//div[@class="ht_clone_top handsontable"]//thead/tr[2]/th[4]]
-16:22:07.316 INFO - Executing: [get text: 56 [[ChromeDriver: chrome on LINUX (ce008d2efb122855b333c44a4ea7a450)] -> xpath: //div[@id="wrh_pinv_ListContainer"]//div[1]/table[1]//th]])
-16:22:07.368 INFO - Done: [get text: 56 [[ChromeDriver: chrome on LINUX (ce008d2efb122855b333c44a4ea7a450)] -> xpath: //div[@id="wrh_pinv_ListContainer"]//div[1]/table[1]//th]]
-16:22:07.374 INFO - Executing: [find elements: By.xpath: //div[@id="wrh_pinv_ListContainer"]//div[2]//div[@class="ht_clone_top handsontable"]//thead/tr[2]/th[5]])
-16:22:07.417 INFO - Done: [find elements: By.xpath: //div[@id="wrh_pinv_ListContainer"]//div[2]//div[@class="ht_clone_top handsontable"]//thead/tr[2]/th[5]]
-16:22:07.425 INFO - Executing: [find element: By.xpath: //div[@id="wrh_pinv_ListContainer"]//div[2]//div[@class="ht_clone_top handsontable"]//thead/tr[2]/th[5]])
-16:22:07.468 INFO - Done: [find element: By.xpath: //div[@id="wrh_pinv_ListContainer"]//div[2]//div[@class="ht_clone_top handsontable"]//thead/tr[2]/th[5]]
-16:22:07.472 INFO - Executing: [get text: 57 [[ChromeDriver: chrome on LINUX (ce008d2efb122855b333c44a4ea7a450)] -> xpath: //div[@id="wrh_pinv_ListContainer"]//div[1]/table[1]//th]])
-16:22:07.521 INFO - Done: [get text: 57 [[ChromeDriver: chrome on LINUX (ce008d2efb122855b333c44a4ea7a450)] -> xpath: //div[@id="wrh_pinv_ListContainer"]//div[1]/table[1]//th]]
-16:22:07.527 INFO - Executing: [find elements: By.xpath: //div[@id="wrh_pinv_ListContainer"]//div[2]//div[@class="ht_clone_top handsontable"]//thead/tr[2]/th[6]])
-16:22:07.568 INFO - Done: [find elements: By.xpath: //div[@id="wrh_pinv_ListContainer"]//div[2]//div[@class="ht_clone_top handsontable"]//thead/tr[2]/th[6]]
-16:22:07.574 INFO - Executing: [find element: By.xpath: //div[@id="wrh_pinv_ListContainer"]//div[2]//div[@class="ht_clone_top handsontable"]//thead/tr[2]/th[6]])
-16:22:07.621 INFO - Done: [find element: By.xpath: //div[@id="wrh_pinv_ListContainer"]//div[2]//div[@class="ht_clone_top handsontable"]//thead/tr[2]/th[6]]
-16:22:07.627 INFO - Executing: [get text: 58 [[ChromeDriver: chrome on LINUX (ce008d2efb122855b333c44a4ea7a450)] -> xpath: //div[@id="wrh_pinv_ListContainer"]//div[1]/table[1]//th]])
-16:22:07.695 INFO - Done: [get text: 58 [[ChromeDriver: chrome on LINUX (ce008d2efb122855b333c44a4ea7a450)] -> xpath: //div[@id="wrh_pinv_ListContainer"]//div[1]/table[1]//th]]
-16:22:07.702 INFO - Executing: [find elements: By.xpath: //div[@id="wrh_pinv_ListContainer"]//div[2]//div[@class="ht_clone_top handsontable"]//thead/tr[2]/th[7]])
-16:22:07.758 INFO - Done: [find elements: By.xpath: //div[@id="wrh_pinv_ListContainer"]//div[2]//div[@class="ht_clone_top handsontable"]//thead/tr[2]/th[7]]
-16:22:07.764 INFO - Executing: [find element: By.xpath: //div[@id="wrh_pinv_ListContainer"]//div[2]//div[@class="ht_clone_top handsontable"]//thead/tr[2]/th[7]])
-16:22:07.811 INFO - Done: [find element: By.xpath: //div[@id="wrh_pinv_ListContainer"]//div[2]//div[@class="ht_clone_top handsontable"]//thead/tr[2]/th[7]]
-16:22:07.818 INFO - Executing: [get text: 59 [[ChromeDriver: chrome on LINUX (ce008d2efb122855b333c44a4ea7a450)] -> xpath: //div[@id="wrh_pinv_ListContainer"]//div[1]/table[1]//th]])
-16:22:07.866 INFO - Done: [get text: 59 [[ChromeDriver: chrome on LINUX (ce008d2efb122855b333c44a4ea7a450)] -> xpath: //div[@id="wrh_pinv_ListContainer"]//div[1]/table[1]//th]]
-16:22:07.873 INFO - Executing: [find elements: By.xpath: //div[@id="wrh_pinv_ListContainer"]//div[2]//div[@class="ht_clone_top handsontable"]//thead/tr[2]/th[8]])
-16:22:07.919 INFO - Done: [find elements: By.xpath: //div[@id="wrh_pinv_ListContainer"]//div[2]//div[@class="ht_clone_top handsontable"]//thead/tr[2]/th[8]]
-16:22:07.925 INFO - Executing: [find element: By.xpath: //div[@id="wrh_pinv_ListContainer"]//div[2]//div[@class="ht_clone_top handsontable"]//thead/tr[2]/th[8]])
-16:22:07.965 INFO - Done: [find element: By.xpath: //div[@id="wrh_pinv_ListContainer"]//div[2]//div[@class="ht_clone_top handsontable"]//thead/tr[2]/th[8]]
-16:22:07.969 INFO - Executing: [get text: 60 [[ChromeDriver: chrome on LINUX (ce008d2efb122855b333c44a4ea7a450)] -> xpath: //div[@id="wrh_pinv_ListContainer"]//div[1]/table[1]//th]])
-16:22:08.016 INFO - Done: [get text: 60 [[ChromeDriver: chrome on LINUX (ce008d2efb122855b333c44a4ea7a450)] -> xpath: //div[@id="wrh_pinv_ListContainer"]//div[1]/table[1]//th]]
-16:22:08.022 INFO - Executing: [find elements: By.xpath: //div[@id="wrh_pinv_ListContainer"]//div[2]//div[@class="ht_clone_top handsontable"]//thead/tr[2]/th[9]])
-16:22:08.062 INFO - Done: [find elements: By.xpath: //div[@id="wrh_pinv_ListContainer"]//div[2]//div[@class="ht_clone_top handsontable"]//thead/tr[2]/th[9]]
-16:22:08.070 INFO - Executing: [find element: By.xpath: //div[@id="wrh_pinv_ListContainer"]//div[2]//div[@class="ht_clone_top handsontable"]//thead/tr[2]/th[9]])
-16:22:08.130 INFO - Done: [find element: By.xpath: //div[@id="wrh_pinv_ListContainer"]//div[2]//div[@class="ht_clone_top handsontable"]//thead/tr[2]/th[9]]
-16:22:08.135 INFO - Executing: [get text: 61 [[ChromeDriver: chrome on LINUX (ce008d2efb122855b333c44a4ea7a450)] -> xpath: //div[@id="wrh_pinv_ListContainer"]//div[1]/table[1]//th]])
-16:22:08.205 INFO - Done: [get text: 61 [[ChromeDriver: chrome on LINUX (ce008d2efb122855b333c44a4ea7a450)] -> xpath: //div[@id="wrh_pinv_ListContainer"]//div[1]/table[1]//th]]
-16:22:08.211 INFO - Executing: [find elements: By.xpath: //div[@id="wrh_pinv_ListContainer"]//div[2]//div[@class="ht_clone_top handsontable"]//thead/tr[2]/th[10]])
-16:22:08.262 INFO - Done: [find elements: By.xpath: //div[@id="wrh_pinv_ListContainer"]//div[2]//div[@class="ht_clone_top handsontable"]//thead/tr[2]/th[10]]
-16:22:08.271 INFO - Executing: [find element: By.xpath: //div[@id="wrh_pinv_ListContainer"]//div[2]//div[@class="ht_clone_top handsontable"]//thead/tr[2]/th[10]])
-16:22:08.311 INFO - Done: [find element: By.xpath: //div[@id="wrh_pinv_ListContainer"]//div[2]//div[@class="ht_clone_top handsontable"]//thead/tr[2]/th[10]]
-16:22:08.316 INFO - Executing: [get text: 62 [[ChromeDriver: chrome on LINUX (ce008d2efb122855b333c44a4ea7a450)] -> xpath: //div[@id="wrh_pinv_ListContainer"]//div[1]/table[1]//th]])
-16:22:08.365 INFO - Done: [get text: 62 [[ChromeDriver: chrome on LINUX (ce008d2efb122855b333c44a4ea7a450)] -> xpath: //div[@id="wrh_pinv_ListContainer"]//div[1]/table[1]//th]]
-16:22:08.371 INFO - Executing: [find elements: By.xpath: //div[@id="wrh_pinv_ListContainer"]//div[2]//div[@class="ht_clone_top handsontable"]//thead/tr[2]/th[11]])
-16:22:08.417 INFO - Done: [find elements: By.xpath: //div[@id="wrh_pinv_ListContainer"]//div[2]//div[@class="ht_clone_top handsontable"]//thead/tr[2]/th[11]]
-16:22:08.425 INFO - Executing: [find element: By.xpath: //div[@id="wrh_pinv_ListContainer"]//div[2]//div[@class="ht_clone_top handsontable"]//thead/tr[2]/th[11]])
-16:22:08.466 INFO - Done: [find element: By.xpath: //div[@id="wrh_pinv_ListContainer"]//div[2]//div[@class="ht_clone_top handsontable"]//thead/tr[2]/th[11]]
-16:22:08.471 INFO - Executing: [get text: 63 [[ChromeDriver: chrome on LINUX (ce008d2efb122855b333c44a4ea7a450)] -> xpath: //div[@id="wrh_pinv_ListContainer"]//div[1]/table[1]//th]])
-16:22:08.519 INFO - Done: [get text: 63 [[ChromeDriver: chrome on LINUX (ce008d2efb122855b333c44a4ea7a450)] -> xpath: //div[@id="wrh_pinv_ListContainer"]//div[1]/table[1]//th]]
-16:22:08.525 INFO - Executing: [find elements: By.xpath: //div[@id="wrh_pinv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[1]/td[1]])
-16:22:08.573 INFO - Done: [find elements: By.xpath: //div[@id="wrh_pinv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[1]/td[1]]
-16:22:08.579 INFO - Executing: [find element: By.xpath: //div[@id="wrh_pinv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[1]/td[1]])
-16:22:08.624 INFO - Done: [find element: By.xpath: //div[@id="wrh_pinv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[1]/td[1]]
-16:22:08.628 INFO - Executing: [get text: 64 [[ChromeDriver: chrome on LINUX (ce008d2efb122855b333c44a4ea7a450)] -> xpath: //div[@id="wrh_pinv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[1]/td[1]]])
-16:22:08.674 INFO - Done: [get text: 64 [[ChromeDriver: chrome on LINUX (ce008d2efb122855b333c44a4ea7a450)] -> xpath: //div[@id="wrh_pinv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[1]/td[1]]]
-16:22:08.680 INFO - Executing: [find elements: By.xpath: //div[@id="wrh_pinv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[1]/td[2]])
-16:22:08.736 INFO - Done: [find elements: By.xpath: //div[@id="wrh_pinv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[1]/td[2]]
-16:22:08.743 INFO - Executing: [find element: By.xpath: //div[@id="wrh_pinv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[1]/td[2]])
-16:22:08.789 INFO - Done: [find element: By.xpath: //div[@id="wrh_pinv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[1]/td[2]]
-16:22:08.797 INFO - Executing: [get text: 65 [[ChromeDriver: chrome on LINUX (ce008d2efb122855b333c44a4ea7a450)] -> xpath: //div[@id="wrh_pinv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[1]/td[2]]])
-16:22:08.840 INFO - Done: [get text: 65 [[ChromeDriver: chrome on LINUX (ce008d2efb122855b333c44a4ea7a450)] -> xpath: //div[@id="wrh_pinv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[1]/td[2]]]
-16:22:08.846 INFO - Executing: [find elements: By.xpath: //div[@id="wrh_pinv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[1]/td[3]])
-16:22:08.891 INFO - Done: [find elements: By.xpath: //div[@id="wrh_pinv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[1]/td[3]]
-16:22:08.898 INFO - Executing: [find element: By.xpath: //div[@id="wrh_pinv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[1]/td[3]])
-16:22:08.938 INFO - Done: [find element: By.xpath: //div[@id="wrh_pinv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[1]/td[3]]
-16:22:08.945 INFO - Executing: [get text: 66 [[ChromeDriver: chrome on LINUX (ce008d2efb122855b333c44a4ea7a450)] -> xpath: //div[@id="wrh_pinv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[1]/td[3]]])
-16:22:08.987 INFO - Done: [get text: 66 [[ChromeDriver: chrome on LINUX (ce008d2efb122855b333c44a4ea7a450)] -> xpath: //div[@id="wrh_pinv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[1]/td[3]]]
-16:22:08.993 INFO - Executing: [find elements: By.xpath: //div[@id="wrh_pinv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[1]/td[4]])
-16:22:09.031 INFO - Done: [find elements: By.xpath: //div[@id="wrh_pinv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[1]/td[4]]
-16:22:09.040 INFO - Executing: [find element: By.xpath: //div[@id="wrh_pinv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[1]/td[4]])
-16:22:09.081 INFO - Done: [find element: By.xpath: //div[@id="wrh_pinv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[1]/td[4]]
-16:22:09.086 INFO - Executing: [get text: 67 [[ChromeDriver: chrome on LINUX (ce008d2efb122855b333c44a4ea7a450)] -> xpath: //div[@id="wrh_pinv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[1]/td[4]]])
-16:22:09.131 INFO - Done: [get text: 67 [[ChromeDriver: chrome on LINUX (ce008d2efb122855b333c44a4ea7a450)] -> xpath: //div[@id="wrh_pinv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[1]/td[4]]]
-16:22:09.138 INFO - Executing: [find elements: By.xpath: //div[@id="wrh_pinv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[1]/td[7]])
-16:22:09.196 INFO - Done: [find elements: By.xpath: //div[@id="wrh_pinv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[1]/td[7]]
-16:22:09.202 INFO - Executing: [find element: By.xpath: //div[@id="wrh_pinv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[1]/td[7]])
-16:22:09.243 INFO - Done: [find element: By.xpath: //div[@id="wrh_pinv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[1]/td[7]]
-16:22:09.248 INFO - Executing: [get text: 68 [[ChromeDriver: chrome on LINUX (ce008d2efb122855b333c44a4ea7a450)] -> xpath: //div[@id="wrh_pinv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[1]/td[7]]])
-16:22:09.291 INFO - Done: [get text: 68 [[ChromeDriver: chrome on LINUX (ce008d2efb122855b333c44a4ea7a450)] -> xpath: //div[@id="wrh_pinv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[1]/td[7]]]
-16:22:09.296 INFO - Executing: [find elements: By.xpath: //div[@id="wrh_pinv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[1]/td[8]])
-16:22:09.337 INFO - Done: [find elements: By.xpath: //div[@id="wrh_pinv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[1]/td[8]]
-16:22:09.343 INFO - Executing: [find element: By.xpath: //div[@id="wrh_pinv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[1]/td[8]])
-16:22:09.381 INFO - Done: [find element: By.xpath: //div[@id="wrh_pinv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[1]/td[8]]
-16:22:09.392 INFO - Executing: [get text: 69 [[ChromeDriver: chrome on LINUX (ce008d2efb122855b333c44a4ea7a450)] -> xpath: //div[@id="wrh_pinv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[1]/td[8]]])
-16:22:09.444 INFO - Done: [get text: 69 [[ChromeDriver: chrome on LINUX (ce008d2efb122855b333c44a4ea7a450)] -> xpath: //div[@id="wrh_pinv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[1]/td[8]]]
-16:22:09.463 INFO - Executing: [find elements: By.xpath: //div[@id="wrh_pinv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[1]/td[9]])
-16:22:09.521 INFO - Done: [find elements: By.xpath: //div[@id="wrh_pinv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[1]/td[9]]
-16:22:09.527 INFO - Executing: [find element: By.xpath: //div[@id="wrh_pinv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[1]/td[9]])
-16:22:09.580 INFO - Done: [find element: By.xpath: //div[@id="wrh_pinv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[1]/td[9]]
-16:22:09.584 INFO - Executing: [get text: 70 [[ChromeDriver: chrome on LINUX (ce008d2efb122855b333c44a4ea7a450)] -> xpath: //div[@id="wrh_pinv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[1]/td[9]]])
-16:22:09.626 INFO - Done: [get text: 70 [[ChromeDriver: chrome on LINUX (ce008d2efb122855b333c44a4ea7a450)] -> xpath: //div[@id="wrh_pinv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[1]/td[9]]]
-16:22:09.631 INFO - Executing: [find elements: By.xpath: //div[@id="wrh_pinv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[1]/td[10]])
-16:22:09.670 INFO - Done: [find elements: By.xpath: //div[@id="wrh_pinv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[1]/td[10]]
-16:22:09.677 INFO - Executing: [find element: By.xpath: //div[@id="wrh_pinv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[1]/td[10]])
-16:22:09.716 INFO - Done: [find element: By.xpath: //div[@id="wrh_pinv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[1]/td[10]]
-16:22:09.720 INFO - Executing: [get text: 71 [[ChromeDriver: chrome on LINUX (ce008d2efb122855b333c44a4ea7a450)] -> xpath: //div[@id="wrh_pinv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[1]/td[10]]])
-16:22:09.764 INFO - Done: [get text: 71 [[ChromeDriver: chrome on LINUX (ce008d2efb122855b333c44a4ea7a450)] -> xpath: //div[@id="wrh_pinv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[1]/td[10]]]
-16:22:09.768 INFO - Executing: [find elements: By.xpath: //div[@id="wrh_pinv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[1]/td[11]])
-16:22:09.808 INFO - Done: [find elements: By.xpath: //div[@id="wrh_pinv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[1]/td[11]]
-16:22:09.814 INFO - Executing: [find element: By.xpath: //div[@id="wrh_pinv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[1]/td[11]])
-16:22:09.851 INFO - Done: [find element: By.xpath: //div[@id="wrh_pinv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[1]/td[11]]
-16:22:09.854 INFO - Executing: [get text: 72 [[ChromeDriver: chrome on LINUX (ce008d2efb122855b333c44a4ea7a450)] -> xpath: //div[@id="wrh_pinv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[1]/td[11]]])
-16:22:09.894 INFO - Done: [get text: 72 [[ChromeDriver: chrome on LINUX (ce008d2efb122855b333c44a4ea7a450)] -> xpath: //div[@id="wrh_pinv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[1]/td[11]]]
-16:22:09.913 INFO - Executing: [find elements: By.cssSelector: #wrh_pinv_ListContainer_splitter])
-16:22:09.928 INFO - Done: [find elements: By.cssSelector: #wrh_pinv_ListContainer_splitter]
-16:22:09.933 INFO - Executing: [find element: By.cssSelector: #wrh_pinv_ListContainer_splitter])
-16:22:09.951 INFO - Done: [find element: By.cssSelector: #wrh_pinv_ListContainer_splitter]
-16:22:09.955 INFO - Executing: [mousemove: 38 true])
-16:22:09.974 INFO - Done: [mousemove: 38 true]
-16:22:09.978 INFO - Executing: [mousedown: no args])
-16:22:09.990 INFO - Done: [mousedown: no args]
-16:22:09.995 INFO - Executing: [find element: By.cssSelector: #wrh_pinv_PageContainer])
-16:22:10.016 INFO - Done: [find element: By.cssSelector: #wrh_pinv_PageContainer]
-16:22:10.023 INFO - Executing: [mousemove: 39 true])
-16:22:10.118 INFO - Done: [mousemove: 39 true]
-16:22:10.124 INFO - Executing: [mouseup: nothing])
-16:22:10.209 INFO - Done: [mouseup: nothing]
-16:22:10.215 INFO - Executing: [find element: By.xpath: //div[@id="wrh_pinv_DetailHeader"]/table[4]/tbody/tr/td[1]/table//span[@role="option"]])
-16:22:10.237 INFO - Done: [find element: By.xpath: //div[@id="wrh_pinv_DetailHeader"]/table[4]/tbody/tr/td[1]/table//span[@role="option"]]
-16:22:10.246 INFO - Executing: [mousemove: 73 true])
-16:22:10.301 INFO - Done: [mousemove: 73 true]
-16:22:10.306 INFO - Executing: [doubleclick: no args])
-16:22:10.330 INFO - Done: [doubleclick: no args]
-16:22:10.336 INFO - Executing: [find elements: By.xpath: //td[text()="USD (Американский доллар)"]])
-16:22:10.418 INFO - Done: [find elements: By.xpath: //td[text()="USD (Американский доллар)"]]
-16:22:10.424 INFO - Executing: [is displayed: 74 [[ChromeDriver: chrome on LINUX (ce008d2efb122855b333c44a4ea7a450)] -> xpath: //td[text()="USD (Американский доллар)"]]])
-16:22:10.467 INFO - Done: [is displayed: 74 [[ChromeDriver: chrome on LINUX (ce008d2efb122855b333c44a4ea7a450)] -> xpath: //td[text()="USD (Американский доллар)"]]]
-16:22:10.475 INFO - Executing: [find element: By.xpath: //td[text()="USD (Американский доллар)"]])
-16:22:10.538 INFO - Done: [find element: By.xpath: //td[text()="USD (Американский доллар)"]]
-16:22:10.543 INFO - Executing: [click: 74 [[ChromeDriver: chrome on LINUX (ce008d2efb122855b333c44a4ea7a450)] -> xpath: //td[text()="USD (Американский доллар)"]]])
-16:22:10.669 INFO - Done: [click: 74 [[ChromeDriver: chrome on LINUX (ce008d2efb122855b333c44a4ea7a450)] -> xpath: //td[text()="USD (Американский доллар)"]]]
-16:22:10.679 INFO - Executing: [find elements: By.xpath: //div[@id="wrh_pinv_RightContainer"]//span[text()="Сохранить накладную"]])
-16:22:10.719 INFO - Done: [find elements: By.xpath: //div[@id="wrh_pinv_RightContainer"]//span[text()="Сохранить накладную"]]
-16:22:10.723 INFO - Executing: [is displayed: 37 [[ChromeDriver: chrome on LINUX (ce008d2efb122855b333c44a4ea7a450)] -> xpath: //div[@id="wrh_pinv_RightContainer"]//span[text()="Сохранить накладную"]]])
-16:22:10.749 INFO - Done: [is displayed: 37 [[ChromeDriver: chrome on LINUX (ce008d2efb122855b333c44a4ea7a450)] -> xpath: //div[@id="wrh_pinv_RightContainer"]//span[text()="Сохранить накладную"]]]
-16:22:10.759 INFO - Executing: [find element: By.xpath: //div[@id="wrh_pinv_RightContainer"]//span[text()="Сохранить накладную"]])
-16:22:10.812 INFO - Done: [find element: By.xpath: //div[@id="wrh_pinv_RightContainer"]//span[text()="Сохранить накладную"]]
-16:22:10.820 INFO - Executing: [click: 37 [[ChromeDriver: chrome on LINUX (ce008d2efb122855b333c44a4ea7a450)] -> xpath: //div[@id="wrh_pinv_RightContainer"]//span[text()="Сохранить накладную"]]])
-16:22:10.897 INFO - Done: [click: 37 [[ChromeDriver: chrome on LINUX (ce008d2efb122855b333c44a4ea7a450)] -> xpath: //div[@id="wrh_pinv_RightContainer"]//span[text()="Сохранить накладную"]]]
-16:22:10.904 INFO - Executing: [find elements: By.cssSelector: #wrh_pinv_ListContainer_splitter])
-16:22:10.929 INFO - Done: [find elements: By.cssSelector: #wrh_pinv_ListContainer_splitter]
-16:22:10.938 INFO - Executing: [find element: By.cssSelector: #wrh_pinv_ListContainer_splitter])
-16:22:11.168 INFO - Done: [find element: By.cssSelector: #wrh_pinv_ListContainer_splitter]
-16:22:11.173 INFO - Executing: [mousemove: 38 true])
-16:22:11.205 INFO - Done: [mousemove: 38 true]
-16:22:11.211 INFO - Executing: [mousedown: no args])
-16:22:11.221 INFO - Done: [mousedown: no args]
-16:22:11.228 INFO - Executing: [find element: By.cssSelector: #wrh_pinv_PageContainer])
-16:22:11.245 INFO - Done: [find element: By.cssSelector: #wrh_pinv_PageContainer]
-16:22:11.251 INFO - Executing: [mousemove: 39 true])
-16:22:11.349 INFO - Done: [mousemove: 39 true]
-16:22:11.354 INFO - Executing: [mouseup: nothing])
-16:22:11.448 INFO - Done: [mouseup: nothing]
-16:22:12.455 INFO - Executing: [find elements: By.xpath: //div[@id="wrh_pinv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[1]/td[10]])
-16:22:12.477 INFO - Done: [find elements: By.xpath: //div[@id="wrh_pinv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[1]/td[10]]
-16:22:12.482 INFO - Executing: [find element: By.xpath: //div[@id="wrh_pinv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[1]/td[10]])
-16:22:12.503 INFO - Done: [find element: By.xpath: //div[@id="wrh_pinv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[1]/td[10]]
-16:22:12.507 INFO - Executing: [get text: 75 [[ChromeDriver: chrome on LINUX (ce008d2efb122855b333c44a4ea7a450)] -> xpath: //div[@id="wrh_pinv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[1]/td[10]]])
-16:22:12.548 INFO - Done: [get text: 75 [[ChromeDriver: chrome on LINUX (ce008d2efb122855b333c44a4ea7a450)] -> xpath: //div[@id="wrh_pinv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[1]/td[10]]]
-16:22:12.566 INFO - Executing: [find elements: By.cssSelector: #wrh_pinv_ListContainer_splitter])
-16:22:12.584 INFO - Done: [find elements: By.cssSelector: #wrh_pinv_ListContainer_splitter]
-16:22:12.590 INFO - Executing: [find element: By.cssSelector: #wrh_pinv_ListContainer_splitter])
-16:22:12.607 INFO - Done: [find element: By.cssSelector: #wrh_pinv_ListContainer_splitter]
-16:22:12.613 INFO - Executing: [mousemove: 38 true])
-16:22:12.631 INFO - Done: [mousemove: 38 true]
-16:22:12.636 INFO - Executing: [mousedown: no args])
-16:22:12.652 INFO - Done: [mousedown: no args]
-16:22:12.658 INFO - Executing: [find element: By.cssSelector: #wrh_pinv_PageContainer])
-16:22:12.677 INFO - Done: [find element: By.cssSelector: #wrh_pinv_PageContainer]
-16:22:12.681 INFO - Executing: [mousemove: 39 true])
-16:22:12.764 INFO - Done: [mousemove: 39 true]
-16:22:12.773 INFO - Executing: [mouseup: nothing])
-16:22:12.861 INFO - Done: [mouseup: nothing]
-16:22:12.867 INFO - Executing: [find elements: By.xpath: //div[@id="wrh_pinv_RightContainer"]//span[text()="Новая накладная"]])
-16:22:12.888 INFO - Done: [find elements: By.xpath: //div[@id="wrh_pinv_RightContainer"]//span[text()="Новая накладная"]]
-16:22:12.891 INFO - Executing: [is displayed: 33 [[ChromeDriver: chrome on LINUX (ce008d2efb122855b333c44a4ea7a450)] -> xpath: //div[@id="wrh_pinv_RightContainer"]//span[text()="Новая накладная"]]])
-16:22:12.913 INFO - Done: [is displayed: 33 [[ChromeDriver: chrome on LINUX (ce008d2efb122855b333c44a4ea7a450)] -> xpath: //div[@id="wrh_pinv_RightContainer"]//span[text()="Новая накладная"]]]
-16:22:12.919 INFO - Executing: [find element: By.xpath: //div[@id="wrh_pinv_RightContainer"]//span[text()="Новая накладная"]])
-16:22:12.938 INFO - Done: [find element: By.xpath: //div[@id="wrh_pinv_RightContainer"]//span[text()="Новая накладная"]]
-16:22:12.943 INFO - Executing: [click: 33 [[ChromeDriver: chrome on LINUX (ce008d2efb122855b333c44a4ea7a450)] -> xpath: //div[@id="wrh_pinv_RightContainer"]//span[text()="Новая накладная"]]])
-16:22:13.006 INFO - Done: [click: 33 [[ChromeDriver: chrome on LINUX (ce008d2efb122855b333c44a4ea7a450)] -> xpath: //div[@id="wrh_pinv_RightContainer"]//span[text()="Новая накладная"]]]
-16:22:13.015 INFO - Executing: [find element: By.xpath: //div[@id="wrh_pinv_DetailHeader"]/table[1]/tbody/tr/th[1]])
-16:22:13.177 INFO - Done: [find element: By.xpath: //div[@id="wrh_pinv_DetailHeader"]/table[1]/tbody/tr/th[1]]
-16:22:13.186 INFO - Executing: [get text: 7 [[ChromeDriver: chrome on LINUX (ce008d2efb122855b333c44a4ea7a450)] -> xpath: //div[@id="wrh_pinv_DetailHeader"]/table[1]/tbody/tr/th[1]]])
-16:22:13.215 INFO - Done: [get text: 7 [[ChromeDriver: chrome on LINUX (ce008d2efb122855b333c44a4ea7a450)] -> xpath: //div[@id="wrh_pinv_DetailHeader"]/table[1]/tbody/tr/th[1]]]
-16:22:13.223 INFO - Executing: [find element: By.xpath: //div[@id="wrh_pinv_DetailHeader"]/table[2]/tbody/tr/td[1]/table//input[@role="presentation"]/ancestor::tr])
-16:22:13.246 INFO - Done: [find element: By.xpath: //div[@id="wrh_pinv_DetailHeader"]/table[2]/tbody/tr/td[1]/table//input[@role="presentation"]/ancestor::tr]
-16:22:13.251 INFO - Executing: [get text: 34 [[ChromeDriver: chrome on LINUX (ce008d2efb122855b333c44a4ea7a450)] -> xpath: //div[@id="wrh_pinv_DetailHeader"]/table[2]/tbody/tr/td[1]/table//input[@role="presentation"]/ancestor::tr]])
-16:22:13.309 INFO - Done: [get text: 34 [[ChromeDriver: chrome on LINUX (ce008d2efb122855b333c44a4ea7a450)] -> xpath: //div[@id="wrh_pinv_DetailHeader"]/table[2]/tbody/tr/td[1]/table//input[@role="presentation"]/ancestor::tr]]
-16:22:13.321 INFO - Executing: [find element: By.xpath: //div[@id="wrh_pinv_DetailHeader"]/table[3]/tbody/tr/td[1]/table//span[@role="option"]])
-16:22:13.345 INFO - Done: [find element: By.xpath: //div[@id="wrh_pinv_DetailHeader"]/table[3]/tbody/tr/td[1]/table//span[@role="option"]]
-16:22:13.353 INFO - Executing: [get text: 76 [[ChromeDriver: chrome on LINUX (ce008d2efb122855b333c44a4ea7a450)] -> xpath: //div[@id="wrh_pinv_DetailHeader"]/table[3]/tbody/tr/td[1]/table//span[@role="option"]]])
-16:22:13.413 INFO - Done: [get text: 76 [[ChromeDriver: chrome on LINUX (ce008d2efb122855b333c44a4ea7a450)] -> xpath: //div[@id="wrh_pinv_DetailHeader"]/table[3]/tbody/tr/td[1]/table//span[@role="option"]]]
-16:22:13.420 INFO - Executing: [find element: By.xpath: //div[@id="wrh_pinv_DetailHeader"]/table[4]/tbody/tr/td[1]/table//span[@role="option"]])
-16:22:13.447 INFO - Done: [find element: By.xpath: //div[@id="wrh_pinv_DetailHeader"]/table[4]/tbody/tr/td[1]/table//span[@role="option"]]
-16:22:13.451 INFO - Executing: [get text: 77 [[ChromeDriver: chrome on LINUX (ce008d2efb122855b333c44a4ea7a450)] -> xpath: //div[@id="wrh_pinv_DetailHeader"]/table[4]/tbody/tr/td[1]/table//span[@role="option"]]])
-16:22:13.499 INFO - Done: [get text: 77 [[ChromeDriver: chrome on LINUX (ce008d2efb122855b333c44a4ea7a450)] -> xpath: //div[@id="wrh_pinv_DetailHeader"]/table[4]/tbody/tr/td[1]/table//span[@role="option"]]]
-16:22:13.508 INFO - Executing: [find elements: By.xpath: //div[@id="wrh_pinv_RightContainer"]//span[text()="Сохранить накладную"]])
-16:22:13.527 INFO - Done: [find elements: By.xpath: //div[@id="wrh_pinv_RightContainer"]//span[text()="Сохранить накладную"]]
-16:22:13.531 INFO - Executing: [is displayed: 37 [[ChromeDriver: chrome on LINUX (ce008d2efb122855b333c44a4ea7a450)] -> xpath: //div[@id="wrh_pinv_RightContainer"]//span[text()="Сохранить накладную"]]])
-16:22:13.552 INFO - Done: [is displayed: 37 [[ChromeDriver: chrome on LINUX (ce008d2efb122855b333c44a4ea7a450)] -> xpath: //div[@id="wrh_pinv_RightContainer"]//span[text()="Сохранить накладную"]]]
-16:22:13.558 INFO - Executing: [find element: By.xpath: //div[@id="wrh_pinv_RightContainer"]//span[text()="Сохранить накладную"]])
-16:22:13.575 INFO - Done: [find element: By.xpath: //div[@id="wrh_pinv_RightContainer"]//span[text()="Сохранить накладную"]]
-16:22:13.579 INFO - Executing: [click: 37 [[ChromeDriver: chrome on LINUX (ce008d2efb122855b333c44a4ea7a450)] -> xpath: //div[@id="wrh_pinv_RightContainer"]//span[text()="Сохранить накладную"]]])
-16:22:13.633 INFO - Done: [click: 37 [[ChromeDriver: chrome on LINUX (ce008d2efb122855b333c44a4ea7a450)] -> xpath: //div[@id="wrh_pinv_RightContainer"]//span[text()="Сохранить накладную"]]]
-16:22:13.663 INFO - Executing: [find elements: By.cssSelector: #wrh_pinv_ListContainer_splitter])
-16:22:13.681 INFO - Done: [find elements: By.cssSelector: #wrh_pinv_ListContainer_splitter]
-16:22:13.687 INFO - Executing: [find element: By.cssSelector: #wrh_pinv_ListContainer_splitter])
-16:22:13.974 INFO - Done: [find element: By.cssSelector: #wrh_pinv_ListContainer_splitter]
-16:22:13.980 INFO - Executing: [mousemove: 38 true])
-16:22:14.027 INFO - Done: [mousemove: 38 true]
-16:22:14.037 INFO - Executing: [mousedown: no args])
-16:22:14.054 INFO - Done: [mousedown: no args]
-16:22:14.067 INFO - Executing: [find element: By.cssSelector: #wrh_pinv_PageContainer])
-16:22:14.117 INFO - Done: [find element: By.cssSelector: #wrh_pinv_PageContainer]
-16:22:14.122 INFO - Executing: [mousemove: 39 true])
-16:22:14.228 INFO - Done: [mousemove: 39 true]
-16:22:14.233 INFO - Executing: [mouseup: nothing])
-16:22:14.340 INFO - Done: [mouseup: nothing]
-16:22:14.345 INFO - Executing: [find elements: By.xpath: //div[@id="wrh_pinv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[2]/td[1]])
-16:22:14.399 INFO - Done: [find elements: By.xpath: //div[@id="wrh_pinv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[2]/td[1]]
-16:22:14.406 INFO - Executing: [find element: By.xpath: //div[@id="wrh_pinv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[2]/td[1]])
-16:22:14.462 INFO - Done: [find element: By.xpath: //div[@id="wrh_pinv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[2]/td[1]]
-16:22:14.467 INFO - Executing: [get text: 78 [[ChromeDriver: chrome on LINUX (ce008d2efb122855b333c44a4ea7a450)] -> xpath: //div[@id="wrh_pinv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[2]/td[1]]])
-16:22:14.519 INFO - Done: [get text: 78 [[ChromeDriver: chrome on LINUX (ce008d2efb122855b333c44a4ea7a450)] -> xpath: //div[@id="wrh_pinv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[2]/td[1]]]
-16:22:14.524 INFO - Executing: [find elements: By.xpath: //div[@id="wrh_pinv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[2]/td[2]])
-16:22:14.566 INFO - Done: [find elements: By.xpath: //div[@id="wrh_pinv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[2]/td[2]]
-16:22:14.572 INFO - Executing: [find element: By.xpath: //div[@id="wrh_pinv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[2]/td[2]])
-16:22:14.620 INFO - Done: [find element: By.xpath: //div[@id="wrh_pinv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[2]/td[2]]
-16:22:14.624 INFO - Executing: [get text: 79 [[ChromeDriver: chrome on LINUX (ce008d2efb122855b333c44a4ea7a450)] -> xpath: //div[@id="wrh_pinv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[2]/td[2]]])
-16:22:14.669 INFO - Done: [get text: 79 [[ChromeDriver: chrome on LINUX (ce008d2efb122855b333c44a4ea7a450)] -> xpath: //div[@id="wrh_pinv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[2]/td[2]]]
-16:22:14.674 INFO - Executing: [find elements: By.xpath: //div[@id="wrh_pinv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[2]/td[3]])
-16:22:14.720 INFO - Done: [find elements: By.xpath: //div[@id="wrh_pinv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[2]/td[3]]
-16:22:14.725 INFO - Executing: [find element: By.xpath: //div[@id="wrh_pinv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[2]/td[3]])
-16:22:14.763 INFO - Done: [find element: By.xpath: //div[@id="wrh_pinv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[2]/td[3]]
-16:22:14.766 INFO - Executing: [get text: 80 [[ChromeDriver: chrome on LINUX (ce008d2efb122855b333c44a4ea7a450)] -> xpath: //div[@id="wrh_pinv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[2]/td[3]]])
-16:22:14.809 INFO - Done: [get text: 80 [[ChromeDriver: chrome on LINUX (ce008d2efb122855b333c44a4ea7a450)] -> xpath: //div[@id="wrh_pinv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[2]/td[3]]]
-16:22:14.814 INFO - Executing: [find elements: By.xpath: //div[@id="wrh_pinv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[2]/td[4]])
-16:22:14.857 INFO - Done: [find elements: By.xpath: //div[@id="wrh_pinv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[2]/td[4]]
-16:22:14.861 INFO - Executing: [find element: By.xpath: //div[@id="wrh_pinv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[2]/td[4]])
-16:22:14.897 INFO - Done: [find element: By.xpath: //div[@id="wrh_pinv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[2]/td[4]]
-16:22:14.901 INFO - Executing: [get text: 81 [[ChromeDriver: chrome on LINUX (ce008d2efb122855b333c44a4ea7a450)] -> xpath: //div[@id="wrh_pinv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[2]/td[4]]])
-16:22:14.943 INFO - Done: [get text: 81 [[ChromeDriver: chrome on LINUX (ce008d2efb122855b333c44a4ea7a450)] -> xpath: //div[@id="wrh_pinv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[2]/td[4]]]
-16:22:14.947 INFO - Executing: [find elements: By.xpath: //div[@id="wrh_pinv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[2]/td[7]])
-16:22:14.994 INFO - Done: [find elements: By.xpath: //div[@id="wrh_pinv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[2]/td[7]]
-16:22:14.999 INFO - Executing: [find element: By.xpath: //div[@id="wrh_pinv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[2]/td[7]])
-16:22:15.044 INFO - Done: [find element: By.xpath: //div[@id="wrh_pinv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[2]/td[7]]
-16:22:15.047 INFO - Executing: [get text: 82 [[ChromeDriver: chrome on LINUX (ce008d2efb122855b333c44a4ea7a450)] -> xpath: //div[@id="wrh_pinv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[2]/td[7]]])
-16:22:15.095 INFO - Done: [get text: 82 [[ChromeDriver: chrome on LINUX (ce008d2efb122855b333c44a4ea7a450)] -> xpath: //div[@id="wrh_pinv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[2]/td[7]]]
-16:22:15.100 INFO - Executing: [find elements: By.xpath: //div[@id="wrh_pinv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[2]/td[8]])
-16:22:15.143 INFO - Done: [find elements: By.xpath: //div[@id="wrh_pinv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[2]/td[8]]
-16:22:15.151 INFO - Executing: [find element: By.xpath: //div[@id="wrh_pinv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[2]/td[8]])
-16:22:15.191 INFO - Done: [find element: By.xpath: //div[@id="wrh_pinv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[2]/td[8]]
-16:22:15.195 INFO - Executing: [get text: 83 [[ChromeDriver: chrome on LINUX (ce008d2efb122855b333c44a4ea7a450)] -> xpath: //div[@id="wrh_pinv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[2]/td[8]]])
-16:22:15.236 INFO - Done: [get text: 83 [[ChromeDriver: chrome on LINUX (ce008d2efb122855b333c44a4ea7a450)] -> xpath: //div[@id="wrh_pinv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[2]/td[8]]]
-16:22:15.241 INFO - Executing: [find elements: By.xpath: //div[@id="wrh_pinv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[2]/td[9]])
-16:22:15.281 INFO - Done: [find elements: By.xpath: //div[@id="wrh_pinv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[2]/td[9]]
-16:22:15.285 INFO - Executing: [find element: By.xpath: //div[@id="wrh_pinv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[2]/td[9]])
-16:22:15.322 INFO - Done: [find element: By.xpath: //div[@id="wrh_pinv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[2]/td[9]]
-16:22:15.326 INFO - Executing: [get text: 84 [[ChromeDriver: chrome on LINUX (ce008d2efb122855b333c44a4ea7a450)] -> xpath: //div[@id="wrh_pinv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[2]/td[9]]])
-16:22:15.369 INFO - Done: [get text: 84 [[ChromeDriver: chrome on LINUX (ce008d2efb122855b333c44a4ea7a450)] -> xpath: //div[@id="wrh_pinv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[2]/td[9]]]
-16:22:15.373 INFO - Executing: [find elements: By.xpath: //div[@id="wrh_pinv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[2]/td[10]])
-16:22:15.410 INFO - Done: [find elements: By.xpath: //div[@id="wrh_pinv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[2]/td[10]]
-16:22:15.415 INFO - Executing: [find element: By.xpath: //div[@id="wrh_pinv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[2]/td[10]])
-16:22:15.456 INFO - Done: [find element: By.xpath: //div[@id="wrh_pinv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[2]/td[10]]
-16:22:15.460 INFO - Executing: [get text: 85 [[ChromeDriver: chrome on LINUX (ce008d2efb122855b333c44a4ea7a450)] -> xpath: //div[@id="wrh_pinv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[2]/td[10]]])
-16:22:15.500 INFO - Done: [get text: 85 [[ChromeDriver: chrome on LINUX (ce008d2efb122855b333c44a4ea7a450)] -> xpath: //div[@id="wrh_pinv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[2]/td[10]]]
-16:22:15.505 INFO - Executing: [find elements: By.xpath: //div[@id="wrh_pinv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[2]/td[11]])
-16:22:15.550 INFO - Done: [find elements: By.xpath: //div[@id="wrh_pinv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[2]/td[11]]
-16:22:15.557 INFO - Executing: [find element: By.xpath: //div[@id="wrh_pinv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[2]/td[11]])
-16:22:15.609 INFO - Done: [find element: By.xpath: //div[@id="wrh_pinv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[2]/td[11]]
-16:22:15.613 INFO - Executing: [get text: 86 [[ChromeDriver: chrome on LINUX (ce008d2efb122855b333c44a4ea7a450)] -> xpath: //div[@id="wrh_pinv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[2]/td[11]]])
-16:22:15.666 INFO - Done: [get text: 86 [[ChromeDriver: chrome on LINUX (ce008d2efb122855b333c44a4ea7a450)] -> xpath: //div[@id="wrh_pinv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[2]/td[11]]]
-16:22:15.687 INFO - Executing: [find elements: By.xpath: //div[@id="wrh_pinv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[1]/td[1]])
-16:22:15.705 INFO - Done: [find elements: By.xpath: //div[@id="wrh_pinv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[1]/td[1]]
-16:22:15.711 INFO - Executing: [find element: By.xpath: //div[@id="wrh_pinv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[1]/td[1]])
-16:22:15.726 INFO - Done: [find element: By.xpath: //div[@id="wrh_pinv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[1]/td[1]]
-16:22:15.731 INFO - Executing: [mousemove: 64 true])
-16:22:15.779 INFO - Done: [mousemove: 64 true]
-16:22:15.785 INFO - Executing: [click: nothing])
-16:22:15.883 INFO - Done: [click: nothing]
-16:22:15.890 INFO - Executing: [find element: By.xpath: //div[@id="wrh_pinv_RightContainer"]//span[text()="Удалить накладную"]])
-16:22:16.041 INFO - Done: [find element: By.xpath: //div[@id="wrh_pinv_RightContainer"]//span[text()="Удалить накладную"]]
-16:22:16.047 INFO - Executing: [click: 87 [[ChromeDriver: chrome on LINUX (ce008d2efb122855b333c44a4ea7a450)] -> xpath: //div[@id="wrh_pinv_RightContainer"]//span[text()="Удалить накладную"]]])
-16:22:16.182 INFO - Done: [click: 87 [[ChromeDriver: chrome on LINUX (ce008d2efb122855b333c44a4ea7a450)] -> xpath: //div[@id="wrh_pinv_RightContainer"]//span[text()="Удалить накладную"]]]
-16:22:16.187 INFO - Executing: [find elements: By.xpath: //div[@id="wrh_pinv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[1]/td[1]])
-16:22:16.207 INFO - Done: [find elements: By.xpath: //div[@id="wrh_pinv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[1]/td[1]]
-16:22:16.213 INFO - Executing: [find element: By.xpath: //div[@id="wrh_pinv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[1]/td[1]])
-16:22:16.553 INFO - Done: [find element: By.xpath: //div[@id="wrh_pinv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[1]/td[1]]
-16:22:16.556 INFO - Executing: [get text: 64 [[ChromeDriver: chrome on LINUX (ce008d2efb122855b333c44a4ea7a450)] -> xpath: //div[@id="wrh_pinv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[1]/td[1]]])
-16:22:16.775 INFO - Done: [get text: 64 [[ChromeDriver: chrome on LINUX (ce008d2efb122855b333c44a4ea7a450)] -> xpath: //div[@id="wrh_pinv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[1]/td[1]]]
-16:22:16.781 INFO - Executing: [find elements: By.xpath: //div[@id="wrh_pinv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[1]/td[1]])
-16:22:16.825 INFO - Done: [find elements: By.xpath: //div[@id="wrh_pinv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[1]/td[1]]
-16:22:16.832 INFO - Executing: [find element: By.xpath: //div[@id="wrh_pinv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[1]/td[1]])
-16:22:16.858 INFO - Done: [find element: By.xpath: //div[@id="wrh_pinv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[1]/td[1]]
-16:22:16.865 INFO - Executing: [mousemove: 64 true])
-16:22:16.905 INFO - Done: [mousemove: 64 true]
-16:22:16.909 INFO - Executing: [click: nothing])
-16:22:16.975 INFO - Done: [click: nothing]
-16:22:16.980 INFO - Executing: [find element: By.xpath: //div[@id="wrh_pinv_RightContainer"]//span[text()="Удалить накладную"]])
-16:22:17.004 INFO - Done: [find element: By.xpath: //div[@id="wrh_pinv_RightContainer"]//span[text()="Удалить накладную"]]
-16:22:17.008 INFO - Executing: [click: 87 [[ChromeDriver: chrome on LINUX (ce008d2efb122855b333c44a4ea7a450)] -> xpath: //div[@id="wrh_pinv_RightContainer"]//span[text()="Удалить накладную"]]])
-16:22:17.074 INFO - Done: [click: 87 [[ChromeDriver: chrome on LINUX (ce008d2efb122855b333c44a4ea7a450)] -> xpath: //div[@id="wrh_pinv_RightContainer"]//span[text()="Удалить накладную"]]]
-16:22:17.080 INFO - Executing: [find elements: By.xpath: //div[@id="wrh_pinv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[1]/td[1]])
-16:22:17.100 INFO - Done: [find elements: By.xpath: //div[@id="wrh_pinv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[1]/td[1]]
-16:22:17.612 INFO - Executing: [find elements: By.xpath: //div[@id="wrh_pinv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[1]/td[1]])
-16:22:17.638 INFO - Done: [find elements: By.xpath: //div[@id="wrh_pinv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[1]/td[1]]
+12:01:30.357 INFO - Detected dialect: OSS
+12:01:30.407 INFO - Done: [new session: Capabilities [{acceptSslCerts=true, name=Main / Main 1 Header Tests, browserName=chrome, javascriptEnabled=true, platform=ANY}]]
+12:01:30.449 INFO - Executing: [maximise window])
+12:01:30.641 INFO - Done: [maximise window]
+12:01:30.652 INFO - Executing: [get: http://localhost:8181])
+12:01:32.348 INFO - Done: [get: http://localhost:8181]
+12:01:32.397 INFO - Executing: [find elements: By.cssSelector: #loginDialog])
+12:01:32.474 INFO - Done: [find elements: By.cssSelector: #loginDialog]
+12:01:32.488 INFO - Executing: [is displayed: 0 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> css selector: #loginDialog]])
+12:01:32.543 INFO - Done: [is displayed: 0 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> css selector: #loginDialog]]
+12:01:32.560 INFO - Executing: [find element: By.cssSelector: #user_name])
+12:01:32.607 INFO - Done: [find element: By.cssSelector: #user_name]
+12:01:32.621 INFO - Executing: [get element attribute: 1 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> css selector: #user_name], value])
+12:01:32.641 INFO - Done: [get element attribute: 1 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> css selector: #user_name], value]
+12:01:32.652 INFO - Executing: [find element: By.cssSelector: #user_password])
+12:01:32.702 INFO - Done: [find element: By.cssSelector: #user_password]
+12:01:32.708 INFO - Executing: [get element attribute: 2 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> css selector: #user_password], value])
+12:01:32.724 INFO - Done: [get element attribute: 2 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> css selector: #user_password], value]
+12:01:32.734 INFO - Executing: [find element: By.cssSelector: #user_name])
+12:01:32.757 INFO - Done: [find element: By.cssSelector: #user_name]
+12:01:32.766 INFO - Executing: [send keys: 1 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> css selector: #user_name], [u, s, e, r]])
+12:01:32.882 INFO - Done: [send keys: 1 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> css selector: #user_name], [u, s, e, r]]
+12:01:32.890 INFO - Executing: [find element: By.cssSelector: #user_password])
+12:01:32.909 INFO - Done: [find element: By.cssSelector: #user_password]
+12:01:32.920 INFO - Executing: [send keys: 2 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> css selector: #user_password], [u, s, e, r]])
+12:01:33.029 INFO - Done: [send keys: 2 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> css selector: #user_password], [u, s, e, r]]
+12:01:33.040 INFO - Executing: [find element: By.xpath: //div[@id="loginDialog"]//span[@class="dijitReset dijitInline dijitButtonText" and text()="Войти"]])
+12:01:33.086 INFO - Done: [find element: By.xpath: //div[@id="loginDialog"]//span[@class="dijitReset dijitInline dijitButtonText" and text()="Войти"]]
+12:01:33.093 INFO - Executing: [click: 3 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> xpath: //div[@id="loginDialog"]//span[@class="dijitReset dijitInline dijitButtonText" and text()="Войти"]]])
+12:01:33.217 INFO - Done: [click: 3 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> xpath: //div[@id="loginDialog"]//span[@class="dijitReset dijitInline dijitButtonText" and text()="Войти"]]]
+12:01:33.270 INFO - Executing: [find elements: By.cssSelector: #menuBarWrh])
+12:01:34.352 INFO - Done: [find elements: By.cssSelector: #menuBarWrh]
+12:01:34.363 INFO - Executing: [is displayed: 4 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> css selector: #menuBarWrh]])
+12:01:34.418 INFO - Done: [is displayed: 4 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> css selector: #menuBarWrh]]
+12:01:34.425 INFO - Executing: [find element: By.cssSelector: #menuBarWrh])
+12:01:34.469 INFO - Done: [find element: By.cssSelector: #menuBarWrh]
+12:01:34.478 INFO - Executing: [click: 4 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> css selector: #menuBarWrh]])
+12:01:34.618 INFO - Done: [click: 4 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> css selector: #menuBarWrh]]
+12:01:34.626 INFO - Executing: [find elements: By.cssSelector: #menuBarWrhInvoices])
+12:01:34.669 INFO - Done: [find elements: By.cssSelector: #menuBarWrhInvoices]
+12:01:34.675 INFO - Executing: [is displayed: 5 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> css selector: #menuBarWrhInvoices]])
+12:01:34.721 INFO - Done: [is displayed: 5 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> css selector: #menuBarWrhInvoices]]
+12:01:34.730 INFO - Executing: [find element: By.cssSelector: #menuBarWrhInvoices])
+12:01:34.769 INFO - Done: [find element: By.cssSelector: #menuBarWrhInvoices]
+12:01:34.782 INFO - Executing: [click: 5 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> css selector: #menuBarWrhInvoices]])
+12:01:34.929 INFO - Done: [click: 5 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> css selector: #menuBarWrhInvoices]]
+12:01:34.939 INFO - Executing: [find elements: By.cssSelector: #wrh_inv_DetailHeader])
+12:01:34.989 INFO - Done: [find elements: By.cssSelector: #wrh_inv_DetailHeader]
+12:01:34.994 INFO - Executing: [is displayed: 6 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> css selector: #wrh_inv_DetailHeader]])
+12:01:35.054 INFO - Done: [is displayed: 6 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> css selector: #wrh_inv_DetailHeader]]
+12:01:35.563 INFO - Executing: [is displayed: 6 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> css selector: #wrh_inv_DetailHeader]])
+12:01:35.895 INFO - Done: [is displayed: 6 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> css selector: #wrh_inv_DetailHeader]]
+12:01:35.927 INFO - Executing: [find elements: By.xpath: //div[@id="wrh_inv_DetailHeader"]/table[1]/tbody/tr/th[1]])
+12:01:36.064 INFO - Done: [find elements: By.xpath: //div[@id="wrh_inv_DetailHeader"]/table[1]/tbody/tr/th[1]]
+12:01:36.071 INFO - Executing: [is displayed: 7 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> xpath: //div[@id="wrh_inv_DetailHeader"]/table[1]/tbody/tr/th[1]]])
+12:01:36.119 INFO - Done: [is displayed: 7 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> xpath: //div[@id="wrh_inv_DetailHeader"]/table[1]/tbody/tr/th[1]]]
+12:01:36.132 INFO - Executing: [find element: By.xpath: //div[@id="wrh_inv_DetailHeader"]/table[1]/tbody/tr/th[1]])
+12:01:36.181 INFO - Done: [find element: By.xpath: //div[@id="wrh_inv_DetailHeader"]/table[1]/tbody/tr/th[1]]
+12:01:36.194 INFO - Executing: [get text: 7 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> xpath: //div[@id="wrh_inv_DetailHeader"]/table[1]/tbody/tr/th[1]]])
+12:01:36.245 INFO - Done: [get text: 7 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> xpath: //div[@id="wrh_inv_DetailHeader"]/table[1]/tbody/tr/th[1]]]
+12:01:36.257 INFO - Executing: [find elements: By.xpath: //div[@id="wrh_inv_ListContainer"]//div[1]/table[1]//th])
+12:01:36.325 INFO - Done: [find elements: By.xpath: //div[@id="wrh_inv_ListContainer"]//div[1]/table[1]//th]
+12:01:36.333 INFO - Executing: [is displayed: 8 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> xpath: //div[@id="wrh_inv_ListContainer"]//div[1]/table[1]//th]])
+12:01:36.396 INFO - Done: [is displayed: 8 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> xpath: //div[@id="wrh_inv_ListContainer"]//div[1]/table[1]//th]]
+12:01:36.405 INFO - Executing: [find element: By.xpath: //div[@id="wrh_inv_ListContainer"]//div[1]/table[1]//th])
+12:01:36.452 INFO - Done: [find element: By.xpath: //div[@id="wrh_inv_ListContainer"]//div[1]/table[1]//th]
+12:01:36.459 INFO - Executing: [get text: 8 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> xpath: //div[@id="wrh_inv_ListContainer"]//div[1]/table[1]//th]])
+12:01:36.505 INFO - Done: [get text: 8 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> xpath: //div[@id="wrh_inv_ListContainer"]//div[1]/table[1]//th]]
+12:01:36.513 INFO - Executing: [find elements: By.xpath: //div[@id="wrh_inv_DetailHeader"]//span[text()="Обновить"]])
+12:01:36.558 INFO - Done: [find elements: By.xpath: //div[@id="wrh_inv_DetailHeader"]//span[text()="Обновить"]]
+12:01:36.563 INFO - Executing: [is displayed: 27 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> xpath: //div[@id="wrh_inv_DetailHeader"]//span[text()="Обновить"]]])
+12:01:36.606 INFO - Done: [is displayed: 27 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> xpath: //div[@id="wrh_inv_DetailHeader"]//span[text()="Обновить"]]]
+12:01:36.614 INFO - Executing: [find elements: By.xpath: //div[@id="wrh_inv_DetailHeader"]/table[1]/tbody/tr/th[3]//span[text()="Печатать"]])
+12:01:36.670 INFO - Done: [find elements: By.xpath: //div[@id="wrh_inv_DetailHeader"]/table[1]/tbody/tr/th[3]//span[text()="Печатать"]]
+12:01:36.675 INFO - Executing: [is displayed: 28 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> xpath: //div[@id="wrh_inv_DetailHeader"]/table[1]/tbody/tr/th[3]//span[text()="Печатать"]]])
+12:01:36.715 INFO - Done: [is displayed: 28 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> xpath: //div[@id="wrh_inv_DetailHeader"]/table[1]/tbody/tr/th[3]//span[text()="Печатать"]]]
+12:01:36.723 INFO - Executing: [find element: By.xpath: //div[@id="wrh_inv_DetailHeader"]/table[2]/tbody/tr/td[1]/label])
+12:01:36.770 INFO - Done: [find element: By.xpath: //div[@id="wrh_inv_DetailHeader"]/table[2]/tbody/tr/td[1]/label]
+12:01:36.777 INFO - Executing: [is displayed: 29 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> xpath: //div[@id="wrh_inv_DetailHeader"]/table[2]/tbody/tr/td[1]/label]])
+12:01:36.820 INFO - Done: [is displayed: 29 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> xpath: //div[@id="wrh_inv_DetailHeader"]/table[2]/tbody/tr/td[1]/label]]
+12:01:36.830 INFO - Executing: [find element: By.xpath: //div[@id="wrh_inv_DetailHeader"]/table[2]/tbody/tr/td[1]/label])
+12:01:36.854 INFO - Done: [find element: By.xpath: //div[@id="wrh_inv_DetailHeader"]/table[2]/tbody/tr/td[1]/label]
+12:01:36.860 INFO - Executing: [get text: 29 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> xpath: //div[@id="wrh_inv_DetailHeader"]/table[2]/tbody/tr/td[1]/label]])
+12:01:36.905 INFO - Done: [get text: 29 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> xpath: //div[@id="wrh_inv_DetailHeader"]/table[2]/tbody/tr/td[1]/label]]
+12:01:36.917 INFO - Executing: [find element: By.xpath: //div[@id="wrh_inv_DetailHeader"]/table[2]/tbody/tr/td[3]/label])
+12:01:36.958 INFO - Done: [find element: By.xpath: //div[@id="wrh_inv_DetailHeader"]/table[2]/tbody/tr/td[3]/label]
+12:01:36.964 INFO - Executing: [is displayed: 30 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> xpath: //div[@id="wrh_inv_DetailHeader"]/table[2]/tbody/tr/td[3]/label]])
+12:01:37.004 INFO - Done: [is displayed: 30 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> xpath: //div[@id="wrh_inv_DetailHeader"]/table[2]/tbody/tr/td[3]/label]]
+12:01:37.014 INFO - Executing: [find element: By.xpath: //div[@id="wrh_inv_DetailHeader"]/table[2]/tbody/tr/td[3]/label])
+12:01:37.043 INFO - Done: [find element: By.xpath: //div[@id="wrh_inv_DetailHeader"]/table[2]/tbody/tr/td[3]/label]
+12:01:37.054 INFO - Executing: [get text: 30 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> xpath: //div[@id="wrh_inv_DetailHeader"]/table[2]/tbody/tr/td[3]/label]])
+12:01:37.102 INFO - Done: [get text: 30 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> xpath: //div[@id="wrh_inv_DetailHeader"]/table[2]/tbody/tr/td[3]/label]]
+12:01:37.110 INFO - Executing: [find element: By.xpath: //div[@id="wrh_inv_DetailHeader"]/table[3]/tbody/tr/td[1]/label])
+12:01:37.166 INFO - Done: [find element: By.xpath: //div[@id="wrh_inv_DetailHeader"]/table[3]/tbody/tr/td[1]/label]
+12:01:37.171 INFO - Executing: [is displayed: 31 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> xpath: //div[@id="wrh_inv_DetailHeader"]/table[3]/tbody/tr/td[1]/label]])
+12:01:37.215 INFO - Done: [is displayed: 31 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> xpath: //div[@id="wrh_inv_DetailHeader"]/table[3]/tbody/tr/td[1]/label]]
+12:01:37.223 INFO - Executing: [find element: By.xpath: //div[@id="wrh_inv_DetailHeader"]/table[3]/tbody/tr/td[1]/label])
+12:01:37.243 INFO - Done: [find element: By.xpath: //div[@id="wrh_inv_DetailHeader"]/table[3]/tbody/tr/td[1]/label]
+12:01:37.250 INFO - Executing: [get text: 31 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> xpath: //div[@id="wrh_inv_DetailHeader"]/table[3]/tbody/tr/td[1]/label]])
+12:01:37.294 INFO - Done: [get text: 31 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> xpath: //div[@id="wrh_inv_DetailHeader"]/table[3]/tbody/tr/td[1]/label]]
+12:01:37.305 INFO - Executing: [find element: By.xpath: //div[@id="wrh_inv_DetailHeader"]/table[3]/tbody/tr/td[2]/label])
+12:01:37.342 INFO - Done: [find element: By.xpath: //div[@id="wrh_inv_DetailHeader"]/table[3]/tbody/tr/td[2]/label]
+12:01:37.348 INFO - Executing: [is displayed: 32 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> xpath: //div[@id="wrh_inv_DetailHeader"]/table[3]/tbody/tr/td[2]/label]])
+12:01:37.387 INFO - Done: [is displayed: 32 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> xpath: //div[@id="wrh_inv_DetailHeader"]/table[3]/tbody/tr/td[2]/label]]
+12:01:37.393 INFO - Executing: [find element: By.xpath: //div[@id="wrh_inv_DetailHeader"]/table[3]/tbody/tr/td[2]/label])
+12:01:37.411 INFO - Done: [find element: By.xpath: //div[@id="wrh_inv_DetailHeader"]/table[3]/tbody/tr/td[2]/label]
+12:01:37.417 INFO - Executing: [get text: 32 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> xpath: //div[@id="wrh_inv_DetailHeader"]/table[3]/tbody/tr/td[2]/label]])
+12:01:37.460 INFO - Done: [get text: 32 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> xpath: //div[@id="wrh_inv_DetailHeader"]/table[3]/tbody/tr/td[2]/label]]
+12:01:37.486 INFO - Executing: [find elements: By.xpath: //div[@id='wrh_inv_ProductsTable']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[1]])
+12:01:37.547 INFO - Done: [find elements: By.xpath: //div[@id='wrh_inv_ProductsTable']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[1]]
+12:01:37.553 INFO - Executing: [is displayed: 33 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> xpath: //div[@id='wrh_inv_ProductsTable']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[1]]])
+12:01:37.595 INFO - Done: [is displayed: 33 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> xpath: //div[@id='wrh_inv_ProductsTable']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[1]]]
+12:01:37.607 INFO - Executing: [find element: By.xpath: //div[@id='wrh_inv_ProductsTable']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[1]])
+12:01:37.663 INFO - Done: [find element: By.xpath: //div[@id='wrh_inv_ProductsTable']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[1]]
+12:01:37.668 INFO - Executing: [get text: 33 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> xpath: //div[@id='wrh_inv_ProductsTable']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[1]]])
+12:01:37.717 INFO - Done: [get text: 33 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> xpath: //div[@id='wrh_inv_ProductsTable']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[1]]]
+12:01:37.735 INFO - Executing: [find elements: By.xpath: //div[@id='wrh_inv_ProductsTable']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[2]])
+12:01:37.783 INFO - Done: [find elements: By.xpath: //div[@id='wrh_inv_ProductsTable']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[2]]
+12:01:37.789 INFO - Executing: [is displayed: 34 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> xpath: //div[@id='wrh_inv_ProductsTable']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[2]]])
+12:01:37.833 INFO - Done: [is displayed: 34 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> xpath: //div[@id='wrh_inv_ProductsTable']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[2]]]
+12:01:37.841 INFO - Executing: [find element: By.xpath: //div[@id='wrh_inv_ProductsTable']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[2]])
+12:01:37.886 INFO - Done: [find element: By.xpath: //div[@id='wrh_inv_ProductsTable']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[2]]
+12:01:37.890 INFO - Executing: [get text: 34 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> xpath: //div[@id='wrh_inv_ProductsTable']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[2]]])
+12:01:37.943 INFO - Done: [get text: 34 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> xpath: //div[@id='wrh_inv_ProductsTable']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[2]]]
+12:01:37.966 INFO - Executing: [find elements: By.xpath: //div[@id='wrh_inv_ProductsTable']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[3]])
+12:01:38.010 INFO - Done: [find elements: By.xpath: //div[@id='wrh_inv_ProductsTable']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[3]]
+12:01:38.019 INFO - Executing: [is displayed: 35 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> xpath: //div[@id='wrh_inv_ProductsTable']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[3]]])
+12:01:38.070 INFO - Done: [is displayed: 35 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> xpath: //div[@id='wrh_inv_ProductsTable']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[3]]]
+12:01:38.077 INFO - Executing: [find element: By.xpath: //div[@id='wrh_inv_ProductsTable']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[3]])
+12:01:38.117 INFO - Done: [find element: By.xpath: //div[@id='wrh_inv_ProductsTable']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[3]]
+12:01:38.125 INFO - Executing: [get text: 35 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> xpath: //div[@id='wrh_inv_ProductsTable']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[3]]])
+12:01:38.174 INFO - Done: [get text: 35 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> xpath: //div[@id='wrh_inv_ProductsTable']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[3]]]
+12:01:38.180 INFO - Executing: [find elements: By.xpath: //div[@id='wrh_inv_ProductsTable']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[4]])
+12:01:38.238 INFO - Done: [find elements: By.xpath: //div[@id='wrh_inv_ProductsTable']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[4]]
+12:01:38.243 INFO - Executing: [is displayed: 36 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> xpath: //div[@id='wrh_inv_ProductsTable']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[4]]])
+12:01:38.282 INFO - Done: [is displayed: 36 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> xpath: //div[@id='wrh_inv_ProductsTable']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[4]]]
+12:01:38.292 INFO - Executing: [find element: By.xpath: //div[@id='wrh_inv_ProductsTable']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[4]])
+12:01:38.348 INFO - Done: [find element: By.xpath: //div[@id='wrh_inv_ProductsTable']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[4]]
+12:01:38.352 INFO - Executing: [get text: 36 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> xpath: //div[@id='wrh_inv_ProductsTable']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[4]]])
+12:01:38.404 INFO - Done: [get text: 36 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> xpath: //div[@id='wrh_inv_ProductsTable']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[4]]]
+12:01:38.410 INFO - Executing: [find elements: By.xpath: //div[@id='wrh_inv_ProductsTable']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[5]])
+12:01:38.458 INFO - Done: [find elements: By.xpath: //div[@id='wrh_inv_ProductsTable']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[5]]
+12:01:38.463 INFO - Executing: [is displayed: 37 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> xpath: //div[@id='wrh_inv_ProductsTable']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[5]]])
+12:01:38.508 INFO - Done: [is displayed: 37 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> xpath: //div[@id='wrh_inv_ProductsTable']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[5]]]
+12:01:38.515 INFO - Executing: [find element: By.xpath: //div[@id='wrh_inv_ProductsTable']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[5]])
+12:01:38.560 INFO - Done: [find element: By.xpath: //div[@id='wrh_inv_ProductsTable']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[5]]
+12:01:38.565 INFO - Executing: [get text: 37 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> xpath: //div[@id='wrh_inv_ProductsTable']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[5]]])
+12:01:38.612 INFO - Done: [get text: 37 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> xpath: //div[@id='wrh_inv_ProductsTable']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[5]]]
+12:01:38.619 INFO - Executing: [find elements: By.xpath: //div[@id='wrh_inv_ProductsTable']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[6]])
+12:01:38.661 INFO - Done: [find elements: By.xpath: //div[@id='wrh_inv_ProductsTable']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[6]]
+12:01:38.667 INFO - Executing: [is displayed: 38 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> xpath: //div[@id='wrh_inv_ProductsTable']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[6]]])
+12:01:38.706 INFO - Done: [is displayed: 38 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> xpath: //div[@id='wrh_inv_ProductsTable']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[6]]]
+12:01:38.714 INFO - Executing: [find element: By.xpath: //div[@id='wrh_inv_ProductsTable']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[6]])
+12:01:38.760 INFO - Done: [find element: By.xpath: //div[@id='wrh_inv_ProductsTable']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[6]]
+12:01:38.764 INFO - Executing: [get text: 38 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> xpath: //div[@id='wrh_inv_ProductsTable']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[6]]])
+12:01:38.817 INFO - Done: [get text: 38 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> xpath: //div[@id='wrh_inv_ProductsTable']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[6]]]
+12:01:38.825 INFO - Executing: [find elements: By.xpath: //div[@id='wrh_inv_ProductsTable']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[7]])
+12:01:38.885 INFO - Done: [find elements: By.xpath: //div[@id='wrh_inv_ProductsTable']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[7]]
+12:01:38.890 INFO - Executing: [is displayed: 39 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> xpath: //div[@id='wrh_inv_ProductsTable']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[7]]])
+12:01:38.937 INFO - Done: [is displayed: 39 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> xpath: //div[@id='wrh_inv_ProductsTable']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[7]]]
+12:01:38.947 INFO - Executing: [find element: By.xpath: //div[@id='wrh_inv_ProductsTable']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[7]])
+12:01:39.006 INFO - Done: [find element: By.xpath: //div[@id='wrh_inv_ProductsTable']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[7]]
+12:01:39.011 INFO - Executing: [get text: 39 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> xpath: //div[@id='wrh_inv_ProductsTable']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[7]]])
+12:01:39.065 INFO - Done: [get text: 39 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> xpath: //div[@id='wrh_inv_ProductsTable']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[7]]]
+12:01:39.072 INFO - Executing: [find elements: By.xpath: //div[@id='wrh_inv_ProductsTable']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[8]])
+12:01:39.128 INFO - Done: [find elements: By.xpath: //div[@id='wrh_inv_ProductsTable']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[8]]
+12:01:39.134 INFO - Executing: [is displayed: 40 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> xpath: //div[@id='wrh_inv_ProductsTable']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[8]]])
+12:01:39.174 INFO - Done: [is displayed: 40 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> xpath: //div[@id='wrh_inv_ProductsTable']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[8]]]
+12:01:39.180 INFO - Executing: [find element: By.xpath: //div[@id='wrh_inv_ProductsTable']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[8]])
+12:01:39.225 INFO - Done: [find element: By.xpath: //div[@id='wrh_inv_ProductsTable']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[8]]
+12:01:39.229 INFO - Executing: [get text: 40 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> xpath: //div[@id='wrh_inv_ProductsTable']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[8]]])
+12:01:39.278 INFO - Done: [get text: 40 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> xpath: //div[@id='wrh_inv_ProductsTable']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[8]]]
+12:01:39.285 INFO - Executing: [find elements: By.xpath: //div[@id='wrh_inv_ProductsTable']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[9]])
+12:01:39.328 INFO - Done: [find elements: By.xpath: //div[@id='wrh_inv_ProductsTable']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[9]]
+12:01:39.332 INFO - Executing: [is displayed: 41 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> xpath: //div[@id='wrh_inv_ProductsTable']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[9]]])
+12:01:39.369 INFO - Done: [is displayed: 41 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> xpath: //div[@id='wrh_inv_ProductsTable']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[9]]]
+12:01:39.377 INFO - Executing: [find element: By.xpath: //div[@id='wrh_inv_ProductsTable']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[9]])
+12:01:39.416 INFO - Done: [find element: By.xpath: //div[@id='wrh_inv_ProductsTable']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[9]]
+12:01:39.421 INFO - Executing: [get text: 41 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> xpath: //div[@id='wrh_inv_ProductsTable']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[9]]])
+12:01:39.467 INFO - Done: [get text: 41 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> xpath: //div[@id='wrh_inv_ProductsTable']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[9]]]
+12:01:39.475 INFO - Executing: [find elements: By.xpath: //div[@id='wrh_inv_ProductsTable']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[10]])
+12:01:39.521 INFO - Done: [find elements: By.xpath: //div[@id='wrh_inv_ProductsTable']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[10]]
+12:01:39.527 INFO - Executing: [is displayed: 42 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> xpath: //div[@id='wrh_inv_ProductsTable']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[10]]])
+12:01:39.568 INFO - Done: [is displayed: 42 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> xpath: //div[@id='wrh_inv_ProductsTable']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[10]]]
+12:01:39.576 INFO - Executing: [find element: By.xpath: //div[@id='wrh_inv_ProductsTable']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[10]])
+12:01:39.631 INFO - Done: [find element: By.xpath: //div[@id='wrh_inv_ProductsTable']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[10]]
+12:01:39.637 INFO - Executing: [get text: 42 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> xpath: //div[@id='wrh_inv_ProductsTable']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[10]]])
+12:01:39.695 INFO - Done: [get text: 42 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> xpath: //div[@id='wrh_inv_ProductsTable']//div[@class='ht_clone_top handsontable']//table[@class='htCore']//thead/tr[2]/th[10]]]
+12:01:39.713 INFO - Executing: [find elements: By.xpath: //div[@id="wrh_inv_RightContainer"]//span[text()="Новая накладная"]])
+12:01:39.775 INFO - Done: [find elements: By.xpath: //div[@id="wrh_inv_RightContainer"]//span[text()="Новая накладная"]]
+12:01:39.781 INFO - Executing: [is displayed: 43 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> xpath: //div[@id="wrh_inv_RightContainer"]//span[text()="Новая накладная"]]])
+12:01:39.822 INFO - Done: [is displayed: 43 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> xpath: //div[@id="wrh_inv_RightContainer"]//span[text()="Новая накладная"]]]
+12:01:39.829 INFO - Executing: [find element: By.xpath: //div[@id="wrh_inv_RightContainer"]//span[text()="Новая накладная"]])
+12:01:39.873 INFO - Done: [find element: By.xpath: //div[@id="wrh_inv_RightContainer"]//span[text()="Новая накладная"]]
+12:01:39.878 INFO - Executing: [click: 43 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> xpath: //div[@id="wrh_inv_RightContainer"]//span[text()="Новая накладная"]]])
+12:01:40.010 INFO - Done: [click: 43 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> xpath: //div[@id="wrh_inv_RightContainer"]//span[text()="Новая накладная"]]]
+12:01:41.021 INFO - Executing: [find element: By.xpath: //div[@id="wrh_inv_DetailHeader"]/table[1]/tbody/tr/th[1]])
+12:01:41.045 INFO - Done: [find element: By.xpath: //div[@id="wrh_inv_DetailHeader"]/table[1]/tbody/tr/th[1]]
+12:01:41.051 INFO - Executing: [get text: 7 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> xpath: //div[@id="wrh_inv_DetailHeader"]/table[1]/tbody/tr/th[1]]])
+12:01:41.076 INFO - Done: [get text: 7 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> xpath: //div[@id="wrh_inv_DetailHeader"]/table[1]/tbody/tr/th[1]]]
+12:01:41.083 INFO - Executing: [find element: By.xpath: //div[@id="wrh_inv_DetailHeader"]/table[2]/tbody/tr/td[1]/table//input[@role="presentation"]/ancestor::tr])
+12:01:41.127 INFO - Done: [find element: By.xpath: //div[@id="wrh_inv_DetailHeader"]/table[2]/tbody/tr/td[1]/table//input[@role="presentation"]/ancestor::tr]
+12:01:41.132 INFO - Executing: [get text: 44 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> xpath: //div[@id="wrh_inv_DetailHeader"]/table[2]/tbody/tr/td[1]/table//input[@role="presentation"]/ancestor::tr]])
+12:01:41.215 INFO - Done: [get text: 44 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> xpath: //div[@id="wrh_inv_DetailHeader"]/table[2]/tbody/tr/td[1]/table//input[@role="presentation"]/ancestor::tr]]
+12:01:41.224 INFO - Executing: [find element: By.xpath: //div[@id="wrh_inv_DetailHeader"]/table[3]/tbody/tr/td[1]/table//span[@role="option"]])
+12:01:41.267 INFO - Done: [find element: By.xpath: //div[@id="wrh_inv_DetailHeader"]/table[3]/tbody/tr/td[1]/table//span[@role="option"]]
+12:01:41.272 INFO - Executing: [get text: 45 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> xpath: //div[@id="wrh_inv_DetailHeader"]/table[3]/tbody/tr/td[1]/table//span[@role="option"]]])
+12:01:41.317 INFO - Done: [get text: 45 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> xpath: //div[@id="wrh_inv_DetailHeader"]/table[3]/tbody/tr/td[1]/table//span[@role="option"]]]
+12:01:41.324 INFO - Executing: [find element: By.xpath: //div[@id="wrh_inv_DetailHeader"]/table[3]/tbody/tr/td[2]/table//span[@role="option"]])
+12:01:41.369 INFO - Done: [find element: By.xpath: //div[@id="wrh_inv_DetailHeader"]/table[3]/tbody/tr/td[2]/table//span[@role="option"]]
+12:01:41.373 INFO - Executing: [get text: 46 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> xpath: //div[@id="wrh_inv_DetailHeader"]/table[3]/tbody/tr/td[2]/table//span[@role="option"]]])
+12:01:41.427 INFO - Done: [get text: 46 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> xpath: //div[@id="wrh_inv_DetailHeader"]/table[3]/tbody/tr/td[2]/table//span[@role="option"]]]
+12:01:41.433 INFO - Executing: [find elements: By.xpath: //div[@id="wrh_inv_RightContainer"]//span[text()="Сохранить накладную"]])
+12:01:41.479 INFO - Done: [find elements: By.xpath: //div[@id="wrh_inv_RightContainer"]//span[text()="Сохранить накладную"]]
+12:01:41.484 INFO - Executing: [is displayed: 47 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> xpath: //div[@id="wrh_inv_RightContainer"]//span[text()="Сохранить накладную"]]])
+12:01:41.523 INFO - Done: [is displayed: 47 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> xpath: //div[@id="wrh_inv_RightContainer"]//span[text()="Сохранить накладную"]]]
+12:01:41.529 INFO - Executing: [find element: By.xpath: //div[@id="wrh_inv_RightContainer"]//span[text()="Сохранить накладную"]])
+12:01:41.570 INFO - Done: [find element: By.xpath: //div[@id="wrh_inv_RightContainer"]//span[text()="Сохранить накладную"]]
+12:01:41.576 INFO - Executing: [click: 47 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> xpath: //div[@id="wrh_inv_RightContainer"]//span[text()="Сохранить накладную"]]])
+12:01:41.707 INFO - Done: [click: 47 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> xpath: //div[@id="wrh_inv_RightContainer"]//span[text()="Сохранить накладную"]]]
+12:01:42.761 INFO - Executing: [find elements: By.cssSelector: #wrh_inv_ListContainer_splitter])
+12:01:42.804 INFO - Done: [find elements: By.cssSelector: #wrh_inv_ListContainer_splitter]
+12:01:42.816 INFO - Executing: [find element: By.cssSelector: #wrh_inv_ListContainer_splitter])
+12:01:42.861 INFO - Done: [find element: By.cssSelector: #wrh_inv_ListContainer_splitter]
+12:01:42.867 INFO - Executing: [mousemove: 48 true])
+12:01:42.934 INFO - Done: [mousemove: 48 true]
+12:01:42.941 INFO - Executing: [mousedown: no args])
+12:01:42.955 INFO - Done: [mousedown: no args]
+12:01:42.961 INFO - Executing: [find element: By.cssSelector: #wrh_inv_PageContainer])
+12:01:42.999 INFO - Done: [find element: By.cssSelector: #wrh_inv_PageContainer]
+12:01:43.005 INFO - Executing: [mousemove: 49 true])
+12:01:43.104 INFO - Done: [mousemove: 49 true]
+12:01:43.111 INFO - Executing: [mouseup: nothing])
+12:01:43.206 INFO - Done: [mouseup: nothing]
+12:01:43.221 INFO - Executing: [find elements: By.xpath: //div[@id="wrh_inv_ListContainer"]//div[1]/table[1]//th])
+12:01:43.250 INFO - Done: [find elements: By.xpath: //div[@id="wrh_inv_ListContainer"]//div[1]/table[1]//th]
+12:01:43.256 INFO - Executing: [is displayed: 8 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> xpath: //div[@id="wrh_inv_ListContainer"]//div[1]/table[1]//th]])
+12:01:43.283 INFO - Done: [is displayed: 8 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> xpath: //div[@id="wrh_inv_ListContainer"]//div[1]/table[1]//th]]
+12:01:43.293 INFO - Executing: [find element: By.xpath: //div[@id="wrh_inv_ListContainer"]//div[1]/table[1]//th])
+12:01:43.314 INFO - Done: [find element: By.xpath: //div[@id="wrh_inv_ListContainer"]//div[1]/table[1]//th]
+12:01:43.318 INFO - Executing: [get text: 8 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> xpath: //div[@id="wrh_inv_ListContainer"]//div[1]/table[1]//th]])
+12:01:43.339 INFO - Done: [get text: 8 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> xpath: //div[@id="wrh_inv_ListContainer"]//div[1]/table[1]//th]]
+12:01:43.347 INFO - Executing: [find elements: By.xpath: //div[@id="wrh_inv_ListContainer"]//div[2]//div[@class="ht_clone_top handsontable"]//thead/tr[2]/th[1]])
+12:01:43.387 INFO - Done: [find elements: By.xpath: //div[@id="wrh_inv_ListContainer"]//div[2]//div[@class="ht_clone_top handsontable"]//thead/tr[2]/th[1]]
+12:01:43.392 INFO - Executing: [find element: By.xpath: //div[@id="wrh_inv_ListContainer"]//div[2]//div[@class="ht_clone_top handsontable"]//thead/tr[2]/th[1]])
+12:01:43.436 INFO - Done: [find element: By.xpath: //div[@id="wrh_inv_ListContainer"]//div[2]//div[@class="ht_clone_top handsontable"]//thead/tr[2]/th[1]]
+12:01:43.440 INFO - Executing: [get text: 60 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> xpath: //div[@id="wrh_inv_ListContainer"]//div[1]/table[1]//th]])
+12:01:43.492 INFO - Done: [get text: 60 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> xpath: //div[@id="wrh_inv_ListContainer"]//div[1]/table[1]//th]]
+12:01:43.499 INFO - Executing: [find elements: By.xpath: //div[@id="wrh_inv_ListContainer"]//div[2]//div[@class="ht_clone_top handsontable"]//thead/tr[2]/th[2]])
+12:01:43.541 INFO - Done: [find elements: By.xpath: //div[@id="wrh_inv_ListContainer"]//div[2]//div[@class="ht_clone_top handsontable"]//thead/tr[2]/th[2]]
+12:01:43.546 INFO - Executing: [find element: By.xpath: //div[@id="wrh_inv_ListContainer"]//div[2]//div[@class="ht_clone_top handsontable"]//thead/tr[2]/th[2]])
+12:01:43.594 INFO - Done: [find element: By.xpath: //div[@id="wrh_inv_ListContainer"]//div[2]//div[@class="ht_clone_top handsontable"]//thead/tr[2]/th[2]]
+12:01:43.599 INFO - Executing: [get text: 61 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> xpath: //div[@id="wrh_inv_ListContainer"]//div[1]/table[1]//th]])
+12:01:43.651 INFO - Done: [get text: 61 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> xpath: //div[@id="wrh_inv_ListContainer"]//div[1]/table[1]//th]]
+12:01:43.658 INFO - Executing: [find elements: By.xpath: //div[@id="wrh_inv_ListContainer"]//div[2]//div[@class="ht_clone_top handsontable"]//thead/tr[2]/th[3]])
+12:01:43.714 INFO - Done: [find elements: By.xpath: //div[@id="wrh_inv_ListContainer"]//div[2]//div[@class="ht_clone_top handsontable"]//thead/tr[2]/th[3]]
+12:01:43.722 INFO - Executing: [find element: By.xpath: //div[@id="wrh_inv_ListContainer"]//div[2]//div[@class="ht_clone_top handsontable"]//thead/tr[2]/th[3]])
+12:01:43.764 INFO - Done: [find element: By.xpath: //div[@id="wrh_inv_ListContainer"]//div[2]//div[@class="ht_clone_top handsontable"]//thead/tr[2]/th[3]]
+12:01:43.772 INFO - Executing: [get text: 62 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> xpath: //div[@id="wrh_inv_ListContainer"]//div[1]/table[1]//th]])
+12:01:43.823 INFO - Done: [get text: 62 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> xpath: //div[@id="wrh_inv_ListContainer"]//div[1]/table[1]//th]]
+12:01:43.830 INFO - Executing: [find elements: By.xpath: //div[@id="wrh_inv_ListContainer"]//div[2]//div[@class="ht_clone_top handsontable"]//thead/tr[2]/th[4]])
+12:01:43.871 INFO - Done: [find elements: By.xpath: //div[@id="wrh_inv_ListContainer"]//div[2]//div[@class="ht_clone_top handsontable"]//thead/tr[2]/th[4]]
+12:01:43.891 INFO - Executing: [find element: By.xpath: //div[@id="wrh_inv_ListContainer"]//div[2]//div[@class="ht_clone_top handsontable"]//thead/tr[2]/th[4]])
+12:01:43.930 INFO - Done: [find element: By.xpath: //div[@id="wrh_inv_ListContainer"]//div[2]//div[@class="ht_clone_top handsontable"]//thead/tr[2]/th[4]]
+12:01:43.954 INFO - Executing: [get text: 63 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> xpath: //div[@id="wrh_inv_ListContainer"]//div[1]/table[1]//th]])
+12:01:44.000 INFO - Done: [get text: 63 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> xpath: //div[@id="wrh_inv_ListContainer"]//div[1]/table[1]//th]]
+12:01:44.007 INFO - Executing: [find elements: By.xpath: //div[@id="wrh_inv_ListContainer"]//div[2]//div[@class="ht_clone_top handsontable"]//thead/tr[2]/th[5]])
+12:01:44.049 INFO - Done: [find elements: By.xpath: //div[@id="wrh_inv_ListContainer"]//div[2]//div[@class="ht_clone_top handsontable"]//thead/tr[2]/th[5]]
+12:01:44.055 INFO - Executing: [find element: By.xpath: //div[@id="wrh_inv_ListContainer"]//div[2]//div[@class="ht_clone_top handsontable"]//thead/tr[2]/th[5]])
+12:01:44.092 INFO - Done: [find element: By.xpath: //div[@id="wrh_inv_ListContainer"]//div[2]//div[@class="ht_clone_top handsontable"]//thead/tr[2]/th[5]]
+12:01:44.097 INFO - Executing: [get text: 64 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> xpath: //div[@id="wrh_inv_ListContainer"]//div[1]/table[1]//th]])
+12:01:44.143 INFO - Done: [get text: 64 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> xpath: //div[@id="wrh_inv_ListContainer"]//div[1]/table[1]//th]]
+12:01:44.149 INFO - Executing: [find elements: By.xpath: //div[@id="wrh_inv_ListContainer"]//div[2]//div[@class="ht_clone_top handsontable"]//thead/tr[2]/th[6]])
+12:01:44.190 INFO - Done: [find elements: By.xpath: //div[@id="wrh_inv_ListContainer"]//div[2]//div[@class="ht_clone_top handsontable"]//thead/tr[2]/th[6]]
+12:01:44.196 INFO - Executing: [find element: By.xpath: //div[@id="wrh_inv_ListContainer"]//div[2]//div[@class="ht_clone_top handsontable"]//thead/tr[2]/th[6]])
+12:01:44.245 INFO - Done: [find element: By.xpath: //div[@id="wrh_inv_ListContainer"]//div[2]//div[@class="ht_clone_top handsontable"]//thead/tr[2]/th[6]]
+12:01:44.249 INFO - Executing: [get text: 65 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> xpath: //div[@id="wrh_inv_ListContainer"]//div[1]/table[1]//th]])
+12:01:44.299 INFO - Done: [get text: 65 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> xpath: //div[@id="wrh_inv_ListContainer"]//div[1]/table[1]//th]]
+12:01:44.308 INFO - Executing: [find elements: By.xpath: //div[@id="wrh_inv_ListContainer"]//div[2]//div[@class="ht_clone_top handsontable"]//thead/tr[2]/th[7]])
+12:01:44.357 INFO - Done: [find elements: By.xpath: //div[@id="wrh_inv_ListContainer"]//div[2]//div[@class="ht_clone_top handsontable"]//thead/tr[2]/th[7]]
+12:01:44.363 INFO - Executing: [find element: By.xpath: //div[@id="wrh_inv_ListContainer"]//div[2]//div[@class="ht_clone_top handsontable"]//thead/tr[2]/th[7]])
+12:01:44.402 INFO - Done: [find element: By.xpath: //div[@id="wrh_inv_ListContainer"]//div[2]//div[@class="ht_clone_top handsontable"]//thead/tr[2]/th[7]]
+12:01:44.408 INFO - Executing: [get text: 66 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> xpath: //div[@id="wrh_inv_ListContainer"]//div[1]/table[1]//th]])
+12:01:44.462 INFO - Done: [get text: 66 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> xpath: //div[@id="wrh_inv_ListContainer"]//div[1]/table[1]//th]]
+12:01:44.467 INFO - Executing: [find elements: By.xpath: //div[@id="wrh_inv_ListContainer"]//div[2]//div[@class="ht_clone_top handsontable"]//thead/tr[2]/th[8]])
+12:01:44.523 INFO - Done: [find elements: By.xpath: //div[@id="wrh_inv_ListContainer"]//div[2]//div[@class="ht_clone_top handsontable"]//thead/tr[2]/th[8]]
+12:01:44.531 INFO - Executing: [find element: By.xpath: //div[@id="wrh_inv_ListContainer"]//div[2]//div[@class="ht_clone_top handsontable"]//thead/tr[2]/th[8]])
+12:01:44.572 INFO - Done: [find element: By.xpath: //div[@id="wrh_inv_ListContainer"]//div[2]//div[@class="ht_clone_top handsontable"]//thead/tr[2]/th[8]]
+12:01:44.578 INFO - Executing: [get text: 67 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> xpath: //div[@id="wrh_inv_ListContainer"]//div[1]/table[1]//th]])
+12:01:44.646 INFO - Done: [get text: 67 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> xpath: //div[@id="wrh_inv_ListContainer"]//div[1]/table[1]//th]]
+12:01:44.652 INFO - Executing: [find elements: By.xpath: //div[@id="wrh_inv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[1]/td[1]])
+12:01:44.695 INFO - Done: [find elements: By.xpath: //div[@id="wrh_inv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[1]/td[1]]
+12:01:44.701 INFO - Executing: [find element: By.xpath: //div[@id="wrh_inv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[1]/td[1]])
+12:01:44.756 INFO - Done: [find element: By.xpath: //div[@id="wrh_inv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[1]/td[1]]
+12:01:44.760 INFO - Executing: [get text: 68 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> xpath: //div[@id="wrh_inv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[1]/td[1]]])
+12:01:44.819 INFO - Done: [get text: 68 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> xpath: //div[@id="wrh_inv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[1]/td[1]]]
+12:01:44.824 INFO - Executing: [find elements: By.xpath: //div[@id="wrh_inv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[1]/td[2]])
+12:01:44.874 INFO - Done: [find elements: By.xpath: //div[@id="wrh_inv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[1]/td[2]]
+12:01:44.879 INFO - Executing: [find element: By.xpath: //div[@id="wrh_inv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[1]/td[2]])
+12:01:44.920 INFO - Done: [find element: By.xpath: //div[@id="wrh_inv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[1]/td[2]]
+12:01:44.929 INFO - Executing: [get text: 69 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> xpath: //div[@id="wrh_inv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[1]/td[2]]])
+12:01:44.970 INFO - Done: [get text: 69 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> xpath: //div[@id="wrh_inv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[1]/td[2]]]
+12:01:44.975 INFO - Executing: [find elements: By.xpath: //div[@id="wrh_inv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[1]/td[3]])
+12:01:45.016 INFO - Done: [find elements: By.xpath: //div[@id="wrh_inv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[1]/td[3]]
+12:01:45.024 INFO - Executing: [find element: By.xpath: //div[@id="wrh_inv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[1]/td[3]])
+12:01:45.062 INFO - Done: [find element: By.xpath: //div[@id="wrh_inv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[1]/td[3]]
+12:01:45.067 INFO - Executing: [get text: 70 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> xpath: //div[@id="wrh_inv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[1]/td[3]]])
+12:01:45.109 INFO - Done: [get text: 70 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> xpath: //div[@id="wrh_inv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[1]/td[3]]]
+12:01:45.114 INFO - Executing: [find elements: By.xpath: //div[@id="wrh_inv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[1]/td[4]])
+12:01:45.155 INFO - Done: [find elements: By.xpath: //div[@id="wrh_inv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[1]/td[4]]
+12:01:45.160 INFO - Executing: [find element: By.xpath: //div[@id="wrh_inv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[1]/td[4]])
+12:01:45.200 INFO - Done: [find element: By.xpath: //div[@id="wrh_inv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[1]/td[4]]
+12:01:45.203 INFO - Executing: [get text: 71 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> xpath: //div[@id="wrh_inv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[1]/td[4]]])
+12:01:45.250 INFO - Done: [get text: 71 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> xpath: //div[@id="wrh_inv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[1]/td[4]]]
+12:01:45.255 INFO - Executing: [find elements: By.xpath: //div[@id="wrh_inv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[1]/td[5]])
+12:01:45.293 INFO - Done: [find elements: By.xpath: //div[@id="wrh_inv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[1]/td[5]]
+12:01:45.299 INFO - Executing: [find element: By.xpath: //div[@id="wrh_inv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[1]/td[5]])
+12:01:45.340 INFO - Done: [find element: By.xpath: //div[@id="wrh_inv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[1]/td[5]]
+12:01:45.344 INFO - Executing: [get text: 72 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> xpath: //div[@id="wrh_inv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[1]/td[5]]])
+12:01:45.386 INFO - Done: [get text: 72 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> xpath: //div[@id="wrh_inv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[1]/td[5]]]
+12:01:45.392 INFO - Executing: [find elements: By.xpath: //div[@id="wrh_inv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[1]/td[6]])
+12:01:45.431 INFO - Done: [find elements: By.xpath: //div[@id="wrh_inv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[1]/td[6]]
+12:01:45.439 INFO - Executing: [find element: By.xpath: //div[@id="wrh_inv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[1]/td[6]])
+12:01:45.485 INFO - Done: [find element: By.xpath: //div[@id="wrh_inv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[1]/td[6]]
+12:01:45.490 INFO - Executing: [get text: 73 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> xpath: //div[@id="wrh_inv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[1]/td[6]]])
+12:01:45.544 INFO - Done: [get text: 73 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> xpath: //div[@id="wrh_inv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[1]/td[6]]]
+12:01:45.552 INFO - Executing: [find elements: By.xpath: //div[@id="wrh_inv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[1]/td[7]])
+12:01:45.598 INFO - Done: [find elements: By.xpath: //div[@id="wrh_inv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[1]/td[7]]
+12:01:45.604 INFO - Executing: [find element: By.xpath: //div[@id="wrh_inv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[1]/td[7]])
+12:01:45.648 INFO - Done: [find element: By.xpath: //div[@id="wrh_inv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[1]/td[7]]
+12:01:45.652 INFO - Executing: [get text: 74 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> xpath: //div[@id="wrh_inv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[1]/td[7]]])
+12:01:45.693 INFO - Done: [get text: 74 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> xpath: //div[@id="wrh_inv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[1]/td[7]]]
+12:01:45.698 INFO - Executing: [find elements: By.xpath: //div[@id="wrh_inv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[1]/td[8]])
+12:01:45.735 INFO - Done: [find elements: By.xpath: //div[@id="wrh_inv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[1]/td[8]]
+12:01:45.739 INFO - Executing: [find element: By.xpath: //div[@id="wrh_inv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[1]/td[8]])
+12:01:45.778 INFO - Done: [find element: By.xpath: //div[@id="wrh_inv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[1]/td[8]]
+12:01:45.783 INFO - Executing: [get text: 75 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> xpath: //div[@id="wrh_inv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[1]/td[8]]])
+12:01:45.838 INFO - Done: [get text: 75 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> xpath: //div[@id="wrh_inv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[1]/td[8]]]
+12:01:45.863 INFO - Executing: [find elements: By.cssSelector: #wrh_inv_ListContainer_splitter])
+12:01:45.878 INFO - Done: [find elements: By.cssSelector: #wrh_inv_ListContainer_splitter]
+12:01:45.884 INFO - Executing: [find element: By.cssSelector: #wrh_inv_ListContainer_splitter])
+12:01:45.903 INFO - Done: [find element: By.cssSelector: #wrh_inv_ListContainer_splitter]
+12:01:45.909 INFO - Executing: [mousemove: 48 true])
+12:01:45.928 INFO - Done: [mousemove: 48 true]
+12:01:45.932 INFO - Executing: [mousedown: no args])
+12:01:45.945 INFO - Done: [mousedown: no args]
+12:01:45.950 INFO - Executing: [find element: By.cssSelector: #wrh_inv_PageContainer])
+12:01:45.971 INFO - Done: [find element: By.cssSelector: #wrh_inv_PageContainer]
+12:01:45.976 INFO - Executing: [mousemove: 49 true])
+12:01:46.061 INFO - Done: [mousemove: 49 true]
+12:01:46.066 INFO - Executing: [mouseup: nothing])
+12:01:46.152 INFO - Done: [mouseup: nothing]
+12:01:46.157 INFO - Executing: [find element: By.xpath: //div[@id="wrh_inv_DetailHeader"]/table[3]/tbody/tr/td[2]/table//span[@role="option"]])
+12:01:46.176 INFO - Done: [find element: By.xpath: //div[@id="wrh_inv_DetailHeader"]/table[3]/tbody/tr/td[2]/table//span[@role="option"]]
+12:01:46.183 INFO - Executing: [mousemove: 76 true])
+12:01:46.240 INFO - Done: [mousemove: 76 true]
+12:01:46.245 INFO - Executing: [doubleclick: no args])
+12:01:46.269 INFO - Done: [doubleclick: no args]
+12:01:46.275 INFO - Executing: [find elements: By.xpath: //td[text()="USD (Американский доллар)"]])
+12:01:46.359 INFO - Done: [find elements: By.xpath: //td[text()="USD (Американский доллар)"]]
+12:01:46.364 INFO - Executing: [is displayed: 77 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> xpath: //td[text()="USD (Американский доллар)"]]])
+12:01:46.407 INFO - Done: [is displayed: 77 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> xpath: //td[text()="USD (Американский доллар)"]]]
+12:01:46.412 INFO - Executing: [find element: By.xpath: //td[text()="USD (Американский доллар)"]])
+12:01:46.458 INFO - Done: [find element: By.xpath: //td[text()="USD (Американский доллар)"]]
+12:01:46.465 INFO - Executing: [click: 77 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> xpath: //td[text()="USD (Американский доллар)"]]])
+12:01:46.604 INFO - Done: [click: 77 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> xpath: //td[text()="USD (Американский доллар)"]]]
+12:01:46.611 INFO - Executing: [find elements: By.xpath: //div[@id="wrh_inv_RightContainer"]//span[text()="Сохранить накладную"]])
+12:01:46.650 INFO - Done: [find elements: By.xpath: //div[@id="wrh_inv_RightContainer"]//span[text()="Сохранить накладную"]]
+12:01:46.654 INFO - Executing: [is displayed: 47 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> xpath: //div[@id="wrh_inv_RightContainer"]//span[text()="Сохранить накладную"]]])
+12:01:46.677 INFO - Done: [is displayed: 47 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> xpath: //div[@id="wrh_inv_RightContainer"]//span[text()="Сохранить накладную"]]]
+12:01:46.683 INFO - Executing: [find element: By.xpath: //div[@id="wrh_inv_RightContainer"]//span[text()="Сохранить накладную"]])
+12:01:46.707 INFO - Done: [find element: By.xpath: //div[@id="wrh_inv_RightContainer"]//span[text()="Сохранить накладную"]]
+12:01:46.713 INFO - Executing: [click: 47 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> xpath: //div[@id="wrh_inv_RightContainer"]//span[text()="Сохранить накладную"]]])
+12:01:46.785 INFO - Done: [click: 47 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> xpath: //div[@id="wrh_inv_RightContainer"]//span[text()="Сохранить накладную"]]]
+12:01:46.791 INFO - Executing: [find elements: By.cssSelector: #wrh_inv_ListContainer_splitter])
+12:01:46.817 INFO - Done: [find elements: By.cssSelector: #wrh_inv_ListContainer_splitter]
+12:01:46.825 INFO - Executing: [find element: By.cssSelector: #wrh_inv_ListContainer_splitter])
+12:01:46.886 INFO - Done: [find element: By.cssSelector: #wrh_inv_ListContainer_splitter]
+12:01:46.893 INFO - Executing: [mousemove: 48 true])
+12:01:47.060 INFO - Done: [mousemove: 48 true]
+12:01:47.065 INFO - Executing: [mousedown: no args])
+12:01:47.077 INFO - Done: [mousedown: no args]
+12:01:47.082 INFO - Executing: [find element: By.cssSelector: #wrh_inv_PageContainer])
+12:01:47.107 INFO - Done: [find element: By.cssSelector: #wrh_inv_PageContainer]
+12:01:47.114 INFO - Executing: [mousemove: 49 true])
+12:01:47.211 INFO - Done: [mousemove: 49 true]
+12:01:47.216 INFO - Executing: [mouseup: nothing])
+12:01:47.299 INFO - Done: [mouseup: nothing]
+12:01:48.312 INFO - Executing: [find elements: By.xpath: //div[@id="wrh_inv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[1]/td[7]])
+12:01:48.331 INFO - Done: [find elements: By.xpath: //div[@id="wrh_inv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[1]/td[7]]
+12:01:48.342 INFO - Executing: [find element: By.xpath: //div[@id="wrh_inv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[1]/td[7]])
+12:01:48.368 INFO - Done: [find element: By.xpath: //div[@id="wrh_inv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[1]/td[7]]
+12:01:48.374 INFO - Executing: [get text: 78 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> xpath: //div[@id="wrh_inv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[1]/td[7]]])
+12:01:48.421 INFO - Done: [get text: 78 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> xpath: //div[@id="wrh_inv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[1]/td[7]]]
+12:01:48.443 INFO - Executing: [find elements: By.cssSelector: #wrh_inv_ListContainer_splitter])
+12:01:48.459 INFO - Done: [find elements: By.cssSelector: #wrh_inv_ListContainer_splitter]
+12:01:48.467 INFO - Executing: [find element: By.cssSelector: #wrh_inv_ListContainer_splitter])
+12:01:48.483 INFO - Done: [find element: By.cssSelector: #wrh_inv_ListContainer_splitter]
+12:01:48.488 INFO - Executing: [mousemove: 48 true])
+12:01:48.507 INFO - Done: [mousemove: 48 true]
+12:01:48.515 INFO - Executing: [mousedown: no args])
+12:01:48.533 INFO - Done: [mousedown: no args]
+12:01:48.539 INFO - Executing: [find element: By.cssSelector: #wrh_inv_PageContainer])
+12:01:48.555 INFO - Done: [find element: By.cssSelector: #wrh_inv_PageContainer]
+12:01:48.559 INFO - Executing: [mousemove: 49 true])
+12:01:48.647 INFO - Done: [mousemove: 49 true]
+12:01:48.652 INFO - Executing: [mouseup: nothing])
+12:01:48.737 INFO - Done: [mouseup: nothing]
+12:01:48.743 INFO - Executing: [find elements: By.xpath: //div[@id="wrh_inv_RightContainer"]//span[text()="Новая накладная"]])
+12:01:48.766 INFO - Done: [find elements: By.xpath: //div[@id="wrh_inv_RightContainer"]//span[text()="Новая накладная"]]
+12:01:48.770 INFO - Executing: [is displayed: 43 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> xpath: //div[@id="wrh_inv_RightContainer"]//span[text()="Новая накладная"]]])
+12:01:48.787 INFO - Done: [is displayed: 43 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> xpath: //div[@id="wrh_inv_RightContainer"]//span[text()="Новая накладная"]]]
+12:01:48.792 INFO - Executing: [find element: By.xpath: //div[@id="wrh_inv_RightContainer"]//span[text()="Новая накладная"]])
+12:01:48.809 INFO - Done: [find element: By.xpath: //div[@id="wrh_inv_RightContainer"]//span[text()="Новая накладная"]]
+12:01:48.819 INFO - Executing: [click: 43 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> xpath: //div[@id="wrh_inv_RightContainer"]//span[text()="Новая накладная"]]])
+12:01:48.904 INFO - Done: [click: 43 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> xpath: //div[@id="wrh_inv_RightContainer"]//span[text()="Новая накладная"]]]
+12:01:48.912 INFO - Executing: [find element: By.xpath: //div[@id="wrh_inv_DetailHeader"]/table[1]/tbody/tr/th[1]])
+12:01:49.068 INFO - Done: [find element: By.xpath: //div[@id="wrh_inv_DetailHeader"]/table[1]/tbody/tr/th[1]]
+12:01:49.073 INFO - Executing: [get text: 7 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> xpath: //div[@id="wrh_inv_DetailHeader"]/table[1]/tbody/tr/th[1]]])
+12:01:49.099 INFO - Done: [get text: 7 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> xpath: //div[@id="wrh_inv_DetailHeader"]/table[1]/tbody/tr/th[1]]]
+12:01:49.107 INFO - Executing: [find element: By.xpath: //div[@id="wrh_inv_DetailHeader"]/table[2]/tbody/tr/td[1]/table//input[@role="presentation"]/ancestor::tr])
+12:01:49.128 INFO - Done: [find element: By.xpath: //div[@id="wrh_inv_DetailHeader"]/table[2]/tbody/tr/td[1]/table//input[@role="presentation"]/ancestor::tr]
+12:01:49.132 INFO - Executing: [get text: 44 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> xpath: //div[@id="wrh_inv_DetailHeader"]/table[2]/tbody/tr/td[1]/table//input[@role="presentation"]/ancestor::tr]])
+12:01:49.184 INFO - Done: [get text: 44 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> xpath: //div[@id="wrh_inv_DetailHeader"]/table[2]/tbody/tr/td[1]/table//input[@role="presentation"]/ancestor::tr]]
+12:01:49.195 INFO - Executing: [find element: By.xpath: //div[@id="wrh_inv_DetailHeader"]/table[3]/tbody/tr/td[1]/table//span[@role="option"]])
+12:01:49.223 INFO - Done: [find element: By.xpath: //div[@id="wrh_inv_DetailHeader"]/table[3]/tbody/tr/td[1]/table//span[@role="option"]]
+12:01:49.230 INFO - Executing: [get text: 79 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> xpath: //div[@id="wrh_inv_DetailHeader"]/table[3]/tbody/tr/td[1]/table//span[@role="option"]]])
+12:01:49.283 INFO - Done: [get text: 79 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> xpath: //div[@id="wrh_inv_DetailHeader"]/table[3]/tbody/tr/td[1]/table//span[@role="option"]]]
+12:01:49.294 INFO - Executing: [find element: By.xpath: //div[@id="wrh_inv_DetailHeader"]/table[3]/tbody/tr/td[2]/table//span[@role="option"]])
+12:01:49.311 INFO - Done: [find element: By.xpath: //div[@id="wrh_inv_DetailHeader"]/table[3]/tbody/tr/td[2]/table//span[@role="option"]]
+12:01:49.327 INFO - Executing: [get text: 80 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> xpath: //div[@id="wrh_inv_DetailHeader"]/table[3]/tbody/tr/td[2]/table//span[@role="option"]]])
+12:01:49.373 INFO - Done: [get text: 80 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> xpath: //div[@id="wrh_inv_DetailHeader"]/table[3]/tbody/tr/td[2]/table//span[@role="option"]]]
+12:01:49.380 INFO - Executing: [find elements: By.xpath: //div[@id="wrh_inv_RightContainer"]//span[text()="Сохранить накладную"]])
+12:01:49.399 INFO - Done: [find elements: By.xpath: //div[@id="wrh_inv_RightContainer"]//span[text()="Сохранить накладную"]]
+12:01:49.404 INFO - Executing: [is displayed: 47 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> xpath: //div[@id="wrh_inv_RightContainer"]//span[text()="Сохранить накладную"]]])
+12:01:49.418 INFO - Done: [is displayed: 47 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> xpath: //div[@id="wrh_inv_RightContainer"]//span[text()="Сохранить накладную"]]]
+12:01:49.423 INFO - Executing: [find element: By.xpath: //div[@id="wrh_inv_RightContainer"]//span[text()="Сохранить накладную"]])
+12:01:49.442 INFO - Done: [find element: By.xpath: //div[@id="wrh_inv_RightContainer"]//span[text()="Сохранить накладную"]]
+12:01:49.448 INFO - Executing: [click: 47 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> xpath: //div[@id="wrh_inv_RightContainer"]//span[text()="Сохранить накладную"]]])
+12:01:49.510 INFO - Done: [click: 47 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> xpath: //div[@id="wrh_inv_RightContainer"]//span[text()="Сохранить накладную"]]]
+12:01:49.537 INFO - Executing: [find elements: By.cssSelector: #wrh_inv_ListContainer_splitter])
+12:01:49.555 INFO - Done: [find elements: By.cssSelector: #wrh_inv_ListContainer_splitter]
+12:01:49.562 INFO - Executing: [find element: By.cssSelector: #wrh_inv_ListContainer_splitter])
+12:01:49.832 INFO - Done: [find element: By.cssSelector: #wrh_inv_ListContainer_splitter]
+12:01:49.837 INFO - Executing: [mousemove: 48 true])
+12:01:49.876 INFO - Done: [mousemove: 48 true]
+12:01:49.881 INFO - Executing: [mousedown: no args])
+12:01:49.891 INFO - Done: [mousedown: no args]
+12:01:49.895 INFO - Executing: [find element: By.cssSelector: #wrh_inv_PageContainer])
+12:01:49.916 INFO - Done: [find element: By.cssSelector: #wrh_inv_PageContainer]
+12:01:49.926 INFO - Executing: [mousemove: 49 true])
+12:01:50.031 INFO - Done: [mousemove: 49 true]
+12:01:50.037 INFO - Executing: [mouseup: nothing])
+12:01:50.124 INFO - Done: [mouseup: nothing]
+12:01:50.134 INFO - Executing: [find elements: By.xpath: //div[@id="wrh_inv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[2]/td[1]])
+12:01:50.179 INFO - Done: [find elements: By.xpath: //div[@id="wrh_inv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[2]/td[1]]
+12:01:50.191 INFO - Executing: [find element: By.xpath: //div[@id="wrh_inv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[2]/td[1]])
+12:01:50.258 INFO - Done: [find element: By.xpath: //div[@id="wrh_inv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[2]/td[1]]
+12:01:50.262 INFO - Executing: [get text: 81 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> xpath: //div[@id="wrh_inv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[2]/td[1]]])
+12:01:50.310 INFO - Done: [get text: 81 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> xpath: //div[@id="wrh_inv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[2]/td[1]]]
+12:01:50.320 INFO - Executing: [find elements: By.xpath: //div[@id="wrh_inv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[2]/td[2]])
+12:01:50.358 INFO - Done: [find elements: By.xpath: //div[@id="wrh_inv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[2]/td[2]]
+12:01:50.365 INFO - Executing: [find element: By.xpath: //div[@id="wrh_inv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[2]/td[2]])
+12:01:50.407 INFO - Done: [find element: By.xpath: //div[@id="wrh_inv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[2]/td[2]]
+12:01:50.412 INFO - Executing: [get text: 82 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> xpath: //div[@id="wrh_inv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[2]/td[2]]])
+12:01:50.455 INFO - Done: [get text: 82 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> xpath: //div[@id="wrh_inv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[2]/td[2]]]
+12:01:50.460 INFO - Executing: [find elements: By.xpath: //div[@id="wrh_inv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[2]/td[3]])
+12:01:50.497 INFO - Done: [find elements: By.xpath: //div[@id="wrh_inv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[2]/td[3]]
+12:01:50.503 INFO - Executing: [find element: By.xpath: //div[@id="wrh_inv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[2]/td[3]])
+12:01:50.546 INFO - Done: [find element: By.xpath: //div[@id="wrh_inv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[2]/td[3]]
+12:01:50.550 INFO - Executing: [get text: 83 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> xpath: //div[@id="wrh_inv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[2]/td[3]]])
+12:01:50.597 INFO - Done: [get text: 83 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> xpath: //div[@id="wrh_inv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[2]/td[3]]]
+12:01:50.603 INFO - Executing: [find elements: By.xpath: //div[@id="wrh_inv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[2]/td[4]])
+12:01:50.640 INFO - Done: [find elements: By.xpath: //div[@id="wrh_inv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[2]/td[4]]
+12:01:50.650 INFO - Executing: [find element: By.xpath: //div[@id="wrh_inv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[2]/td[4]])
+12:01:50.690 INFO - Done: [find element: By.xpath: //div[@id="wrh_inv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[2]/td[4]]
+12:01:50.694 INFO - Executing: [get text: 84 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> xpath: //div[@id="wrh_inv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[2]/td[4]]])
+12:01:50.738 INFO - Done: [get text: 84 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> xpath: //div[@id="wrh_inv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[2]/td[4]]]
+12:01:50.746 INFO - Executing: [find elements: By.xpath: //div[@id="wrh_inv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[2]/td[5]])
+12:01:50.805 INFO - Done: [find elements: By.xpath: //div[@id="wrh_inv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[2]/td[5]]
+12:01:50.810 INFO - Executing: [find element: By.xpath: //div[@id="wrh_inv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[2]/td[5]])
+12:01:50.852 INFO - Done: [find element: By.xpath: //div[@id="wrh_inv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[2]/td[5]]
+12:01:50.856 INFO - Executing: [get text: 85 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> xpath: //div[@id="wrh_inv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[2]/td[5]]])
+12:01:50.898 INFO - Done: [get text: 85 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> xpath: //div[@id="wrh_inv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[2]/td[5]]]
+12:01:50.902 INFO - Executing: [find elements: By.xpath: //div[@id="wrh_inv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[2]/td[6]])
+12:01:50.941 INFO - Done: [find elements: By.xpath: //div[@id="wrh_inv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[2]/td[6]]
+12:01:50.947 INFO - Executing: [find element: By.xpath: //div[@id="wrh_inv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[2]/td[6]])
+12:01:50.998 INFO - Done: [find element: By.xpath: //div[@id="wrh_inv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[2]/td[6]]
+12:01:51.003 INFO - Executing: [get text: 86 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> xpath: //div[@id="wrh_inv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[2]/td[6]]])
+12:01:51.057 INFO - Done: [get text: 86 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> xpath: //div[@id="wrh_inv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[2]/td[6]]]
+12:01:51.063 INFO - Executing: [find elements: By.xpath: //div[@id="wrh_inv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[2]/td[7]])
+12:01:51.102 INFO - Done: [find elements: By.xpath: //div[@id="wrh_inv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[2]/td[7]]
+12:01:51.108 INFO - Executing: [find element: By.xpath: //div[@id="wrh_inv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[2]/td[7]])
+12:01:51.155 INFO - Done: [find element: By.xpath: //div[@id="wrh_inv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[2]/td[7]]
+12:01:51.159 INFO - Executing: [get text: 87 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> xpath: //div[@id="wrh_inv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[2]/td[7]]])
+12:01:51.218 INFO - Done: [get text: 87 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> xpath: //div[@id="wrh_inv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[2]/td[7]]]
+12:01:51.223 INFO - Executing: [find elements: By.xpath: //div[@id="wrh_inv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[2]/td[8]])
+12:01:51.268 INFO - Done: [find elements: By.xpath: //div[@id="wrh_inv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[2]/td[8]]
+12:01:51.278 INFO - Executing: [find element: By.xpath: //div[@id="wrh_inv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[2]/td[8]])
+12:01:51.317 INFO - Done: [find element: By.xpath: //div[@id="wrh_inv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[2]/td[8]]
+12:01:51.321 INFO - Executing: [get text: 88 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> xpath: //div[@id="wrh_inv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[2]/td[8]]])
+12:01:51.362 INFO - Done: [get text: 88 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> xpath: //div[@id="wrh_inv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[2]/td[8]]]
+12:01:51.381 INFO - Executing: [find elements: By.xpath: //div[@id="wrh_inv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[1]/td[1]])
+12:01:51.398 INFO - Done: [find elements: By.xpath: //div[@id="wrh_inv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[1]/td[1]]
+12:01:51.404 INFO - Executing: [find element: By.xpath: //div[@id="wrh_inv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[1]/td[1]])
+12:01:51.422 INFO - Done: [find element: By.xpath: //div[@id="wrh_inv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[1]/td[1]]
+12:01:51.426 INFO - Executing: [mousemove: 68 true])
+12:01:51.494 INFO - Done: [mousemove: 68 true]
+12:01:51.500 INFO - Executing: [click: nothing])
+12:01:51.573 INFO - Done: [click: nothing]
+12:01:51.581 INFO - Executing: [find element: By.xpath: //div[@id="wrh_inv_RightContainer"]//span[text()="Удалить накладную"]])
+12:01:51.642 INFO - Done: [find element: By.xpath: //div[@id="wrh_inv_RightContainer"]//span[text()="Удалить накладную"]]
+12:01:51.646 INFO - Executing: [click: 89 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> xpath: //div[@id="wrh_inv_RightContainer"]//span[text()="Удалить накладную"]]])
+12:01:51.763 INFO - Done: [click: 89 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> xpath: //div[@id="wrh_inv_RightContainer"]//span[text()="Удалить накладную"]]]
+12:01:52.771 INFO - Executing: [find elements: By.xpath: //div[@id="wrh_inv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[1]/td[1]])
+12:01:52.805 INFO - Done: [find elements: By.xpath: //div[@id="wrh_inv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[1]/td[1]]
+12:01:52.811 INFO - Executing: [find element: By.xpath: //div[@id="wrh_inv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[1]/td[1]])
+12:01:52.839 INFO - Done: [find element: By.xpath: //div[@id="wrh_inv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[1]/td[1]]
+12:01:52.844 INFO - Executing: [get text: 68 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> xpath: //div[@id="wrh_inv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[1]/td[1]]])
+12:01:52.874 INFO - Done: [get text: 68 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> xpath: //div[@id="wrh_inv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[1]/td[1]]]
+12:01:52.881 INFO - Executing: [find elements: By.xpath: //div[@id="wrh_inv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[1]/td[1]])
+12:01:52.905 INFO - Done: [find elements: By.xpath: //div[@id="wrh_inv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[1]/td[1]]
+12:01:52.912 INFO - Executing: [find element: By.xpath: //div[@id="wrh_inv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[1]/td[1]])
+12:01:52.929 INFO - Done: [find element: By.xpath: //div[@id="wrh_inv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[1]/td[1]]
+12:01:52.935 INFO - Executing: [mousemove: 68 true])
+12:01:52.970 INFO - Done: [mousemove: 68 true]
+12:01:52.975 INFO - Executing: [click: nothing])
+12:01:53.033 INFO - Done: [click: nothing]
+12:01:53.039 INFO - Executing: [find element: By.xpath: //div[@id="wrh_inv_RightContainer"]//span[text()="Удалить накладную"]])
+12:01:53.058 INFO - Done: [find element: By.xpath: //div[@id="wrh_inv_RightContainer"]//span[text()="Удалить накладную"]]
+12:01:53.062 INFO - Executing: [click: 89 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> xpath: //div[@id="wrh_inv_RightContainer"]//span[text()="Удалить накладную"]]])
+12:01:53.132 INFO - Done: [click: 89 [[ChromeDriver: chrome on LINUX (5c203e28da91f842f9c41a7cacddcaa7)] -> xpath: //div[@id="wrh_inv_RightContainer"]//span[text()="Удалить накладную"]]]
+12:01:53.138 INFO - Executing: [find elements: By.xpath: //div[@id="wrh_inv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[1]/td[1]])
+12:01:53.159 INFO - Done: [find elements: By.xpath: //div[@id="wrh_inv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[1]/td[1]]
+12:01:53.666 INFO - Executing: [find elements: By.xpath: //div[@id="wrh_inv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[1]/td[1]])
+12:01:53.692 INFO - Done: [find elements: By.xpath: //div[@id="wrh_inv_ListContainer"]//div[2]//div[@class="ht_master handsontable"]//tbody/tr[1]/td[1]]

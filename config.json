@@ -19,7 +19,9 @@
     "dir_contractors",
     "dir_products",
     "wrh_pinvoices",
-    "wrh_invoices"
+    "wrh_invoices",
+    "wrh_ret_invoices",
+    "wrh_ret_pinvoices"
   ],
   "appMenu":[
     { "menuTitle":"Главная страница", "menuItemName":"menuBarItemMainPage", "pageTitle":"Главная страница", "module":"mainPage", "closable":false},
@@ -34,6 +36,7 @@
     { "menuItemName":"menuBarWrh", "menuTitle":"Склад",
       "popupMenu":[
         { "menuItemName":"menuBarWrhPInvoices", "menuTitle":"Приходные накладные", "pageTitle":"Приходные накладные", "module":"wrh_pinvoices", "closable":true},
+        { "menuItemName":"menuBarWrhRetPInvoices", "menuTitle":"Накладные возврата поставщику", "pageTitle":"Накладные возврата поставщику", "module":"wrh_ret_pinvoices", "closable":true},
         { "menuItemName":"separator_wrh1"},
         {"menuItemName":"menuBarWrhInvoices", "menuTitle":"Расходные накладные", "pageTitle":"Расходные накладные", "module":"wrh_invoices", "closable":true},
         {"menuItemName":"menuBarWrhRetInvoices", "menuTitle":"Возвратные накладные", "pageTitle":"Возвратные накладные", "module":"wrh_ret_invoices", "closable":true},
@@ -52,7 +55,9 @@
   "usersRoleMenu":{
     "user":["menuBarItemMainPage",
       "menuBarPopupMenuMain", "menuBarDirsItemUnits", "separator_dir1", "menuBarDirsItemContractors", "separator_wrh2", "menuBarDirsItemProducts",
-      "menuBarWrh", "menuBarWrhPInvoices", "separator_wrh1", "menuBarWrhInvoices", "menuBarWrhRetInvoices", "separator_wrh2", "menuBarWrhProdsBalance", "menuBarWrhProdsMoves",
+      "menuBarWrh", "menuBarWrhPInvoices", "menuBarWrhRetPInvoices", "separator_wrh1",
+      "menuBarWrhInvoices", "menuBarWrhRetInvoices", "separator_wrh2",
+      "menuBarWrhProdsBalance", "menuBarWrhProdsMoves",
       "menuBarPopupMenuSales", "menuBarSalesItemCashier",
       "menuBarItemClose","menuBarItemHelpAbout"],
     "cashier":["menuBarItemSalesCashier",

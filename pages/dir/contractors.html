@@ -32,7 +32,7 @@
                                 .addToolPaneTableActionButton("Изменить", {action:"allowEditTableSelectedRow"}, "width:115px;")
                                 .addToolPaneTableActionButton("Сохранить", {action:"storeTableSelectedRow"}, "width:115px;")
                                 .addToolPaneTableActionButton("Удалить", {action:"deleteTableSelectedRow"}, "width:115px;")
-                                .addContentTableRowChangeCallback(function(changedRowData, thisInstance, params, nextCallback){
+                                .addContentTableRowChangeCallback(function(changedRowData, contentTable, params, nextCallback){
                                    // changedRowData.item("NOT_USED").setValue(0);
                                     nextCallback();
                                 })

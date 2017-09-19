@@ -126,6 +126,7 @@
                         }
                     }
                 };
+
                 main_MainContainer.runMainAction = function(actionData) {                                       console.log("main_MainContainer.runMainAction: actionData=",actionData);//!!!IT'S FOR TESTING!!!
                     if (actionData.action=="close") {
                         main_MainMenu.destroy();
@@ -154,6 +155,7 @@
                         console.log("main_MainContainer.runMainAction: unknown action:\""+actionData.action+"\"!!! do nothing!!!");
                     }
                 };
+
                 main_MainContainer.runAutorunActions = function() {
                     if(!main_MainContainer.mainContentData||!main_MainContainer.mainContentData.autorun) return;
                     var autorunActions = main_MainContainer.mainContentData.autorun;

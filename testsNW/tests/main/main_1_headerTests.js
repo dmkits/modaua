@@ -574,6 +574,7 @@ module.exports= {
     }
    */
 
+    /*
     'Open pinvs table': function (browser) {
         var mainPage = browser.page.mainPage();
         var pinvs = browser.page.pinvs();
@@ -605,7 +606,7 @@ module.exports= {
             .assert.containsText("@currencyLabel","Валюта");
     },
 
-   /* 'assert Pinvs  Header Contains Text': function (browser) {
+    'assert Pinvs  Header Contains Text': function (browser) {
         var pinvs = browser.page.pinvs();
         pinvs
             .assertHeaderContainsText("1","Номер п/п")
@@ -619,7 +620,7 @@ module.exports= {
             .assertHeaderContainsText("9","Цена продажи")
             .assertHeaderContainsText("10","Цена по прайс-листу");
 
-    },*/
+    },
 
     'create new pinv': function (browser) {
         var pinvs = browser.page.pinvs();
@@ -732,7 +733,168 @@ module.exports= {
             .click('@deletePinvBtn')
             .assertLeftContainerTableisEmpty();
 
+        ;},
+
+    */
+    ///////////////////////////////////////////////
+
+    'Open invs table': function (browser) {
+        var mainPage = browser.page.mainPage();
+        var invs = browser.page.invs();
+        mainPage
+            .waitForElementVisible('@menuBarWrh')
+            .click('@menuBarWrh')
+            .waitForElementVisible('@menuBarWrhInvoice')
+            .click('@menuBarWrhInvoice');
+        invs
+            .waitForElementVisible('@wrh_inv_DetailHeader');
+
+    },
+
+    'Invs check if DetailHeader elements are visible': function (browser) {
+        var invs = browser.page.invs();
+        invs
+            .waitForElementVisible('@detailHeaderTitle')
+            .assert.containsText("@detailHeaderTitle","не выбрана")
+            .waitForElementVisible('@leftContainerHeading')
+            .assert.containsText("@leftContainerHeading","Список накладных")
+            .waitForElementVisible('@refreshBtn')
+            .waitForElementVisible('@printBtn')
+            .assert.visible('@pickUpUnitLabel')
+            .assert.containsText("@pickUpUnitLabel","Подразделение")
+            .assert.visible('@dateLabel')
+            .assert.containsText("@dateLabel","Дата")
+            .assert.visible('@buyerLabel')
+            .assert.containsText("@buyerLabel","Покупатель")
+            .assert.visible('@currencyLabel')
+            .assert.containsText("@currencyLabel","Валюта");
+    },
+
+    'assert Invs  Header Contains Text': function (browser) {
+        var invs = browser.page.invs();
+        invs
+            .assertHeaderContainsText("1","Номер п/п")
+            .assertHeaderContainsText("2","Код товара")
+            .assertHeaderContainsText("3","Товар")
+            .assertHeaderContainsText("4","Ед.изм.")
+            .assertHeaderContainsText("5","Кол-во")
+            .assertHeaderContainsText("6","Цена")
+            .assertHeaderContainsText("7","Сумма")
+            .assertHeaderContainsText("8","Коэфф.")
+            .assertHeaderContainsText("9","Цена продажи")
+            .assertHeaderContainsText("10","Цена по прайс-листу");
+
+    },
+
+    'create new pinv': function (browser) {
+        var invs = browser.page.invs();
+
+        invs
+            .waitForElementVisible('@createNewInvBtn')
+            .click('@createNewInvBtn');
+        browser.
+            pause(1000);
+        invs
+            .assert.containsText("@detailHeaderTitle","Новая расходная накладная")
+            .assert.containsText("@pickUpUnitInput","офис")
+            .assert.containsText("@buyerInput","Розничный покупатель")
+            .assert.containsText("@currencyInput","UAH (Украинская гривна)")
+            .waitForElementVisible('@saveNewInvBtn')
+            .click("@saveNewInvBtn");
+
+        browser.
+            pause(1000);
         ;}
+
+    ,'Assert new inv added to left container': function (browser) {
+        var invs = browser.page.invs();
+
+        invs
+            .showFullLeftContainer()
+            .waitForElementVisible('@leftContainerHeading')
+            .assert.containsText("@leftContainerHeading","Список накладных")
+            .assertLeftContainerHeaderContainsText('1','Номер')
+            .assertLeftContainerHeaderContainsText('2','Дата')
+            .assertLeftContainerHeaderContainsText('3','Подразделение')
+            .assertLeftContainerHeaderContainsText('4','Покупатель')
+            .assertLeftContainerHeaderContainsText('5','Кол-во')
+            .assertLeftContainerHeaderContainsText('6','Сумма')
+            .assertLeftContainerHeaderContainsText('7','Валюта')
+            .assertLeftContainerHeaderContainsText('8','Статус')
+
+            .assertLeftContainerCellContainsText('1','1','1')
+            .assertLeftContainerCellContainsText('1','2','19.09.17')
+            .assertLeftContainerCellContainsText('1','3','Гл.офис')
+            .assertLeftContainerCellContainsText('1','4','Розничный покупатель')
+            .assertLeftContainerCellContainsText('1','5','0')
+            .assertLeftContainerCellContainsText('1','6','0,00')
+            .assertLeftContainerCellContainsText('1','7','UAH')
+            .assertLeftContainerCellContainsText('1','8','Документ сохранен')
+
+        ;}
+
+    ,'change inv and save changes': function (browser) {
+        var invs = browser.page.invs();
+
+        invs
+            .showFullDetailContainer()
+            .moveToElement('@currencyInput',5,5)
+            .doubleClick()
+            .waitForElementVisible("@currencyUSDinList")
+            .click("@currencyUSDinList")
+            .waitForElementVisible("@saveNewInvBtn")
+            .click("@saveNewInvBtn")
+            .showFullLeftContainer();
+        browser
+            .pause(1000);
+        invs
+            .assertLeftContainerCellContainsText('1','7','USD')
+        ;}
+
+    ,'create second inv': function (browser) {
+        var invs = browser.page.invs();
+
+        invs
+            .showFullDetailContainer()
+            .waitForElementVisible('@createNewInvBtn')
+            .click('@createNewInvBtn');
+        invs
+            .assert.containsText("@detailHeaderTitle", "Новая расходная накладная")
+            .assert.containsText("@pickUpUnitInput", "офис")
+            .assert.containsText("@buyerInput", "Розничный покупатель")
+            .assert.containsText("@currencyInput", "UAH (Украинская гривна)")
+            .waitForElementVisible('@saveNewInvBtn')
+            .click("@saveNewInvBtn");
+    }
+
+    ,'Assert second inv added to left container': function (browser) {
+        var invs = browser.page.invs();
+
+        invs
+            .showFullLeftContainer()
+            .assertLeftContainerCellContainsText('2','1','2')
+            .assertLeftContainerCellContainsText('2','2','19.09.17')
+            .assertLeftContainerCellContainsText('2','3','Гл.офис')
+            .assertLeftContainerCellContainsText('2','4','Розничный покупатель')
+            .assertLeftContainerCellContainsText('2','5','0')
+            .assertLeftContainerCellContainsText('2','6','0,00')
+            .assertLeftContainerCellContainsText('2','7','UAH')
+            .assertLeftContainerCellContainsText('2','8','Документ сохранен')
+        ;}
+
+    ,"delete invs  and assert they don't exists": function (browser) {
+        var invs = browser.page.invs();
+        invs
+            .selectLeftContainerTableRow('1')
+            .click('@deleteInvBtn');
+        browser.pause(1000);
+        invs
+            .assertLeftContainerCellContainsText('1','1','2')
+            .selectLeftContainerTableRow('1')
+            .click('@deleteInvBtn')
+            .assertLeftContainerTableisEmpty();
+        ;}
+
 
     //,'Logout': function (browser) {
     //    var mainPage = browser.page.mainPage();
