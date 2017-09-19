@@ -34,7 +34,7 @@
                                 .addContentTablePopupMenuItemAction("Добавить строки",{action:"insertTableRowsAfterSelected",rowPosName:"POS"})//rowPosIndexName:"POSIND"
                                 .addContentTablePopupMenuItemAction("Изменить строки",{action:"allowEditTableSelectedRows"})
                                 .addContentTablePopupMenuItemAction("Сохранить строки",{action:"storeTableSelectedRows"})
-                                .addContentTableRowChangeCallback(function(changedRowData, params, nextCallback){
+                                .addContentTableRowChangeCallback(function(changedRowData,thisInstance, params, nextCallback){
                                     if(changedRowData.item("NOT_USED").isUNDEFNULL()) changedRowData.item("NOT_USED").setValue(0);
                                     nextCallback();
                                 })
