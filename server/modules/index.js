@@ -44,6 +44,7 @@ module.exports.validateModules= function(resultCallback){
         });
     };
     dataModel.resetModelChanges();
+    dataModel.resetValidatedDataModels();
     validateModuleCallback(modules, 0, errs);
 };
 

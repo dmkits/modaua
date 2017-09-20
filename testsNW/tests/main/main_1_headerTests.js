@@ -1,3 +1,4 @@
+var moment = require('moment');
 
 //user
 module.exports= {
@@ -14,7 +15,7 @@ module.exports= {
         mainPage
             .navigate();
     },
-  /* 'step_1.1 Validate DB': function (browser) {
+    'step_1.1 Validate DB': function (browser) {
         browser.url('localhost:8181/sysadmin');
         var loginPage = browser.page.loginPage();
         loginPage.
@@ -23,6 +24,7 @@ module.exports= {
         var database=browser.page.database();
 
         sysadminHeader
+            .waitForElementVisible('@serverConfigBtn')
             .click('@serverConfigBtn')
             .assert.attributeContains('@serverConfigBtn','aria-pressed','true');
         var serverConfig = browser.page.serverConfig();
@@ -54,7 +56,7 @@ module.exports= {
             .assert.containsText('@dbValidateState','success')
             .click("@logoutBtn");
     },
-*/
+
     'step_2 Login main page':function(browser){
         var loginPage = browser.page.loginPage();
         loginPage
@@ -66,7 +68,7 @@ module.exports= {
             .click("@loginDialog_submitBtn");
     },
 
-  /* 'step_3 Main Header If  All Elements Visible Tests': function (browser) {
+  'step_3 Main Header If  All Elements Visible Tests': function (browser) {
 
         browser.pause(2000);
 
@@ -571,10 +573,8 @@ module.exports= {
                 this.switchWindow(oldWindow);
                 this.verify.urlEquals('http://localhost:8181/');
             });
-    }
-   */
+    },
 
-    /*
     'Open pinvs table': function (browser) {
         var mainPage = browser.page.mainPage();
         var pinvs = browser.page.pinvs();
@@ -644,7 +644,7 @@ module.exports= {
 
     ,'Assert new pinv added to left container': function (browser) {
         var pinvs = browser.page.pinvs();
-
+        var now=moment().format("DD.MM.YYYY");
         pinvs
             .showFullLeftContainer()
             .waitForElementVisible('@leftContainerHeading')
@@ -661,8 +661,13 @@ module.exports= {
             .assertLeftContainerHeaderContainsText('10','Валюта')
             .assertLeftContainerHeaderContainsText('11','Статус')
 
-            .assertLeftContainerCellContainsText('1','1','1')
-            .assertLeftContainerCellContainsText('1','2','14.09.17')
+            .assertLeftContainerCellContainsText('1','1','1');
+
+        browser.perform(function () {
+            pinvs.assertLeftContainerCellContainsText('1','2',now);
+        });
+
+        pinvs
             .assertLeftContainerCellContainsText('1','3','Гл.офис')
             .assertLeftContainerCellContainsText('1','4','Поставщик 1')
             .assertLeftContainerCellContainsText('1','7','коллекция 1 2017')
@@ -709,11 +714,15 @@ module.exports= {
 
     ,'Assert second pinv added to left container': function (browser) {
         var pinvs = browser.page.pinvs();
-
+        var now=moment().format("DD.MM.YYYY");
         pinvs
             .showFullLeftContainer()
-            .assertLeftContainerCellContainsText('2','1','2')
-            .assertLeftContainerCellContainsText('2','2','14.09.17')
+            .assertLeftContainerCellContainsText('2','1','2');
+
+        browser.perform(function () {
+            pinvs.assertLeftContainerCellContainsText('2','2',now);
+        });
+        pinvs
             .assertLeftContainerCellContainsText('2','3','Гл.офис')
             .assertLeftContainerCellContainsText('2','4','Поставщик 1')
             .assertLeftContainerCellContainsText('2','7','коллекция 1 2017')
@@ -735,8 +744,7 @@ module.exports= {
 
         ;},
 
-    */
-    ///////////////////////////////////////////////
+
 
     'Open invs table': function (browser) {
         var mainPage = browser.page.mainPage();
@@ -808,7 +816,7 @@ module.exports= {
 
     ,'Assert new inv added to left container': function (browser) {
         var invs = browser.page.invs();
-
+        var now=moment().format("DD.MM.YYYY");
         invs
             .showFullLeftContainer()
             .waitForElementVisible('@leftContainerHeading')
@@ -822,8 +830,13 @@ module.exports= {
             .assertLeftContainerHeaderContainsText('7','Валюта')
             .assertLeftContainerHeaderContainsText('8','Статус')
 
-            .assertLeftContainerCellContainsText('1','1','1')
-            .assertLeftContainerCellContainsText('1','2','19.09.17')
+            .assertLeftContainerCellContainsText('1','1','1');
+
+        browser.perform(function () {
+            invs .assertLeftContainerCellContainsText('1','2',now)
+        });
+
+        invs
             .assertLeftContainerCellContainsText('1','3','Гл.офис')
             .assertLeftContainerCellContainsText('1','4','Розничный покупатель')
             .assertLeftContainerCellContainsText('1','5','0')
@@ -869,11 +882,15 @@ module.exports= {
 
     ,'Assert second inv added to left container': function (browser) {
         var invs = browser.page.invs();
-
+        var now=moment().format("DD.MM.YYYY");
         invs
             .showFullLeftContainer()
-            .assertLeftContainerCellContainsText('2','1','2')
-            .assertLeftContainerCellContainsText('2','2','19.09.17')
+            .assertLeftContainerCellContainsText('2','1','2');
+
+        browser.perform(function () {
+            invs.assertLeftContainerCellContainsText('2','2',now)
+        });
+        invs
             .assertLeftContainerCellContainsText('2','3','Гл.офис')
             .assertLeftContainerCellContainsText('2','4','Розничный покупатель')
             .assertLeftContainerCellContainsText('2','5','0')
@@ -896,14 +913,14 @@ module.exports= {
         ;}
 
 
-    //,'Logout': function (browser) {
-    //    var mainPage = browser.page.mainPage();
-    //    var loginPage = browser.page.loginPage();
-    //
-    //    mainPage
-    //    .waitForElementVisible("@menuBarItemCloseItem")
-    //        .click('@menuBarItemCloseItem');
-    //    loginPage
-    //        .waitForElementVisible("@loginDialog");
-    //}
+    ,'Logout': function (browser) {
+        var mainPage = browser.page.mainPage();
+        var loginPage = browser.page.loginPage();
+
+        mainPage
+        .waitForElementVisible("@menuBarItemCloseItem")
+            .click('@menuBarItemCloseItem');
+        loginPage
+            .waitForElementVisible("@loginDialog");
+    }
 };

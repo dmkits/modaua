@@ -26,8 +26,8 @@ var sys_currency= require(appDataModelPath+"sys_currency"),
 module.exports.validateModule = function(errs, nextValidateModuleCallback){
     dataModel.initValidateDataModels({"change_log":changeLog,
             "sys_docstates":sys_docstates,"sys_currency":sys_currency, "sys_sync_databases":sys_sync_databases,
-       "sys_sync_errors_log":sys_sync_errors_log,"sys_sync_incoming_data":sys_sync_incoming_data,
-        "sys_sync_output_data":sys_sync_output_data}, errs,
+            "sys_sync_errors_log":sys_sync_errors_log,"sys_sync_incoming_data":sys_sync_incoming_data,
+            "sys_sync_output_data":sys_sync_output_data}, errs,
         function(){
             nextValidateModuleCallback();
         });

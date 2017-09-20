@@ -1,8 +1,9 @@
 var server= require("../server"), log= server.log, instauUID = require('instauuid'), dateFormat = require('dateformat');
 
-var dataModelChanges= [];
+var dataModelChanges= [], validatedDataModels={};
 module.exports.getModelChanges=function(){ return dataModelChanges; };
 module.exports.resetModelChanges=function(){ dataModelChanges=[]; };
+module.exports.resetValidatedDataModels=function(){ validatedDataModels={}; };
 
 var database= require("../database");
 /**
@@ -16,6 +17,11 @@ function initValidateDataModel(dataModelName, dataModel, errs, nextValidateDataM
         nextValidateDataModelCallback();
         return;
     }
+    if(validatedDataModels[dataModelName]){
+        nextValidateDataModelCallback();
+        return;
+    }
+    validatedDataModels[dataModelName]=true;
     var tableName, tableFieldsList=[],tableFields={}, idFieldName, joinedSources={};
     if(dataModel.changeLog){
         dataModelChanges= dataModelChanges.concat(dataModel.changeLog);
