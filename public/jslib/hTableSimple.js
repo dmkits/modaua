@@ -23,7 +23,7 @@ Handsontable.cellTypes['text'].editor.prototype.getValue = function() {
     }
     return this.TEXTAREA.value;
 };
-define(["dojo/_base/declare", "dijit/layout/ContentPane", "request"], function(declare, ContentPane, Request){
+define(["dojo/_base/declare", "dijit/layout/ContentPane","dojox/widget/Standby", "request"], function(declare, ContentPane, Standby, Request){
     return declare("HTableSimple", [ContentPane], {
         handsonTable: null,
         htColumns: [], htVisibleColumns: [],
@@ -329,13 +329,16 @@ define(["dojo/_base/declare", "dijit/layout/ContentPane", "request"], function(d
          * if clearContentBeforeLoad==true content clearing before send request for table data
          */
         setContentFromUrl: function(params){                                                                            //console.log("HTableSimple setContentFromUrl ",params);
+            var instance = this;
+           console.log("instance=",instance);
+            var loadingGif = new Standby({"target":instance.domNode,"color":"blue"/*"image":"/imgs/loading.gif","centerIndicator":"image"*/ });
+          //  loadingGif.startup();
             if (!params) {
                 this.updateContent(null);
                 return;
             }
             if (!params.method) params.method="get";
             var duplexRequest= (params.duplexRequest===true)||( (!this.htColumns||this.htColumns.length==0)&&(params.duplexRequest!==false) );
-            var instance = this;
             if (params.method!="post") {
                 if (duplexRequest){
                     Request.getJSONData({url:params.url, condition:null, consoleLog:true}
@@ -351,6 +354,8 @@ define(["dojo/_base/declare", "dijit/layout/ContentPane", "request"], function(d
                                 return;
                             }
                             instance.updateContent(result, {callUpdateContent:params.callUpdateContent, resetSelection:false});
+                            loadingGif.show();
+                            ///
                             var sCondition= JSON.stringify(params.condition);
                             if(sCondition.length==0||sCondition==="{}") return; //if condition is Empty
                             Request.getJSONData({url:params.url, condition:params.condition, consoleLog:true}
@@ -362,17 +367,23 @@ define(["dojo/_base/declare", "dijit/layout/ContentPane", "request"], function(d
                                         if(!result) result={};
                                         if(!result.columns) result.columns=instance.htColumns;
                                         if(!result.items) result.items=[];
+                                        ////
+                                        loadingGif.show();
                                         instance.updateContent(result, {callUpdateContent:params.callUpdateContent});
                                         return;
                                     }
+                                    ///
                                     if (result.items&&result.items.length>0)
                                         instance.updateContent(result, {callUpdateContent:params.callUpdateContent});
                                 });
+
                         });
                     return;
                 }
+
                 if(this.htData&&this.htData.length>0 && params.clearContentBeforeLoad===true)
                     instance.clearContent({callUpdateContent:params.callUpdateContent, resetSelection:false});
+                ////
                 Request.getJSONData({url:params.url, condition:params.condition, consoleLog:true}
                     ,/*postaction*/function(success,result){
                         if(!success) result=null;
@@ -382,11 +393,14 @@ define(["dojo/_base/declare", "dijit/layout/ContentPane", "request"], function(d
                             if(!result) result={};
                             if(!result.columns) result.columns=instance.htColumns;
                             if(!result.items) result.items=[];
+                            ///
                             instance.updateContent(result, {callUpdateContent:params.callUpdateContent});
                             return;
                         }
+                        ///
                         instance.updateContent(result, {callUpdateContent:params.callUpdateContent});
                     });
+
                 return;
             }
             if (duplexRequest){
