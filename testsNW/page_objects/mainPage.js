@@ -221,11 +221,12 @@ module.exports = {
             locateStrategy:'xpath'
         },
 
-        menuBarWrhPInvoice:"#menuBarWrhPInvoices",               //Приходные накладные  menuBarWrhPInvoices
-        menuBarWrhInvoice:"#menuBarWrhInvoices",                 //Расходные накладные
-        menuBarWrhRetInvoice:"#menuBarWrhRetInvoices",           //Возвратные накладные
-        menuBarWrhBalance:"#menuBarWrhBalance",                 //Остатки товара
-        menuBarWrhMoves:"#menuBarWrhMoves",                     //Движение товаров
+        menuBarWrhPInvoices:"#menuBarWrhPInvoices",               //Приходные накладные
+        menuBarWrhRetPInvoices:"#menuBarWrhRetPInvoices",        //Накладные возврата поставщику
+        menuBarWrhInvoices:"#menuBarWrhInvoices",                 //Расходные накладные
+        menuBarWrhRetInvoices:"#menuBarWrhRetInvoices",           //Возвратные накладные
+        menuBarWrhProdsBalance:"#menuBarWrhProdsBalance",        //Остатки товара
+        menuBarWrhProdsMoves:"#menuBarWrhProdsMoves",            //Движение товаров
 
         menuBarSalesItemCashier:"#menuBarSalesItemCashier",
 

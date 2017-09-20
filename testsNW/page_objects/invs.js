@@ -85,6 +85,25 @@ var invsCommands= {
             .mouseButtonUp(0);
     },
 
+    selectCurrencyFromList:function(FullCurrencyLabelName){
+        var instance=this;
+        instance.api.useXpath();
+        instance.getAttribute('//div[@id="wrh_inv_DetailHeader"]/table[3]/tbody/tr/td[2]/table',"aria-owns",function(result){
+            instance.api.perform(function () {
+                console.log("selectCurrencyFromList result=",result);
+            });
+            instance.elements.currencyInSelector = {
+                    selector:'//table[@id="'+result.value+'"]//tr[@aria-label="'+FullCurrencyLabelName+'"]',
+                    locateStrategy: 'xpath'
+                };
+                instance
+                    .waitForElementVisible("@currencyInSelector")
+                    .click("@currencyInSelector");
+               instance.api.useCss();
+            });
+        return this;
+    },
+
     mouseButtonDown: function (btn) {
         var instance = this;
         this.api.mouseButtonDown(btn);
@@ -167,7 +186,6 @@ module.exports = {
 
         createNewInvBtn:{
             selector: '//div[@id="wrh_inv_RightContainer"]//span[text()="Новая накладная"]',
-
             locateStrategy:'xpath'
         },
         saveNewInvBtn: {
@@ -183,10 +201,5 @@ module.exports = {
             selector: '//div[@id="wrh_inv_ListContainer"]//div[1]/table[1]//th',
             locateStrategy:'xpath'
         },
-
-        currencyUSDinList:{
-            selector: '//td[text()="USD (Американский доллар)"]',
-            locateStrategy:'xpath'
-        }
     }
 };

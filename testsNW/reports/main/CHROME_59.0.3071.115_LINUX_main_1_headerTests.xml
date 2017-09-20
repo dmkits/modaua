@@ -1,308 +1,1793 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <testsuites errors="0"
-            failures="1"
-            tests="47">
+            failures="0"
+            tests="66">
 
   <testsuite name="main.main_1_headerTests"
-    errors="0" failures="1" hostname="" id="" package="main" skipped="45"
-    tests="47" time="200.6" timestamp="Wed, 20 Sep 2017 06:34:27 GMT">
+    errors="0" failures="0" hostname="" id="" package="main" skipped="0"
+    tests="66" time="352.2" timestamp="Wed, 20 Sep 2017 13:12:08 GMT">
   
-    <testcase name="step_1 Open browser" classname="main.main_1_headerTests" time="4.297" assertions="0">
-    </testcase>
-  
-    <testcase name="step_1.1 Validate DB" classname="main.main_1_headerTests" time="196.3" assertions="30">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-      <failure message="Testing if element &lt;#sysadmin_dbValidateState&gt; contains text: &quot;success&quot;.">    at Object.step_1.1 Validate DB (/home/ianagez/IdeaProjects/modaua/testsNW/tests/main/main_1_headerTests.js:56:21)</failure>
-
-    
+    <testcase name="step_1 Open browser" classname="main.main_1_headerTests" time="4.717" assertions="0">
     </testcase>
   
+    <testcase name="step_1.1 Validate DB" classname="main.main_1_headerTests" time="197.9" assertions="30">
 
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="step_2 Login main page" classname="main.main_1_headerTests" time="0.7500" assertions="3">
+
+    
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="step_3 Main Header If  All Elements Visible Tests" classname="main.main_1_headerTests" time="3.939" assertions="19">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="step_4 Assert main page tab is visible" classname="main.main_1_headerTests" time="0.3100" assertions="3">
+
+    
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="step_5 About program dialog tests" classname="main.main_1_headerTests" time="2.131" assertions="6">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="step_6 Assert menuBarPopupMenuMain has all  menu choices tests" classname="main.main_1_headerTests" time="0.6810" assertions="5">
+
+    
+
+    
+
+    
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="step_7 Assert menuBarWrh has all  menu choices tests" classname="main.main_1_headerTests" time="0.7370" assertions="6">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="step_8 Assert menuBarPopupMenuSales has all  menu choices tests" classname="main.main_1_headerTests" time="0.3720" assertions="2">
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="step_9 Assert Main Dirs ItemUnits all elements are visible" classname="main.main_1_headerTests" time="3.905" assertions="34">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="step_10 Add row to Dirs ItemUnits" classname="main.main_1_headerTests" time="2.261" assertions="2">
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="Assert Added row to Dirs ItemUnits is saved" classname="main.main_1_headerTests" time="1.446" assertions="10">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="step_11 Change  row in Dirs ItemUnits " classname="main.main_1_headerTests" time="3.358" assertions="1">
+
+    
+    </testcase>
+  
+    <testcase name="step_12 Check if changed was saved in Dirs ItemUnits " classname="main.main_1_headerTests" time="0.9580" assertions="10">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="step_13 Set Unused tip in Dirs ItemUnits" classname="main.main_1_headerTests" time="3.117" assertions="9">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="step_14 Delete row in Dirs ItemUnits " classname="main.main_1_headerTests" time="1.503" assertions="2">
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="step_15 Main Dirs Contractors Tests" classname="main.main_1_headerTests" time="4.421" assertions="38">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="step_16 Assert Main Contractors BUYERS are visible" classname="main.main_1_headerTests" time="2.404" assertions="28">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="step_17 Add new Contractor " classname="main.main_1_headerTests" time="4.467" assertions="3">
+
+    
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="step_18 Assert new contractor saved to &quot;Other Contractors Table&quot;" classname="main.main_1_headerTests" time="0.6080" assertions="3">
+
+    
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="step_19 Change Contractors Values" classname="main.main_1_headerTests" time="4.566" assertions="1">
+
+    
+    </testcase>
+  
+    <testcase name="step_20 Check if changed was saved in &quot;Other Contractors Table&quot;" classname="main.main_1_headerTests" time="1.312" assertions="12">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="step_21 Set Supplier  tip to the Contractor" classname="main.main_1_headerTests" time="2.225" assertions="8">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="step_22 Mark new Contractor AS BUYER too" classname="main.main_1_headerTests" time="3.347" assertions="9">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="step_23 Delete Contractor" classname="main.main_1_headerTests" time="2.364" assertions="5">
+
+    
+
+    
+
+    
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="step_24 Right click menu tests add and save new rows" classname="main.main_1_headerTests" time="7.925" assertions="9">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="step_25 Right click menu change rows" classname="main.main_1_headerTests" time="6.188" assertions="8">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="step_26 Right click menu delete rows" classname="main.main_1_headerTests" time="1.529" assertions="4">
+
+    
+
+    
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="step_27 Print table tests" classname="main.main_1_headerTests" time="4.429" assertions="46">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="step_28 Open pinvs table" classname="main.main_1_headerTests" time="1.354" assertions="3">
+
+    
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="step_29 Pinvs check if DetailHeader elements are visible" classname="main.main_1_headerTests" time="1.346" assertions="14">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="step_30 assert Pinvs  Header Contains Text" classname="main.main_1_headerTests" time="2.000" assertions="20">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="step_31 create new pinv" classname="main.main_1_headerTests" time="2.982" assertions="6">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="step_32 Assert new pinv added to left container" classname="main.main_1_headerTests" time="3.613" assertions="43">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="step_33 change pinv and save changes" classname="main.main_1_headerTests" time="2.720" assertions="6">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="step_34 create second pinv" classname="main.main_1_headerTests" time="1.064" assertions="7">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="step_35 Assert second pinv added to left container" classname="main.main_1_headerTests" time="1.936" assertions="19">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="step_36 delete pinv num 1 and assert it doesn't exists" classname="main.main_1_headerTests" time="2.393" assertions="5">
+
+    
+
+    
+
+    
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="step_37 Open invs table" classname="main.main_1_headerTests" time="1.036" assertions="3">
+
+    
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="step_38 Invs check if DetailHeader elements are visible" classname="main.main_1_headerTests" time="1.337" assertions="14">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="step_39 assert Invs  Header Contains Text" classname="main.main_1_headerTests" time="2.113" assertions="20">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="step_40 create new inv" classname="main.main_1_headerTests" time="2.938" assertions="6">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="step_41 Assert new inv added to left container" classname="main.main_1_headerTests" time="3.029" assertions="35">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="step_42 change inv and save changes" classname="main.main_1_headerTests" time="2.676" assertions="6">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="step_43 create second inv" classname="main.main_1_headerTests" time="1.326" assertions="7">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="step_44 Assert second inv added to left container" classname="main.main_1_headerTests" time="2.124" assertions="17">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="step_45 delete invs  and assert they don't exists" classname="main.main_1_headerTests" time="2.420" assertions="5">
+
+    
+
+    
+
+    
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="step_46 Open ret_pinvs table" classname="main.main_1_headerTests" time="1.269" assertions="3">
+
+    
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="step_47 ret_pinvs check if DetailHeader elements are visible" classname="main.main_1_headerTests" time="1.345" assertions="14">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="step_48 assert ret_pinvs  Header Contains Text" classname="main.main_1_headerTests" time="1.918" assertions="20">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="step_49 create new ret_pinv" classname="main.main_1_headerTests" time="2.970" assertions="6">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="step_50 Assert new ret_pinv added to left container" classname="main.main_1_headerTests" time="3.679" assertions="43">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="step_51 change pinv and save changes" classname="main.main_1_headerTests" time="2.799" assertions="6">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="step_52 create second ret_pinv" classname="main.main_1_headerTests" time="1.165" assertions="7">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="step_53 Assert second ret_pinv added to left container" classname="main.main_1_headerTests" time="2.162" assertions="19">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="step_54 delete ret_pinv num 1 and assert it doesn't exists" classname="main.main_1_headerTests" time="2.446" assertions="5">
+
+    
+
+    
+
+    
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="step_55 Open ret_invs table" classname="main.main_1_headerTests" time="1.120" assertions="3">
+
+    
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="step_56 Invs check if DetailHeader elements are visible" classname="main.main_1_headerTests" time="1.402" assertions="14">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="step_57 assert ret_nvs  Header Contains Text" classname="main.main_1_headerTests" time="2.017" assertions="20">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="step_58 create new ret_inv" classname="main.main_1_headerTests" time="3.001" assertions="6">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="step_59 Assert new ret_inv added to left container" classname="main.main_1_headerTests" time="3.091" assertions="35">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="step_60 change ret_inv and save changes" classname="main.main_1_headerTests" time="2.817" assertions="6">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="step_70 create second ret_inv" classname="main.main_1_headerTests" time="1.159" assertions="7">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="step_80 Assert second ret_inv added to left container" classname="main.main_1_headerTests" time="1.991" assertions="17">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="step_81 delete ret_invs  and assert they don't exists" classname="main.main_1_headerTests" time="2.512" assertions="5">
+
+    
+
+    
+
+    
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="Logout" classname="main.main_1_headerTests" time="1.108" assertions="2">
+
+    
+
+    
+    </testcase>
   
 
   
-    
-    <testcase
-      name="step_2 Login main page" classname="main.main_1_headerTests">
-      <skipped />
-    </testcase>
-    
-    <testcase
-      name="step_3 Main Header If  All Elements Visible Tests" classname="main.main_1_headerTests">
-      <skipped />
-    </testcase>
-    
-    <testcase
-      name="step_4 Assert main page tab is visible" classname="main.main_1_headerTests">
-      <skipped />
-    </testcase>
-    
-    <testcase
-      name="step_5 About program dialog tests" classname="main.main_1_headerTests">
-      <skipped />
-    </testcase>
-    
-    <testcase
-      name="step_6 Assert menuBarPopupMenuMain has all  menu choices tests" classname="main.main_1_headerTests">
-      <skipped />
-    </testcase>
-    
-    <testcase
-      name="step_7 Assert menuBarWrh has all  menu choices tests" classname="main.main_1_headerTests">
-      <skipped />
-    </testcase>
-    
-    <testcase
-      name="step_8 Assert menuBarPopupMenuSales has all  menu choices tests" classname="main.main_1_headerTests">
-      <skipped />
-    </testcase>
-    
-    <testcase
-      name="step_9 Assert Main Dirs ItemUnits all elements are visible" classname="main.main_1_headerTests">
-      <skipped />
-    </testcase>
-    
-    <testcase
-      name="step_10 Add row to Dirs ItemUnits" classname="main.main_1_headerTests">
-      <skipped />
-    </testcase>
-    
-    <testcase
-      name="Assert Added row to Dirs ItemUnits is saved" classname="main.main_1_headerTests">
-      <skipped />
-    </testcase>
-    
-    <testcase
-      name="step_11 Change  row in Dirs ItemUnits " classname="main.main_1_headerTests">
-      <skipped />
-    </testcase>
-    
-    <testcase
-      name="step_12 Check if changed was saved in Dirs ItemUnits " classname="main.main_1_headerTests">
-      <skipped />
-    </testcase>
-    
-    <testcase
-      name="step_13 Set Unused tip in Dirs ItemUnits" classname="main.main_1_headerTests">
-      <skipped />
-    </testcase>
-    
-    <testcase
-      name="step_14 Delete row in Dirs ItemUnits " classname="main.main_1_headerTests">
-      <skipped />
-    </testcase>
-    
-    <testcase
-      name="Main Dirs Contractors Tests" classname="main.main_1_headerTests">
-      <skipped />
-    </testcase>
-    
-    <testcase
-      name="Assert Main Contractors BUYERS are visible" classname="main.main_1_headerTests">
-      <skipped />
-    </testcase>
-    
-    <testcase
-      name="Add new Contractor " classname="main.main_1_headerTests">
-      <skipped />
-    </testcase>
-    
-    <testcase
-      name="Assert new contractor saved to &quot;Other Contractors Table&quot;" classname="main.main_1_headerTests">
-      <skipped />
-    </testcase>
-    
-    <testcase
-      name="Change Contractors Values" classname="main.main_1_headerTests">
-      <skipped />
-    </testcase>
-    
-    <testcase
-      name=" Check if changed was saved in &quot;Other Contractors Table&quot;" classname="main.main_1_headerTests">
-      <skipped />
-    </testcase>
-    
-    <testcase
-      name="Set Supplier  tip to the Contractor" classname="main.main_1_headerTests">
-      <skipped />
-    </testcase>
-    
-    <testcase
-      name="Mark new Contractor AS BUYER too" classname="main.main_1_headerTests">
-      <skipped />
-    </testcase>
-    
-    <testcase
-      name="Delete Contractor" classname="main.main_1_headerTests">
-      <skipped />
-    </testcase>
-    
-    <testcase
-      name="Right click menu tests add and save new rows" classname="main.main_1_headerTests">
-      <skipped />
-    </testcase>
-    
-    <testcase
-      name="Right click menu change rows" classname="main.main_1_headerTests">
-      <skipped />
-    </testcase>
-    
-    <testcase
-      name="Right click menu delete rows" classname="main.main_1_headerTests">
-      <skipped />
-    </testcase>
-    
-    <testcase
-      name="Print table tests" classname="main.main_1_headerTests">
-      <skipped />
-    </testcase>
-    
-    <testcase
-      name="Open pinvs table" classname="main.main_1_headerTests">
-      <skipped />
-    </testcase>
-    
-    <testcase
-      name="Pinvs check if DetailHeader elements are visible" classname="main.main_1_headerTests">
-      <skipped />
-    </testcase>
-    
-    <testcase
-      name="assert Pinvs  Header Contains Text" classname="main.main_1_headerTests">
-      <skipped />
-    </testcase>
-    
-    <testcase
-      name="create new pinv" classname="main.main_1_headerTests">
-      <skipped />
-    </testcase>
-    
-    <testcase
-      name="Assert new pinv added to left container" classname="main.main_1_headerTests">
-      <skipped />
-    </testcase>
-    
-    <testcase
-      name="change pinv and save changes" classname="main.main_1_headerTests">
-      <skipped />
-    </testcase>
-    
-    <testcase
-      name="create second pinv" classname="main.main_1_headerTests">
-      <skipped />
-    </testcase>
-    
-    <testcase
-      name="Assert second pinv added to left container" classname="main.main_1_headerTests">
-      <skipped />
-    </testcase>
-    
-    <testcase
-      name="delete pinv num 1 and assert it doesn't exists" classname="main.main_1_headerTests">
-      <skipped />
-    </testcase>
-    
-    <testcase
-      name="Open invs table" classname="main.main_1_headerTests">
-      <skipped />
-    </testcase>
-    
-    <testcase
-      name="Invs check if DetailHeader elements are visible" classname="main.main_1_headerTests">
-      <skipped />
-    </testcase>
-    
-    <testcase
-      name="assert Invs  Header Contains Text" classname="main.main_1_headerTests">
-      <skipped />
-    </testcase>
-    
-    <testcase
-      name="Assert new inv added to left container" classname="main.main_1_headerTests">
-      <skipped />
-    </testcase>
-    
-    <testcase
-      name="change inv and save changes" classname="main.main_1_headerTests">
-      <skipped />
-    </testcase>
-    
-    <testcase
-      name="create second inv" classname="main.main_1_headerTests">
-      <skipped />
-    </testcase>
-    
-    <testcase
-      name="Assert second inv added to left container" classname="main.main_1_headerTests">
-      <skipped />
-    </testcase>
-    
-    <testcase
-      name="delete invs  and assert they don't exists" classname="main.main_1_headerTests">
-      <skipped />
-    </testcase>
-    
-    <testcase
-      name="Logout" classname="main.main_1_headerTests">
-      <skipped />
-    </testcase>
-    
+
   
   </testsuite>
 </testsuites>
