@@ -403,20 +403,21 @@ define(["dojo/_base/declare", "dijit/layout/ContentPane","dojox/widget/Standby",
                 return;
             }
             if (duplexRequest){
+                instance.loadingGif.show();
                 Request.postJSONData({url:params.url, condition:null, consoleLog:true},
                     /*postaction*/function(success,result){
                         if(!success) result=null;
                         if(!success||!result||result.error) {
                             var errorMsg=(result&&result.error)?"Error=":"", error=(result&&result.error)?result.error:"";
                             console.log("HTableSimple setContentFromUrl Request.getJSONData DATA ERROR!!! "+errorMsg,error);
-                            loadingGif.hide();
+                            instance.loadingGif.hide();
                             instance.updateContent(result, {callUpdateContent:params.callUpdateContent});
                             return;
                         }
                         instance.updateContent(result, {callUpdateContent:params.callUpdateContent, resetSelection:false});
                         var sCondition= JSON.stringify(params.condition);
                         if(sCondition.length==0||sCondition==="{}") {
-                            loadingGif.hide();
+                            instance.loadingGif.hide();
                             return;
                         }//if condition is Empty
                         Request.postJSONData({url:params.url, condition:params.condition, data:params.data, consoleLog:true},
@@ -425,20 +426,20 @@ define(["dojo/_base/declare", "dijit/layout/ContentPane","dojox/widget/Standby",
                                 if(!success||!result||result.error) {
                                     var errorMsg=(result&&result.error)?"Error=":"", error=(result&&result.error)?result.error:"";
                                     console.log("HTableSimple setContentFromUrl Request.getJSONData DATA ERROR!!! "+errorMsg,error);
-                                    loadingGif.hide();
+                                    instance.loadingGif.hide();
                                     instance.updateContent({ columns:instance.htColumns, items:[] }, {callUpdateContent:params.callUpdateContent});
                                     return;
                                 }
                                 if (result.items&&result.items.length>0)
-                                    loadingGif.hide();
+                                    instance.loadingGif.hide();
                                     instance.updateContent(result, {callUpdateContent:params.callUpdateContent});
                             });
                     });
-                loadingGif.hide();
                 return;
             }
             if(this.htData&&this.htData.length>0 && params.clearContentBeforeLoad===true)
                 instance.clearContent({callUpdateContent:params.callUpdateContent, resetSelection:false});
+            instance.loadingGif.show();
             Request.postJSONData({url:params.url, condition:params.condition, data:params.data, consoleLog:true},
                 /*postaction*/function(success,result){
                     if(!success) result=null;
@@ -446,10 +447,10 @@ define(["dojo/_base/declare", "dijit/layout/ContentPane","dojox/widget/Standby",
                         var errorMsg=(result&&result.error)?"Error=":"", error=(result&&result.error)?result.error:"";
                         console.log("HTableSimple setContentFromUrl Request.getJSONData DATA ERROR!!! "+errorMsg,error);
                         instance.updateContent({ columns:instance.htColumns, items:[] }, {callUpdateContent:params.callUpdateContent});
-                        loadingGif.hide();
+                        instance.loadingGif.hide();
                         return;
                     }
-                    loadingGif.hide();
+                    instance.loadingGif.hide();
                     instance.updateContent(result, {callUpdateContent:params.callUpdateContent});
                 });
         },
