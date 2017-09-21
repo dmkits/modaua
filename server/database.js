@@ -167,8 +167,7 @@ module.exports.isDBEmpty= function(DBName,callback) {
  * default onlyData=false
  */
 module.exports.backupDB= function(backupParam,callback) {
-    var onlyDataCommand=backupParam.onlyData?" --no-create-info   --ignore-table="+backupParam.database+".change_log":" ";                                     log.warn("onlyDataCommand=",onlyDataCommand);
-
+    var onlyDataCommand=(backupParam.onlyData==='true') ? " --no-create-info   --ignore-table="+backupParam.database+".change_log" : " ";                                     log.warn("onlyDataCommand=",onlyDataCommand);
     var filePath=path.join(__dirname+'/../backups/'+backupParam.fileName);
     var command ='mysqldump'+onlyDataCommand + ' -u '+ backupParam.user + ' --password="'+backupParam.password+'" --host='+backupParam.host +' '+backupParam.database+' --result-file='+filePath;               log.info("command=",command);
 

@@ -254,7 +254,7 @@
                     document.getElementById("admin_password").focus();
                 };
                 backupDataBtn.onClick=function(){
-                    backupDialog.onlyDataBackup=true;
+                    backupDialog.onlyDataBackup='true';
                     adminAuthDialog.action="backupData";
                     adminAuthDialog.show();
                     document.getElementById("admin_password").focus();
@@ -313,7 +313,7 @@
                             }
                     );
                 };
-                function setServerConfigContent(DBConfigData) {         console.log("DBConfigData 315=",DBConfigData);
+                function setServerConfigContent(DBConfigData) {
                     hostInput.set("value", DBConfigData["host"]);
                     databaseInput.set("value", DBConfigData["database"]);
                     userInput.set("value", DBConfigData["user"]);
@@ -458,7 +458,6 @@
                                     document.getElementById("drop_db_result").innerHTML = "<b style='color:red'>"+now+"<br/>FAIL! Reason:" + data.error+"<b>";
                                     sa_serverConfig_PageContent.getServerConfiguration();
                                     if (sa_serverConfig_PageContent.getParent().updateDBState)   {
-                                        console.log('inside if');
                                         sa_serverConfig_PageContent.getParent().updateDBState();
                                     }
                                 } else {
@@ -498,7 +497,7 @@
                     if (rewrite)DB.rewrite = true;
                     Request.postJSONData({url: "/sysadmin/backup_db", data: DB, consoleLog: true},
                             function (success, data) {
-                                document.getElementById(backupParams.resultTagName).value = "";                                  console.log("makeBackup data=", data);
+                                document.getElementById(backupParams.resultTagName).value = "";
                                 var now = moment().format('DD.MM.YYYY HH:mm:ss');
                                 if (!success) {
                                     sa_serverConfig_configState.innerHTML = "<div><b style='color:red'>No connection!</b></div>";
@@ -519,10 +518,10 @@
                 }
 
                 function backupDataBase(action) {
-                    backupDialog.onlyDataBackup=false;
+                    backupDialog.onlyDataBackup='false';
                     if (action=='backupData'){
                         backupDialog.resultFieldId="backup_data_result";
-                        backupDialog.onlyDataBackup=true;
+                        backupDialog.onlyDataBackup='true';
                     }else{
                         backupDialog.resultFieldId="backup_db_result"
                     };
