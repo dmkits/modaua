@@ -49,7 +49,7 @@
                         dir_products_Btn_viewProducts.document =
                                 APP.childFor(dir_products_ContentContainer, "dir_products_TableProducts",
                                         TDocumentSimpleTableEditable, {titleText:"Товарные номенклатуры",
-                                            dataURL:"/dir/products/getDataForDirProductsTable",
+                                            dataURL:"/dir/products/getDataForDirProductsTable", dataURLCondition:{"1~":1},
                                             dataStoreURL:"/dir/products/storeDirProductsTableData",
                                             rightPane:true, rightPaneWidth:180})
                                         .addTotalCountNumberBox("ИТОГО строк:", 140, {style:"font-weight:bold;",inputStyle:"width:50px"})
