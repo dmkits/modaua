@@ -122,16 +122,16 @@ module.exports.initValidateDataModels=function(dataModels, errs, resultCallback)
 
 /**
  * params = { source,
- *      fields = [ <sourceFieldName> or <functionFieldName>, ... ],
- *      fieldsSources = { <sourceFieldName>:<sourceName>.<sourceFieldName>, ... },
+ *      fields = [ <fieldName> or <functionFieldName>, ... ],
+ *      fieldsSources = { <fieldName>:<sourceName>.<sourceFieldName>, ... },
  *      fieldsFunctions = {
- *          <sourceFieldName>:
+ *          <fieldName>:
  *              "<function>" OR
  *              { function:<function>, source:<functionSource>, sourceField:<functionSourceField>, fields:[ <functionBodySourceFieldName> ] },
  *      ... },
  *      joinedSources = { <sourceName>:<linkConditions> = { <linkCondition>:null or <linkCondition>:<value>, ... } },
  *      conditions={ <condition>:<conditionValue>, ... } OR conditions=[ { fieldName:"...", condition:"...", value:"..." }, ... ],
- *      order = "<orderFieldsList>"
+ *      order = "<fieldName>" OR "<fieldName>,<fieldName>,..." OR [ <fieldName>, ... ]
  * }
  * fieldsFunctions[].function: "maxPlus1" / "concat"
  * resultCallback = function(err, recordset)
@@ -279,8 +279,9 @@ function _getDataItemsForSelect(params, resultCallback){
 }
 /**
  * params = { source, comboboxFields = { <tableComboboxFieldName>:<sourceFieldName>, ... },
+ *      joinedDMSources=[ <joinedSourceName>, ... ]
  *      conditions={ <condition>:<conditionValue>, ... },
-  *     order = "<orderFieldsList>"
+ *      order = "<orderFieldsList>"
  * }
  * resultCallback = function(result = { items:[ {<tableComboboxFieldName>:<value>, ... }, ... ], error, errorCode } )
  */
@@ -295,8 +296,38 @@ function _getDataItemsForTableCombobox(params, resultCallback){
     }
     if(!params.source) params.source=this.source;
     params.fields=[];
+    var joinedSources;
     for(var cFieldName in params.comboboxFields){
-        params.fields.push(params.comboboxFields[cFieldName]+" as "+cFieldName);
+        var cFieldData=params.comboboxFields[cFieldName];
+        if(cFieldData&&typeof(cFieldData)=="object"&&cFieldData.source) {
+            if (!joinedSources) joinedSources={};
+            if(!joinedSources[cFieldData.source]) joinedSources[cFieldData.source]=true;
+        }
+
+    }
+    for(var cFieldName in params.comboboxFields){
+        var cFieldData=params.comboboxFields[cFieldName];
+        params.fields.push(cFieldName);
+        if(typeof(cFieldData)=="string") {
+            var mainSourceName=(params.source)?params.source:this.source;
+            if(!params.fieldsSources) params.fieldsSources={};
+            if(joinedSources&&mainSourceName)
+                params.fieldsSources[cFieldName]=mainSourceName+"."+cFieldData;
+            else
+                params.fieldsSources[cFieldName]=cFieldData;
+        } else if(cFieldData&&typeof(cFieldData)=="object"&&cFieldData.field) {
+            if(cFieldData.source){
+                if(!params.fieldsSources) params.fieldsSources={};
+                params.fieldsSources[cFieldName]=cFieldData.source+"."+cFieldData.field;
+            }
+        }
+    }
+    if(joinedSources&&this.joinedSources){
+        params.joinedSources={};
+        for(var joinedSourceName in joinedSources){
+            var joinedSourceMetadata=this.joinedSources[joinedSourceName];
+            if(joinedSourceMetadata) params.joinedSources[joinedSourceName]=joinedSourceMetadata;
+        }
     }
     _getDataItems(params,function(result){
         if(result.items){
