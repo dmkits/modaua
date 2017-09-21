@@ -16,11 +16,11 @@
                             { idListContainer:"wrh_pinv_ListContainer",idDetailContainer:"wrh_pinv_DetailContainer",
                                 idDetailHeader:"wrh_pinv_DetailHeader",idDetailTable:"wrh_pinv_ProductsTable",idDetailTotal:"wrh_pinv_DetailTotal",
                                 idRightContainer:"wrh_pinv_RightContainer" })
-                        .setListTable({getDataUrl:"/wrh/p_invoice/get_pinvs_list"})
-                        .setListDatesContent({header:"Список накладных", bdatelabelText:"c",bdateCondition:"BDATE", edatelabelText:"по",edateCondition:"EDATE"})
+                        .setListTable({getDataUrl:"/wrh/pInvoices/getDataForPInvsListTable"})
+                        .setListDatesContent({header:"Список накладных", bdatelabelText:"c",bdateCondition:"DOCDATE>=", edatelabelText:"по",edateCondition:"DOCDATE<="})
                         .setDetailHeaderParameters({dataIDName:"ID",
-                            getDataUrl:"/wrh/p_invoice/get_pinv", getDataForNewUrl:"/wrh/p_invoice/get_new_pinv",
-                            postDataUrl:"/wrh/p_invoice/pinv_store", postForDeleteDataUrl:"/wrh/p_invoice/pinv_delete"})
+                            getDataUrl:"/wrh/pInvoices/getPInvData", getDataForNewUrl:"/wrh/pInvoices/getNewPInvData",
+                            postDataUrl:"/wrh/pInvoices/storePInvData", postForDeleteDataUrl:"/wrh/pInvoices/deletePInvData"})
                         .addDetailHeaderTitle({title:"Приходная накладная",titleForNew:"Новая приходная накладная",
                             titleForNothing:"Приходная накладная не выбрана", titleForFailedLoad:"Нет данных",
                             numberDataItemName:"NUMBER", dateDataItemName:"DOCDATE", titleDatePrefix:"от"},25)
@@ -39,7 +39,8 @@
                         .addDetailHeaderTextBox("PRODUCT_COLLECTION", "Коллекция", 1000, {inputStyle:"width:120px"})
                         .addDetailHeaderNumberTextBox("BASE_FACTOR", "Базовый коэффициент", 180, {inputStyle:"width:40px", pattern:"####0.00"})
                         .setDetailTableParameters({conditionIDName:"PINV_ID",
-                            getDataUrl:"/wrh/p_invoice/get_pinv_products", storeDataUrl:"/wrh/p_invoice/pinv_product_store", deleteDataUrl:"/wrh/p_invoice/pinv_product_delete"})
+                            getDataUrl:"/wrh/pInvoices/getDataForPInvProductsTable",
+                            storeDataUrl:"/wrh/pInvoices/storePInvProductsTableData", deleteDataUrl:"/wrh/pInvoices/deletePInvProductsTableData"})
                         .addDetailTotalRow()
                         .addDetailSubTotalCountNumberTextBox("ИТОГО СТРОК:", 190, {inputStyle:"width:40px;"})
                         .addDetailSubtotalNumberTextBox("ИТОГО КОЛИЧЕСТВО:", 700, "QTY", {pattern:"###,###,##0.#########", inputStyle:"width:50px;"})
