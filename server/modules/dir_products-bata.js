@@ -266,4 +266,54 @@ module.exports.init = function(app){
                 res.send(result);
             });
     });
+
+    app.get("/dir/products/getDataForOrderBataProductsGendersCombobox/genderCode", function(req, res){
+        dir_products_genders.getDataItemsForTableCombobox({comboboxFields:{"PRODUCT_GENDER_CODE":"CODE","PRODUCT_GENDER":"NAME"}, order:"CODE"},
+            function(result){
+                res.send(result);
+            });
+    });
+    app.get("/dir/products/getDataForOrderBataProductsGendersCombobox/gender", function(req, res){
+        dir_products_genders.getDataItemsForTableCombobox({comboboxFields:{"PRODUCT_GENDER":"NAME","PRODUCT_GENDER_CODE":"CODE"}, order:"NAME"},
+            function(result){
+                res.send(result);
+            });
+    });
+
+    app.get("/dir/products/getDataForOrderBataProductsCategoryCombobox/CategoryCode", function(req, res){
+        dir_products_categories.getDataItemsForTableCombobox({
+                comboboxFields:{"PRODUCT_CATEGORY_CODE":"CODE","PRODUCT_CATEGORY":"NAME",
+                    PRODUCT_GENDER_CODE:{source:"dir_products_genders", field:"CODE"},
+                    PRODUCT_GENDER:{source:"dir_products_genders", field:"NAME"} },
+                order:"PRODUCT_CATEGORY_CODE"},
+            function(result){
+                res.send(result);
+            });
+    });
+    app.get("/dir/products/getDataForOrderBataProductsCategoryCombobox/category", function(req, res){
+        dir_products_categories.getDataItemsForTableCombobox({
+                comboboxFields:{"PRODUCT_CATEGORY":"NAME","PRODUCT_CATEGORY_CODE":"CODE",
+                    PRODUCT_GENDER_CODE:{source:"dir_products_genders", field:"CODE"},
+                    PRODUCT_GENDER:{source:"dir_products_genders", field:"NAME"} },
+                order:"PRODUCT_CATEGORY"},
+            function(result){
+                res.send(result);
+            });
+    });
+    app.get("/dir/products/getDataForOrderBataProductsSubcategoryCombobox/SubcategoryCode", function(req, res){
+        dir_products_subcategories.getDataItemsForTableCombobox({
+                comboboxFields:{"PRODUCT_SUBCATEGORY_CODE":"CODE","PRODUCT_SUBCATEGORY":"NAME"},
+                order:"PRODUCT_SUBCATEGORY_CODE"},
+            function(result){
+                res.send(result);
+            });
+    });
+    app.get("/dir/products/getDataForOrderBataProductsSubcategoryCombobox/subcategory", function(req, res){
+        dir_products_subcategories.getDataItemsForTableCombobox({
+                comboboxFields:{"PRODUCT_SUBCATEGORY":"NAME","PRODUCT_SUBCATEGORY_CODE":"CODE"},
+                order:"PRODUCT_SUBCATEGORY"},
+            function(result){
+                res.send(result);
+            });
+    });
 };

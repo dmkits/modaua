@@ -66,11 +66,9 @@
                         .addToolPaneActionButton("Удалить строку", {action:"deleteDetailTableSelectedRow"}, "width:145px;")
                         //.addToolPane("Импорт")
                         //.addToolPaneActionButton("Импортировать из Excel", {}, "width:145px;")
-
                         .addDetailTableMenuItemAction("Добавить строки",{action:"insertDetailTableRowsAfterSelected",rowPosName:"POS"})//rowPosIndexName:"POSIND"
                         .addDetailTableMenuItemAction("Изменить строки",{action:"allowEditDetailTableSelectedRows"})
                         .addDetailTableMenuItemAction("Сохранить строки",{action:"storeDetailTableSelectedRows"})
-
                         .addDetailTableRowChangeCallback(function(crd/*changedRowData*/, detailTable, thisInstance, nextCallback){ //console.log("ORB detailTableRowChangeCallback QTY PRICE POSSUM",crd);
                             if (crd.item("QTY").isUNDEFNULL()) crd.item("QTY").setValue(1);
                             if (crd.item("RETAIL_PRICE").isUNDEFNULL()) crd.item("RETAIL_PRICE").setValue(0);
@@ -91,56 +89,58 @@
                             nextCallback();
                         })
                         .addDetailTableRowChangeCallback(function(crd/*changedRowData*/, detailTable, thisInstance, nextCallback){
-                            if (!crd.item("PRODUCT_GENDER_CODE").isUNDEFNULL()&&crd.item("PRODUCT_GENDER_CODE").isChanged()) {
-                                var condition = "&PRODUCT_GENDER_CODE="+crd.item("PRODUCT_GENDER_CODE").getValue();
-                                Request.getJSONData({url:"/dir/products/get_product_gender_by_code", condition:condition, consoleLog:true},
-                                        function(success,result){
-                                            if (!success) {
-                                                nextCallback();
-                                                return;
-                                            }
-                                            var prodGenderName=null;
-                                            if (result.item) prodGenderName=result.item["NAME"];
-                                            crd.item("PRODUCT_GENDER").setValue(prodGenderName);
-                                            nextCallback(true);
-                                        });
-                                return
+                            if(crd.item("PRODUCT_GENDER_CODE").isChanged()&&!crd.item("PRODUCT_GENDER_CODE").isUNDEFNULL()){
+                                var genderValueForGenderCode=
+                                        detailTable.getAutocompleteColumnValueForItem("PRODUCT_GENDER_CODE",crd.item("PRODUCT_GENDER_CODE").getValue(),"PRODUCT_GENDER");
+                                if(genderValueForGenderCode==undefined) genderValueForGenderCode=null;
+                                crd.item("PRODUCT_GENDER").setValue(genderValueForGenderCode);
+                            } else if(crd.item("PRODUCT_GENDER").isChanged()&&!crd.item("PRODUCT_GENDER").isUNDEFNULL()){
+                                var genderCodeValueForGender=
+                                        detailTable.getAutocompleteColumnValueForItem("PRODUCT_GENDER",crd.item("PRODUCT_GENDER").getValue(),"PRODUCT_GENDER_CODE");
+                                if(genderCodeValueForGender==undefined) genderCodeValueForGender=null;
+                                crd.item("PRODUCT_GENDER_CODE").setValue(genderCodeValueForGender);
                             }
                             nextCallback();
                         })
                         .addDetailTableRowChangeCallback(function(crd/*changedRowData*/, detailTable, thisInstance, nextCallback){
-                            if (!crd.item("PRODUCT_CATEGORY_CODE").isUNDEFNULL()&&crd.item("PRODUCT_CATEGORY_CODE").isChanged()) {
-                                var condition = "&PRODUCT_CATEGORY_CODE="+crd.item("PRODUCT_CATEGORY_CODE").getValue();
-                                Request.getJSONData({url:"/dir/products/get_product_category_by_code", condition:condition, consoleLog:true},
-                                        function(success,result){
-                                            if (!success) {
-                                                nextCallback();
-                                                return;
-                                            }
-                                            var prodCategoryName=null;
-                                            if (result.item) prodCategoryName=result.item["NAME"];
-                                            crd.item("PRODUCT_CATEGORY").setValue(prodCategoryName);
-                                            nextCallback(true);
-                                        });
-                                return
+                            var genderValue,genderCode;
+                            if(crd.item("PRODUCT_CATEGORY_CODE").isChanged()&&!crd.item("PRODUCT_CATEGORY_CODE").isUNDEFNULL()){
+                                var categoryValueForCategoryCode=
+                                        detailTable.getAutocompleteColumnValueForItem("PRODUCT_CATEGORY_CODE",crd.item("PRODUCT_CATEGORY_CODE").getValue(),"PRODUCT_CATEGORY");
+                                if(categoryValueForCategoryCode==undefined) categoryValueForCategoryCode=null;
+                                crd.item("PRODUCT_CATEGORY").setValue(categoryValueForCategoryCode);
+                                genderValue=
+                                        detailTable.getAutocompleteColumnValueForItem("PRODUCT_CATEGORY_CODE",crd.item("PRODUCT_CATEGORY_CODE").getValue(),"PRODUCT_GENDER");
+                                genderCode=
+                                        detailTable.getAutocompleteColumnValueForItem("PRODUCT_CATEGORY_CODE",crd.item("PRODUCT_CATEGORY_CODE").getValue(),"PRODUCT_GENDER_CODE");
+
+                            } else if(crd.item("PRODUCT_CATEGORY").isChanged()&&!crd.item("PRODUCT_CATEGORY").isUNDEFNULL()){
+                                var categoryCodeValueForCategory=
+                                        detailTable.getAutocompleteColumnValueForItem("PRODUCT_CATEGORY",crd.item("PRODUCT_CATEGORY").getValue(),"PRODUCT_CATEGORY_CODE");
+                                if(categoryCodeValueForCategory==undefined) categoryCodeValueForCategory=null;
+                                crd.item("PRODUCT_CATEGORY_CODE").setValue(categoryCodeValueForCategory);
+                                genderValue=
+                                        detailTable.getAutocompleteColumnValueForItem("PRODUCT_CATEGORY",crd.item("PRODUCT_CATEGORY").getValue(),"PRODUCT_GENDER");
+                                genderCode=
+                                        detailTable.getAutocompleteColumnValueForItem("PRODUCT_CATEGORY",crd.item("PRODUCT_CATEGORY").getValue(),"PRODUCT_GENDER_CODE");
                             }
+                            if(genderValue!==undefined&&crd.item("PRODUCT_GENDER").isEMPTY())
+                                crd.item("PRODUCT_GENDER").setValue(genderValue);
+                            if(genderCode!==undefined&&crd.item("PRODUCT_GENDER_CODE").isEMPTY())
+                                crd.item("PRODUCT_GENDER_CODE").setValue(genderCode);
                             nextCallback();
                         })
                         .addDetailTableRowChangeCallback(function(crd/*changedRowData*/, detailTable, thisInstance, nextCallback){
-                            if (!crd.item("PRODUCT_SUBCATEGORY_CODE").isUNDEFNULL()&&crd.item("PRODUCT_SUBCATEGORY_CODE").isChanged()) {
-                                var condition = "&PRODUCT_SUBCATEGORY_CODE="+crd.item("PRODUCT_SUBCATEGORY_CODE").getValue();
-                                Request.getJSONData({url:"/dir/products/get_product_subcategory_by_code", condition:condition, consoleLog:true},
-                                        function(success,result){
-                                            if (!success) {
-                                                nextCallback(true);
-                                                return;
-                                            }
-                                            var prodSubcategoryName=null;
-                                            if (result.item) prodSubcategoryName=result.item["NAME"];
-                                            crd.item("PRODUCT_SUBCATEGORY").setValue(prodSubcategoryName);
-                                            nextCallback(true);
-                                        });
-                                return
+                            if(crd.item("PRODUCT_SUBCATEGORY_CODE").isChanged()&&!crd.item("PRODUCT_SUBCATEGORY_CODE").isUNDEFNULL()){
+                                var subcategoryValueForSubcategoryCode=
+                                        detailTable.getAutocompleteColumnValueForItem("PRODUCT_SUBCATEGORY_CODE",crd.item("PRODUCT_SUBCATEGORY_CODE").getValue(),"PRODUCT_SUBCATEGORY");
+                                if(subcategoryValueForSubcategoryCode==undefined) subcategoryValueForSubcategoryCode=null;
+                                crd.item("PRODUCT_SUBCATEGORY").setValue(subcategoryValueForSubcategoryCode);
+                            } else if(crd.item("PRODUCT_SUBCATEGORY").isChanged()&&!crd.item("PRODUCT_SUBCATEGORY").isUNDEFNULL()){
+                                var subcategoryCodeValueForSubcategory=
+                                        detailTable.getAutocompleteColumnValueForItem("PRODUCT_SUBCATEGORY",crd.item("PRODUCT_SUBCATEGORY").getValue(),"PRODUCT_SUBCATEGORY_CODE");
+                                if(subcategoryCodeValueForSubcategory==undefined) subcategoryCodeValueForSubcategory=null;
+                                crd.item("PRODUCT_SUBCATEGORY_CODE").setValue(subcategoryCodeValueForSubcategory);
                             }
                             nextCallback();
                         })
