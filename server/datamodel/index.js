@@ -419,6 +419,12 @@ function _getDataItemsForTable(params, resultCallback){
         return;
     }
     if(!params.source&&this.source) params.source=this.source;
+    var hasSources=false;
+    for(var i in params.tableColumns) {
+        if(params.tableColumns[i].dataSource) {
+            hasSources=true; break;
+        }
+    }
     var fieldsList=[], fieldsSources={}, fieldsFunctions;
     for(var i in params.tableColumns) {
         var tableColumnData=params.tableColumns[i], fieldName=tableColumnData.data;
@@ -429,6 +435,8 @@ function _getDataItemsForTable(params, resultCallback){
                 fieldsSources[fieldName]=tableColumnData.dataSource+"."+tableColumnData.dataField;
             else if(tableColumnData.dataSource)
                 fieldsSources[fieldName]=tableColumnData.dataSource+"."+fieldName;
+            else if(hasSources&&(params.source||this.source))
+                fieldsSources[fieldName]=((params.source)?params.source:this.source)+"."+fieldName;
         } else if(tableColumnData.dataField){
             fieldsList.push(fieldName);
             if(tableColumnData.dataSource) fieldsSources[fieldName]=tableColumnData.dataSource+"."+tableColumnData.dataField;
