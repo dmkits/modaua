@@ -50,6 +50,7 @@ define(["dojo/_base/declare", "dijit/layout/ContentPane","dojox/widget/Standby",
             this.enableComments=false; this.htComments=[];
             this.htSelection=null;
             declare.safeMixin(this,args);
+            this.loadingGif=null;
         },
         getVisibleColumnsFrom: function(dataColumns){
             var visibleColumns = [], vc=0;
@@ -188,10 +189,12 @@ define(["dojo/_base/declare", "dijit/layout/ContentPane","dojox/widget/Standby",
                 if (!this.getContent()||this.getContent().length==0) return null;
                 return this.getContent()[row];
             };
-
             this.resizePane = this.resize; this.resize = this.resizeAll;
+            this.loadingGif = new Standby({"target":parent.domNode});
+            this.loadingGif.startup();
+            document.body.appendChild(this.loadingGif.domNode);
         },
-        postCreate : function(){
+        postCreate: function(){
             this.createHandsonTable();
         },
         getHandsonTable: function(){ return this.handsonTable; },
@@ -328,11 +331,8 @@ define(["dojo/_base/declare", "dijit/layout/ContentPane","dojox/widget/Standby",
          * if duplexRequest=false, sends only one request to get table data with columns data.
          * if clearContentBeforeLoad==true content clearing before send request for table data
          */
-        setContentFromUrl: function(params){                                                                            //console.log("HTableSimple setContentFromUrl ",params);
+        setContentFromUrl: function(params){                                                                            console.log("HTableSimple setContentFromUrl ",params);
             var instance = this;
-           console.log("instance=",instance);
-            var loadingGif = new Standby({"target":instance.domNode,"color":"blue"/*"image":"/imgs/loading.gif","centerIndicator":"image"*/ });
-          //  loadingGif.startup();
             if (!params) {
                 this.updateContent(null);
                 return;
@@ -341,6 +341,7 @@ define(["dojo/_base/declare", "dijit/layout/ContentPane","dojox/widget/Standby",
             var duplexRequest= (params.duplexRequest===true)||( (!this.htColumns||this.htColumns.length==0)&&(params.duplexRequest!==false) );
             if (params.method!="post") {
                 if (duplexRequest){
+                    instance.loadingGif.show();
                     Request.getJSONData({url:params.url, condition:null, consoleLog:true}
                         ,/*postaction*/function(success,result){
                             if(!success) result=null;
@@ -350,14 +351,16 @@ define(["dojo/_base/declare", "dijit/layout/ContentPane","dojox/widget/Standby",
                                 if(!result) result={};
                                 if(!result.columns) result.columns=instance.htColumns;
                                 if(!result.items) result.items=[];
+                                instance.loadingGif.hide();
                                 instance.updateContent(result, {callUpdateContent:params.callUpdateContent});
                                 return;
                             }
                             instance.updateContent(result, {callUpdateContent:params.callUpdateContent, resetSelection:false});
-                            loadingGif.show();
-                            ///
                             var sCondition= JSON.stringify(params.condition);
-                            if(sCondition.length==0||sCondition==="{}") return; //if condition is Empty
+                            if(sCondition.length==0||sCondition==="{}"){
+                                instance.loadingGif.hide();
+                                return;
+                            }  //if condition is Empty
                             Request.getJSONData({url:params.url, condition:params.condition, consoleLog:true}
                                 ,/*postaction*/function(success,result){
                                     if(!success) result=null;
@@ -367,23 +370,20 @@ define(["dojo/_base/declare", "dijit/layout/ContentPane","dojox/widget/Standby",
                                         if(!result) result={};
                                         if(!result.columns) result.columns=instance.htColumns;
                                         if(!result.items) result.items=[];
-                                        ////
-                                        loadingGif.show();
+                                        instance.loadingGif.hide();
                                         instance.updateContent(result, {callUpdateContent:params.callUpdateContent});
                                         return;
                                     }
-                                    ///
+                                    instance.loadingGif.hide();
                                     if (result.items&&result.items.length>0)
                                         instance.updateContent(result, {callUpdateContent:params.callUpdateContent});
                                 });
-
                         });
                     return;
                 }
-
                 if(this.htData&&this.htData.length>0 && params.clearContentBeforeLoad===true)
                     instance.clearContent({callUpdateContent:params.callUpdateContent, resetSelection:false});
-                ////
+                instance.loadingGif.show();
                 Request.getJSONData({url:params.url, condition:params.condition, consoleLog:true}
                     ,/*postaction*/function(success,result){
                         if(!success) result=null;
@@ -393,14 +393,13 @@ define(["dojo/_base/declare", "dijit/layout/ContentPane","dojox/widget/Standby",
                             if(!result) result={};
                             if(!result.columns) result.columns=instance.htColumns;
                             if(!result.items) result.items=[];
-                            ///
+                            instance.loadingGif.hide();
                             instance.updateContent(result, {callUpdateContent:params.callUpdateContent});
                             return;
                         }
-                        ///
+                        instance.loadingGif.hide();
                         instance.updateContent(result, {callUpdateContent:params.callUpdateContent});
                     });
-
                 return;
             }
             if (duplexRequest){
@@ -410,25 +409,32 @@ define(["dojo/_base/declare", "dijit/layout/ContentPane","dojox/widget/Standby",
                         if(!success||!result||result.error) {
                             var errorMsg=(result&&result.error)?"Error=":"", error=(result&&result.error)?result.error:"";
                             console.log("HTableSimple setContentFromUrl Request.getJSONData DATA ERROR!!! "+errorMsg,error);
+                            loadingGif.hide();
                             instance.updateContent(result, {callUpdateContent:params.callUpdateContent});
                             return;
                         }
                         instance.updateContent(result, {callUpdateContent:params.callUpdateContent, resetSelection:false});
                         var sCondition= JSON.stringify(params.condition);
-                        if(sCondition.length==0||sCondition==="{}") return; //if condition is Empty
+                        if(sCondition.length==0||sCondition==="{}") {
+                            loadingGif.hide();
+                            return;
+                        }//if condition is Empty
                         Request.postJSONData({url:params.url, condition:params.condition, data:params.data, consoleLog:true},
                             /*postaction*/function(success,result){
                                 if(!success) result=null;
                                 if(!success||!result||result.error) {
                                     var errorMsg=(result&&result.error)?"Error=":"", error=(result&&result.error)?result.error:"";
                                     console.log("HTableSimple setContentFromUrl Request.getJSONData DATA ERROR!!! "+errorMsg,error);
+                                    loadingGif.hide();
                                     instance.updateContent({ columns:instance.htColumns, items:[] }, {callUpdateContent:params.callUpdateContent});
                                     return;
                                 }
                                 if (result.items&&result.items.length>0)
+                                    loadingGif.hide();
                                     instance.updateContent(result, {callUpdateContent:params.callUpdateContent});
                             });
                     });
+                loadingGif.hide();
                 return;
             }
             if(this.htData&&this.htData.length>0 && params.clearContentBeforeLoad===true)
@@ -440,8 +446,10 @@ define(["dojo/_base/declare", "dijit/layout/ContentPane","dojox/widget/Standby",
                         var errorMsg=(result&&result.error)?"Error=":"", error=(result&&result.error)?result.error:"";
                         console.log("HTableSimple setContentFromUrl Request.getJSONData DATA ERROR!!! "+errorMsg,error);
                         instance.updateContent({ columns:instance.htColumns, items:[] }, {callUpdateContent:params.callUpdateContent});
+                        loadingGif.hide();
                         return;
                     }
+                    loadingGif.hide();
                     instance.updateContent(result, {callUpdateContent:params.callUpdateContent});
                 });
         },
