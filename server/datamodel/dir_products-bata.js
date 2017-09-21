@@ -55,37 +55,3 @@ var changeLog=[
         " FOREIGN KEY (COLLECTION_ID) REFERENCES dir_products_collections(ID)" }
 ];
 module.exports.changeLog=changeLog;
-
-var tableName="dir_products", tableColumns=[
-  {"data": "ID", "name": "ID", "width": 80, "type": "text", readOnly:true, visible:false},
-  {"data": "CODE", "name": "Код", "width": 100, "type": "text"},
-  {"data": "NAME", "name": "Наименование", "width": 200, "type": "text"},
-  {"data": "PRINT_NAME", "name": "Печатное наименование", "width": 200, "type": "text"},
-  {"data": "UM", "name": "Ед.изм.", "width": 80, "type": "text"},
-  {"data": "PBARCODE", "name": "Штрихкод", "width": 120, "type": "text"},
-  {"data": "ARTICLE_ID", "name": "ARTICLE_ID", "width": 80, "type": "text"},
-  {"data": "KIND_ID", "name": "KIND_ID", "width": 80, "type": "text"},
-  {"data": "COMPOSITION_ID", "name": "COMPOSITION_ID", "width": 80, "type": "text"},
-  {"data": "SIZE_ID", "name": "SIZE_ID", "width": 80, "type": "text"},
-  {"data": "COLLECTION_ID", "name": "COLLECTION_ID", "width": 80, "type": "text"}
-], idField=tableColumns[0].data;
-
-module.exports.validateData= {tableName:tableName, tableColumns:tableColumns, idField:idField};
-
-var dm=this;
-/**
- * resultCallback = function(tableData={ columns, identifier, items, error })
- */
-module.exports.getDataForDirProductsTable= function(conditions, resultCallback){
-  dm.getDataForTable({tableName:tableName, tableColumns:tableColumns, identifier:idField, conditions:conditions}, resultCallback);
-};
-//module.exports.getNewDataForDirProductsTable= function(resultCallback){
-//  dm.setDataItemForTable({tableColumns:tableColumns,
-//    values:[null,"Новый контрагент","Новый контрагент","Новый контрагент","Украина","Днепр","-","0","0"]}, resultCallback);
-//};
-module.exports.updDirProductsTableData= function(storeTableData, resultCallback){                            console.log("storeDirContractorsTableData storeTableData",storeTableData);
-  dm.storeTableDataItem({tableName:tableName, idFieldName:idField, storeTableData:storeTableData}, resultCallback);
-};
-//module.exports.deleteDirProductsTableData= function(delTableData, resultCallback){
-//  dm.delTableDataItem({tableName:tableName, idFieldName:idField, delTableData:delTableData}, resultCallback);
-//};

@@ -19,7 +19,8 @@
     "dir_units",
     "dir_contractors",
     "dir_products-bata",
-    "wrh_orders-bata"
+    "wrh_orders-bata",
+    "wrh_pinvoices-bata"
   ],
   "appMenu":[
     { "menuTitle":"Главная страница", "menuItemName":"menuBarItemMainPage", "pageTitle":"Главная страница", "module":"mainPage", "closable":false},
@@ -35,7 +36,7 @@
       "popupMenu":[
         { "menuItemName":"menuBarWrhOrdersBata", "menuTitle":"Заказы (Bata)", "pageTitle":"Заказы (Bata)", "module":"wrh_orders-bata", "closable":true},
         { "menuItemName":"separator_wrh1"},
-        { "menuItemName":"menuBarWrhPInvoices", "menuTitle":"Приходные накладные", "pageTitle":"Приходные накладные", "module":"wrh_pinvoices", "closable":true},
+        { "menuItemName":"menuBarWrhPInvoices", "menuTitle":"Приходные накладные", "pageTitle":"Приходные накладные", "module":"wrh_pinvoices-bata", "closable":true},
         { "menuItemName":"separator_wrh2"},
         {"menuItemName":"menuBarWrhInvoices", "menuTitle":"Расходные накладные", "pageTitle":"Расходные накладные", "module":"wrh_invoices", "closable":true},
         {"menuItemName":"menuBarWrhRetInvoices", "menuTitle":"Возвратные накладные", "pageTitle":"Возвратные накладные", "module":"wrh_ret_invoices", "closable":true},

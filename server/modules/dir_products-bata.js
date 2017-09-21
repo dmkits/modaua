@@ -33,10 +33,25 @@ module.exports.validateModule = function(errs, nextValidateModuleCallback){
 module.exports.modulePageURL = "/dir/products";
 module.exports.modulePagePath = "dir/products-bata.html";
 module.exports.init = function(app){
+    var dirProductsTableColumns=[
+        {"data": "ID", "name": "ID", "width": 80, "type": "text", readOnly:true, visible:false},
+        {"data": "CODE", "name": "Код", "width": 100, "type": "text"},
+        {"data": "NAME", "name": "Наименование", "width": 200, "type": "text"},
+        {"data": "PRINT_NAME", "name": "Печатное наименование", "width": 200, "type": "text"},
+        {"data": "UM", "name": "Ед.изм.", "width": 80, "type": "text"},
+        {"data": "PBARCODE", "name": "Штрихкод", "width": 120, "type": "text"},
+        {"data": "ARTICLE_ID", "name": "ARTICLE_ID", "width": 80, "type": "text"},
+        {"data": "KIND_ID", "name": "KIND_ID", "width": 80, "type": "text"},
+        {"data": "COMPOSITION_ID", "name": "COMPOSITION_ID", "width": 80, "type": "text"},
+        {"data": "SIZE_ID", "name": "SIZE_ID", "width": 80, "type": "text"},
+        {"data": "COLLECTION_ID", "name": "COLLECTION_ID", "width": 80, "type": "text"}
+    ];
     app.get("/dir/products/getDataForDirProductsTable", function(req, res){
-        dir_products.getDataForDirProductsTable(req.query, function(result){
-            res.send(result);
-        });
+        dir_products.getDataForTable({tableColumns:dirProductsTableColumns, identifier:dirProductsTableColumns[0].data,
+                conditions:req.query},
+            function(result){
+                res.send(result);
+            });
     });
     //app.get("/dir/contractors/newDataForDirContractorsTable", function(req, res){
     //    dir_products.getNewDataForDirContractorsTable(function(result){
@@ -44,9 +59,10 @@ module.exports.init = function(app){
     //    });
     //});
     app.post("/dir/products/storeDirProductsTableData", function(req, res){
-        dir_products.updDirProductsTableData(req.body, function(result){
-            res.send(result);
-        });
+        dir_products.storeTableDataItem({tableName:tableName, idFieldName:idField, storeTableData:req.body},
+            function(result){
+                res.send(result);
+            });
     });
     //app.post("/dir/contractors/deleteDirContractorsTableData", function(req, res){
     //    dir_products.deleteDirContractorsTableData(req.body, function(result){

@@ -13,7 +13,7 @@ module.exports.validateModule = function(errs, nextValidateModuleCallback){
 };
 
 module.exports.modulePageURL = "/wrh/pinvoices";
-module.exports.modulePagePath = "wrh/pinvoices.html";
+module.exports.modulePagePath = "wrh/pinvoices-bata.html";
 module.exports.init = function(app){
     var wrhPInvsListTableColumns=[
         {"data": "ID", "name": "ID", "width": 50, "type": "text", readOnly:true, visible:false, dataSource:"wrh_pinvs"},

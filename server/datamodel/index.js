@@ -130,6 +130,8 @@ module.exports.initValidateDataModels=function(dataModels, errs, resultCallback)
  *              { function:<function>, source:<functionSource>, sourceField:<functionSourceField>, fields:[ <functionBodySourceFieldName> ] },
  *      ... },
  *      joinedSources = { <sourceName>:<linkConditions> = { <linkCondition>:null or <linkCondition>:<value>, ... } },
+ *      leftJoinedSources = { <sourceName>:<linkConditions> = { <linkCondition>:null or <linkCondition>:<value>, ... } },
+ *      groupedFields = [ <fieldName>, ... ],
  *      conditions={ <condition>:<conditionValue>, ... } OR conditions=[ { fieldName:"...", condition:"...", value:"..." }, ... ],
  *      order = "<fieldName>" OR "<fieldName>,<fieldName>,..." OR [ <fieldName>, ... ]
  * }
@@ -161,11 +163,19 @@ function _getSelectItems(params, resultCallback){
             else if(typeof(fieldFunctionData)=="object") {
                 if(fieldFunctionData.function=="maxPlus1")
                     fieldFunction="COALESCE(MAX("+((fieldFunctionData.source)?fieldFunctionData.source+".":"")+fieldFunctionData.sourceField+")+1,1)";
+                else if(fieldFunctionData.function=="sumIsNull")
+                    fieldFunction="COALESCE(SUM("+((fieldFunctionData.source)?fieldFunctionData.source+".":"")+fieldFunctionData.sourceField+"),0)";
+                else if(fieldFunctionData.function=="rowsCountIsNull")
+                    fieldFunction= "COALESCE(SUM(CASE When "+
+                        ((fieldFunctionData.source)?fieldFunctionData.source+".":"")+fieldFunctionData.sourceField+
+                        " is NULL Then 0 Else 1 END),0)";
                 else if(fieldFunctionData.function=="concat"&&fieldFunctionData.fields) {
                     for(var ind in fieldFunctionData.fields){
                         fieldFunction= (!fieldFunction)?fieldFunctionData.fields[ind]:fieldFunction+","+fieldFunctionData.fields[ind];
                     }
                     fieldFunction="CONCAT("+fieldFunction+")";
+                } else if(fieldFunctionData.function&&fieldFunctionData.sourceField){
+                    fieldFunction=fieldFunctionData.function+"("+((fieldFunctionData.source)?fieldFunctionData.source+".":"")+fieldFunctionData.sourceField+")";
                 }
             }
         }
@@ -179,6 +189,14 @@ function _getSelectItems(params, resultCallback){
             for(var linkCondition in joinedSourceConditions)
                 joinedSourceOnCondition= (!joinedSourceOnCondition)?linkCondition:joinedSourceOnCondition+" and "+linkCondition;
             joins += " inner join " + joinSourceName + " on "+joinedSourceOnCondition;
+        }
+    }
+    if(params.leftJoinedSources){
+        for(var leftJoinSourceName in params.leftJoinedSources) {
+            var leftJoinedSourceConditions=params.leftJoinedSources[leftJoinSourceName], leftJoinedSourceOnCondition;
+            for(var leftJoinLinkCondition in leftJoinedSourceConditions)
+                leftJoinedSourceOnCondition= (!leftJoinedSourceOnCondition)?leftJoinLinkCondition:leftJoinedSourceOnCondition+" and "+leftJoinLinkCondition;
+            joins += " left join " + leftJoinSourceName + " on "+leftJoinedSourceOnCondition;
         }
     }
     selectQuery+=joins;
@@ -203,6 +221,19 @@ function _getSelectItems(params, resultCallback){
             conditionQuery= (!conditionQuery)?conditionItemValueQuery:conditionQuery+" and "+conditionItemValueQuery;
             if (conditionItem.value!=null) coditionValues.push(conditionItem.value);
         }
+    }
+
+    if (params.groupedFields) {
+        var queryGroupedFields = "";
+        for (var groupedFieldNameIndex in params.groupedFields) {
+            if (queryGroupedFields != "") queryGroupedFields += ",";
+            var groupedFieldName = params.groupedFields[groupedFieldNameIndex];
+            if (params.fieldsSources && params.fieldsSources[groupedFieldName]) {
+                groupedFieldName = params.fieldsSources[groupedFieldName];
+            }
+            queryGroupedFields += groupedFieldName;
+        }
+        selectQuery+=" group by "+queryGroupedFields;
     }
     if (params.order) selectQuery+=" order by "+params.order;
     if (coditionValues.length==0)
@@ -390,7 +421,8 @@ function _setDataItem(params, resultCallback){
  * params = { source,
  *      tableColumns = [
  *          {data:<sourceFieldName>, name:<tableColumnHeader>, width:<tableColumnWidth>, type:<dataType>, readOnly:true/false, visible:true/false,
- *                dataSource:<sourceName>, dataField:<sourceFieldName> },
+ *                dataSource:<sourceName>, dataField:<sourceFieldName>
+ *             OR childDataSource:<childSourceName>, childLinkField:<childSourceLinkFieldName>, parentDataSource, parentLinkField:<parentSourceLinkFieldName> },
  *          ...
  *      ],
  *      conditions={ <condition>:<conditionValue>, ... },
@@ -419,32 +451,53 @@ function _getDataItemsForTable(params, resultCallback){
         return;
     }
     if(!params.source&&this.source) params.source=this.source;
-    var fieldsList=[], fieldsSources={}, fieldsFunctions;
+    var hasSources=false, hasChildSources=false;
+    for(var i in params.tableColumns) {
+        var tableColumnData=params.tableColumns[i];
+        if(tableColumnData.dataSource) hasSources=true;
+        if(tableColumnData.childDataSource) hasSources=true;
+        if(hasSources&&hasChildSources) break;
+    }
+    var fieldsList=[], fieldsSources={}, fieldsFunctions, groupedFieldsList=[];
     for(var i in params.tableColumns) {
         var tableColumnData=params.tableColumns[i], fieldName=tableColumnData.data;
 
         if(this.fieldsMetadata&&this.fieldsMetadata[fieldName]) {
-            fieldsList.push(fieldName);
+            fieldsList.push(fieldName); groupedFieldsList.push(fieldName);
             if(tableColumnData.dataSource&&tableColumnData.dataField)
                 fieldsSources[fieldName]=tableColumnData.dataSource+"."+tableColumnData.dataField;
             else if(tableColumnData.dataSource)
                 fieldsSources[fieldName]=tableColumnData.dataSource+"."+fieldName;
+            else if(hasSources&&(params.source||this.source))
+                fieldsSources[fieldName]=((params.source)?params.source:this.source)+"."+fieldName;
         } else if(tableColumnData.dataField){
-            fieldsList.push(fieldName);
+            fieldsList.push(fieldName); groupedFieldsList.push(fieldName);
             if(tableColumnData.dataSource) fieldsSources[fieldName]=tableColumnData.dataSource+"."+tableColumnData.dataField;
             else fieldsSources[fieldName]=tableColumnData.dataSource+"."+fieldName;
         } else if(tableColumnData.dataFunction){
             fieldsList.push(fieldName);
+            if(!tableColumnData.childDataSource) groupedFieldsList.push(fieldName);
             if(!fieldsFunctions)fieldsFunctions={};
             fieldsFunctions[fieldName]= tableColumnData.dataFunction;
-        } else if(!this.fieldsMetadata)
-            fieldsList.push(fieldName);
+        } else if(!this.fieldsMetadata) {
+            fieldsList.push(fieldName); groupedFieldsList.push(fieldName);
+        }
         if(tableColumnData.dataSource && this.joinedSources&&this.joinedSources[tableColumnData.dataSource]){
             if(!params.joinedSources) params.joinedSources={};
             params.joinedSources[tableColumnData.dataSource]=this.joinedSources[tableColumnData.dataSource];
         }
+        if(tableColumnData.childDataSource&& (!params.leftJoinedSources||!params.leftJoinedSources[tableColumnData.childDataSource]) ){
+            if(!params.leftJoinedSources) params.leftJoinedSources={};
+            var childLinkConditions={};
+            var parentDataSource=tableColumnData.parentDataSource;
+            if(!parentDataSource&&params.source) parentDataSource=params.source;
+            if(!parentDataSource&&this.source) parentDataSource=this.source;
+            childLinkConditions[tableColumnData.childDataSource+"."+tableColumnData.childLinkField+"="+parentDataSource+"."+tableColumnData.parentLinkField]=null;
+            params.leftJoinedSources[tableColumnData.childDataSource]=childLinkConditions;
+        }
     }
     params.fields=fieldsList; params.fieldsSources=fieldsSources; params.fieldsFunctions=fieldsFunctions;
+    params.groupedFields=groupedFieldsList;
     _getSelectItems(params, function(err, recordset){
         if(err) tableData.error="Failed get data for table! Reason:"+err.message;
         tableData.items= recordset;

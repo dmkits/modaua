@@ -417,7 +417,7 @@ define(["dojo/_base/declare", "dijit/layout/BorderContainer", "dijit/layout/Cont
                 var condition = this.detailTable.getDataURLCondition, conditionIDValue= this.detailHeader.getContentDataIDValue();
                 if (!condition) condition={};
                 if (conditionIDValue!==null&&conditionIDValue!==undefined&&this.detailTable.conditionIDName)
-                    condition[this.detailTable.conditionIDName]=conditionIDValue;
+                    condition[(this.detailTable.conditionIDName+"=").replace("=","~")]=conditionIDValue;
                 this.detailTable.setContentFromUrl({url:this.detailTable.getDataUrl, condition:condition});
             },
             storeDetailTableSelectedRowValuesToServer: function(){

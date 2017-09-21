@@ -6,9 +6,15 @@ var dir_units= require(appDataModelPath+"dir_units"),
     dir_contractors= require(appDataModelPath+"dir_contractors"),
     sys_currency= require(appDataModelPath+"sys_currency"),
     sys_docstates= require(appDataModelPath+"sys_docstates");
+var dir_products_articles= require(appDataModelPath+"dir_products_articles"),
+    dir_products_genders= require(appDataModelPath+"dir_products_genders-bata"),
+    dir_products_categories= require(appDataModelPath+"dir_products_categories-bata"),
+    dir_products_subcategories= require(appDataModelPath+"dir_products_subcategories-bata"),
+    dir_products_categories_subcategories= require(appDataModelPath+"dir_products_categories_subcats-bata");
+
 
 module.exports.validateModule = function(errs, nextValidateModuleCallback){
-    dataModel.initValidateDataModels({"wrh_orders_bata":wrh_orders_bata,//"wrh_orders_bata_view":wrhOrdersBataView,
+    dataModel.initValidateDataModels({"wrh_orders_bata":wrh_orders_bata,
             "wrh_orders_bata_details":wrh_orders_bata_details},
         errs,
         function(){
@@ -26,9 +32,15 @@ module.exports.init = function(app){
         {"data": "UNIT_NAME", "name": "Подразделение", "width": 120, "type": "text", dataSource:"dir_units", dataField:"NAME"},
         {"data": "SUPPLIER_NAME", "name": "Поставщик", "width": 120, "type": "text", dataSource:"dir_contractors", dataField:"NAME"},
         {"data": "SUPPLIER_ORDER_NUM", "name": "Номер заказа поставщика", "width": 80, "type": "text", dataSource:"wrh_orders_bata"},
-        {"data": "DOCCOUNT", "name": "Строк", "width": 50, "type": "numeric", visible:false, dataFunction:"0"},
-        {"data": "DOCQTYSUM", "name": "Кол-во", "width": 60, "type": "numeric", dataFunction:"0"},
-        {"data": "DOCSUM", "name": "Сумма", "width": 80, "type": "numeric2", dataFunction:"0.00"},
+        {"data": "DOCCOUNT", "name": "Строк", "width": 50, "type": "numeric", visible:false,
+            childDataSource:"wrh_orders_bata_details", childLinkField:"ORDER_BATA_ID", parentLinkField:"ID",
+            dataFunction:{function:"rowsCountIsNull", source:"wrh_orders_bata_details", sourceField:"POS"} },
+        {"data": "DOCQTYSUM", "name": "Кол-во", "width": 60, "type": "numeric",
+            childDataSource:"wrh_orders_bata_details", childLinkField:"ORDER_BATA_ID", parentLinkField:"ID",
+            dataFunction:{function:"sumIsNull", source:"wrh_orders_bata_details", sourceField:"QTY"} },
+        {"data": "DOCSUM", "name": "Сумма", "width": 80, "type": "numeric2",
+            childDataSource:"wrh_orders_bata_details", childLinkField:"ORDER_BATA_ID", parentLinkField:"ID",
+            dataFunction:{function:"sumIsNull", source:"wrh_orders_bata_details", sourceField:"POSSUM"} },
         {"data": "CURRENCY_CODE", "name": "Валюта", "width": 50, "type": "text", dataSource:"sys_currency", dataField:"CODE"},
         {"data": "CURRENCY_CODENAME", "name": "Валюта", "width": 50, "type": "text", visible:false,
             dataSource:"sys_currency", dataFunction:{function:"concat",fields:["sys_currency.CODE","' ('","sys_currency.NAME","')'"]} },
@@ -125,28 +137,24 @@ module.exports.init = function(app){
         {"data": "ID", "name": "ID", "width": 50, "type": "text", readOnly:true, visible:false},
         {"data": "ORDER_BATA_ID", "name": "ORDER_BATA_ID", "width": 50, "type": "text", readOnly:true, visible:false},
         {"data": "POS", "name": "Номер п/п", "width": 45, "type": "text"},
-        //{"data": "PRODUCT_GENDER_ID", "name": "PRODUCT_GENDER_ID", "width": 50, "type": "text", readOnly:true, visible:false},
         {"data": "PRODUCT_GENDER_CODE", "name": "Код группы", "width": 65,
             "type": "combobox", "sourceURL":"/dir/products/getDataForOrderBataProductsGendersCombobox/genderCode",
             dataSource:"dir_products_genders", dataField:"CODE"},
         {"data": "PRODUCT_GENDER", "name": "Группа", "width": 150,
             "type": "combobox", "sourceURL":"/dir/products/getDataForOrderBataProductsGendersCombobox/gender",
             dataSource:"dir_products_genders", dataField:"NAME"},
-        //{"data": "PRODUCT_CATEGORY_ID", "name": "PRODUCT_CATEGORY_ID", "width": 50, "type": "text", readOnly:true, visible:false},
         {"data": "PRODUCT_CATEGORY_CODE", "name": "Код категории", "width": 80,
             "type": "combobox", "sourceURL":"/dir/products/getDataForOrderBataProductsCategoryCombobox/CategoryCode",
             dataSource:"dir_products_categories", dataField:"CODE"},
         {"data": "PRODUCT_CATEGORY", "name": "Категория", "width": 200,
             "type": "combobox", "sourceURL":"/dir/products/getDataForOrderBataProductsCategoryCombobox/Category",
             dataSource:"dir_products_categories", dataField:"NAME"},
-        //{"data": "PRODUCT_SUBCATEGORY_ID", "name": "PRODUCT_SUBCATEGORY_ID", "width": 50, "type": "text", readOnly:true, visible:false},
         {"data": "PRODUCT_SUBCATEGORY_CODE", "name": "Код подкатегории", "width": 100,
             "type": "combobox", "sourceURL":"/dir/products/getDataForOrderBataProductsSubcategoryCombobox/SubcategoryCode",
             dataSource:"dir_products_subcategories", dataField:"CODE"},
         {"data": "PRODUCT_SUBCATEGORY", "name": "Подкатегория", "width": 200,
             "type": "combobox", "sourceURL":"/dir/products/getDataForOrderBataProductsSubcategoryCombobox/Subcategory",
             dataSource:"dir_products_subcategories", dataField:"NAME"},
-        //{"data": "PRODUCT_ARTICLE_ID", "name": "PRODUCT_ARTICLE_ID", "width": 50, "type": "text", readOnly:true, visible:false},
         {"data": "PRODUCT_ARTICLE", "name": "Артикул", "width": 80, "type": "text",
             dataSource:"dir_products_articles", dataField:"VALUE"},
         {"data": "QTY", "name": "Кол-во", "width": 50, "type": "numeric"},
@@ -157,17 +165,69 @@ module.exports.init = function(app){
     app.get("/wrh/ordersBata/getDataForOrdersBataDetailsTable", function(req, res){
         wrh_orders_bata_details.getDataForTable({tableColumns:wrhOrderBataDetailsTableColumns,
                 identifier:wrhOrderBataDetailsTableColumns[0].data,
-                conditions:req.body},
+                conditions:req.query,
+                order:["POS"]},
             function(result){
                 res.send(result);
             });
     });
     app.post("/wrh/ordersBata/storeOrdersBataDetailsTable", function(req, res){
         var storeData=req.body;
-        wrh_orders_bata_details.storeTableDataItem({tableColumns:wrhOrderBataDetailsTableColumns, idFieldName:"ID", storeTableData:storeData},
-            function(result){
-                res.send(result);
+        var genderCondition={};
+        if(storeData["PRODUCT_GENDER"]) genderCondition["NAME="]=storeData["PRODUCT_GENDER"];
+        if(storeData["PRODUCT_GENDER_CODE"]) genderCondition["CODE="]=storeData["PRODUCT_GENDER_CODE"];
+        dir_products_genders.getDataItem({fields:["ID"],conditions:genderCondition}, function(result){
+            if(!result.item){
+                res.send({ error:"Cannot finded gender by code,name!"});
+                return;
+            }
+            storeData["PRODUCT_GENDER_ID"]=result.item["ID"];
+            var categoryCondition={};
+            if(storeData["PRODUCT_CATEGORY"]) categoryCondition["NAME="]=storeData["PRODUCT_CATEGORY"];
+            if(storeData["PRODUCT_CATEGORY_CODE"]) categoryCondition["CODE="]=storeData["PRODUCT_CATEGORY_CODE"];
+            dir_products_categories.getDataItem({fields:["ID"],conditions:categoryCondition}, function(result){
+                if(!result.item){
+                    res.send({ error:"Cannot finded category by code,name!"});
+                    return;
+                }
+                storeData["PRODUCT_CATEGORY_ID"]=result.item["ID"];
+                var subcategoryCondition={};
+                if(storeData["PRODUCT_SUBCATEGORY"]) subcategoryCondition["NAME="]=storeData["PRODUCT_SUBCATEGORY"];
+                if(storeData["PRODUCT_SUBCATEGORY_CODE"]) subcategoryCondition["CODE="]=storeData["PRODUCT_SUBCATEGORY_CODE"];
+                dir_products_subcategories.getDataItem({fields:["ID"],conditions:subcategoryCondition}, function(result) {
+                    if (!result.item) {
+                        res.send({error: "Cannot finded subcategory by code,name!"});
+                        return;
+                    }
+                    storeData["PRODUCT_SUBCATEGORY_ID"] = result.item["ID"];
+                    var prodArticle=storeData["PRODUCT_ARTICLE"];
+                    dir_products_articles.getDataItem({fields:["ID"],conditions:{"VALUE=":prodArticle}}, function(result) {
+                        //var
+                        if (!result.item) {
+
+                            dir_products_articles.storeDataItem({idFieldName:"ID",storeData:{"ID":null,"VALUE":prodArticle}},
+                                function(result){
+                                    if(!result.updateCount>0||!result.resultItem){
+                                        res.send({error: "Cannot added new article!"});
+                                        return;
+                                    }
+                                    storeData["PRODUCT_ARTICLE_ID"] = result.resultItem["ID"];
+                                    wrh_orders_bata_details.storeTableDataItem({tableColumns:wrhOrderBataDetailsTableColumns, idFieldName:"ID", storeTableData:storeData},
+                                        function(result){
+                                            res.send(result);
+                                        });
+                                });
+                            return;
+                        }
+                        storeData["PRODUCT_ARTICLE_ID"] = result.item["ID"];
+                        wrh_orders_bata_details.storeTableDataItem({tableColumns:wrhOrderBataDetailsTableColumns, idFieldName:"ID", storeTableData:storeData},
+                            function(result){
+                                res.send(result);
+                            });
+                    });
+                });
             });
+        });
     });
     app.post("/wrh/ordersBata/deleteOrdersBataDetailsTable", function(req, res){
         var delData=req.body;
