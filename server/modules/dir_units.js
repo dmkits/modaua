@@ -1,9 +1,10 @@
 
 var dataModel=require('../datamodel');
-var dirUnits= require(appDataModelPath+"dir_units");
+var dir_units= require(appDataModelPath+"dir_units"),
+    dir_pricelists=require(appDataModelPath+"dir_pricelists");
 
 module.exports.validateModule = function(errs, nextValidateModuleCallback){
-    dataModel.initValidateDataModels({"dir_units":dirUnits}, errs,
+    dataModel.initValidateDataModels({"dir_units":dir_units, "dir_pricelists":dir_pricelists}, errs,
         function(){
             nextValidateModuleCallback();
         });
@@ -22,33 +23,33 @@ module.exports.init = function(app){
         {"data": "NOT_USED", "name": "Не используется", "width": 120, "type": "checkbox", visible:true}
     ];
     app.get("/dir/units/getDataForDirUnitsTable", function(req, res){
-        dirUnits.getDataForTable({tableColumns:dirUnitsTableColumns, identifier:dirUnitsTableColumns[0].data, conditions:req.query},
+        dir_units.getDataForTable({tableColumns:dirUnitsTableColumns, identifier:dirUnitsTableColumns[0].data, conditions:req.query},
             function(result){
                 res.send(result);
             });
     });
     app.get("/dir/units/newDataForDirUnitsTable", function(req, res){
-        dirUnits.setDataItemForTable({tableColumns:dirUnitsTableColumns,
+        dir_units.setDataItemForTable({tableColumns:dirUnitsTableColumns,
             values:[null,"Новое подразделение","Новое подразделение","Новое подразделение","Днепр","-","0"]},
             function(result){
                 res.send(result);
             });
     });
     app.post("/dir/units/storeDirUnitsTableData", function(req, res){
-        dirUnits.storeTableDataItem({tableColumns:dirUnitsTableColumns, idFieldName:dirUnitsTableColumns[0].data,
+        dir_units.storeTableDataItem({tableColumns:dirUnitsTableColumns, idFieldName:dirUnitsTableColumns[0].data,
                 storeTableData:req.body},
             function(result){
                 res.send(result);
             });
     });
     app.post("/dir/units/deleteDirUnitsTableData", function(req, res){
-        dirUnits.delTableDataItem({idFieldName:dirUnitsTableColumns[0].data, delTableData:req.body},
+        dir_units.delTableDataItem({idFieldName:dirUnitsTableColumns[0].data, delTableData:req.body},
             function(result){
                 res.send(result);
             });
     });
     app.get("/dir/units/getDirUnitsForSelect", function(req, res){
-        dirUnits.getDataItemsForSelect({valueField:"NAME",labelField:"NAME", conditions:{"NOT_USED=":0}, order: "NAME" },
+        dir_units.getDataItemsForSelect({valueField:"NAME",labelField:"NAME", conditions:{"NOT_USED=":0}, order: "NAME" },
             function (result) {
                 res.send(result);
             });

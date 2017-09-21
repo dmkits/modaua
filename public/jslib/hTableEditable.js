@@ -619,7 +619,7 @@ define(["dojo/_base/declare", "hTableSimpleFiltered","dijit/ProgressBar","dijit/
                     if(!resultItem) errors['<!$error_resultItem$!>']="Не удалось получить результат операции с сервера!";
                     if(!error&&updateCount>0&&resultItem){
                         var deletedRowIDValue=resultItem[rowIDName];
-                        if(deletingRowIDValue===deletedRowIDValue) {
+                        if(deletingRowIDValue==deletedRowIDValue) {
                             thisInstance.deleteRow(rowData,{callUpdateContent:params.callUpdateContent});//this call onUpdateContent
                             return;
                         }
