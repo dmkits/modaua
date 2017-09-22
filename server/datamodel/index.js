@@ -1,4 +1,4 @@
-var server= require("../server"), log= server.log, dateFormat = require('dateformat'),uid = require('uniqid');;
+var server= require("../server"), log= server.log, dateFormat = require('dateformat'),uid = require('uniqid');
 
 var dataModelChanges= [], validatedDataModels={};
 module.exports.getModelChanges=function(){ return dataModelChanges; };
