@@ -175,7 +175,6 @@ define(["dojo/_base/declare", "hTableSimpleFiltered","dijit/ProgressBar","dijit/
             this.storeTableRowsDialogProgressBar.startup();
             this.storeTableRowsDialog.startup();
             document.body.appendChild(this.storeTableRowsDialog.domNode);
-
         },
         postCreate : function() {
             this.createHandsonTable();
@@ -556,7 +555,12 @@ define(["dojo/_base/declare", "hTableSimpleFiltered","dijit/ProgressBar","dijit/
             params.rowData= this.getSelectedRow();
             if (!this.isRowEditable(params.rowData)) return;
             params.callUpdateContent= true;
-            this.storeRowDataByURL(params);
+            var thisInstance=this;
+            thisInstance.loadingGif.show();
+            this.storeRowDataByURL(params,
+                /*postCallback*/function(){
+                    thisInstance.loadingGif.hide();
+                });
         },
         /*
          * params: {url, condition, rowsData, consoleLog}
@@ -570,9 +574,7 @@ define(["dojo/_base/declare", "hTableSimpleFiltered","dijit/ProgressBar","dijit/
             }
             params.callUpdateContent=false;
             var thisInstance= this;
-
             thisInstance.storeTableRowsDialogProgressBar.set("maximum",storingRowData.length);
-
             var storeRowDataCallback= function(rowInd){
                 params.rowData=storingRowData[rowInd];
                 if (!params.rowData) {
@@ -585,7 +587,6 @@ define(["dojo/_base/declare", "hTableSimpleFiltered","dijit/ProgressBar","dijit/
                     thisInstance.storeTableRowsDialog.show();
                 }
                 thisInstance.storeTableRowsDialogProgressBar.set({value: rowInd});
-
                 thisInstance.storeRowDataByURL(params,
                     /*postCallback*/function(){
                         storeRowDataCallback(rowInd+1);
@@ -620,6 +621,7 @@ define(["dojo/_base/declare", "hTableSimpleFiltered","dijit/ProgressBar","dijit/
                     if(!error&&updateCount>0&&resultItem){
                         var deletedRowIDValue=resultItem[rowIDName];
                         if(deletingRowIDValue==deletedRowIDValue) {
+                            if(postCallback) postCallback(success,result,rowData);
                             thisInstance.deleteRow(rowData,{callUpdateContent:params.callUpdateContent});//this call onUpdateContent
                             return;
                         }
@@ -649,7 +651,12 @@ define(["dojo/_base/declare", "hTableSimpleFiltered","dijit/ProgressBar","dijit/
                 return;
             }
             params.callUpdateContent= true;
-            this.deleteRowDataByURL(params);//this call onUpdateContent
+            var thisInstance=this;
+            thisInstance.loadingGif.show();
+            this.deleteRowDataByURL(params,
+                /*postCallback*/function(){
+                    thisInstance.loadingGif.hide();
+                });//this call onUpdateContent
         }
     });
 });
