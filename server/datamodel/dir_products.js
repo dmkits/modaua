@@ -52,7 +52,25 @@ var changeLog=[
       "field":"COLLECTION_ID" },
     { "changeID": "dir_products_25", "changeDatetime": "2016-09-12 09:42:00", "changeObj": "dir_products",
       "changeVal": "ALTER TABLE dir_products ADD CONSTRAINT DIR_PRODUCTS_COLLECTION_ID_FK"
-      +" FOREIGN KEY (COLLECTION_ID) REFERENCES dir_products_collections(ID)" }
+      +" FOREIGN KEY (COLLECTION_ID) REFERENCES dir_products_collections(ID)" },
+    { "changeID": "dir_products_26", "changeDatetime": "2017-09-22 12:04:00", "changeObj": "dir_products",
+        "changeVal": "ALTER TABLE dir_products ADD COLUMN TYPE_ID BIGINT UNSIGNED NOT NULL",
+        "field":"TYPE_ID" },
+    { "changeID": "dir_products_27", "changeDatetime": "2017-09-22 12:05:00", "changeObj": "dir_products",
+        "changeVal": "ALTER TABLE dir_products ADD CONSTRAINT DIR_PRODUCTS_TYPE_ID_FK"
+        +" FOREIGN KEY (TYPE_ID) REFERENCES dir_products_types(ID)" },
+    { "changeID": "dir_products_28", "changeDatetime": "2017-09-22 13:04:00", "changeObj": "dir_products",
+        "changeVal": "ALTER TABLE dir_products ADD COLUMN LINE_ID BIGINT UNSIGNED NOT NULL",
+        "field":"LINE_ID" },
+    { "changeID": "dir_products_29", "changeDatetime": "2017-09-22 13:05:00", "changeObj": "dir_products",
+        "changeVal": "ALTER TABLE dir_products ADD CONSTRAINT DIR_PRODUCTS_LINE_ID_FK"
+        +" FOREIGN KEY (LINE_ID) REFERENCES dir_products_lines(ID)" },
+    { "changeID": "dir_products_30", "changeDatetime": "2017-09-22 14:04:00", "changeObj": "dir_products",
+        "changeVal": "ALTER TABLE dir_products ADD COLUMN DESCRIPTION_ID BIGINT UNSIGNED NOT NULL",
+        "field":"DESCRIPTION_ID" },
+    { "changeID": "dir_products_31", "changeDatetime": "2017-09-22 14:05:00", "changeObj": "dir_products",
+        "changeVal": "ALTER TABLE dir_products ADD CONSTRAINT DIR_PRODUCTS_DESCRIPTION_ID_FK"
+        +" FOREIGN KEY (DESCRIPTION_ID) REFERENCES dir_products_descriptions(ID)" }
 ];
 module.exports.changeLog=changeLog;
 

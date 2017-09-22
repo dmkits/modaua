@@ -5,7 +5,10 @@ var dir_products_articles= require(appDataModelPath+"dir_products_articles"),
     dir_products_kinds= require(appDataModelPath+"dir_products_kinds"),
     dir_products_compositions= require(appDataModelPath+"dir_products_compositions"),
     dir_products_sizes= require(appDataModelPath+"dir_products_sizes"),
-    dir_products_collections= require(appDataModelPath+"dir_products_collections");
+    dir_products_collections= require(appDataModelPath+"dir_products_collections"),
+    dir_products_types= require(appDataModelPath+"dir_products_types"),
+    dir_products_lines= require(appDataModelPath+"dir_products_lines"),
+    dir_products_descriptions= require(appDataModelPath+"dir_products_descriptions");
 //var dir_products_barcodes= require(appDataModelPath+"dir_products_barcodes");
 
 module.exports.validateModule = function(errs, nextValidateModuleCallback){
@@ -13,7 +16,11 @@ module.exports.validateModule = function(errs, nextValidateModuleCallback){
             "dir_products_barcodes":dir_products_barcodes,
             "dir_products_articles":dir_products_articles,
             "dir_products_kinds":dir_products_kinds, "dir_products_compositions":dir_products_compositions, "dir_products_sizes":dir_products_sizes,
-            "dir_products_collections":dir_products_collections},
+            "dir_products_collections":dir_products_collections,
+            "dir_products_types":dir_products_types,
+            "dir_products_lines":dir_products_lines,
+            "dir_products_descriptions":dir_products_descriptions
+        },
         errs,
         function(){
             nextValidateModuleCallback();
