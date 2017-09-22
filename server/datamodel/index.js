@@ -1,4 +1,4 @@
-var server= require("../server"), log= server.log, instauUID = require('instauuid'), dateFormat = require('dateformat');
+var server= require("../server"), log= server.log, dateFormat = require('dateformat'),uid = require('uniqid');;
 
 var dataModelChanges= [], validatedDataModels={};
 module.exports.getModelChanges=function(){ return dataModelChanges; };
@@ -6,6 +6,16 @@ module.exports.resetModelChanges=function(){ dataModelChanges=[]; };
 module.exports.resetValidatedDataModels=function(){ validatedDataModels={}; };
 
 var database= require("../database");
+
+function getUIDNumber() {
+    var str= uid.time();
+    var len = str.length;
+    var num = 0;
+    for (var i = (len - 1); i >= 0; i--) {
+        num+= Math.pow(256,i) * str.charCodeAt(i);
+    }
+    return num;
+}
 /**
  * created for data model fields: sourceType, source, fields, idField, fieldsMetadata
  * created data model functions
@@ -763,7 +773,7 @@ function _storeDataItem(params, resultCallback) {
     }
     var idValue=params.storeData[idFieldName];
     if (idValue===undefined||idValue===null){//insert
-        params.storeData[idFieldName]=instauUID('decimal');
+        params.storeData[idFieldName]=getUIDNumber();
         this.insDataItem({idFieldName:idFieldName, insData:params.storeData}, function(result){
             if(result&&result.updateCount>0)result.resultItem=params.storeData;
             resultCallback(result);
@@ -962,7 +972,7 @@ function _storeTableDataItem(params, resultCallback) {
     }
     var idValue=params.storeTableData[idFieldName];
     if (idValue===undefined||idValue===null){//insert
-        params.storeTableData[idFieldName]=instauUID('decimal');
+        params.storeTableData[idFieldName]=getUIDNumber();
         this.insTableDataItem({tableName:params.tableName, idFieldName:idFieldName, tableColumns:params.tableColumns,
             insTableData:params.storeTableData}, resultCallback);
         return;

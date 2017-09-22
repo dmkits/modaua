@@ -1,18 +1,3 @@
-var uid = require('uniqid');
-            console.log(uid.time());
-function d1(str) {
-    var len = str.length;       console.log('len=',len);
-    var num = 0;
-    for (var i = (len - 1); i >= 0; i--) {
-        num+= Math.pow(256,i) * str.charCodeAt(i);      console.log('str.charCodeAt=',str.charCodeAt(i),Math.pow(256,i));
-    }
-    return num;
-}
-            console.log(d1(uid.time(),'string'));
-//8464911562056284000 19
-//15593155995600583351
-return;
-
 
 
 var startDateTime=new Date(), startTime=startDateTime.getTime();                                    console.log('STARTING at ',startDateTime );//test
