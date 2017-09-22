@@ -20,7 +20,10 @@ module.exports.init = function(app){
         {"data": "NOTE", "name": "Примечание", "width": 200, "type": "text"},
         {"data": "CITY", "name": "Город", "width": 120, "type": "text"},
         {"data": "ADDRESS", "name": "Адрес", "width": 200, "type": "text"},
-        {"data": "NOT_USED", "name": "Не используется", "width": 120, "type": "checkbox", visible:true}
+        {"data": "NOT_USED", "name": "Не используется", "width": 120, "type": "checkbox", visible:true},
+        {"data": "PRICELIST_NAME", "name": "Прайс-лист", "width": 150,
+            "type": "combobox", "sourceURL":"/dir/pricelists/getDataForPriceListsCombobox",
+            dataSource:"dir_pricelists", dataField:"NAME"}
     ];
     app.get("/dir/units/getDataForDirUnitsTable", function(req, res){
         dir_units.getDataForTable({tableColumns:dirUnitsTableColumns, identifier:dirUnitsTableColumns[0].data, conditions:req.query},
@@ -36,11 +39,19 @@ module.exports.init = function(app){
             });
     });
     app.post("/dir/units/storeDirUnitsTableData", function(req, res){
-        dir_units.storeTableDataItem({tableColumns:dirUnitsTableColumns, idFieldName:dirUnitsTableColumns[0].data,
-                storeTableData:req.body},
-            function(result){
-                res.send(result);
-            });
+        var storeData=req.body;
+        dir_pricelists.getDataItem({fields:["ID"],conditions:{"NAME=":storeData["PRICELIST_NAME"]}}, function(result) {
+            if (!result.item) {
+                res.send({error: "Cannot finded pricelist by name!"});
+                return;
+            }
+            storeData["PRICELIST_ID"] = result.item["ID"];
+            dir_units.storeTableDataItem({tableColumns:dirUnitsTableColumns, idFieldName:dirUnitsTableColumns[0].data,
+                    storeTableData:storeData},
+                function(result){
+                    res.send(result);
+                });
+        });
     });
     app.post("/dir/units/deleteDirUnitsTableData", function(req, res){
         dir_units.delTableDataItem({idFieldName:dirUnitsTableColumns[0].data, delTableData:req.body},
