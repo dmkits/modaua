@@ -332,4 +332,12 @@ module.exports.init = function(app){
                 res.send(result);
             });
     });
+
+    app.get("/dir/products/getDirProductsCollectionsForSelect", function (req, res) {
+        dir_products_collections.getDataItemsForSelect({ valueField:"NAME",labelField:"NAME",
+                order: "NAME"},
+            function (result) {
+                res.send(result);
+            });
+    });
 };
