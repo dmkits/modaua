@@ -507,58 +507,58 @@ module.exports.init = function(app){
                 res.send(outData);
                 return;
             }
-                        database.checkIfUserExists(userName, function (err, result) {
-                            if (err) {                                                                                  log.error("checkIfUserExists err=", err);
+            database.checkIfUserExists(userName, function (err, result) {
+                if (err) {                                                                                  log.error("checkIfUserExists err=", err);
+                    outData.error = err.message;
+                    res.send(outData);
+                    return;
+                }
+                if (result.length > 0) {
+                    outData.userExists = "User " + userName + " is already exists!";
+                    database.grantUserAccess(host, userName, DBName, function (err, ok) {
+                        if (err) {                                                                          log.error("createNewUser err=", err);
+                            outData.error = err.message;
+                            res.send(outData);
+                            return;
+                        }
+                        outData.accessAdded = ok;
+                        database.restoreDB(restoreParams, function (err, ok) {
+                            if (err) {                                                                      log.error("restoreDB err=", err);
                                 outData.error = err.message;
                                 res.send(outData);
                                 return;
                             }
-                            if (result.length > 0) {
-                                outData.userExists = "User " + userName + " is already exists!";
-                                database.grantUserAccess(host, userName, DBName, function (err, ok) {
-                                    if (err) {                                                                          log.error("createNewUser err=", err);
-                                        outData.error = err.message;
-                                        res.send(outData);
-                                        return;
-                                    }
-                                    outData.accessAdded = ok;
-                                    database.restoreDB(restoreParams, function (err, ok) {
-                                        if (err) {                                                                      log.error("restoreDB err=", err);
-                                            outData.error = err.message;
-                                            res.send(outData);
-                                            return;
-                                        }
-                                        outData.restore = ok;
-                                        res.send(outData);
-                                    })
-                                })
-                            } else {
-                                database.createNewUser(host, userName, userPassword, function (err, ok) {
-                                    if (err) {                                                                          log.error("createNewUser err=", err);
-                                        outData.error = err.message;
-                                        res.send(outData);
-                                        return;
-                                    }
-                                    outData.userCreated = ok;
-                                    database.grantUserAccess(host, userName, DBName, function (err, ok) {
-                                        if (err) {                                                                      log.error("grantUserAccess err=", err);
-                                            outData.error = err.message;
-                                            res.send(outData);
-                                            return;
-                                        }
-                                        outData.accessAdded = ok;
-                                        database.restoreDB(restoreParams, function (err, ok) {
-                                            if (err) {                                                                  log.error("restoreDB err=", err);
-                                                outData.error = err.message;
-                                                res.send(outData);
-                                                return;
-                                            }
-                                            outData.restore = ok;
-                                            res.send(outData);
-                                        })
-                                    })
-                                });
+                            outData.restore = ok;
+                            res.send(outData);
+                        })
+                    })
+                } else {
+                    database.createNewUser(host, userName, userPassword, function (err, ok) {
+                        if (err) {                                                                          log.error("createNewUser err=", err);
+                            outData.error = err.message;
+                            res.send(outData);
+                            return;
+                        }
+                        outData.userCreated = ok;
+                        database.grantUserAccess(host, userName, DBName, function (err, ok) {
+                            if (err) {                                                                      log.error("grantUserAccess err=", err);
+                                outData.error = err.message;
+                                res.send(outData);
+                                return;
                             }
+                            outData.accessAdded = ok;
+                            database.restoreDB(restoreParams, function (err, ok) {
+                                if (err) {                                                                  log.error("restoreDB err=", err);
+                                    outData.error = err.message;
+                                    res.send(outData);
+                                    return;
+                                }
+                                outData.restore = ok;
+                                res.send(outData);
+                            })
+                        })
+                    });
+                }
             });
         });
     });

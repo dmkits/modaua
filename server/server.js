@@ -1,5 +1,3 @@
-
-
 var startDateTime=new Date(), startTime=startDateTime.getTime();                                    console.log('STARTING at ',startDateTime );//test
 var dateformat =require('dateformat'), log = require('winston');
 var util=require('./util'), appStartupParams = util.getStartupParams();
