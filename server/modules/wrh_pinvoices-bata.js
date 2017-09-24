@@ -1,8 +1,9 @@
 var dataModel=require('../datamodel'), dateFormat = require('dateformat');
 var wrh_pinvs= require(appDataModelPath+"wrh_pinvs"), wrh_pinvs_products= require(appDataModelPath+"wrh_pinvs_products");
-var dirUnits= require(appDataModelPath+"dir_units"), dirContractors= require(appDataModelPath+"dir_contractors"),
-    sysCurrency= require(appDataModelPath+"sys_currency"), sysDocStates= require(appDataModelPath+"sys_docstates"),
-    dirProdsCollections= require(appDataModelPath+"dir_products_collections");
+var dir_units= require(appDataModelPath+"dir_units"), dirContractors= require(appDataModelPath+"dir_contractors"),
+    sys_currency= require(appDataModelPath+"sys_currency"), sysDocStates= require(appDataModelPath+"sys_docstates"),
+    dir_products_collections= require(appDataModelPath+"dir_products_collections"),
+    dir_products_bata= require(appDataModelPath+"dir_products-bata");
 
 module.exports.validateModule = function(errs, nextValidateModuleCallback){
     dataModel.initValidateDataModels({"wrh_pinvs":wrh_pinvs,"wrh_pinvs_products":wrh_pinvs_products},
@@ -23,7 +24,8 @@ module.exports.init = function(app){
         {"data": "SUPPLIER_NAME", "name": "Поставщик", "width": 150, "type": "text", dataSource:"dir_contractors", dataField:"NAME"},
         {"data": "SUPPLIER_ORDER_NUM", "name": "Номер заказа поставщика", "width": 100, "type": "text", dataSource:"wrh_pinvs"},
         {"data": "SUPPLIER_INV_NUM", "name": "Номер накл. поставщика", "width": 100, "type": "text", dataSource:"wrh_pinvs"},
-        {"data": "PRODUCT_COLLECTION", "name": "Коллекция", "width": 150, "type": "text", dataSource:"dir_products_collections", dataField:"NAME"},
+        {"data": "PRODUCT_COLLECTION", "name": "Коллекция", "width": 120, "type": "text", visible:false,
+            dataSource:"dir_products_collections", dataField:"NAME"},
         {"data": "DOCCOUNT", "name": "Строк", "width": 60, "type": "numeric", visible:false,
             childDataSource:"wrh_pinvs_products", childLinkField:"PINV_ID", parentLinkField:"ID",
             dataFunction:{function:"rowsCountIsNull", source:"wrh_pinvs_products", sourceField:"POSIND"} },
@@ -45,7 +47,8 @@ module.exports.init = function(app){
         for(var condItem in req.query) conditions["wrh_pinvs."+condItem]=req.query[condItem];
         wrh_pinvs.getDataForTable({tableColumns:wrhPInvsListTableColumns,
                 identifier:wrhPInvsListTableColumns[0].data,
-                conditions:conditions},
+                conditions:conditions,
+                order:["DOCDATE","NUMBER","UNIT_NAME","SUPPLIER_NAME","SUPPLIER_ORDER_NUM","SUPPLIER_INV_NUM"]},
             function(result){
                 res.send(result);
             });
@@ -63,17 +66,17 @@ module.exports.init = function(app){
         wrh_pinvs.getDataItem({fieldFunction:{name:"MAXNUMBER", function:"maxPlus1", sourceField:"NUMBER"}},
             function(result){
                 var newNumber=(result&&result.item)?result.item["MAXNUMBER"]:"", docDate=dateFormat(new Date(),"yyyy-mm-dd");
-                dirUnits.getDataItem({fields:["NAME"],conditions:{"ID=":"0"}}, function(result){
+                dir_units.getDataItem({fields:["NAME"],conditions:{"ID=":"0"}}, function(result){
                     var unitName=(result&&result.item)?result.item["NAME"]:"";
                     dirContractors.getDataItem({fields:["NAME"],conditions:{"ID=":"1"}}, function(result){
                         var supplierName=(result&&result.item)?result.item["NAME"]:"";
-                        sysCurrency.getDataItem({ fields:["CODE","CODENAME"],
+                        sys_currency.getDataItem({ fields:["CODE","CODENAME"],
                                 fieldsFunctions:{"CODENAME":{function:"concat",fields:["CODE","' ('","NAME","')'"]}},
                                 conditions:{"ID=":"0"} },
                             function(result){
                                 var sysCurrencyCode=(result&&result.item)?result.item["CODE"]:"";
                                 var sysCurrencyCodeName=(result&&result.item)?result.item["CODENAME"]:"";
-                                dirProdsCollections.getDataItem({ fields:["NAME"], conditions:{"ID=":"1"} },
+                                dir_products_collections.getDataItem({ fields:["NAME"], conditions:{"ID=":"1"} },
                                     function(result){
                                         var dirProductsCollectionName=(result&&result.item)?result.item["NAME"]:"";
                                         //sysDocStates.getDataItem({fields:["NAME"],conditions:{"ID=":"0"}}, function(result){
@@ -96,7 +99,7 @@ module.exports.init = function(app){
     });
     app.post("/wrh/pInvoices/storePInvData", function(req, res){
         var storeData=req.body;
-        dirUnits.getDataItem({fields:["ID"],conditions:{"NAME=":storeData["UNIT_NAME"]}}, function(result){
+        dir_units.getDataItem({fields:["ID"],conditions:{"NAME=":storeData["UNIT_NAME"]}}, function(result){
             if(!result.item){
                 res.send({ error:"Cannot finded unit by name!"});
                 return;
@@ -108,13 +111,13 @@ module.exports.init = function(app){
                     return;
                 }
                 storeData["SUPPLIER_ID"]=result.item["ID"];
-                sysCurrency.getDataItem({fields:["ID"],conditions:{"CODE=":storeData["CURRENCY_CODE"]}}, function(result){
+                sys_currency.getDataItem({fields:["ID"],conditions:{"CODE=":storeData["CURRENCY_CODE"]}}, function(result){
                     if(!result.item){
                         res.send({ error:"Cannot finded currency by code!"});
                         return;
                     }
                     storeData["CURRENCY_ID"]=result.item["ID"];
-                    dirProdsCollections.getDataItem({fields:["ID"],conditions:{"NAME=":storeData["PRODUCT_COLLECTION"]}}, function(result){
+                    dir_products_collections.getDataItem({fields:["ID"],conditions:{"NAME=":storeData["PRODUCT_COLLECTION"]}}, function(result){
                         storeData["COLLECTION_ID"]=result.item["ID"];
                         var docStateID=0;
                         sysDocStates.getDataItem({fields:["ID"],conditions:{"NAME=":storeData["DOCSTATE_NAME"]}}, function(result){
@@ -144,10 +147,42 @@ module.exports.init = function(app){
         {"data": "POSIND", "name": "POSIND", "width": 45, "type": "numeric", visible:false},
         {"data": "POS", "name": "Номер п/п", "width": 45, "type": "numeric", dataFunction:"TRUNCATE(POSIND,0)"},
         //{"data": "PRODUCT_ID", "name": "PRODUCT_ID", "width": 50, "type": "text", visible:false},
-        {"data": "PRODUCT_CODE", "name": "Код товара", "width": 65, "type": "text", dataSource:"dir_products", dataField:"CODE"},
+
+        //{"data": "PRODUCT_GENDER", "name": "Группа", "width": 150,
+        //    "type": "combobox", "sourceURL":"/dir/products/getDataForOrderBataProductsGendersCombobox/gender",
+        //    dataSource:"dir_products_genders", dataField:"NAME"},
+        //{"data": "PRODUCT_CATEGORY_CODE", "name": "Код категории", "width": 80,
+        //    "type": "combobox", "sourceURL":"/dir/products/getDataForOrderBataProductsCategoryCombobox/CategoryCode",
+        //    dataSource:"dir_products_categories", dataField:"CODE"},
+        //{"data": "PRODUCT_CATEGORY", "name": "Категория", "width": 200,
+        //    "type": "combobox", "sourceURL":"/dir/products/getDataForOrderBataProductsCategoryCombobox/Category",
+        //    dataSource:"dir_products_categories", dataField:"NAME"},
+        //{"data": "PRODUCT_SUBCATEGORY_CODE", "name": "Код подкатегории", "width": 100,
+        //    "type": "combobox", "sourceURL":"/dir/products/getDataForOrderBataProductsSubcategoryCombobox/SubcategoryCode",
+        //    dataSource:"dir_products_subcategories", dataField:"CODE"},
+        //{"data": "PRODUCT_SUBCATEGORY", "name": "Подкатегория", "width": 200,
+        //    "type": "combobox", "sourceURL":"/dir/products/getDataForOrderBataProductsSubcategoryCombobox/Subcategory",
+        //    dataSource:"dir_products_subcategories", dataField:"NAME"},
+        {"data": "PRODUCT_ARTICLE", "name": "Артикул", "width": 80, "type": "text",
+            dataSource:"dir_products_articles", dataField:"VALUE"},
+        {"data": "PRODUCT_COLLECTION", "name": "Коллекция", "width": 150, "type": "text", visible:false,
+            dataSource:"dir_products_articles", dataField:"VALUE"},
+        {"data": "PRODUCT_TYPE", "name": "Тип", "width": 100, "type": "text",
+            dataSource:"dir_products_articles", dataField:"VALUE"},
+        {"data": "PRODUCT_KIND", "name": "Вид", "width": 150, "type": "text",
+            dataSource:"dir_products_articles", dataField:"VALUE"},
+        {"data": "PRODUCT_COMPOSITIONS", "name": "Состав", "width": 250, "type": "text",
+            dataSource:"dir_products_articles", dataField:"VALUE"},
+        {"data": "PRODUCT_SIZE", "name": "Размер", "width": 80, "type": "text",
+            dataSource:"dir_products_articles", dataField:"VALUE"},
+
+        {"data": "PRODUCT_CODE", "name": "Код товара", "width": 65, "type": "text", visible:false,
+            dataSource:"dir_products", dataField:"CODE"},
         {"data": "BARCODE", "name": "Штрихкод", "width": 75, "type": "text", visible:false},
-        {"data": "PRODUCT_NAME", "name": "Товар", "width": 250, "type": "text", dataSource:"dir_products", dataField:"NAME"},
-        {"data": "PRODUCT_UM", "name": "Ед.изм.", "width": 55, "type": "text", dataSource:"dir_products", dataField:"UM"},
+        {"data": "PRODUCT_NAME", "name": "Товар", "width": 250, "type": "text", visible:false,
+            dataSource:"dir_products", dataField:"NAME"},
+        {"data": "PRODUCT_UM", "name": "Ед.изм.", "width": 55, "type": "text", visible:false,
+            dataSource:"dir_products", dataField:"UM"},
         {"data": "QTY", "name": "Кол-во", "width": 50, "type": "numeric"},
         {"data": "PRICE", "name": "Цена", "width": 60, "type": "numeric2"},
         {"data": "POSSUM", "name": "Сумма", "width": 80, "type": "numeric2"},
@@ -167,13 +202,26 @@ module.exports.init = function(app){
             });
     });
     app.post("/wrh/pInvoices/storePInvProductsTableData", function(req, res){
-        wrh_pinvs_products.storeTableDataItem({tableColumns:wrhPInvProductsTableColumns, idFieldName:"ID"},
-            function(result){
-                res.send(result);
-            });
+        var storeData=req.body;
+        var findProductCondition={};
+        if(storeData["PRODUCT_CODE"])findProductCondition["CODE="]=storeData["PRODUCT_CODE"];
+        if(storeData["PRODUCT_NAME"])findProductCondition["NAME="]=storeData["PRODUCT_NAME"];
+        dir_products_bata.getDataItem({fields:["ID"],conditions:findProductCondition}, function(result) {
+            if (!result.item) {
+                res.send({error: "Cannot finded product by code,name!"});
+                return;
+            }
+            storeData["PRODUCT_ID"]=result.item["ID"];
+            wrh_pinvs_products.storeTableDataItem({tableColumns:wrhPInvProductsTableColumns, idFieldName:"ID",
+                    storeTableData:storeData},
+                function(result){
+                    res.send(result);
+                });
+        });
     });
     app.post("/wrh/pInvoices/deletePInvProductsTableData", function(req, res){
-        wrh_pinvs_products.delTableDataItem({idFieldName:"ID"},
+        var delData=req.body;
+        wrh_pinvs_products.delTableDataItem({idFieldName:"ID", delTableData:delData},
             function(result){
                 res.send(result);
             });

@@ -77,9 +77,11 @@ function initValidateDataModel(dataModelName, dataModel, errs, nextValidateDataM
     dataModel.getDataForTable= _getDataForTable;
     dataModel.setDataItemForTable= _setDataItemForTable;
     dataModel.insDataItem= _insDataItem;
+    dataModel.insDataItemWithNewID= _insDataItemWithNewID;
     dataModel.updDataItem= _updDataItem;
     dataModel.storeDataItem= _storeDataItem;
     dataModel.delDataItem= _delDataItem;
+    dataModel.findDataItemByOrCreateNew= _findDataItemByOrCreateNew;
     dataModel.insTableDataItem= _insTableDataItem;
     dataModel.updTableDataItem= _updTableDataItem;
     dataModel.storeTableDataItem= _storeTableDataItem;
@@ -690,7 +692,28 @@ function _insDataItem(params, resultCallback) {
         resultCallback(insResult);
     });
 }
-
+/**
+ * params = { tableName, idFieldName,
+ *      insData = {<tableFieldName>:<value>,<tableFieldName>:<value>,<tableFieldName>:<value>,...}
+ * }
+ * resultCallback = function(result = { updateCount, error, resultItem }
+ */
+function _insDataItemWithNewID(params, resultCallback) {
+    if (!params) {                                                                                      log.error("FAILED _insDataItemWithNewID! Reason: no parameters!");//test
+        resultCallback({ error:"Failed insert data item with new ID! Reason:no function parameters!"});
+        return;
+    }
+    var idFieldName= params.idFieldName;
+    if (!idFieldName) {                                                                                 log.error("FAILED _insDataItemWithNewID "+params.tableName+"! Reason: no id field!");//test
+        resultCallback({ error:"Failed insert data item with new ID! Reason:no id field name!"});
+        return;
+    }
+    params.insData[idFieldName]=getUIDNumber();
+    this.insDataItem({idFieldName:idFieldName, insData:params.insData}, function(result){
+        if(result&&result.updateCount>0)result.resultItem=params.insData;
+        resultCallback(result);
+    });
+}
 /**
  * params = { tableName,
  *      updData = {<tableFieldName>:<value>,<tableFieldName>:<value>,<tableFieldName>:<value>,...},
@@ -766,6 +789,7 @@ function _storeDataItem(params, resultCallback) {
         resultCallback({ error:"Failed store data item! Reason:no data for store!"});
         return;
     }
+
     var idFieldName= params.idFieldName;
     if (!idFieldName) {                                                                                 log.error("FAILED _storeDataItem "+params.tableName+"! Reason: no id field!");//test
         resultCallback({ error:"Failed store data item! Reason:no id field name!"});
@@ -773,11 +797,7 @@ function _storeDataItem(params, resultCallback) {
     }
     var idValue=params.storeData[idFieldName];
     if (idValue===undefined||idValue===null){//insert
-        params.storeData[idFieldName]=getUIDNumber();
-        this.insDataItem({idFieldName:idFieldName, insData:params.storeData}, function(result){
-            if(result&&result.updateCount>0)result.resultItem=params.storeData;
-            resultCallback(result);
-        });
+        this.insDataItemWithNewID({idFieldName:idFieldName, insData:params.storeData}, resultCallback);
         return;
     }
     //update
@@ -830,6 +850,48 @@ function _delDataItem(params, resultCallback) {
         if (updateCount==0) delResult.error="Failed delete data item! Reason: no updated row count!";
         resultCallback(delResult);
     });
+}
+
+/**
+ * params = { tableName, resultFields,
+ *      findCondition,
+ *      idFieldName, newData = {<tableFieldName>:<value>,<tableFieldName>:<value>,<tableFieldName>:<value>,...}
+ * }
+ * resultCallback = function(result = { resultItem, error } )
+ */
+function _findDataItemByOrCreateNew(params, resultCallback) {
+    if (!params) {                                                                                      log.error("FAILED _findDataItemByOrCreateNew! Reason: no parameters!");//test
+        resultCallback({ error:"Failed find/create data item! Reason:no function parameters!"});
+        return;
+    }
+    if (!params.resultFields) {                                                                         log.error("FAILED _findDataItemByOrCreateNew! Reason: no result fields!");//test
+        resultCallback({ error:"Failed find/create data item! Reason:no result fields!"});
+        return;
+    }
+    if (!params.findCondition) {                                                                        log.error("FAILED _findDataItemByOrCreateNew! Reason: no find condition!");//test
+        resultCallback({ error:"Failed find/create data item! Reason:no find condition!"});
+        return;
+    }
+    if (!params.idFieldName) {                                                                          log.error("FAILED _findDataItemByOrCreateNew! Reason: no id field!");//test
+        resultCallback({ error:"Failed find/create data item! Reason:no id field!"});
+        return;
+    }
+    if (!params.newData) {                                                                              log.error("FAILED _findDataItemByOrCreateNew! Reason: no new data!");//test
+        resultCallback({ error:"Failed find/create data item! Reason:no new data!"});
+        return;
+    }
+    this.getDataItem({fields:params.resultFields,conditions:params.findCondition},
+        function(result) {
+            if (result.error) {
+                resultCallback({ error:"Failed find/create data item! Reason:"+result.error});
+                return;
+            }
+            if (!result.item) {
+                this.insDataItemWithNewID({idFieldName:params.idFieldName,insData:params.newData}, resultCallback);
+                return;
+            }
+            resultCallback({resultItem:result.item});
+        });
 }
 
 /**

@@ -76,35 +76,35 @@
                         .addDetailTableRowChangeCallback(function(crd/*changedRowData*/, detailTable, thisInstance, nextCallback){
                             crd.item("PRODUCT_COLLECTION").setValue(thisInstance.detailHeader.getContentDataItem("PRODUCT_COLLECTION"));
                             var supplierOrderNum= thisInstance.detailHeader.getContentDataItem("SUPPLIER_ORDER_NUM");
-                            if (supplierOrderNum && supplierOrderNum.trim().length>0
-                                    && crd.item("PRODUCT_ARTICLE").isChanged() && !crd.item("PRODUCT_ARTICLE").isEMPTY()){              console.log("PINV detailTableRowChangeCallback1 prod article from order bata ");
-                                var condition={};
-                                condition["SUPPLIER_ORDER_NUM"]= supplierOrderNum;
-                                condition["PRODUCT_ARTICLE"]= crd.item("PRODUCT_ARTICLE").getValue();
-                                Request.getJSONData({url:"/wrh/order_bata/get_order_bata_details_by_article", condition:condition, consoleLog:true},
-                                        function(success,result){
-                                            if (success&&result.item) {                                                 //console.log("PINV detailTableRowChangeCallback2 getJSONData success ",result);
-                                                var prodDataFromOrderBata = result.item;
-                                                crd.item("PRODUCT_GENDER_CODE").setValue(prodDataFromOrderBata["PRODUCT_GENDER_CODE"]);
-                                                crd.item("PRODUCT_GENDER").setValue(prodDataFromOrderBata["PRODUCT_GENDER"]);
-                                                crd.item("PRODUCT_CATEGORY_CODE").setValue(prodDataFromOrderBata["PRODUCT_CATEGORY_CODE"]);
-                                                crd.item("PRODUCT_CATEGORY").setValue(prodDataFromOrderBata["PRODUCT_CATEGORY"]);
-                                                crd.item("PRODUCT_SUBCATEGORY_CODE").setValue(prodDataFromOrderBata["PRODUCT_SUBCATEGORY_CODE"]);
-                                                crd.item("PRODUCT_SUBCATEGORY").setValue(prodDataFromOrderBata["PRODUCT_SUBCATEGORY"]);
-                                                crd.item("PRICE").setValue(prodDataFromOrderBata["PRICE"]);
-                                                if (crd.item("QTY").isEMPTYZERO()) crd.item("QTY").setValue(prodDataFromOrderBata["QTY"]);
-                                                crd.item("PRODUCT_CODE").setValue(null);
-                                                crd.item("PRODUCT_NAME").setValue(null);
-                                                crd.item("PRODUCT_UM").setValue(null);
-                                                crd.item("PRODUCT_PBARCODE").setValue(null);
-                                                crd.item("BARCODE").setValue(null);
-                                            }
-                                            nextCallback();
-                                        });
-                                return;
-                            } else {
-                                //wrh_pinv_pinvproductslisthst.setProdDataByArticleFromPInv(changedRow,newProdData);
-                            }
+//                            if (supplierOrderNum && supplierOrderNum.trim().length>0
+//                                    && crd.item("PRODUCT_ARTICLE").isChanged() && !crd.item("PRODUCT_ARTICLE").isEMPTY()){              console.log("PINV detailTableRowChangeCallback1 prod article from order bata ");
+//                                var condition={};
+//                                condition["SUPPLIER_ORDER_NUM"]= supplierOrderNum;
+//                                condition["PRODUCT_ARTICLE"]= crd.item("PRODUCT_ARTICLE").getValue();
+//                                Request.getJSONData({url:"/wrh/order_bata/get_order_bata_details_by_article", condition:condition, consoleLog:true},
+//                                        function(success,result){
+//                                            if (success&&result.item) {                                                 //console.log("PINV detailTableRowChangeCallback2 getJSONData success ",result);
+//                                                var prodDataFromOrderBata = result.item;
+//                                                crd.item("PRODUCT_GENDER_CODE").setValue(prodDataFromOrderBata["PRODUCT_GENDER_CODE"]);
+//                                                crd.item("PRODUCT_GENDER").setValue(prodDataFromOrderBata["PRODUCT_GENDER"]);
+//                                                crd.item("PRODUCT_CATEGORY_CODE").setValue(prodDataFromOrderBata["PRODUCT_CATEGORY_CODE"]);
+//                                                crd.item("PRODUCT_CATEGORY").setValue(prodDataFromOrderBata["PRODUCT_CATEGORY"]);
+//                                                crd.item("PRODUCT_SUBCATEGORY_CODE").setValue(prodDataFromOrderBata["PRODUCT_SUBCATEGORY_CODE"]);
+//                                                crd.item("PRODUCT_SUBCATEGORY").setValue(prodDataFromOrderBata["PRODUCT_SUBCATEGORY"]);
+//                                                crd.item("PRICE").setValue(prodDataFromOrderBata["PRICE"]);
+//                                                if (crd.item("QTY").isEMPTYZERO()) crd.item("QTY").setValue(prodDataFromOrderBata["QTY"]);
+//                                                crd.item("PRODUCT_CODE").setValue(null);
+//                                                crd.item("PRODUCT_NAME").setValue(null);
+//                                                crd.item("PRODUCT_UM").setValue(null);
+//                                                crd.item("PRODUCT_PBARCODE").setValue(null);
+//                                                crd.item("BARCODE").setValue(null);
+//                                            }
+//                                            nextCallback();
+//                                        });
+//                                return;
+//                            } else {
+//                                //wrh_pinv_pinvproductslisthst.setProdDataByArticleFromPInv(changedRow,newProdData);
+//                            }
                             nextCallback();
                         })
                         .addDetailTableRowChangeCallback(function(crd/*changedRowData*/, detailTable, thisInstance, nextCallback) {
@@ -254,13 +254,13 @@
                         })
                         .addToolXPane("Ценник товара", function(toolPane, detailHeader,detailTable,thisInstance){
                             toolPane.set("content","");
-                            var detailTableSelectedRow= detailTable.getSelectedRow();
-                            if(detailTableSelectedRow) {
-                                var prodTagContentData = {};
-                                for(var rowItemName in detailTableSelectedRow) prodTagContentData[rowItemName]= detailTableSelectedRow[rowItemName];
-                                toolPane.set("prodTagContentData", prodTagContentData);
-                                toolPane.set("href","/pages/print/product_tag_58x30.html");
-                            }
+//                            var detailTableSelectedRow= detailTable.getSelectedRow();
+//                            if(detailTableSelectedRow) {
+//                                var prodTagContentData = {};
+//                                for(var rowItemName in detailTableSelectedRow) prodTagContentData[rowItemName]= detailTableSelectedRow[rowItemName];
+//                                toolPane.set("prodTagContentData", prodTagContentData);
+//                                toolPane.set("href","/pages/print/product_tag_58x30.html");
+//                            }
                         })
 
                         .startUp();

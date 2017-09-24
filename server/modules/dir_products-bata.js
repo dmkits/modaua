@@ -1,12 +1,12 @@
 var dataModel=require('../datamodel');
 var dir_products= require(appDataModelPath+"dir_products-bata");
+var dir_products_barcodes= require(appDataModelPath+"dir_products_barcodes");
 var dir_products_articles= require(appDataModelPath+"dir_products_articles"),
+    dir_products_types= require(appDataModelPath+"dir_products_types"),
     dir_products_kinds= require(appDataModelPath+"dir_products_kinds"),
     dir_products_compositions= require(appDataModelPath+"dir_products_compositions"),
     dir_products_sizes= require(appDataModelPath+"dir_products_sizes"),
     dir_products_collections= require(appDataModelPath+"dir_products_collections");
-var dir_products_barcodes= require(appDataModelPath+"dir_products_barcodes");
-
 var dir_products_genders= require(appDataModelPath+"dir_products_genders-bata"),
     dir_products_categories= require(appDataModelPath+"dir_products_categories-bata"),
     dir_products_subcategories= require(appDataModelPath+"dir_products_subcategories-bata"),
@@ -16,6 +16,7 @@ module.exports.validateModule = function(errs, nextValidateModuleCallback){
     dataModel.initValidateDataModels({"dir_products-bata":dir_products,
             "dir_products_barcodes":dir_products_barcodes,
             "dir_products_articles":dir_products_articles,
+            "dir_products_types":dir_products_types,
             "dir_products_kinds":dir_products_kinds,
             "dir_products_compositions":dir_products_compositions,
             "dir_products_sizes":dir_products_sizes,
@@ -328,6 +329,112 @@ module.exports.init = function(app){
         dir_products_subcategories.getDataItemsForTableCombobox({
                 comboboxFields:{"PRODUCT_SUBCATEGORY":"NAME","PRODUCT_SUBCATEGORY_CODE":"CODE"},
                 order:"PRODUCT_SUBCATEGORY"},
+            function(result){
+                res.send(result);
+            });
+    });
+
+    var dirProductsCollectionsTableColumns=[
+        {"data": "ID", "name": "ID", "width": 80, "type": "text", readOnly:true, visible:false},
+        {"data": "NAME", "name": "Коллекция", "width": 220, "type": "text"},
+        {"data": "CODE", "name": "Код коллекции", "width": 120, "type": "text"}
+    ];
+    app.get("/dir/products/getDataForProductsCollectionsTable", function(req, res){
+        dir_products_collections.getDataForTable({tableColumns:dirProductsCollectionsTableColumns,
+                identifier:dirProductsCollectionsTableColumns[0].data,
+                conditions:req.query, order:"NAME"},
+            function(result){
+                res.send(result);
+            });
+    });
+    app.get("/dir/products/newDataForProductsCollectionsTable", function(req, res){
+        dir_products_collections.setDataItemForTable({tableColumns:dirProductsCollectionsTableColumns,
+                values:[null,"","Новая коллекция"]},
+            function(result){
+                res.send(result);
+            });
+    });
+    app.post("/dir/products/storeProductsCollectionsTableData", function(req, res){
+        dir_products_collections.storeTableDataItem({tableColumns:dirProductsCollectionsTableColumns,
+                idFieldName:dirProductsCollectionsTableColumns[0].data,
+                storeTableData:req.body},
+            function(result){
+                res.send(result);
+            });
+    });
+    app.post("/dir/products/deleteProductsCollectionsTableData", function(req, res){
+        dir_products_collections.delTableDataItem({idFieldName:dirProductsCollectionsTableColumns[0].data,
+                delTableData:req.body},
+            function(result){
+                res.send(result);
+            });
+    });
+
+    var dirProductsTypesTableColumns=[
+        {"data": "ID", "name": "ID", "width": 80, "type": "text", readOnly:true, visible:false},
+        {"data": "NAME", "name": "Тип", "width": 330, "type": "text"}
+    ];
+    app.get("/dir/products/getDataForProductsTypesTable", function(req, res){
+        dir_products_types.getDataForTable({tableColumns:dirProductsTypesTableColumns,
+                identifier:dirProductsTypesTableColumns[0].data,
+                conditions:req.query, order:"NAME"},
+            function(result){
+                res.send(result);
+            });
+    });
+    app.get("/dir/products/newDataForProductsTypesTable", function(req, res){
+        dir_products_types.setDataItemForTable({tableColumns:dirProductsTypesTableColumns,
+                values:[null,"Новый тип"]},
+            function(result){
+                res.send(result);
+            });
+    });
+    app.post("/dir/products/storeProductsTypesTableData", function(req, res){
+        dir_products_types.storeTableDataItem({tableColumns:dirProductsTypesTableColumns,
+                idFieldName:dirProductsTypesTableColumns[0].data,
+                storeTableData:req.body},
+            function(result){
+                res.send(result);
+            });
+    });
+    app.post("/dir/products/deleteProductsTypesTableData", function(req, res){
+        dir_products_types.delTableDataItem({idFieldName:dirProductsTypesTableColumns[0].data,
+                delTableData:req.body},
+            function(result){
+                res.send(result);
+            });
+    });
+
+    var dirProductsKindsTableColumns=[
+        {"data": "ID", "name": "ID", "width": 80, "type": "text", readOnly:true, visible:false},
+        {"data": "NAME", "name": "Тип", "width": 330, "type": "text"}
+    ];
+    app.get("/dir/products/getDataForProductsKindsTable", function(req, res){
+        dir_products_kinds.getDataForTable({tableColumns:dirProductsKindsTableColumns,
+                identifier:dirProductsKindsTableColumns[0].data,
+                conditions:req.query, order:"NAME"},
+            function(result){
+                res.send(result);
+            });
+    });
+    app.get("/dir/products/newDataForProductsKindsTable", function(req, res){
+        dir_products_kinds.setDataItemForTable({tableColumns:dirProductsKindsTableColumns,
+                values:[null,"Новый вид"]},
+            function(result){
+                res.send(result);
+            });
+    });
+    app.post("/dir/products/storeProductsKindsTableData", function(req, res){
+        dir_products_kinds.storeTableDataItem({tableColumns:dirProductsKindsTableColumns,
+                idFieldName:dirProductsKindsTableColumns[0].data,
+                storeTableData:req.body},
+            function(result){
+                res.send(result);
+            });
+    });
+    app.post("/dir/products/deleteProductsKindsTableData", function(req, res){
+        dir_products_kinds.delTableDataItem({idFieldName:dirProductsKindsTableColumns[0].data,
+                delTableData:req.body},
             function(result){
                 res.send(result);
             });
