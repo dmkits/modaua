@@ -59,7 +59,7 @@ define([ "dijit/ConfirmDialog", "dojo/keys", "dojo/on", "dojo/domReady!"],
                         var DBName= document.getElementById('db.name').value;
                         var now=moment().format("YYYYMMDD_HHm");
                         var defaultFileName =DBName+"_"+now;
-                        if(this.onlyDataBackup)defaultFileName=defaultFileName+"_data";
+                        if(this.onlyDataBackup=="true")defaultFileName=defaultFileName+"_data";
                         document.getElementById('backup_fileName').value=defaultFileName;
                     }
                 });
