@@ -177,6 +177,7 @@
                 backupDialog.onExecute = function () {
                     backupDialog.backupFilename = document.getElementById("backup_fileName").value;
                     if(backupDialog.backupFilename.length<1){
+                        cleanResultFields();
                         var now = moment().format('DD.MM.YYYY HH:mm:ss');
                         document.getElementById(backupDialog.resultFieldId).innerHTML = "<b style='color:red'>"+now+"</br> File name for backup wasn't specified </br>";
                         backupDialog.hide();
@@ -404,6 +405,7 @@
                 }
 
                 function createDataBase() {
+                    cleanResultFields();
                     var newDB = {};
                     newDB.adminName = document.getElementById("admin_name").value;
                     newDB.adminPassword = document.getElementById("admin_password").value;
@@ -436,6 +438,7 @@
                 }
 
                 function dropDataBase(){
+                    cleanResultFields();
                     var DB = {};
                     DB.adminName = document.getElementById("admin_name").value;
                     DB.adminPassword = document.getElementById("admin_password").value;
@@ -522,7 +525,7 @@
                     }else{
                         backupDialog.resultFieldId="backup_db_result"
                     };
-
+                    cleanResultFields();
                     var authParams = {};
                     authParams.adminName = authAdminInfo.adminName;
                     authParams.adminPassword = authAdminInfo.adminPassword;
@@ -543,6 +546,7 @@
                     authAdminInfo.adminPassword = document.getElementById("admin_password").value;
                 }
                 function restoreDataBase() {
+                    cleanResultFields();
                     var authParams = {};
                     authParams.adminName = authAdminInfo.adminName;
                     authParams.adminPassword = authAdminInfo.adminPassword;
@@ -559,6 +563,7 @@
                 }
 
                 function makeRestore() {
+                    cleanResultFields();
                     var DB = {};
                     DB.adminName = authAdminInfo.adminName;
                     DB.adminPassword = authAdminInfo.adminPassword;
