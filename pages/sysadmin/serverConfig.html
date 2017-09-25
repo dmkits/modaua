@@ -594,6 +594,13 @@
                                 }
                             });
                 }
+                function cleanResultFields(){
+                    document.getElementById("drop_db_result").innerHTML = "";
+                    document.getElementById("create_db_result").innerHTML = "";
+                    document.getElementById("backup_db_result").innerHTML = "";
+                    document.getElementById("backup_data_result").innerHTML = "";
+                    document.getElementById("restore_db_result").innerHTML = "";
+                }
                 sa_serverConfig_PageContent.getServerConfiguration();
             });
 </script>
