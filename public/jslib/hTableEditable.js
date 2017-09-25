@@ -17,10 +17,11 @@ define(["dojo/_base/declare", "hTableSimpleFiltered","dijit/ProgressBar","dijit/
                     this.loadAutocompleteColumnValues(visColData,/*failed*/function(){
                         setAutocompleteColumnValues(visColData,tableData);
                     });
-            }                                                                                               console.log("HTableEditable setData htVisibleColumns",this.htVisibleColumns);
+            }                                                                                               //console.log("HTableEditable setData htVisibleColumns",this.htVisibleColumns);
         },
         setAutocompleteColumnValues:function(colData,tableData){                                            //console.log("HTableEditable setAutocompleteColumnValues",colData.data);
             colData.sourceValues={};
+            colData.source=[];
             for(var r=0;r<tableData.length;r++) {
                 var value=tableData[r][colData.data];
                 if (!colData.sourceValues[value]){
@@ -28,25 +29,26 @@ define(["dojo/_base/declare", "hTableSimpleFiltered","dijit/ProgressBar","dijit/
                     colData.source.push(value);
                 }
             }
-            //colData.source.push("123");
-            //colData.source.push("234");
         },
         loadAutocompleteColumnValues:function(colData,failedCallback){
-            colData.sourceValues={};
             if(!colData.sourceURL) {
                 failedCallback();
                 return;
             }
+            colData.sourceValues={};
+            colData.source=[];
             Request.getJSONData({url:colData.sourceURL, consoleLog:true}
                 ,function(success,result){
                     if(!success){
                         console.log("HTableEditable.loadAutocompleteColumnValues getJSONData failed!");/*!!!TEST LOG!!!*/
+                        failedCallback();
                         return;
                     }
                     var resultItems = result["items"], error = result["error"];
                     if(error) console.log("HTableEditable.loadAutocompleteColumnValues data ERROR! error=",error);/*!!!TEST LOG!!!*/
                     if(!resultItems) {
-                       return;
+                        failedCallback();
+                        return;
                     }
                     colData.sourceValues={};
                     for(var r=0;r<resultItems.length;r++) {

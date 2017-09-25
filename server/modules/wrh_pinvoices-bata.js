@@ -3,10 +3,13 @@ var wrh_pinvs= require(appDataModelPath+"wrh_pinvs"), wrh_pinvs_products= requir
 var dir_units= require(appDataModelPath+"dir_units"), dirContractors= require(appDataModelPath+"dir_contractors"),
     sys_currency= require(appDataModelPath+"sys_currency"), sysDocStates= require(appDataModelPath+"sys_docstates"),
     dir_products_collections= require(appDataModelPath+"dir_products_collections"),
-    dir_products_bata= require(appDataModelPath+"dir_products-bata");
+    dir_products_bata= require(appDataModelPath+"dir_products-bata"),
+    dir_products_batches= require(appDataModelPath+"dir_products_batches");
 
 module.exports.validateModule = function(errs, nextValidateModuleCallback){
-    dataModel.initValidateDataModels({"wrh_pinvs":wrh_pinvs,"wrh_pinvs_products":wrh_pinvs_products},
+    dataModel.initValidateDataModels({"wrh_pinvs":wrh_pinvs,"wrh_pinvs_products":wrh_pinvs_products,
+            "dir_products_bata":dir_products_bata,
+            "dir_products_batches":dir_products_batches},
         errs,
         function(){
             nextValidateModuleCallback();
@@ -63,7 +66,8 @@ module.exports.init = function(app){
             });
     });
     app.get("/wrh/pInvoices/getNewPInvData", function(req, res){
-        wrh_pinvs.getDataItem({fieldFunction:{name:"MAXNUMBER", function:"maxPlus1", sourceField:"NUMBER"}},
+        wrh_pinvs.getDataItem({fieldFunction:{name:"MAXNUMBER", function:"maxPlus1", sourceField:"NUMBER"},
+                conditions:{"1=1":null}},
             function(result){
                 var newNumber=(result&&result.item)?result.item["MAXNUMBER"]:"", docDate=dateFormat(new Date(),"yyyy-mm-dd");
                 dir_units.getDataItem({fields:["NAME"],conditions:{"ID=":"0"}}, function(result){
@@ -148,37 +152,44 @@ module.exports.init = function(app){
         {"data": "POS", "name": "Номер п/п", "width": 45, "type": "numeric", dataFunction:"TRUNCATE(POSIND,0)"},
         //{"data": "PRODUCT_ID", "name": "PRODUCT_ID", "width": 50, "type": "text", visible:false},
 
-        //{"data": "PRODUCT_GENDER", "name": "Группа", "width": 150,
-        //    "type": "combobox", "sourceURL":"/dir/products/getDataForOrderBataProductsGendersCombobox/gender",
-        //    dataSource:"dir_products_genders", dataField:"NAME"},
-        //{"data": "PRODUCT_CATEGORY_CODE", "name": "Код категории", "width": 80,
-        //    "type": "combobox", "sourceURL":"/dir/products/getDataForOrderBataProductsCategoryCombobox/CategoryCode",
-        //    dataSource:"dir_products_categories", dataField:"CODE"},
-        //{"data": "PRODUCT_CATEGORY", "name": "Категория", "width": 200,
-        //    "type": "combobox", "sourceURL":"/dir/products/getDataForOrderBataProductsCategoryCombobox/Category",
-        //    dataSource:"dir_products_categories", dataField:"NAME"},
-        //{"data": "PRODUCT_SUBCATEGORY_CODE", "name": "Код подкатегории", "width": 100,
-        //    "type": "combobox", "sourceURL":"/dir/products/getDataForOrderBataProductsSubcategoryCombobox/SubcategoryCode",
-        //    dataSource:"dir_products_subcategories", dataField:"CODE"},
-        //{"data": "PRODUCT_SUBCATEGORY", "name": "Подкатегория", "width": 200,
-        //    "type": "combobox", "sourceURL":"/dir/products/getDataForOrderBataProductsSubcategoryCombobox/Subcategory",
-        //    dataSource:"dir_products_subcategories", dataField:"NAME"},
+        {"data": "PRODUCT_GENDER_CODE", "name": "Код группы", "width": 65,
+            "type": "combobox", "sourceURL":"/dir/products/getDataForOrderBataProductsGendersCombobox/genderCode",
+            dataSource:"dir_products_genders", dataField:"CODE"},
+        {"data": "PRODUCT_GENDER", "name": "Группа", "width": 150,
+            "type": "combobox", "sourceURL":"/dir/products/getDataForOrderBataProductsGendersCombobox/gender",
+            dataSource:"dir_products_genders", dataField:"NAME"},
+        {"data": "PRODUCT_CATEGORY_CODE", "name": "Код категории", "width": 80,
+            "type": "combobox", "sourceURL":"/dir/products/getDataForOrderBataProductsCategoryCombobox/CategoryCode",
+            dataSource:"dir_products_categories", dataField:"CODE"},
+        {"data": "PRODUCT_CATEGORY", "name": "Категория", "width": 200,
+            "type": "combobox", "sourceURL":"/dir/products/getDataForOrderBataProductsCategoryCombobox/Category",
+            dataSource:"dir_products_categories", dataField:"NAME"},
+        {"data": "PRODUCT_SUBCATEGORY_CODE", "name": "Код подкатегории", "width": 100,
+            "type": "combobox", "sourceURL":"/dir/products/getDataForOrderBataProductsSubcategoryCombobox/SubcategoryCode",
+            dataSource:"dir_products_subcategories", dataField:"CODE"},
+        {"data": "PRODUCT_SUBCATEGORY", "name": "Подкатегория", "width": 200,
+            "type": "combobox", "sourceURL":"/dir/products/getDataForOrderBataProductsSubcategoryCombobox/Subcategory",
+            dataSource:"dir_products_subcategories", dataField:"NAME"},
+        {"data": "PRODUCT_COLLECTION", "name": "Коллекция", "width": 150, "type": "text", visible:false,
+            dataSource:"dir_products_collections", dataField:"NAME"},
+        //{"data": "PRODUCT_TYPE", "name": "Тип", "width": 100, //"type": "text",
+        //    "type": "combobox", "sourceURL":"/dir/products/getDataForProductsTypesCombobox",
+        //    dataSource:"dir_products_types", dataField:"NAME"},
         {"data": "PRODUCT_ARTICLE", "name": "Артикул", "width": 80, "type": "text",
             dataSource:"dir_products_articles", dataField:"VALUE"},
-        {"data": "PRODUCT_COLLECTION", "name": "Коллекция", "width": 150, "type": "text", visible:false,
-            dataSource:"dir_products_articles", dataField:"VALUE"},
-        {"data": "PRODUCT_TYPE", "name": "Тип", "width": 100, "type": "text",
-            dataSource:"dir_products_articles", dataField:"VALUE"},
-        {"data": "PRODUCT_KIND", "name": "Вид", "width": 150, "type": "text",
-            dataSource:"dir_products_articles", dataField:"VALUE"},
-        {"data": "PRODUCT_COMPOSITIONS", "name": "Состав", "width": 250, "type": "text",
-            dataSource:"dir_products_articles", dataField:"VALUE"},
+        {"data": "PRODUCT_KIND", "name": "Вид", "width": 150, //"type": "text",
+            "type": "comboboxWN", "sourceURL":"/dir/products/getDataForProductsKindsCombobox",
+            dataSource:"dir_products_kinds", dataField:"NAME"},
+        {"data": "PRODUCT_COMPOSITION", "name": "Состав", "width": 250, "type": "text",
+            dataSource:"dir_products_compositions", dataField:"VALUE"},
         {"data": "PRODUCT_SIZE", "name": "Размер", "width": 80, "type": "text",
-            dataSource:"dir_products_articles", dataField:"VALUE"},
+            dataSource:"dir_products_sizes", dataField:"VALUE"},
 
         {"data": "PRODUCT_CODE", "name": "Код товара", "width": 65, "type": "text", visible:false,
             dataSource:"dir_products", dataField:"CODE"},
         {"data": "BARCODE", "name": "Штрихкод", "width": 75, "type": "text", visible:false},
+        {"data": "PRODUCT_PBARCODE", "name": "Штрихкод товара", "width": 75, "type": "text", visible:false,
+            dataSource:"dir_products", dataField:"PBARCODE"},
         {"data": "PRODUCT_NAME", "name": "Товар", "width": 250, "type": "text", visible:false,
             dataSource:"dir_products", dataField:"NAME"},
         {"data": "PRODUCT_UM", "name": "Ед.изм.", "width": 55, "type": "text", visible:false,
@@ -203,21 +214,49 @@ module.exports.init = function(app){
     });
     app.post("/wrh/pInvoices/storePInvProductsTableData", function(req, res){
         var storeData=req.body;
-        var findProductCondition={};
-        if(storeData["PRODUCT_CODE"])findProductCondition["CODE="]=storeData["PRODUCT_CODE"];
-        if(storeData["PRODUCT_NAME"])findProductCondition["NAME="]=storeData["PRODUCT_NAME"];
-        dir_products_bata.getDataItem({fields:["ID"],conditions:findProductCondition}, function(result) {
-            if (!result.item) {
-                res.send({error: "Cannot finded product by code,name!"});
-                return;
-            }
-            storeData["PRODUCT_ID"]=result.item["ID"];
-            wrh_pinvs_products.storeTableDataItem({tableColumns:wrhPInvProductsTableColumns, idFieldName:"ID",
-                    storeTableData:storeData},
-                function(result){
-                    res.send(result);
-                });
-        });
+        var findFields=[];
+        if(storeData["PRODUCT_CODE"]||storeData["PRODUCT_NAME"]){
+            if (storeData["PRODUCT_CODE"])findFields.push("CODE");
+            if (storeData["PRODUCT_NAME"])findFields.push("NAME");
+        }
+        dir_products_bata.findDataItemByOrCreateNew({resultFields:["ID","CODE","NAME","PRINT_NAME","UM","PBARCODE"],
+                findByFields:findFields,
+                idFieldName:"ID",
+                fieldsValues:{"CODE":storeData["PRODUCT_CODE"],"NAME":storeData["PRODUCT_NAME"],
+                    "UM":storeData["PRODUCT_UM"],"PBARCODE":storeData["BARCODE"],
+                    "ARTICLE":storeData["PRODUCT_ARTICLE"],"COLLECTION":storeData["PRODUCT_COLLECTION"],
+                    "TYPE":storeData["PRODUCT_TYPE"],"KIND":storeData["PRODUCT_KIND"],
+                    "COMPOSITION":storeData["PRODUCT_COMPOSITION"],"SIZE":storeData["PRODUCT_SIZE"],
+                    "GENDER":storeData["PRODUCT_GENDER"],"GENDER_CODE":storeData["PRODUCT_GENDER_CODE"],
+                    "CATEGORY":storeData["PRODUCT_CATEGORY"],"CATEGORY_CODE":storeData["PRODUCT_CATEGORY_CODE"],
+                    "SUBCATEGORY":storeData["PRODUCT_SUBCATEGORY"],"SUBCATEGORY_CODE":storeData["PRODUCT_SUBCATEGORY_CODE"]}},
+            function(result) {
+                if (result.error) {
+                    res.send({error: "Failed find/create product! Reason:"+result.error});
+                    return;
+                }
+                if (!result.resultItem) {
+                    res.send({error: "Failed find/create product! Reason: no result!"});
+                    return;
+                }
+                var prodID=result.resultItem["ID"];
+                storeData["PRODUCT_ID"]=prodID;
+                if(!storeData["BARCODE"])storeData["BARCODE"]=result.resultItem["PBARCODE"];
+
+                dir_products_batches.createNewBatch({prodData:{"PRODUCT_ID":prodID}},
+                    function(result){
+                        if(result.error) {
+                            res.send({error: "Failed create product batch! Reason:"+result.error});
+                            return;
+                        }
+                        storeData["BATCH_NUMBER"]=result.resultItem["BATCH_NUMBER"];
+                        wrh_pinvs_products.storeTableDataItem({tableColumns:wrhPInvProductsTableColumns, idFieldName:"ID",
+                                storeTableData:storeData},
+                            function(result){
+                                res.send(result);
+                            });
+                    });
+            });
     });
     app.post("/wrh/pInvoices/deletePInvProductsTableData", function(req, res){
         var delData=req.body;

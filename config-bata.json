@@ -21,7 +21,8 @@
     "dir_contractors",
     "dir_products-bata",
     "wrh_orders-bata",
-    "wrh_pinvoices-bata"
+    "wrh_pinvoices-bata",
+    "wrh_products_balance"
   ],
   "appMenu":[
     { "menuTitle":"Главная страница", "menuItemName":"menuBarItemMainPage", "pageTitle":"Главная страница", "module":"mainPage", "closable":false},

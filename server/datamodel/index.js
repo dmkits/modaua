@@ -159,8 +159,8 @@ function _getSelectItems(params, resultCallback){
         resultCallback("FAILED _getSelectItems! Reason: no source!");
         return;
     }
-    if(!params.fields){                                                                                 log.error("FAILED _getSelectItems from source:"+params.source+"! Reason:! no source fields");//test
-        resultCallback("FAILED _getSelectItems from source:"+params.source+"! Reason:! no source fields");
+    if(!params.fields){                                                                                 log.error("FAILED _getSelectItems from source:"+params.source+"! Reason: no source fields!");//test
+        resultCallback("FAILED _getSelectItems from source:"+params.source+"! Reason: no source fields!");
         return;
     }
     var queryFields="";
@@ -216,12 +216,11 @@ function _getSelectItems(params, resultCallback){
     if (params.conditions&&typeof(params.conditions)=="object") {
         for(var conditionItem in params.conditions) {
             var conditionItemValue=params.conditions[conditionItem];
-            var conditionItemValueQuery= (conditionItemValue==null)?conditionItem:conditionItem+"?";
+            var conditionItemValueQuery= (conditionItemValue===null)?conditionItem:conditionItem+"?";
             conditionItemValueQuery= conditionItemValueQuery.replace("~","=");
             conditionQuery= (!conditionQuery)?conditionItemValueQuery:conditionQuery+" and "+conditionItemValueQuery;
-            if (conditionItemValue!=null) coditionValues.push(conditionItemValue);
+            if (conditionItemValue!==null) coditionValues.push(conditionItemValue);
         }
-        selectQuery+=" where "+conditionQuery;
     } else if (params.conditions) {
         for(var ind in params.conditions) {
             var conditionItem= params.conditions[ind];
@@ -229,12 +228,12 @@ function _getSelectItems(params, resultCallback){
             if(params.fieldsSources&&params.fieldsSources[conditionFieldName])
                 conditionFieldName= params.fieldsSources[conditionFieldName];
             var conditionItemValueQuery=
-                (conditionItem.value==null)?conditionFieldName+conditionItem.condition:conditionFieldName+conditionItem.condition+"?";
+                (conditionItem.value===null)?conditionFieldName+conditionItem.condition:conditionFieldName+conditionItem.condition+"?";
             conditionQuery= (!conditionQuery)?conditionItemValueQuery:conditionQuery+" and "+conditionItemValueQuery;
-            if (conditionItem.value!=null) coditionValues.push(conditionItem.value);
+            if (conditionItem.value!==null) coditionValues.push(conditionItem.value);
         }
     }
-
+    if(conditionQuery)selectQuery+=" where "+conditionQuery;
     if (params.groupedFields) {
         var queryGroupedFields = "";
         for (var groupedFieldNameIndex in params.groupedFields) {
@@ -267,29 +266,73 @@ function _getSelectItems(params, resultCallback){
  * params = { source,
  *      fields = [<tableFieldName>,<tableFieldName>,<tableFieldName>,...],
  *      conditions={ <condition>:<conditionValue>, ... },
-  *     order = "<orderFieldsList>"
+ *      order = "<orderFieldsList>"
  * }
  * resultCallback = function(result = { items:[ {<tableFieldName>:<value>,...}, ... ], error, errorCode } )
  */
-function _getDataItems(params, resultCallback){
+function _getDataItems(params, resultCallback){                                                             log.debug('_getDataItems: params:',params,{});//test
     if(!params) params={};
     if(!params.source) params.source= this.source;
     if(!params.fields) params.fields=this.fields;
+    if(!params.conditions){                                                                                 log.error("FAILED _getDataItems from source:"+params.source+"! Reason: no conditions!");//test
+        resultCallback({error:"FAILED _getDataItems from source:"+params.source+"! Reason: no conditions!"});
+        return;
+    }
+    var condition={}, hasCondition=false;
+    for(var condItem in params.conditions){
+        var condValue=params.conditions[condItem];
+        if(condValue!==undefined) {
+            condition[condItem]=condValue;
+            hasCondition= true;
+        }
+    }
+    if(!hasCondition){                                                                                 log.error("FAILED _getDataItems from source:"+params.source+"! Reason: no data conditions!");//test
+        resultCallback({error:"FAILED _getDataItems from source:"+params.source+"! Reason: no data conditions!"});
+        return;
+    }
     _getSelectItems(params,function(err,recordset){
         var selectResult={};
         if(err) {
             selectResult.error="Failed get data items! Reason:"+err.message;
             selectResult.errorCode=err.code;
         }
-        if (recordset) selectResult.items= recordset;
+        if (recordset) selectResult.items= recordset;                                                       //log.debug('_getDataItems: _getSelectItems: result:',selectResult,{});//test
         resultCallback(selectResult);
     });
 }
+/**
+ * params = { source,
+ *      fields = [<tableFieldName>,<tableFieldName>,<tableFieldName>,...],
+ *      fieldFunction = { name:<fieldName>, function:<function>, sourceField:<function field name> },
+ *      conditions={ <condition>:<conditionValue>, ... },
+ * }
+ * fieldFunction: "maxPlus1"
+ * resultCallback = function(result = { item:{<tableFieldName>:<value>,...}, error, errorCode } )
+ */
+function _getDataItem(params, resultCallback){
+    if(!params) params={};
+    if(!params.source) params.source= this.source;
+    if(!params.fields) params.fields=this.fields;
+    if(params.fieldFunction) {
+        params.fields=[params.fieldFunction.name];
+        params.fieldsFunctions = {};
+        params.fieldsFunctions[params.fieldFunction.name]={ function:params.fieldFunction.function, sourceField:params.fieldFunction.sourceField };
+    }
+    _getDataItems(params, function(result){                                                                 log.debug('_getDataItem: _getDataItems: result:',result,{});//test
+        var getDataItemResult={};
+        if(result.error) getDataItemResult.error=result.error;
+        if(result.errorCode!=undefined) getDataItemResult.errorCode=result.errorCode;
+        if(result.items) getDataItemResult.item=result.items[0];
+        resultCallback(getDataItemResult);
+    });
+}
+
 /**
  * params = { source, valueField, labelField,
  *      conditions={ <condition>:<conditionValue>, ... },
   *     order = "<orderFieldsList>"
  * }
+ * if !params.conditions returns all items
  * resultCallback = function(result = { items:[ {value:<valueOfValueField>,label:<valueOfLabelField>}, ... ], error, errorCode } )
  *      if no labelField label=<valueOfValueField>
  */
@@ -303,6 +346,7 @@ function _getDataItemsForSelect(params, resultCallback){
         return;
     }
     if(!params.source) params.source=this.source;
+    if(!params.conditions) params.conditions={"1=1":null};
     params.fields=[params.valueField];
     if(params.labelField&&params.labelField!=params.valueField) params.fields.push(params.labelField);
     _getDataItems(params,function(result){
@@ -326,6 +370,7 @@ function _getDataItemsForSelect(params, resultCallback){
  *      conditions={ <condition>:<conditionValue>, ... },
  *      order = "<orderFieldsList>"
  * }
+ * if !params.conditions returns all items
  * resultCallback = function(result = { items:[ {<tableComboboxFieldName>:<value>, ... }, ... ], error, errorCode } )
  */
 function _getDataItemsForTableCombobox(params, resultCallback){
@@ -338,6 +383,7 @@ function _getDataItemsForTableCombobox(params, resultCallback){
         return;
     }
     if(!params.source) params.source=this.source;
+    if(!params.conditions) params.conditions={"1=1":null};
     params.fields=[];
     var joinedSources;
     for(var cFieldName in params.comboboxFields){
@@ -386,34 +432,7 @@ function _getDataItemsForTableCombobox(params, resultCallback){
         resultCallback(result);
     });
 }
-/**
- * params = { source,
- *      fields = [<tableFieldName>,<tableFieldName>,<tableFieldName>,...],
- *      fieldFunction = { name:<fieldName>, function:<function>, sourceField:<function field name> },
- *      conditions={ <condition>:<conditionValue>, ... },
- * }
- * fieldFunction: "maxPlus1"
- * resultCallback = function(result = { item:{<tableFieldName>:<value>,...}, error, errorCode } )
- */
-function _getDataItem(params, resultCallback){
-    if(!params) params={};
-    if(!params.source) params.source= this.source;
-    if(!params.fields) params.fields=this.fields;
-    if(params.fieldFunction) {
-        params.fields=[params.fieldFunction.name];
-        params.fieldsFunctions = {};
-        params.fieldsFunctions[params.fieldFunction.name]={ function:params.fieldFunction.function, sourceField:params.fieldFunction.sourceField };
-    }
-    _getSelectItems(params,function(err,recordset){
-        var selectResult={};
-        if(err) {
-            selectResult.error="Failed get data item! Reason:"+err.message;
-            selectResult.errorCode=err.code;
-        }
-        if (recordset&&recordset.length>0) selectResult.item= recordset[0];
-        resultCallback(selectResult);                                                                   log.info('_getDataItem: _getSelectItems:',selectResult,{});//test
-    });
-}
+
 /**
  * params = (
  *      fields = [<tableField1Name>,...],
@@ -854,8 +873,8 @@ function _delDataItem(params, resultCallback) {
 
 /**
  * params = { tableName, resultFields,
- *      findCondition,
- *      idFieldName, newData = {<tableFieldName>:<value>,<tableFieldName>:<value>,<tableFieldName>:<value>,...}
+ *      findByFields,
+ *      idFieldName, fieldsValues = {<tableFieldName>:<value>,<tableFieldName>:<value>,<tableFieldName>:<value>,...}
  * }
  * resultCallback = function(result = { resultItem, error } )
  */
@@ -864,31 +883,36 @@ function _findDataItemByOrCreateNew(params, resultCallback) {
         resultCallback({ error:"Failed find/create data item! Reason:no function parameters!"});
         return;
     }
-    if (!params.resultFields) {                                                                         log.error("FAILED _findDataItemByOrCreateNew! Reason: no result fields!");//test
+    if (!params.resultFields||!params.resultFields.length) {                                            log.error("FAILED _findDataItemByOrCreateNew! Reason: no result fields!");//test
         resultCallback({ error:"Failed find/create data item! Reason:no result fields!"});
         return;
     }
-    if (!params.findCondition) {                                                                        log.error("FAILED _findDataItemByOrCreateNew! Reason: no find condition!");//test
-        resultCallback({ error:"Failed find/create data item! Reason:no find condition!"});
+    if (!params.findByFields||!params.findByFields.length) {                                            log.error("FAILED _findDataItemByOrCreateNew! Reason: no fields for find condition!");//test
+        resultCallback({ error:"Failed find/create data item! Reason:no fields for find condition!"});
         return;
     }
     if (!params.idFieldName) {                                                                          log.error("FAILED _findDataItemByOrCreateNew! Reason: no id field!");//test
         resultCallback({ error:"Failed find/create data item! Reason:no id field!"});
         return;
     }
-    if (!params.newData) {                                                                              log.error("FAILED _findDataItemByOrCreateNew! Reason: no new data!");//test
-        resultCallback({ error:"Failed find/create data item! Reason:no new data!"});
+    if (!params.fieldsValues) {                                                                         log.error("FAILED _findDataItemByOrCreateNew! Reason: no fields values!");//test
+        resultCallback({ error:"Failed find/create data item! Reason:no fields values!"});
         return;
     }
     var thisInstance=this;
-    this.getDataItem({fields:params.resultFields,conditions:params.findCondition},
+    var findCondition={};
+    for(var ind=0;ind<params.findByFields.length;ind++) {
+        var fieldName=params.findByFields[ind];
+        findCondition[fieldName+"="]=params.fieldsValues[fieldName];
+    }
+    this.getDataItem({fields:params.resultFields,conditions:findCondition},
         function(result) {
             if (result.error) {
                 resultCallback({ error:"Failed find/create data item! Reason:"+result.error});
                 return;
             }
             if (!result.item) {
-                thisInstance.insDataItemWithNewID({idFieldName:params.idFieldName,insData:params.newData}, resultCallback);
+                thisInstance.insDataItemWithNewID({idFieldName:params.idFieldName,insData:params.fieldsValues}, resultCallback);
                 return;
             }
             resultCallback({resultItem:result.item});
@@ -1029,7 +1053,7 @@ function _storeTableDataItem(params, resultCallback) {
         resultCallback({ error:"Failed store table data item! Reason:no id field name!"});
         return;
     }
-    if (!params.tableColumns) {                                                                             log.error("FAILED _storeTableDataItem "+params.tableName+"! Reason: no table columns!");//test
+    if (!params.tableColumns) {                                                                         log.error("FAILED _storeTableDataItem "+params.tableName+"! Reason: no table columns!");//test
         resultCallback({ error:"Failed store table data item! Reason:no table columns!"});
         return;
     }

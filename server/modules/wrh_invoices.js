@@ -54,7 +54,8 @@ module.exports.init = function(app){
             });
     });
     app.get("/wrh/invoices/getNewInvData", function(req, res){
-        wrh_invs.getDataItem({fieldFunction:{name:"MAXNUMBER", function:"maxPlus1", sourceField:"NUMBER"}},
+        wrh_invs.getDataItem({fieldFunction:{name:"MAXNUMBER", function:"maxPlus1", sourceField:"NUMBER"},
+                conditions:{"1=1":null}},
             function(result){
                 var newNumber=(result&&result.item)?result.item["MAXNUMBER"]:"", docDate=dateFormat(new Date(),"yyyy-mm-dd");
                 dir_units.getDataItem({fields:["NAME"],conditions:{"ID=":"0"}}, function(result){

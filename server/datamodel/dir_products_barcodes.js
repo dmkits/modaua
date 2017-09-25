@@ -11,7 +11,7 @@ var changeLog=[
     { "changeID": "dir_products_barcodes__4", "changeDatetime": "2016-08-30 16:24:00", "changeObj": "dir_products_barcodes",
       "changeVal": "ALTER TABLE dir_products_barcodes ADD CONSTRAINT DIR_PRODUCTS_BARCODES_PRODUCT_ID_FK" +
           " FOREIGN KEY (PRODUCT_ID) REFERENCES dir_products(ID)",
-      "field":"PRODUCT_ID", "source":"dir_products", "linkField":"PRODUCT_ID" },
+      "field":"PRODUCT_ID", "source":"dir_products", "linkField":"ID" },
     { "changeID": "dir_products_barcodes__5", "changeDatetime": "2016-08-30 16:25:00", "changeObj": "dir_products_barcodes",
       "changeVal": "ALTER TABLE dir_products_barcodes ADD PRIMARY KEY (BARCODE,PRODUCT_ID)" }
 ];

@@ -76,8 +76,59 @@
                         .addDetailTableRowChangeCallback(function(crd/*changedRowData*/, detailTable, thisInstance, nextCallback){
                             crd.item("PRODUCT_COLLECTION").setValue(thisInstance.detailHeader.getContentDataItem("PRODUCT_COLLECTION"));
                             var supplierOrderNum= thisInstance.detailHeader.getContentDataItem("SUPPLIER_ORDER_NUM");
-//                            if (supplierOrderNum && supplierOrderNum.trim().length>0
-//                                    && crd.item("PRODUCT_ARTICLE").isChanged() && !crd.item("PRODUCT_ARTICLE").isEMPTY()){              console.log("PINV detailTableRowChangeCallback1 prod article from order bata ");
+                            if (!supplierOrderNum || supplierOrderNum.trim().length==0){
+                                if(crd.item("PRODUCT_GENDER_CODE").isChanged()&&!crd.item("PRODUCT_GENDER_CODE").isUNDEFNULL()){
+                                    var genderValueForGenderCode=
+                                            detailTable.getAutocompleteColumnValueForItem("PRODUCT_GENDER_CODE",crd.item("PRODUCT_GENDER_CODE").getValue(),"PRODUCT_GENDER");
+                                    if(genderValueForGenderCode==undefined) genderValueForGenderCode=null;
+                                    crd.item("PRODUCT_GENDER").setValue(genderValueForGenderCode);
+                                } else if(crd.item("PRODUCT_GENDER").isChanged()&&!crd.item("PRODUCT_GENDER").isUNDEFNULL()){
+                                    var genderCodeValueForGender=
+                                            detailTable.getAutocompleteColumnValueForItem("PRODUCT_GENDER",crd.item("PRODUCT_GENDER").getValue(),"PRODUCT_GENDER_CODE");
+                                    if(genderCodeValueForGender==undefined) genderCodeValueForGender=null;
+                                    crd.item("PRODUCT_GENDER_CODE").setValue(genderCodeValueForGender);
+                                }
+                                var genderValue,genderCode;
+                                if(crd.item("PRODUCT_CATEGORY_CODE").isChanged()&&!crd.item("PRODUCT_CATEGORY_CODE").isUNDEFNULL()){
+                                    var categoryValueForCategoryCode=
+                                            detailTable.getAutocompleteColumnValueForItem("PRODUCT_CATEGORY_CODE",crd.item("PRODUCT_CATEGORY_CODE").getValue(),"PRODUCT_CATEGORY");
+                                    if(categoryValueForCategoryCode==undefined) categoryValueForCategoryCode=null;
+                                    crd.item("PRODUCT_CATEGORY").setValue(categoryValueForCategoryCode);
+                                    genderValue=
+                                            detailTable.getAutocompleteColumnValueForItem("PRODUCT_CATEGORY_CODE",crd.item("PRODUCT_CATEGORY_CODE").getValue(),"PRODUCT_GENDER");
+                                    genderCode=
+                                            detailTable.getAutocompleteColumnValueForItem("PRODUCT_CATEGORY_CODE",crd.item("PRODUCT_CATEGORY_CODE").getValue(),"PRODUCT_GENDER_CODE");
+
+                                } else if(crd.item("PRODUCT_CATEGORY").isChanged()&&!crd.item("PRODUCT_CATEGORY").isUNDEFNULL()){
+                                    var categoryCodeValueForCategory=
+                                            detailTable.getAutocompleteColumnValueForItem("PRODUCT_CATEGORY",crd.item("PRODUCT_CATEGORY").getValue(),"PRODUCT_CATEGORY_CODE");
+                                    if(categoryCodeValueForCategory==undefined) categoryCodeValueForCategory=null;
+                                    crd.item("PRODUCT_CATEGORY_CODE").setValue(categoryCodeValueForCategory);
+                                    genderValue=
+                                            detailTable.getAutocompleteColumnValueForItem("PRODUCT_CATEGORY",crd.item("PRODUCT_CATEGORY").getValue(),"PRODUCT_GENDER");
+                                    genderCode=
+                                            detailTable.getAutocompleteColumnValueForItem("PRODUCT_CATEGORY",crd.item("PRODUCT_CATEGORY").getValue(),"PRODUCT_GENDER_CODE");
+                                }
+                                if(genderValue!==undefined&&crd.item("PRODUCT_GENDER").isEMPTY())
+                                    crd.item("PRODUCT_GENDER").setValue(genderValue);
+                                if(genderCode!==undefined&&crd.item("PRODUCT_GENDER_CODE").isEMPTY())
+                                    crd.item("PRODUCT_GENDER_CODE").setValue(genderCode);
+                                if(crd.item("PRODUCT_SUBCATEGORY_CODE").isChanged()&&!crd.item("PRODUCT_SUBCATEGORY_CODE").isUNDEFNULL()){
+                                    var subcategoryValueForSubcategoryCode=
+                                            detailTable.getAutocompleteColumnValueForItem("PRODUCT_SUBCATEGORY_CODE",crd.item("PRODUCT_SUBCATEGORY_CODE").getValue(),"PRODUCT_SUBCATEGORY");
+                                    if(subcategoryValueForSubcategoryCode==undefined) subcategoryValueForSubcategoryCode=null;
+                                    crd.item("PRODUCT_SUBCATEGORY").setValue(subcategoryValueForSubcategoryCode);
+                                } else if(crd.item("PRODUCT_SUBCATEGORY").isChanged()&&!crd.item("PRODUCT_SUBCATEGORY").isUNDEFNULL()){
+                                    var subcategoryCodeValueForSubcategory=
+                                            detailTable.getAutocompleteColumnValueForItem("PRODUCT_SUBCATEGORY",crd.item("PRODUCT_SUBCATEGORY").getValue(),"PRODUCT_SUBCATEGORY_CODE");
+                                    if(subcategoryCodeValueForSubcategory==undefined) subcategoryCodeValueForSubcategory=null;
+                                    crd.item("PRODUCT_SUBCATEGORY_CODE").setValue(subcategoryCodeValueForSubcategory);
+                                }
+
+//                                //wrh_pinv_pinvproductslisthst.setProdDataByArticleFromPInv(changedRow,newProdData);
+                            } else
+                            if (supplierOrderNum && supplierOrderNum.trim().length>0
+                                    && crd.item("PRODUCT_ARTICLE").isChanged() && !crd.item("PRODUCT_ARTICLE").isEMPTY()){              console.log("PINV detailTableRowChangeCallback1 prod article from order bata ");
 //                                var condition={};
 //                                condition["SUPPLIER_ORDER_NUM"]= supplierOrderNum;
 //                                condition["PRODUCT_ARTICLE"]= crd.item("PRODUCT_ARTICLE").getValue();
@@ -102,9 +153,25 @@
 //                                            nextCallback();
 //                                        });
 //                                return;
-//                            } else {
-//                                //wrh_pinv_pinvproductslisthst.setProdDataByArticleFromPInv(changedRow,newProdData);
-//                            }
+                            }
+                            nextCallback();
+                        })
+                        .addDetailTableRowChangeCallback(function(crd/*changedRowData*/, detailTable, thisInstance, nextCallback) {
+                            if ( crd.item("PRODUCT_ARTICLE").isChanged() || crd.item("PRODUCT_KIND").isChanged()
+                                    || crd.item("PRODUCT_COMPOSITION").isChanged() || crd.item("PRODUCT_SIZE").isChanged()
+                                    /*|| crd.item("PRODUCT_COLLECTION").isChanged()*/ ) {                                   console.log("PINV detailTableRowChangeCallback1 set prod name", crd.data());
+                                var prodName;
+                                var prodKind=crd.item("PRODUCT_KIND").getValue(); if(prodKind) prodName=prodKind;
+                                var prodArt=crd.item("PRODUCT_ARTICLE").getValue(); if(prodArt&&prodName) prodName+=" "+prodArt;
+                                var prodComp=crd.item("PRODUCT_COMPOSITION").getValue(); if(prodComp&&prodName) prodName+=" "+prodComp;
+                                var prodSize=crd.item("PRODUCT_SIZE").getValue(); if(prodSize&&prodName) prodName+=" р."+prodSize;
+                                crd.item("PRODUCT_CODE").setValue(null);
+                                crd.item("PRODUCT_NAME").setValue((prodName)?prodName:null);
+                                crd.item("PRODUCT_PRINT_NAME").setValue((prodName)?prodName:null);
+                                crd.item("PRODUCT_UM").setValue(null);
+                                crd.item("BARCODE").setValue(null);
+                                crd.item("PRODUCT_PBARCODE").setValue(null);
+                            }
                             nextCallback();
                         })
                         .addDetailTableRowChangeCallback(function(crd/*changedRowData*/, detailTable, thisInstance, nextCallback) {
@@ -127,33 +194,33 @@
                                 crd.item("PRODUCT_SIZE").setValue((prodData)?prodData["SIZE"]:null);
                                 crd.item("BARCODE").setValue((prodData)?prodData["PBARCODE"]:null);
                             };
-                            if ( crd.item("PRODUCT_ARTICLE").isChanged() || crd.item("PRODUCT_KIND").isChanged()
-                                    || crd.item("PRODUCT_COMPOSITION").isChanged() || crd.item("PRODUCT_SIZE").isChanged()
-                                    || crd.item("PRODUCT_GENDER").isChanged() || crd.item("PRODUCT_GENDER_CODE").isChanged()
-                                    || crd.item("PRODUCT_CATEGORY").isChanged() || crd.item("PRODUCT_CATEGORY_CODE").isChanged()
-                                    || crd.item("PRODUCT_SUBCATEGORY").isChanged() || crd.item("PRODUCT_SUBCATEGORY_CODE").isChanged()
-                                    || crd.item("PRODUCT_COLLECTION").isChanged() ) {                                   console.log("INV detailTableRowChangeCallback1 prod code name",crd.data());
-                                var condition = {};
-                                condition["ARTICLE"]= crd.item("PRODUCT_ARTICLE").getValue();
-                                condition["KIND"]= crd.item("PRODUCT_KIND").getValue();
-                                condition["COMPOSITION"]= crd.item("PRODUCT_COMPOSITION").getValue();
-                                condition["SIZE"]= crd.item("PRODUCT_SIZE").getValue();
-                                crd.item("PRODUCT_CODE").setValue(null);
-                                crd.item("PRODUCT_NAME").setValue(null);
-                                crd.item("PRODUCT_UM").setValue(null);
-                                crd.item("PRODUCT_PBARCODE").setValue(null);
-                                crd.item("BARCODE").setValue(null);
-                                Request.getJSONData({url:"/dir/products/get_prod_code_name_by_article_kind_compos_size", condition:condition, consoleLog:true},
-                                        function(success,result){
-                                            if (!success||!result||!result.item) {
-                                                nextCallback();
-                                                return;
-                                            }
-                                            setCRDProductData(crd,result.item);
-                                            nextCallback(true);
-                                        });
-                                return;
-                            }
+//                            if ( crd.item("PRODUCT_ARTICLE").isChanged() || crd.item("PRODUCT_KIND").isChanged()
+//                                    || crd.item("PRODUCT_COMPOSITION").isChanged() || crd.item("PRODUCT_SIZE").isChanged()
+//                                    || crd.item("PRODUCT_GENDER").isChanged() || crd.item("PRODUCT_GENDER_CODE").isChanged()
+//                                    || crd.item("PRODUCT_CATEGORY").isChanged() || crd.item("PRODUCT_CATEGORY_CODE").isChanged()
+//                                    || crd.item("PRODUCT_SUBCATEGORY").isChanged() || crd.item("PRODUCT_SUBCATEGORY_CODE").isChanged()
+//                                    || crd.item("PRODUCT_COLLECTION").isChanged() ) {                                   console.log("INV detailTableRowChangeCallback1 prod code name",crd.data());
+//                                var condition = {};
+//                                condition["ARTICLE"]= crd.item("PRODUCT_ARTICLE").getValue();
+//                                condition["KIND"]= crd.item("PRODUCT_KIND").getValue();
+//                                condition["COMPOSITION"]= crd.item("PRODUCT_COMPOSITION").getValue();
+//                                condition["SIZE"]= crd.item("PRODUCT_SIZE").getValue();
+//                                crd.item("PRODUCT_CODE").setValue(null);
+//                                crd.item("PRODUCT_NAME").setValue(null);
+//                                crd.item("PRODUCT_UM").setValue(null);
+//                                crd.item("PRODUCT_PBARCODE").setValue(null);
+//                                crd.item("BARCODE").setValue(null);
+//                                Request.getJSONData({url:"/dir/products/get_prod_code_name_by_article_kind_compos_size", condition:condition, consoleLog:true},
+//                                        function(success,result){
+//                                            if (!success||!result||!result.item) {
+//                                                nextCallback();
+//                                                return;
+//                                            }
+//                                            setCRDProductData(crd,result.item);
+//                                            nextCallback(true);
+//                                        });
+//                                return;
+//                            }
                             nextCallback();
                         })
                         .addDetailTableRowChangeCallback(function(crd/*changedRowData*/, detailTable, thisInstance, nextCallback){          //console.log("INV detailTableRowChangeCallback1 ",crd.data());
