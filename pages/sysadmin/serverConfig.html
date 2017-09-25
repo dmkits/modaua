@@ -267,14 +267,13 @@
 
                 sa_serverConfig_PageContent.getServerConfiguration = function(){
                     Request.getJSONData({url: "/sysadmin/server/getServerConfig", consoleLog: true},
-                            function (success, result) {                                                            console.log("sa_serverConfig_PageContent.getServerConfiguration result=",result);
+                            function (success, result) {
                                 if (!success) {
                                     sa_serverConfig_configState.innerHTML = "<div><b style='color:red'>No connection to the server!</b></div>";
                                     return;
                                 }
-                                if (result.error) {                                              console.log("sa_serverConfig_PageContent.getServerConfiguration  result.error=",result.error);
+                                if (result.error) {                                                                      console.log("sa_serverConfig_PageContent.getServerConfiguration  result.error=",result.error);
                                     sa_serverConfig_configState.innerHTML = "<div><b style='color:red'>Cannot get configuration parameters!</b> Reason:"+result.error+"</div>";
-                                   // return;
                                 }
                                 if(result.dbList){
                                     if(result.dbListUser){
@@ -446,7 +445,7 @@
                     DB.password = dbPasswordInput.get('value');
 
                     Request.postJSONData({url: "/sysadmin/drop_db", data: DB, consoleLog: true},
-                            function (success, data) {                                                                    console.log("dropDataBase data=", data);
+                            function (success, data) {
                                 document.getElementById("admin_password").value="";
                                 var now = moment().format('DD.MM.YYYY HH:mm:ss');
                                 if (!success) {
