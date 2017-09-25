@@ -297,7 +297,7 @@
                 reloadBtn.onClick= function() {
                     sa_serverConfig_configState.innerHTML = "<div><b>Loading configuration parameters...</b></div>";
                     Request.getJSONData({url: "/sysadmin/server/loadServerConfig", consoleLog: true},
-                            function (success, result) {                                                                console.log("reloadBtn.onClick result=", result);
+                            function (success, result) {
                                 if (!success) {
                                     sa_serverConfig_configState.innerHTML = "<div><b style='color:red'>No connection to the server!</b></div>";
                                     return;
@@ -337,7 +337,6 @@
                                 if (!success) {
                                     sa_serverConfig_configState.innerHTML = "<div><b style='color:red'>No connection!</b></div>";
                                     if (sa_serverConfig_PageContent.getParent().updateDBState)  sa_serverConfig_PageContent.getParent().updateDBState();
-                                    console.log("updateDBState=",sa_serverConfig_PageContent.getParent().updateDBState());
                                     return;
                                 }
                                 if (data.error) {
@@ -380,15 +379,14 @@
                     var userAuthData = {user: user, pswd: pswd};
 
                     Request.postJSONData({url: "/sysadmin/getDBListForUser", data: userAuthData, consoleLog: true},
-                            function (success, data) {         console.log("data getDatabasesForUser=",data);
+                            function (success, data) {
                                 if (!success) {
                                     sa_serverConfig_configState.innerHTML = "<div><b style='color:red'>No connection!</b></div>";
                                     if (sa_serverConfig_PageContent.getParent().updateDBState)  sa_serverConfig_PageContent.getParent().updateDBState();
-                                    console.log("updateDBState=", sa_serverConfig_PageContent.getParent().updateDBState());
                                     return;
                                 }
                                 if (data.dbList) {
-                                    if(data.dbListUser){     console.log("data.dbListUserr=",data.dbListUser);
+                                    if(data.dbListUser){
                                     document.getElementById("server_dblist_user").innerHTML=data.dbListUser;
                                     }
                                     var DBArray = data.dbList;
@@ -416,7 +414,7 @@
 
                     Request.postJSONData({url: "/sysadmin/create_new_db", data: newDB, consoleLog: true},
                             function (success, data) {
-                                document.getElementById("admin_password").value="";                                     console.log("createDataBase data=", data);
+                                document.getElementById("admin_password").value="";
                                 var now = moment().format('DD.MM.YYYY HH:mm:ss');
                                 if (!success) {
                                     sa_serverConfig_configState.innerHTML = "<div><b style='color:red'>No connection!</b></div>";
@@ -471,7 +469,7 @@
 
                 function authAsSysadmin(authParams, callback){
                     Request.postJSONData({url: "/sysadmin/auth_as_sysadmin", data: authParams, consoleLog: true},
-                            function (success, data) {                                                                   console.log("authAsSysadmin data=",data);
+                            function (success, data) {
                                 document.getElementById("admin_password").value = "";
                                 if (!success) {
                                     sa_serverConfig_configState.innerHTML = "<div><b style='color:red'>No connection!</b></div>";

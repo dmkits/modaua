@@ -83,3 +83,7 @@ appModules.validateModules(function(errs, errMessage){
     });                                                                                             log.info("server inited.");
 });
 
+process.on("uncaughtException", function(err){
+    log.error(err);
+    console.log("uncaughtException=",err);
+});

@@ -203,7 +203,7 @@ module.exports.init = function(app){
                     var prodArticle=storeData["PRODUCT_ARTICLE"];
                     dir_products_articles.findDataItemByOrCreateNew({findCondition:{"VALUE=":prodArticle},resultFields:["ID"],
                             idFieldName:"ID", newData:{"VALUE":prodArticle} },
-                        function(result){                                                                               console.log("dir_products_articles.findDataItemByOrCreateNew",result);
+                        function(result){
                             if (result.error||!result.resultItem||result.resultItem["ID"]==null) {
                                 res.send({error: "Cannot finded or create article!"});
                                 return;

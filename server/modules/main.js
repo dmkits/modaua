@@ -73,6 +73,6 @@ module.exports.init= function(app){
             return;
         }
         outData.dbConnection='Connected';
-        res.send(outData);                              console.log("getMainData",outData);
+        res.send(outData);
     });
  };

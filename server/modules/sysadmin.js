@@ -42,14 +42,17 @@ var thisInstance=this;
  * @param logBackUp
  */
 function writeToBackUpLog(logBackUp) {
-    var srt=fs.readFileSync(path.join(__dirname+ "/../../backups/log_backup.json"), "utf8");
+
+    var logBackupFile=path.join(__dirname+ "/../../backups/log_backup.json");
+    createLogBackupFileIfNotExistss(logBackupFile);
+    var srt=fs.readFileSync(logBackupFile, "utf8");
     var logData = srt ? JSON.parse(srt):[];
     var newBackup = {};
     if(logBackUp.invalidCrone){
         newBackup.logDate=moment().format("DD.MM.YYYY HH:m:ss");
         newBackup.INVALIDE_CRONE_ERROR="Invalide CRONE format";
         logData.push(newBackup);
-        fs.writeFileSync(path.join(__dirname, "/../../backups/log_backup.json"), JSON.stringify(logData),"utf8");
+        fs.writeFileSync(logBackupFile, JSON.stringify(logData),"utf8");
         return;
     }
     if(logBackUp.error)newBackup.ERROR=logBackUp.error;
@@ -59,11 +62,27 @@ function writeToBackUpLog(logBackUp) {
     newBackup.fileName=logBackUp.fileName;
     newBackup.schedule=logBackUp.schedule;
     logData.push(newBackup);
-    fs.writeFileSync(path.join(__dirname, "/../../backups/log_backup.json"), JSON.stringify(logData),"utf8");
+    fs.writeFileSync(logBackupFile, JSON.stringify(logData),"utf8");
 }
+function createLogBackupFileIfNotExistss(fileName){
+    try{
+        var stat=fs.existsSync(fileName);
+        if(stat==false) {
+            var backupDir=__dirname+'/../../backups/';
+            if (!fs.existsSync(backupDir)){
+                    fs.mkdirSync(backupDir);
+            }
+                fs.writeFileSync(fileName, "");
+        }
+    }catch (e){
+        log.error('Failed create log DB backup file! Reason:',e);
+    }
+}
+
 var scheduleBackup;
 function startBackupBySchedule(){                                                                                       log.debug("startBackupBySchedule");
     var serverConfig=getServerConfig();
+    if(!serverConfig.backupSchedule) return;
     var valid = cron.validate(serverConfig.backupSchedule);
     if(valid==false){                                                                                                   log.error("CRON format for startBackupBySchedule is not valid.");
         writeToBackUpLog({invalidCrone:true});
@@ -496,7 +515,7 @@ module.exports.init = function(app){
                 return;
             }
             var fileToRestore;
-            var files = fs.readdirSync('./backups/');
+                var files = fs.readdirSync('./backups/');
             for (var i in files) {
                 if (files[i] == restoreFileName) {
                     fileToRestore = files[i];

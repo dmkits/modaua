@@ -77,13 +77,8 @@ module.exports.mySQLAdminConnection = function (connParams, callback) {         
 };
 
 module.exports.checkIfDBExists = function (DBName, callback) {
-    var serverConfig = server.getServerConfig();
-    var connToMySQL = mysql.createConnection({
-        host: serverConfig.host, user: serverConfig.user, password: serverConfig.password,
-        supportBigNumbers: true
-    });
 
-    connToMySQL.query("SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME = '" + DBName + "'",
+    connection.query("SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME = '" +DBName + "'",
         function (err, recordset) {
             if (err) {
                 callback(err);
@@ -162,13 +157,19 @@ module.exports.isDBEmpty= function(DBName,callback) {
             callback(null,recordset[0]);
         });
 };
+
+
 /**
  * backupParam = {host, database, fileName, user, password,  onlyData:true/false}
  * default onlyData=false
  */
 module.exports.backupDB= function(backupParam,callback) {
     var onlyDataCommand=(backupParam.onlyData==='true') ? " --no-create-info   --ignore-table="+backupParam.database+".change_log" : " ";                                     log.warn("onlyDataCommand=",onlyDataCommand);
-    var filePath=path.join(__dirname+'/../backups/'+backupParam.fileName);
+    var backupDir=__dirname+'/../backups/';
+    if (!fs.existsSync(backupDir)){
+        fs.mkdirSync(backupDir);
+    }
+    var filePath=path.join(backupDir+backupParam.fileName);
     var command ='mysqldump'+onlyDataCommand + ' -u '+ backupParam.user + ' --password="'+backupParam.password+'" --host='+backupParam.host +' '+backupParam.database+' --result-file='+filePath;               log.info("command=",command);
 
     child_process.exec(command, function(err,stdout,stderr){
@@ -177,7 +178,7 @@ module.exports.backupDB= function(backupParam,callback) {
             return;
         }
         if(stdout){
-            console.log("stdout backupDB=",stdout);
+            log.info("stdout backupDB=",stdout);
         }
         if(stderr && stderr.indexOf("Warning")<0){       log.error("stderr backupDB=",stderr);
             callback(stderr);
@@ -201,7 +202,7 @@ module.exports.restoreDB= function(restoreParams,callback) {
             return;
         }
         if(stdout){
-            console.log("stdout restoreDB=",stdout);
+            log.info("stdout restoreDB=",stdout);
         }
         if(stderr && stderr.indexOf("Warning")<0){                      log.error("stderr restoreDB=",stderr);
             callback(stderr);
@@ -302,7 +303,7 @@ function getDataItemFromDatabase(dbQuery, outData, resultItemName, callback){
 };
 
 
-module.exports.getDatabasesForUser= function(user,pswd,callback) { console.log( "getDatabasesForUser user=",user); console.log( "getDatabasesForUser pswd=",pswd);
+module.exports.getDatabasesForUser= function(user,pswd,callback) {
     var dbListForUserConfig = {
         host: getDBConfig().host,
        // database: getDBConfig().database,
@@ -317,12 +318,12 @@ module.exports.getDatabasesForUser= function(user,pswd,callback) { console.log( 
             return;
         }
         dbListForUserConn.query("SHOW DATABASES",
-            function (err,dbList) {    console.log( "getDatabasesForUser err=",err);
+            function (err,dbList) {
                 if (err) {
                     callback(err);
                     return;
                 }
-                callback(null,dbList,user);     console.log( "getDatabasesForUser result=",dbList);
+                callback(null,dbList,user);
                 dbListForUserConn.destroy();
             });
     });

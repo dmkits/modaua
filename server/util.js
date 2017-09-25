@@ -29,7 +29,7 @@ module.exports.getStartupParams = function() {
 };
 
 module.exports.loadConfig=function(fileName){
-    var stringConfig = fs.readFileSync(serverConfigPath+fileName);                      console.log("stringConfig util=",stringConfig);console.log("serverConfigPath+fileName=",serverConfigPath+fileName);
+    var stringConfig = fs.readFileSync(serverConfigPath+fileName);
     return JSON.parse(stringConfig);
 };
 module.exports.saveConfig=function(fileName,dbConfig,callback) {
