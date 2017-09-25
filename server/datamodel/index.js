@@ -880,6 +880,7 @@ function _findDataItemByOrCreateNew(params, resultCallback) {
         resultCallback({ error:"Failed find/create data item! Reason:no new data!"});
         return;
     }
+    var thisInstance=this;
     this.getDataItem({fields:params.resultFields,conditions:params.findCondition},
         function(result) {
             if (result.error) {
@@ -887,7 +888,7 @@ function _findDataItemByOrCreateNew(params, resultCallback) {
                 return;
             }
             if (!result.item) {
-                this.insDataItemWithNewID({idFieldName:params.idFieldName,insData:params.newData}, resultCallback);
+                thisInstance.insDataItemWithNewID({idFieldName:params.idFieldName,insData:params.newData}, resultCallback);
                 return;
             }
             resultCallback({resultItem:result.item});
