@@ -201,11 +201,9 @@ module.exports.init = function(app){
                     }
                     storeData["PRODUCT_SUBCATEGORY_ID"] = result.item["ID"];
                     var prodArticle=storeData["PRODUCT_ARTICLE"];
-
-                    //_findDataItemByOrCreate
                     dir_products_articles.findDataItemByOrCreateNew({findCondition:{"VALUE=":prodArticle},resultFields:["ID"],
-                            newData:{"VALUE":prodArticle} },
-                        function(result){
+                            idFieldName:"ID", newData:{"VALUE":prodArticle} },
+                        function(result){                                                                               console.log("dir_products_articles.findDataItemByOrCreateNew",result);
                             if (result.error||!result.resultItem||result.resultItem["ID"]==null) {
                                 res.send({error: "Cannot finded or create article!"});
                                 return;
@@ -220,31 +218,6 @@ module.exports.init = function(app){
                                     res.send(result);
                                 });
                         });
-
-                    //dir_products_articles.getDataItem({fields:["ID"],conditions:{"VALUE=":prodArticle}}, function(result) {
-                    //    //var
-                    //    if (!result.item) {
-                    //
-                    //        dir_products_articles.storeDataItem({idFieldName:"ID",storeData:{"ID":null,"VALUE":prodArticle}},
-                    //            function(result){
-                    //                if(!result.updateCount>0||!result.resultItem){
-                    //                    res.send({error: "Cannot added new article!"});
-                    //                    return;
-                    //                }
-                    //                storeData["PRODUCT_ARTICLE_ID"] = result.resultItem["ID"];
-                    //                wrh_orders_bata_details.storeTableDataItem({tableColumns:wrhOrderBataDetailsTableColumns, idFieldName:"ID", storeTableData:storeData},
-                    //                    function(result){
-                    //                        res.send(result);
-                    //                    });
-                    //            });
-                    //        return;
-                    //    }
-                    //    storeData["PRODUCT_ARTICLE_ID"] = result.item["ID"];
-                    //    wrh_orders_bata_details.storeTableDataItem({tableColumns:wrhOrderBataDetailsTableColumns, idFieldName:"ID", storeTableData:storeData},
-                    //        function(result){
-                    //            res.send(result);
-                    //        });
-                    //});
                 });
             });
         });
