@@ -1,25 +1,28 @@
 var startDateTime=new Date(), startTime=startDateTime.getTime();                                    console.log('STARTING at ',startDateTime );//test
 var dateformat =require('dateformat'), log = require('winston');
 var util=require('./util'), appStartupParams = util.getStartupParams();
-var moment = require('moment'), fs = require('fs');
+var moment = require('moment'), fs = require('fs'),path = require ('path');
 
 var ENV=process.env.NODE_ENV; console.log("ENV=",ENV);
 
-var historyDir=__dirname+'./history/';
-//if (!fs.existsSync(historyDir)){
-//    fs.mkdirSync(historyDir);
-//}
-
-var now=moment().format('YYYY_MM_DD');
-var historyFileName=historyDir+now+"log";
-
-
-
+var logDir=__dirname+'/../logs/';
+try {
+    if (!fs.existsSync(logDir)) {
+        fs.mkdirSync(logDir);
+    }
+}catch (e){
+    console.log('Impossible to create log directory! Reason:'+e)
+}
+var transports  = [];
+transports.push(new (require('winston-daily-rotate-file'))({
+    name: 'file',
+    datePattern: '.yyyy-MM-dd',
+    filename: path.join(__dirname, "/../logs", "log_file.log")
+}));
 if (!appStartupParams.logToConsole) {
-    log.add(log.transports.File, {filename: historyFileName, level:ENV=='development'?'silly':'info', timestamp: function() {
+    var log = new log.Logger({transports: transports,level:ENV=='development'?'silly':'info', timestamp: function() {
         return dateformat(Date.now(), "yyyy-mm-dd HH:MM:ss.l");
-    } });
-    log.remove(log.transports.Console);
+    }});
 } else {
     log.configure({
         transports: [
@@ -30,7 +33,6 @@ if (!appStartupParams.logToConsole) {
     });
 }                                                                                                   log.info('STARTING at', startDateTime );//test
 module.exports.log=log;                                                                             log.info('dateformat, winston util loaded' );//test
-
 module.exports.getAppStartupParams = function(){
     return appStartupParams;
 };                                                                                                  log.info('started with startup params:',  appStartupParams);//test
