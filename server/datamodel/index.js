@@ -104,7 +104,7 @@ function initValidateDataModel(dataModelName, dataModel, errs, nextValidateDataM
         return;
     }
     dataModel.sourceType="table"; dataModel.source=tableName;
-    dataModel.fields=tableFieldsList; dataModel.idField=idFieldName;                                    log.info('Init data model '+dataModel.sourceType+":"+dataModel.source+" fields:",dataModel.fields," idField:"+dataModel.idField);//test
+    dataModel.fields=tableFieldsList; dataModel.idField=idFieldName;                                    log.debug('Init data model '+dataModel.sourceType+":"+dataModel.source+" fields:",dataModel.fields," idField:"+dataModel.idField);//test
     dataModel.fieldsMetadata=tableFields;
     dataModel.joinedSources=joinedSources;                                                              log.debug('Init data model '+dataModel.sourceType+":"+dataModel.source+" joined sources:",dataModel.joinedSources,{});//test
     if(!dataModel.idField)                                                                              log.warn('NO id filed name in data model '+dataModel.sourceType+":"+dataModel.source+"! Model cannot used functions insert/update/delete!");//test
