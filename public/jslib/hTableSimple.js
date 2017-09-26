@@ -308,6 +308,15 @@ define(["dojo/_base/declare", "dijit/layout/ContentPane","dojox/widget/Standby",
         getContent: function(){
             return this.handsonTable.getContent();
         },
+        getContentData: function(){//copy of contentData
+            var contentData=[], content=this.handsonTable.getContent();
+            for(var row=0;row<content.length;row++){
+                var contentDataItem={}, contentItem=content[row];
+                for(var itemName in contentItem) contentDataItem[itemName]=contentItem[itemName];
+                contentData.push(contentDataItem);
+            }
+            return contentData;
+        },
         getContentRow: function(rowInd){
             return this.handsonTable.getContentRow(rowInd);
         },

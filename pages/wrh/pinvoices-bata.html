@@ -124,7 +124,6 @@
                                     if(subcategoryCodeValueForSubcategory==undefined) subcategoryCodeValueForSubcategory=null;
                                     crd.item("PRODUCT_SUBCATEGORY_CODE").setValue(subcategoryCodeValueForSubcategory);
                                 }
-
 //                                //wrh_pinv_pinvproductslisthst.setProdDataByArticleFromPInv(changedRow,newProdData);
                             } else
                             if (supplierOrderNum && supplierOrderNum.trim().length>0
@@ -292,20 +291,21 @@
                         })
                         .addToolPane("Печать")
                         .addToolPaneActionButton("Печать ценников", {action:"printProdTags"}, "width:200px;", {}, function(){
-                            var printWindow= window.open("/print/prod_tags");                                           //console.log("printProdTags.onClick printWindow=",printWindow);
+                            var printWindow= window.open("/print/printTags");                                           //console.log("printProdTags.onClick printWindow=",printWindow);
                             //window.open("/print?pinvid="+wrh_pinv_ContentController.getDataIDValue(), "", "location=1,status=1,scrollbars=1,width=650,height=600");
                             printWindow["prodTagsContentData"]= this.detailTable.getContent();
-                            printWindow["pageProdTagType"]= "tag58X30";
+                            printWindow["pageProdTagType"]= "productTag58x30";
                         })
                         .addToolPaneActionButton("Печать цен", {action:"printProdPricesTags"}, "width:200px;", {}, function(){
-                            var printWindow= window.open("/print/prod_tags");                                           //console.log("printProdPricesTags.onClick printWindow=",printWindow);
+                            var printWindow= window.open("/print/printTags");                                           //console.log("printProdPricesTags.onClick printWindow=",printWindow);
                             //window.open("/print?pinvid="+wrh_pinv_ContentController.getDataIDValue(), "", "location=1,status=1,scrollbars=1,width=650,height=600");
-                            printWindow["prodTagsContentData"]= this.detailTable.getContent();
-                            printWindow["pageProdTagType"]= "tag40X25";
+                            var detailTableContentData=this.detailTable.getContentData();
+                            for(var row=0;row<detailTableContentData.length;row++) detailTableContentData[row]["QTY"]=1;
+                            printWindow["prodTagsContentData"]= detailTableContentData;
+                            printWindow["pageProdTagType"]= "tag40x25price";
                         })
 //                        .addToolPane("Доп")
 //                        .addToolPaneActionButton("Сохранить в прайс-лист", {}, "width:200px;")
-//                        .addToolPaneActionButton("Синхронизация цен", {}, "width:200px;")
                         .addToolPane("Информация о товаре", function(toolPane, detailHeader,detailTable,thisInstance){
                             var detailTableSelectedRow= detailTable.getSelectedRow();
                             if(detailTableSelectedRow) {
@@ -321,15 +321,14 @@
                         })
                         .addToolXPane("Ценник товара", function(toolPane, detailHeader,detailTable,thisInstance){
                             toolPane.set("content","");
-//                            var detailTableSelectedRow= detailTable.getSelectedRow();
-//                            if(detailTableSelectedRow) {
-//                                var prodTagContentData = {};
-//                                for(var rowItemName in detailTableSelectedRow) prodTagContentData[rowItemName]= detailTableSelectedRow[rowItemName];
-//                                toolPane.set("prodTagContentData", prodTagContentData);
-//                                toolPane.set("href","/pages/print/product_tag_58x30.html");
-//                            }
+                            var detailTableSelectedRow= detailTable.getSelectedRow();
+                            if(detailTableSelectedRow) {
+                                var prodTagContentData = {};
+                                for(var rowItemName in detailTableSelectedRow) prodTagContentData[rowItemName]= detailTableSelectedRow[rowItemName];
+                                toolPane.set("prodTagContentData", prodTagContentData);
+                                toolPane.set("href","/print/productTag58x30");
+                            }
                         })
-
                         .startUp();
     });
 </script>
