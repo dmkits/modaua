@@ -152,7 +152,7 @@ module.exports.initValidateDataModels=function(dataModelsList, errs, resultCallb
  * fieldsFunctions[].function: "maxPlus1" / "concat"
  * resultCallback = function(err, recordset)
  */
-function _getSelectItems(params, resultCallback){
+function _getSelectItems(params, resultCallback){                                                       //log.debug("_getSelectItems params:",params,{});//test
     if(!params){                                                                                        log.error("FAILED _getSelectItems! Reason: no function parameters!");//test
         resultCallback("FAILED _getSelectItems! Reason: no function parameters!");
         return;
@@ -199,7 +199,7 @@ function _getSelectItems(params, resultCallback){
     var joins="";
     if(params.joinedSources){
         for(var joinSourceName in params.joinedSources) {
-            var joinedSourceConditions=params.joinedSources[joinSourceName], joinedSourceOnCondition;
+            var joinedSourceConditions=params.joinedSources[joinSourceName], joinedSourceOnCondition=null;
             for(var linkCondition in joinedSourceConditions)
                 joinedSourceOnCondition= (!joinedSourceOnCondition)?linkCondition:joinedSourceOnCondition+" and "+linkCondition;
             joins += " inner join " + joinSourceName + " on "+joinedSourceOnCondition;
@@ -272,7 +272,7 @@ function _getSelectItems(params, resultCallback){
  * }
  * resultCallback = function(result = { items:[ {<tableFieldName>:<value>,...}, ... ], error, errorCode } )
  */
-function _getDataItems(params, resultCallback){                                                             log.debug('_getDataItems: params:',params,{});//test
+function _getDataItems(params, resultCallback){                                                             //log.debug('_getDataItems: params:',params,{});//test
     if(!params) params={};
     if(!params.source) params.source= this.source;
     if(!params.fields) params.fields=this.fields;
@@ -454,7 +454,7 @@ function _setDataItem(params, resultCallback){
  * params = { source,
  *      tableColumns = [
  *          {data:<sourceFieldName>, name:<tableColumnHeader>, width:<tableColumnWidth>, type:<dataType>, readOnly:true/false, visible:true/false,
- *                dataSource:<sourceName>, dataField:<sourceFieldName>
+ *                dataSource:<sourceName>, dataField:<sourceFieldName>, linkCondition:<dataSource join link condition>
  *             OR childDataSource:<childSourceName>, childLinkField:<childSourceLinkFieldName>, parentDataSource, parentLinkField:<parentSourceLinkFieldName> },
  *          ...
  *      ],
@@ -488,15 +488,16 @@ function _getDataItemsForTable(params, resultCallback){
     for(var i in params.tableColumns) {
         var tableColumnData=params.tableColumns[i];
         if(tableColumnData.dataSource) hasSources=true;
-        if(tableColumnData.childDataSource) hasSources=true;
+        if(tableColumnData.childDataSource) hasChildSources=true;
         if(hasSources&&hasChildSources) break;
     }
-    var fieldsList=[], fieldsSources={}, fieldsFunctions, groupedFieldsList=[];
+    var fieldsList=[], fieldsSources={}, fieldsFunctions, groupedFieldsList=[], addJoinedSources;
     for(var i in params.tableColumns) {
         var tableColumnData=params.tableColumns[i], fieldName=tableColumnData.data;
 
         if(this.fieldsMetadata&&this.fieldsMetadata[fieldName]) {
-            fieldsList.push(fieldName); groupedFieldsList.push(fieldName);
+            fieldsList.push(fieldName);
+            if(hasChildSources)groupedFieldsList.push(fieldName);
             if(tableColumnData.dataSource&&tableColumnData.dataField)
                 fieldsSources[fieldName]=tableColumnData.dataSource+"."+tableColumnData.dataField;
             else if(tableColumnData.dataSource)
@@ -504,20 +505,29 @@ function _getDataItemsForTable(params, resultCallback){
             else if(hasSources&&(params.source||this.source))
                 fieldsSources[fieldName]=((params.source)?params.source:this.source)+"."+fieldName;
         } else if(tableColumnData.dataField){
-            fieldsList.push(fieldName); groupedFieldsList.push(fieldName);
+            fieldsList.push(fieldName);
+            if(hasChildSources)groupedFieldsList.push(fieldName);
             if(tableColumnData.dataSource) fieldsSources[fieldName]=tableColumnData.dataSource+"."+tableColumnData.dataField;
             else fieldsSources[fieldName]=tableColumnData.dataSource+"."+fieldName;
         } else if(tableColumnData.dataFunction){
             fieldsList.push(fieldName);
-            if(!tableColumnData.childDataSource) groupedFieldsList.push(fieldName);
+            if(!tableColumnData.childDataSource&&hasChildSources) groupedFieldsList.push(fieldName);
             if(!fieldsFunctions)fieldsFunctions={};
             fieldsFunctions[fieldName]= tableColumnData.dataFunction;
         } else if(!this.fieldsMetadata) {
-            fieldsList.push(fieldName); groupedFieldsList.push(fieldName);
+            fieldsList.push(fieldName);
+            if(hasChildSources)groupedFieldsList.push(fieldName);
         }
         if(tableColumnData.dataSource && this.joinedSources&&this.joinedSources[tableColumnData.dataSource]){
             if(!params.joinedSources) params.joinedSources={};
             params.joinedSources[tableColumnData.dataSource]=this.joinedSources[tableColumnData.dataSource];
+        }else if(tableColumnData.dataSource&&tableColumnData.linkCondition){
+            if(!addJoinedSources) addJoinedSources={};
+            if(!addJoinedSources[tableColumnData.dataSource]){
+                var joinedSourceLinkConditions={};
+                joinedSourceLinkConditions[tableColumnData.linkCondition]=null;
+                addJoinedSources[tableColumnData.dataSource]=joinedSourceLinkConditions;
+            }
         }
         if(tableColumnData.childDataSource&& (!params.leftJoinedSources||!params.leftJoinedSources[tableColumnData.childDataSource]) ){
             if(!params.leftJoinedSources) params.leftJoinedSources={};
@@ -529,8 +539,12 @@ function _getDataItemsForTable(params, resultCallback){
             params.leftJoinedSources[tableColumnData.childDataSource]=childLinkConditions;
         }
     }
-    params.fields=fieldsList; params.fieldsSources=fieldsSources; params.fieldsFunctions=fieldsFunctions;
-    params.groupedFields=groupedFieldsList;
+    params.fields=fieldsList;
+    params.fieldsSources=fieldsSources;
+    if(addJoinedSources&&params.joinedSources)
+        for(var sourceName in addJoinedSources) params.joinedSources[sourceName]=addJoinedSources[sourceName];
+    params.fieldsFunctions=fieldsFunctions;
+    if(groupedFieldsList.length>0)params.groupedFields=groupedFieldsList;
     _getSelectItems(params, function(err, recordset){
         if(err) tableData.error="Failed get data for table! Reason:"+err.message;
         tableData.items= recordset;

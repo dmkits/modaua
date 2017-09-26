@@ -24,6 +24,19 @@ var changeLog=[
         "field":"PBARCODE" },
     { "changeID": "dir_products__9", "changeDatetime": "2016-08-30 16:09:00", "changeObj": "dir_products",
         "changeVal": "ALTER TABLE dir_products ADD CONSTRAINT DIR_PRODUCTS_PBARCODE_UNIQUE UNIQUE(PBARCODE)" },
+
+    { "changeID": "dir_products_10", "changeDatetime": "2016-08-31 18:31:00", "changeObj": "dir_products",
+        "changeVal": "ALTER TABLE dir_products ADD COLUMN GENDER_ID BIGINT UNSIGNED NOT NULL" },
+    { "changeID": "dir_products_11", "changeDatetime": "2016-08-31 18:32:00", "changeObj": "dir_products",
+        "changeVal": "ALTER TABLE dir_products ADD CONSTRAINT DIR_PRODUCTS_GENDER_ID_FK " +
+            "FOREIGN KEY (GENDER_ID) REFERENCES dir_products_genders(ID)",
+        "field":"GENDER_ID", "source":"dir_products_genders", "linkField":"ID" },
+    { "changeID": "dir_products_12", "changeDatetime": "2016-08-31 18:33:00", "changeObj": "dir_products",
+        "changeVal": "ALTER TABLE dir_products ADD COLUMN CATEGORY_ID BIGINT UNSIGNED NOT NULL" },
+    { "changeID": "dir_products_13", "changeDatetime": "2016-08-31 18:34:00", "changeObj": "dir_products",
+        "changeVal": "ALTER TABLE dir_products ADD CONSTRAINT DIR_PRODUCTS_CATEGORY_ID_FK " +
+            "FOREIGN KEY (CATEGORY_ID) REFERENCES dir_products_categories(ID)",
+        "field":"CATEGORY_ID", "source":"dir_products_categories", "linkField":"ID" },
     { "changeID": "dir_products_14", "changeDatetime": "2016-09-04 18:31:00", "changeObj": "dir_products",
         "changeVal": "ALTER TABLE dir_products ADD COLUMN ARTICLE_ID BIGINT UNSIGNED NOT NULL",
         "field":"ARTICLE_ID" },
@@ -52,6 +65,12 @@ var changeLog=[
         "changeVal": "ALTER TABLE dir_products ADD CONSTRAINT DIR_PRODUCTS_SIZE_ID_FK" +
             " FOREIGN KEY (SIZE_ID) REFERENCES dir_products_sizes(ID)",
         "field":"SIZE_ID", "source":"dir_products_sizes", "linkField":"ID" },
+    { "changeID": "dir_products_22", "changeDatetime": "2016-09-12 00:11:00", "changeObj": "dir_products",
+        "changeVal": "ALTER TABLE dir_products ADD COLUMN SUBCATEGORY_ID BIGINT UNSIGNED NOT NULL" },
+    { "changeID": "dir_products_23", "changeDatetime": "2016-09-12 00:12:00", "changeObj": "dir_products",
+        "changeVal": "ALTER TABLE dir_products ADD CONSTRAINT DIR_PRODUCTS_SUBCATEGORY_ID_FK " +
+            "FOREIGN KEY (SUBCATEGORY_ID) REFERENCES dir_products_subcategories(ID)",
+        "field":"SUBCATEGORY_ID", "source":"dir_products_subcategories", "linkField":"ID" },
     { "changeID": "dir_products_24", "changeDatetime": "2016-09-12 09:41:00", "changeObj": "dir_products",
         "changeVal": "ALTER TABLE dir_products ADD COLUMN COLLECTION_ID BIGINT UNSIGNED NOT NULL",
         "field":"COLLECTION_ID" },
