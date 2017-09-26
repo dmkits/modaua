@@ -1,6 +1,6 @@
 var dataModel=require('../datamodel');
-var dir_products_bata= require(appDataModelPath+"dir_products-bata");
-var dir_products_barcodes= require(appDataModelPath+"dir_products_barcodes");
+var dir_products_bata= require(appDataModelPath+"dir_products-bata"),
+    dir_products_barcodes= require(appDataModelPath+"dir_products_barcodes");
 var dir_products_articles= require(appDataModelPath+"dir_products_articles"),
     dir_products_types= require(appDataModelPath+"dir_products_types"),
     dir_products_kinds= require(appDataModelPath+"dir_products_kinds"),
@@ -453,6 +453,155 @@ module.exports.init = function(app){
             });
     });
 
+    dir_products_bata.getProductBataGroupsIDs= function(params,resultCallback){
+        if (!params||!params.prodData) {
+            resultCallback({error: "Failed get product bata groups id's! Reason: no product bata groups data!"});
+            return;
+        }
+        var resultData={};
+        var prodGenderCode=params.prodData["GENDER_CODE"],prodGenderName=params.prodData["GENDER"];
+        var findProdGenderConditions={};
+        if(prodGenderCode) findProdGenderConditions["CODE="]=prodGenderCode;
+        if(prodGenderName) findProdGenderConditions["NAME="]=prodGenderName;
+        if(!prodGenderCode&&!prodGenderName) findProdGenderConditions["CODE is NULL"]=null;
+        dir_products_genders.getDataItem({fields:["ID"],conditions:findProdGenderConditions},
+            function(result) {
+                if (result.error) {
+                    resultCallback({error: "Failed find product gender! Reason:" + result.error});
+                    return;
+                }
+                if (!result.item){
+                    resultCallback({error: "Failed find product gender! Reason: no find result!"});
+                    return;
+                }
+                resultData["GENDER_ID"]=result.item["ID"];
+                var prodCategoryCode=params.prodData["CATEGORY_CODE"],prodCategoryName=params.prodData["CATEGORY"];
+                var findProdCategoryConditions={};
+                if(prodCategoryCode) findProdCategoryConditions["CODE="]=prodCategoryCode;
+                if(prodCategoryName) findProdCategoryConditions["NAME="]=prodCategoryName;
+                if(!prodCategoryName&&!prodCategoryName) findProdCategoryConditions["CODE is NULL"]=null;
+                dir_products_categories.getDataItem({fields:["ID"],conditions:findProdCategoryConditions},
+                    function(result) {
+                        if (result.error) {
+                            resultCallback({error: "Failed find product category! Reason:" + result.error});
+                            return;
+                        }
+                        if (!result.item) {
+                            resultCallback({error: "Failed find product category! Reason: no find result!"});
+                            return;
+                        }
+                        resultData["CATEGORY_ID"] = result.item["ID"];
+                        var prodSubcategoryCode=params.prodData["SUBCATEGORY_CODE"],prodSubcategoryName=params.prodData["SUBCATEGORY"];
+                        var findProdSubcategoryConditions={};
+                        if(prodSubcategoryCode) findProdSubcategoryConditions["CODE="]=prodSubcategoryCode;
+                        if(prodSubcategoryName) findProdSubcategoryConditions["NAME="]=prodSubcategoryName;
+                        if(!prodSubcategoryCode&&!prodSubcategoryName) findProdSubcategoryConditions["CODE is NULL"]=null;
+                        dir_products_subcategories.getDataItem({fields:["ID"],conditions:findProdSubcategoryConditions},
+                            function(result) {
+                                if (result.error) {
+                                    resultCallback({error: "Failed find product subcategory! Reason:" + result.error});
+                                    return;
+                                }
+                                if (!result.item) {
+                                    resultCallback({error: "Failed find product subcategory! Reason: no find result!"});
+                                    return;
+                                }
+                                resultData["SUBCATEGORY_ID"] = result.item["ID"];
+                                resultCallback({resultItem: resultData});
+                            })
+                    })
+            })
+    };
+    dir_products_bata.findOrCreateProdAttributes= function(params,resultCallback){
+        if (!params||!params.prodData) {
+            resultCallback({error: "Failed find/create product attributes! Reason: no product attributes data!"});
+            return;
+        }
+        var prodData=params.prodData, resultData={};
+        dir_products_collections.getDataItem({fields:["ID"],conditions:{"NAME=":prodData["COLLECTION"]}},
+            function(result) {
+                if (result.error) {
+                    resultCallback({error: "Failed find product collection! Reason:" + result.error});
+                    return;
+                }
+                if (!result.item) {
+                    resultCallback({error: "Failed find product collection! Reason: no result!"});
+                    return;
+                }
+                resultData["COLLECTION_ID"]=result.item["ID"];
+                //dir_products_types.getDataItem({fields:["ID"],conditions:{"NAME=":fieldsValues["PRODUCT_TYPE"]}},
+                //    function(result) {
+                //        if (result.error) {
+                //            resultCallback({error: "Failed find product type! Reason:" + result.error});
+                //            return;
+                //        }
+                //        if (!result.item) {
+                //            resultCallback({error: "Failed find product type! Reason: no result!"});
+                //            return;
+                //        }
+                //        fieldsValues["PRODUCT_TYPE_ID"] = result.item["ID"];
+                //    });
+                if (!prodData["ARTICLE"]) {
+                    resultCallback({error: "Failed create product! Reason: no product article!"});
+                    return;
+                }
+                dir_products_articles.findDataItemByOrCreateNew({resultFields:["ID"], findByFields:["VALUE"],
+                        idFieldName:"ID", fieldsValues:{"VALUE":prodData["ARTICLE"]}},
+                    function(result){                                                           console.log("dir_products_bata.findDataItemByOrCreateNew PRODUCT_ARTICLE result",result);
+                        if (result.error) {
+                            resultCallback({ error:"Failed find/create product article! Reason:"+result.error});
+                            return;
+                        }
+                        if (!result.resultItem) {
+                            resultCallback({ error:"Failed find/create product article! Reason: no result!"});
+                            return;
+                        }                                                                                   console.log("dir_products_bata.findDataItemByOrCreateNew PRODUCT_ARTICLE resultItem",result.resultItem);
+                        resultData["ARTICLE_ID"]=result.resultItem["ID"];
+                        dir_products_kinds.findDataItemByOrCreateNew({resultFields:["ID"], findByFields:["NAME"],
+                                idFieldName:"ID", fieldsValues:{"NAME":prodData["KIND"]}},
+                            function(result){
+                                if (result.error) {
+                                    resultCallback({ error:"Failed find/create product kind! Reason:"+result.error});
+                                    return;
+                                }
+                                if (!result.resultItem) {
+                                    resultCallback({ error:"Failed find/create product kind! Reason: no result!"});
+                                    return;
+                                }
+                                resultData["KIND_ID"]=result.resultItem["ID"];
+                                dir_products_compositions.findDataItemByOrCreateNew({resultFields:["ID"],
+                                        findByFields:["VALUE"],
+                                        idFieldName:"ID", fieldsValues:{"VALUE":prodData["COMPOSITION"]}},
+                                    function(result){
+                                        if (result.error) {
+                                            resultCallback({ error:"Failed find/create product composition! Reason:"+result.error});
+                                            return;
+                                        }
+                                        if (!result.resultItem) {
+                                            resultCallback({ error:"Failed find/create product composition! Reason: no result!"});
+                                            return;
+                                        }
+                                        resultData["COMPOSITION_ID"]=result.resultItem["ID"];
+                                        dir_products_sizes.findDataItemByOrCreateNew({resultFields:["ID"],
+                                                findByFields:["VALUE"],
+                                                idFieldName:"ID", fieldsValues:{"VALUE":prodData["SIZE"]}},
+                                            function(result){
+                                                if (result.error) {
+                                                    resultCallback({ error:"Failed find/create product size! Reason:"+result.error});
+                                                    return;
+                                                }
+                                                if (!result.resultItem) {
+                                                    resultCallback({ error:"Failed find/create product size! Reason: no result!"});
+                                                    return;
+                                                }
+                                                resultData["SIZE_ID"]=result.resultItem["ID"];
+                                                resultCallback({resultItem:resultData});
+                                            });
+                                    });
+                            });
+                    });
+            });
+    };
     dir_products_bata.findDataItemByOrCreateNew= function(params,resultCallback){
         if (!params) {                                                                                      log.error("FAILED dir_products_bata.findDataItemByOrCreateNew! Reason: no parameters!");//test
             resultCallback({ error:"Failed find/create product! Reason:no function parameters!"});
@@ -488,141 +637,56 @@ module.exports.init = function(app){
                     resultCallback({ resultItem:result.item});
                     return;
                 }
-                if (!result.item) {
-                    insProdData["NAME"]=fieldsValues["NAME"];
-                    if(fieldsValues["CODE"])insProdData["CODE"]=fieldsValues["CODE"];
-                    if(fieldsValues["UM"])insProdData["UM"]=fieldsValues["UM"];
-                    if(fieldsValues["PBARCODE"])insProdData["PBARCODE"]=fieldsValues["PBARCODE"];
-                    dir_products_collections.getDataItem({fields:["ID"],conditions:{"NAME=":fieldsValues["COLLECTION"]}},
-                        function(result) {
-                            if (result.error) {
-                                resultCallback({error: "Failed find product collection! Reason:" + result.error});
-                                return;
-                            }
-                            if (!result.item) {
-                                resultCallback({error: "Failed find product collection! Reason: no result!"});
-                                return;
-                            }
-                            insProdData["COLLECTION_ID"]=result.item["ID"];
-
-                            //dir_products_types.getDataItem({fields:["ID"],conditions:{"NAME=":fieldsValues["PRODUCT_TYPE"]}},
-                            //    function(result) {
-                            //        if (result.error) {
-                            //            resultCallback({error: "Failed find product type! Reason:" + result.error});
-                            //            return;
-                            //        }
-                            //        if (!result.item) {
-                            //            resultCallback({error: "Failed find product type! Reason: no result!"});
-                            //            return;
-                            //        }
-                            //        fieldsValues["PRODUCT_TYPE_ID"] = result.item["ID"];
-                            //    });
-
-                            if (!fieldsValues["ARTICLE"]) {
-                                resultCallback({error: "Failed create product! Reason: no product article!"});
-                                return;
-                            }
-                            dir_products_articles.findDataItemByOrCreateNew({resultFields:["ID"], findByFields:["VALUE"],
-                                    idFieldName:"ID", fieldsValues:{"VALUE":fieldsValues["ARTICLE"]}},
-                                function(result){                                                           console.log("dir_products_bata.findDataItemByOrCreateNew PRODUCT_ARTICLE result",result);
-                                    if (result.error) {
-                                        resultCallback({ error:"Failed find/create product article! Reason:"+result.error});
-                                        return;
-                                    }
-                                    if (!result.resultItem) {
-                                        resultCallback({ error:"Failed find/create product article! Reason: no result!"});
-                                        return;
-                                    }                                                                                   console.log("dir_products_bata.findDataItemByOrCreateNew PRODUCT_ARTICLE resultItem",result.resultItem);
-                                    insProdData["ARTICLE_ID"]=result.resultItem["ID"];
-                                    dir_products_kinds.findDataItemByOrCreateNew({resultFields:["ID"], findByFields:["NAME"],
-                                            idFieldName:"ID", fieldsValues:{"NAME":fieldsValues["KIND"]}},
-                                        function(result){
-                                            if (result.error) {
-                                                resultCallback({ error:"Failed find/create product kind! Reason:"+result.error});
-                                                return;
-                                            }
-                                            if (!result.resultItem) {
-                                                resultCallback({ error:"Failed find/create product kind! Reason: no result!"});
-                                                return;
-                                            }
-                                            insProdData["KIND_ID"]=result.resultItem["ID"];
-                                            dir_products_compositions.findDataItemByOrCreateNew({resultFields:["ID"],
-                                                    findByFields:["VALUE"],
-                                                    idFieldName:"ID", fieldsValues:{"VALUE":fieldsValues["COMPOSITION"]}},
-                                                function(result){
-                                                    if (result.error) {
-                                                        resultCallback({ error:"Failed find/create product composition! Reason:"+result.error});
-                                                        return;
-                                                    }
-                                                    if (!result.resultItem) {
-                                                        resultCallback({ error:"Failed find/create product composition! Reason: no result!"});
-                                                        return;
-                                                    }
-                                                    insProdData["COMPOSITION_ID"]=result.resultItem["ID"];
-                                                    dir_products_sizes.findDataItemByOrCreateNew({resultFields:["ID"],
-                                                            findByFields:["VALUE"],
-                                                            idFieldName:"ID", fieldsValues:{"VALUE":fieldsValues["SIZE"]}},
+                insProdData["NAME"]=fieldsValues["NAME"];
+                if(fieldsValues["CODE"])insProdData["CODE"]=fieldsValues["CODE"];
+                if(fieldsValues["UM"])insProdData["UM"]=fieldsValues["UM"];
+                if(fieldsValues["PBARCODE"])insProdData["PBARCODE"]=fieldsValues["PBARCODE"];
+                dir_products_bata.findOrCreateProdAttributes({prodData:fieldsValues},
+                    function(result){
+                        if (result.error) {
+                            resultCallback({ error:"Failed find/create product! Reason:"+result.error});
+                            return;
+                        }
+                        for(var resultItemName in result.resultItem) insProdData[resultItemName]=result.resultItem[resultItemName];
+                        thisInstance.getProductBataGroupsIDs({prodData:fieldsValues},
+                            function(result){
+                                if (result.error) {
+                                    resultCallback({ error:"Failed find/create product! Reason:"+result.error});
+                                    return;
+                                }
+                                for(var resultItemName in result.resultItem) insProdData[resultItemName]=result.resultItem[resultItemName];
+                                thisInstance.getDataItem({fieldFunction:{name:"MAXCODE", function:"maxPlus1", sourceField:"CODE"},
+                                        conditions:{"1=1":null}},
+                                    function(result) {
+                                        var newCode = (result && result.item) ? result.item["MAXCODE"] : "";
+                                        insProdData["CODE"]=newCode;
+                                        var barcode=Math.pow(10,10)*23+newCode;
+                                        insProdData["PBARCODE"]=barcode;
+                                        thisInstance.insDataItemWithNewID({idFieldName:params.idFieldName,insData:insProdData},
+                                            function(result){
+                                                var resultFindCreateProduct={};
+                                                resultFindCreateProduct.resultItem=fieldsValues;
+                                                if(result.error) resultFindCreateProduct.error=result.error;
+                                                if(result.resultItem&&!result.error) {
+                                                    var insProdID=result.resultItem["ID"],insProdBarcode=result.resultItem["PBARCODE"];
+                                                    resultFindCreateProduct.resultItem["ID"]=insProdID;
+                                                    resultFindCreateProduct.resultItem["CODE"]=result.resultItem["CODE"];
+                                                    resultFindCreateProduct.resultItem["NAME"]=result.resultItem["CODE"];
+                                                    resultFindCreateProduct.resultItem["PRINT_NAME"]=result.resultItem["PRINT_NAME"];
+                                                    resultFindCreateProduct.resultItem["UM"]=result.resultItem["UM"];
+                                                    resultFindCreateProduct.resultItem["PBARCODE"]=result.resultItem["PBARCODE"];
+                                                    dir_products_barcodes.insDataItem({insData:{"PRODUCT_ID":insProdID,"BARCODE":insProdBarcode}},
                                                         function(result){
-                                                            if (result.error) {
-                                                                resultCallback({ error:"Failed find/create product size! Reason:"+result.error});
-                                                                return;
-                                                            }
-                                                            if (!result.resultItem) {
-                                                                resultCallback({ error:"Failed find/create product size! Reason: no result!"});
-                                                                return;
-                                                            }
-                                                            insProdData["SIZE_ID"]=result.resultItem["ID"];
-                                                            thisInstance.getDataItem({fieldFunction:{name:"MAXCODE", function:"maxPlus1", sourceField:"CODE"},
-                                                                    conditions:{"1=1":null}},
-                                                                function(result) {
-                                                                    var newCode = (result && result.item) ? result.item["MAXCODE"] : "";
-                                                                    insProdData["CODE"]=newCode;
-                                                                    var barcode=Math.pow(10,10)*23+newCode;
-                                                                    insProdData["PBARCODE"]=barcode;
-                                                                    thisInstance.insDataItemWithNewID({idFieldName:params.idFieldName,insData:insProdData},
-                                                                        function(result){
-                                                                            var resultFindCreate={};
-                                                                            resultFindCreate.resultItem=fieldsValues;
-                                                                            if(result.error) resultFindCreate.error=result.error;
-                                                                            if(result.resultItem&&!result.error) {
-                                                                                resultFindCreate.resultItem["ID"]=result.resultItem["ID"];
-                                                                                resultFindCreate.resultItem["CODE"]=result.resultItem["CODE"];
-                                                                                resultFindCreate.resultItem["NAME"]=result.resultItem["CODE"];
-                                                                                resultFindCreate.resultItem["PRINT_NAME"]=result.resultItem["PRINT_NAME"];
-                                                                                resultFindCreate.resultItem["UM"]=result.resultItem["UM"];
-                                                                                resultFindCreate.resultItem["PBARCODE"]=result.resultItem["PBARCODE"];
-                                                                            }
-                                                                            resultCallback(resultFindCreate);
-                                                                        });
-                                                                });
-
+                                                            if(result.error) resultFindCreateProduct.error=result.error;
+                                                            resultCallback(resultFindCreateProduct);
                                                         });
-                                                });
-                                        });
-                                    //dir_products_types.findDataItemByOrCreateNew({resultFields:["ID"], findByFields:["NAME"],
-                                    //        idFieldName:"ID", fieldsValues:{"NAME":fieldsValues["PRODUCT_TYPE"]}},
-                                    //    function(result){
-                                    //        if (result.error) {
-                                    //            resultCallback({ error:"Failed find/create product type! Reason:"+result.error});
-                                    //            return;
-                                    //        }
-                                    //        if (!result.resultItem) {
-                                    //            resultCallback({ error:"Failed find/create product type! Reason: no result!"});
-                                    //            return;
-                                    //        }
-                                    //        fieldsValues["PRODUCT_TYPE_ID"]=result.resultItem["ID"];
-                                    //    });
-                                });
-                        });
-                    //dir_products_barcodes,
-                    //dir_products_collections,
-                    //dir_products_genders,
-                    //dir_products_categories,
-                    //dir_products_subcategories,
-                    //dir_products_categories_subcategories
-                    return;
-                }
-                resultCallback({resultItem:result.item});
+                                                    return;
+                                                }
+                                                resultCallback(resultFindCreateProduct);
+                                            });
+                                    });
+                            });
+                    });
             });
     }
 };
