@@ -150,7 +150,7 @@ var serverConfigCommands = {
             console.log("authorizeAsAdmin");
         });
         var instance=this;
-        this.api.perform(function () {
+      //  this.api.perform(function () {
             instance.waitForElementVisible('@authAdminDialog')
                 .assert.containsText('@authAdminDialog', 'Admin authorisation')
                 .assert.visible('@authAdminDialog_AdminName')
@@ -160,7 +160,7 @@ var serverConfigCommands = {
                 .setValue('@authAdminDialog_AdminPas',rootPswd)                                   //root pswrd
                 .click('@authAdminDialog_submitBtn')
                 .waitForElementNotVisible('@authAdminDialog');
-        });
+       // });
         return instance;
     },
 

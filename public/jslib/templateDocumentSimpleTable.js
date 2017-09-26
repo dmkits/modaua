@@ -1,8 +1,8 @@
 /**
  * Created by dmkits on 18.12.16.
  */
-define(["dojo/_base/declare", "app", "templateDocumentBase", "hTableSimpleFiltered"],
-    function(declare, APP, DocumentBase, HTable) {
+define(["dojo/_base/declare", "app", "templateDocumentBase", "hTableSimpleFiltered","dijit/ProgressBar","dijit/Dialog","dijit/registry"],
+    function(declare, APP, DocumentBase, HTable, ProgressBar,Dialog,registry) {
         return declare("TemplateDocumentSimpleTable", [DocumentBase], {
             /*
             * args: {titleText, dataURL, dataURLCondition={...}, rightPane:true/false, rightPaneWidth, buttonUpdate, buttonPrint, printFormats={ ... } }
@@ -361,10 +361,28 @@ define(["dojo/_base/declare", "app", "templateDocumentBase", "hTableSimpleFilter
                 };
                 var selRowsAction= function(tableRowsDataForAction, dataInd, params, thisContentTable){                 //console.log("addContentTablePopupMenuItemForAction selRowsAction",tableRowsData);
                     var tableRowDataForAction=tableRowsDataForAction[dataInd];                                          //console.log("addContentTablePopupMenuItemForAction tableRowData",tableRowData);
+                    var progressBarDialog = registry.byId(thisContentTable.id + "_progressDialog");
+                    var progressBarForDialog = registry.byId(thisContentTable.id + "_progressBarForDialog");
                     if(!tableRowDataForAction){
+                        progressBarDialog.hide();
                         if (menuActionEndFunction) menuActionEndFunction(tableRowsDataForAction, params, thisContentTable);
                         return;
                     }
+                    if(dataInd==0) {
+                        if (!progressBarDialog) {
+                            progressBarDialog = new Dialog({id: thisContentTable.id + "_progressDialog", closable: false, title: "Подождите, пожалуйста, операция выполняется"});
+                          //  document.body.appendChild(progressBarDialog.domNode);
+                            thisContentTable.addChild(progressBarDialog);
+                        }
+                        if (!progressBarForDialog) {
+                            progressBarForDialog = new ProgressBar({id: thisContentTable.id +"_progressBarForDialog", style: "width: 300px"});
+                            progressBarDialog.addChild(progressBarForDialog);
+                        }else progressBarForDialog.set("value",0);
+
+                        progressBarForDialog.set("maximum", tableRowsDataForAction.length);
+                        progressBarDialog.show();
+                    }
+                    progressBarForDialog.set("value",dataInd);
                     selRowAction(tableRowDataForAction, params, thisContentTable,
                         /*postaction*/function(){
                             selRowsAction(tableRowsDataForAction,dataInd+1,params,thisContentTable);
