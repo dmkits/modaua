@@ -33,9 +33,14 @@ function initValidateDataModel(dataModelName, dataModel, errs, nextValidateDataM
         return;
     }
     validatedDataModels[dataModelName]=true;
+    if(dataModel.changeLog)
+        dataModelChanges= dataModelChanges.concat(dataModel.changeLog);
+    if(dataModel.doValidate){//if data model only inited
+        dataModel.doValidate(errs, nextValidateDataModelCallback);
+        return;
+    }
     var tableName, tableFieldsList=[],tableFields={}, idFieldName, joinedSources={};
     if(dataModel.changeLog){
-        dataModelChanges= dataModelChanges.concat(dataModel.changeLog);
         for(var i=0;i<dataModel.changeLog.length;i++){
             var changeLogItem=dataModel.changeLog[i];
             if(changeLogItem.tableName&&!tableName) tableName=changeLogItem.tableName;
@@ -67,7 +72,6 @@ function initValidateDataModel(dataModelName, dataModel, errs, nextValidateDataM
     } else if(dataModel.modelData) {
         //
     }
-
     dataModel.getDataItems= _getDataItems;
     dataModel.getDataItemsForSelect= _getDataItemsForSelect;
     dataModel.getDataItemsForTableCombobox= _getDataItemsForTableCombobox;
@@ -87,7 +91,6 @@ function initValidateDataModel(dataModelName, dataModel, errs, nextValidateDataM
     dataModel.updTableDataItem= _updTableDataItem;
     dataModel.storeTableDataItem= _storeTableDataItem;
     dataModel.delTableDataItem= _delTableDataItem;
-
     if(!tableName) {
         errs[dataModelName+"_initError"]="Failed init dataModel:"+dataModelName
             +"! Reason: no model table name!";                                                          log.error('FAILED init dataModel:'+dataModelName+"! Reason: no model table name!");//test
@@ -105,14 +108,17 @@ function initValidateDataModel(dataModelName, dataModel, errs, nextValidateDataM
     dataModel.fieldsMetadata=tableFields;
     dataModel.joinedSources=joinedSources;                                                              log.debug('Init data model '+dataModel.sourceType+":"+dataModel.source+" joined sources:",dataModel.joinedSources,{});//test
     if(!dataModel.idField)                                                                              log.warn('NO id filed name in data model '+dataModel.sourceType+":"+dataModel.source+"! Model cannot used functions insert/update/delete!");//test
-    var validateCondition={};
-    validateCondition[tableFieldsList[0]+" is NULL"]=null;
-    dataModel.getDataItems({conditions:validateCondition},function(result){
-        if(result.error) {                                                                              log.error('FAILED validate data model:'+dataModelName+"! Reason:"+result.error+"!");//test
-            errs[dataModelName+"_validateError"]="Failed validate dataModel:"+dataModelName+"! Reason:"+result.error;
-        }
-        nextValidateDataModelCallback();
-    });
+    var idIsNullCondition=tableFieldsList[0]+" is NULL";
+    var validateCondition={}; validateCondition[idIsNullCondition]=null;
+    dataModel.doValidate= function(errs, resultCallback){
+        dataModel.getDataItems({conditions:validateCondition},function(result){
+            if(result.error) {                                                                          log.error('FAILED validate data model:'+dataModelName+"! Reason:"+result.error+"!");//test
+                errs[dataModelName+"_validateError"]="Failed validate dataModel:"+dataModelName+"! Reason:"+result.error;
+            }
+            resultCallback();
+        });
+    };
+    dataModel.doValidate(errs, nextValidateDataModelCallback);
 }
 
 module.exports.initValidateDataModels=function(dataModelsList, errs, resultCallback){

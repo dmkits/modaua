@@ -6,9 +6,9 @@ var moment = require('moment'), fs = require('fs');
 var ENV=process.env.NODE_ENV; console.log("ENV=",ENV);
 
 var historyDir=__dirname+'./history/';
-if (!fs.existsSync(historyDir)){
-    fs.mkdirSync(historyDir);
-}
+//if (!fs.existsSync(historyDir)){
+//    fs.mkdirSync(historyDir);
+//}
 
 var now=moment().format('YYYY_MM_DD');
 var historyFileName=historyDir+now+"log";

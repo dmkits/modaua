@@ -602,7 +602,7 @@ module.exports.init = function(app){
                     });
             });
     };
-    dir_products_bata.findDataItemByOrCreateNew= function(params,resultCallback){
+    dir_products_bata.findDataItemByOrCreateNew= function(params,resultCallback){                   console.log("dir_products_bata.findDataItemByOrCreateNew",params);
         if (!params) {                                                                                      log.error("FAILED dir_products_bata.findDataItemByOrCreateNew! Reason: no parameters!");//test
             resultCallback({ error:"Failed find/create product! Reason:no function parameters!"});
             return;
@@ -628,7 +628,7 @@ module.exports.init = function(app){
         }
         if(!findCondition) findCondition={"1=0":null};
         this.getDataItem({fields:params.resultFields,conditions:findCondition},
-            function(result) {                                                                          console.log("dir_products_bata.findDataItemByOrCreateNew",params);
+            function(result) {                                                                          console.log("dir_products_bata.findDataItemByOrCreateNew getDataItem",params);
                 if (result.error) {
                     resultCallback({ error:"Failed find product! Reason:"+result.error});
                     return;
@@ -642,14 +642,14 @@ module.exports.init = function(app){
                 if(fieldsValues["UM"])insProdData["UM"]=fieldsValues["UM"];
                 if(fieldsValues["PBARCODE"])insProdData["PBARCODE"]=fieldsValues["PBARCODE"];
                 dir_products_bata.findOrCreateProdAttributes({prodData:fieldsValues},
-                    function(result){
+                    function(result){                                                                           console.log("dir_products_bata.findOrCreateProdAttributes result",result,{});
                         if (result.error) {
                             resultCallback({ error:"Failed find/create product! Reason:"+result.error});
                             return;
                         }
                         for(var resultItemName in result.resultItem) insProdData[resultItemName]=result.resultItem[resultItemName];
                         thisInstance.getProductBataGroupsIDs({prodData:fieldsValues},
-                            function(result){
+                            function(result){                                                                   console.log("dir_products_bata.getProductBataGroupsIDs result",result,{});
                                 if (result.error) {
                                     resultCallback({ error:"Failed find/create product! Reason:"+result.error});
                                     return;
@@ -661,7 +661,7 @@ module.exports.init = function(app){
                                         var newCode = (result && result.item) ? result.item["MAXCODE"] : "";
                                         insProdData["CODE"]=newCode;
                                         var barcode=Math.pow(10,10)*23+newCode;
-                                        insProdData["PBARCODE"]=barcode;
+                                        insProdData["PBARCODE"]=barcode;                                            console.log("dir_products_bata.findDataItemByOrCreateNew insProdData",insProdData,{});
                                         thisInstance.insDataItemWithNewID({idFieldName:params.idFieldName,insData:insProdData},
                                             function(result){
                                                 var resultFindCreateProduct={};

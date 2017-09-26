@@ -148,8 +148,6 @@ module.exports.init = function(app){
         {"data": "PINV_ID", "name": "PINV_ID", "width": 50, "type": "text", readOnly:true, visible:false},
         {"data": "POSIND", "name": "POSIND", "width": 45, "type": "numeric", visible:false},
         {"data": "POS", "name": "Номер п/п", "width": 45, "type": "numeric", dataFunction:"TRUNCATE(POSIND,0)"},
-        //{"data": "PRODUCT_ID", "name": "PRODUCT_ID", "width": 50, "type": "text", visible:false},
-
         {"data": "PRODUCT_GENDER_CODE", "name": "Код группы", "width": 65,
             "type": "combobox", "sourceURL":"/dir/products/getDataForOrderBataProductsGendersCombobox/genderCode",
             dataSource:"dir_products_genders", dataField:"CODE", linkCondition:"dir_products_genders.ID=dir_products.GENDER_ID" },
@@ -182,7 +180,6 @@ module.exports.init = function(app){
             dataSource:"dir_products_compositions", dataField:"VALUE", linkCondition:"dir_products_compositions.ID=dir_products.COMPOSITION_ID" },
         {"data": "PRODUCT_SIZE", "name": "Размер", "width": 80, "type": "text",
             dataSource:"dir_products_sizes", dataField:"VALUE", linkCondition:"dir_products_sizes.ID=dir_products.SIZE_ID" },
-
         {"data": "PRODUCT_CODE", "name": "Код товара", "width": 65, "type": "text", visible:false,
             dataSource:"dir_products", dataField:"CODE"},
         {"data": "BARCODE", "name": "Штрихкод", "width": 75, "type": "text", visible:false},
@@ -197,17 +194,17 @@ module.exports.init = function(app){
         {"data": "QTY", "name": "Кол-во", "width": 50, "type": "numeric"},
         {"data": "PRICE", "name": "Цена", "width": 60, "type": "numeric2"},
         {"data": "POSSUM", "name": "Сумма", "width": 80, "type": "numeric2"},
+        {"data": "BATCH_NUMBER", "name": "Партия", "width": 60, "type": "text", visible:false},
         {"data": "FACTOR", "name": "Коэфф.", "width": 60, "type": "numeric2"},
         {"data": "SALE_PRICE", "name": "Цена продажи", "width": 75, "type": "numeric2"},
         {"data": "PRICELIST_PRICE", "name": "Цена по прайс-листу", "width": 75, "type": "numeric2",
-            dataFunction:"0"},
-        {"data": "BATCH_NUMBER", "name": "BATCH_NUMBER", "width": 60, "type": "numeric", visible:false,
             dataFunction:"0"}
     ];
     app.get("/wrh/pInvoices/getDataForPInvProductsTable", function(req, res){
         wrh_pinvs_products.getDataForTable({tableColumns:wrhPInvProductsTableColumns,
                 identifier:wrhPInvProductsTableColumns[0].data,
-                conditions:req.query},
+                conditions:req.query,
+                order:["POSIND"]},
             function(result){
                 res.send(result);
             });
@@ -242,7 +239,6 @@ module.exports.init = function(app){
                 var prodID=result.resultItem["ID"];
                 storeData["PRODUCT_ID"]=prodID;
                 if(!storeData["BARCODE"])storeData["BARCODE"]=result.resultItem["PBARCODE"];
-
                 dir_products_batches.createNewBatch({prodData:{"PRODUCT_ID":prodID}},
                     function(result){
                         if(result.error) {
