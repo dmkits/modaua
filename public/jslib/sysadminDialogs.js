@@ -13,7 +13,6 @@ define([ "dijit/ConfirmDialog", "dojo/keys", "dojo/on", "dojo/domReady!"],
             makeDialog: function (params) {
                 var myDialog = new ConfirmDialog();
                 for (var paramName in params) {
-                    console.log("paramName=", paramName, params[paramName]);
                     myDialog.set(paramName, params[paramName]);
                 }
                 myDialog.on("keypress", function (event) {
