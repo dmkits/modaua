@@ -302,7 +302,6 @@ function getDataItemFromDatabase(dbQuery, outData, resultItemName, callback){
     })
 };
 
-
 module.exports.getDatabasesForUser= function(user,pswd,callback) {
     var dbListForUserConfig = {
         host: getDBConfig().host,
