@@ -272,7 +272,7 @@
                                     sa_serverConfig_configState.innerHTML = "<div><b style='color:red'>No connection to the server!</b></div>";
                                     return;
                                 }
-                                if (result.error) {                                                                      console.log("sa_serverConfig_PageContent.getServerConfiguration  result.error=",result.error);
+                                if (result.error) {
                                     sa_serverConfig_configState.innerHTML = "<div><b style='color:red'>Cannot get configuration parameters!</b> Reason:"+result.error+"</div>";
                                 }
                                 if(result.dbList){
