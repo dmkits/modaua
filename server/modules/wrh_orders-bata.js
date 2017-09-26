@@ -1,7 +1,6 @@
 var dataModel=require('../datamodel'), dateFormat = require('dateformat');
 var wrh_orders_bata= require(appDataModelPath+"wrh_orders_bata"),
     wrh_orders_bata_details= require(appDataModelPath+"wrh_orders_bata_details");
-//var wrhOrdersBataView= require(appDataModelPath+"wrh_orders_bata_view");
 var dir_units= require(appDataModelPath+"dir_units"),
     dir_contractors= require(appDataModelPath+"dir_contractors"),
     sys_currency= require(appDataModelPath+"sys_currency"),
@@ -14,9 +13,7 @@ var dir_products_articles= require(appDataModelPath+"dir_products_articles"),
 
 
 module.exports.validateModule = function(errs, nextValidateModuleCallback){
-    dataModel.initValidateDataModels({"wrh_orders_bata":wrh_orders_bata,
-            "wrh_orders_bata_details":wrh_orders_bata_details},
-        errs,
+    dataModel.initValidateDataModels([wrh_orders_bata,wrh_orders_bata_details, dir_products_articles], errs,
         function(){
             nextValidateModuleCallback();
         });

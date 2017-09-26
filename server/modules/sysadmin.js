@@ -7,12 +7,9 @@ var appParams=server.getAppStartupParams(), getServerConfig=server.getServerConf
 var getConfig=server.getConfig;
 var loadServerConfiguration=server.loadServerConfiguration;
 
-var util=require('../util');
-var database=require('../database');
+var util=require('../util'), database=require('../database');
 var appModules=require(appModulesPath), getValidateError=appModules.getValidateError;
-var dateFormat = require('dateformat');
-var cron = require('node-cron');
-var moment = require('moment');
+var dateFormat = require('dateformat'), cron = require('node-cron'), moment = require('moment');
 
 var dataModel=require('../datamodel');
 var changeLog= require(appDataModelPath+"change_log");
@@ -24,10 +21,8 @@ var sys_currency= require(appDataModelPath+"sys_currency"),
     sys_sync_output_data=require(appDataModelPath+"sys_sync_output_data");
 
 module.exports.validateModule = function(errs, nextValidateModuleCallback){
-    dataModel.initValidateDataModels({"change_log":changeLog,
-            "sys_docstates":sys_docstates,"sys_currency":sys_currency, "sys_sync_databases":sys_sync_databases,
-            "sys_sync_errors_log":sys_sync_errors_log,"sys_sync_incoming_data":sys_sync_incoming_data,
-            "sys_sync_output_data":sys_sync_output_data}, errs,
+    dataModel.initValidateDataModels([changeLog, sys_docstates,sys_currency,
+            sys_sync_databases, sys_sync_errors_log,sys_sync_incoming_data, sys_sync_output_data], errs,
         function(){
             nextValidateModuleCallback();
         });

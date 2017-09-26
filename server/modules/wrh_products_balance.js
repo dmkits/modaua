@@ -3,8 +3,7 @@ var dir_products_batches= require(appDataModelPath+"dir_products_batches");
 var server= require("../server"), log= server.log;
 
 module.exports.validateModule = function(errs, nextValidateModuleCallback){
-    dataModel.initValidateDataModels({"dir_products_batches":dir_products_batches},
-        errs,
+    dataModel.initValidateDataModels([dir_products_batches], errs,
         function(){
             nextValidateModuleCallback();
         });

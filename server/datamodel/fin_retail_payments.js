@@ -1,3 +1,4 @@
+module.exports.id=module.id;
 var changeLog = [
     { 'changeID':'fin_retail_payments__1', 'changeDatetime':'2016-09-26 21:31:00', 'changeObj':'model.fin_retail_payments',
         'changeVal':'CREATE TABLE fin_retail_payments(ID BIGINT UNSIGNED NOT NULL PRIMARY KEY) CHARACTER SET utf8',

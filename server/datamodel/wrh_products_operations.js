@@ -1,3 +1,4 @@
+module.exports.id=module.id;
 var changeLog = [
 { 'changeID':'wrh_products_operations_01', 'changeDatetime':'2017-06-13 13:20:00', 'changeObj':'model.wrh_products_operations',
     'changeVal':'CREATE VIEW wrh_products_operations(PRODUCT_ID, UNIT_ID, DOCCODE, DOCDATE, DOCNUMBER, DOCPOSIND, DOCOPERID, DOCQTY, BATCH_NUMBER, BATCH_QTY) '+

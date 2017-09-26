@@ -1,4 +1,5 @@
-var server= require("../server"), log= server.log, dateFormat = require('dateformat'),uid = require('uniqid');
+var server= require("../server"), log= server.log;
+var dateFormat = require('dateformat'),uid = require('uniqid'), path=require('path');
 
 var dataModelChanges= [], validatedDataModels={};
 module.exports.getModelChanges=function(){ return dataModelChanges; };
@@ -114,18 +115,19 @@ function initValidateDataModel(dataModelName, dataModel, errs, nextValidateDataM
     });
 }
 
-module.exports.initValidateDataModels=function(dataModels, errs, resultCallback){
-    var dataModelsList=[];
-    for(var dataModelName in dataModels) dataModelsList.push({name:dataModelName, dataModel:dataModels[dataModelName]});
-
+module.exports.initValidateDataModels=function(dataModelsList, errs, resultCallback){
     var validateDataModelCallback= function(dataModelsList, index, errs){
-        var dataModelListItem= dataModelsList[index];
-        if (!dataModelListItem) {
+        var dataModelInstance= dataModelsList[index];
+        if (!dataModelInstance) {
             resultCallback(errs);
             return;
         }
-        var dataModelName= dataModelListItem.name, dataModel=dataModelListItem.dataModel;
-        initValidateDataModel(dataModelName, dataModel, errs, function(){
+        if(!dataModelInstance.id){                                                                      log.error('FAILED validate data model without id! Data model instance:',dataModelInstance,{});//test
+            resultCallback(errs);
+            return;
+        }
+        var dataModelName=path.basename(dataModelInstance.id).replace('.js','');
+        initValidateDataModel(dataModelName, dataModelInstance, errs, function(){
             validateDataModelCallback(dataModelsList, index+1, errs);
         });
     };

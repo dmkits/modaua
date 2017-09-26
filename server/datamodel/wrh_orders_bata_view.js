@@ -1,3 +1,4 @@
+module.exports.id=module.id;
 var changeLog=[
     { "changeID":"wrh_orders_bata_v__1", "changeDatetime": "2017-08-16 16:30:00", "changeObj": "wrh_orders_bata_v",
         "changeVal": "CREATE VIEW wrh_orders_bata_v(ID, NUMBER, DOCDATE, SUPPLIER_ORDER_NUM, UNIT_NAME, SUPPLIER_NAME, DOCSUM, CURRENCY_CODE, DOCSTATE_NAME)AS"

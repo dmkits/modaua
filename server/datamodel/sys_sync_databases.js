@@ -1,3 +1,4 @@
+module.exports.id=module.id;
 var changeLog = [
 { 'changeID':'sys_sync_databases__1', 'changeDatetime':'2016-09-26 10:01:00', 'changeObj':'sys_sync_databases',
     'changeVal':'CREATE TABLE sys_sync_databases(ID BIGINT UNSIGNED NOT NULL PRIMARY KEY) CHARACTER SET utf8',

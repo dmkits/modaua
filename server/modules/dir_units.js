@@ -4,7 +4,7 @@ var dir_units= require(appDataModelPath+"dir_units"),
     dir_pricelists=require(appDataModelPath+"dir_pricelists");
 
 module.exports.validateModule = function(errs, nextValidateModuleCallback){
-    dataModel.initValidateDataModels({"dir_units":dir_units, "dir_pricelists":dir_pricelists}, errs,
+    dataModel.initValidateDataModels([dir_units, dir_pricelists], errs,
         function(){
             nextValidateModuleCallback();
         });

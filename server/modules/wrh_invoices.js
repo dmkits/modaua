@@ -5,8 +5,7 @@ var dir_units= require(appDataModelPath+"dir_units"), dir_contractors= require(a
     dirProdsCollections= require(appDataModelPath+"dir_products_collections");
 
 module.exports.validateModule = function(errs, nextValidateModuleCallback){
-    dataModel.initValidateDataModels({"wrh_invs":wrh_invs,"wrh_invs_products":wrh_invs_products},
-        errs,
+    dataModel.initValidateDataModels([wrh_invs,wrh_invs_products], errs,
         function(){
             nextValidateModuleCallback();
         });

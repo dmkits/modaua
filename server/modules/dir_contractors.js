@@ -2,7 +2,7 @@ var dataModel=require('../datamodel');
 var dirContractors= require(appDataModelPath+"dir_contractors");
 
 module.exports.validateModule = function(errs, nextValidateModuleCallback){
-    dataModel.initValidateDataModels({"dir_contractors":dirContractors}, errs,
+    dataModel.initValidateDataModels([dirContractors], errs,
         function(){
             nextValidateModuleCallback();
         });

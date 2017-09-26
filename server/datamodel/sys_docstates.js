@@ -1,3 +1,4 @@
+module.exports.id=module.id;
 var changeLog= [
     { "changeID":"sys_docstates__1", "changeDatetime":"2016-08-30 09:01:00", "changeObj":"sys_docstates",
         "changeVal":"CREATE TABLE sys_docstates(ID INTEGER NOT NULL PRIMARY KEY) CHARACTER SET utf8",

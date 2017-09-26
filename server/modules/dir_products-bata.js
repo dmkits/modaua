@@ -14,18 +14,11 @@ var dir_products_genders= require(appDataModelPath+"dir_products_genders-bata"),
 var server= require("../server"), log= server.log;
 
 module.exports.validateModule = function(errs, nextValidateModuleCallback){
-    dataModel.initValidateDataModels({"dir_products-bata":dir_products_bata,
-            "dir_products_barcodes":dir_products_barcodes,
-            "dir_products_articles":dir_products_articles,
-            "dir_products_types":dir_products_types,
-            "dir_products_kinds":dir_products_kinds,
-            "dir_products_compositions":dir_products_compositions,
-            "dir_products_sizes":dir_products_sizes,
-            "dir_products_collections":dir_products_collections,
-            "dir_products_genders-bata":dir_products_genders,
-            "dir_products_categories-bata":dir_products_categories,
-            "dir_products_subcategories-bata":dir_products_subcategories,
-            "dir_products_categories_subcategories-bata":dir_products_categories_subcategories},
+    dataModel.initValidateDataModels([dir_products_bata, dir_products_barcodes,
+            dir_products_articles, dir_products_collections,
+            dir_products_types,dir_products_kinds,dir_products_compositions,dir_products_sizes,
+            dir_products_genders, dir_products_categories, dir_products_subcategories,
+            dir_products_categories_subcategories],
         errs,
         function(){
             nextValidateModuleCallback();

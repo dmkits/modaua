@@ -1,3 +1,4 @@
+module.exports.id=module.id;
 var changeLog= [
     { "changeID":"chl__1", "changeDatetime":"2016-08-29 09:01:00",  "changeObj":"change_log",
         "changeVal":"CREATE TABLE change_log(" +

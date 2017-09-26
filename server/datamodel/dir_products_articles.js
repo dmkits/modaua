@@ -1,3 +1,4 @@
+module.exports.id=module.id;
 var changeLog=[
   { "changeID": "dir_products_articles__1", "changeDatetime": "2016-09-04 18:15:00", "changeObj": "dir_products_articles",
     "changeVal": "CREATE TABLE dir_products_articles(ID BIGINT UNSIGNED NOT NULL PRIMARY KEY) CHARACTER SET utf8",

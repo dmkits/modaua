@@ -1,3 +1,4 @@
+module.exports.id=module.id;
 var changeLog=[
   { "changeID": "dir_products_sizes__1", "changeDatetime": "2016-09-10 20:01:00", "changeObj": "dir_products_sizes",
   "changeVal": "CREATE TABLE dir_products_sizes(ID BIGINT UNSIGNED NOT NULL PRIMARY KEY) CHARACTER SET utf8",
@@ -9,7 +10,3 @@ var changeLog=[
     "changeVal": "ALTER TABLE dir_products_sizes ADD CONSTRAINT DIR_DIR_PRODUCTS_SIZES_VALUE_UNIQUE UNIQUE(VALUE)" }
 ];
 module.exports.changeLog=changeLog;
-
-var tableName="dir_products_sizes", tableFields=["ID","VALUE"], idField=tableFields[0];
-
-module.exports.modelData= {tableName:tableName, fields:tableFields, idField:idField};

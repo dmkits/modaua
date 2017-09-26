@@ -1,3 +1,4 @@
+module.exports.id=module.id;
 var changeLog = [
     { 'changeID':'wrh_inv_products_wob__1', 'changeDatetime':'2017-06-09 14:01:00', 'changeObj':'model.wrh_inv_products_wob',
         'changeVal':'CREATE TABLE wrh_inv_products_wob(ID BIGINT UNSIGNED NOT NULL PRIMARY KEY) CHARACTER SET utf8',

@@ -1,4 +1,4 @@
-
+module.exports.id=module.id;
 var changeLog = [
     { 'changeID':'wrh_ret_pinvs_products__1', 'changeDatetime':'2017-09-19 11:31:00', 'changeObj':'wrh_ret_pinvs_products',
         'changeVal':'CREATE TABLE wrh_ret_pinvs_products(ID BIGINT UNSIGNED NOT NULL PRIMARY KEY) CHARACTER SET utf8',

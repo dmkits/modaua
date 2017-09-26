@@ -1,4 +1,4 @@
-
+module.exports.id=module.id;
 var changeLog=[
     { "changeID": "dir_products_batches__1","changeDatetime":"2017-06-09 11:01:00", "changeObj": "dir_products_batches",
         "changeVal": "CREATE TABLE dir_products_batches(BATCH_NUMBER INTEGER UNSIGNED NOT NULL) CHARACTER SET utf8",

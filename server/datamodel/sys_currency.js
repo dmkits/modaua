@@ -1,5 +1,5 @@
+module.exports.id=module.id;
 var changeLog= [
-
     { "changeID":"sys_currency__1", "changeDatetime":"2016-08-30 09:41:00", "changeObj":"sys_currency",
         "changeVal":"CREATE TABLE sys_currency(ID INTEGER NOT NULL PRIMARY KEY) CHARACTER SET utf8",
         "tableName":"sys_currency", "field":"ID", "id":"ID" },
