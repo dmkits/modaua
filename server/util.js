@@ -58,3 +58,21 @@ module.exports.sortArray=function(arr){
     arr.sort(compareBychangeDatetime);
     return arr;
 };
+/***
+ * @param barcode
+ * @param callback
+ * @returns {*}
+ */
+module.exports.getControlBarcodeFigure=function(barcode){
+    var barcodeStr=barcode.toString();
+    if(barcodeStr.length!=12) return null;
+    var splittedBarcode=barcodeStr.split('');
+    var oddSum=0, evenSum=0;
+    for(var i in splittedBarcode){
+       var fig=parseInt(splittedBarcode[i]);
+        if(i%2==0)oddSum = oddSum+fig;
+        else evenSum = evenSum+fig;
+    }
+    var controlFigure =10-((evenSum*3)+oddSum)%10;
+       return controlFigure;
+};
