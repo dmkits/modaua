@@ -547,7 +547,7 @@ module.exports.init = function(app){
                 }
                 dir_products_articles.findDataItemByOrCreateNew({resultFields:["ID"], findByFields:["VALUE"],
                         idFieldName:"ID", fieldsValues:{"VALUE":prodData["ARTICLE"]}},
-                    function(result){                                                           console.log("dir_products_bata.findDataItemByOrCreateNew PRODUCT_ARTICLE result",result);
+                    function(result){
                         if (result.error) {
                             resultCallback({ error:"Failed find/create product article! Reason:"+result.error});
                             return;
@@ -555,7 +555,7 @@ module.exports.init = function(app){
                         if (!result.resultItem) {
                             resultCallback({ error:"Failed find/create product article! Reason: no result!"});
                             return;
-                        }                                                                                   console.log("dir_products_bata.findDataItemByOrCreateNew PRODUCT_ARTICLE resultItem",result.resultItem);
+                        }
                         resultData["ARTICLE_ID"]=result.resultItem["ID"];
                         dir_products_kinds.findDataItemByOrCreateNew({resultFields:["ID"], findByFields:["NAME"],
                                 idFieldName:"ID", fieldsValues:{"NAME":prodData["KIND"]}},
@@ -628,7 +628,7 @@ module.exports.init = function(app){
         }
         if(!findCondition) findCondition={"1=0":null};
         this.getDataItem({fields:params.resultFields,conditions:findCondition},
-            function(result) {                                                                          console.log("dir_products_bata.findDataItemByOrCreateNew",params);
+            function(result) {
                 if (result.error) {
                     resultCallback({ error:"Failed find product! Reason:"+result.error});
                     return;

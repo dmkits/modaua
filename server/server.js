@@ -5,32 +5,18 @@ var moment = require('moment'), fs = require('fs');
 
 var ENV=process.env.NODE_ENV; console.log("ENV=",ENV);
 
-var logDir=__dirname+'/../logs/';
-try {
-    if (!fs.existsSync(logDir)) {
-        fs.mkdirSync(logDir);
-    }
-}catch (e){
-    console.log('Impossible to create log directory! Reason:'+e)
-}
+var historyDir=__dirname+'./history/';
+//if (!fs.existsSync(historyDir)){
+//    fs.mkdirSync(historyDir);
+//}
 
 var now=moment().format('YYYY_MM_DD');
-var logFileName=logDir+'log_'+now+".log";
-try {
-    if (!fs.existsSync(logFileName)) {
-        fs.writeFileSync(logFileName, "");
-    }
-} catch (e) {
-    console.log('Impossible to create log file! Reason:' + e)
-}
+var historyFileName=historyDir+now+"log";
 
 
-//log.on('info', function (transport, level, msg, meta) {
-//    console.log("logging at transport, level, msg, meta)",transport,level,msg,meta);
-//});
 
 if (!appStartupParams.logToConsole) {
-    log.add(log.transports.File, {filename: logFileName, level:ENV=='development'?'silly':'info', timestamp: function() {
+    log.add(log.transports.File, {filename: historyFileName, level:ENV=='development'?'silly':'info', timestamp: function() {
         return dateformat(Date.now(), "yyyy-mm-dd HH:MM:ss.l");
     } });
     log.remove(log.transports.Console);
@@ -42,12 +28,7 @@ if (!appStartupParams.logToConsole) {
             } })
         ]
     });
-}                                                                              log.info('STARTING at', startDateTime );//test
-
-//log.on('logging', function (transport, level, msg, meta) {
-//    console.log("logging at transport, level, msg, meta)",transport,level,msg,meta);
-//});
-
+}                                                                                                   log.info('STARTING at', startDateTime );//test
 module.exports.log=log;                                                                             log.info('dateformat, winston util loaded' );//test
 
 module.exports.getAppStartupParams = function(){
