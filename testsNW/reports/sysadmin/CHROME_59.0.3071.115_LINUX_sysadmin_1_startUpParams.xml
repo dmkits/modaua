@@ -1,49 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <testsuites errors="0"
-            failures="0"
+            failures="1"
             tests="24">
 
   <testsuite name="sysadmin.sysadmin_1_startUpParams"
-    errors="0" failures="0" hostname="" id="" package="sysadmin" skipped="0"
-    tests="24" time="165.4" timestamp="Mon, 11 Sep 2017 06:51:18 GMT">
+    errors="0" failures="1" hostname="" id="" package="sysadmin" skipped="4"
+    tests="24" time="106.4" timestamp="Tue, 26 Sep 2017 07:23:07 GMT">
   
-    <testcase name="Open  browser" classname="sysadmin.sysadmin_1_startUpParams" time="4.027" assertions="0">
+    <testcase name="Open  browser" classname="sysadmin.sysadmin_1_startUpParams" time="3.897" assertions="0">
     </testcase>
   
-    <testcase name="step_0.1 Login and Enter test params" classname="sysadmin.sysadmin_1_startUpParams" time="5.630" assertions="7">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    </testcase>
-  
-    <testcase name="step_1 Sysadmin Header If  All Elements Visible Tests" classname="sysadmin.sysadmin_1_startUpParams" time="3.370" assertions="15">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
+    <testcase name="step_0.1 Login and Enter test params" classname="sysadmin.sysadmin_1_startUpParams" time="7.831" assertions="7">
 
     
 
@@ -60,21 +27,7 @@
     
     </testcase>
   
-    <testcase name="step_2 Check initial DB Config Tests" classname="sysadmin.sysadmin_1_startUpParams" time="2.248" assertions="22">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
+    <testcase name="step_1 Sysadmin Header If  All Elements Visible Tests" classname="sysadmin.sysadmin_1_startUpParams" time="3.726" assertions="15">
 
     
 
@@ -107,85 +60,7 @@
     
     </testcase>
   
-    <testcase name="step_3 drop DB" classname="sysadmin.sysadmin_1_startUpParams" time="4.011" assertions="10">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    </testcase>
-  
-    <testcase name="step_4 Sysadmin Header when BD dropped Tests" classname="sysadmin.sysadmin_1_startUpParams" time="0.4550" assertions="9">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    </testcase>
-  
-    <testcase name="step_5 Enter INVALID DB Config values Tests" classname="sysadmin.sysadmin_1_startUpParams" time="9.842" assertions="39">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
+    <testcase name="step_2 Check initial DB Config Tests" classname="sysadmin.sysadmin_1_startUpParams" time="3.270" assertions="22">
 
     
 
@@ -232,7 +107,59 @@
     
     </testcase>
   
-    <testcase name="step_6 DB Empty Values for AuthAdmin Dialog " classname="sysadmin.sysadmin_1_startUpParams" time="5.693" assertions="35">
+    <testcase name="step_3 drop DB" classname="sysadmin.sysadmin_1_startUpParams" time="6.178" assertions="10">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="step_4 Sysadmin Header when BD dropped Tests" classname="sysadmin.sysadmin_1_startUpParams" time="0.5250" assertions="9">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="step_5 Enter INVALID DB Config values Tests" classname="sysadmin.sysadmin_1_startUpParams" time="13.68" assertions="39">
+
+    
+
+    
+
+    
+
+    
 
     
 
@@ -305,7 +232,80 @@
     
     </testcase>
   
-    <testcase name="step_7 DB Button Actions Tests Create DB" classname="sysadmin.sysadmin_1_startUpParams" time="2.311" assertions="20">
+    <testcase name="step_6 DB Empty Values for AuthAdmin Dialog " classname="sysadmin.sysadmin_1_startUpParams" time="5.638" assertions="35">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="step_7 DB Button Actions Tests Create DB" classname="sysadmin.sysadmin_1_startUpParams" time="2.287" assertions="20">
 
     
 
@@ -348,7 +348,7 @@
     
     </testcase>
   
-    <testcase name="step_7.1 DB Button Actions Tests Try to create DB when it is already exists" classname="sysadmin.sysadmin_1_startUpParams" time="1.574" assertions="16">
+    <testcase name="step_7.1 DB Button Actions Tests Try to create DB when it is already exists" classname="sysadmin.sysadmin_1_startUpParams" time="1.621" assertions="16">
 
     
 
@@ -383,7 +383,7 @@
     
     </testcase>
   
-    <testcase name="step_7.2 DB Button Actions drop DB" classname="sysadmin.sysadmin_1_startUpParams" time="1.621" assertions="16">
+    <testcase name="step_7.2 DB Button Actions drop DB" classname="sysadmin.sysadmin_1_startUpParams" time="1.692" assertions="16">
 
     
 
@@ -418,7 +418,7 @@
     
     </testcase>
   
-    <testcase name="step_7.2.1 try to drop DB when DB not exists" classname="sysadmin.sysadmin_1_startUpParams" time="1.548" assertions="15">
+    <testcase name="step_7.2.1 try to drop DB when DB not exists" classname="sysadmin.sysadmin_1_startUpParams" time="1.505" assertions="15">
 
     
 
@@ -451,50 +451,7 @@
     
     </testcase>
   
-    <testcase name="step_7.3 DB Try to backup DB(with schema) when DB is not exists" classname="sysadmin.sysadmin_1_startUpParams" time="3.033" assertions="20">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    </testcase>
-  
-    <testcase name="step_7.4 DB Try to backup DB(data only) when DB is not exists" classname="sysadmin.sysadmin_1_startUpParams" time="2.695" assertions="20">
+    <testcase name="step_7.3 DB Try to backup DB(with schema) when DB is not exists" classname="sysadmin.sysadmin_1_startUpParams" time="3.071" assertions="20">
 
     
 
@@ -537,42 +494,7 @@
     
     </testcase>
   
-    <testcase name="step_7.5 DB Try to drop DB when DB is not exists" classname="sysadmin.sysadmin_1_startUpParams" time="1.530" assertions="16">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    </testcase>
-  
-    <testcase name="step_7.6 DB Try to restore DB when DB is not exists" classname="sysadmin.sysadmin_1_startUpParams" time="2.904" assertions="20">
+    <testcase name="step_7.4 DB Try to backup DB(data only) when DB is not exists" classname="sysadmin.sysadmin_1_startUpParams" time="2.852" assertions="20">
 
     
 
@@ -615,57 +537,7 @@
     
     </testcase>
   
-    <testcase name="step_8 create  DB" classname="sysadmin.sysadmin_1_startUpParams" time="1.571" assertions="10">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    </testcase>
-  
-    <testcase name="step_9 try to create  DB when DB exists" classname="sysadmin.sysadmin_1_startUpParams" time="1.228" assertions="9">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    </testcase>
-  
-    <testcase name="step_10 restore DB with schema Tests" classname="sysadmin.sysadmin_1_startUpParams" time="12.42" assertions="19">
-
-    
-
-    
-
-    
+    <testcase name="step_7.5 DB Try to drop DB when DB is not exists" classname="sysadmin.sysadmin_1_startUpParams" time="1.575" assertions="16">
 
     
 
@@ -700,21 +572,7 @@
     
     </testcase>
   
-    <testcase name="step_11 backup DB (data only) Tests" classname="sysadmin.sysadmin_1_startUpParams" time="4.041" assertions="27">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
+    <testcase name="step_7.6 DB Try to restore DB when DB is not exists" classname="sysadmin.sysadmin_1_startUpParams" time="2.949" assertions="20">
 
     
 
@@ -757,11 +615,51 @@
     
     </testcase>
   
-    <testcase name="step_12 backup DB (with schema) Tests" classname="sysadmin.sysadmin_1_startUpParams" time="2.738" assertions="21">
+    <testcase name="step_8 create  DB" classname="sysadmin.sysadmin_1_startUpParams" time="1.552" assertions="10">
 
     
 
     
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="step_9 try to create  DB when DB exists" classname="sysadmin.sysadmin_1_startUpParams" time="1.277" assertions="9">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="step_10 restore DB with schema Tests" classname="sysadmin.sysadmin_1_startUpParams" time="32.49" assertions="19">
 
     
 
@@ -802,7 +700,7 @@
     
     </testcase>
   
-    <testcase name="step_13 restore DB(data only) Tests" classname="sysadmin.sysadmin_1_startUpParams" time="22.97" assertions="19">
+    <testcase name="step_11 backup DB (data only) Tests" classname="sysadmin.sysadmin_1_startUpParams" time="8.818" assertions="21">
 
     
 
@@ -841,36 +739,8 @@
     
 
     
-    </testcase>
-  
-    <testcase name="step_14 test databases list visible" classname="sysadmin.sysadmin_1_startUpParams" time="6.803" assertions="8">
 
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    </testcase>
-  
-    <testcase name="Validate DB and check Validation State" classname="sysadmin.sysadmin_1_startUpParams" time="61.14" assertions="5">
-
-    
-
-    
-
-    
-
-    
+      <failure message="Timed out while waiting for element &lt;#rewriteBackupDialog&gt; to be visible for 5000 milliseconds.">    at Object.step_11 backup DB (data only) Tests (/home/ianagez/IdeaProjects/modaua/testsNW/tests/sysadmin/sysadmin_1_startUpParams.js:400:14)</failure>
 
     
     </testcase>
@@ -878,6 +748,28 @@
 
   
 
+  
+    
+    <testcase
+      name="step_12 backup DB (with schema) Tests" classname="sysadmin.sysadmin_1_startUpParams">
+      <skipped />
+    </testcase>
+    
+    <testcase
+      name="step_13 restore DB(data only) Tests" classname="sysadmin.sysadmin_1_startUpParams">
+      <skipped />
+    </testcase>
+    
+    <testcase
+      name="step_14 test databases list visible" classname="sysadmin.sysadmin_1_startUpParams">
+      <skipped />
+    </testcase>
+    
+    <testcase
+      name="Validate DB and check Validation State" classname="sysadmin.sysadmin_1_startUpParams">
+      <skipped />
+    </testcase>
+    
   
   </testsuite>
 </testsuites>

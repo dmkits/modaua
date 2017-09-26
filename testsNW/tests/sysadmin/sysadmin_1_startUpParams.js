@@ -91,7 +91,9 @@ module.exports = {
         serverConfig
             .waitForElementVisible('@localConfigInfo')
             .assert.containsText('@localConfigInfo', "Configuration loaded.")
-            .click('@loadSettingsBtn')
+            .click('@loadSettingsBtn');
+        browser.pause(1000);
+        serverConfig
             .assert.containsText('@localConfigInfo', "Configuration reloaded.")
             .waitForElementVisible('@dbHostInput')
     },
@@ -149,12 +151,16 @@ module.exports = {
             .setValue('@dbNameInput', 'GMSSample38xml_false')
             .click('@StoreAndReconnectBtn')
             .waitForElementVisible('@localConfigInfo')
-            .assert.containsText('@localConfigInfo', "Configuration sav")
+            .assert.containsText('@localConfigInfo', "Configuration sav");
+        browser.pause(1000);
+        serverConfig
             .assert.containsText('@localConfigInfo', "Failed to connect to database!");
 
         sysadminHeader.waitForElementVisible('@dbName')
             .assert.containsText("@dbName", "GMSSample38xml_false")
-            .waitForElementVisible('@dbConnectionState')
+            .waitForElementVisible('@dbConnectionState');
+        browser.pause(1000);
+        sysadminHeader
             .assert.containsText("@dbConnectionState", "Failed to connect to database!");
 
         serverConfig
@@ -166,7 +172,9 @@ module.exports = {
 
         sysadminHeader.waitForElementVisible('@dbUser')
             .assert.containsText("@dbUser", "sa1")
-            .waitForElementVisible('@dbConnectionState')
+            .waitForElementVisible('@dbConnectionState');
+        browser.pause(1000);
+        sysadminHeader
             .assert.containsText("@dbConnectionState", "Failed to connect to database!");
 
         serverConfig.setInitialDBConfig()
@@ -176,7 +184,9 @@ module.exports = {
             .click('@StoreAndReconnectBtn');
 
         sysadminHeader
-            .waitForElementVisible('@dbConnectionState')
+            .waitForElementVisible('@dbConnectionState');
+        browser.pause(1000);
+        sysadminHeader
             .assert.containsText("@dbConnectionState", "Failed to connect to database!");
 
         serverConfig
@@ -297,7 +307,7 @@ module.exports = {
             .assert.visible("@backupDialog")
             .assert.visible("@backupFileName")
             .clearValue("@backupFileName")
-            .setValue("@backupFileName", "test_DB")
+            .setValue("@backupFileName", "test_DB_data")
             .submitDialog('@backupDialog')
             .waitForElementVisible('@backupDataResultField')
             .assert.containsText('@backupDataResultField', 'FAIL!')
@@ -362,7 +372,7 @@ module.exports = {
             .submitDialog('@restoreDialog')
             .waitForElementVisible('@restoreDBResultField', 10000)
             .assert.containsText('@restoreDBResultField', 'Restoring started...');
-        browser.pause(10000);
+        browser.pause(30000);
         serverConfig
             .assert.containsText('@restoreDBResultField', 'restored successfully!')
     },
@@ -385,7 +395,7 @@ module.exports = {
 
         serverConfig
             .clearValue("@backupFileName")
-            .setValue("@backupFileName", "test_DB")
+            .setValue("@backupFileName", "test_DB_data")
             .submitDialog('@backupDialog')
             .waitForElementVisible('@rewriteBackupDialog')
             .submitDialog('@rewriteBackupDialog')
@@ -411,7 +421,7 @@ module.exports = {
 
         serverConfig
             .clearValue("@backupFileName")
-            .setValue("@backupFileName", "test_DB_data")
+            .setValue("@backupFileName", "test_DB")
             .submitDialog('@backupDialog')
             .waitForElementVisible('@backupDBResultField', 20000)
             .assert.containsText('@backupDBResultField', 'backup saved');
@@ -458,12 +468,14 @@ module.exports = {
             .waitForElementVisible('@btnDatabase')
             .click('@btnDatabase');
         database
+            //.waitForElementVisible('@clickRefreshBtn')
+            .clickRefreshBtn('@clickRefreshBtn')
             .waitForElementVisible('@currentChangesTable')
             .moveToCell('@currentChangesTable', 1, 1)
             .mouseButtonClick('right')
             .waitForElementVisible('@applyAllChangesDialog')
             .click('@applyAllChangesDialog');
-        browser.pause(60000);
+        browser.pause(100000);
 
         sysadminHeader
             .assert.containsText('@dbValidateState','success');

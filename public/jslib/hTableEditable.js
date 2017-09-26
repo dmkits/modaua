@@ -1,7 +1,7 @@
 /**
  * Created by dmkits on 16.02.17.
  */
-define(["dojo/_base/declare", "hTableSimpleFiltered","dijit/ProgressBar","dijit/Dialog", "request"], function(declare, hTableSimpleFiltered,ProgressBar,Dialog, Request){
+define(["dojo/_base/declare", "hTableSimpleFiltered","dijit/ProgressBar","dijit/Dialog", "dijit/registry", "request"], function(declare, hTableSimpleFiltered,ProgressBar,Dialog,registry, Request){
     return declare("HTableEditable", [hTableSimpleFiltered], {
         allowEditRowProp:"<!$allow_edit$!>",
         constructor: function(args,parentName){
@@ -170,13 +170,6 @@ define(["dojo/_base/declare", "hTableSimpleFiltered","dijit/ProgressBar","dijit/
                     parent.onChangeRowsData(changedRows);
                 }
             });
-            //storeTableRowsDialog storeTableRowsDialogProgressBar
-            this.storeTableRowsDialogProgressBar=new ProgressBar({style: "width: 300px"});
-            this.storeTableRowsDialog=new Dialog({closable:false, title:"Подождите, пожалуйста, операция выполняется"});
-            this.storeTableRowsDialog.addChild(this.storeTableRowsDialogProgressBar);
-            this.storeTableRowsDialogProgressBar.startup();
-            this.storeTableRowsDialog.startup();
-            document.body.appendChild(this.storeTableRowsDialog.domNode);
         },
         postCreate : function() {
             this.createHandsonTable();
@@ -576,19 +569,30 @@ define(["dojo/_base/declare", "hTableSimpleFiltered","dijit/ProgressBar","dijit/
             }
             params.callUpdateContent=false;
             var thisInstance= this;
-            thisInstance.storeTableRowsDialogProgressBar.set("maximum",storingRowData.length);
             var storeRowDataCallback= function(rowInd){
                 params.rowData=storingRowData[rowInd];
+                var storeTableRowsDialog = registry.byId(thisInstance.id + "_storeTableRowsDialog");
+                var storeTableRowsDialogProgressBar = registry.byId(thisInstance.id + "_storeTableRowsDialogProgressBar");
                 if (!params.rowData) {
-                    thisInstance.storeTableRowsDialog.hide();
+                    storeTableRowsDialog.hide();
                     thisInstance.setSelection();
                     thisInstance.onUpdateContent({changedRows:storingRowData});
                     return;
                 }
                 if(rowInd===0){
-                    thisInstance.storeTableRowsDialog.show();
+                    if (!storeTableRowsDialog) {
+                        storeTableRowsDialog = new Dialog({id: thisInstance.id + "_storeTableRowsDialog", closable: false, title: "Подождите, пожалуйста, операция выполняется"});
+                          document.body.appendChild(storeTableRowsDialog.domNode);
+                    }
+                    if (!storeTableRowsDialogProgressBar) {
+                        storeTableRowsDialogProgressBar = new ProgressBar({id: thisInstance.id +"_storeTableRowsDialogProgressBar", style: "width: 300px"});
+                        storeTableRowsDialog.addChild(storeTableRowsDialogProgressBar);
+                    }else storeTableRowsDialogProgressBar.set("value",0);
+
+                    storeTableRowsDialogProgressBar.set("maximum", storingRowData.length);
+                    storeTableRowsDialog.show();
                 }
-                thisInstance.storeTableRowsDialogProgressBar.set({value: rowInd});
+                storeTableRowsDialogProgressBar.set({value: rowInd});
                 thisInstance.storeRowDataByURL(params,
                     /*postCallback*/function(){
                         storeRowDataCallback(rowInd+1);
@@ -596,7 +600,6 @@ define(["dojo/_base/declare", "hTableSimpleFiltered","dijit/ProgressBar","dijit/
             };
             storeRowDataCallback(0);
         },
-
         /*
          * params: {url, condition, rowData, consoleLog, callUpdateContent}
          */

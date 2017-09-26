@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <testsuites errors="0"
-            failures="0"
+            failures="1"
             tests="9">
 
   <testsuite name="sysadmin.sysadmin_2_databasePageTest"
-    errors="0" failures="0" hostname="" id="" package="sysadmin" skipped="0"
-    tests="9" time="53.81" timestamp="Fri, 01 Sep 2017 11:39:06 GMT">
+    errors="0" failures="1" hostname="" id="" package="sysadmin" skipped="7"
+    tests="9" time="18.82" timestamp="Mon, 25 Sep 2017 15:33:14 GMT">
   
-    <testcase name="step_1 login AS ADMIN Drop AND create new DB" classname="sysadmin.sysadmin_2_databasePageTest" time="11.47" assertions="23">
+    <testcase name="step_1 login AS ADMIN Drop AND create new DB" classname="sysadmin.sysadmin_2_databasePageTest" time="11.51" assertions="23">
 
     
 
@@ -56,7 +56,7 @@
     
     </testcase>
   
-    <testcase name="step_2 Assert first raw in  ChangeLog table contains values Tests" classname="sysadmin.sysadmin_2_databasePageTest" time="3.297" assertions="29">
+    <testcase name="step_2 Assert first raw in  ChangeLog table contains values Tests" classname="sysadmin.sysadmin_2_databasePageTest" time="7.315" assertions="18">
 
     
 
@@ -90,207 +90,52 @@
 
     
 
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
+      <failure message="Timed out while waiting for element &lt;//div[@id='sysadmin_database_TableCurrentChanges']//div[@class='ht_master handsontable']//table[@class='htCore']//tbody/tr[1]/td[1]&gt; to be present for 5000 milliseconds.">    at Object.assertCellContainsText (/home/ianagez/IdeaProjects/modaua/testsNW/page_objects/database.js:26:14)
+    at Object.step_2 Assert first raw in  ChangeLog table contains values Tests (/home/ianagez/IdeaProjects/modaua/testsNW/tests/sysadmin/sysadmin_2_databasePageTest.js:55:14)</failure>
 
     
     </testcase>
   
-    <testcase name="step_3 Select and apply first 3 rows" classname="sysadmin.sysadmin_2_databasePageTest" time="6.829" assertions="3">
 
-    
+  
 
+  
     
-
-    
+    <testcase
+      name="step_3 Select and apply first 3 rows" classname="sysadmin.sysadmin_2_databasePageTest">
+      <skipped />
     </testcase>
-  
-    <testcase name="step_4 Assert rows applied" classname="sysadmin.sysadmin_2_databasePageTest" time="0.5290" assertions="6">
-
     
-
-    
-
-    
-
-    
-
-    
-
-    
+    <testcase
+      name="step_4 Assert rows applied" classname="sysadmin.sysadmin_2_databasePageTest">
+      <skipped />
     </testcase>
-  
-    <testcase name="step_5 Assert rows not in the Current Changes table after refresh" classname="sysadmin.sysadmin_2_databasePageTest" time="6.732" assertions="14">
-
     
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
+    <testcase
+      name="step_5 Assert rows not in the Current Changes table after refresh" classname="sysadmin.sysadmin_2_databasePageTest">
+      <skipped />
     </testcase>
-  
-    <testcase name="step_6 Assert the aaplied rows are visible in changeLog table" classname="sysadmin.sysadmin_2_databasePageTest" time="2.750" assertions="23">
-
     
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
+    <testcase
+      name="step_6 Assert the aaplied rows are visible in changeLog table" classname="sysadmin.sysadmin_2_databasePageTest">
+      <skipped />
     </testcase>
-  
-    <testcase name="step_7 Select and apply one more row" classname="sysadmin.sysadmin_2_databasePageTest" time="10.84" assertions="3">
-
     
-
-    
-
-    
+    <testcase
+      name="step_7 Select and apply one more row" classname="sysadmin.sysadmin_2_databasePageTest">
+      <skipped />
     </testcase>
-  
-    <testcase name="step_8 Assert the applied row are no more visible in current Change table" classname="sysadmin.sysadmin_2_databasePageTest" time="6.778" assertions="14">
-
     
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
+    <testcase
+      name="step_8 Assert the applied row are no more visible in current Change table" classname="sysadmin.sysadmin_2_databasePageTest">
+      <skipped />
     </testcase>
-  
-    <testcase name="step_9 Assert the row visible in changeLog table" classname="sysadmin.sysadmin_2_databasePageTest" time="4.579" assertions="12">
-
     
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
+    <testcase
+      name="step_9 Assert the row visible in changeLog table" classname="sysadmin.sysadmin_2_databasePageTest">
+      <skipped />
     </testcase>
-  
-
-  
-
+    
   
   </testsuite>
 </testsuites>
