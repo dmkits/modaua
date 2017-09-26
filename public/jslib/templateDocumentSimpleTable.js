@@ -371,8 +371,7 @@ define(["dojo/_base/declare", "app", "templateDocumentBase", "hTableSimpleFilter
                     if(dataInd==0) {
                         if (!progressBarDialog) {
                             progressBarDialog = new Dialog({id: thisContentTable.id + "_progressDialog", closable: false, title: "Подождите, пожалуйста, операция выполняется"});
-                          //  document.body.appendChild(progressBarDialog.domNode);
-                            thisContentTable.addChild(progressBarDialog);
+                            document.body.appendChild(progressBarDialog.domNode);
                         }
                         if (!progressBarForDialog) {
                             progressBarForDialog = new ProgressBar({id: thisContentTable.id +"_progressBarForDialog", style: "width: 300px"});
