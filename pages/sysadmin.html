@@ -34,6 +34,7 @@
                     <td><button id="sysadmin_btnDatabase">Database</button></td>
                     <td><button id="sysadmin_btnAppModelSettings">AppModelSettings</button></td>
                     <td><button id="sysadmin_btnSynchronization">Synchronization</button></td>
+                    <td><button id="sysadmin_btnLogs">Logs</button></td>
                     <td width="500px"></td>
                     <td><button id="btnLogout">Logout</button></td>
                 </tr>
@@ -66,6 +67,8 @@
                 functionalButtons.push(sysadmin_btnAppModelSettings);
                 var sysadmin_btnSynchronization=new ToggleButton({id:"sysadmin_btnSynchronization",iconClass:'dijitCheckBoxIcon'},"sysadmin_btnSynchronization" );
                 functionalButtons.push(sysadmin_btnSynchronization);
+                var sysadmin_btnLogs=new ToggleButton({id:"sysadmin_btnLogs",iconClass:'dijitCheckBoxIcon'},"sysadmin_btnLogs" );
+                functionalButtons.push(sysadmin_btnLogs);
                 var btnLogout = new ToggleButton({id:"btnLogout"},"btnLogout");
                 var sysadmin_ContentContainer = APP.instanceForID("sysadmin_ContentContainer",
                         StackContainer, {region: "center", tabPosition: "top", class: "sysadmin_Content"});
@@ -196,6 +199,12 @@
                             "Synchronization", false, "/sysadmin/synchronization");
                     checkButton(this);
                 };
+                sysadmin_btnLogs.onClick=function(){
+                    sysadmin_MainContainer.runSysadminContentPage(sysadmin_btnLogs, "sysadmin_btnLogs",
+                            "Logs", false, "/sysadmin/logs");
+                    checkButton(this);
+                };
+
                 btnLogout.onClick=function(){
                     document.cookie="mduUser=";
                     document.cookie="mduPswrd=";

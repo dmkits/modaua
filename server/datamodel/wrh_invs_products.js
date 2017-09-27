@@ -32,9 +32,10 @@ var changeLog = [
         "field":"BARCODE"},
     { 'changeID':'wrh_invs_products_11', 'changeDatetime':'2017-05-04 09:25:00', 'changeObj':'wrh_invs_products',
         'changeVal':'ALTER TABLE wrh_invs_products ADD CONSTRAINT WRH_INVS_PRODUCTS_BARCODE_PRODUCT_ID_FK ' +
-            'FOREIGN KEY (BARCODE,PRODUCT_ID) REFERENCES dir_products_barcodes(BARCODE,PRODUCT_ID)' },
+            'FOREIGN KEY (BARCODE,PRODUCT_ID) REFERENCES dir_products_barcodes(BARCODE,PRODUCT_ID)' }/*,
     { 'changeID':'wrh_invs_products_12', 'changeDatetime':'2017-05-04 09:26:00', 'changeObj':'wrh_invs_products',
-        'changeVal':'ALTER TABLE wrh_invs_products ADD CONSTRAINT WRH_INVS_PRODUCTS_INV_ID_POSIND_UNIQUE UNIQUE(INV_ID,POSIND)' }
+        'changeVal':'ALTER TABLE wrh_invs_products ADD CONSTRAINT WRH_INVS_PRODUCTS_INV_ID_POSIND_UNIQUE ' +
+            'UNIQUE(INV_ID,POSIND)' }*/
 ];
 module.exports.changeLog=changeLog;
 

@@ -4,6 +4,7 @@ var dateFormat = require('dateformat'),uid = require('uniqid'), path=require('pa
 var dataModelChanges= [], validatedDataModels={};
 module.exports.getModelChanges=function(){ return dataModelChanges; };
 module.exports.resetModelChanges=function(){ dataModelChanges=[]; };
+module.exports.getValidatedDataModels=function(){ return validatedDataModels; };
 module.exports.resetValidatedDataModels=function(){ validatedDataModels={}; };
 
 var database= require("../database");
@@ -32,7 +33,7 @@ function initValidateDataModel(dataModelName, dataModel, errs, nextValidateDataM
         nextValidateDataModelCallback();
         return;
     }
-    validatedDataModels[dataModelName]=true;
+    validatedDataModels[dataModelName]=dataModel;//dataModel.source dataModel.sourceType=="table" //restore DB data from bata1 DB
     if(dataModel.changeLog)
         dataModelChanges= dataModelChanges.concat(dataModel.changeLog);
     if(dataModel.doValidate){//if data model only inited

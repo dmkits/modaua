@@ -41,9 +41,9 @@ var changeLog = [
     { 'changeID':'wrh_pinvs_products_13', 'changeDatetime':'2016-09-08 11:43:00', 'changeObj':'wrh_pinvs_products',
         'changeVal':'ALTER TABLE wrh_pinvs_products ADD COLUMN FACTOR DECIMAL(10,2) NOT NULL',
         "field":"FACTOR"},
-    { 'changeID':'wrh_pinvs_products_14', 'changeDatetime':'2016-09-08 11:44:00', 'changeObj':'wrh_pinvs_products',
-        'changeVal':'ALTER TABLE wrh_pinvs_products ADD CONSTRAINT WRH_PINVS_PINV_ID_POSIND_UNIQUE' +
-            ' UNIQUE(PINV_ID,POSIND)' },
+    //{ 'changeID':'wrh_pinvs_products_14', 'changeDatetime':'2016-09-08 11:44:00', 'changeObj':'wrh_pinvs_products',
+    //    'changeVal':'ALTER TABLE wrh_pinvs_products ADD CONSTRAINT WRH_PINVS_PINV_ID_POSIND_UNIQUE' +
+    //        ' UNIQUE(PINV_ID,POSIND)' },
     { 'changeID':'wrh_pinvs_products_15', 'changeDatetime':'2017-06-09 11:11:00', 'changeObj':'wrh_pinvs_products',
         'changeVal':'ALTER TABLE wrh_pinvs_products ADD COLUMN BATCH_NUMBER INTEGER UNSIGNED NOT NULL',
         "field":"BATCH_NUMBER"},

@@ -75,16 +75,14 @@ module.exports.mySQLAdminConnection = function (connParams, callback) {         
     });
 };
 
-module.exports.checkIfDBExists = function (DBName, callback) {
+module.exports.checkIfDBExists = function (DBName, callback) {      console.log("checkIfDBExists connection=",connection);
     connection.query("SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME = '" +DBName + "'",
         function (err, recordset) {
             if (err) {
                 callback(err);
-                connToMySQL.destroy();
                 return;
             }
             callback(null, recordset);
-            connToMySQL.destroy();
         });
 };
 
@@ -99,7 +97,7 @@ module.exports.createNewDB= function(DBName,callback) {
         });
 };
 
-module.exports.checkIfUserExists= function(newUserName,callback) {
+module.exports.checkIfUserExists= function(newUserName,callback) {      console.log("checkIfUserExists connection=",connection);
     connection.query("select * from mysql.user where user='"+newUserName+"'",
         function (err, recordset) {
             if (err) {
