@@ -4,7 +4,7 @@ var changeLog = [
         'changeVal':'CREATE TABLE wrh_invs(ID BIGINT UNSIGNED NOT NULL PRIMARY KEY) CHARACTER SET utf8',
         "tableName":"wrh_invs", "field":"ID"},
     { 'changeID':'wrh_invs__2', 'changeDatetime':'2017-05-04 09:02:00', 'changeObj':'wrh_invs',
-        'changeVal':'ALTER TABLE wrh_invs ADD COLUMN NUMBER INTEGER NOT NULL',
+        'changeVal':'ALTER TABLE wrh_invs ADD COLUMN NUMBER INTEGER UNSIGNED NOT NULL',
         "field":"NUMBER"},
     { 'changeID':'wrh_invs__3', 'changeDatetime':'2017-05-04 09:03:00', 'changeObj':'wrh_invs',
         'changeVal':'ALTER TABLE wrh_invs ADD COLUMN DOCDATE DATE NOT NULL',
@@ -24,7 +24,7 @@ var changeLog = [
             ' FOREIGN KEY (BUYER_ID) REFERENCES dir_contractors(ID)',
         "field":"BUYER_ID", "source":"dir_contractors", "linkField":"ID"},
     { 'changeID':'wrh_invs__8', 'changeDatetime':'2017-05-04 09:08:00', 'changeObj':'wrh_invs',
-        'changeVal':'ALTER TABLE wrh_invs ADD COLUMN CURRENCY_ID INTEGER NOT NULL',
+        'changeVal':'ALTER TABLE wrh_invs ADD COLUMN CURRENCY_ID INTEGER UNSIGNED NOT NULL',
         "field":"CURRENCY_ID"},
     { 'changeID':'wrh_invs__9', 'changeDatetime':'2017-05-04 09:09:00', 'changeObj':'wrh_invs',
         'changeVal':'ALTER TABLE wrh_invs ADD CONSTRAINT WRH_INVS_CURRENCY_ID_FK' +

@@ -22,6 +22,8 @@
     "dir_products-bata",
     "wrh_orders-bata",
     "wrh_pinvoices-bata",
+    "wrh_invoices",
+    "wrh_retail_tickets",
     "wrh_products_balance"
   ],
   "appMenu":[

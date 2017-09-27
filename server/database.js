@@ -6,7 +6,6 @@ var child_process = require('child_process');
 var log =server.log;
 var path=require('path');
 
-
 function getDBConfig(){
     var serverConfig= server.getServerConfig();
     return { host:serverConfig.host, database:serverConfig.database, user:serverConfig.user, password:serverConfig.password,
@@ -77,7 +76,6 @@ module.exports.mySQLAdminConnection = function (connParams, callback) {         
 };
 
 module.exports.checkIfDBExists = function (DBName, callback) {
-
     connection.query("SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME = '" +DBName + "'",
         function (err, recordset) {
             if (err) {

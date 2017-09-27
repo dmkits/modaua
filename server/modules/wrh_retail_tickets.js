@@ -1,28 +1,34 @@
 var dataModel=require('../datamodel'), dateFormat = require('dateformat');
-var wrh_invs= require(appDataModelPath+"wrh_invs"),
-    wrh_invs_products= require(appDataModelPath+"wrh_invs_products"),
-    wrh_invs_products_wob= require(appDataModelPath+"wrh_invs_products_wob");
+var wrh_retail_tickets= require(appDataModelPath+"wrh_retail_tickets"),
+    wrh_retail_tickets_products= require(appDataModelPath+"wrh_retail_tickets_products"),
+    wrh_retail_tickets_products_wob= require(appDataModelPath+"wrh_retail_tickets_products_wob");
 var dir_units= require(appDataModelPath+"dir_units"), dir_contractors= require(appDataModelPath+"dir_contractors"),
     sys_currency= require(appDataModelPath+"sys_currency"), sys_docstates= require(appDataModelPath+"sys_docstates");
+var fin_retail_receipts= require(appDataModelPath+"fin_retail_receipts"),
+    fin_retail_payments= require(appDataModelPath+"fin_retail_payments"),
+    fin_retail_receipts_purposes= require(appDataModelPath+"fin_retail_receipts_purposes"),
+    dir_retail_receipt_purposes= require(appDataModelPath+"dir_retail_receipt_purposes");
 
 module.exports.validateModule = function(errs, nextValidateModuleCallback){
-    dataModel.initValidateDataModels([wrh_invs,wrh_invs_products,wrh_invs_products_wob], errs,
+    dataModel.initValidateDataModels([wrh_retail_tickets,wrh_retail_tickets_products,wrh_retail_tickets_products_wob,
+            fin_retail_receipts,fin_retail_payments,fin_retail_receipts_purposes,
+            dir_retail_receipt_purposes], errs,
         function(){
             nextValidateModuleCallback();
         });
 };
 
-module.exports.modulePageURL = "/wrh/invoices";
-module.exports.modulePagePath = "wrh/invoices.html";
+module.exports.modulePageURL = "/wrh/retailTickets";
+module.exports.modulePagePath = "wrh/retailTickets.html";
 module.exports.init = function(app){
     var wrhInvsListTableColumns=[
-        {"data": "ID", "name": "ID", "width": 50, "type": "text", readOnly:true, visible:false, dataSource:"wrh_invs"},
-        {"data": "NUMBER", "name": "Номер", "width": 50, "type": "text", dataSource:"wrh_invs"},
-        {"data": "DOCDATE", "name": "Дата", "width": 55, "type": "dateAsText", dataSource:"wrh_invs"},
+        {"data": "ID", "name": "ID", "width": 50, "type": "text", readOnly:true, visible:false, dataSource:"wrh_retail_tickets"},
+        {"data": "NUMBER", "name": "Номер", "width": 50, "type": "text", dataSource:"wrh_retail_tickets"},
+        {"data": "DOCDATE", "name": "Дата", "width": 55, "type": "dateAsText", dataSource:"wrh_retail_tickets"},
         {"data": "UNIT_NAME", "name": "Подразделение", "width": 120, "type": "text", dataSource:"dir_units", dataField:"NAME"},
         {"data": "BUYER_NAME", "name": "Покупатель", "width": 150, "type": "text", dataSource:"dir_contractors", dataField:"NAME"},
-        //{"data": "SUPPLIER_ORDER_NUM", "name": "Номер заказа поставщика", "width": 100, "type": "text", dataSource:"wrh_invs"},
-        //{"data": "SUPPLIER_INV_NUM", "name": "Номер накл. поставщика", "width": 100, "type": "text", dataSource:"wrh_invs"},
+        //{"data": "SUPPLIER_ORDER_NUM", "name": "Номер заказа поставщика", "width": 100, "type": "text", dataSource:"wrh_retail_tickets"},
+        //{"data": "SUPPLIER_INV_NUM", "name": "Номер накл. поставщика", "width": 100, "type": "text", dataSource:"wrh_retail_tickets"},
         //{"data": "PRODUCT_COLLECTION", "name": "Коллекция", "width": 150, "type": "text", dataSource:"dir_products_collections", dataField:"NAME"},
         {"data": "DOCCOUNT", "name": "Строк", "width": 60, "type": "numeric", visible:false, dataFunction:"0" },
         {"data": "DOCQTYSUM", "name": "Кол-во", "width": 60, "type": "numeric", dataFunction:"0" },
@@ -31,30 +37,30 @@ module.exports.init = function(app){
         {"data": "CURRENCY_CODENAME", "name": "Валюта", "width": 50, "type": "text", visible:false,
             dataSource:"sys_currency", dataFunction:{function:"concat",fields:["sys_currency.CODE","' ('","sys_currency.NAME","')'"]} },
         {"data": "DOCSTATE_NAME", "name": "Статус", "width": 110, "type": "text", dataSource:"sys_docstates", dataField:"NAME"},
-        {"data": "RATE", "name": "Курс валюты", "width": 60, "type": "numeric2", visible:false, dataSource:"wrh_invs"}
-       // ,{"data": "BASE_FACTOR", "name": "Базов.коэфф.", "width": 60, "type": "numeric2", visible:false, dataSource:"wrh_invs"}
+        {"data": "RATE", "name": "Курс валюты", "width": 60, "type": "numeric2", visible:false, dataSource:"wrh_retail_tickets"}
+       // ,{"data": "BASE_FACTOR", "name": "Базов.коэфф.", "width": 60, "type": "numeric2", visible:false, dataSource:"wrh_retail_tickets"}
     ];
-    app.get("/wrh/invoices/getDataForInvsListTable", function(req, res){
+    app.get("/wrh/retailTickets/getDataForRTicketsListTable", function(req, res){
         var conditions={};
-        for(var condItem in req.query) conditions["wrh_invs."+condItem]=req.query[condItem];
-        wrh_invs.getDataForTable({tableColumns:wrhInvsListTableColumns,
+        for(var condItem in req.query) conditions["wrh_retail_tickets."+condItem]=req.query[condItem];
+        wrh_retail_tickets.getDataForTable({tableColumns:wrhInvsListTableColumns,
                 identifier:wrhInvsListTableColumns[0].data,
                 conditions:conditions},
             function(result){
                 res.send(result);
             });
     });
-    app.get("/wrh/invoices/getInvData", function(req, res){
+    app.get("/wrh/retailTickets/getRTicketData", function(req, res){
         var conditions={};
-        for(var condItem in req.query) conditions["wrh_invs."+condItem]=req.query[condItem];
-        wrh_invs.getDataItemForTable({tableColumns:wrhInvsListTableColumns,
+        for(var condItem in req.query) conditions["wrh_retail_tickets."+condItem]=req.query[condItem];
+        wrh_retail_tickets.getDataItemForTable({tableColumns:wrhInvsListTableColumns,
                 conditions:conditions},
             function(result){
                 res.send(result);
             });
     });
-    app.get("/wrh/invoices/getNewInvData", function(req, res){
-        wrh_invs.getDataItem({fieldFunction:{name:"MAXNUMBER", function:"maxPlus1", sourceField:"NUMBER"},
+    app.get("/wrh/retailTickets/getNewRTicketData", function(req, res){
+        wrh_retail_tickets.getDataItem({fieldFunction:{name:"MAXNUMBER", function:"maxPlus1", sourceField:"NUMBER"},
                 conditions:{"1=1":null}},
             function(result){
                 var newNumber=(result&&result.item)?result.item["MAXNUMBER"]:"", docDate=dateFormat(new Date(),"yyyy-mm-dd");
@@ -68,7 +74,7 @@ module.exports.init = function(app){
                             function(result){
                                 var sysCurrencyCode=(result&&result.item)?result.item["CODE"]:"";
                                 var sysCurrencyCodeName=(result&&result.item)?result.item["CODENAME"]:"";
-                                wrh_invs.setDataItem({
+                                wrh_retail_tickets.setDataItem({
                                         fields:["NUMBER","DOCDATE","UNIT_NAME","BUYER_NAME",
                                             "CURRENCY_CODE","CURRENCY_CODENAME", "DOCSTATE_NAME", "DOCCOUNT","DOCQTYSUM","DOCSUM",
                                             "RATE"],
@@ -83,7 +89,7 @@ module.exports.init = function(app){
                 });
             });
     });
-    app.post("/wrh/invoices/storeInvData", function(req, res){
+    app.post("/wrh/retailTickets/storeRTicketData", function(req, res){
         var storeData=req.body;
         dir_units.getDataItem({fields:["ID"],conditions:{"NAME=":storeData["UNIT_NAME"]}}, function(result){
             if(!result.item){
@@ -109,7 +115,7 @@ module.exports.init = function(app){
                         sys_docstates.getDataItem({fields:["ID"],conditions:{"NAME=":storeData["DOCSTATE_NAME"]}}, function(result){
                             if(result.item) docStateID=result.item["ID"];
                             storeData["DOCSTATE_ID"]=docStateID;
-                            wrh_invs.storeTableDataItem({tableColumns:wrhInvsListTableColumns, idFieldName:"ID", storeTableData:storeData},
+                            wrh_retail_tickets.storeTableDataItem({tableColumns:wrhInvsListTableColumns, idFieldName:"ID", storeTableData:storeData},
                                 function(result){
                                     res.send(result);
                                 });
@@ -119,9 +125,9 @@ module.exports.init = function(app){
             });
         });
     });
-    app.post("/wrh/invoices/deleteInvData", function(req, res){
+    app.post("/wrh/retailTickets/deleteRTicketData", function(req, res){
         var delData=req.body;
-        wrh_invs.delTableDataItem({idFieldName:"ID", delTableData:delData},
+        wrh_retail_tickets.delTableDataItem({idFieldName:"ID", delTableData:delData},
             function(result){
                 res.send(result);
             });
@@ -145,22 +151,22 @@ module.exports.init = function(app){
         {"data": "PRICELIST_PRICE", "name": "Цена по прайс-листу", "width": 75, "type": "numeric2"},
         {"data": "BATCH_NUMBER", "name": "BATCH_NUMBER", "width": 60, "type": "numeric", visible:false}
     ];
-    app.get("/wrh/invoices/getDataForInvProductsTable", function(req, res){
-        wrh_invs_products.getDataForTable({tableColumns:wrhInvProductsTableColumns,
+    app.get("/wrh/retailTickets/getDataForRTicketProductsTable", function(req, res){
+        wrh_retail_tickets_products.getDataForTable({tableColumns:wrhInvProductsTableColumns,
                 identifier:wrhInvProductsTableColumns[0].data,
                 conditions:req.body},
             function(result){
                 res.send(result);
             });
     });
-    app.post("/wrh/invoices/storeInvProductsTableData", function(req, res){
-        wrh_invs_products.storeTableDataItem({tableColumns:wrhInvProductsTableColumns, idFieldName:"ID"},
+    app.post("/wrh/retailTickets/storeRTicketProductsTableData", function(req, res){
+        wrh_retail_tickets_products.storeTableDataItem({tableColumns:wrhInvProductsTableColumns, idFieldName:"ID"},
             function(result){
                 res.send(result);
             });
     });
-    app.post("/wrh/invoices/deleteInvProductsTableData", function(req, res){
-        wrh_invs_products.delTableDataItem({idFieldName:"ID"},
+    app.post("/wrh/retailTickets/deleteRTicketProductsTableData", function(req, res){
+        wrh_retail_tickets_products.delTableDataItem({idFieldName:"ID"},
             function(result){
                 res.send(result);
             });

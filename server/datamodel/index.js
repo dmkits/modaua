@@ -39,11 +39,12 @@ function initValidateDataModel(dataModelName, dataModel, errs, nextValidateDataM
         dataModel.doValidate(errs, nextValidateDataModelCallback);
         return;
     }
-    var tableName, tableFieldsList=[],tableFields={}, idFieldName, joinedSources={};
+    var tableName, viewName, tableFieldsList=[],tableFields={}, idFieldName, joinedSources={};
     if(dataModel.changeLog){
         for(var i=0;i<dataModel.changeLog.length;i++){
             var changeLogItem=dataModel.changeLog[i];
-            if(changeLogItem.tableName&&!tableName) tableName=changeLogItem.tableName;
+            if(changeLogItem.tableName&&!tableName&&!viewName) tableName=changeLogItem.tableName;
+            if(changeLogItem.viewName&&!viewName&&!tableName) viewName=changeLogItem.viewName;
             if(changeLogItem.id&&!idFieldName) idFieldName=changeLogItem.id;
             if(changeLogItem.fields){
                 for(var fieldIndex in changeLogItem.fields){
@@ -103,7 +104,11 @@ function initValidateDataModel(dataModelName, dataModel, errs, nextValidateDataM
         nextValidateDataModelCallback();
         return;
     }
-    dataModel.sourceType="table"; dataModel.source=tableName;
+    if(tableName) {
+        dataModel.sourceType="table"; dataModel.source=tableName;
+    } else if(viewName) {
+        dataModel.sourceType="view"; dataModel.source=viewName;
+    }
     dataModel.fields=tableFieldsList; dataModel.idField=idFieldName;                                    log.debug('Init data model '+dataModel.sourceType+":"+dataModel.source+" fields:",dataModel.fields," idField:"+dataModel.idField);//test
     dataModel.fieldsMetadata=tableFields;
     dataModel.joinedSources=joinedSources;                                                              log.debug('Init data model '+dataModel.sourceType+":"+dataModel.source+" joined sources:",dataModel.joinedSources,{});//test

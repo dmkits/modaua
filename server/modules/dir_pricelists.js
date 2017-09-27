@@ -1,8 +1,9 @@
 var dataModel=require('../datamodel');
-var dir_pricelists= require(appDataModelPath+"dir_pricelists");
+var dir_pricelists= require(appDataModelPath+"dir_pricelists"),
+    dir_pricelist_products= require(appDataModelPath+"dir_pricelist_products");
 
 module.exports.validateModule = function(errs, nextValidateModuleCallback){
-    dataModel.initValidateDataModels([dir_pricelists], errs,
+    dataModel.initValidateDataModels([dir_pricelists,dir_pricelist_products], errs,
         function(){
             nextValidateModuleCallback();
         });

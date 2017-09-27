@@ -4,7 +4,7 @@ var changeLog=[
       "changeVal": "CREATE TABLE wrh_orders_bata(ID BIGINT UNSIGNED NOT NULL PRIMARY KEY) CHARACTER SET utf8",
         "tableName":"wrh_orders_bata", "field":"ID", "id":"ID" },
     { "changeID": "wrh_orders_bata__2", "changeDatetime": "2016-09-04 19:32:00", "changeObj": "wrh_orders_bata",
-      "changeVal": "ALTER TABLE wrh_orders_bata ADD COLUMN NUMBER INTEGER NOT NULL",
+      "changeVal": "ALTER TABLE wrh_orders_bata ADD COLUMN NUMBER INTEGER UNSIGNED NOT NULL",
         "field":"NUMBER" },
     { "changeID": "wrh_orders_bata__3", "changeDatetime": "2016-09-04 19:33:00", "changeObj": "wrh_orders_bata",
       "changeVal": "ALTER TABLE wrh_orders_bata ADD COLUMN DOCDATE DATETIME NOT NULL",
@@ -20,7 +20,7 @@ var changeLog=[
           " FOREIGN KEY (DOCSTATE_ID) REFERENCES sys_docstates(ID)",
         "field":"DOCSTATE_ID", "source":"sys_docstates", "linkField":"ID" },
     { "changeID": "wrh_orders_bata__7", "changeDatetime": "2016-09-04 19:37:00", "changeObj": "wrh_orders_bata",
-      "changeVal": "ALTER TABLE wrh_orders_bata ADD COLUMN CURRENCY_ID INTEGER NOT NULL",
+      "changeVal": "ALTER TABLE wrh_orders_bata ADD COLUMN CURRENCY_ID INTEGER UNSIGNED NOT NULL",
         "field":"CURRENCY_ID" },
     { "changeID": "wrh_orders_bata__8", "changeDatetime": "2016-09-04 19:38:00", "changeObj": "wrh_orders_bata",
       "changeVal": "ALTER TABLE wrh_orders_bata ADD CONSTRAINT WRH_ORDERS_BATA_CURRENCY_ID_FK" +

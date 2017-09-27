@@ -4,7 +4,7 @@ var changeLog = [
         'changeVal':'CREATE TABLE wrh_pinvs(ID BIGINT UNSIGNED NOT NULL PRIMARY KEY) CHARACTER SET utf8',
         "tableName":"wrh_pinvs", "field":"ID"},
     { 'changeID':'wrh_pinvs__2', 'changeDatetime':'2016-09-07 10:02:00', 'changeObj':'wrh_pinvs',
-        'changeVal':'ALTER TABLE wrh_pinvs ADD COLUMN NUMBER INTEGER NOT NULL',
+        'changeVal':'ALTER TABLE wrh_pinvs ADD COLUMN NUMBER INTEGER UNSIGNED NOT NULL',
         "field":"NUMBER"},
     { 'changeID':'wrh_pinvs__3', 'changeDatetime':'2016-09-07 10:03:00', 'changeObj':'wrh_pinvs',
         'changeVal':'ALTER TABLE wrh_pinvs ADD COLUMN DOCDATE DATETIME NOT NULL',
@@ -20,7 +20,7 @@ var changeLog = [
             ' FOREIGN KEY (DOCSTATE_ID) REFERENCES sys_docstates(ID)',
         "field":"DOCSTATE_ID", "source":"sys_docstates", "linkField":"ID" },
     { 'changeID':'wrh_pinvs__7', 'changeDatetime':'2016-09-07 10:07:00', 'changeObj':'wrh_pinvs',
-        'changeVal':'ALTER TABLE wrh_pinvs ADD COLUMN CURRENCY_ID INTEGER NOT NULL',
+        'changeVal':'ALTER TABLE wrh_pinvs ADD COLUMN CURRENCY_ID INTEGER UNSIGNED NOT NULL',
         "field":"CURRENCY_ID"},
     { 'changeID':'wrh_pinvs__8', 'changeDatetime':'2016-09-07 10:08:00', 'changeObj':'wrh_pinvs',
         'changeVal':'ALTER TABLE wrh_pinvs ADD CONSTRAINT WRH_PINVS_CURRENCY_ID_FK' +

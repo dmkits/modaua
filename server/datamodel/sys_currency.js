@@ -1,7 +1,7 @@
 module.exports.id=module.id;
 var changeLog= [
     { "changeID":"sys_currency__1", "changeDatetime":"2016-08-30 09:41:00", "changeObj":"sys_currency",
-        "changeVal":"CREATE TABLE sys_currency(ID INTEGER NOT NULL PRIMARY KEY) CHARACTER SET utf8",
+        "changeVal":"CREATE TABLE sys_currency(ID INTEGER UNSIGNED NOT NULL PRIMARY KEY) CHARACTER SET utf8",
         "tableName":"sys_currency", "field":"ID", "id":"ID" },
     { "changeID":"sys_currency__2", "changeDatetime":"2016-08-30 09:42:00", "changeObj":"sys_currency",
         "changeVal":"ALTER TABLE sys_currency ADD COLUMN CODE VARCHAR(3) NOT NULL",
