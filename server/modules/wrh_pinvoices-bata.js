@@ -146,6 +146,10 @@ module.exports.init = function(app){
     var wrhPInvProductsTableColumns=[
         {"data": "ID", "name": "ID", "width": 50, "type": "text", readOnly:true, visible:false},
         {"data": "PINV_ID", "name": "PINV_ID", "width": 50, "type": "text", readOnly:true, visible:false},
+        {"data": "SUPPLIER_ID", "name": "SUPPLIER_ID", "width": 65, "type": "text", readOnly:true, visible:false,
+            dataSource:"wrh_pinvs", dataField:"SUPPLIER_ID", linkCondition:"wrh_pinvs.ID=wrh_pinvs_products.PINV_ID" },
+        {"data": "SUPPLIER_COUNTRY", "name": "SUPPLIER_COUNTRY", "width": 65, "type": "text", readOnly:true, visible:false,
+            dataSource:"dir_contractors", dataField:"COUNTRY", linkCondition:"dir_contractors.ID=wrh_pinvs.SUPPLIER_ID" },
         {"data": "POSIND", "name": "POSIND", "width": 45, "type": "numeric", visible:false},
         {"data": "POS", "name": "Номер п/п", "width": 45, "type": "numeric", dataFunction:"TRUNCATE(POSIND,0)"},
         {"data": "PRODUCT_GENDER_CODE", "name": "Код группы", "width": 65,

@@ -199,8 +199,9 @@ module.exports.init = function(app){
                     }
                     storeData["PRODUCT_SUBCATEGORY_ID"] = result.item["ID"];
                     var prodArticle=storeData["PRODUCT_ARTICLE"];
-                    dir_products_articles.findDataItemByOrCreateNew({findCondition:{"VALUE=":prodArticle},resultFields:["ID"],
-                            idFieldName:"ID", newData:{"VALUE":prodArticle} },
+                    dir_products_articles.findDataItemByOrCreateNew({resultFields:["ID"],
+                            findByFields:["VALUE"],
+                            idFieldName:"ID", fieldsValues:{"VALUE":prodArticle} },
                         function(result){
                             if (result.error||!result.resultItem||result.resultItem["ID"]==null) {
                                 res.send({error: "Cannot finded or create article!"});
