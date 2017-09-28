@@ -405,7 +405,7 @@ module.exports.init = function(app){
         });
     });
 
-    app.post("/sysadmin/backup_db", function (req, res) {     console.log("backup_db req.body=",req.body);
+    app.post("/sysadmin/backup_db", function (req, res) {
         log.info("/sysadmin/backup_db");
         var onlyData=req.body.onlyDataBackup;
         var host = req.body.host;
@@ -430,7 +430,7 @@ module.exports.init = function(app){
         };
         var outData = {};
 
-        database.checkIfDBExists(DBName, function (err, result) { console.log("checkIfDBExists");
+        database.checkIfDBExists(DBName, function (err, result) {
             if (err) {                                                                                                  log.error("checkIfDBExists err=", err);
                 outData.error = err.message;
                 logData.error = err.message;
@@ -468,7 +468,7 @@ module.exports.init = function(app){
                             return;
                         }
                     }
-                    database.backupDB(backupParam, function (err, ok) {   console.log("backupDB");
+                    database.backupDB(backupParam, function (err, ok) {
                         if (err) {                                                                                      log.error("checkIfDBExists err=", err);
                             outData.error = err.message;
                             logData.error = err.message;
@@ -488,7 +488,6 @@ module.exports.init = function(app){
     app.post("/sysadmin/restore_db", function (req, res) {       log.info("/sysadmin/restore_db");
         var host = req.body.host;
         var DBName = req.body.database;
-        console.log("DBName=", DBName);
         var adminUser = req.body.adminName;
         var adminPassword = req.body.adminPassword;
         var restoreFileName = req.body.restoreFilename + '.sql';
@@ -587,6 +586,7 @@ module.exports.init = function(app){
                     newBackUpStr = newBackUpStr.replace(/wrh_inv_products_wob/g, 'wrh_invs_products_wob');
                     newBackUpStr = newBackUpStr.replace(/wrh_retail_ticket_products/g, 'wrh_retail_tickets_products');
                     newBackUpStr = newBackUpStr.replace(/wrh_retail_ticket_products_wob/g, 'wrh_retail_tickets_products_wob');
+                    newBackUpStr = newBackUpStr.replace(/wrh_order_bata_details/g, 'wrh_orders_bata_details');
 
                     fs.writeFile(path.join(__dirname, "/../../backups/copy_" + restoreFileName), newBackUpStr, "utf-8", function (err) {
                         if (err) {
@@ -596,13 +596,12 @@ module.exports.init = function(app){
                             return;
                         }
                         restoreParams.fileName = "copy_" + restoreFileName;
-                        var modules = dataModel.getValidatedDataModels();
-                        console.log("modules=", modules);
+                        var dataModels = dataModel.getValidatedDataModels();
                         var tablesNames = [];
-                        for (var param in modules) {
-                            tablesNames.push(param);
+                        for (var dataModelName in dataModels) {
+                            var dataModelInstance=dataModels[dataModelName];
+                            if(dataModelInstance.sourceType=="table") tablesNames.unshift(dataModelInstance.source);
                         }
-                        console.log("tablesNames=", tablesNames);
                         deleteDataFromTAbles(tablesNames, 0, function () {
                             database.restoreDB(restoreParams, function (err, ok) {
                                 if (err) {
@@ -621,18 +620,17 @@ module.exports.init = function(app){
         });
     });
 
-    function deleteDataFromTAbles(modules, index, callback){
-        console.log("modules[index]=",modules[index]);
-        if(!modules[index]){
+    function deleteDataFromTAbles(tablesNames, index, callback){
+        if(!tablesNames[index]){
             callback();
             return;
         }
-            if(modules[index] =="change_log"){
-                deleteDataFromTAbles(modules, index+1, callback);
+            if(tablesNames[index] =="change_log"){
+                deleteDataFromTAbles(tablesNames, index+1, callback);
                 return;
             }
-            database.executeQuery("DELETE FROM "+modules[index], function(){
-                deleteDataFromTAbles(modules, index+1, callback)
+            database.executeQuery("DELETE FROM "+tablesNames[index], function(){
+                deleteDataFromTAbles(tablesNames, index+1, callback)
             });
     };
 
@@ -937,6 +935,7 @@ module.exports.init = function(app){
         res.sendFile(appViewsPath+'sysadmin/logs.html');
     });
 //{"level":"info","message":"STARTING at 2017-09-27T06:59:50.393Z","timestamp":"2017-09-27T06:59:50.562Z"}
+
     var sysLogsTableColumns=[
           {"data": "level", "name": "Level", "width": 75, "type": "text"}
         , {"data": "message", "name": "Message", "width": 90, "type": "text"}
@@ -952,7 +951,7 @@ module.exports.init = function(app){
 
         outData.items=[];
         try {
-            var fileDataStr = fs.readFileSync(path.join(__dirname + "/../../logs/log_file.log.2017-09-27")); //console.log("fileDataStr=",fileDataStr);
+            var fileDataStr = fs.readFileSync(path.join(__dirname + "/../../logs/log_file.log.2017-09-27"));
         }catch(e){
             log.error("Impossible to read logs! Reason:",e);
         }
@@ -969,7 +968,6 @@ module.exports.init = function(app){
             jsonObj=JSON.parse(strObj); console.log("jsonObj=",jsonObj);
          //   outData.items.push(jsonObj);
         }
-        console.log("outData=",outData);
             res.send(outData);
     });
 };

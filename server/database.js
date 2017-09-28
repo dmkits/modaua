@@ -97,7 +97,7 @@ module.exports.createNewDB= function(DBName,callback) {
         });
 };
 
-module.exports.checkIfUserExists= function(newUserName,callback) {      console.log("checkIfUserExists connection=",connection);
+module.exports.checkIfUserExists= function(newUserName,callback) {
     connection.query("select * from mysql.user where user='"+newUserName+"'",
         function (err, recordset) {
             if (err) {

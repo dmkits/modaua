@@ -107,6 +107,7 @@ define([ "dijit/ConfirmDialog", "dojo/keys", "dojo/on", "dijit/registry", "dojo/
                 label.innerText = "file name:";
                 var inputBackupFileName = document.createElement('input');
                 inputBackupFileName.setAttribute("id", "backup_fileName_in_backup_dialog");
+               // inputBackupFileName.setAttribute('style', )
                 var td = document.createElement('td');
                 td.innerText = ".sql";
                 table.appendChild(tr);
@@ -129,7 +130,6 @@ define([ "dijit/ConfirmDialog", "dojo/keys", "dojo/on", "dijit/registry", "dojo/
                     var defaultFileName = DBName + "_" + now;
                     if (params.onlyDataBackup == "true")defaultFileName = defaultFileName + "_data";
                     inputBackupFileName.setAttribute('value', defaultFileName);
-                    console.log("backupFileName.value=", inputBackupFileName.value);
                 };
                 if (resultCallback) {
                     backupDialog.onExecute = function () {
