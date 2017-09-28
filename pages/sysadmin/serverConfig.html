@@ -117,6 +117,14 @@
                             <div  id="restore_db_result" style="font-weight: bold; width: 400px;"></div>
                         </td>
                     </tr>
+                    <tr>
+                        <td style="width:75px">
+                            <button id="restore_db_bata_from_bata1DB">Restore DB from Bata1 DB</button>
+                        </td>
+                        <td>
+                            <div  id="restore_db_bata_from_bata1DB_result" style="font-weight: bold; width: 400px;"></div>
+                        </td>
+                    </tr>
                 </table>
             </td>
         </tr>
@@ -152,75 +160,8 @@
                 backupDataBtn.domNode.firstChild.setAttribute("style", "width:70px;");
                 var restoreBtn=new Button({id: "restore_db_btn"}, "restore_db_btn");
                 restoreBtn.domNode.firstChild.setAttribute("style", "width:70px;");
-
-                var authAdminInfo = {};
-                var restoreFilename;
-
-                var adminAuthDialog = sysadminDialogs.adminAuthDialog();
-
-                adminAuthDialog.onExecute=function(){
-                    if(adminAuthDialog.action=="createDB") createDataBase();
-                    if(adminAuthDialog.action=="dropDB") dropDataBase();
-                    if(adminAuthDialog.action=="backupData" ||adminAuthDialog.action=="backupDB"){
-                        getAuthAdminInfo();
-                        backupDataBase(adminAuthDialog.action);
-                    }
-                    if(adminAuthDialog.action=="restoreDB") {
-                        getAuthAdminInfo();
-                        restoreDataBase();
-                    }
-                    adminAuthDialog.hide();
-                };
-
-                var backupDialog = sysadminDialogs.backupDialog();
-
-                backupDialog.onExecute = function () {
-                    backupDialog.backupFilename = document.getElementById("backup_fileName").value;
-                    if(backupDialog.backupFilename.length<1){
-                        cleanResultFields();
-                        var now = moment().format('DD.MM.YYYY HH:mm:ss');
-                        document.getElementById(backupDialog.resultFieldId).innerHTML = "<b style='color:red'>"+now+"</br> File name for backup wasn't specified </br>";
-                        backupDialog.hide();
-                        return;
-                    }
-                    backupDialog.backUpParams={filename:backupDialog.backupFilename,resultTagName:backupDialog.resultFieldId, onlyData:backupDialog.onlyDataBackup};
-                    makeBackup(backupDialog.backUpParams);
-                    backupDialog.hide();
-                };
-
-                backupDialog.onCancel=function(){
-                    document.getElementById("backup_fileName").value="";
-                    sa_serverConfig_PageContent.getServerConfiguration();
-                    saveAndReconnectBtn.onClick();
-                    backupDialog.hide();
-                    adminAuthDialog.onCancel();
-                };
-
-                var rewriteBackupDialog =sysadminDialogs.rewriteBackupDialog();
-                rewriteBackupDialog.onExecute=function(){
-                    makeBackup(backupDialog.backUpParams,true);
-                    rewriteBackupDialog.hide();
-                };
-                rewriteBackupDialog.onCancel=function(){
-                    backupDialog.onCancel();
-                    rewriteBackupDialog.hide();
-                };
-
-                var restoreDialog=sysadminDialogs.restoreDialog();
-
-                restoreDialog.onExecute=function(){
-                    restoreFilename = document.getElementById("restore_fileName").value;
-                    makeRestore();
-                    restoreDialog.hide();
-                };
-
-                restoreDialog.onCancel=function(){
-                    document.getElementById("restore_fileName").value="";
-                    sa_serverConfig_PageContent.getServerConfiguration();
-                    saveAndReconnectBtn.onClick();
-                    restoreDialog.hide();
-                    adminAuthDialog.onCancel();
-                };
+                var restore_db_bata_from_bata1DB=new Button({id: "restore_db_bata_from_bata1DB"}, "restore_db_bata_from_bata1DB");
+                restore_db_bata_from_bata1DB.domNode.firstChild.setAttribute("style", "width:140px;");
 
                 var dbListForUserDialog = sysadminDialogs.dbListForUserDialog();
 
@@ -238,32 +179,269 @@
                     document.getElementById("server_db_user_password").value="";
                 };
 
-                createDBBtn.onClick=function() {
-                    adminAuthDialog.action="createDB";
-                    adminAuthDialog.show();
-                    document.getElementById("admin_password").focus();
+                createDBBtn.onClick = function () {
+                    sysadminDialogs.showAdminAuthDialog({},
+                            function (result) {
+                                if (!result.result) return;
+                                cleanResultFields();
+                                var newDB = {};
+                                newDB.adminName = result.admin_name;
+                                newDB.adminPassword = result.admin_password;
+                                newDB.host = hostInput.get('value');
+                                newDB.newDatabase = databaseInput.get('value');
+                                newDB.newUser = userInput.get('value');
+                                newDB.newPassword = dbPasswordInput.get('value');
+                                Request.postJSONData({url: "/sysadmin/create_new_db", data: newDB, consoleLog: true},
+                                        function (success, data) {
+                                            var now = moment().format('DD.MM.YYYY HH:mm:ss');
+                                            if (!success) {
+                                                sa_serverConfig_configState.innerHTML = "<div><b style='color:red'>No connection!</b></div>";
+                                            }
+                                            if (data.error) {
+                                                document.getElementById("create_db_result").innerHTML = "<b style='color:red'>" + now + "</br>FAIL! Reason:" + data.error + "</b>";
+                                                sa_serverConfig_PageContent.getServerConfiguration();
+                                                if (sa_serverConfig_PageContent.getParent().updateDBState)  sa_serverConfig_PageContent.getParent().updateDBState();
+                                            } else {
+                                                var successMsgStr = now + '</br>';
+                                                if (data.DBCreated) successMsgStr += data.DBCreated + " ";
+                                                if (data.userCreated) successMsgStr += data.userCreated + " ";
+                                                if (data.userExists) successMsgStr += data.userExists + " ";
+                                                if (data.accessAdded) successMsgStr += data.accessAdded;
+                                                document.getElementById("create_db_result").innerHTML = successMsgStr;
+                                                saveAndReconnectBtn.onClick();
+                                            }
+                                        });
+                            });
                 };
+
                 dropDBBtn.onClick=function(){
-                    adminAuthDialog.action="dropDB";
-                    adminAuthDialog.show();
-                    document.getElementById("admin_password").focus();
+                    sysadminDialogs.showAdminAuthDialog({},
+                            function(result){
+                                if(!result.result) return;
+                                cleanResultFields();
+                                var DB = {};
+                                DB.adminName = result.admin_name;
+                                DB.adminPassword = result.admin_password;
+                                DB.host = hostInput.get('value');
+                                DB.database = databaseInput.get('value');
+                                DB.user = userInput.get('value');
+                                DB.password = dbPasswordInput.get('value');
+                                Request.postJSONData({url: "/sysadmin/drop_db", data: DB, consoleLog: true},
+                                        function (success, data) {
+                                            var now = moment().format('DD.MM.YYYY HH:mm:ss');
+                                            if (!success) {
+                                                sa_serverConfig_configState.innerHTML = "<div><b style='color:red'>No connection!</b></div>";
+                                            }
+                                            if (data.error) {
+                                                document.getElementById("drop_db_result").innerHTML = "<b style='color:red'>"+now+"<br/>FAIL! Reason:" + data.error+"<b>";
+                                                sa_serverConfig_PageContent.getServerConfiguration();
+                                                if (sa_serverConfig_PageContent.getParent().updateDBState)   {
+                                                    sa_serverConfig_PageContent.getParent().updateDBState();
+                                                }
+                                            } else {
+                                                var successMsgStr = now+'<br/>'+data.dropped;
+                                                document.getElementById("drop_db_result").innerHTML = successMsgStr;
+                                                saveAndReconnectBtn.onClick();
+                                            }
+                                        });
+                            });
                 };
-                backupDBBtn.onClick=function(){
-                    adminAuthDialog.action="backupDB";
-                    adminAuthDialog.show();
-                    document.getElementById("admin_password").focus();
+
+                backupDBBtn.onClick = function () {
+                    makeBackup({"onlyDataBackup": "false", "resultFieldId":"backup_db_result"})
                 };
+
                 backupDataBtn.onClick=function(){
-                    backupDialog.onlyDataBackup='true';
-                    adminAuthDialog.action="backupData";
-                    adminAuthDialog.show();
-                    document.getElementById("admin_password").focus();
+                    makeBackup({"onlyDataBackup": "true", "resultFieldId":"backup_data_result"})
                 };
+                function makeBackup(dataParams){
+                    cleanResultFields();
+                    sysadminDialogs.showAdminAuthDialog({},
+                            function (result) {
+                                if (!result.result) return;
+                                var authParams = {};
+                                authParams.host = hostInput.get('value');
+                                authParams.adminName = result.admin_name;
+                                authParams.adminPassword = result.admin_password;
+                                var now = moment().format('DD.MM.YYYY HH:mm:ss');
+                                Request.postJSONData({url: "/sysadmin/auth_as_sysadmin", data: authParams, consoleLog: true},
+                                        function (success, data) {
+                                            if (!success) {
+                                                sa_serverConfig_configState.innerHTML = "<div><b style='color:red'>No connection!</b></div>";
+                                                return;
+                                            }
+                                            if (data.error) {
+                                                document.getElementById(dataParams.resultFieldId).innerHTML = "<b style='color:red'>" + now + "<br/>" + data.error + "<b>";
+                                                return;
+                                            }
+                                            sysadminDialogs.showBackupDialog({onlyDataBackup:dataParams.onlyDataBackup}, function (result) {
+                                                if (!result) return;
+                                                if(result.backup_fileName.length<1){
+                                                    document.getElementById(dataParams.resultFieldId).innerHTML = now+" Fail! Please, specify backup file name!";
+                                                    return;
+                                                }
+                                                function saveBackup(rewrite) {
+                                                    var DB = {};
+                                                    DB.adminName = authParams.adminName;
+                                                    DB.adminPassword = authParams.adminPassword;
+                                                    DB.backupFilename = result.backup_fileName;
+                                                    DB.host = authParams.host;
+                                                    DB.database = databaseInput.get('value');
+                                                    DB.user = userInput.get('value');
+                                                    DB.password = dbPasswordInput.get('value');
+                                                    DB.onlyDataBackup = dataParams.onlyDataBackup;
+                                                    if (rewrite)DB.rewrite = true;
+                                                    Request.postJSONData({url: "/sysadmin/backup_db", data: DB, consoleLog: true
+                                                            },
+                                                            function (success, data) {
+                                                                if (!success) {
+                                                                    sa_serverConfig_configState.innerHTML = "<div><b style='color:red'>No connection!</b></div>";
+                                                                    return;
+                                                                }
+                                                                if (data.error) {
+                                                                    document.getElementById(dataParams.resultFieldId).innerHTML = "<b style='color:red'>" + now + "<br/>FAIL! Reason:" + data.error + "<b>";
+                                                                    sa_serverConfig_PageContent.getServerConfiguration();
+                                                                    saveAndReconnectBtn.onClick();
+                                                                } else if (data.fileExists) {
+                                                                    sysadminDialogs.showRewriteBackupDialog(function (result) {
+                                                                        saveBackup(result.rewrite);
+                                                                    })
+                                                                } else {
+                                                                    var successMsgStr = now + '<br/>' + data.backup;
+                                                                    document.getElementById(dataParams.resultFieldId).innerHTML = successMsgStr;
+                                                                    saveAndReconnectBtn.onClick();
+                                                                }
+                                                            });
+                                                }
+                                                saveBackup();
+                                            });
+                                        })
+                            });
+                }
+
+
                 restoreBtn.onClick=function(){
-                    adminAuthDialog.action="restoreDB";
-                    adminAuthDialog.show();
-                    document.getElementById("admin_password").focus();
+                    cleanResultFields();
+                    sysadminDialogs.showAdminAuthDialog({},
+                            function (authAdminResult) {
+                                if (!authAdminResult.result) return;
+                                var authParams = {};
+                                authParams.host = hostInput.get('value');
+                                authParams.adminName = authAdminResult.admin_name;
+                                authParams.adminPassword = authAdminResult.admin_password;
+                                var now = moment().format('DD.MM.YYYY HH:mm:ss');
+                                Request.postJSONData({url: "/sysadmin/auth_as_sysadmin", data: authParams, consoleLog: true},
+                                        function (success, data) {
+                                            if (!success) {
+                                                sa_serverConfig_configState.innerHTML = "<div><b style='color:red'>No connection!</b></div>";
+                                                return;
+                                            }
+                                            if (data.error) {
+                                                document.getElementById("restore_db_bata_from_bata1DB_result").innerHTML = "<b style='color:red'>" + now + "<br/>" + data.error + "<b>";
+                                                return;
+                                            }
+                                            sysadminDialogs.showRestoreDialog(function (restoreDialogResult) { ////
+                                                if (!restoreDialogResult) return;
+                                                if(restoreDialogResult.restore_fileName.length<1){
+                                                    document.getElementById("restore_db_result").innerHTML = now+" Fail! Please, specify restore file name!";
+                                                    return;
+                                                }
+                                                var DB = {};
+                                                DB.adminName = authAdminResult.admin_name;
+                                                DB.adminPassword = authAdminResult.admin_password;
+                                                DB.restoreFilename = restoreDialogResult.restore_fileName;
+                                                DB.host = hostInput.get('value');
+                                                DB.database = databaseInput.get('value');
+                                                DB.user = userInput.get('value');
+                                                DB.password = dbPasswordInput.get('value');
+
+                                                document.getElementById("restore_db_result").innerHTML = "Restoring started...";
+
+                                                Request.postJSONData({url: "/sysadmin/restore_db", data: DB, consoleLog: true},
+                                                        function (success, data) {
+                                                            if (!success) {
+                                                                sa_serverConfig_configState.innerHTML = "<div><b style='color:red'>No connection!</b></div>";
+                                                            }
+                                                            if (data.error) {
+                                                                document.getElementById("restore_db_result").innerHTML = "<b style='color:red'>"+now+"<br/>FAIL! Reason:" + data.error + "<b>";
+                                                                sa_serverConfig_PageContent.getServerConfiguration();
+                                                                if (sa_serverConfig_PageContent.getParent().updateDBState)  sa_serverConfig_PageContent.getParent().updateDBState();
+                                                            } else {
+                                                                var successMsgStr = now+'<br/>';
+                                                                if (data.userExists)successMsgStr = successMsgStr + data.userExists;
+                                                                if (data.userCreated)successMsgStr = successMsgStr + data.userCreated;
+                                                                if (data.accessAdded)successMsgStr = successMsgStr + data.accessAdded;
+                                                                if (data.restore)successMsgStr = successMsgStr + data.restore;
+                                                                document.getElementById("restore_db_result").innerHTML = successMsgStr;
+                                                                saveAndReconnectBtn.onClick();
+                                                            }
+                                                        });
+                                            });
+                                        })
+                            });
                 };
+
+                restore_db_bata_from_bata1DB.onClick=function(){
+                    cleanResultFields();
+                    sysadminDialogs.showAdminAuthDialog({},
+                            function (authAdminResult) {
+                                if (!authAdminResult.result) return;
+                                var authParams = {};
+                                authParams.host = hostInput.get('value');
+                                authParams.adminName = authAdminResult.admin_name;
+                                authParams.adminPassword = authAdminResult.admin_password;
+                                var now = moment().format('DD.MM.YYYY HH:mm:ss');
+                                Request.postJSONData({url: "/sysadmin/auth_as_sysadmin", data: authParams, consoleLog: true},
+                                        function (success, data) {
+                                            if (!success) {
+                                                sa_serverConfig_configState.innerHTML = "<div><b style='color:red'>No connection!</b></div>";
+                                                return;
+                                            }
+                                            if (data.error) {
+                                                document.getElementById("restore_db_bata_from_bata1DB_result").innerHTML = "<b style='color:red'>" + now + "<br/>" + data.error + "<b>";
+                                                return;
+                                            }
+                                            sysadminDialogs.showRestoreDialog(function (restoreDialogResult) { ////
+                                                if (!restoreDialogResult) return;
+                                                if(restoreDialogResult.restore_fileName.length<1){
+                                                    document.getElementById("restore_db_bata_from_bata1DB_result").innerHTML = now+" Fail! Please, specify restore file name!";
+                                                    return;
+                                                }
+                                                var DB = {};
+                                                DB.adminName = authAdminResult.admin_name;
+                                                DB.adminPassword = authAdminResult.admin_password;
+                                                DB.restoreFilename = restoreDialogResult.restore_fileName;
+                                                DB.host = hostInput.get('value');
+                                                DB.database = databaseInput.get('value');
+                                                DB.user = userInput.get('value');
+                                                DB.password = dbPasswordInput.get('value');
+
+                                                document.getElementById("restore_db_bata_from_bata1DB_result").innerHTML = "Restoring started...";
+
+                                                    Request.postJSONData({url: "/sysadmin/restore_db_from_bata1_db", data: DB, consoleLog: true},
+                                                            function (success, data) {
+                                                                if (!success) {
+                                                                    sa_serverConfig_configState.innerHTML = "<div><b style='color:red'>No connection!</b></div>";
+                                                                }
+                                                                if (data.error) {
+                                                                    document.getElementById("restore_db_bata_from_bata1DB_result").innerHTML = "<b style='color:red'>"+now+"<br/>FAIL! Reason:" + data.error + "<b>";
+                                                                    sa_serverConfig_PageContent.getServerConfiguration();
+                                                                    if (sa_serverConfig_PageContent.getParent().updateDBState)  sa_serverConfig_PageContent.getParent().updateDBState();
+                                                                } else {
+                                                                    var successMsgStr = now+'<br/>';
+                                                                    if (data.userExists)successMsgStr = successMsgStr + data.userExists;
+                                                                    if (data.userCreated)successMsgStr = successMsgStr + data.userCreated;
+                                                                    if (data.accessAdded)successMsgStr = successMsgStr + data.accessAdded;
+                                                                    if (data.restore)successMsgStr = successMsgStr + data.restore;
+                                                                    document.getElementById("restore_db_bata_from_bata1DB_result").innerHTML = successMsgStr;
+                                                                    saveAndReconnectBtn.onClick();
+                                                                }
+                                                            });
+                                            });
+                                        })
+                            });
+                };
+
 
                 sa_serverConfig_PageContent.getServerConfiguration = function(){
                     Request.getJSONData({url: "/sysadmin/server/getServerConfig", consoleLog: true},
@@ -368,7 +546,7 @@
                             });
                 };
 
-                dbForUserBtn.onClick = function () {   ////
+                dbForUserBtn.onClick = function () {
                     dbListForUserDialog.show();
                 };
 
@@ -401,207 +579,13 @@
                             });
                 }
 
-                function createDataBase() {
-                    cleanResultFields();
-                    var newDB = {};
-                    newDB.adminName = document.getElementById("admin_name").value;
-                    newDB.adminPassword = document.getElementById("admin_password").value;
-                    newDB.host = hostInput.get('value');
-                    newDB.newDatabase = databaseInput.get('value');
-                    newDB.newUser = userInput.get('value');
-                    newDB.newPassword = dbPasswordInput.get('value');
-
-                    Request.postJSONData({url: "/sysadmin/create_new_db", data: newDB, consoleLog: true},
-                            function (success, data) {
-                                document.getElementById("admin_password").value="";
-                                var now = moment().format('DD.MM.YYYY HH:mm:ss');
-                                if (!success) {
-                                    sa_serverConfig_configState.innerHTML = "<div><b style='color:red'>No connection!</b></div>";
-                                }
-                                if (data.error) {
-                                    document.getElementById("create_db_result").innerHTML = "<b style='color:red'>"+now+"</br>FAIL! Reason:" + data.error+"</b>";
-                                    sa_serverConfig_PageContent.getServerConfiguration();
-                                    if (sa_serverConfig_PageContent.getParent().updateDBState)  sa_serverConfig_PageContent.getParent().updateDBState();
-                                } else {
-                                    var successMsgStr = now+'</br>';
-                                    if (data.DBCreated) successMsgStr += data.DBCreated + " ";
-                                    if (data.userCreated) successMsgStr += data.userCreated + " ";
-                                    if (data.userExists) successMsgStr += data.userExists + " ";
-                                    if (data.accessAdded) successMsgStr += data.accessAdded;
-                                    document.getElementById("create_db_result").innerHTML = successMsgStr;
-                                    saveAndReconnectBtn.onClick();
-                                }
-                            });
-                }
-
-                function dropDataBase(){
-                    cleanResultFields();
-                    var DB = {};
-                    DB.adminName = document.getElementById("admin_name").value;
-                    DB.adminPassword = document.getElementById("admin_password").value;
-                    DB.host = hostInput.get('value');
-                    DB.database = databaseInput.get('value');
-                    DB.user = userInput.get('value');
-                    DB.password = dbPasswordInput.get('value');
-
-                    Request.postJSONData({url: "/sysadmin/drop_db", data: DB, consoleLog: true},
-                            function (success, data) {
-                                document.getElementById("admin_password").value="";
-                                var now = moment().format('DD.MM.YYYY HH:mm:ss');
-                                if (!success) {
-                                    sa_serverConfig_configState.innerHTML = "<div><b style='color:red'>No connection!</b></div>";
-                                }
-                                if (data.error) {
-                                    document.getElementById("drop_db_result").innerHTML = "<b style='color:red'>"+now+"<br/>FAIL! Reason:" + data.error+"<b>";
-                                    sa_serverConfig_PageContent.getServerConfiguration();
-                                    if (sa_serverConfig_PageContent.getParent().updateDBState)   {
-                                        sa_serverConfig_PageContent.getParent().updateDBState();
-                                    }
-                                } else {
-                                    var successMsgStr = now+'<br/>'+data.dropped;
-                                    document.getElementById("drop_db_result").innerHTML = successMsgStr;
-                                    saveAndReconnectBtn.onClick();
-                                }
-
-                            });
-                }
-
-                function authAsSysadmin(authParams, callback){
-                    Request.postJSONData({url: "/sysadmin/auth_as_sysadmin", data: authParams, consoleLog: true},
-                            function (success, data) {
-                                document.getElementById("admin_password").value = "";
-                                if (!success) {
-                                    sa_serverConfig_configState.innerHTML = "<div><b style='color:red'>No connection!</b></div>";
-                                    return;
-                                }
-                                if (data.error) {
-                                    callback(data.error);
-                                    return;
-                                }
-                                callback();
-                            });
-                }
-                function makeBackup(backupParams,rewrite){
-                    var DB = {};
-                    DB.adminName = authAdminInfo.adminName;
-                    DB.adminPassword = authAdminInfo.adminPassword;
-                    DB.backupFilename = backupParams.filename;
-                    DB.host = hostInput.get('value');
-                    DB.database = databaseInput.get('value');
-                    DB.user = userInput.get('value');
-                    DB.password = dbPasswordInput.get('value');
-                    DB.onlyDataBackup=backupParams.onlyData;
-                    if (rewrite)DB.rewrite = true;
-                    Request.postJSONData({url: "/sysadmin/backup_db", data: DB, consoleLog: true},
-                            function (success, data) {
-                                document.getElementById(backupParams.resultTagName).value = "";
-                                var now = moment().format('DD.MM.YYYY HH:mm:ss');
-                                if (!success) {
-                                    sa_serverConfig_configState.innerHTML = "<div><b style='color:red'>No connection!</b></div>";
-                                    return;
-                                }
-                                if (data.error) {
-                                    document.getElementById(backupParams.resultTagName).innerHTML = "<b style='color:red'>"+now+"<br/>FAIL! Reason:" + data.error + "<b>";
-                                    sa_serverConfig_PageContent.getServerConfiguration();
-                                    saveAndReconnectBtn.onClick();
-                                } else if (data.fileExists) {
-                                    rewriteBackupDialog.show();
-                                } else {
-                                    var successMsgStr = now+'<br/>'+data.backup;
-                                    document.getElementById(backupParams.resultTagName).innerHTML = successMsgStr;
-                                    saveAndReconnectBtn.onClick();
-                                }
-                            });
-                }
-
-                function backupDataBase(action) {
-                    backupDialog.onlyDataBackup='false';
-                    if (action=='backupData'){
-                        backupDialog.resultFieldId="backup_data_result";
-                        backupDialog.onlyDataBackup='true';
-                    }else{
-                        backupDialog.resultFieldId="backup_db_result"
-                    };
-                    cleanResultFields();
-                    var authParams = {};
-                    authParams.adminName = authAdminInfo.adminName;
-                    authParams.adminPassword = authAdminInfo.adminPassword;
-
-                    authAsSysadmin(authParams, function (err) {
-                        if (err) {
-                            document.getElementById(backupDialog.resultFieldId).innerHTML = "<b style='color:red'>FAIL! Reason:" + err + "<b>";
-                            sa_serverConfig_PageContent.getServerConfiguration();
-                            saveAndReconnectBtn.onClick();
-                            return;
-                        }
-                        backupDialog.show();
-                    });
-                }
-
-                function getAuthAdminInfo() {
-                    authAdminInfo.adminName = document.getElementById("admin_name").value;
-                    authAdminInfo.adminPassword = document.getElementById("admin_password").value;
-                }
-                function restoreDataBase() {
-                    cleanResultFields();
-                    var authParams = {};
-                    authParams.adminName = authAdminInfo.adminName;
-                    authParams.adminPassword = authAdminInfo.adminPassword;
-
-                    authAsSysadmin(authParams, function (err) {
-                        if (err) {
-                            document.getElementById("restore_db_result").innerHTML = "<b style='color:red'>FAIL! Reason:" + err + "<b>";
-                            sa_serverConfig_PageContent.getServerConfiguration();
-                            saveAndReconnectBtn.onClick();
-                            return;
-                        }
-                        restoreDialog.show();
-                    });
-                }
-
-                function makeRestore() {
-                    cleanResultFields();
-                    var DB = {};
-                    DB.adminName = authAdminInfo.adminName;
-                    DB.adminPassword = authAdminInfo.adminPassword;
-                    DB.restoreFilename = restoreFilename;
-                    DB.host = hostInput.get('value');
-                    DB.database = databaseInput.get('value');
-                    DB.user = userInput.get('value');
-                    DB.password = dbPasswordInput.get('value');
-
-                    document.getElementById("restore_db_result").innerHTML = "Restoring started...";
-
-                    Request.postJSONData({url: "/sysadmin/restore_db", data: DB, consoleLog: true},
-                            function (success, data) {
-                                document.getElementById("admin_password").value = "";
-                                document.getElementById("backup_fileName").value = "";
-                                document.getElementById("restore_fileName").value = "";
-                                var now = moment().format('DD.MM.YYYY HH:mm:ss');
-                                if (!success) {
-                                    sa_serverConfig_configState.innerHTML = "<div><b style='color:red'>No connection!</b></div>";
-                                }
-                                if (data.error) {
-                                    document.getElementById("restore_db_result").innerHTML = "<b style='color:red'>"+now+"<br/>FAIL! Reason:" + data.error + "<b>";
-                                    sa_serverConfig_PageContent.getServerConfiguration();
-                                    if (sa_serverConfig_PageContent.getParent().updateDBState)  sa_serverConfig_PageContent.getParent().updateDBState();
-                                } else {
-                                    var successMsgStr = now+'<br/>';
-                                    if (data.userExists)successMsgStr = successMsgStr + data.userExists;
-                                    if (data.userCreated)successMsgStr = successMsgStr + data.userCreated;
-                                    if (data.accessAdded)successMsgStr = successMsgStr + data.accessAdded;
-                                    if (data.restore)successMsgStr = successMsgStr + data.restore;
-                                    document.getElementById("restore_db_result").innerHTML = successMsgStr;
-                                    saveAndReconnectBtn.onClick();
-                                }
-                            });
-                }
                 function cleanResultFields(){
                     document.getElementById("drop_db_result").innerHTML = "";
                     document.getElementById("create_db_result").innerHTML = "";
                     document.getElementById("backup_db_result").innerHTML = "";
                     document.getElementById("backup_data_result").innerHTML = "";
                     document.getElementById("restore_db_result").innerHTML = "";
+                    document.getElementById("restore_db_bata_from_bata1DB_result").innerHTML = "";
                 }
                 sa_serverConfig_PageContent.getServerConfiguration();
             });

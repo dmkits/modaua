@@ -75,7 +75,7 @@ module.exports.mySQLAdminConnection = function (connParams, callback) {         
     });
 };
 
-module.exports.checkIfDBExists = function (DBName, callback) {      console.log("checkIfDBExists connection=",connection);
+module.exports.checkIfDBExists = function (DBName, callback) {
     connection.query("SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME = '" +DBName + "'",
         function (err, recordset) {
             if (err) {

@@ -405,7 +405,7 @@ module.exports.init = function(app){
         });
     });
 
-    app.post("/sysadmin/backup_db", function (req, res) {
+    app.post("/sysadmin/backup_db", function (req, res) {     console.log("backup_db req.body=",req.body);
         log.info("/sysadmin/backup_db");
         var onlyData=req.body.onlyDataBackup;
         var host = req.body.host;
@@ -430,7 +430,7 @@ module.exports.init = function(app){
         };
         var outData = {};
 
-        database.checkIfDBExists(DBName, function (err, result) {
+        database.checkIfDBExists(DBName, function (err, result) { console.log("checkIfDBExists");
             if (err) {                                                                                                  log.error("checkIfDBExists err=", err);
                 outData.error = err.message;
                 logData.error = err.message;
@@ -468,7 +468,7 @@ module.exports.init = function(app){
                             return;
                         }
                     }
-                    database.backupDB(backupParam, function (err, ok) {
+                    database.backupDB(backupParam, function (err, ok) {   console.log("backupDB");
                         if (err) {                                                                                      log.error("checkIfDBExists err=", err);
                             outData.error = err.message;
                             logData.error = err.message;
@@ -637,7 +637,7 @@ module.exports.init = function(app){
                     return;
                 }
                 database.checkIfUserExists(userName, function (err, result) {
-                    if (err) {                                                                                  log.error("checkIfUserExists err=", err);
+                    if (err) {
                         outData.error = err.message;
                         res.send(outData);
                         return;
@@ -645,7 +645,7 @@ module.exports.init = function(app){
                     if (result.length > 0) {
                         outData.userExists = "User " + userName + " is already exists!";
                         database.grantUserAccess(host, userName, DBName, function (err, ok) {
-                            if (err) {                                                                          log.error("createNewUser err=", err);
+                            if (err) {
                                 outData.error = err.message;
                                 res.send(outData);
                                 return;
