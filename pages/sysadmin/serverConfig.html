@@ -163,22 +163,6 @@
                 var restore_db_bata_from_bata1DB=new Button({id: "restore_db_bata_from_bata1DB"}, "restore_db_bata_from_bata1DB");
                 restore_db_bata_from_bata1DB.domNode.firstChild.setAttribute("style", "width:140px;");
 
-                var dbListForUserDialog = sysadminDialogs.dbListForUserDialog();
-
-                dbListForUserDialog.onExecute=function() {
-                    getDatabasesForUser();
-                    dbListForUserDialog.hide();
-                };
-                dbListForUserDialog.onCancel=function(){
-                    document.getElementById("server_db_user_name").value="";
-                    document.getElementById("server_db_user_password").value="";
-                    dbListForUserDialog.hide();
-                };
-                dbListForUserDialog.onShow=function(){
-                    document.getElementById("server_db_user_name").value="";
-                    document.getElementById("server_db_user_password").value="";
-                };
-
                 createDBBtn.onClick = function () {
                     sysadminDialogs.showAdminAuthDialog({},
                             function (result) {
@@ -340,7 +324,7 @@
                                                 document.getElementById("restore_db_bata_from_bata1DB_result").innerHTML = "<b style='color:red'>" + now + "<br/>" + data.error + "<b>";
                                                 return;
                                             }
-                                            sysadminDialogs.showRestoreDialog(function (restoreDialogResult) { ////
+                                            sysadminDialogs.showRestoreDialog(function (restoreDialogResult) {
                                                 if (!restoreDialogResult) return;
                                                 if(restoreDialogResult.restore_fileName.length<1){
                                                     document.getElementById("restore_db_result").innerHTML = now+" Fail! Please, specify restore file name!";
@@ -401,7 +385,7 @@
                                                 document.getElementById("restore_db_bata_from_bata1DB_result").innerHTML = "<b style='color:red'>" + now + "<br/>" + data.error + "<b>";
                                                 return;
                                             }
-                                            sysadminDialogs.showRestoreDialog(function (restoreDialogResult) { ////
+                                            sysadminDialogs.showRestoreDialog(function (restoreDialogResult) {
                                                 if (!restoreDialogResult) return;
                                                 if(restoreDialogResult.restore_fileName.length<1){
                                                     document.getElementById("restore_db_bata_from_bata1DB_result").innerHTML = now+" Fail! Please, specify restore file name!";
@@ -442,7 +426,6 @@
                             });
                 };
 
-
                 sa_serverConfig_PageContent.getServerConfiguration = function(){
                     Request.getJSONData({url: "/sysadmin/server/getServerConfig", consoleLog: true},
                             function (success, result) {
@@ -471,6 +454,7 @@
                                 setServerConfigContent(result);
                             });
                 };
+
                 reloadBtn.onClick= function() {
                     sa_serverConfig_configState.innerHTML = "<div><b>Loading configuration parameters...</b></div>";
                     Request.getJSONData({url: "/sysadmin/server/loadServerConfig", consoleLog: true},
@@ -490,6 +474,7 @@
                             }
                     );
                 };
+
                 function setServerConfigContent(DBConfigData) {
                     hostInput.set("value", DBConfigData["host"]);
                     databaseInput.set("value", DBConfigData["database"]);
@@ -547,38 +532,34 @@
                 };
 
                 dbForUserBtn.onClick = function () {
-                    dbListForUserDialog.show();
+                    sysadminDialogs.showDbListForUserDialog(function(dbUserRes){
+                        if(!dbUserRes)return;
+
+                        var userAuthData = {user: dbUserRes.db_user_name, pswd: dbUserRes.db_user_password };
+                        Request.postJSONData({url: "/sysadmin/getDBListForUser", data: userAuthData, consoleLog: true},
+                                function (success, data) {
+                                    if (!success) {
+                                        sa_serverConfig_configState.innerHTML = "<div><b style='color:red'>No connection!</b></div>";
+                                        if (sa_serverConfig_PageContent.getParent().updateDBState)  sa_serverConfig_PageContent.getParent().updateDBState();
+                                        return;
+                                    }
+                                    if (data.dbList) {
+                                        if(data.dbListUser){
+                                            document.getElementById("server_dblist_user").innerHTML=data.dbListUser;
+                                        }
+                                        var DBArray = data.dbList;
+                                        var DBstr = "";
+                                        for (var i in DBArray) {
+                                            DBstr = DBstr + DBArray[i].Database + "\n";
+                                        }
+                                        document.getElementById("db_list").innerText = DBstr;
+                                    }
+                                    if(data.dbListError){
+                                        document.getElementById("db_list").innerText=data.dbListError;
+                                    }
+                                });
+                    })
                 };
-
-                function getDatabasesForUser() {
-                    var user = document.getElementById("server_db_user_name").value;
-                    var pswd = document.getElementById("server_db_user_password").value;
-                    var userAuthData = {user: user, pswd: pswd};
-
-                    Request.postJSONData({url: "/sysadmin/getDBListForUser", data: userAuthData, consoleLog: true},
-                            function (success, data) {
-                                if (!success) {
-                                    sa_serverConfig_configState.innerHTML = "<div><b style='color:red'>No connection!</b></div>";
-                                    if (sa_serverConfig_PageContent.getParent().updateDBState)  sa_serverConfig_PageContent.getParent().updateDBState();
-                                    return;
-                                }
-                                if (data.dbList) {
-                                    if(data.dbListUser){
-                                    document.getElementById("server_dblist_user").innerHTML=data.dbListUser;
-                                    }
-                                    var DBArray = data.dbList;
-                                    var DBstr = "";
-                                    for (var i in DBArray) {
-                                        DBstr = DBstr + DBArray[i].Database + "\n";
-                                    }
-                                    document.getElementById("db_list").innerText = DBstr;
-                                }
-                                if(data.dbListError){
-                                    document.getElementById("db_list").innerText=data.dbListError;
-                                }
-                            });
-                }
-
                 function cleanResultFields(){
                     document.getElementById("drop_db_result").innerHTML = "";
                     document.getElementById("create_db_result").innerHTML = "";

@@ -485,15 +485,13 @@ module.exports.init = function(app){
         });
     });
 
-    app.post("/sysadmin/restore_db", function (req, res) {
-        log.info("/sysadmin/restore_db");
+    app.post("/sysadmin/restore_db", function (req, res) {       log.info("/sysadmin/restore_db");
         var host = req.body.host;
-        var DBName = req.body.database;     console.log("DBName=",DBName);
+        var DBName = req.body.database;
+        console.log("DBName=", DBName);
         var adminUser = req.body.adminName;
         var adminPassword = req.body.adminPassword;
         var restoreFileName = req.body.restoreFilename + '.sql';
-        var userName = req.body.user;
-        var userPassword = req.body.password;
         var restoreParams = {
             host: host,
             user: adminUser,
@@ -508,9 +506,10 @@ module.exports.init = function(app){
             database: DBName
         };
         var outData = {};
-        database.mySQLAdminConnection(connParams, function(){
+        database.mySQLAdminConnection(connParams, function () {
             database.checkIfDBExists(DBName, function (err, result) {
-                if (err) {                                                                                                  log.error("checkIfDBExists err=", err);
+                if (err) {
+                    log.error("checkIfDBExists err=", err);
                     outData.error = err.message;
                     res.send(outData);
                     return;
@@ -532,59 +531,16 @@ module.exports.init = function(app){
                     res.send(outData);
                     return;
                 }
-                database.checkIfUserExists(userName, function (err, result) {
-                    if (err) {                                                                                  log.error("checkIfUserExists err=", err);
+                database.restoreDB(restoreParams, function (err, ok) {
+                    if (err) {
+                        log.error("restoreDB err=", err);
                         outData.error = err.message;
                         res.send(outData);
                         return;
                     }
-                    if (result.length > 0) {
-                        outData.userExists = "User " + userName + " is already exists!";
-                        database.grantUserAccess(host, userName, DBName, function (err, ok) {
-                            if (err) {                                                                          log.error("createNewUser err=", err);
-                                outData.error = err.message;
-                                res.send(outData);
-                                return;
-                            }
-                            outData.accessAdded = ok;
-                            database.restoreDB(restoreParams, function (err, ok) {
-                                if (err) {                                                                      log.error("restoreDB err=", err);
-                                    outData.error = err.message;
-                                    res.send(outData);
-                                    return;
-                                }
-                                outData.restore = ok;
-                                res.send(outData);
-                            })
-                        })
-                    } else {
-                        database.createNewUser(host, userName, userPassword, function (err, ok) {
-                            if (err) {                                                                          log.error("createNewUser err=", err);
-                                outData.error = err.message;
-                                res.send(outData);
-                                return;
-                            }
-                            outData.userCreated = ok;
-                            database.grantUserAccess(host, userName, DBName, function (err, ok) {
-                                if (err) {                                                                      log.error("grantUserAccess err=", err);
-                                    outData.error = err.message;
-                                    res.send(outData);
-                                    return;
-                                }
-                                outData.accessAdded = ok;
-                                database.restoreDB(restoreParams, function (err, ok) {
-                                    if (err) {                                                                  log.error("restoreDB err=", err);
-                                        outData.error = err.message;
-                                        res.send(outData);
-                                        return;
-                                    }
-                                    outData.restore = ok;
-                                    res.send(outData);
-                                })
-                            })
-                        });
-                    }
-                });
+                    outData.restore = ok;
+                    res.send(outData);
+                })
             });
         });
     });
@@ -596,25 +552,13 @@ module.exports.init = function(app){
         var adminUser = req.body.adminName;
         var adminPassword = req.body.adminPassword;
         var restoreFileName = req.body.restoreFilename + '.sql';
-        var userName = req.body.user;
-        var userPassword = req.body.password;
-        var restoreParams = {
-            host: host,
-            user: adminUser,
-            password: adminPassword,
-            database: DBName,
-           // fileName: restoreFileName
-        };
-        var connParams = {
-            host: host,
-            user: adminUser,
-            password: adminPassword,
-            database: DBName
-        };
+        var restoreParams = {host: host, user: adminUser, password: adminPassword, database: DBName};
+        var connParams = {host: host, user: adminUser, password: adminPassword, database: DBName};
         var outData = {};
-        database.mySQLAdminConnection(connParams, function(){
+        database.mySQLAdminConnection(connParams, function () {
             database.checkIfDBExists(DBName, function (err, result) {
-                if (err) {                                                                                                  log.error("checkIfDBExists err=", err);
+                if (err) {
+                    log.error("checkIfDBExists err=", err);
                     outData.error = err.message;
                     res.send(outData);
                     return;
@@ -636,85 +580,42 @@ module.exports.init = function(app){
                     res.send(outData);
                     return;
                 }
-                database.checkIfUserExists(userName, function (err, result) {
-                    if (err) {
-                        outData.error = err.message;
-                        res.send(outData);
-                        return;
-                    }
-                    if (result.length > 0) {
-                        outData.userExists = "User " + userName + " is already exists!";
-                        database.grantUserAccess(host, userName, DBName, function (err, ok) {
-                            if (err) {
-                                outData.error = err.message;
+                fs.readFile(path.join(__dirname, "/../../backups/" + restoreFileName), "utf-8", function (err, result) {
+
+                    var newBackUpStr = result.replace(/wrh_pinv_products/g, 'wrh_pinvs_products');
+                    newBackUpStr = newBackUpStr.replace(/wrh_inv_products/g, 'wrh_invs_products');
+                    newBackUpStr = newBackUpStr.replace(/wrh_inv_products_wob/g, 'wrh_invs_products_wob');
+                    newBackUpStr = newBackUpStr.replace(/wrh_retail_ticket_products/g, 'wrh_retail_tickets_products');
+                    newBackUpStr = newBackUpStr.replace(/wrh_retail_ticket_products_wob/g, 'wrh_retail_tickets_products_wob');
+
+                    fs.writeFile(path.join(__dirname, "/../../backups/copy_" + restoreFileName), newBackUpStr, "utf-8", function (err) {
+                        if (err) {
+                            log.error("restoreDB err=", err);
+                            outData.error = err.message;
+                            res.send(outData);
+                            return;
+                        }
+                        restoreParams.fileName = "copy_" + restoreFileName;
+                        var modules = dataModel.getValidatedDataModels();
+                        console.log("modules=", modules);
+                        var tablesNames = [];
+                        for (var param in modules) {
+                            tablesNames.push(param);
+                        }
+                        console.log("tablesNames=", tablesNames);
+                        deleteDataFromTAbles(tablesNames, 0, function () {
+                            database.restoreDB(restoreParams, function (err, ok) {
+                                if (err) {
+                                    log.error("restoreDB err=", err);
+                                    outData.error = err.message;
+                                    res.send(outData);
+                                    return;
+                                }
+                                outData.restore = ok;
                                 res.send(outData);
-                                return;
-                            }
-                            outData.accessAdded = ok;
-                            fs.readFile(path.join(__dirname,"/../../backups/"+restoreFileName),"utf-8", function(err,result){
-
-                                var newBackUpStr = result.replace(/wrh_pinv_products/g, 'wrh_pinvs_products');
-                                newBackUpStr = newBackUpStr.replace(/wrh_inv_products/g, 'wrh_invs_products');
-                                newBackUpStr = newBackUpStr.replace(/wrh_inv_products_wob/g, 'wrh_invs_products_wob');
-                                newBackUpStr = newBackUpStr.replace(/wrh_retail_ticket_products/g, 'wrh_retail_tickets_products');
-                                newBackUpStr = newBackUpStr.replace(/wrh_retail_ticket_products_wob/g, 'wrh_retail_tickets_products_wob');
-
-                                fs.writeFile(path.join(__dirname,"/../../backups/copy_"+restoreFileName), newBackUpStr,"utf-8", function(err){
-                                    if(err){
-                                        log.error("restoreDB err=", err);
-                                        outData.error = err.message;
-                                        res.send(outData);
-                                        return;
-                                    }
-                                    restoreParams.fileName="copy_"+restoreFileName;
-                                    var modules=dataModel.getValidatedDataModels(); console.log("modules=",modules);
-                                    var tablesNames=[];
-                                    for(var param in modules ){
-                                        tablesNames.push(param);
-                                    }
-                                    console.log("tablesNames=",tablesNames);
-                                    deleteDataFromTAbles(tablesNames,0, function(){
-                                        database.restoreDB(restoreParams, function (err, ok) {
-                                            if (err) {                                                                      log.error("restoreDB err=", err);
-                                                outData.error = err.message;
-                                                res.send(outData);
-                                                return;
-                                            }
-                                            outData.restore = ok;
-                                            res.send(outData);
-                                        })
-                                    });
-                                })
-                            });
-                        })
-                    }
-                    //else {
-                    //    database.createNewUser(host, userName, userPassword, function (err, ok) {
-                    //        if (err) {                                                                          log.error("createNewUser err=", err);
-                    //            outData.error = err.message;
-                    //            res.send(outData);
-                    //            return;
-                    //        }
-                    //        outData.userCreated = ok;
-                    //        database.grantUserAccess(host, userName, DBName, function (err, ok) {
-                    //            if (err) {                                                                      log.error("grantUserAccess err=", err);
-                    //                outData.error = err.message;
-                    //                res.send(outData);
-                    //                return;
-                    //            }
-                    //            outData.accessAdded = ok;
-                    //            database.restoreDB(restoreParams, function (err, ok) {
-                    //                if (err) {                                                                  log.error("restoreDB err=", err);
-                    //                    outData.error = err.message;
-                    //                    res.send(outData);
-                    //                    return;
-                    //                }
-                    //                outData.restore = ok;
-                    //                res.send(outData);
-                    //            })
-                    //        })
-                    //    });
-                    //}
+                            })
+                        });
+                    })
                 });
             });
         });
