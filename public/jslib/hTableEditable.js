@@ -80,12 +80,11 @@ define(["dojo/_base/declare", "hTableSimpleFiltered","dijit/ProgressBar","dijit/
                     var rowSourceData= instance.getContentRow(row);
                     if (rowSourceData) {
                         var colType=parent.htVisibleColumns[col].type;
-                        if (colType === "autocomplete") {                                                               //console.log("HTableEditable cellValueRenderer autocomplete",td);
-                            if (rowSourceData[parent.allowEditRowProp] != true) {
-                                if (td.lastChild) td.lastChild.setAttribute("style","display:none");
-                            } else {
-                                if (td.lastChild) td.lastChild.removeAttribute("style");
-                            }
+                        if (colType === "autocomplete"
+                                &&td.lastChild&&td.lastChild.tagName==="DIV"
+                                &&td.lastChild.className&&td.lastChild.className.indexOf("htAutocompleteArrow")>=0) {   //console.log("HTableEditable cellValueRenderer autocomplete",td,td.className);
+                            if (rowSourceData[parent.allowEditRowProp] != true) td.lastChild.setAttribute("style","display:none");
+                            else td.lastChild.removeAttribute("style");
                         }
                     }
                     if (rowSourceData&&rowSourceData[parent.allowEditRowProp]==true) td.classList.add('hTableRowInEditMode');//markAsEditMode-row data not stored to server
