@@ -581,12 +581,14 @@ module.exports.init = function(app){
                 }
                 fs.readFile(path.join(__dirname, "/../../backups/" + restoreFileName), "utf-8", function (err, result) {
 
-                    var newBackUpStr = result.replace(/wrh_pinv_products/g, 'wrh_pinvs_products');
+                    var newBackUpStr = result.replace(/wrh_order_bata_details/g, 'wrh_orders_bata_details');
+                    newBackUpStr = newBackUpStr.replace(/wrh_pinv_products/g, 'wrh_pinvs_products');
                     newBackUpStr = newBackUpStr.replace(/wrh_inv_products/g, 'wrh_invs_products');
                     newBackUpStr = newBackUpStr.replace(/wrh_inv_products_wob/g, 'wrh_invs_products_wob');
                     newBackUpStr = newBackUpStr.replace(/wrh_retail_ticket_products/g, 'wrh_retail_tickets_products');
                     newBackUpStr = newBackUpStr.replace(/wrh_retail_ticket_products_wob/g, 'wrh_retail_tickets_products_wob');
-                    newBackUpStr = newBackUpStr.replace(/wrh_order_bata_details/g, 'wrh_orders_bata_details');
+                    newBackUpStr = newBackUpStr.replace(/wrh_ret_inv_products/g, 'wrh_ret_invs_products');
+                    newBackUpStr = newBackUpStr.replace(/wrh_ret_inv_products_wob/g, 'wrh_ret_invs_products_wob');
 
                     fs.writeFile(path.join(__dirname, "/../../backups/copy_" + restoreFileName), newBackUpStr, "utf-8", function (err) {
                         if (err) {

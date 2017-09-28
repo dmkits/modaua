@@ -31,11 +31,13 @@ module.exports.validateModules= function(resultCallback){
         try{
             module=require("./"+moduleName);
         }catch(e){                                                                                          log.error('FAILED validate module:'+moduleName+"! Reason:",e.message);//test
+            errs[moduleName+"_validateError"]="Failed validate module:"+moduleName+"! Reason:"+e.message;
             validateModuleCallback(modules, index + 1, errs);
             return;
         }
         var validateModule=module.validateModule;
         if(!validateModule){                                                                                log.warn('ValidateModule PASSED for Module:'+moduleName+"! Reason: no validate function.");//test
+            errs[moduleName+"_validateError"]="Failed validate module:"+moduleName+"! Reason: no validate function!";
             validateModuleCallback(modules, index + 1, errs);
             return;
         }

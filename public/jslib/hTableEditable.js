@@ -185,7 +185,7 @@ define(["dojo/_base/declare", "hTableSimpleFiltered","dijit/ProgressBar","dijit/
             this.setRowAllowEditProp(rowData, editPropValue);
             this.handsonTable.render();
             var rowsData=[]; rowsData[0]=rowData;
-            this.onUpdateContent({changedRows:rowsData});
+            this.onUpdateContent({updatedRows:rowsData});
             return rowData;
         },
         allowEditSelectedRow: function(){
@@ -196,7 +196,7 @@ define(["dojo/_base/declare", "hTableSimpleFiltered","dijit/ProgressBar","dijit/
         allowEditRows: function(rowsData){
             for (var rowIndex in rowsData) this.setRowAllowEditProp(rowsData[rowIndex]);
             this.handsonTable.render();
-            this.onUpdateContent({changedRows:rowsData});
+            this.onUpdateContent({updatedRows:rowsData});
         },
         isRowEditable: function(rowData){
             if (!rowData) return false;
@@ -244,7 +244,7 @@ define(["dojo/_base/declare", "hTableSimpleFiltered","dijit/ProgressBar","dijit/
             this.handsonTable.render();
             if (params.callUpdateContent!=false) {
                 var rowsData=[]; rowsData[0]=rowData;
-                this.onUpdateContent({changedRows:rowsData});
+                this.onUpdateContent({updatedRows:rowsData});
             }
             return rowData;
         },
@@ -285,7 +285,7 @@ define(["dojo/_base/declare", "hTableSimpleFiltered","dijit/ProgressBar","dijit/
             this.filterContentData();
             var thisInstance=this;
             //setTimeout(function(){
-                thisInstance.onChangeRowsData(newChangedRowsData);
+                thisInstance.onChangeRowsData(newChangedRowsData, {inserted:true});
             //}, 1);
             this.setSelectedRow(selectRowIndex+1);
         },
@@ -323,13 +323,14 @@ define(["dojo/_base/declare", "hTableSimpleFiltered","dijit/ProgressBar","dijit/
             var filtered= this.filterContentData();
             this.onUpdateContent({filtered:filtered, deletedRows:rowsData});
         },
-        /*
-         * params: { filtered, changedRows, deletedRows }
+        /**
+         * params: { filtered, updatedRows, insertedRows, deletedRows }
          */
         onUpdateContent: function(params){
             //TODO actions on/after update table content (after set/reset/reload/clear table content data) (params filtered has value)
+            //TODO actions and after call updateRowData({rowData,newRowData})
             //TODO actions after set/clear table filters (params filtered has value)
-            //TODO actions after set table data props values (params changedRows has value)
+            //TODO actions after set table data props values (params updatedRows has value) by calls allowEditRow/allowEditRows/updateRowAllDataItems
             //TODO actions after end change row callbacks by user change table content (e.t. paste)
             //TODO actions after deleted table row (params deletedRows has value)
         },
@@ -416,22 +417,26 @@ define(["dojo/_base/declare", "hTableSimpleFiltered","dijit/ProgressBar","dijit/
             if (newRowData) newChangedRowsData.addRowData(newRowData, oldRowData);
             return newChangedRowsData;
         },
-        onChangeRowsData: function(changedRowsData) {                                                                   //console.log("HTableEditable.onChangeRowsData changedRowsData=",changedRowsData);
+        /**
+         * param = { inserted:true/false }
+         */
+        onChangeRowsData: function(changedRowsData,param) {                                                             //console.log("HTableEditable.onChangeRowsData changedRowsData=",changedRowsData,param);
             var thisInstance=this;
-            /* params = { table:this instance, other added in onChangeRowData  } */
+            /* rowsCallback.params = { table:this instance, other added in onChangeRowData  } */
             var rowsCallback= function(i, changedRowsData, params, callUpdateContent) {
                 var changedRowData=changedRowsData[i];
-                if (changedRowData) {
-                    setTimeout(function(){
-                        thisInstance.onChangeRowData(changedRowData, params,
-                            function(){
-                                rowsCallback(i+1, changedRowsData, params, callUpdateContent);                          //console.log("HTableEditable.onChangeRowsData rowsCallback for change=",i+1);
-                            });
-                    },1);
+                if (!changedRowData) {
+                    thisInstance.handsonTable.render();
+                    if(param&&param.inserted) thisInstance.onUpdateContent({insertedRows:changedRowsData});
+                    else thisInstance.onUpdateContent({updatedRows:changedRowsData});
                     return;
                 }
-                thisInstance.handsonTable.render();
-                thisInstance.onUpdateContent({changedRows:changedRowsData});
+                setTimeout(function(){
+                    thisInstance.onChangeRowData(changedRowData, params,
+                        function(){
+                            rowsCallback(i+1, changedRowsData, params, callUpdateContent);                          //console.log("HTableEditable.onChangeRowsData rowsCallback for change=",i+1);
+                        });
+                },1);
             };
             rowsCallback(0,changedRowsData, {table:thisInstance}, false);
             //thisInstance.handsonTable.render();
@@ -451,7 +456,7 @@ define(["dojo/_base/declare", "hTableSimpleFiltered","dijit/ProgressBar","dijit/
             if (!this.rowChangeCallbacks) {
                 this.rowChangeCallbacks=[];
                 var thisInstance=this;
-                var rowChangeCallbackProcess= function(i, changedRowData, thisInstance, params, callUpdateContent, nextCallback){            //console.log("TemplateDocumentStandardTable this.detailTable.onChangeRowsData rowCallback",i,changedRowData/*,nextCallback*/);
+                var rowChangeCallbackProcess= function(i, changedRowData, thisInstance, params, callUpdateContent, nextCallback){//console.log("TemplateDocumentStandardTable this.detailTable.onChangeRowsData rowCallback",i,changedRowData/*,nextCallback*/);
                     var rowChangeCallback=thisInstance.rowChangeCallbacks[i];
                     if(rowChangeCallback) {
                         rowChangeCallback(changedRowData, thisInstance, params,
@@ -575,7 +580,7 @@ define(["dojo/_base/declare", "hTableSimpleFiltered","dijit/ProgressBar","dijit/
                 if (!params.rowData) {
                     storeTableRowsDialog.hide();
                     thisInstance.setSelection();
-                    thisInstance.onUpdateContent({changedRows:storingRowData});
+                    thisInstance.onUpdateContent({updatedRows:storingRowData});
                     return;
                 }
                 if(rowInd===0){

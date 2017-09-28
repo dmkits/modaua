@@ -1,11 +1,13 @@
 var dataModel=require('../datamodel'), dateFormat = require('dateformat');
-var wrh_ret_invs= require(appDataModelPath+"wrh_ret_invs"), wrh_ret_invs_products= require(appDataModelPath+"wrh_ret_invs_products");
+var wrh_ret_invs= require(appDataModelPath+"wrh_ret_invs"),
+    wrh_ret_invs_products= require(appDataModelPath+"wrh_ret_invs_products"),
+    wrh_ret_invs_products_wob= require(appDataModelPath+"wrh_ret_invs_products_wob");
 var dir_units= require(appDataModelPath+"dir_units"), dir_contractors= require(appDataModelPath+"dir_contractors"),
-    sysCurrency= require(appDataModelPath+"sys_currency"), sysDocStates= require(appDataModelPath+"sys_docstates");
+    sys_currency= require(appDataModelPath+"sys_currency"), sysDocStates= require(appDataModelPath+"sys_docstates");
 // ,dirProdsCollections= require(appDataModelPath+"dir_products_collections");
 
 module.exports.validateModule = function(errs, nextValidateModuleCallback){
-    dataModel.initValidateDataModels([wrh_ret_invs,wrh_ret_invs_products], errs,
+    dataModel.initValidateDataModels([wrh_ret_invs,wrh_ret_invs_products,wrh_ret_invs_products_wob], errs,
         function(){
             nextValidateModuleCallback();
         });
@@ -61,7 +63,7 @@ module.exports.init = function(app){
                     var unitName=(result&&result.item)?result.item["NAME"]:"";
                     dir_contractors.getDataItem({fields:["NAME"],conditions:{"ID=":"0"}}, function(result){
                         var buyerName=(result&&result.item)?result.item["NAME"]:"";
-                        sysCurrency.getDataItem({ fields:["CODE","CODENAME"],
+                        sys_currency.getDataItem({ fields:["CODE","CODENAME"],
                                 fieldsFunctions:{"CODENAME":{function:"concat",fields:["CODE","' ('","NAME","')'"]}},
                                 conditions:{"ID=":"0"} },
                             function(result){
@@ -96,7 +98,7 @@ module.exports.init = function(app){
                     return;
                 }
                 storeData["BUYER_ID"]=result.item["ID"];
-                sysCurrency.getDataItem({fields:["ID"],conditions:{"CODE=":storeData["CURRENCY_CODE"]}}, function(result){
+                sys_currency.getDataItem({fields:["ID"],conditions:{"CODE=":storeData["CURRENCY_CODE"]}}, function(result){
                     if(!result.item){
                         res.send({ error:"Cannot finded currency by code!"});
                         return;

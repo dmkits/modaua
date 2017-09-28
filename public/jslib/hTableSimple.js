@@ -330,8 +330,13 @@ define(["dojo/_base/declare", "dijit/layout/ContentPane","dojox/widget/Standby",
             }
             return itemSum;
         },
-        onUpdateContent: function(){                                                                                    //console.log("HTableSimple onUpdateContent");
+        /**
+         * param = { updatedRows }
+         * param.updatedRows has values if call updateRowData
+         */
+        onUpdateContent: function(params){                                                                                    //console.log("HTableSimple onUpdateContent");
             //TODO actions on/after update table content (after set/reset/reload/clear table content data)
+            //TODO actions and after call updateRowData({rowData,newRowData})
         },
         /*
          * params: {method=get/post , url, condition:string or object, duplexRequest:true/false, dontClearContent:true/false, data, callUpdateContent:true/false}
@@ -464,7 +469,7 @@ define(["dojo/_base/declare", "dijit/layout/ContentPane","dojox/widget/Standby",
                     instance.updateContent(result, {callUpdateContent:params.callUpdateContent});
                 });
         },
-        /*
+        /**
          * params { callUpdateContent }
          * do render table content
          */
@@ -473,7 +478,7 @@ define(["dojo/_base/declare", "dijit/layout/ContentPane","dojox/widget/Standby",
             this.handsonTable.render();
             if (params&&params.callUpdateContent!=false) {
                 var rowsData=[]; rowsData[0]=rowData;
-                this.onUpdateContent({changedRows:rowsData});
+                this.onUpdateContent({updatedRows:rowsData});
             }
             return rowData;
         },

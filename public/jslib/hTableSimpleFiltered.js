@@ -353,7 +353,7 @@ define(["dojo/_base/declare", "hTableSimple"], function(declare, HTableSimple){
             );
             return filtered;
         },
-        /*
+        /**
          * calls on load/set/reset data to table or on change data after store
          * params= { callOnUpdateContent=true/false, resetSelection=true/false }
          * default params.resetSelection!=false
@@ -375,11 +375,14 @@ define(["dojo/_base/declare", "hTableSimple"], function(declare, HTableSimple){
             if (params.callOnUpdateContent===false) return;
             this.onUpdateContent({filtered:filtered});
         },
-        /*
-         * params: { filtered }
+        /**
+         * param = { updatedRows, filtered }
+         * param.updatedRows has values if call updateRowData
+         * param.filtered = true if in table use columns filters or global filter
          */
         onUpdateContent: function(params){                                                                              //console.log("HTableSimpleFiltered onUpdateContent params=",params);
             //TODO actions on/after update table content (after set/reset/reload/clear table content data)
+            //TODO actions and after call updateRowData({rowData,newRowData})
             //TODO actions after set/clear table filters
         }
     });

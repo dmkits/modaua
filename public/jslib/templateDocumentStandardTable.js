@@ -183,7 +183,10 @@ define(["dojo/_base/declare", "dijit/layout/BorderContainer", "dijit/layout/Cont
                 };
                 return this;
             },
-            setDetailHeaderContentByListSelectedRow: function(listSelectedFirstRowData, reloadData, clearBeforeLoad){   //console.log("TemplateDocumentStandardTable.setDetailHeaderContentByListSelectedRow ",listSelectedFirstRowData);
+            /**
+             * param { reloadData, clearBeforeLoad }
+             */
+            setDetailHeaderContentByListSelectedRow: function(listSelectedFirstRowData, params){   console.log("TemplateDocumentStandardTable.setDetailHeaderContentByListSelectedRow ",listSelectedFirstRowData, params);
                 if (!this.detailHeader) {
                     this.setToolPanesActions();
                     return;
@@ -199,17 +202,15 @@ define(["dojo/_base/declare", "dijit/layout/BorderContainer", "dijit/layout/Cont
                     this.detailHeader.lastContentData=this.detailHeader.getContentData();
                     return;
                 }
+                var reloadData=(params&&params.reloadData==true)?true:false;
                 if(this.detailHeader.getContentDataIDValue()===newID&&reloadData!==true) return;
+                var clearBeforeLoad=(params&&params.clearBeforeLoad==true)?true:false;
                 if(clearBeforeLoad===true) this.detailHeader.clearData();
                 var detailHeaderGetDataCondition={};
                 detailHeaderGetDataCondition[(this.detailHeader.dataIDName+"=").replace("=","~")]=newID;                //console.log("TemplateDocumentStandardTable.setDetailHeaderContentByListSelectedRow this.detailHeader.loadDataFromUrl");
+                if(this.detailTable.getContent().length>0)
+                    this.detailTable.clearContent({callOnUpdateContent:false,resetSelection:false});
                 this.detailHeader.loadDataFromUrl({ url:this.detailHeader.getDataUrl, condition:detailHeaderGetDataCondition });
-            },
-            reloadDetailHeaderContentFromServer: function(){
-                this.setDetailHeaderContentByListSelectedRow(this.detailHeader.lastContentData, true);
-            },
-            reloadDetailContentFromServer: function(){
-                this.setDetailHeaderContentByListSelectedRow(this.detailHeader.lastContentData, true, true);
             },
             loadDetailHeaderContentValuesFromServer: function(){
                 if (!this.detailHeader.getDataForNewUrl) return;
@@ -279,7 +280,7 @@ define(["dojo/_base/declare", "dijit/layout/BorderContainer", "dijit/layout/Cont
                 this.detailHeader.btnUpdate= this.addTableHeaderButtonTo(this.detailHeaderTable.lastChild, {labelText:labelText, cellWidth:width, cellStyle:"text-align:right;"});
                 var instance= this;
                 this.detailHeader.btnUpdate.onClick = function(){
-                    instance.reloadDetailContentFromServer();
+                    instance.setDetailHeaderContentByListSelectedRow(this.detailHeader.lastContentData, {reloadData:true, clearBeforeLoad:true});
                 };
                 return this;
             },
@@ -378,8 +379,8 @@ define(["dojo/_base/declare", "dijit/layout/BorderContainer", "dijit/layout/Cont
                 if (parameters.deleteDataUrl) this.detailTable.deleteDataUrl=parameters.deleteDataUrl;
                 var thisInstance= this;
                 this.detailTable.onUpdateContent = function(params){                                                console.log("TemplateDocumentStandardTable.detailTable.onUpdateContent ",params);
-                    if(params&&(params.changedRows||params.deletedRows)) {
-                        thisInstance.reloadDetailHeaderContentFromServer();
+                    if(params&&(params.updatedRows||params.deletedRows)) {
+                        thisInstance.setDetailHeaderContentByListSelectedRow(this.detailHeader.lastContentData, {reloadData:true});
                         thisInstance.loadListTableContentFromServer();
                     }
                     var selectedRowData = this.getSelectedRow();

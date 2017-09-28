@@ -22,7 +22,7 @@ var changeLog = [
     { 'changeID':'wrh_ret_invs__7', 'changeDatetime':'2017-08-11 09:07:00', 'changeObj':'wrh_ret_invs',
         'changeVal':'ALTER TABLE wrh_ret_invs ADD CONSTRAINT WRH_RET_INVS_BUYER_ID_FK ' +
             'FOREIGN KEY (BUYER_ID) REFERENCES dir_contractors(ID)',
-        "field":"BUYER_ID", "source":"dir_contractors", "linkField":"ID"},
+        "field":"BUYER_ID", "source":"dir_contractors", "linkField":"ID"}/*,
     { 'changeID':'wrh_ret_invs__8', 'changeDatetime':'2017-08-11 09:08:00', 'changeObj':'wrh_ret_invs',
         'changeVal':'ALTER TABLE wrh_ret_invs ADD COLUMN CURRENCY_ID INTEGER UNSIGNED NOT NULL',
         "field":"CURRENCY_ID"},
@@ -39,6 +39,6 @@ var changeLog = [
         "field":"DOCSTATE_ID", "source":"sys_docstates", "linkField":"ID" },
     { 'changeID':'wrh_ret_invs_12', 'changeDatetime':'2017-08-11 09:12:00', 'changeObj':'wrh_ret_invs',
         'changeVal':'ALTER TABLE wrh_ret_invs ADD COLUMN RATE DECIMAL(10,2) NOT NULL',
-        "field":"RATE"}
+        "field":"RATE"}*/
 ];
 module.exports.changeLog=changeLog;
