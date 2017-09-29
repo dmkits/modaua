@@ -289,6 +289,37 @@
                                         });
                             }
                         })
+                        .addToolPane("экспорт")
+                        .addToolPaneActionButton("таблице в эксель", {action:"exportTableContentToExcel"}, "width:200px;", {}, function(){
+                            var tableData=this.detailTable.getContent();                                              console.log("exportTableContentToExcel.onClick detailTable.content=",this.detailTable.getVisibleColumns(),this.detailTable.getContent());
+                          var visibleColumns= this.detailTable.getVisibleColumns();
+                           var columnsDataForExcel= [];
+                            for (var i in visibleColumns){
+                                var column = visibleColumns[i];
+                                var columnForExcel = {data:column.data, type:column.type, name:column.name};
+                                if(column.format)columnForExcel.format=column.format;
+                                columnsDataForExcel.push(columnForExcel);
+                            }
+                            var dataForExcelFile={columns:columnsDataForExcel, rows:tableData};
+                            Request.postJSONData({url: "/wrh/pInvoices/get_excel_file", data:dataForExcelFile , consoleLog: true},
+                                    function (success, data) {
+                                         // if (!success)
+
+//                                        if (data.error) {
+//                                            document.getElementById("create_db_result").innerHTML = "<b style='color:red'>" + now + "</br>FAIL! Reason:" + data.error + "</b>";
+//                                            sa_serverConfig_PageContent.getServerConfiguration();
+//                                            if (sa_serverConfig_PageContent.getParent().updateDBState)  sa_serverConfig_PageContent.getParent().updateDBState();
+//                                        } else {
+//                                            var successMsgStr = now + '</br>';
+//                                            if (data.DBCreated) successMsgStr += data.DBCreated + " ";
+//                                            if (data.userCreated) successMsgStr += data.userCreated + " ";
+//                                            if (data.userExists) successMsgStr += data.userExists + " ";
+//                                            if (data.accessAdded) successMsgStr += data.accessAdded;
+//                                            document.getElementById("create_db_result").innerHTML = successMsgStr;
+//                                            saveAndReconnectBtn.onClick();
+  //                                      }
+                                    });
+                        })
                         .addToolPane("Печать")
                         .addToolPaneActionButton("Печать ценников", {action:"printProdTags"}, "width:200px;", {}, function(){
                             var printWindow= window.open("/print/printTags");                                           //console.log("printProdTags.onClick printWindow=",printWindow);

@@ -1,5 +1,6 @@
 var server= require("../server"), log= server.log;
-var dateFormat = require('dateformat'),uid = require('uniqid'), path=require('path');
+var dateFormat = require('dateformat'), path=require('path');
+var util=require("../util");
 
 var dataModelChanges= [], validatedDataModels={};
 module.exports.getModelChanges=function(){ return dataModelChanges; };
@@ -9,15 +10,7 @@ module.exports.resetValidatedDataModels=function(){ validatedDataModels={}; };
 
 var database= require("../database");
 
-function getUIDNumber() {
-    var str= uid.time();
-    var len = str.length;
-    var num = 0;
-    for (var i = (len - 1); i >= 0; i--) {
-        num+= Math.pow(256,i) * str.charCodeAt(i);
-    }
-    return num;
-}
+
 /**
  * created for data model fields: sourceType, source, fields, idField, fieldsMetadata
  * created data model functions
@@ -755,7 +748,7 @@ function _insDataItemWithNewID(params, resultCallback) {
         resultCallback({ error:"Failed insert data item with new ID! Reason:no id field name!"});
         return;
     }
-    params.insData[idFieldName]=getUIDNumber();
+    params.insData[idFieldName]=util.getUIDNumber();
     this.insDataItem({idFieldName:idFieldName, insData:params.insData}, function(result){
         if(result&&result.updateCount>0)result.resultItem=params.insData;
         resultCallback(result);

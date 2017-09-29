@@ -1,4 +1,4 @@
-var dataModel=require('../datamodel'), dateFormat = require('dateformat');
+var dataModel=require('../datamodel'), dateFormat = require('dateformat'),util=require('../util'), path=require('path'),fs=require('fs');
 var wrh_pinvs= require(appDataModelPath+"wrh_pinvs"), wrh_pinvs_products= require(appDataModelPath+"wrh_pinvs_products");
 var dir_units= require(appDataModelPath+"dir_units"), dirContractors= require(appDataModelPath+"dir_contractors"),
     sys_currency= require(appDataModelPath+"sys_currency"), sysDocStates= require(appDataModelPath+"sys_docstates"),
@@ -266,5 +266,50 @@ module.exports.init = function(app){
             function(result){
                 res.send(result);
             });
+    });
+
+    app.post("/wrh/pInvoices/get_excel_file", function(req, res){  console.log("/wrh/pInvoices/get_excel_file");
+        var columns = req.body.columns;
+        var rows = req.body.rows;
+        var uniqueFileId = util.getUIDNumber();
+
+        // var data =JSON.parse(fs.readFileSync("/home/ianagez/IdeaProjects/chat/testInfoTable.json"));
+        var fname = path.join(__dirname, '../../XLSX_temp/' + uniqueFileId + '.xlsx');
+        try {
+            fs.writeFileSync(fname);
+        } catch (e) {
+            console.log("e=", e);
+        }
+        return;
+        //fs.open(fname, 'w', function (err) {
+        //    if (err){
+        //        console.log("err=", err);
+        //        res.end();
+        //        return;
+        //    }
+        var wb = XLSX.readFile(fname);
+        wb.SheetNames = [];
+        var ws;
+        for (var i in data) {
+            var jsonObj = data[i];
+            ws = XLSX.utils.json_to_sheet(jsonObj.data, jsonObj.headers);
+            wb.SheetNames.push(jsonObj.id);
+            wb.Sheets[jsonObj.id] = ws;
+        }
+        XLSX.writeFile(wb, fname);
+        var options = {
+            headers: {
+                'Content-Disposition': 'attachment; filename =out.xlsx'
+            }
+        };
+        res.sendFile(fname, options, function (err) {
+            if (err) {
+                console.log("err=", err);
+                res.end(); ///
+                return;
+            }
+            fs.unlinkSync(fname);
+            console.log("fname unlinkSync=", fname);
+        });
     });
 };
