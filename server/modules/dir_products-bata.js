@@ -30,11 +30,11 @@ module.exports.modulePagePath = "dir/products-bata.html";
 module.exports.init = function(app){
     var dirProductsTableColumns=[
         {"data": "ID", "name": "ID", "width": 80, "type": "text", readOnly:true, visible:false},
-        {"data": "CODE", "name": "Код", "width": 100, "type": "text"},
-        {"data": "NAME", "name": "Наименование", "width": 200, "type": "text"},
-        {"data": "PRINT_NAME", "name": "Печатное наименование", "width": 200, "type": "text"},
-        {"data": "UM", "name": "Ед.изм.", "width": 80, "type": "text"},
-        {"data": "PBARCODE", "name": "Штрихкод", "width": 120, "type": "text"},
+        {"data": "CODE", "name": "Код", "width": 55, "type": "text"},
+        {"data": "NAME", "name": "Наименование", "width": 220, "type": "text"},
+        {"data": "PRINT_NAME", "name": "Печатное наименование", "width": 220, "type": "text"},
+        {"data": "UM", "name": "Ед.изм.", "width": 55, "type": "text"},
+        {"data": "PBARCODE", "name": "Штрихкод", "width": 100, "type": "text"},
         {"data": "ARTICLE_ID", "name": "ARTICLE_ID", "width": 80, "type": "text"},
         {"data": "KIND_ID", "name": "KIND_ID", "width": 80, "type": "text"},
         {"data": "COMPOSITION_ID", "name": "COMPOSITION_ID", "width": 80, "type": "text"},
@@ -43,7 +43,8 @@ module.exports.init = function(app){
     ];
     app.get("/dir/products/getDataForDirProductsTable", function(req, res){
         dir_products_bata.getDataForTable({tableColumns:dirProductsTableColumns, identifier:dirProductsTableColumns[0].data,
-                conditions:req.query},
+                conditions:req.query,
+                order:"NAME"},
             function(result){
                 res.send(result);
             });
@@ -401,7 +402,7 @@ module.exports.init = function(app){
 
     var dirProductsKindsTableColumns=[
         {"data": "ID", "name": "ID", "width": 80, "type": "text", readOnly:true, visible:false},
-        {"data": "NAME", "name": "Тип", "width": 330, "type": "text"}
+        {"data": "NAME", "name": "Вид", "width": 330, "type": "text"}
     ];
     app.get("/dir/products/getDataForProductsKindsTable", function(req, res){
         dir_products_kinds.getDataForTable({tableColumns:dirProductsKindsTableColumns,

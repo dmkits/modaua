@@ -8,7 +8,8 @@ var changeLog = [
         "field":"INV_ID"},
     { 'changeID':'wrh_invs_products__3', 'changeDatetime':'2017-05-04 09:17:00', 'changeObj':'wrh_invs_products',
         'changeVal':'ALTER TABLE wrh_invs_products ADD CONSTRAINT WRH_INVS_PRODUCTS_INV_ID_FK ' +
-            'FOREIGN KEY (INV_ID) REFERENCES wrh_invs(ID)' },
+            'FOREIGN KEY (INV_ID) REFERENCES wrh_invs(ID)',
+        "field":"INV_ID", "source":"wrh_invs", "linkField":"ID" },
     { 'changeID':'wrh_invs_products__4', 'changeDatetime':'2017-05-04 09:18:00', 'changeObj':'wrh_invs_products',
         'changeVal':'ALTER TABLE wrh_invs_products ADD COLUMN POSIND FLOAT UNSIGNED NOT NULL',
         "field":"POSIND"},
@@ -17,7 +18,8 @@ var changeLog = [
         "field":"PRODUCT_ID"},
     { 'changeID':'wrh_invs_products__6', 'changeDatetime':'2017-05-04 09:20:00', 'changeObj':'wrh_invs_products',
         'changeVal':'ALTER TABLE wrh_invs_products ADD CONSTRAINT WRH_INVS_PRODUCTS_PRODUCT_ID_FK ' +
-            'FOREIGN KEY (PRODUCT_ID) REFERENCES dir_products(ID)' },
+            'FOREIGN KEY (PRODUCT_ID) REFERENCES dir_products(ID)',
+        "field":"PRODUCT_ID", "source":"dir_products", "linkField":"ID" },
     { 'changeID':'wrh_invs_products__7', 'changeDatetime':'2017-05-04 09:21:00', 'changeObj':'wrh_invs_products',
         'changeVal':'ALTER TABLE wrh_invs_products ADD COLUMN QTY DECIMAL(12,3) NOT NULL',
         "field":"QTY"},

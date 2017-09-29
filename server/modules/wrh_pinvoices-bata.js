@@ -33,7 +33,7 @@ module.exports.init = function(app){
         {"data": "DOCQTYSUM", "name": "Кол-во", "width": 60, "type": "numeric",
             childDataSource:"wrh_pinvs_products", childLinkField:"PINV_ID", parentLinkField:"ID",
             dataFunction:{function:"sumIsNull", source:"wrh_pinvs_products", sourceField:"QTY"} },
-        {"data": "DOCSUM", "name": "Сумма", "width": 60, "type": "numeric2",
+        {"data": "DOCSUM", "name": "Сумма", "width": 80, "type": "numeric2",
             childDataSource:"wrh_pinvs_products", childLinkField:"PINV_ID", parentLinkField:"ID",
             dataFunction:{function:"sumIsNull", source:"wrh_pinvs_products", sourceField:"POSSUM"} },
         {"data": "CURRENCY_CODE", "name": "Валюта", "width": 50, "type": "text", dataSource:"sys_currency", dataField:"CODE"},

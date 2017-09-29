@@ -43,8 +43,8 @@
         { "menuItemName":"separator_wrh1"},
         { "menuItemName":"menuBarWrhPInvoices", "menuTitle":"Приходные накладные", "pageTitle":"Приходные накладные", "module":"wrh_pinvoices-bata", "closable":true},
         { "menuItemName":"separator_wrh2"},
-        {"menuItemName":"menuBarWrhInvoices", "menuTitle":"Расходные накладные", "pageTitle":"Расходные накладные", "module":"wrh_invoices", "closable":true},
-        {"menuItemName":"menuBarWrhRetInvoices", "menuTitle":"Возвратные накладные", "pageTitle":"Возвратные накладные", "module":"wrh_ret_invoices", "closable":true},
+        {"menuItemName":"menuBarWrhInvoices", "menuTitle":"Расходные накладные", "pageTitle":"Расходные накладные", "module":"wrh_invoices-bata", "closable":true},
+        {"menuItemName":"menuBarWrhRetInvoices", "menuTitle":"Возвратные накладные", "pageTitle":"Возвратные накладные", "module":"wrh_ret_invoices-bata", "closable":true},
         { "menuItemName":"separator_wrh3"},
         { "menuItemName":"menuBarWrhProdsBalance", "menuTitle":"Остатки товара", "pageTitle":"Остатки товара", "module":"wrh_prods_balance", "closable":true},
         { "menuItemName":"menuBarWrhProdsMoves", "menuTitle":"Движение товаров", "pageTitle":"Движение товаров", "module":"wrh_prods_moves", "closable":true}

@@ -580,7 +580,6 @@ module.exports.init = function(app){
                     return;
                 }
                 fs.readFile(path.join(__dirname, "/../../backups/" + restoreFileName), "utf-8", function (err, result) {
-
                     var newBackUpStr = result.replace(/wrh_order_bata_details/g, 'wrh_orders_bata_details');
                     newBackUpStr = newBackUpStr.replace(/wrh_pinv_products/g, 'wrh_pinvs_products');
                     newBackUpStr = newBackUpStr.replace(/wrh_inv_products/g, 'wrh_invs_products');
@@ -589,7 +588,12 @@ module.exports.init = function(app){
                     newBackUpStr = newBackUpStr.replace(/wrh_retail_ticket_products_wob/g, 'wrh_retail_tickets_products_wob');
                     newBackUpStr = newBackUpStr.replace(/wrh_ret_inv_products/g, 'wrh_ret_invs_products');
                     newBackUpStr = newBackUpStr.replace(/wrh_ret_inv_products_wob/g, 'wrh_ret_invs_products_wob');
-
+                    newBackUpStr = newBackUpStr.replace(/`sys_sync_incoming_data` VALUES /g, "`sys_sync_incoming_data`" +
+                        '(ID,SYNC_DATABASE_ID,CLIENT_DATA_ID,CLIENT_CREATE_DATE,OPERATION_TYPE,CLIENT_TABLE_NAME,CLIENT_TABLE_KEY1_NAME,CLIENT_TABLE_KEY1_VALUE,' +
+                        'CREATE_DATE,APPLIED_DATE,STATE,LAST_UPDATE_DATE,MSG,DEST_TABLE_CODE,DEST_TABLE_DATA_ID) VALUES');
+                    newBackUpStr = newBackUpStr.replace(/`sys_sync_output_data` VALUES /g, "`sys_sync_output_data`" +
+                        '(ID,SYNC_DATABASE_ID,TABLE_NAME,KEY_DATA_NAME,KEY_DATA_VALUE,CREATE_DATE,LAST_UPDATE_DATE,STATE,CLIENT_SYNC_DATA_ID,' +
+                        'APPLIED_DATE,CLIENT_MESSAGE) VALUES');
                     fs.writeFile(path.join(__dirname, "/../../backups/copy_" + restoreFileName), newBackUpStr, "utf-8", function (err) {
                         if (err) {
                             log.error("restoreDB err=", err);
