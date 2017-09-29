@@ -936,41 +936,47 @@ module.exports.init = function(app){
     app.get("/sysadmin/logs", function (req, res) {
         res.sendFile(appViewsPath+'sysadmin/logs.html');
     });
-//{"level":"info","message":"STARTING at 2017-09-27T06:59:50.393Z","timestamp":"2017-09-27T06:59:50.562Z"}
 
     var sysLogsTableColumns=[
-          {"data": "level", "name": "Level", "width": 75, "type": "text"}
-        , {"data": "message", "name": "Message", "width": 90, "type": "text"}
-        , {"data": "timestamp", "name": "Timestamp", "width": 250, "type": "text"}
+          {"data": "level", "name": "Level", "width": 100, "type": "text"}
+        , {"data": "message", "name": "Message", "width": 700, "type": "text"}
+        , {"data": "timestamp", "name": "Timestamp", "width": 220, "type": "text", datetimeFormat:"DD.MM.YY HH:mm:ss"}
     ];
-    app.get('/sysadmin/logs/getDataForTable', function(req, res){
-        var outData={};
-        outData.columns=[
-              {"data": "level", "name": "Level", "width": 75, "type": "text"}
-            , {"data": "message", "name": "Message", "width": 90, "type": "text"}
-            , {"data": "timestamp", "name": "Timestamp", "width": 250, "type": "text"}
-        ];
-
-        outData.items=[];
-        try {
-            var fileDataStr = fs.readFileSync(path.join(__dirname + "/../../logs/log_file.log.2017-09-27"));
-        }catch(e){
-            log.error("Impossible to read logs! Reason:",e);
+    app.get('/sysadmin/logs/getDataForTable', function (req, res) {
+        var fileDate = req.query.DATE;
+        var outData = {};
+        outData.columns = sysLogsTableColumns;
+        if (!fileDate) {
+            res.send(outData);
+            return;
         }
-
-        var target = "{";
+        outData.items = [];
+        var logFile = path.join(__dirname + "/../../logs/log_file.log." + fileDate);
+        try {
+            fs.existsSync(logFile);
+            var fileDataStr = fs.readFileSync(logFile, "utf8");
+        } catch (e) {
+            log.error("Impossible to read logs! Reason:", e);
+            outData.error = "Impossible to read logs! Reason:" + e;
+            res.send(outData);
+            return;
+        }
+        var target = '{"level"';
         var pos = 0;
         var strObj;
         var jsonObj;
         while (true) {
             var foundPos = fileDataStr.indexOf(target, pos);
             if (foundPos < 0)break;
-            strObj = fileDataStr.substring(fileDataStr, fileDataStr.indexOf("*/", foundPos)+2);
+            strObj = fileDataStr.substring(foundPos, fileDataStr.indexOf('"}', foundPos) + 2);
             pos = foundPos + 1;
-            jsonObj=JSON.parse(strObj); console.log("jsonObj=",jsonObj);
-         //   outData.items.push(jsonObj);
+            jsonObj = JSON.parse(strObj);
+            if (jsonObj.timestamp) {
+                jsonObj.timestamp = moment(new Date(jsonObj.timestamp));
+            }
+            outData.items.push(jsonObj);
         }
-            res.send(outData);
+        res.send(outData);
     });
 };
 
