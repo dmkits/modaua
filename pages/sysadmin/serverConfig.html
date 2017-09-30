@@ -168,8 +168,8 @@
                                 if (!result.result) return;
                                 cleanResultFields();
                                 var newDB = {};
-                                newDB.adminName = result.admin_name;
-                                newDB.adminPassword = result.admin_password;
+                                newDB.adminName = result.adminName;
+                                newDB.adminPassword = result.adminPassword;
                                 newDB.host = hostInput.get('value');
                                 newDB.newDatabase = databaseInput.get('value');
                                 newDB.newUser = userInput.get('value');
@@ -201,8 +201,8 @@
                                 if(!result.result) return;
                                 cleanResultFields();
                                 var DB = {};
-                                DB.adminName = result.admin_name;
-                                DB.adminPassword = result.admin_password;
+                                DB.adminName = result.adminName;
+                                DB.adminPassword = result.adminPassword;
                                 DB.host = hostInput.get('value');
                                 DB.database = databaseInput.get('value');
                                 DB.user = userInput.get('value');
@@ -240,8 +240,8 @@
                                 if (!result.result) return;
                                 var authParams = {};
                                 authParams.host = hostInput.get('value');
-                                authParams.adminName = result.admin_name;
-                                authParams.adminPassword = result.admin_password;
+                                authParams.adminName = result.adminName;
+                                authParams.adminPassword = result.adminPassword;
                                 var now = moment().format('DD.MM.YYYY HH:mm:ss');
                                 Request.postJSONData({url: "/sysadmin/auth_as_sysadmin", data: authParams, consoleLog: true},
                                         function (success, data) {
@@ -305,8 +305,8 @@
                                 if (!authAdminResult.result) return;
                                 var authParams = {};
                                 authParams.host = hostInput.get('value');
-                                authParams.adminName = authAdminResult.admin_name;
-                                authParams.adminPassword = authAdminResult.admin_password;
+                                authParams.adminName = authAdminResult.adminName;
+                                authParams.adminPassword = authAdminResult.adminPassword;
                                 var now = moment().format('DD.MM.YYYY HH:mm:ss');
                                 Request.postJSONData({url: "/sysadmin/auth_as_sysadmin", data: authParams, consoleLog: true},
                                         function (success, data) {
@@ -366,8 +366,8 @@
                                 if (!authAdminResult.result) return;
                                 var authParams = {};
                                 authParams.host = hostInput.get('value');
-                                authParams.adminName = authAdminResult.admin_name;
-                                authParams.adminPassword = authAdminResult.admin_password;
+                                authParams.adminName = authAdminResult.adminName;
+                                authParams.adminPassword = authAdminResult.adminPassword;
                                 var now = moment().format('DD.MM.YYYY HH:mm:ss');
                                 Request.postJSONData({url: "/sysadmin/auth_as_sysadmin", data: authParams, consoleLog: true},
                                         function (success, data) {

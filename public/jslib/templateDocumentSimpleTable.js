@@ -305,10 +305,33 @@ define(["dojo/_base/declare", "app", "templateDocumentBase", "hTableSimpleFilter
             },
 
             /*
+             * params: { btnStyle, btnParams }
+             * actionFunction = function(tableContent,toolPanes,this)
+             */
+            addToolPaneActionButton: function(label, params, actionFunction){
+                if(!this.rightContainer) {
+                    console.log("WARNING! Failed addToolPaneActionButton! Reason: no rightContainer!");
+                    return this;
+                }
+                if(!params) params={};
+                if (!this.toolPanes||this.toolPanes.length==0) this.addToolPane("");
+                var actionsTableRow= this.addRowToTable(this.toolPanes[this.toolPanes.length-1].containerNode.lastChild);
+                var actionButton= this.addTableCellButtonTo(actionsTableRow, {labelText:label, cellWidth:0, btnStyle:params.btnStyle, btnParameters:params.btnParams});
+                if (!this.toolPanesActionButtons) this.toolPanesActionButtons={};
+                if(actionFunction) {
+                    var thisInstance=this;
+                    actionButton.onClick=function(){
+                        actionFunction(thisInstance.getTableContent(),thisInstance.toolPanes, thisInstance);
+                    }
+                }
+                return this;
+            },
+            /*
+             * actionName
              * actionParams: {action, rowPosName, rowPosIndexName}
              * actionFunction = function()
              */
-            addToolPaneActionButton: function(label, actionParams, btnStyle, btnParams, actionFunction){
+            addToolPaneButtonForAction: function(label, actionName, btnStyle, btnParams, actionFunction){
                 if(!this.rightContainer) {
                     console.log("WARNING! Failed addToolPaneActionButton! Reason: no rightContainer!");
                     return this;
@@ -317,14 +340,11 @@ define(["dojo/_base/declare", "app", "templateDocumentBase", "hTableSimpleFilter
                 var actionsTableRow= this.addRowToTable(this.toolPanes[this.toolPanes.length-1].containerNode.lastChild);
                 var actionButton= this.addTableCellButtonTo(actionsTableRow, {labelText:label, cellWidth:0, btnStyle:btnStyle, btnParameters:btnParams});
                 if (!this.toolPanesActionButtons) this.toolPanesActionButtons={};
-                this.toolPanesActionButtons[actionParams.action]= actionButton;
-                //if(actionFunction) {
-                //    actionButton.onClick=actionFunction;
-                //    actionButton.detailTable= this.detailTable;
-                //} else {
-                //    actionButton.onClick= this.getOnClickAction(actionParams);
-                //    actionButton.setState= this.getSetStateAction(actionParams.action);
-                //}
+                if(actionName){
+                    this.toolPanesActionButtons[actionName]= actionButton;
+                    //actionButton.onClick= this.getOnClickAction(actionParams);
+                    //actionButton.setState= this.getSetStateAction(actionParams.action);
+                }
                 return this;
             },
 

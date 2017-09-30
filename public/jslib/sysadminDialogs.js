@@ -81,8 +81,8 @@ define([ "dijit/ConfirmDialog", "dojo/keys", "dojo/on", "dijit/registry", "dojo/
                     adminAuthDialog.onExecute = function () {
                         this.hide();
                         var result = {result: true};
-                        result.admin_name = inputForName.value;
-                        result.admin_password = inputForPswd.value;
+                        result.adminName = inputForName.value;
+                        result.adminPassword = inputForPswd.value;
                         resultCallback(result);
                     };
                 }

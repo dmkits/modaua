@@ -12,7 +12,7 @@ function getDBConfig(){
         supportBigNumbers:true };
 }
 
-var connection=null, dbConnectError=null;
+var connection=null, dbConnectError=null, connectionBata1=null;
 
 function databaseConnection(callback){                                                                      log.info("database databaseConnection dbConfig:", getDBConfig());
     if(!connection) {
@@ -52,21 +52,47 @@ module.exports.tryDBConnect=tryDBConnect;
 if (getDBConfig()) tryDBConnect();
 module.exports.getDBConnectError= function(){ return dbConnectError; };
 
-module.exports.mySQLAdminConnection = function (connParams, callback) {                                     log.info("database mySQLAdminConnection");
-    if (connection) {
-            connection.destroy();
-            connection = mysql.createConnection(connParams);
-            connection.connect(function (err) {
-                if (err) {
-                    callback(err);
-                    return;
-                }
-                callback(null, "connected");
-            });
+module.exports.mySQLAdminConnection = function (connParams, callback) {                                     log.info("database mySQLAdminConnection connParams=",connParams);
+    if(!connParams){
+        callback({message:"Failed connect to database! Reason: no parameters!"});
         return;
     }
+    if(!connParams.host||connParams.host.trim()==""){
+        callback({message:"Failed connect to database! Reason: no host!"});
+        return;
+    }
+    if(!connParams.user||connParams.user.trim==""){
+        callback({message:"Failed connect to database! Reason: no user!"});
+        return;
+    }
+    if (connection) connection.destroy();
     connection = mysql.createConnection(connParams);
     connection.connect(function (err) {
+        if (err) {
+            callback(err);
+            return;
+        }
+        callback(null, "connected");
+    });
+};
+
+module.exports.mySQLBata1AdminConnection = function (connParams, callback) {                                     log.info("database mySQLAdminConnection connParams=",connParams);
+    if(!connParams){
+        callback({message:"Failed connect to database! Reason: no parameters!"});
+        return;
+    }
+    if(!connParams.host||connParams.host.trim()==""){
+        callback({message:"Failed connect to database! Reason: no host!"});
+        return;
+    }
+    if(!connParams.user||connParams.user.trim==""){
+        callback({message:"Failed connect to database! Reason: no user!"});
+        return;
+    }
+    connParams.database="bata1";
+    if (connectionBata1) connectionBata1.destroy();
+    connectionBata1 = mysql.createConnection(connParams);
+    connectionBata1.connect(function (err) {
         if (err) {
             callback(err);
             return;
@@ -297,6 +323,7 @@ function getDataItemFromDatabase(dbQuery, outData, resultItemName, callback){
         callback(outData);
     })
 };
+module.exports.getDataItemFromDatabase=getDataItemFromDatabase;
 
 module.exports.getDatabasesForUser= function(user,pswd,callback) {
     var dbListForUserConfig = {
@@ -323,5 +350,3 @@ module.exports.getDatabasesForUser= function(user,pswd,callback) {
             });
     });
 };
-
-module.exports.getDataItemFromDatabase=getDataItemFromDatabase;

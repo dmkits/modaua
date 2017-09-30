@@ -11,6 +11,7 @@
             <tr>
                 <td><button id="sysadmin_database_btnCurrentChanges"></button></td>
                 <td><button id="sysadmin_database_btnChangeLog"></button></td>
+                <td><button id="sysadmin_database_btnImportDataFromDB"></button></td>
             </tr>
         </table>
     </div>
@@ -19,8 +20,10 @@
 </body>
 <script type="text/javascript">
     require(["app", "dojo/dom-style", "dijit/layout/BorderContainer", "dijit/layout/StackContainer", "dijit/layout/ContentPane",
-                "dijit/form/Button", "dijit/form/ToggleButton", "templateDocumentSimpleTable", "dojox/widget/DialogSimple", "request"],
-            function (APP, domStyle, BorderContainer, StackContainer, ContentPane, Button, ToggleButton, TDocumentSimpleTable, DialogSimple, Request) {
+                "dijit/form/Button", "dijit/form/ToggleButton",
+                "templateDocumentSimpleTable", "dojox/widget/DialogSimple", "request", "sysadminDialogs"],
+            function (APP, domStyle, BorderContainer, StackContainer, ContentPane, Button, ToggleButton,
+                      TDocumentSimpleTable, DialogSimple, Request, sysadminDialogs) {
                 var sysadmin_database_PageContainer =
                         APP.instanceForID("sysadmin_database_PageContainer", BorderContainer, {});
                 var sysadmin_database_ContentPaneTop =
@@ -31,6 +34,9 @@
                 var btnChangeLog= APP.instanceForID("sysadmin_database_btnChangeLog",
                         ToggleButton, {showLabel: true, checked: false, label: "Change log", iconClass:'dijitCheckBoxIcon'});
                 domStyle.set("sysadmin_database_btnChangeLog", "width", "150px");
+                var btnImportDataFromDB= APP.instanceForID("sysadmin_database_btnImportDataFromDB",
+                        ToggleButton, {showLabel: true, checked: false, label: "Import data from bata1 DB", iconClass:'dijitCheckBoxIcon'});
+                domStyle.set("sysadmin_database_btnImportDataFromDB", "width", "150px");
                 var sysadmin_database_ContentPaneDetailContainer =
                         APP.instanceForID("sysadmin_database_ContentPaneDetailContainer", StackContainer, {region: 'center'});
                 sysadmin_database_PageContainer.domNode.style.display="";
@@ -47,6 +53,7 @@
                 btnCurrentChanges.onClick = function () {
                     this.set("checked",true);
                     btnChangeLog.set("checked",false);
+                    btnImportDataFromDB.set("checked",false);
                     if (btnCurrentChanges.document) {
                         sysadmin_database_ContentPaneDetailContainer.selectChild(btnCurrentChanges.document);
                         return;
@@ -103,6 +110,7 @@
                 btnChangeLog.onClick = function () {
                     this.set("checked",true);
                     btnCurrentChanges.set("checked",false);
+                    btnImportDataFromDB.set("checked",false);
                     if (btnChangeLog.document) {
                         sysadmin_database_ContentPaneDetailContainer.selectChild(btnChangeLog.document);
                         return;
@@ -114,6 +122,63 @@
                                     .addTotalCountNumberBox("ИТОГО строк:", 140, {style: "font-weight:bold;", inputStyle: "width:40px;"})
                                     .startUp();
                     sysadmin_database_ContentPaneDetailContainer.selectChild(btnChangeLog.document);
+                };
+                btnImportDataFromDB.onClick = function(){
+                    btnCurrentChanges.set("checked",false);
+                    btnChangeLog.set("checked",false);
+                    if (!btnImportDataFromDB.document){
+                        btnImportDataFromDB.document =
+                                APP.childFor(sysadmin_database_ContentPaneDetailContainer, "sa_database_TableOtherDBModelList",
+                                        TDocumentSimpleTable, {titleText:"Import data from bata1 database", dataURL:"/sysadmin/database/getDataModelsForImportData",
+                                            rightPane:true, rightPaneWidth:200 })
+                                        .addTotalCountNumberBox("Total rows:", 120, {style:"font-weight:bold;",inputStyle:"width:40px"})
+                                        .addToolPane("info")
+                                        .addToolPane("restore")
+                                        .addToolPaneActionButton("connect to bata1 DB",{ btnStyle:"width:160px" },
+                                            function(tableContent,toolPanes){
+                                                sysadminDialogs.showAdminAuthDialog({},
+                                                        function(result) {
+                                                            if (!result.result) return;
+                                                            Request.postJSONData({url: "/sysadmin/database/connectToBata1DB",
+                                                                        data: {adminUser:result.adminName,adminPassword:result.adminPassword, importDataModel:tableContent},
+                                                                        consoleLog: true},
+                                                                    function (success, result) {console.log("result",result);
+                                                                        if (!success&&toolPanes&&toolPanes[0]) {
+                                                                            toolPanes[0].set("content","<b style='color:red;'>Filed connect to server!</b>");
+                                                                            return;
+                                                                        }
+                                                                        if (!result&&toolPanes&&toolPanes[0]) {
+                                                                            toolPanes[0].set("content","<b style='color:red;'>No server response data!</b>");
+                                                                            return;
+                                                                        }
+                                                                        if (result.error&&toolPanes&&toolPanes[0]) {  console.log("toolPanes 0",toolPanes[0]);
+                                                                            toolPanes[0].set("content","<b style='color:red;'>Failed connect to bata1 database! Reason:"+result.error+"</b>");
+                                                                            return;
+                                                                        }
+                                                                        toolPanes[0].set("content","<b>Connected to bata1 database.</b>");
+                                                                    });
+                                                        });
+                                            })
+                                        .addContentTableRowAction("importDataForRowDataObjects",
+                                            function(tableContentRowData, params, contentTableInstance, startNextAction) {      //console.log("importDataForRowDataObjects action ", tableContentRowData, params);
+                                                var dmObjectName=tableContentRowData.DMOBJECT_NAME;
+                                                Request.postJSONData({url:"/sysadmin/database/importDMObjectData", condition:null, data:{"DMOBJECT_NAME":dmObjectName}, consoleLog:true},
+                                                    function(success,result){                                       console.log("importDataForRowDataObjects postJSONData ", result);
+                                                        if (success) {
+                                                            var resultItem = result["resultItem"], importResultMsg=null;
+                                                            if(result.error) importResultMsg="FAILED! Reason: "+result.error;
+                                                            if (resultItem && (resultItem.DMOBJECT_NAME==dmObjectName) && resultItem.IMPORT_RESULT)
+                                                                importResultMsg= (importResultMsg==null)?resultItem.IMPORT_RESULT:importResultMsg+" <br>Change message: "+resultItem.IMPORT_RESULT;
+                                                            contentTableInstance.updateRowData(tableContentRowData,{"IMPORT_RESULT":importResultMsg});
+                                                        }
+                                                        startNextAction();
+                                                    });
+                                        })
+                                        .addToolPaneActionButton("restore from bata1 DB",{ btnStyle:"width:160px" } )
+                                        .addContentTablePopupMenuItemForAction("importForSelectedRowsObjects","Import data for selected objects...", "importDataForRowDataObjects")
+                                        .startUp();
+                    }
+                    sysadmin_database_ContentPaneDetailContainer.selectChild(btnImportDataFromDB.document);
                 };
                 btnCurrentChanges.onClick();
                 sysadmin_database_PageContainer.layout();

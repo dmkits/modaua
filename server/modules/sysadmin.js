@@ -384,7 +384,6 @@ module.exports.init = function(app){
     });
 
     app.post("/sysadmin/auth_as_sysadmin", function (req, res) {
-        log.info("/sysadmin/auth_as_sysadmin");
         var host = req.body.host;
         var adminUser=req.body.adminName;
         var adminPassword=req.body.adminPassword;
@@ -827,9 +826,42 @@ module.exports.init = function(app){
         });
     });
     app.get("/sysadmin/database/getChangeLog", function (req, res) {
-        changeLog.getDataForTable({tableColumns:changeLogTableColumns, identifier:changeLogTableColumns[0].data, conditions:req.query,
+        changeLog.getDataForTable({tableColumns:changeLogTableColumns, identifier:changeLogTableColumns[0].data,
+            conditions:req.query,
             order:"CHANGE_DATETIME, CHANGE_OBJ, ID"}, function(result){
             res.send(result);
+        });
+    });
+    var importDataModelsTableColumns=[
+        {"data": "PRIORITY", "name": "Priority", "width": 65, "type": "numeric"}
+        , {"data": "DATA_TABLE_NAME", "name": "Data table name", "width": 220, "type": "text"}
+        , {"data": "IMPORT_DATA_TABLE_NAME", "name": "import data table name", "width": 220, "type": "text"}
+        , {"data": "CUR_ROW_COUNT", "name": " current row count", "width": 100, "type": "numeric"}
+        , {"data": "IMPORT_ROW_COUNT", "name": "import row count", "width": 100, "type": "numeric"}
+        , {"data": "RESULT", "name": "result", "width": 450, "type": "text"}
+    ];
+    app.get("/sysadmin/database/getDataModelsForImportData", function (req, res) {
+        dataModel.getDataModelsForImportFormBata1DB(function(dataModelsListForImport){
+            res.send({columns:importDataModelsTableColumns,identifier:importDataModelsTableColumns[0].data,
+                items:dataModelsListForImport
+            });
+        })
+    });
+    app.post("/sysadmin/database/connectToBata1DB", function (req, res) {
+        var adminUser=req.body.adminUser;
+        var adminPassword=req.body.adminPassword;
+        var connParams = {
+            host: getServerConfig().host,
+            user: adminUser,
+            password: adminPassword
+        };
+        database.mySQLBata1AdminConnection(connParams, function (err) {
+            if (err) {
+                res.send({error:err.message});
+                return;
+            }
+            var outData= {success:"authorized"};
+            res.send(outData);
         });
     });
 

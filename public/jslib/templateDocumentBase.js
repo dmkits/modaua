@@ -114,7 +114,7 @@ define(["dojo/_base/declare", "dijit/layout/BorderContainer", "dijit/layout/Layo
             },
 
             /*
-             * params= {labelText, cellWidth, cellStyle, btnStyle, btnChecked, btnParameters}
+             * params= {labelText, btnStyle, btnChecked, btnParameters}
              */
             addButtonTo: function(parentNode, params){
                 var btnParameters={};
@@ -140,6 +140,9 @@ define(["dojo/_base/declare", "dijit/layout/BorderContainer", "dijit/layout/Layo
                 var tableCell = this.addHeaderCellToTableRow(tableRowNode, params.cellWidth, params.cellStyle);
                 return this.addButtonTo(tableCell, params);
             },
+            /*
+             * params= {labelText, cellWidth, cellStyle, btnStyle, btnChecked, btnParameters}
+             */
             addTableCellButtonTo: function(tableRowNode, params){
                 var tableCell = this.addLeftCellToTableRow(tableRowNode, params.cellWidth, params.cellStyle);
                 return this.addButtonTo(tableCell, params);
