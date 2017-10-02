@@ -543,8 +543,7 @@ module.exports.init = function(app){
         });
     });
 
-    app.post("/sysadmin/restore_db_from_bata1_db", function (req, res) {
-        log.info("/sysadmin/restore_db_from_bata1_db");
+    app.post("/sysadmin/restoreDBFromBata1DB", function (req, res) {
         var host = req.body.host;
         var DBName = req.body.database;
         var adminUser = req.body.adminName;
@@ -579,65 +578,32 @@ module.exports.init = function(app){
                     return;
                 }
                 fs.readFile(path.join(__dirname, "/../../backups/" + restoreFileName), "utf-8", function (err, result) {
-                    var newBackUpStr = result.replace(/wrh_order_bata_details/g, 'wrh_orders_bata_details');
-                    newBackUpStr = newBackUpStr.replace(/wrh_pinv_products/g, 'wrh_pinvs_products');
-                    newBackUpStr = newBackUpStr.replace(/wrh_inv_products/g, 'wrh_invs_products');
-                    newBackUpStr = newBackUpStr.replace(/wrh_inv_products_wob/g, 'wrh_invs_products_wob');
-                    newBackUpStr = newBackUpStr.replace(/wrh_retail_ticket_products/g, 'wrh_retail_tickets_products');
-                    newBackUpStr = newBackUpStr.replace(/wrh_retail_ticket_products_wob/g, 'wrh_retail_tickets_products_wob');
-                    newBackUpStr = newBackUpStr.replace(/wrh_ret_inv_products/g, 'wrh_ret_invs_products');
-                    newBackUpStr = newBackUpStr.replace(/wrh_ret_inv_products_wob/g, 'wrh_ret_invs_products_wob');
-                    newBackUpStr = newBackUpStr.replace(/`sys_sync_incoming_data` VALUES /g, "`sys_sync_incoming_data`" +
-                        '(ID,SYNC_DATABASE_ID,CLIENT_DATA_ID,CLIENT_CREATE_DATE,OPERATION_TYPE,CLIENT_TABLE_NAME,CLIENT_TABLE_KEY1_NAME,CLIENT_TABLE_KEY1_VALUE,' +
-                        'CREATE_DATE,APPLIED_DATE,STATE,LAST_UPDATE_DATE,MSG,DEST_TABLE_CODE,DEST_TABLE_DATA_ID) VALUES');
-                    newBackUpStr = newBackUpStr.replace(/`sys_sync_output_data` VALUES /g, "`sys_sync_output_data`" +
-                        '(ID,SYNC_DATABASE_ID,TABLE_NAME,KEY_DATA_NAME,KEY_DATA_VALUE,CREATE_DATE,LAST_UPDATE_DATE,STATE,CLIENT_SYNC_DATA_ID,' +
-                        'APPLIED_DATE,CLIENT_MESSAGE) VALUES');
-                    fs.writeFile(path.join(__dirname, "/../../backups/copy_" + restoreFileName), newBackUpStr, "utf-8", function (err) {
+                    var newBackUpStr = result.replace(/UNIQUE KEY `PINV_ID_POSIND_UNIQUE` \(`PINV_ID`,`POSIND`\),/g, '/**/');
+                    newBackUpStr = newBackUpStr.replace(/UNIQUE KEY `WRH_RET_INV_PRODUCTS_INV_ID_POSIND_UNIQUE` \(`INV_ID`,`POSIND`\),/g, '/**/');
+                    var restoreCopyFileName=restoreFileName+"_restore_copy";
+                    fs.writeFile(path.join(__dirname, "/../../backups/" + restoreCopyFileName), newBackUpStr, "utf-8", function (err) {
                         if (err) {
                             log.error("restoreDB err=", err);
                             outData.error = err.message;
                             res.send(outData);
                             return;
                         }
-                        restoreParams.fileName = "copy_" + restoreFileName;
-                        var dataModels = dataModel.getValidatedDataModels();
-                        var tablesNames = [];
-                        for (var dataModelName in dataModels) {
-                            var dataModelInstance=dataModels[dataModelName];
-                            if(dataModelInstance.sourceType=="table") tablesNames.unshift(dataModelInstance.source);
-                        }
-                        deleteDataFromTAbles(tablesNames, 0, function () {
-                            database.restoreDB(restoreParams, function (err, ok) {
-                                if (err) {
-                                    log.error("restoreDB err=", err);
-                                    outData.error = err.message;
-                                    res.send(outData);
-                                    return;
-                                }
-                                outData.restore = ok;
+                        restoreParams.fileName = restoreCopyFileName;
+                        database.restoreDB(restoreParams, function (err, ok) {
+                            if (err) {
+                                log.error("restoreDB err=", err);
+                                outData.error = err.message;
                                 res.send(outData);
-                            })
-                        });
+                                return;
+                            }
+                            outData.restore = ok;
+                            res.send(outData);
+                        })
                     })
                 });
             });
         });
     });
-
-    function deleteDataFromTAbles(tablesNames, index, callback){
-        if(!tablesNames[index]){
-            callback();
-            return;
-        }
-            if(tablesNames[index] =="change_log"){
-                deleteDataFromTAbles(tablesNames, index+1, callback);
-                return;
-            }
-            database.executeQuery("DELETE FROM "+tablesNames[index], function(){
-                deleteDataFromTAbles(tablesNames, index+1, callback)
-            });
-    };
 
     app.get("/sysadmin/database", function (req, res) {
         res.sendFile(appViewsPath+'sysadmin/database.html');
@@ -863,6 +829,30 @@ module.exports.init = function(app){
             var outData= {success:"authorized"};
             res.send(outData);
         });
+    });
+    app.post("/sysadmin/database/importDataFromBata1DB", function (req, res) {
+        //var dataModels = dataModel.getValidatedDataModels();
+        //var tablesNames = [];
+        //for (var dataModelName in dataModels) {
+        //    var dataModelInstance=dataModels[dataModelName];
+        //    if(dataModelInstance.sourceType=="table") tablesNames.unshift(dataModelInstance.source);
+        //}
+        //deleteDataFromTAbles(tablesNames, 0, function () {
+        //});
+        //function deleteDataFromTAbles(tablesNames, index, callback){
+        //    if(!tablesNames[index]){
+        //        callback();
+        //        return;
+        //    }
+        //        if(tablesNames[index] =="change_log"){
+        //            deleteDataFromTAbles(tablesNames, index+1, callback);
+        //            return;
+        //        }
+        //        database.executeQuery("DELETE FROM "+tablesNames[index], function(){
+        //            deleteDataFromTAbles(tablesNames, index+1, callback)
+        //        });
+        //};
+
     });
 
     app.get("/sysadmin/appModelSettings", function (req, res) {

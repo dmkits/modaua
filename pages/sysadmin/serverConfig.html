@@ -386,35 +386,33 @@
                                                     return;
                                                 }
                                                 var DB = {};
-                                                DB.adminName = authAdminResult.admin_name;
-                                                DB.adminPassword = authAdminResult.admin_password;
+                                                DB.adminName = authAdminResult.adminName;
+                                                DB.adminPassword = authAdminResult.adminPassword;
                                                 DB.restoreFilename = restoreDialogResult.restore_fileName;
                                                 DB.host = hostInput.get('value');
                                                 DB.database = databaseInput.get('value');
                                                 DB.user = userInput.get('value');
                                                 DB.password = dbPasswordInput.get('value');
-
                                                 document.getElementById("restore_db_bata_from_bata1DB_result").innerHTML = "Restoring started...";
-
-                                                    Request.postJSONData({url: "/sysadmin/restore_db_from_bata1_db", data: DB, consoleLog: true},
-                                                            function (success, data) {
-                                                                if (!success) {
-                                                                    sa_serverConfig_configState.innerHTML = "<div><b style='color:red'>No connection!</b></div>";
-                                                                }
-                                                                if (data.error) {
-                                                                    document.getElementById("restore_db_bata_from_bata1DB_result").innerHTML = "<b style='color:red'>"+now+"<br/>FAIL! Reason:" + data.error + "<b>";
-                                                                    sa_serverConfig_PageContent.getServerConfiguration();
-                                                                    if (sa_serverConfig_PageContent.getParent().updateDBState)  sa_serverConfig_PageContent.getParent().updateDBState();
-                                                                } else {
-                                                                    var successMsgStr = now+'<br/>';
-                                                                    if (data.userExists)successMsgStr = successMsgStr + data.userExists;
-                                                                    if (data.userCreated)successMsgStr = successMsgStr + data.userCreated;
-                                                                    if (data.accessAdded)successMsgStr = successMsgStr + data.accessAdded;
-                                                                    if (data.restore)successMsgStr = successMsgStr + data.restore;
-                                                                    document.getElementById("restore_db_bata_from_bata1DB_result").innerHTML = successMsgStr;
-                                                                    saveAndReconnectBtn.onClick();
-                                                                }
-                                                            });
+                                                Request.postJSONData({url: "/sysadmin/restoreDBFromBata1DB", data: DB, consoleLog: true},
+                                                        function (success, data) {
+                                                            if (!success) {
+                                                                sa_serverConfig_configState.innerHTML = "<div><b style='color:red'>No connection!</b></div>";
+                                                            }
+                                                            if (data.error) {
+                                                                document.getElementById("restore_db_bata_from_bata1DB_result").innerHTML = "<b style='color:red'>"+now+"<br/>FAIL! Reason:" + data.error + "<b>";
+                                                                sa_serverConfig_PageContent.getServerConfiguration();
+                                                                if (sa_serverConfig_PageContent.getParent().updateDBState)  sa_serverConfig_PageContent.getParent().updateDBState();
+                                                            } else {
+                                                                var successMsgStr = now+'<br/>';
+                                                                if (data.userExists)successMsgStr = successMsgStr + data.userExists;
+                                                                if (data.userCreated)successMsgStr = successMsgStr + data.userCreated;
+                                                                if (data.accessAdded)successMsgStr = successMsgStr + data.accessAdded;
+                                                                if (data.restore)successMsgStr = successMsgStr + data.restore;
+                                                                document.getElementById("restore_db_bata_from_bata1DB_result").innerHTML = successMsgStr;
+                                                                saveAndReconnectBtn.onClick();
+                                                            }
+                                                        });
                                             });
                                         })
                             });
