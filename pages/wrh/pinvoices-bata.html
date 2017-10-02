@@ -10,8 +10,8 @@
 </div>
 </body>
 <script type="text/javascript">
-    require(["app","templateDocumentStandardTable", "request"],
-            function (APP, TDocumentStandardTable, Request) {
+    require(["app","templateDocumentStandardTable","dojo/request/iframe", /*"dojox/form/FileInput ",*/ "dojo/request/handlers", "request"],
+            function (APP, TDocumentStandardTable,iframe/*,FileInput*/,handlers, Request) {
                 var wrh_pinv= APP.instanceForID("wrh_pinv_PageContainer", TDocumentStandardTable,
                             { idListContainer:"wrh_pinv_ListContainer",idDetailContainer:"wrh_pinv_DetailContainer",
                                 idDetailHeader:"wrh_pinv_DetailHeader",idDetailTable:"wrh_pinv_ProductsTable",idDetailTotal:"wrh_pinv_DetailTotal",
@@ -294,16 +294,26 @@
                             var tableData=this.detailTable.getContent();                                              console.log("exportTableContentToExcel.onClick detailTable.content=",this.detailTable.getVisibleColumns(),this.detailTable.getContent());
                           var visibleColumns= this.detailTable.getVisibleColumns();
                            var columnsDataForExcel= [];
-                            for (var i in visibleColumns){
+                            for (var i in visibleColumns) {
                                 var column = visibleColumns[i];
-                                var columnForExcel = {data:column.data, type:column.type, name:column.name};
-                                if(column.format)columnForExcel.format=column.format;
+                                console.log("column=", column);
+                                // var columnForExcel = {data:column.data, type:column.type, name:column.name};
+                                var columnForExcel = {};
+                                columnForExcel.data = column.data;
+                                columnForExcel.type = column.type;
+                                columnForExcel.name = column.name;
+                                if (column.format)columnForExcel.format = column.format;
                                 columnsDataForExcel.push(columnForExcel);
                             }
-                            var dataForExcelFile={columns:columnsDataForExcel, rows:tableData};
-                            Request.postJSONData({url: "/wrh/pInvoices/get_excel_file", data:dataForExcelFile , consoleLog: true},
-                                    function (success, data) {
+                            console.log("tableData=",tableData);
+                            console.log("columnsDataForExcel=",columnsDataForExcel);
+                        //    var dataForExcelFile={columns:columnsDataForExcel, rows:tableData};
+
+//                            Request.postData({url: "/wrh/pInvoices/get_excel_file", //heades:{}
+//                                        data:{columns:JSON.stringify(columnsDataForExcel), rows:JSON.stringify(tableData)} , consoleLog: true},
+//                                    function (success, data) {              console.log("data=",data);
                                          // if (!success)
+
 
 //                                        if (data.error) {
 //                                            document.getElementById("create_db_result").innerHTML = "<b style='color:red'>" + now + "</br>FAIL! Reason:" + data.error + "</b>";
@@ -318,7 +328,41 @@
 //                                            document.getElementById("create_db_result").innerHTML = successMsgStr;
 //                                            saveAndReconnectBtn.onClick();
   //                                      }
-                                    });
+                                //    });
+
+
+//                            var Iframe = iframe.create("downLoadFile");
+//                            iframe.setSrc(Iframe, "/wrh/pInvoices/get_excel_file", true);
+//
+//
+//                            iframe("/wrh/pInvoices/get_excel_file",{
+//                                    data:{columns:JSON.stringify(columnsDataForExcel), rows:JSON.stringify(tableData)},
+//                                    method:"POST",
+//                                    handleAs: 'xml'
+//                                }).then(function(data){
+//                                    ///console.log("data 345=",data);
+//                                }, function(err){
+//                                   console.log("err =",err);
+//                                });
+
+                            handlers.register("xlsx", function(response){
+                                // Do something with response.text
+
+                                console.log("response=",response);
+                                return response.text.split(",");
+                            });
+                           // return;
+
+                               iframe("/wrh/pInvoices/get_excel_file",{
+                                    data:{columns:JSON.stringify(columnsDataForExcel), rows:JSON.stringify(tableData)},
+                                    method:"POST",
+                                  //  handleAs: 'text'
+                                }).then(function(data){
+                                    console.log("data 345=",data);
+                                }, function(err){
+                                   console.log("err =",err);
+                                });
+
                         })
                         .addToolPane("Печать")
                         .addToolPaneActionButton("Печать ценников", {action:"printProdTags"}, "width:200px;", {}, function(){
