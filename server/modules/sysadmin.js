@@ -851,28 +851,35 @@ module.exports.init = function(app){
             res.send(bata1DataModelsInfo);
         })
     });
+    var deleteDataFromTAbles= function (tablesNames, index, deletedResult, callback){
+        if(!deletedResult) deletedResult=[];
+        if(!tablesNames[index]){
+            callback(deletedResult);
+            return;
+        }
+        if(tablesNames[index] =="change_log"){
+            deletedResult.unshift({});
+            deleteDataFromTAbles(tablesNames, index+1, deletedResult, callback);
+            return;
+        }
+        database.executeQuery("DELETE FROM "+tablesNames[index], function(err,updateCount){
+            if(err) deletedResult.unshift({"RESULT":"Failed delete data! Reason:"+err.message});
+            else deletedResult.unshift({"RESULT":"Deleted "+updateCount+" rows."});
+            deleteDataFromTAbles(tablesNames, index+1, deletedResult, callback)
+        });
+    };
+    app.post("/sysadmin/database/deleteDataFromDataModel", function (req, res) {
+        var dataModels = dataModel.getValidatedDataModels();
+        var tablesNames = [];
+        for (var dataModelName in dataModels) {
+            var dataModelInstance=dataModels[dataModelName];
+            if(dataModelInstance.sourceType=="table") tablesNames.unshift(dataModelInstance.source);
+        }
+        deleteDataFromTAbles(tablesNames, 0, null, function (deletedResult) {
+            res.send(deletedResult);
+        });
+    });
     app.post("/sysadmin/database/importDataFromBata1DB", function (req, res) {
-        //var dataModels = dataModel.getValidatedDataModels();
-        //var tablesNames = [];
-        //for (var dataModelName in dataModels) {
-        //    var dataModelInstance=dataModels[dataModelName];
-        //    if(dataModelInstance.sourceType=="table") tablesNames.unshift(dataModelInstance.source);
-        //}
-        //deleteDataFromTAbles(tablesNames, 0, function () {
-        //});
-        //function deleteDataFromTAbles(tablesNames, index, callback){
-        //    if(!tablesNames[index]){
-        //        callback();
-        //        return;
-        //    }
-        //        if(tablesNames[index] =="change_log"){
-        //            deleteDataFromTAbles(tablesNames, index+1, callback);
-        //            return;
-        //        }
-        //        database.executeQuery("DELETE FROM "+tablesNames[index], function(){
-        //            deleteDataFromTAbles(tablesNames, index+1, callback)
-        //        });
-        //};
 
     });
 
