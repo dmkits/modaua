@@ -200,8 +200,34 @@
                                                         startNextAction();
                                                     });
                                         })
-                                        .addToolPaneActionButton("restore from bata1 DB",{ btnStyle:"width:160px" } )
-                                        .addContentTablePopupMenuItemForAction("importForSelectedRowsObjects","Import data for selected objects...", "importDataForRowDataObjects")
+                                        .addToolPaneButtonForAction("restore from bata1 DB", "", { btnStyle:"width:160px" },
+                                            function(tableContent,contentTableInstance, toolPanes,thisInstance, startCallback){
+                                                var bata1DataModels= [];
+                                                for(var i=0;i<tableContent.length;i++) bata1DataModels.push(tableContent[i]["IMPORT_DATA_TABLE_NAME"]);
+                                                Request.postJSONData({url: "/sysadmin/database/deleteDataFromDataModel",
+                                                            data: bata1DataModels,
+                                                            consoleLog: true},
+                                                        function (success, result) {
+                                                            var infoPaneMsg=toolPanes[0].get("content");
+                                                            if (!success&&toolPanes&&toolPanes[0]) {
+                                                                infoPaneMsg+="<br><b style='color:red;'>Filed connect to server!</b>";
+                                                                toolPanes[0].set("content",infoPaneMsg);
+                                                                return;
+                                                            }
+                                                            if (!result&&toolPanes&&toolPanes[0]) {
+                                                                infoPaneMsg+="<br><b style='color:red;'>No server response data!</b>";
+                                                                toolPanes[0].set("content",infoPaneMsg);
+                                                                return;
+                                                            }
+                                                            infoPaneMsg+="<br><b>Deleted data from current data model.</b>";
+                                                            toolPanes[0].set("content",infoPaneMsg);
+                                                            for(var i=0;i<tableContent.length;i++){
+                                                                var tableContentRowData=tableContent[i], resultItem=result[i];
+                                                                contentTableInstance.updateRowData(tableContentRowData,{"RESULT":resultItem["RESULT"]});
+                                                            }
+                                                        })
+                                            })
+//                                        .addContentTablePopupMenuItemForAction("importForSelectedRowsObjects","Import data for selected objects...", "importDataForRowDataObjects")
                                         .startUp();
                     }
                     sysadmin_database_ContentPaneDetailContainer.selectChild(btnImportDataFromDB.document);

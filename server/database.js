@@ -242,7 +242,7 @@ module.exports.executeQuery= function(query, callback) {                        
                 callback(err);
                 return;
             }
-            callback(null, recordset, recordset.affectedRows);
+            callback(null, recordset.affectedRows);
         });
 };
 /**

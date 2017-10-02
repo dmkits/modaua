@@ -328,22 +328,34 @@ define(["dojo/_base/declare", "app", "templateDocumentBase", "hTableSimpleFilter
             },
             /*
              * actionName
-             * actionParams: {action, rowPosName, rowPosIndexName}
-             * actionFunction = function()
+             * params: { btnStyle, btnParams }
+             * startAction = function(tableContent,tableInstance, toolPanes,this, startCallback)
+             * actionFunction = function(tableContent,tableInstance, toolPanes,this)
              */
-            addToolPaneButtonForAction: function(label, actionName, btnStyle, btnParams, actionFunction){
+            addToolPaneButtonForAction: function(label, actionName, params, startAction, endAction){
                 if(!this.rightContainer) {
                     console.log("WARNING! Failed addToolPaneActionButton! Reason: no rightContainer!");
                     return this;
                 }
                 if (!this.toolPanes||this.toolPanes.length==0) this.addToolPane("");
                 var actionsTableRow= this.addRowToTable(this.toolPanes[this.toolPanes.length-1].containerNode.lastChild);
-                var actionButton= this.addTableCellButtonTo(actionsTableRow, {labelText:label, cellWidth:0, btnStyle:btnStyle, btnParameters:btnParams});
+                var actionButton= this.addTableCellButtonTo(actionsTableRow,
+                    {labelText:label, cellWidth:0, btnStyle:params.btnStyle, btnParameters:params.btnParams});
                 if (!this.toolPanesActionButtons) this.toolPanesActionButtons={};
                 if(actionName){
                     this.toolPanesActionButtons[actionName]= actionButton;
                     //actionButton.onClick= this.getOnClickAction(actionParams);
                     //actionButton.setState= this.getSetStateAction(actionParams.action);
+                }
+                var thisInstance=this;
+                if(startAction){
+                    actionButton.onClick= function(){
+                        startAction(thisInstance.getTableContent(),thisInstance.contentTable, thisInstance.toolPanes, thisInstance,
+                            function(){
+
+                            });
+                    };
+                    return this;
                 }
                 return this;
             },
