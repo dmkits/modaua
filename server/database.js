@@ -168,7 +168,6 @@ module.exports.dropDB= function(DBName,callback) {
         });
 };
 
-
 module.exports.isDBEmpty= function(DBName,callback) {
     connection.query("SELECT table_name FROM information_schema.tables where table_schema='"+DBName+"'",
         function (err,recordset ) {
@@ -179,7 +178,6 @@ module.exports.isDBEmpty= function(DBName,callback) {
             callback(null,recordset[0]);
         });
 };
-
 
 /**
  * backupParam = {host, database, fileName, user, password,  onlyData:true/false}
@@ -214,19 +212,18 @@ module.exports.backupDB= function(backupParam,callback) {
  * default onlyData=false
  */
 module.exports.restoreDB= function(restoreParams,callback) {
-
     var filePath=path.join(__dirname+'/../backups/'+restoreParams.fileName);
-    var command ='mysql -u '+restoreParams.user+' --password="'+restoreParams.password+'" -h '+restoreParams.host+' '+restoreParams.database+' < '+ filePath;               log.info("command=",command);
-
+    var command ='mysql -u '+restoreParams.user+' --password="'+restoreParams.password+
+        '" -h '+restoreParams.host+' '+restoreParams.database+' < '+ filePath;                                          log.debug("restoreDB command=",command);
     child_process.exec(command, function(err,stdout,stderr){
-        if(err){                                                       log.error("err restoreDB=", err);
+        if(err){                                                                                                        log.error("restoreDB error=", err);
             callback(err);
             return;
         }
         if(stdout){
             log.info("stdout restoreDB=",stdout);
         }
-        if(stderr && stderr.indexOf("Warning")<0){                      log.error("stderr restoreDB=",stderr);
+        if(stderr && stderr.indexOf("Warning")<0){                                                                      log.error("restoreDB stderr=",stderr);
             callback(stderr);
             return;
         }
@@ -289,6 +286,21 @@ module.exports.selectParamsQuery= function(query, parameters, callback) {       
                 callback(err);
                 return;
             }                                                                                               //log.debug('database: selectParamsQuery:',recordset,{});//test
+            callback(null, recordset, recordset.affectedRows, fields);
+        });
+};
+
+/**
+ * for database query select
+ * callback = function(err, recordset, count, fields)
+ */
+module.exports.selectQueryFromBata1= function(query, callback) {                                            log.debug("database bata1 selectQuery query:",query);
+    connectionBata1.query(query,
+        function (err, recordset, fields) {
+            if (err) {
+                callback(err);
+                return;
+            }
             callback(null, recordset, recordset.affectedRows, fields);
         });
 };

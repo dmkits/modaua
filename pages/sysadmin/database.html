@@ -135,14 +135,14 @@
                                         .addToolPane("info")
                                         .addToolPane("restore")
                                         .addToolPaneActionButton("connect to bata1 DB",{ btnStyle:"width:160px" },
-                                            function(tableContent,toolPanes){
+                                            function(tableContent,contentTableInstance, toolPanes){
                                                 sysadminDialogs.showAdminAuthDialog({},
                                                         function(result) {
                                                             if (!result.result) return;
                                                             Request.postJSONData({url: "/sysadmin/database/connectToBata1DB",
                                                                         data: {adminUser:result.adminName,adminPassword:result.adminPassword, importDataModel:tableContent},
                                                                         consoleLog: true},
-                                                                    function (success, result) {console.log("result",result);
+                                                                    function (success, result) {
                                                                         if (!success&&toolPanes&&toolPanes[0]) {
                                                                             toolPanes[0].set("content","<b style='color:red;'>Filed connect to server!</b>");
                                                                             return;
@@ -155,7 +155,33 @@
                                                                             toolPanes[0].set("content","<b style='color:red;'>Failed connect to bata1 database! Reason:"+result.error+"</b>");
                                                                             return;
                                                                         }
-                                                                        toolPanes[0].set("content","<b>Connected to bata1 database.</b>");
+                                                                        var infoPaneMsg="<b>Connected to bata1 database.</b>";
+                                                                        toolPanes[0].set("content",infoPaneMsg);
+                                                                        var bata1DataModels= [];
+                                                                        for(var i=0;i<tableContent.length;i++) bata1DataModels.push(tableContent[i]["IMPORT_DATA_TABLE_NAME"]);
+                                                                        Request.postJSONData({url: "/sysadmin/database/getBata1DataModelInfo",
+                                                                                    data: bata1DataModels,
+                                                                                    consoleLog: true},
+                                                                                function (success, result) {
+                                                                                    if (!success&&toolPanes&&toolPanes[0]) {
+                                                                                        infoPaneMsg+="<br><b style='color:red;'>Filed connect to server!</b>";
+                                                                                        toolPanes[0].set("content",infoPaneMsg);
+                                                                                        return;
+                                                                                    }
+                                                                                    if (!result&&toolPanes&&toolPanes[0]) {
+                                                                                        infoPaneMsg+="<br><b style='color:red;'>No server response data!</b>";
+                                                                                        toolPanes[0].set("content",infoPaneMsg);
+                                                                                        return;
+                                                                                    }
+                                                                                    infoPaneMsg+="<br><b>Geted data from bata1 data model.</b>";
+                                                                                    toolPanes[0].set("content",infoPaneMsg);
+                                                                                    for(var i=0;i<tableContent.length;i++){
+                                                                                        var tableContentRowData=tableContent[i], resultItem=result[i];
+                                                                                        var updatedData={"IMPORT_ROW_COUNT":resultItem["IMPORT_ROW_COUNT"]};
+                                                                                        if(resultItem["RESULT"])updatedData={"RESULT":resultItem["RESULT"]};
+                                                                                        contentTableInstance.updateRowData(tableContentRowData,updatedData);
+                                                                                    }
+                                                                                })
                                                                     });
                                                         });
                                             })

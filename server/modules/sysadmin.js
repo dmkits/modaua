@@ -814,21 +814,42 @@ module.exports.init = function(app){
         })
     });
     app.post("/sysadmin/database/connectToBata1DB", function (req, res) {
-        var adminUser=req.body.adminUser;
-        var adminPassword=req.body.adminPassword;
         var connParams = {
             host: getServerConfig().host,
-            user: adminUser,
-            password: adminPassword
+            user: req.body.adminUser,
+            password: req.body.adminPassword
         };
         database.mySQLBata1AdminConnection(connParams, function (err) {
             if (err) {
                 res.send({error:err.message});
                 return;
             }
-            var outData= {success:"authorized"};
-            res.send(outData);
+            res.send({success:"authorized"});
         });
+    });
+    var getBata1DBDataModelsInfo= function(dataModelsListForImport, resultCallback) {
+        var setBata1DataModelRowCountCallback= function (ind, bata1DataModels, bata1DataModelsInfo, finishedCallback) {
+            var bata1DataModelName=bata1DataModels[ind];
+            if(!bata1DataModelName){
+                finishedCallback(bata1DataModelsInfo);
+                return;
+            }
+            database.selectQueryFromBata1("select COUNT(1) as ROWCOUNT from "+bata1DataModelName,
+                function(err, recordset){
+                    if(err)bata1DataModelsInfo.push({"RESULT":"Failed get bata1 row count! Reson: "+err.message});
+                    else bata1DataModelsInfo.push({"IMPORT_ROW_COUNT":(recordset&&recordset[0])?recordset[0]["ROWCOUNT"]:0});
+                    setBata1DataModelRowCountCallback(ind+1, dataModelsListForImport, bata1DataModelsInfo, finishedCallback);
+                });
+        };
+        setBata1DataModelRowCountCallback(0, dataModelsListForImport, [], function(bata1DataModelsInfo){
+            resultCallback(bata1DataModelsInfo);
+        });
+    };
+    app.post("/sysadmin/database/getBata1DataModelInfo", function (req, res) {
+        var bata1DataModels=req.body;
+        getBata1DBDataModelsInfo(bata1DataModels,function(bata1DataModelsInfo){
+            res.send(bata1DataModelsInfo);
+        })
     });
     app.post("/sysadmin/database/importDataFromBata1DB", function (req, res) {
         //var dataModels = dataModel.getValidatedDataModels();

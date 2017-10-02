@@ -306,7 +306,7 @@ define(["dojo/_base/declare", "app", "templateDocumentBase", "hTableSimpleFilter
 
             /*
              * params: { btnStyle, btnParams }
-             * actionFunction = function(tableContent,toolPanes,this)
+             * actionFunction = function(tableContent,tableInstance, toolPanes,this)
              */
             addToolPaneActionButton: function(label, params, actionFunction){
                 if(!this.rightContainer) {
@@ -321,7 +321,7 @@ define(["dojo/_base/declare", "app", "templateDocumentBase", "hTableSimpleFilter
                 if(actionFunction) {
                     var thisInstance=this;
                     actionButton.onClick=function(){
-                        actionFunction(thisInstance.getTableContent(),thisInstance.toolPanes, thisInstance);
+                        actionFunction(thisInstance.getTableContent(),thisInstance.contentTable, thisInstance.toolPanes, thisInstance);
                     }
                 }
                 return this;

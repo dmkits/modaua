@@ -30,14 +30,12 @@ module.exports.getDataModelsForImportFormBata1DB= function(resultCallback) {
             i++;
         }
     }
-
     var setDataModelRowCountCallback= function (ind, dataModelsListForImport, finishedCallback) {
         var dataModelsListItem=dataModelsListForImport[ind];
         if(!dataModelsListItem){
             finishedCallback(dataModelsListForImport);
             return;
         }
-        //dataModelsListItem["CUR_ROW_COUNT"]=ind;
         _getSelectItems({source:dataModelsListItem["DATA_TABLE_NAME"], fields:["ROWCOUNT"], fieldsFunctions:{"ROWCOUNT":"COUNT(1)"} },
             function(err,recordset){
                 if(err)dataModelsListItem["RESULT"]="Failed get row count! Reson: "+err.message;
@@ -308,6 +306,7 @@ function _getSelectItems(params, resultCallback){                               
                 resultCallback(null,recordset);
         });
 }
+module.exports.getSelectItems=_getSelectItems;
 /**
  * params = { source,
  *      fields = [<tableFieldName>,<tableFieldName>,<tableFieldName>,...],
