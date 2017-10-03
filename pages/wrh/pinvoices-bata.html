@@ -296,73 +296,33 @@
                            var columnsDataForExcel= [];
                             for (var i in visibleColumns) {
                                 var column = visibleColumns[i];
-                                console.log("column=", column);
-                                // var columnForExcel = {data:column.data, type:column.type, name:column.name};
                                 var columnForExcel = {};
                                 columnForExcel.data = column.data;
                                 columnForExcel.type = column.type;
                                 columnForExcel.name = column.name;
+                                columnForExcel.width = column.width;
                                 if (column.format)columnForExcel.format = column.format;
                                 columnsDataForExcel.push(columnForExcel);
                             }
-                            console.log("tableData=",tableData);
-                            console.log("columnsDataForExcel=",columnsDataForExcel);
-                        //    var dataForExcelFile={columns:columnsDataForExcel, rows:tableData};
-
-//                            Request.postData({url: "/wrh/pInvoices/get_excel_file", //heades:{}
-//                                        data:{columns:JSON.stringify(columnsDataForExcel), rows:JSON.stringify(tableData)} , consoleLog: true},
-//                                    function (success, data) {              console.log("data=",data);
-                                         // if (!success)
-
-
-//                                        if (data.error) {
-//                                            document.getElementById("create_db_result").innerHTML = "<b style='color:red'>" + now + "</br>FAIL! Reason:" + data.error + "</b>";
-//                                            sa_serverConfig_PageContent.getServerConfiguration();
-//                                            if (sa_serverConfig_PageContent.getParent().updateDBState)  sa_serverConfig_PageContent.getParent().updateDBState();
-//                                        } else {
-//                                            var successMsgStr = now + '</br>';
-//                                            if (data.DBCreated) successMsgStr += data.DBCreated + " ";
-//                                            if (data.userCreated) successMsgStr += data.userCreated + " ";
-//                                            if (data.userExists) successMsgStr += data.userExists + " ";
-//                                            if (data.accessAdded) successMsgStr += data.accessAdded;
-//                                            document.getElementById("create_db_result").innerHTML = successMsgStr;
-//                                            saveAndReconnectBtn.onClick();
-  //                                      }
-                                //    });
-
-
-//                            var Iframe = iframe.create("downLoadFile");
-//                            iframe.setSrc(Iframe, "/wrh/pInvoices/get_excel_file", true);
-//
-//
-//                            iframe("/wrh/pInvoices/get_excel_file",{
-//                                    data:{columns:JSON.stringify(columnsDataForExcel), rows:JSON.stringify(tableData)},
-//                                    method:"POST",
-//                                    handleAs: 'xml'
-//                                }).then(function(data){
-//                                    ///console.log("data 345=",data);
-//                                }, function(err){
-//                                   console.log("err =",err);
-//                                });
-
-                            handlers.register("xlsx", function(response){
-                                // Do something with response.text
-
-                                console.log("response=",response);
-                                return response.text.split(",");
-                            });
-                           // return;
-
-                               iframe("/wrh/pInvoices/get_excel_file",{
-                                    data:{columns:JSON.stringify(columnsDataForExcel), rows:JSON.stringify(tableData)},
-                                    method:"POST",
-                                  //  handleAs: 'text'
-                                }).then(function(data){
-                                    console.log("data 345=",data);
-                                }, function(err){
-                                   console.log("err =",err);
-                                });
-
+                            var xhr = new XMLHttpRequest();
+                            xhr.open('POST', "/wrh/pInvoices/get_excel_file");
+                            xhr.responseType = 'blob';
+                            xhr.send(JSON.stringify({columns:columnsDataForExcel,rows:tableData}));
+                            xhr.onload = function (e){
+                                if (this.status == 200) {
+                                    var blob = new Blob([this.response], {type:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'});
+                                    var a = document.createElement("a");
+                                    a.style = "display: none";
+                                    document.body.appendChild(a);
+                                    var url = window.URL.createObjectURL(blob);
+                                    a.href = url;
+                                    a.download = 'myExcel.xlsx';
+                                    a.click();
+                                    window.URL.revokeObjectURL(url);
+                                }else{
+                                    console.log("Impossible to load file");
+                                }
+                            };
                         })
                         .addToolPane("Печать")
                         .addToolPaneActionButton("Печать ценников", {action:"printProdTags"}, "width:200px;", {}, function(){

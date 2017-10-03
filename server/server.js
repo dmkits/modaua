@@ -75,9 +75,6 @@ server.use(cookieParser());
 
 server.use(bodyParser.json({limit: '5mb'}));
 server.use(bodyParser.urlencoded({limit: '5mb'}));
-
-//server.use(bodyParser.urlencoded({extended: true}));
-//server.use(bodyParser.json());
 server.use(bodyParser.text());
 server.use('/', express.static('public'));
 server.set('view engine','ejs');

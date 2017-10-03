@@ -271,10 +271,12 @@ module.exports.init = function(app){
 
     app.post("/wrh/pInvoices/get_excel_file", function(req, res){
         try {
-            var columns = JSON.parse(req.body.columns);                     console.log("columns=", columns);
-            var rows = JSON.parse(req.body.rows);                           console.log("rows=", rows);
+            var body = JSON.parse(req.body);
+            var columns=body.columns;
+            var rows=body.rows;
         }catch(e){
-           console.log("Impossible to parse data! Reason:"+e);
+            res.sendStatus(500);                                                                                        console.log("Impossible to parse data! Reason:"+e);
+            return;
         }
         var uniqueFileName = util.getUIDNumber();
         var headers=[];
@@ -282,54 +284,31 @@ module.exports.init = function(app){
             headers.push(columns[j].data);
         }
         var fname = path.join(__dirname, '../../XLSX_temp/' + uniqueFileName + '.xlsx');
-
         try {
             fs.writeFileSync(fname);
         } catch (e) {
-            console.log("writeFileSync error=", e);
+            res.sendStatus(500);                                                                                        console.log("writeFileSync error=", e);
+            return;
         }
-        var wb = XLSX.readFile(fname);
+        try {
+            var wb = XLSX.readFileSync(fname);
+        }catch(e){
+            res.sendStatus(500);                                                                                        console.log("Impossible to create xlsx file! Reason:"+e);
+            return;
+        }
         wb.SheetNames = [];
-        var ws;
-            ws = XLSX.utils.json_to_sheet(rows, {header:headers});
-            wb.SheetNames.push('Лист___1');
-           wb.Sheets['Лист___1'] = ws;
+        var ws= XLSX.utils.json_to_sheet(rows, {header:headers});
+            wb.SheetNames.push('Лист_1');
+            wb.Sheets['Лист_1'] = ws;
 
         XLSX.writeFile(wb, fname, {bookType:"xlsx"});
-
-        var options = {
-            headers: {     //application/vnd.openxmlformats-officedocument.spreadsheetml.sheet
-                'Content-Disposition': 'attachment; filename =out.xlsx'
-            }
-        };
-
-        //<html>
-        //<body>
-        //<textarea>
-        //payload
-        //</textarea>
-        //</body>
-        //</html>
-        //Where payload would be the content that you are actually attempting to load.
-
-        //    res.sendFile(fname, options, function (err) {
-        //    if (err) {
-        //        console.log("send xlsx file err=", err);
-        //        res.end();
-        //        //return;
-        //    }
-        //  //  fs.unlinkSync(fname);
-        //    console.log("fname unlinkSync=", fname);
-        //});
-
+        var options = {headers: {'Content-Disposition': 'attachment; filename =out.xlsx'}};
         res.sendFile(fname, options, function (err) {
             if (err) {
-                console.log("send xlsx file err=", err);
-                res.end();
-                //return;
+                res.sendStatus(500);                                                                                    console.log("send xlsx file err=", err);
+                return;
             }
-            //  fs.unlinkSync(fname);
-            console.log("fname unlinkSync=", fname);
+              fs.unlinkSync(fname);
         });
     });
 };
