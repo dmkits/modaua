@@ -799,19 +799,63 @@ module.exports.init = function(app){
         });
     });
     var importDataModelsTableColumns=[
-        {"data": "PRIORITY", "name": "Priority", "width": 65, "type": "numeric"}
+        {"data": "PRIORITY", "name": "Priority", "width": 55, "type": "numeric"}
+        , {"data": "DATA_MODEL_NAME", "name": "Data model name", "width": 220, "type": "text"}
         , {"data": "DATA_TABLE_NAME", "name": "Data table name", "width": 220, "type": "text"}
         , {"data": "IMPORT_DATA_TABLE_NAME", "name": "import data table name", "width": 220, "type": "text"}
-        , {"data": "CUR_ROW_COUNT", "name": " current row count", "width": 100, "type": "numeric"}
-        , {"data": "IMPORT_ROW_COUNT", "name": "import row count", "width": 100, "type": "numeric"}
+        , {"data": "CUR_ROW_COUNT", "name": " current row count", "width": 60, "type": "numeric"}
+        , {"data": "IMPORT_ROW_COUNT", "name": "import row count", "width": 60, "type": "numeric"}
         , {"data": "RESULT", "name": "result", "width": 450, "type": "text"}
     ];
+
+    /**
+     * resultCallback = function(dataModelsListForImport)
+     */
+    var getDataModelsForImportFormBata1DB= function(validatedDataModels, resultCallback) {
+        var dataModelsListForImport= [], i=1;
+        for(var dataModelName in validatedDataModels){
+            var dataModel=validatedDataModels[dataModelName];
+            if(dataModel.sourceType=="table"){
+                var importTableName=dataModel.source;
+                importTableName= importTableName.replace("wrh_orders_bata_details","wrh_order_bata_details");
+                importTableName= importTableName.replace("wrh_pinvs_products","wrh_pinv_products");
+                importTableName= importTableName.replace("wrh_invs_products","wrh_inv_products");
+                importTableName= importTableName.replace("wrh_invs_products_wob","wrh_inv_products_wob");
+                importTableName= importTableName.replace("wrh_ret_invs_products","wrh_ret_inv_products");
+                importTableName= importTableName.replace("wrh_ret_invs_products_wob","wrh_ret_inv_products_wob");
+                importTableName= importTableName.replace("dir_products_types","-");
+                importTableName= importTableName.replace("wrh_retail_tickets_products","wrh_retail_ticket_products");
+                importTableName= importTableName.replace("wrh_retail_tickets_products_wob","wrh_retail_ticket_products_wob");
+                dataModelsListForImport.push({ "PRIORITY":i,"DATA_MODEL_NAME":dataModelName,
+                    "DATA_TABLE_NAME":dataModel.source, "IMPORT_DATA_TABLE_NAME":importTableName,
+                    "CUR_ROW_COUNT":0, "IMPORT_ROW_COUNT":0 });
+                i++;
+            }
+        }
+        var setDataModelRowCountCallback= function (ind, dataModelsListForImport, finishedCallback) {
+            var dataModelsListItem=dataModelsListForImport[ind];
+            if(!dataModelsListItem){
+                finishedCallback(dataModelsListForImport);
+                return;
+            }
+            database.selectQuery("select COUNT(1) as ROWCOUNT from "+dataModelsListItem["DATA_TABLE_NAME"],
+                function(err, recordset){
+                    if(err)dataModelsListItem["RESULT"]="Failed get row count! Reson: "+err.message;
+                    else dataModelsListItem["CUR_ROW_COUNT"]=(recordset&&recordset[0])?recordset[0]["ROWCOUNT"]:0;
+                    setDataModelRowCountCallback(ind+1, dataModelsListForImport, finishedCallback);
+                });
+        };
+        setDataModelRowCountCallback(0, dataModelsListForImport, function(dataModelsListForImport){
+            resultCallback(dataModelsListForImport);
+        });
+    };
     app.get("/sysadmin/database/getDataModelsForImportData", function (req, res) {
-        dataModel.getDataModelsForImportFormBata1DB(function(dataModelsListForImport){
-            res.send({columns:importDataModelsTableColumns,identifier:importDataModelsTableColumns[0].data,
-                items:dataModelsListForImport
-            });
-        })
+        getDataModelsForImportFormBata1DB(dataModel.getValidatedDataModels(),
+            function(dataModelsListForImport){
+                res.send({columns:importDataModelsTableColumns,identifier:importDataModelsTableColumns[0].data,
+                    items:dataModelsListForImport
+                });
+            })
     });
     app.post("/sysadmin/database/connectToBata1DB", function (req, res) {
         var connParams = {
@@ -834,6 +878,11 @@ module.exports.init = function(app){
                 finishedCallback(bata1DataModelsInfo);
                 return;
             }
+            if(bata1DataModelName=="-"){
+                bata1DataModelsInfo.push({"RESULT":"No data."});
+                setBata1DataModelRowCountCallback(ind+1, dataModelsListForImport, bata1DataModelsInfo, finishedCallback);
+                return;
+            }
             database.selectQueryFromBata1("select COUNT(1) as ROWCOUNT from "+bata1DataModelName,
                 function(err, recordset){
                     if(err)bata1DataModelsInfo.push({"RESULT":"Failed get bata1 row count! Reson: "+err.message});
@@ -851,7 +900,7 @@ module.exports.init = function(app){
             res.send(bata1DataModelsInfo);
         })
     });
-    var deleteDataFromTAbles= function (tablesNames, index, deletedResult, callback){
+    var deleteDataFromTables= function (tablesNames, index, deletedResult, callback){
         if(!deletedResult) deletedResult=[];
         if(!tablesNames[index]){
             callback(deletedResult);
@@ -859,13 +908,13 @@ module.exports.init = function(app){
         }
         if(tablesNames[index] =="change_log"){
             deletedResult.unshift({});
-            deleteDataFromTAbles(tablesNames, index+1, deletedResult, callback);
+            deleteDataFromTables(tablesNames, index+1, deletedResult, callback);
             return;
         }
         database.executeQuery("DELETE FROM "+tablesNames[index], function(err,updateCount){
             if(err) deletedResult.unshift({"RESULT":"Failed delete data! Reason:"+err.message});
             else deletedResult.unshift({"RESULT":"Deleted "+updateCount+" rows."});
-            deleteDataFromTAbles(tablesNames, index+1, deletedResult, callback)
+            deleteDataFromTables(tablesNames, index+1, deletedResult, callback)
         });
     };
     app.post("/sysadmin/database/deleteDataFromDataModel", function (req, res) {
@@ -875,12 +924,96 @@ module.exports.init = function(app){
             var dataModelInstance=dataModels[dataModelName];
             if(dataModelInstance.sourceType=="table") tablesNames.unshift(dataModelInstance.source);
         }
-        deleteDataFromTAbles(tablesNames, 0, null, function (deletedResult) {
+        deleteDataFromTables(tablesNames, 0, null, function (deletedResult) {
             res.send(deletedResult);
         });
     });
+    var selectDataFromBata1DB= function(bata1TableName, resultItem, resultCallback){
+        if(bata1TableName=="-"){
+            resultItem["RESULT"]="No data.";
+            resultCallback(resultItem);
+            return;
+        }
+        database.selectQueryFromBata1("select * from "+bata1TableName,
+            function(err, recordset){
+                if(err){
+                    resultItem["RESULT"]="Failed select data from "+bata1TableName+"! Reason:"+err.message;
+                    resultCallback(resultItem);
+                    return;
+                }
+                var bata1TableData=recordset;
+                resultItem["RESULT"]="Selected "+bata1TableData.length+" rows.";
+                resultCallback(resultItem,bata1TableData);
+            });
+    };
+    var insertDataItemFromBata1DB= function(importTableName, importTableFields, bata1TableDataItem, resultItem ,resultCallback){
+        var importFields=[], sqlInsertFieldsList, sqlInsertFieldsValues, insertFieldsValues=[];
+        for(var i=0; i<importTableFields.length; i++){
+            var importTableFieldName=importTableFields[i];
+            sqlInsertFieldsList= (!sqlInsertFieldsList)?importTableFieldName:sqlInsertFieldsList+","+importTableFieldName;
+            sqlInsertFieldsValues= (!sqlInsertFieldsValues)?"?":sqlInsertFieldsValues+",?";
+            insertFieldsValues.push(bata1TableDataItem[importTableFieldName]);
+        }
+        database.executeParamsQuery("INSERT INTO "+importTableName+"("+sqlInsertFieldsList+") values("+sqlInsertFieldsValues+")",
+            insertFieldsValues,
+            function(err,updateCount){
+                if(err) {
+                    resultItem["FAILED"]++;resultItem["FAILED_MSGS"]+=" "+err.message;
+                } else resultItem["INSERTED"]+=updateCount;                                                                 console.log("executeParamsQuery ",importTableName,updateCount);
+                resultCallback(resultItem);
+            });
+    };
+    var insertDataFromBata1DB= function(importTableName, importTableFields, bata1TableData, ind, resultItem ,resultCallback){
+        if(importTableName=="change_log"){
+            resultItem["RESULT"]+=" Data Model no imported.";
+            resultCallback(resultItem);
+            return;
+        }
+        var bata1TableDataItem=bata1TableData[ind];
+        if(!bata1TableDataItem){
+            resultItem["RESULT"]+=" Inserted "+resultItem["INSERTED"]+" rows, FAILED insert "+resultItem["FAILED"]+" rows.";
+            resultCallback(resultItem);
+            return;
+        }
+        if(resultItem["FAILED"]>10){
+            resultItem["RESULT"]+=" Process stoped! Many Failures! Inserted "+resultItem["INSERTED"]
+                +" rows, FAILED insert "+resultItem["FAILED"]+" rows. Failure messages:"+resultItem["FAILED_MSGS"];
+            resultCallback(resultItem);
+            return;
+        }
+        insertDataItemFromBata1DB(importTableName, importTableFields, bata1TableDataItem, resultItem ,
+            function(resultItem){
+                insertDataFromBata1DB(importTableName, importTableFields, bata1TableData, ind+1, resultItem ,resultCallback);
+            });
+    };
     app.post("/sysadmin/database/importDataFromBata1DB", function (req, res) {
+        var bata1TableName=req.body["IMPORT_DATA_TABLE_NAME"],
+            importTableName=req.body["DATA_TABLE_NAME"],
+            importDataModelName=req.body["DATA_MODEL_NAME"];
+        var resultItem={"IMPORT_DATA_TABLE_NAME":bata1TableName};
+        selectDataFromBata1DB(bata1TableName, resultItem, function(resultItem, bata1TableData){
+            if(!bata1TableData){
+                res.send({resultItem:resultItem});
+                return;
+            }
+            resultItem["INSERTED"]=0;resultItem["FAILED"]=0;
+            var importDataModel=dataModel.getValidatedDataModels()[importDataModelName];
+            if(!importDataModel){
+                resultItem["RESULT"]+=" FAILED INSERT! Reason: no data model!";
+                res.send({resultItem:resultItem});
+                return;
+            }
+            if(!importDataModel.fields){
+                resultItem["RESULT"]+=" FAILED INSERT! Reason: no data model fields!";
+                res.send({resultItem:resultItem});
+                return;
+            }
+            insertDataFromBata1DB(importTableName, importDataModel.fields, bata1TableData, 0, resultItem, function(resultItem){
 
+
+                res.send({resultItem:resultItem});
+            });
+        });
     });
 
     app.get("/sysadmin/appModelSettings", function (req, res) {

@@ -11,44 +11,6 @@ module.exports.resetValidatedDataModels=function(){ validatedDataModels={}; };
 var database= require("../database");
 
 /**
- * resultCallback = function(dataModelsListForImport)
- */
-module.exports.getDataModelsForImportFormBata1DB= function(resultCallback) {
-    var dataModelsListForImport= [], i=1;
-    for(var dataModelName in validatedDataModels){
-        var dataModel=validatedDataModels[dataModelName];
-        if(dataModel.sourceType=="table"){
-            var importTableName=dataModel.source;
-            importTableName= importTableName.replace("wrh_orders_bata_details","wrh_order_bata_details");
-            importTableName= importTableName.replace("wrh_pinvs_products","wrh_pinv_products");
-            importTableName= importTableName.replace("wrh_invs_products","wrh_inv_products");
-            importTableName= importTableName.replace("wrh_invs_products_wob","wrh_inv_products_wob");
-            importTableName= importTableName.replace("wrh_ret_invs_products","wrh_ret_inv_products");
-            importTableName= importTableName.replace("wrh_ret_invs_products_wob","wrh_ret_inv_products_wob");
-            dataModelsListForImport.push({ "PRIORITY":i, "DATA_TABLE_NAME":dataModel.source, "IMPORT_DATA_TABLE_NAME":importTableName,
-                "CUR_ROW_COUNT":0, "IMPORT_ROW_COUNT":0 });
-            i++;
-        }
-    }
-    var setDataModelRowCountCallback= function (ind, dataModelsListForImport, finishedCallback) {
-        var dataModelsListItem=dataModelsListForImport[ind];
-        if(!dataModelsListItem){
-            finishedCallback(dataModelsListForImport);
-            return;
-        }
-        _getSelectItems({source:dataModelsListItem["DATA_TABLE_NAME"], fields:["ROWCOUNT"], fieldsFunctions:{"ROWCOUNT":"COUNT(1)"} },
-            function(err,recordset){
-                if(err)dataModelsListItem["RESULT"]="Failed get row count! Reson: "+err.message;
-                else dataModelsListItem["CUR_ROW_COUNT"]=(recordset&&recordset[0])?recordset[0]["ROWCOUNT"]:0;
-                setDataModelRowCountCallback(ind+1, dataModelsListForImport, finishedCallback);
-            })
-    };
-    setDataModelRowCountCallback(0, dataModelsListForImport, function(dataModelsListForImport){
-        resultCallback(dataModelsListForImport);
-    });
-};
-
-/**
  * created for data model fields: sourceType, source, fields, idField, fieldsMetadata
  * created data model functions
  */

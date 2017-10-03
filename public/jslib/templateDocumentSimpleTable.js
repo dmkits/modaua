@@ -1,8 +1,8 @@
 /**
  * Created by dmkits on 18.12.16.
  */
-define(["dojo/_base/declare", "app", "templateDocumentBase", "hTableSimpleFiltered","dijit/ProgressBar","dijit/Dialog","dijit/registry"],
-    function(declare, APP, DocumentBase, HTable, ProgressBar,Dialog,registry) {
+define(["dojo/_base/declare", "app", "templateDocumentBase", "hTableSimpleFiltered"],
+    function(declare, APP, DocumentBase, HTable) {
         return declare("TemplateDocumentSimpleTable", [DocumentBase], {
             /*
             * args: {titleText, dataURL, dataURLCondition={...}, rightPane:true/false, rightPaneWidth, buttonUpdate, buttonPrint, printFormats={ ... } }
@@ -326,13 +326,21 @@ define(["dojo/_base/declare", "app", "templateDocumentBase", "hTableSimpleFilter
                 }
                 return this;
             },
+
+            /*
+             * actionFunction = function(contentTableRowData, params, contentTableUpdatedRowData, startNextAction, finishedAction)
+             */
+            addContentTableRowAction: function(actionName, actionFunction){
+                if(!this.contentTableActions) this.contentTableActions={};
+                this.contentTableActions[actionName] = actionFunction;
+                return this;
+            },
             /*
              * actionName
              * params: { btnStyle, btnParams }
-             * startAction = function(tableContent,tableInstance, toolPanes,this, startCallback)
-             * actionFunction = function(tableContent,tableInstance, toolPanes,this)
+             * startAction = function(tableContent,tableInstance, toolPanes,this, startContentTableRowsActionCallback)
              */
-            addToolPaneButtonForAction: function(label, actionName, params, startAction, endAction){
+            addToolPaneButtonForContentTableRowAction: function(label, actionName, params, startAction, endAction){
                 if(!this.rightContainer) {
                     console.log("WARNING! Failed addToolPaneActionButton! Reason: no rightContainer!");
                     return this;
@@ -342,21 +350,28 @@ define(["dojo/_base/declare", "app", "templateDocumentBase", "hTableSimpleFilter
                 var actionButton= this.addTableCellButtonTo(actionsTableRow,
                     {labelText:label, cellWidth:0, btnStyle:params.btnStyle, btnParameters:params.btnParams});
                 if (!this.toolPanesActionButtons) this.toolPanesActionButtons={};
-                if(actionName){
-                    this.toolPanesActionButtons[actionName]= actionButton;
-                    //actionButton.onClick= this.getOnClickAction(actionParams);
-                    //actionButton.setState= this.getSetStateAction(actionParams.action);
-                }
+                if(actionName) this.toolPanesActionButtons[actionName]= actionButton;
                 var thisInstance=this;
-                if(startAction){
+                var contentTableRowActionFunction=
+                    this.contentTableActions[actionName];//function(tableContentRowData, params, tableUpdatedRowData, startNextAction, finishedAction)
+                if(!contentTableRowActionFunction) return this;
+                if(startAction)
                     actionButton.onClick= function(){
-                        startAction(thisInstance.getTableContent(),thisInstance.contentTable, thisInstance.toolPanes, thisInstance,
-                            function(){
-
+                        var contentTableRowsData=thisInstance.getTableContent();
+                        var actionParams={};
+                        for(var pItemName in params) actionParams[pItemName]=params[pItemName];
+                        startAction(contentTableRowsData,thisInstance.contentTable, thisInstance.toolPanes, thisInstance,
+                            /*startContentTableRowsActionCallback*/function(){
+                                thisInstance.contentTable.updateRowsAction(contentTableRowsData, actionParams, contentTableRowActionFunction, endAction);
                             });
                     };
-                    return this;
-                }
+                else
+                    actionButton.onClick= function(){
+                        var contentTableRowsData=thisInstance.getTableContent();
+                        var actionParams={};
+                        for(var pItemName in params) actionParams[pItemName]=params[pItemName];
+                        thisInstance.contentTable.updateRowsAction(contentTableRowsData, actionParams, contentTableRowActionFunction, endAction);
+                    };
                 return this;
             },
 
@@ -370,68 +385,28 @@ define(["dojo/_base/declare", "app", "templateDocumentBase", "hTableSimpleFilter
             },
 
             /*
-             * actionFunction = function(tableContentRowData, params, this.contentTable, startNextAction)
-             */
-            addContentTableRowAction: function(actionID, actionFunction){
-                if(!this.contentTableActions) this.contentTableActions={};
-                this.contentTableActions[actionID] = actionFunction;
-                return this;
-            },
-            /*
-             * menuActionFunction - action on menu, if not defined, menu action call action by actionID from this.contentTableActions
-             * menuActionFunction = function(selRowsData, params, this.contentTable, startActionFunction)
              * params = {}
-             * startActionFunction = function(rowsDataForAction) - starting process calls actionFunction for action by actionID
-             * menuActionEndFunction - action on end calls for all rows action by actionID
-             * menuActionEndFunction = function(selRowsData, params, this.contentTable)
+             * startAction - starting process calls actionFunction for action by actionName
+             * startAction = function(contentTableRowsDataForAction,params, thisContentTable, startContentTableRowsActionCallback)
+             * endAction - action on end calls for all rows action by actionID
+             * endAction = function(contentTableRowsDataForAction, params, thisContentTable)
              */
-            addContentTablePopupMenuItemForAction: function(itemID, itemName, actionID, menuActionFunction, menuActionEndFunction){
-                var actionFunction=
-                    this.contentTableActions[actionID];//function(tableContentRowData, params, this.contentTable, startNextAction)
-                var selRowAction= function(tableRowDataForAction, params, thisContentTable, startNextAction){
-                    actionFunction(tableRowDataForAction, params, thisContentTable, startNextAction);
-                };
-                var selRowsAction= function(tableRowsDataForAction, dataInd, params, thisContentTable){                 //console.log("addContentTablePopupMenuItemForAction selRowsAction",tableRowsData);
-                    var tableRowDataForAction=tableRowsDataForAction[dataInd];                                          //console.log("addContentTablePopupMenuItemForAction tableRowData",tableRowData);
-                    var progressBarDialog = registry.byId(thisContentTable.id + "_progressDialog");
-                    var progressBarForDialog = registry.byId(thisContentTable.id + "_progressBarForDialog");
-                    if(!tableRowDataForAction){
-                        progressBarDialog.hide();
-                        if (menuActionEndFunction) menuActionEndFunction(tableRowsDataForAction, params, thisContentTable);
-                        return;
-                    }
-                    if(dataInd==0) {
-                        if (!progressBarDialog) {
-                            progressBarDialog = new Dialog({id: thisContentTable.id + "_progressDialog", closable: false, title: "Подождите, пожалуйста, операция выполняется"});
-                            document.body.appendChild(progressBarDialog.domNode);
-                        }
-                        if (!progressBarForDialog) {
-                            progressBarForDialog = new ProgressBar({id: thisContentTable.id +"_progressBarForDialog", style: "width: 300px"});
-                            progressBarDialog.addChild(progressBarForDialog);
-                        }else progressBarForDialog.set("value",0);
-
-                        progressBarForDialog.set("maximum", tableRowsDataForAction.length);
-                        progressBarDialog.show();
-                    }
-                    progressBarForDialog.set("value",dataInd);
-                    selRowAction(tableRowDataForAction, params, thisContentTable,
-                        /*postaction*/function(){
-                            selRowsAction(tableRowsDataForAction,dataInd+1,params,thisContentTable);
-                        });
-                };
-                var thisContentHTable= this.contentTable;
-                this.contentTable.setMenuItem(itemID, itemName, {},
+            addContentTablePopupMenuItemForAction: function(itemID, itemName, actionName, startAction, endAction){
+                var contentTableRowActionFunction=
+                    this.contentTableActions[actionName];//function(tableContentRowData, params, tableUpdatedRowData, startNextAction, finishedAction)
+                var thisContentTable= this.contentTable;
+                if(!contentTableRowActionFunction) return this;
+                thisContentTable.setMenuItem(itemID, itemName, {},
                     function(selRowsData, params){
-                        var selRowsDataA=[];
-                        for(var selInd in selRowsData) selRowsDataA.push(selRowsData[selInd]);
-                        //selRowsAction(rowsData,0,thisContentHTable,params);
-                        if(menuActionFunction)
-                            menuActionFunction(selRowsDataA,params,thisContentHTable,
+                        var rowDataForAction=[];
+                        for(var selInd in selRowsData) rowDataForAction.push(selRowsData[selInd]);
+                        if(startAction)
+                            startAction(rowDataForAction,params,thisContentTable,
                                 function(rowsDataForAction){
-                                    selRowsAction(rowsDataForAction,0,params,thisContentHTable);
+                                    thisContentTable.updateRowsAction(rowsDataForAction, params, contentTableRowActionFunction, endAction);
                                 });
                         else
-                            selRowsAction(selRowsDataA,0,params,thisContentHTable);
+                            thisContentTable.updateRowsAction(rowDataForAction, params, contentTableRowActionFunction, endAction);
                     });
                 return this;
             },
