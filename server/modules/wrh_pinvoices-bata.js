@@ -1,4 +1,5 @@
-var dataModel=require('../datamodel'), dateFormat = require('dateformat'),util=require('../util'), path=require('path'),fs=require('fs');
+var dataModel=require('../datamodel'), dateFormat = require('dateformat'),util=require('../util'), path=require('path');
+var XLSX=require('xlsx'),fs=require('fs');
 var wrh_pinvs= require(appDataModelPath+"wrh_pinvs"), wrh_pinvs_products= require(appDataModelPath+"wrh_pinvs_products");
 var dir_units= require(appDataModelPath+"dir_units"), dirContractors= require(appDataModelPath+"dir_contractors"),
     sys_currency= require(appDataModelPath+"sys_currency"), sysDocStates= require(appDataModelPath+"sys_docstates"),
@@ -268,48 +269,46 @@ module.exports.init = function(app){
             });
     });
 
-    app.post("/wrh/pInvoices/get_excel_file", function(req, res){  console.log("/wrh/pInvoices/get_excel_file");
-        var columns = req.body.columns;
-        var rows = req.body.rows;
-        var uniqueFileId = util.getUIDNumber();
-
-        // var data =JSON.parse(fs.readFileSync("/home/ianagez/IdeaProjects/chat/testInfoTable.json"));
-        var fname = path.join(__dirname, '../../XLSX_temp/' + uniqueFileId + '.xlsx');
+    app.post("/wrh/pInvoices/get_excel_file", function(req, res){
+        try {
+            var body = JSON.parse(req.body);
+            var columns=body.columns;
+            var rows=body.rows;
+        }catch(e){
+            res.sendStatus(500);                                                                                        console.log("Impossible to parse data! Reason:"+e);
+            return;
+        }
+        var uniqueFileName = util.getUIDNumber();
+        var headers=[];
+        for (var j in columns){
+            headers.push(columns[j].data);
+        }
+        var fname = path.join(__dirname, '../../XLSX_temp/' + uniqueFileName + '.xlsx');
         try {
             fs.writeFileSync(fname);
         } catch (e) {
-            console.log("e=", e);
+            res.sendStatus(500);                                                                                        console.log("writeFileSync error=", e);
+            return;
         }
-        return;
-        //fs.open(fname, 'w', function (err) {
-        //    if (err){
-        //        console.log("err=", err);
-        //        res.end();
-        //        return;
-        //    }
-        var wb = XLSX.readFile(fname);
+        try {
+            var wb = XLSX.readFileSync(fname);
+        }catch(e){
+            res.sendStatus(500);                                                                                        console.log("Impossible to create xlsx file! Reason:"+e);
+            return;
+        }
         wb.SheetNames = [];
-        var ws;
-        for (var i in data) {
-            var jsonObj = data[i];
-            ws = XLSX.utils.json_to_sheet(jsonObj.data, jsonObj.headers);
-            wb.SheetNames.push(jsonObj.id);
-            wb.Sheets[jsonObj.id] = ws;
-        }
-        XLSX.writeFile(wb, fname);
-        var options = {
-            headers: {
-                'Content-Disposition': 'attachment; filename =out.xlsx'
-            }
-        };
+        var ws= XLSX.utils.json_to_sheet(rows, {header:headers});
+            wb.SheetNames.push('Лист_1');
+            wb.Sheets['Лист_1'] = ws;
+
+        XLSX.writeFile(wb, fname, {bookType:"xlsx"});
+        var options = {headers: {'Content-Disposition': 'attachment; filename =out.xlsx'}};
         res.sendFile(fname, options, function (err) {
             if (err) {
-                console.log("err=", err);
-                res.end(); ///
+                res.sendStatus(500);                                                                                    console.log("send xlsx file err=", err);
                 return;
             }
-            fs.unlinkSync(fname);
-            console.log("fname unlinkSync=", fname);
+              fs.unlinkSync(fname);
         });
     });
 };
