@@ -250,16 +250,6 @@
                                 toolPane.set("content","<table style=\"margin:0;padding:0;\">"+prodInfoHtml+"</table>");
                             } else toolPane.set("content","");
                         })
-                        .addToolXPane("Ценник товара", function(toolPane, detailHeader,detailTable,thisInstance){
-                            toolPane.set("content","");
-                            var detailTableSelectedRow= detailTable.getSelectedRow();
-                            if(detailTableSelectedRow) {
-                                var prodTagContentData = {};
-                                for(var rowItemName in detailTableSelectedRow) prodTagContentData[rowItemName]= detailTableSelectedRow[rowItemName];
-                                toolPane.set("prodTagContentData", prodTagContentData);
-                                toolPane.set("href","/print/productTag58x30");
-                            }
-                        })
                         .startUp();
     });
 </script>
