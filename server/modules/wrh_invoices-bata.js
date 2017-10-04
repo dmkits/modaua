@@ -1,5 +1,5 @@
 var dataModel=require('../datamodel'), dateFormat = require('dateformat');
-var wrh_invs= require(appDataModelPath+"wrh_invs-bata"),
+var wrh_invs= require(appDataModelPath+"wrh_invs"),
     wrh_invs_products= require(appDataModelPath+"wrh_invs_products"),
     wrh_invs_products_wob= require(appDataModelPath+"wrh_invs_products_wob");
 var dir_units= require(appDataModelPath+"dir_units"), dir_contractors= require(appDataModelPath+"dir_contractors"),
@@ -21,7 +21,6 @@ module.exports.init = function(app){
         {"data": "DOCDATE", "name": "Дата", "width": 55, "type": "dateAsText", dataSource:"wrh_invs"},
         {"data": "UNIT_NAME", "name": "Подразделение", "width": 120, "type": "text", dataSource:"dir_units", dataField:"NAME"},
         {"data": "BUYER_NAME", "name": "Покупатель", "width": 150, "type": "text", dataSource:"dir_contractors", dataField:"NAME"},
-        //{"data": "SUPPLIER_INV_NUM", "name": "Номер накл. поставщика", "width": 100, "type": "text", dataSource:"wrh_invs"},
         {"data": "DOCCOUNT", "name": "Строк", "width": 60, "type": "numeric", visible:false,
             childDataSource:"wrh_invs_products", childLinkField:"INV_ID", parentLinkField:"ID",
             dataFunction:{function:"rowsCountIsNull", source:"wrh_invs_products", sourceField:"POSIND"} },
@@ -30,13 +29,12 @@ module.exports.init = function(app){
             dataFunction:{function:"sumIsNull", source:"wrh_invs_products", sourceField:"QTY"} },
         {"data": "DOCSUM", "name": "Сумма", "width": 80, "type": "numeric2",
             childDataSource:"wrh_invs_products", childLinkField:"INV_ID", parentLinkField:"ID",
-            dataFunction:{function:"sumIsNull", source:"wrh_invs_products", sourceField:"POSSUM"} }
-        //{"data": "CURRENCY_CODE", "name": "Валюта", "width": 50, "type": "text", dataSource:"sys_currency", dataField:"CODE"},
-        //{"data": "CURRENCY_CODENAME", "name": "Валюта", "width": 50, "type": "text", visible:false,
-        //    dataSource:"sys_currency", dataFunction:{function:"concat",fields:["sys_currency.CODE","' ('","sys_currency.NAME","')'"]} },
-        //{"data": "DOCSTATE_NAME", "name": "Статус", "width": 110, "type": "text", dataSource:"sys_docstates", dataField:"NAME"},
-        //{"data": "RATE", "name": "Курс валюты", "width": 60, "type": "numeric2", visible:false, dataSource:"wrh_invs"}
-        // ,{"data": "BASE_FACTOR", "name": "Базов.коэфф.", "width": 60, "type": "numeric2", visible:false, dataSource:"wrh_invs"}
+            dataFunction:{function:"sumIsNull", source:"wrh_invs_products", sourceField:"POSSUM"} },
+        {"data": "CURRENCY_CODE", "name": "Валюта", "width": 50, "type": "text", dataSource:"sys_currency", dataField:"CODE"},
+        {"data": "CURRENCY_CODENAME", "name": "Валюта", "width": 50, "type": "text", visible:false,
+            dataSource:"sys_currency", dataFunction:{function:"concat",fields:["sys_currency.CODE","' ('","sys_currency.NAME","')'"]} },
+        {"data": "DOCSTATE_NAME", "name": "Статус", "width": 110, "type": "text", dataSource:"sys_docstates", dataField:"NAME"},
+        {"data": "RATE", "name": "Курс валюты", "width": 60, "type": "numeric2", visible:false, dataSource:"wrh_invs"}
     ];
     app.get("/wrh/invoices/getDataForInvsListTable", function(req, res){
         var conditions={};

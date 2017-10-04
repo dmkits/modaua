@@ -1,10 +1,5 @@
-var fs = require('fs');
-var mysql      = require('mysql');
-
-var server = require('./server');
-var child_process = require('child_process');
-var log =server.log;
-var path=require('path');
+var fs = require('fs'), child_process = require('child_process'), path=require('path'), mysql= require('mysql');
+var server = require('./server'), log =server.log;
 
 function getDBConfig(){
     var serverConfig= server.getServerConfig();
@@ -35,15 +30,14 @@ function databaseConnection(callback){                                          
         }
         callback(null, "connected");
     });
-};
-
+}
 module.exports.databaseConnection=databaseConnection;
 
 function tryDBConnect(postaction) {                                                                         log.info('database tryDBConnect...');//test
     databaseConnection(function (err) {
         dbConnectError = null;
         if (err) {
-            dbConnectError = "Failed to connect to database! Reason:" + err;                                log.info('database tryDBConnect DBConnectError=', dbConnectError);//test
+            dbConnectError = "Failed to connect to database! Reason:" + err;                                log.error('database tryDBConnect DBConnectError=', dbConnectError);//test
         }
         if (postaction)postaction(err);
     });
@@ -76,7 +70,7 @@ module.exports.mySQLAdminConnection = function (connParams, callback) {         
     });
 };
 
-module.exports.mySQLBata1AdminConnection = function (connParams, callback) {                                     log.info("database mySQLAdminConnection connParams=",connParams);
+module.exports.mySQLBata1AdminConnection = function (connParams, callback) {                                log.info("database mySQLAdminConnection connParams=",connParams);
     if(!connParams){
         callback({message:"Failed connect to database! Reason: no parameters!"});
         return;
@@ -184,13 +178,15 @@ module.exports.isDBEmpty= function(DBName,callback) {
  * default onlyData=false
  */
 module.exports.backupDB= function(backupParam,callback) {
-    var onlyDataCommand=(backupParam.onlyData==='true') ? " --no-create-info   --ignore-table="+backupParam.database+".change_log" : " ";                                     log.warn("onlyDataCommand=",onlyDataCommand);
+    var onlyDataCommand=
+        (backupParam.onlyData==='true') ? " --no-create-info   --ignore-table="+backupParam.database+".change_log" : " ";
     var backupDir=__dirname+'/../backups/';
     if (!fs.existsSync(backupDir)){
         fs.mkdirSync(backupDir);
     }
     var filePath=path.join(backupDir+backupParam.fileName);
-    var command ='mysqldump'+onlyDataCommand + ' -u '+ backupParam.user + ' --password="'+backupParam.password+'" --host='+backupParam.host +' '+backupParam.database+' --result-file='+filePath;               log.info("command=",command);
+    var command ='mysqldump'+onlyDataCommand + ' -u '+ backupParam.user + ' --password="'+backupParam.password+
+        '" --host='+backupParam.host +' '+backupParam.database+' --result-file='+filePath;                  log.debug("database.backupDB command=",command);
 
     child_process.exec(command, function(err,stdout,stderr){
         if(err){                                         log.error("err backupDB=", err);
@@ -214,16 +210,16 @@ module.exports.backupDB= function(backupParam,callback) {
 module.exports.restoreDB= function(restoreParams,callback) {
     var filePath=path.join(__dirname+'/../backups/'+restoreParams.fileName);
     var command ='mysql -u '+restoreParams.user+' --password="'+restoreParams.password+
-        '" -h '+restoreParams.host+' '+restoreParams.database+' < '+ filePath;                                          log.debug("restoreDB command=",command);
+        '" -h '+restoreParams.host+' '+restoreParams.database+' < '+ filePath;                              log.debug("database.restoreDB command=",command);
     child_process.exec(command, function(err,stdout,stderr){
-        if(err){                                                                                                        log.error("restoreDB error=", err);
+        if(err){                                                                                            log.error("database.restoreDB error=", err);
             callback(err);
             return;
         }
         if(stdout){
             log.info("stdout restoreDB=",stdout);
         }
-        if(stderr && stderr.indexOf("Warning")<0){                                                                      log.error("restoreDB stderr=",stderr);
+        if(stderr && stderr.indexOf("Warning")<0){                                                          log.error("database.restoreDB stderr=",stderr);
             callback(stderr);
             return;
         }
@@ -235,7 +231,7 @@ module.exports.restoreDB= function(restoreParams,callback) {
  * for database query insert/update/delete
  * callback = function(err, updateCount)
  */
-module.exports.executeQuery= function(query, callback) {                                                    log.info("database executeQuery:",query);
+module.exports.executeQuery= function(query, callback) {                                                    log.debug("database executeQuery:",query);
     connection.query(query,
         function (err, recordset, fields) {
             if (err) {                                                                                      log.error("database executeQuery err=",err.message);
@@ -250,7 +246,7 @@ module.exports.executeQuery= function(query, callback) {                        
  * parameters = [ <value1>, <value2>, ...] - values for replace '?' in query
  * callback = function(err, updateCount)
  */
-module.exports.executeParamsQuery= function(query, parameters, callback) {                                  log.info("database executeParamsQuery:",query,parameters);
+module.exports.executeParamsQuery= function(query, parameters, callback) {                                  log.debug("database executeParamsQuery:",query,parameters);
     connection.query(query, parameters,
         function (err, recordset, fields) {
             if (err) {                                                                                      log.error("database executeParamsQuery err=",err.message);
@@ -294,7 +290,7 @@ module.exports.selectParamsQuery= function(query, parameters, callback) {       
  * for database query select
  * callback = function(err, recordset, count, fields)
  */
-module.exports.selectQueryFromBata1= function(query, callback) {                                            log.debug("database bata1 selectQuery query:",query);
+module.exports.selectQueryFromBata1= function(query, callback) {                                            log.debug("database.selectQueryFromBata1 query:",query);
     if(!connectionBata1){
         callback("Failed select query from Bata1 database! Reason: no connection.");
         return;
@@ -314,7 +310,7 @@ module.exports.selectQueryFromBata1= function(query, callback) {                
  */
 function getDataItemsFromDatabase(dbQuery, outData, resultItemName, callback){
     exports.selectQuery(dbQuery,function(err, recordset){
-        if (err) {                                                                                          log.error("database getDataItemsFromDatabase selectQuery err=",err.message);
+        if (err) {                                                                                          log.error("database.getDataItemsFromDatabase err=",err.message);
             outData.error= err.message;
             callback(outData);
             return;
@@ -322,7 +318,7 @@ function getDataItemsFromDatabase(dbQuery, outData, resultItemName, callback){
         outData[resultItemName]= recordset;
         callback(outData);
     })
-};
+}
 module.exports.getDataItemsFromDatabase=getDataItemsFromDatabase;
 
 /**
@@ -330,7 +326,7 @@ module.exports.getDataItemsFromDatabase=getDataItemsFromDatabase;
  */
 function getDataItemFromDatabase(dbQuery, outData, resultItemName, callback){
     exports.selectQuery(dbQuery,function(err, recordset){
-        if (err) {                                                                                          log.error("database getDataItemFromDatabase selectQuery err=",err.message);
+        if (err) {                                                                                          log.error("database.getDataItemFromDatabase err=",err.message);
             outData.error= err.message;
             callback(outData);
             return;
@@ -338,20 +334,18 @@ function getDataItemFromDatabase(dbQuery, outData, resultItemName, callback){
         outData[resultItemName]= recordset[0];
         callback(outData);
     })
-};
+}
 module.exports.getDataItemFromDatabase=getDataItemFromDatabase;
 
 module.exports.getDatabasesForUser= function(user,pswd,callback) {
     var dbListForUserConfig = {
         host: getDBConfig().host,
-       // database: getDBConfig().database,
         user: user,
         password:pswd
     };
-
     var dbListForUserConn = mysql.createConnection(dbListForUserConfig);
     dbListForUserConn.connect(function (err) {
-        if (err) {                                                                                          log.error("database dbListForUserConn connect error:",err.message);
+        if (err) {                                                                                          log.error("database.getDatabasesForUser connect error:",err.message);
             callback(err.message);
             return;
         }

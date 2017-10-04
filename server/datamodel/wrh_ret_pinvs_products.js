@@ -11,7 +11,7 @@ var changeLog = [
             ' FOREIGN KEY (PINV_ID) REFERENCES wrh_ret_pinvs(ID)',
         "field":"PINV_ID", "source":"wrh_ret_pinvs", "linkField":"ID" },
     { 'changeID':'wrh_ret_pinvs_products__4', 'changeDatetime':'2017-09-19 11:34:00', 'changeObj':'wrh_ret_pinvs_products',
-        'changeVal':'ALTER TABLE wrh_ret_pinvs_products ADD COLUMN POSIND FLOAT NOT NULL',
+        'changeVal':'ALTER TABLE wrh_ret_pinvs_products ADD COLUMN POSIND DOUBLE UNSIGNED NOT NULL',
         "field":"POSIND"},
     { 'changeID':'wrh_ret_pinvs_products__5', 'changeDatetime':'2017-09-19 11:35:00', 'changeObj':'wrh_ret_pinvs_products',
         'changeVal':'ALTER TABLE wrh_ret_pinvs_products ADD COLUMN PRODUCT_ID BIGINT UNSIGNED NOT NULL',

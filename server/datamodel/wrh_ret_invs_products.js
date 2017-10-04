@@ -10,7 +10,7 @@ var changeLog = [
         'changeVal':'ALTER TABLE wrh_ret_invs_products ADD CONSTRAINT WRH_RET_INVS_PRODUCTS_INV_ID_FK ' +
             'FOREIGN KEY (RET_INV_ID) REFERENCES wrh_ret_invs(ID)' },
     { 'changeID':'wrh_ret_invs_products__4', 'changeDatetime':'2017-08-11 09:18:00', 'changeObj':'wrh_ret_invs_products',
-        'changeVal':'ALTER TABLE wrh_ret_invs_products ADD COLUMN POSIND FLOAT NOT NULL',
+        'changeVal':'ALTER TABLE wrh_ret_invs_products ADD COLUMN POSIND DOUBLE UNSIGNED NOT NULL',
         "field":"POSIND"},
     { 'changeID':'wrh_ret_invs_products__5', 'changeDatetime':'2017-08-11 09:19:00', 'changeObj':'wrh_ret_invs_products',
         'changeVal':'ALTER TABLE wrh_ret_invs_products ADD COLUMN PRODUCT_ID BIGINT UNSIGNED NOT NULL',

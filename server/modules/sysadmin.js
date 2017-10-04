@@ -997,7 +997,13 @@ module.exports.init = function(app){
             var importTableFieldName=importTableFields[i];
             sqlInsertFieldsList= (!sqlInsertFieldsList)?importTableFieldName:sqlInsertFieldsList+","+importTableFieldName;
             sqlInsertFieldsValues= (!sqlInsertFieldsValues)?"?":sqlInsertFieldsValues+",?";
-            insertFieldsValues.push(bata1TableDataItem[importTableFieldName]);
+            var importFieldValue=bata1TableDataItem[importTableFieldName];
+            if(importTableName=="wrh_invs"||importTableName=="wrh_ret_invs"){
+                if(importTableFieldName=="CURRENCY_ID") importFieldValue=2;
+                if(importTableFieldName=="DOCSTATE_ID") importFieldValue=0;
+                if(importTableFieldName=="RATE") importFieldValue=33;
+            }
+            insertFieldsValues.push(importFieldValue);
         }
         database.executeParamsQuery("INSERT INTO "+importTableName+"("+sqlInsertFieldsList+") values("+sqlInsertFieldsValues+")",
             insertFieldsValues,
