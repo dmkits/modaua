@@ -206,13 +206,13 @@
                                                         });
                                             })
                                         .addContentTableRowAction("importDataForRowDataDataModel",
-                                            function(contentTableRowData, params, contentTableUpdatedRowData, startNextAction, finishedAction) {      //console.log("importDataForRowDataDataModel action ", tableContentRowData, params);
+                                            function(contentTableRowData, params, contentTableUpdatedRowData, startNextAction, finishedAction) {
                                                 Request.postJSONData({url:"/sysadmin/database/importDataFromBata1DB", condition:null,
                                                             data:{"DATA_MODEL_NAME":contentTableRowData["DATA_MODEL_NAME"],
                                                                 "DATA_TABLE_NAME":contentTableRowData["DATA_TABLE_NAME"],
                                                                 "IMPORT_DATA_TABLE_NAME":contentTableRowData["IMPORT_DATA_TABLE_NAME"]},
-                                                            consoleLog:true},
-                                                    function(success,result){                                           //console.log("importDataForRowDataDataModel postJSONData ", contentTableRowData, result);
+                                                            consoleLog:true, timeout:30*60*1000},
+                                                    function(success,result){
                                                         if (!success) {
                                                             contentTableUpdatedRowData["RESULT"]="Failed! Reason:No connect to server!";
                                                             startNextAction();
@@ -225,13 +225,33 @@
                                                         contentTableUpdatedRowData["RESULT"]=importResultMsg;
                                                         startNextAction();
                                                     });
-                                        })
+                                            })
+                                        .addContentTableRowAction("deleteDataFromRowDataDataModel",
+                                            function(contentTableRowData, params, contentTableUpdatedRowData, startNextAction, finishedAction) {
+                                                Request.postJSONData({url:"/sysadmin/database/deleteDataFromDataModel", condition:null,
+                                                        data:{"DATA_MODEL_NAME":contentTableRowData["DATA_MODEL_NAME"],
+                                                            "DATA_TABLE_NAME":contentTableRowData["DATA_TABLE_NAME"]},
+                                                        consoleLog:true, timeout:10*60*1000},
+                                                    function(success,result){
+                                                        if (!success) {
+                                                            contentTableUpdatedRowData["RESULT"]="Failed delete! Reason:No connect to server!";
+                                                            startNextAction();
+                                                            return;
+                                                        }
+                                                        var resultItem = result["resultItem"], importResultMsg=null;
+                                                        if(result.error) importResultMsg="FAILED delete! Reason: "+result.error;
+                                                        if (resultItem && resultItem["RESULT"])
+                                                            importResultMsg= (importResultMsg==null)?resultItem["RESULT"]:importResultMsg+" <br>"+resultItem["RESULT"];
+                                                        contentTableUpdatedRowData["RESULT"]=importResultMsg;
+                                                        startNextAction();
+                                                    });
+                                            })
                                         .addToolPaneButtonForContentTableRowAction("restore from bata1 DB", "importDataForRowDataDataModel", { btnStyle:"width:160px" },
                                             /*startAction*/function(tableContent,contentTableInstance, toolPanes,thisInstance, startContentTableRowActionCallback){
-                                                var bata1DataTables= [];
-                                                for(var i=0;i<tableContent.length;i++) bata1DataTables.push(tableContent[i]["IMPORT_DATA_TABLE_NAME"]);
-                                                Request.postJSONData({url: "/sysadmin/database/deleteDataFromDataModel",
-                                                            data: bata1DataTables,
+                                                var dataModelDataTables= [];
+                                                for(var i=0;i<tableContent.length;i++) dataModelDataTables.push(tableContent[i]["DATA_TABLE_NAME"]);
+                                                Request.postJSONData({url: "/sysadmin/database/deleteDataFromDataModels",
+                                                            data: dataModelDataTables,
                                                             consoleLog: true},
                                                         function (success, result) {
                                                             var infoPaneMsg=toolPanes[0].get("content");
@@ -240,7 +260,7 @@
                                                                 toolPanes[0].set("content",infoPaneMsg);
                                                                 return;
                                                             }
-                                                            if (!result&&toolPanes&&toolPanes[0]) {
+                                                            if ((!result||!result.resultItems)&&toolPanes&&toolPanes[0]) {
                                                                 infoPaneMsg+="<br><b style='color:red;'>No server response data!</b>";
                                                                 toolPanes[0].set("content",infoPaneMsg);
                                                                 return;
@@ -248,13 +268,16 @@
                                                             infoPaneMsg+="<br><b>Deleted data from current data model.</b>";
                                                             toolPanes[0].set("content",infoPaneMsg);
                                                             for(var i=0;i<tableContent.length;i++){
-                                                                var tableContentRowData=tableContent[i], resultItem=result[i];
+                                                                var tableContentRowData=tableContent[i], resultItem=result.resultItems[i];
                                                                 contentTableInstance.updateRowData(tableContentRowData,{"RESULT":resultItem["RESULT"]});
                                                             }
                                                             startContentTableRowActionCallback();
                                                         })
                                             })
-                                        .addContentTablePopupMenuItemForAction("importDataForRowDataDataModel","Import data for selected obje~cts...", "importDataForRowDataDataModel")
+                                        .addContentTablePopupMenuItemForAction("deleteDataFromRowsDataDataModel","Delete data from selected objects...",
+                                            "deleteDataFromRowDataDataModel")
+                                        .addContentTablePopupMenuItemForAction("importDataForRowsDataDataModel","Import data for selected objects...",
+                                            "importDataForRowDataDataModel")
                                         .startUp();
                     }
                     sysadmin_database_ContentPaneDetailContainer.selectChild(btnImportDataFromDB.document);

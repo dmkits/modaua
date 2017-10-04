@@ -83,7 +83,8 @@ define(["dojo/_base/declare", "dojo/request", "dijit/registry", "dialogs"],
             },
 
             /** getJSONData
-             * params.url, params.condition, params.consoleLog, params.showRequestErrorDialog
+             * params = { url, condition, headers, handleAs, timeout, consoleLog, showRequestErrorDialog }
+             * default headers=this.jsonHeader, handleAs="json"
              * if success : callback(true,data), if not success callback(false,error)
              * @param params
              * @param callback
@@ -103,9 +104,11 @@ define(["dojo/_base/declare", "dojo/request", "dijit/registry", "dialogs"],
                 if (showRequestErrorDialog==undefined) showRequestErrorDialog= this.showRequestErrorDialog;
                 var requestErrorDialog;
                 if (showRequestErrorDialog===true) requestErrorDialog= dialogs.doRequestErrorDialog;
-                var prop={headers: this.jsonHeader, handleAs: "json"};
-                prop.timeout= (timeout)?timeout:600000;
-                request.get(url, prop).then(
+                var requestParams={headers: this.jsonHeader, handleAs: "json"};
+                if(params.handleAs) requestParams.handleAs=params.handleAs;
+                if(params.headers) requestParams.headers=params.headers;
+                if(params.timeout) requestParams.timeout=params.timeout;
+                request.get(url, requestParams).then(
                     function(respdata){
                         if(callback)callback(true, respdata);
                     }, function(resperror){
@@ -116,7 +119,7 @@ define(["dojo/_base/declare", "dojo/request", "dijit/registry", "dialogs"],
             },
 
             /** postData
-             * params = { url, condition, data, headers, handleAs, consoleLog, showRequestErrorDialog }
+             * params = { url, condition, data, headers, handleAs, timeout, consoleLog, showRequestErrorDialog }
              * if success : callback(true,data), if not success callback(false,error)
              */
             postData: function (params,callback) {
@@ -137,6 +140,7 @@ define(["dojo/_base/declare", "dojo/request", "dijit/registry", "dialogs"],
                 var requestParams={data:params["data"]};
                 if(params.handleAs) requestParams.handleAs=params.handleAs;
                 if(params.headers) requestParams.headers=params.headers;
+                if(params.timeout) requestParams.timeout=params.timeout;
                 request.post(url, requestParams).then(
                     function(respdata){
                         if(callback)callback(true, respdata);
@@ -147,35 +151,13 @@ define(["dojo/_base/declare", "dojo/request", "dijit/registry", "dialogs"],
                     })
             },
             /** postJSONData
-             * params = { url, condition, data, consoleLog, showRequestErrorDialog }
+             * params = { url, condition, data, timeout, consoleLog, showRequestErrorDialog }
              * if success : callback(true,data), if not success callback(false,error)
              */
             postJSONData: function (params,callback) {
                 if (!params) return;
                 params.handleAs="json"; params.headers=this.jsonHeader;
                 this.postData(params,callback);
-
-                //var url= params["url"],condition=params["condition"],consoleLog=params["consoleLog"];
-                //if(condition && typeof(condition)==="object"){
-                //    var scondition;
-                //    for(var condItem in condition){
-                //        if (condition[condItem]!==undefined&&condition[condItem]!==null)
-                //            scondition = (!scondition) ? condItem+"="+condition[condItem] : scondition+"&"+condItem+"="+condition[condItem];
-                //    }
-                //    if (scondition) url=url+"?"+scondition;
-                //} else if(condition) url=url+"?"+condition;
-                //var showRequestErrorDialog= params.showRequestErrorDialog;
-                //if (showRequestErrorDialog==undefined) showRequestErrorDialog= this.showRequestErrorDialog;
-                //var requestErrorDialog;
-                //if (showRequestErrorDialog===true) requestErrorDialog= dialogs.doRequestErrorDialog;
-                //request.post(url, {headers:this.jsonHeader,handleAs:"json",data:params["data"]}).then(
-                //    function(respdata){
-                //        if(callback)callback(true, respdata);
-                //    }, function(resperror){
-                //        if (requestErrorDialog) requestErrorDialog();
-                //        if(consoleLog) console.log("JSONRequest postData ERROR! url=",url," error=",resperror);
-                //        if(callback)callback(false, resperror);
-                //    })
             }
         };
     });

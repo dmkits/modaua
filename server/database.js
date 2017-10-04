@@ -296,7 +296,7 @@ module.exports.selectParamsQuery= function(query, parameters, callback) {       
  */
 module.exports.selectQueryFromBata1= function(query, callback) {                                            log.debug("database bata1 selectQuery query:",query);
     if(!connectionBata1){
-        callback("Failed select query from Bata1 database! Reasin: no connection.");
+        callback("Failed select query from Bata1 database! Reason: no connection.");
         return;
     }
     connectionBata1.query(query,
