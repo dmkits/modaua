@@ -484,7 +484,7 @@ module.exports.init = function(app){
         });
     });
 
-    app.post("/sysadmin/restore_db", function (req, res) {       log.info("/sysadmin/restore_db");
+    app.post("/sysadmin/restore_db", function (req, res) {
         var host = req.body.host;
         var DBName = req.body.database;
         var adminUser = req.body.adminName;

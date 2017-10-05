@@ -234,8 +234,8 @@ module.exports={
         },
 
         authAdminDialog: '#adminAuthDialog',
-                authAdminDialog_AdminName:'input[id="admin_name"]',
-                authAdminDialog_AdminPas:'#admin_password',
+                authAdminDialog_AdminName:'input[id="adminName"]',
+                authAdminDialog_AdminPas:'#adminPassword',
                 authAdminDialog_submitBtn:{
                     selector:'//div[@id="adminAuthDialog"]//span[@class="dijitReset dijitInline dijitButtonText" and text()="Login"]',
                     locateStrategy:'xpath'
