@@ -271,25 +271,21 @@ module.exports.init = function(app){
 
     app.post("/wrh/pInvoices/get_excel_file", function(req, res){
         try {
-            var body = JSON.parse(req.body);
-            var columns=body.columns;
-            var rows=body.rows;
+            var body = JSON.parse(req.body), columns=body.columns, rows=body.rows;
         }catch(e){
             res.sendStatus(500);   console.log("Impossible to parse data! Reason:"+e);
             return;
         }
         var uniqueFileName = util.getUIDNumber();
         var fname = path.join(__dirname, '../../XLSX_temp/' + uniqueFileName + '.xlsx');
-        try {
-            fs.writeFileSync(fname);
-        } catch (e) {                                                                                                   console.log("writeFileSync error=", e);
+        try {fs.writeFileSync(fname);} catch (e) {
             res.sendStatus(500);
             return;
         }
         try {
-            var wb = XLSX.readFileSync(fname);                                                                          console.log("wb initial=",wb);
+            var wb = XLSX.readFileSync(fname);
         }catch(e){
-            res.sendStatus(500);                                                                                        console.log("Impossible to create xlsx file! Reason:"+e);
+            res.sendStatus(500);
             return;
         }
         wb.SheetNames = [];
@@ -299,15 +295,13 @@ module.exports.init = function(app){
 
         XLSX.writeFileAsync(fname, wb, {bookType: "xlsx", cellStyles: true}, function(err){
             if (err) {
-                res.sendStatus(500);
-                console.log("send xlsx file err=", err);
+                res.sendStatus(500);    console.log("send xlsx file err=", err);
                 return;
             }
             var options = {headers: {'Content-Disposition': 'attachment; filename =out.xlsx'}};
             res.sendFile(fname, options, function (err) {
                 if (err) {
-                    res.sendStatus(500);
-                    console.log("send xlsx file err=", err);
+                    res.sendStatus(500); console.log("send xlsx file err=", err);
                 }
                 fs.unlinkSync(fname);
             })
