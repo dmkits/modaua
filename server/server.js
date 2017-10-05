@@ -5,7 +5,16 @@ var moment = require('moment'), fs = require('fs'),path = require ('path');
 
 var ENV=process.env.NODE_ENV; console.log("ENV=",ENV);
 
-var logDir=__dirname+'/../logs/';
+var tempExcelRepDir=path.join(__dirname, '/../XLSX_temp/');
+try {
+    if (!fs.existsSync(tempExcelRepDir)) {
+        fs.mkdirSync(tempExcelRepDir);
+    }
+}catch (e){
+    console.log('Impossible to create XLSX_temp directory! Reason:'+e)
+}
+
+var logDir= path.join(__dirname, '/../logs/');
 try {
     if (!fs.existsSync(logDir)) {
         fs.mkdirSync(logDir);
@@ -82,6 +91,9 @@ server.set('view engine','ejs');
 global.appViewsPath= path.join(__dirname,'/../pages/','');
 global.appModulesPath= path.join(__dirname,'/modules/','');
 global.appDataModelPath= path.join(__dirname,'/datamodel/','');
+
+
+
 
 var appModules=require("./modules");
 appModules.validateModules(function(errs, errMessage){
