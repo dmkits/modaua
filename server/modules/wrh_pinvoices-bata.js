@@ -275,40 +275,81 @@ module.exports.init = function(app){
             var columns=body.columns;
             var rows=body.rows;
         }catch(e){
-            res.sendStatus(500);                                                                                        console.log("Impossible to parse data! Reason:"+e);
+            res.sendStatus(500);   console.log("Impossible to parse data! Reason:"+e);
             return;
         }
         var uniqueFileName = util.getUIDNumber();
-        var headers=[];
-        for (var j in columns){
-            headers.push(columns[j].data);
-        }
         var fname = path.join(__dirname, '../../XLSX_temp/' + uniqueFileName + '.xlsx');
         try {
             fs.writeFileSync(fname);
-        } catch (e) {
-            res.sendStatus(500);                                                                                        console.log("writeFileSync error=", e);
+        } catch (e) {                                                                                                   console.log("writeFileSync error=", e);
+            res.sendStatus(500);
             return;
         }
         try {
-            var wb = XLSX.readFileSync(fname);
+            var wb = XLSX.readFileSync(fname);                                                                          console.log("wb initial=",wb);
         }catch(e){
             res.sendStatus(500);                                                                                        console.log("Impossible to create xlsx file! Reason:"+e);
             return;
         }
         wb.SheetNames = [];
-        var ws= XLSX.utils.json_to_sheet(rows, {header:headers});
-            wb.SheetNames.push('Лист_1');
-            wb.Sheets['Лист_1'] = ws;
+        wb.SheetNames.push('Sheet1');
 
-        XLSX.writeFile(wb, fname, {bookType:"xlsx"});
-        var options = {headers: {'Content-Disposition': 'attachment; filename =out.xlsx'}};
-        res.sendFile(fname, options, function (err) {
+        fillTable(wb,columns,rows);
+
+        XLSX.writeFileAsync(fname, wb, {bookType: "xlsx", cellStyles: true}, function(err){
             if (err) {
-                res.sendStatus(500);                                                                                    console.log("send xlsx file err=", err);
+                res.sendStatus(500);
+                console.log("send xlsx file err=", err);
                 return;
             }
-              fs.unlinkSync(fname);
+            var options = {headers: {'Content-Disposition': 'attachment; filename =out.xlsx'}};
+            res.sendFile(fname, options, function (err) {
+                if (err) {
+                    res.sendStatus(500);
+                    console.log("send xlsx file err=", err);
+                }
+                fs.unlinkSync(fname);
+            })
         });
     });
+    function fillTable(wb,columns,rows){
+        fillHeaders(wb,columns);
+        var lineNum=1;
+        for (var i in rows){
+            fillRowData(wb,rows[i],columns,lineNum);
+            lineNum++;
+        }
+    }
+    function fillHeaders(wb,columns){
+        var worksheetColumns = [];
+        wb.Sheets['Sheet1'] = {
+            '!cols': worksheetColumns
+        };
+        for (var j = 0; j < columns.length; j++) {
+            worksheetColumns.push({wpx: columns[j].width});
+            var currentHeader = XLSX.utils.encode_cell({c: j, r: 0});
+            wb.Sheets['Sheet1'][currentHeader] = {t: "s", v: columns[j].name, s: {font: {bold: true}}};
+        }
+    }
+    function fillRowData(wb,rowData,columns, lineNum){
+        var lastCellInRaw;
+        for (var i = 0; i < columns.length; i++) {
+            var cellType=getCellType(columns[i]);
+            var columnDataID = columns[i].data;
+            var displayValue = rowData[columnDataID];
+            var currentCell = XLSX.utils.encode_cell({c: i, r: lineNum});
+            lastCellInRaw=currentCell;
+            wb.Sheets['Sheet1'][currentCell] = {
+                t: cellType,
+                v: displayValue
+            };
+            wb.Sheets['Sheet1']['!ref']='A1:'+lastCellInRaw;
+        }
+    }
+    function getCellType(columnData){
+        if(!columnData.type) return's';
+        if(columnData.type=="numeric") return'n';
+        else return's';
+    }
 };
