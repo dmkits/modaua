@@ -94,7 +94,7 @@ define(["dojox/widget/DialogSimple", "dijit/ConfirmDialog", "dijit/form/Button",
 
                 adminAuthDialog = this.makeDialog("adminAuthDialog",
                     { autofocus: false, content: table, title: "Admin authorisation", buttonOk: "Login", buttonCancel: "Cancel" });
-                adminAuthDialog.onShow = function () {    console.log("adminAuthDialog onShow");
+                adminAuthDialog.onShow = function () {
                     document.getElementById('auth_dialog_admin_name').value = 'root';
                     document.getElementById('auth_dialog_admin_password').value = '';
                     inputForPswd.focus();
