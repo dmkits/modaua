@@ -23,7 +23,6 @@ module.exports = {
         userLoginNameInput: '#user_name',
         userLoginPasswordInput: '#user_password',
 
-
         loginDialog_submitBtn:{
             selector:'//div[@id="loginDialog"]//span[@class="dijitReset dijitInline dijitButtonText" and text()="Войти"]',
             locateStrategy:'xpath'

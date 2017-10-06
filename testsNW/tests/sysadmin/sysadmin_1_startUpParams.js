@@ -309,7 +309,8 @@ module.exports = {
             .clearValue("@backupFileName")
             .setValue("@backupFileName", "test_DB_data")
             .submitDialog('@backupDialog')
-            .waitForElementVisible('@backupDataResultField')
+            .waitForElementVisible('@backupDataResultField',10000)
+           // .waitForElementPresent('@backupDataResultField')
             .assert.containsText('@backupDataResultField', 'FAIL!')
     },
 

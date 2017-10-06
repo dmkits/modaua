@@ -234,8 +234,8 @@ module.exports={
         },
 
         authAdminDialog: '#adminAuthDialog',
-                authAdminDialog_AdminName:'input[id="adminName"]',
-                authAdminDialog_AdminPas:'#adminPassword',
+                authAdminDialog_AdminName:'input[id="auth_dialog_admin_name"]',
+                authAdminDialog_AdminPas:'#auth_dialog_admin_password',
                 authAdminDialog_submitBtn:{
                     selector:'//div[@id="adminAuthDialog"]//span[@class="dijitReset dijitInline dijitButtonText" and text()="Login"]',
                     locateStrategy:'xpath'
@@ -246,7 +246,7 @@ module.exports={
                 },
 
         backupDialog: '#backupDialog',
-                backupFileName:"#backup_fileName",
+                backupFileName:"#backup_fileName_in_backup_dialog",
                 backupDialog_submitBtn:{
                     selector:'//div[@id="backupDialog"]//span[@class="dijitReset dijitInline dijitButtonText" and text()="Save"]',
                     locateStrategy:'xpath'
@@ -267,7 +267,7 @@ module.exports={
                 },
 
         restoreDialog: '#restoreDialog',
-                restoreFileName:"#restore_fileName",
+                restoreFileName:"#restore_fileName_in_restore_dialog",
                 restoreDialog_submitBtn:{
                     selector:'//div[@id="restoreDialog"]//span[@class="dijitReset dijitInline dijitButtonText" and text()="Restore"]',
                     locateStrategy:'xpath'

@@ -29,7 +29,24 @@ define(["dojox/widget/DialogSimple", "dijit/ConfirmDialog", "dojo/keys", "dojo/o
              */
             showAdminAuthDialog: function (params, resultCallback) {
                 var adminAuthDialog = registry.byId('adminAuthDialog');
-                if (adminAuthDialog)return adminAuthDialog.show();
+                if (adminAuthDialog) {
+                    if (resultCallback) {
+                        adminAuthDialog.onExecute = function () {
+                            this.hide();
+                            var result = {result: true};
+                            //result.adminName = inputForName.value;
+                            //result.adminPassword = inputForPswd.value;
+                            result.adminName= document.getElementById('auth_dialog_admin_name').value;
+                            result.adminPassword =document.getElementById('auth_dialog_admin_password').value;
+                            resultCallback(result);
+                        };
+                    } else {
+                        adminAuthDialog.onExecute = function () {
+                            this.hide();
+                        }
+                    }
+                    return adminAuthDialog.show();
+                }
                 var table = document.createElement('table');
                 var trForName = document.createElement('tr');
                 var trForPswd = document.createElement('tr');
@@ -65,9 +82,9 @@ define(["dojox/widget/DialogSimple", "dijit/ConfirmDialog", "dojo/keys", "dojo/o
 
                 adminAuthDialog = this.makeDialog("adminAuthDialog",
                     { autofocus: false, content: table, title: "Admin authorisation", buttonOk: "Login", buttonCancel: "Cancel" });
-                adminAuthDialog.onShow = function () {
-                    inputForName.setAttribute('value', 'root');
-                    inputForPswd.setAttribute('value', '');
+                adminAuthDialog.onShow = function () {    console.log("adminAuthDialog onShow");
+                    document.getElementById('auth_dialog_admin_name').value = 'root';
+                    document.getElementById('auth_dialog_admin_password').value = '';
                     inputForPswd.focus();
                 };
 
@@ -90,7 +107,21 @@ define(["dojox/widget/DialogSimple", "dijit/ConfirmDialog", "dojo/keys", "dojo/o
              */
             showBackupDialog: function (params, resultCallback) {
                 var backupDialog = registry.byId('backupDialog');
-                if (backupDialog)  return backupDialog.show();
+                if (backupDialog) {
+                    if (resultCallback) {
+                        backupDialog.onExecute = function () {
+                            this.hide();
+                            var result = {result: true};
+                            result.backup_fileName = document.getElementById('backup_fileName_in_backup_dialog').value;
+                            resultCallback(result);
+                        };
+                    }else{
+                        backupDialog.onExecute = function () {
+                            this.hide();
+                        }
+                    }
+                    return backupDialog.show();
+                }
 
                 var table = document.createElement('table');
                 var tr = document.createElement('tr');
@@ -101,7 +132,6 @@ define(["dojox/widget/DialogSimple", "dijit/ConfirmDialog", "dojo/keys", "dojo/o
                 label.innerText = "file name:";
                 var inputBackupFileName = document.createElement('input');
                 inputBackupFileName.setAttribute("id", "backup_fileName_in_backup_dialog");
-               // inputBackupFileName.setAttribute('style', )
                 var td = document.createElement('td');
                 td.innerText = ".sql";
                 table.appendChild(tr);
@@ -118,13 +148,13 @@ define(["dojox/widget/DialogSimple", "dijit/ConfirmDialog", "dojo/keys", "dojo/o
                     var now = moment().format("YYYYMMDD_HHm");
                     var defaultFileName = DBName + "_" + now;
                     if (params.onlyDataBackup == "true")defaultFileName = defaultFileName + "_data";
-                    inputBackupFileName.setAttribute('value', defaultFileName);
+                    document.getElementById('backup_fileName_in_backup_dialog').value = defaultFileName;
                 };
                 if (resultCallback) {
                     backupDialog.onExecute = function () {
                         this.hide();
                         var result = {result: true};
-                        result.backup_fileName = inputBackupFileName.value;
+                        result.backup_fileName = document.getElementById('backup_fileName_in_backup_dialog').value;
                         resultCallback(result);
                     };
                 }
@@ -136,7 +166,20 @@ define(["dojox/widget/DialogSimple", "dijit/ConfirmDialog", "dojo/keys", "dojo/o
              */
             showRewriteBackupDialog: function (resultCallback) {
                 var rewriteBackupDialog = registry.byId('rewriteBackupDialog');
-                if (rewriteBackupDialog)  return rewriteBackupDialog.show();
+                if (rewriteBackupDialog) {
+                    if (resultCallback) {
+                        rewriteBackupDialog.onExecute = function () {
+                            this.hide();
+                            var result = {rewrite: true};
+                            resultCallback(result);
+                        };
+                    }else{
+                        rewriteBackupDialog.onExecute = function () {
+                            this.hide();
+                        }
+                    }
+                    return rewriteBackupDialog.show();
+                }
                 rewriteBackupDialog = this.makeDialog("rewriteBackupDialog",
                     { content: "File exists!\n Rewrite file?", title: "Rewrite file",
                         buttonOk: "Rewrite", buttonCancel: "Cancel" });
@@ -152,8 +195,21 @@ define(["dojox/widget/DialogSimple", "dijit/ConfirmDialog", "dojo/keys", "dojo/o
 
             showRestoreDialog: function (resultCallback) {
                 var restoreDialog = registry.byId('restoreDialog');
-                if (restoreDialog) return restoreDialog.show();
-
+                if (restoreDialog) {
+                    if (resultCallback) {
+                        restoreDialog.onExecute = function () {
+                            this.hide();
+                            var result = {result: true};
+                            result.restore_fileName = document.getElementById('restore_fileName_in_restore_dialog').value;
+                            resultCallback(result);
+                        }
+                    }else{
+                            restoreDialog.onExecute = function () {
+                                this.hide();
+                            }
+                        }
+                    return restoreDialog.show();
+                }
                 var table = document.createElement('table');
                 var tr = document.createElement('tr');
                 var tdForLabel = document.createElement('td');
@@ -179,7 +235,7 @@ define(["dojox/widget/DialogSimple", "dijit/ConfirmDialog", "dojo/keys", "dojo/o
                     restoreDialog.onExecute = function () {
                         this.hide();
                         var result = {result: true};
-                        result.restore_fileName = inputRestoreFileName.value;
+                        result.restore_fileName = document.getElementById('restore_fileName_in_restore_dialog').value;
                         resultCallback(result);
                     };
                 }
@@ -189,8 +245,22 @@ define(["dojox/widget/DialogSimple", "dijit/ConfirmDialog", "dojo/keys", "dojo/o
             showDbListForUserDialog: function (resultCallback) {
 
                 var dbListForUserDialog = registry.byId('dbForUserDialog');
-                if (dbListForUserDialog)return dbListForUserDialog.show();
-
+                if (dbListForUserDialog){
+                    if (resultCallback) {
+                        dbListForUserDialog.onExecute = function () {
+                            this.hide();
+                            var result = {result: true};
+                            result.db_user_name = document.getElementById('server_db_user_password').value;
+                            result.db_user_password = document.getElementById('auth_dialog_admin_password').value;
+                            resultCallback(result);
+                        };
+                    }else{
+                        dbListForUserDialog.onExecute = function () {
+                            this.hide();
+                        }
+                    }
+                    return dbListForUserDialog.show();
+                }
                 var table = document.createElement('table');
                 var trForName = document.createElement('tr');
                 var trForPswd = document.createElement('tr');
@@ -231,8 +301,10 @@ define(["dojox/widget/DialogSimple", "dijit/ConfirmDialog", "dojo/keys", "dojo/o
                     dbListForUserDialog.onExecute = function () {
                         this.hide();
                         var result = {result: true};
-                        result.db_user_name = inputForName.value;
-                        result.db_user_password = inputForPswd.value;
+                        //result.db_user_name = inputForName.value;
+                        //result.db_user_password = inputForPswd.value;
+                        result.db_user_name = document.getElementById('server_db_user_password').value;
+                        result.db_user_password = document.getElementById('auth_dialog_admin_password').value;
                         resultCallback(result);
                     };
                 }
