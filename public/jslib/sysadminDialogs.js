@@ -1,8 +1,8 @@
 /**
  * Created by dmkits on 30.12.16.
  */
-define([ "dijit/ConfirmDialog", "dojo/keys", "dojo/on", "dijit/registry", "dojo/domReady!"],
-    function (ConfirmDialog, keys, on, registry) {
+define(["dojox/widget/DialogSimple", "dijit/ConfirmDialog", "dojo/keys", "dojo/on", "dijit/registry", "dojo/domReady!"],
+    function (DialogSimple, ConfirmDialog, keys, on, registry) {
         return {
 
             /**
@@ -10,8 +10,8 @@ define([ "dijit/ConfirmDialog", "dojo/keys", "dojo/on", "dijit/registry", "dojo/
              * @param params
              * params = {ConfirmDialog params}
              */
-            makeDialog: function (params) {
-                var myDialog = new ConfirmDialog();
+            makeDialog: function (id, params) {
+                var myDialog = new ConfirmDialog({id:id});
                 for (var paramName in params) {
                     myDialog.set(paramName, params[paramName]);
                 }
@@ -63,14 +63,8 @@ define([ "dijit/ConfirmDialog", "dojo/keys", "dojo/on", "dijit/registry", "dojo/
                 trForPswd.appendChild(tdPswdLabel);
                 trForPswd.appendChild(tdPswdInput);
 
-                adminAuthDialog = this.makeDialog({
-                    autofocus: false,
-                    id: "adminAuthDialog",
-                    content: table,
-                    title: "Admin authorisation",
-                    buttonOk: "Login",
-                    buttonCancel: "Cancel"
-                });
+                adminAuthDialog = this.makeDialog("adminAuthDialog",
+                    { autofocus: false, content: table, title: "Admin authorisation", buttonOk: "Login", buttonCancel: "Cancel" });
                 adminAuthDialog.onShow = function () {
                     inputForName.setAttribute('value', 'root');
                     inputForPswd.setAttribute('value', '');
@@ -117,13 +111,8 @@ define([ "dijit/ConfirmDialog", "dojo/keys", "dojo/on", "dijit/registry", "dojo/
                 tdForLabel.appendChild(label);
                 tdForInput.appendChild(inputBackupFileName);
 
-                backupDialog = this.makeDialog({
-                    id: "backupDialog",
-                    content: table,
-                    title: "Save backup",
-                    buttonOk: "Save",
-                    buttonCancel: "Cancel"
-                });
+                backupDialog = this.makeDialog("backupDialog",
+                    { content: table, title: "Save backup", buttonOk: "Save", buttonCancel: "Cancel" });
                 backupDialog.onShow = function () {
                     var DBName = document.getElementById('db.name').value;
                     var now = moment().format("YYYYMMDD_HHm");
@@ -146,17 +135,11 @@ define([ "dijit/ConfirmDialog", "dojo/keys", "dojo/on", "dijit/registry", "dojo/
              * @returns {}
              */
             showRewriteBackupDialog: function (resultCallback) {
-
                 var rewriteBackupDialog = registry.byId('rewriteBackupDialog');
                 if (rewriteBackupDialog)  return rewriteBackupDialog.show();
-
-                rewriteBackupDialog = this.makeDialog({
-                    id: "rewriteBackupDialog",
-                    content: "File exists!\n Rewrite file?",
-                    title: "Rewrite file",
-                    buttonOk: "Rewrite",
-                    buttonCancel: "Cancel"
-                });
+                rewriteBackupDialog = this.makeDialog("rewriteBackupDialog",
+                    { content: "File exists!\n Rewrite file?", title: "Rewrite file",
+                        buttonOk: "Rewrite", buttonCancel: "Cancel" });
                 if (resultCallback) {
                     rewriteBackupDialog.onExecute = function () {
                         this.hide();
@@ -164,7 +147,6 @@ define([ "dijit/ConfirmDialog", "dojo/keys", "dojo/on", "dijit/registry", "dojo/
                         resultCallback(result);
                     };
                 }
-
                 return rewriteBackupDialog.show();
             },
 
@@ -190,13 +172,9 @@ define([ "dijit/ConfirmDialog", "dojo/keys", "dojo/on", "dijit/registry", "dojo/
                 tdForLabel.appendChild(label);
                 tdForInput.appendChild(inputRestoreFileName);
 
-                restoreDialog = this.makeDialog({
-                    id: "restoreDialog",
-                    content: table,
-                    title: "Restore from file",
-                    buttonOk: "Restore",
-                    buttonCancel: "Cancel"
-                });
+                restoreDialog = this.makeDialog("restoreDialog",
+                    { content: table, title: "Restore from file",
+                         buttonOk: "Restore", buttonCancel: "Cancel" });
                 if (resultCallback) {
                     restoreDialog.onExecute = function () {
                         this.hide();
@@ -246,14 +224,9 @@ define([ "dijit/ConfirmDialog", "dojo/keys", "dojo/on", "dijit/registry", "dojo/
                 trForPswd.appendChild(tdPswdLabel);
                 trForPswd.appendChild(tdPswdInput);
 
-                var dbListForUserDialog = this.makeDialog({
-                    autofocus: false,
-                    id: "dbForUserDialog",
-                    content: table,
-                    title: "Please, enter user name",
-                    buttonOk: "Get list",
-                    buttonCancel: "Cancel"
-                });
+                var dbListForUserDialog = this.makeDialog("dbForUserDialog",
+                    { autofocus: false, content: table, title: "Please, enter user name",
+                         buttonOk: "Get list", buttonCancel: "Cancel" });
                 if (resultCallback) {
                     dbListForUserDialog.onExecute = function () {
                         this.hide();
