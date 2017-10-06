@@ -581,10 +581,10 @@ define(["dojo/_base/declare", "dijit/layout/ContentPane","dojox/widget/Standby",
                 this.htSelection= selection;
                 this.handsonTable.render();
             },
-            /*
-             * callback= function(selRowsData, callbackParams, thisInstance)
+            /**
+             * menuAction= function(selRowsData, actionParams, thisInstance)
              */
-            setMenuItem: function(itemID, itemName, callbackParams, callback){                                              //console.log("HTableSimple setMenuItem",itemID,this.popupMenuItems,this);
+            setMenuItem: function(itemID, itemName, actionParams, menuAction){                                              //console.log("HTableSimple setMenuItem",itemID,this.popupMenuItems,this);
                 var thisInstance= this;
                 this.popupMenuItems[itemID]= {
                     name:itemName,
@@ -595,7 +595,7 @@ define(["dojo/_base/declare", "dijit/layout/ContentPane","dojox/widget/Standby",
                             var selRowsData= [];
                             for(var r=startRowIndex; r<=endRowIndex; r++) selRowsData[r]= this.getContentRow(r);
                         }
-                        callback(selRowsData, callbackParams, thisInstance);
+                        menuAction(selRowsData, actionParams, thisInstance);
                     }
                 };
                 var popupMenuItems = this.popupMenuItems;

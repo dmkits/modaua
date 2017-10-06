@@ -55,7 +55,7 @@
                                         buttonPrint: false, rightPane:true, rightPaneWidth:200})
                                     .addTotalCountNumberBox("ИТОГО строк:", 140, {style: "font-weight:bold;", inputStyle: "width:40px;"})
                                     .addContentTableRowAction("applyChangesRowData",
-                                        function (tableContentRowData, params, contentTableUpdatedRowData, startNextAction, finishedAction) {
+                                        function (tableContentRowData, actionParams, contentTableUpdatedRowData, startNextAction, finishedAction) {
                                             var changeID = tableContentRowData.changeID;
                                             var type = tableContentRowData.type;
                                             if (type == "new") {
@@ -63,25 +63,24 @@
                                                         data: {"CHANGE_ID": changeID, appliedDatetime:moment().format("YYYY.MM.DD HH:mm:ss")}, consoleLog: true },
                                                     function (success, result) {
                                                         var typeValue = type, changeMsg = null;
-                                                        var infoMsgByParams= function(params){
+                                                        var infoMsgByParams= function(actionParams){
+                                                            if(!actionParams.toolPanes||!actionParams.toolPanes[0]) return;
                                                             var infoToolPaneMsg=null;
-                                                            if(params["connectionFailed"]>0)
+                                                            if(actionParams["finishedCounterByNoConnection"]>0)
                                                                 infoToolPaneMsg= "<b style='color:red'>FAILED because failed connent to server!</b>"+
-                                                                    "<br><b style='color:red'>Try number "+params["finishedCounterByNoConnection"]+" ...</b>";
-                                                            if(params["finishedCounterByFailed"]>0) {
+                                                                    "<br><b style='color:red'>Try number "+actionParams["finishedCounterByNoConnection"]+" ...</b>";
+                                                            if(actionParams["finishedCounterByFailed"]>0) {
                                                                 if(!infoToolPaneMsg) infoToolPaneMsg=""; else infoToolPaneMsg+="<br>";
                                                                 infoToolPaneMsg+="<b style='color:red'>FAILED APPLIED!"
-                                                                        +"<br>Reason:"+params["failedMsg"]+"</b>";
+                                                                        +"<br>Reason:"+actionParams["failedMsg"]+"</b>";
                                                             }
-                                                            if(infoToolPaneMsg) params.toolPanes[0].set("content",infoToolPaneMsg);
+                                                            if(infoToolPaneMsg) actionParams.toolPanes[0].set("content",infoToolPaneMsg);
                                                         };
                                                         if (!success) {
-                                                            if(!params["connectionFailed"]) params["connectionFailed"]=0;
-                                                            params["connectionFailed"]++;
-                                                            if(!params["finishedCounterByNoConnection"]) params["finishedCounterByNoConnection"]=0;
-                                                            params["finishedCounterByNoConnection"]++;
-                                                            infoMsgByParams(params);
-                                                            if(params["finishedCounterByNoConnection"]>10) {
+                                                            if(!actionParams["finishedCounterByNoConnection"]) actionParams["finishedCounterByNoConnection"]=0;
+                                                            actionParams["finishedCounterByNoConnection"]++;
+                                                            infoMsgByParams(actionParams);
+                                                            if(actionParams["finishedCounterByNoConnection"]>10) {
                                                                 SysadminDialogs.noServerConnectDialog();
                                                                 finishedAction();
                                                                 return;
@@ -89,13 +88,13 @@
                                                             startNextAction(false);
                                                             return;
                                                         }
-                                                        params["finishedCounterByNoConnection"]=0;
+                                                        actionParams["finishedCounterByNoConnection"]=0;
                                                         var resultItem = result["resultItem"];
                                                         if (result.error) {
                                                             changeMsg = "NOT APPLIED! Reason: " + result.error;
-                                                            params["failedMsg"]=result.error;
-                                                            if(!params["finishedCounterByFailed"]) params["finishedCounterByFailed"]=0;
-                                                            params["finishedCounterByFailed"]++;
+                                                            actionParams["failedMsg"]=result.error;
+                                                            if(!actionParams["finishedCounterByFailed"]) actionParams["finishedCounterByFailed"]=0;
+                                                            actionParams["finishedCounterByFailed"]++;
                                                         }
                                                         if (resultItem) {
                                                             if(resultItem.ID == changeID) typeValue = "applied";
@@ -107,8 +106,8 @@
                                                             }
                                                         }
                                                         contentTableUpdatedRowData["message"]= changeMsg; contentTableUpdatedRowData["type"]= typeValue;
-                                                        infoMsgByParams(params);
-                                                        if(params["finishedCounterByFailed"]>0) {
+                                                        infoMsgByParams(actionParams);
+                                                        if(actionParams["finishedCounterByFailed"]>0) {
                                                             finishedAction();
                                                             return;
                                                         }
@@ -120,21 +119,28 @@
                                     .addToolPane("info")
                                     .addToolPane("apply changes")
                                     .addToolPaneButtonForContentTableRowAction("Apply all changes", "applyChangesRowData", { btnStyle:"width:160px" },
-                                        /*startAction*/function (tableContent,tableInstance, toolPanes,thisInstance, startContentTableRowsAction) {
-                                            if(toolPanes&&toolPanes[0]) toolPanes[0].set("content","");
+                                        /*startAction*/function (tableContent, actionParams, startContentTableRowsAction) {
+                                            actionParams["finishedCounterByNoConnection"]=0;actionParams["finishedCounterByFailed"]=0;
+                                            if(actionParams.toolPanes&&actionParams.toolPanes[0]) actionParams.toolPanes[0].set("content","");
                                             startContentTableRowsAction();
                                         },/*endAction*/function () {
                                             if (sysadmin_database_PageContainer.getParent().updateDBState)
                                                 sysadmin_database_PageContainer.getParent().updateDBState({revalidate:true});
                                         })
                                     .addContentTablePopupMenuItemForAction("applySelectedRowsChanges", "Apply selected changes...", "applyChangesRowData",
-                                        null,/*endAction*/function () {
+                                        /*startAction*/function (selectedTableContent, actionParams, startContentTableRowsAction) {
+                                            actionParams["finishedCounterByNoConnection"]=0;actionParams["finishedCounterByFailed"]=0;
+                                            if(actionParams.toolPanes&&actionParams.toolPanes[0]) actionParams.toolPanes[0].set("content","");
+                                            startContentTableRowsAction();
+                                        },/*endAction*/function () {
                                             if (sysadmin_database_PageContainer.getParent().updateDBState)
                                                 sysadmin_database_PageContainer.getParent().updateDBState({revalidate:true});
                                         })
                                     .addContentTablePopupMenuItemForAction("applyAllRowsChanges", "Apply all changes...", "applyChangesRowData",
-                                        /*startAction*/function (selRowsData, params, contentTable, startApplyChangesRowData) {
-                                            startApplyChangesRowData(contentTable.getContent());
+                                        /*startAction*/function (selectedTableContent, actionParams, startContentTableRowsAction) {
+                                            actionParams["finishedCounterByNoConnection"]=0;actionParams["finishedCounterByFailed"]=0;
+                                            if(actionParams.toolPanes&&actionParams.toolPanes[0]) actionParams.toolPanes[0].set("content","");
+                                            startContentTableRowsAction(actionParams.tableContent);
                                         },/*endAction*/function () {
                                             if (sysadmin_database_PageContainer.getParent().updateDBState)
                                                 sysadmin_database_PageContainer.getParent().updateDBState({revalidate:true});
