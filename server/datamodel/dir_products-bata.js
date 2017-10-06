@@ -24,7 +24,6 @@ var changeLog=[
         "field":"PBARCODE" },
     { "changeID": "dir_products__9", "changeDatetime": "2016-08-30 16:09:00", "changeObj": "dir_products",
         "changeVal": "ALTER TABLE dir_products ADD CONSTRAINT DIR_PRODUCTS_PBARCODE_UNIQUE UNIQUE(PBARCODE)" },
-
     { "changeID": "dir_products_10", "changeDatetime": "2016-08-31 18:31:00", "changeObj": "dir_products",
         "changeVal": "ALTER TABLE dir_products ADD COLUMN GENDER_ID BIGINT UNSIGNED NOT NULL" },
     { "changeID": "dir_products_11", "changeDatetime": "2016-08-31 18:32:00", "changeObj": "dir_products",
@@ -77,13 +76,13 @@ var changeLog=[
     { "changeID": "dir_products_25", "changeDatetime": "2016-09-12 09:42:00", "changeObj": "dir_products",
         "changeVal": "ALTER TABLE dir_products ADD CONSTRAINT DIR_PRODUCTS_COLLECTION_ID_FK" +
             " FOREIGN KEY (COLLECTION_ID) REFERENCES dir_products_collections(ID)",
-        "field":"COLLECTION_ID", "source":"dir_products_collections", "linkField":"ID" }
-    //{ "changeID": "dir_products_26", "changeDatetime": "2016-09-22 12:05:00", "changeObj": "dir_products",
-    //    "changeVal": "ALTER TABLE dir_products ADD COLUMN TYPE_ID BIGINT UNSIGNED NOT NULL",
-    //    "field":"TYPE_ID" },
-    //{ "changeID": "dir_products_27", "changeDatetime": "2016-09-22 12:06:00", "changeObj": "dir_products",
-    //    "changeVal": "ALTER TABLE dir_products ADD CONSTRAINT DIR_PRODUCTS_TYPE_ID_FK" +
-    //        " FOREIGN KEY (TYPE_ID) REFERENCES dir_products_types(ID)",
-    //    "field":"TYPE_ID", "source":"dir_products_types", "linkField":"ID" }
+        "field":"COLLECTION_ID", "source":"dir_products_collections", "linkField":"ID" },
+    { "changeID": "dir_products_26", "changeDatetime": "2017-09-22 12:10:00", "changeObj": "dir_products",
+        "changeVal": "ALTER TABLE dir_products ADD COLUMN TYPE_ID BIGINT UNSIGNED NOT NULL",
+        "field":"TYPE_ID" },
+    { "changeID": "dir_products_27", "changeDatetime": "2017-09-22 12:11:00", "changeObj": "dir_products",
+        "changeVal": "ALTER TABLE dir_products ADD CONSTRAINT DIR_PRODUCTS_TYPE_ID_FK" +
+            " FOREIGN KEY (TYPE_ID) REFERENCES dir_products_types(ID)",
+        "field":"TYPE_ID", "source":"dir_products_types", "linkField":"ID" }
 ];
 module.exports.changeLog=changeLog;
