@@ -304,8 +304,8 @@ define(["dojo/_base/declare", "app", "templateDocumentBase", "hTableSimpleFilter
                 return this;
             },
 
-            /*
-             * params: { btnStyle, btnParams }
+            /**
+             * params = { btnStyle, btnParams }
              * actionFunction = function(tableContent,tableInstance, toolPanes,this)
              */
             addToolPaneActionButton: function(label, params, actionFunction){
@@ -327,18 +327,21 @@ define(["dojo/_base/declare", "app", "templateDocumentBase", "hTableSimpleFilter
                 return this;
             },
 
-            /*
+            /**
              * actionFunction = function(contentTableRowData, params, contentTableUpdatedRowData, startNextAction, finishedAction)
+             * startNextAction = function(true/false), if false- restart current action
+             * params = { toolPanes:<this.toolPanes> }
              */
             addContentTableRowAction: function(actionName, actionFunction){
                 if(!this.contentTableActions) this.contentTableActions={};
                 this.contentTableActions[actionName] = actionFunction;
                 return this;
             },
-            /*
+            /**
              * actionName
              * params: { btnStyle, btnParams }
-             * startAction = function(tableContent,tableInstance, toolPanes,this, startContentTableRowsActionCallback)
+             * startAction = function(tableContent,tableInstance, toolPanes,this, startContentTableRowsAction)
+             * endAction = function(tableContent, params)
              */
             addToolPaneButtonForContentTableRowAction: function(label, actionName, params, startAction, endAction){
                 if(!this.rightContainer) {
@@ -360,8 +363,9 @@ define(["dojo/_base/declare", "app", "templateDocumentBase", "hTableSimpleFilter
                         var contentTableRowsData=thisInstance.getTableContent();
                         var actionParams={};
                         for(var pItemName in params) actionParams[pItemName]=params[pItemName];
+                        actionParams.toolPanes=thisInstance.toolPanes;
                         startAction(contentTableRowsData,thisInstance.contentTable, thisInstance.toolPanes, thisInstance,
-                            /*startContentTableRowsActionCallback*/function(){
+                            /*startContentTableRowsAction*/function(){
                                 thisInstance.contentTable.updateRowsAction(contentTableRowsData, actionParams, contentTableRowActionFunction, endAction);
                             });
                     };
@@ -370,6 +374,7 @@ define(["dojo/_base/declare", "app", "templateDocumentBase", "hTableSimpleFilter
                         var contentTableRowsData=thisInstance.getTableContent();
                         var actionParams={};
                         for(var pItemName in params) actionParams[pItemName]=params[pItemName];
+                        actionParams.toolPanes=thisInstance.toolPanes;
                         thisInstance.contentTable.updateRowsAction(contentTableRowsData, actionParams, contentTableRowActionFunction, endAction);
                     };
                 return this;
@@ -384,10 +389,10 @@ define(["dojo/_base/declare", "app", "templateDocumentBase", "hTableSimpleFilter
                 return this;
             },
 
-            /*
+            /**
              * params = {}
              * startAction - starting process calls actionFunction for action by actionName
-             * startAction = function(contentTableRowsDataForAction,params, thisContentTable, startContentTableRowsActionCallback)
+             * startAction = function(contentTableRowsDataForAction,params, thisContentTable, startContentTableRowsAction)
              * endAction - action on end calls for all rows action by actionID
              * endAction = function(contentTableRowsDataForAction, params, thisContentTable)
              */
@@ -396,7 +401,7 @@ define(["dojo/_base/declare", "app", "templateDocumentBase", "hTableSimpleFilter
                     this.contentTableActions[actionName];//function(tableContentRowData, params, tableUpdatedRowData, startNextAction, finishedAction)
                 var thisContentTable= this.contentTable;
                 if(!contentTableRowActionFunction) return this;
-                thisContentTable.setMenuItem(itemID, itemName, {},
+                thisContentTable.setMenuItem(itemID, itemName, {toolPanes:this.toolPanes},
                     function(selRowsData, params){
                         var rowDataForAction=[];
                         for(var selInd in selRowsData) rowDataForAction.push(selRowsData[selInd]);

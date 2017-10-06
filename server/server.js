@@ -92,9 +92,6 @@ global.appViewsPath= path.join(__dirname,'/../pages/','');
 global.appModulesPath= path.join(__dirname,'/modules/','');
 global.appDataModelPath= path.join(__dirname,'/datamodel/','');
 
-
-
-
 var appModules=require("./modules");
 appModules.validateModules(function(errs, errMessage){
     if (errMessage){                                                                                log.error("FAILED validate! Reason: ",errMessage);

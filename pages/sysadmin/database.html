@@ -19,11 +19,10 @@
 </div>
 </body>
 <script type="text/javascript">
-    require(["app", "dojo/dom-style", "dijit/layout/BorderContainer", "dijit/layout/StackContainer", "dijit/layout/ContentPane",
-                "dijit/form/Button", "dijit/form/ToggleButton",
-                "templateDocumentSimpleTable", "dojox/widget/DialogSimple", "request", "sysadminDialogs"],
-            function (APP, domStyle, BorderContainer, StackContainer, ContentPane, Button, ToggleButton,
-                      TDocumentSimpleTable, DialogSimple, Request, sysadminDialogs) {
+    require(["app", "dojo/dom-style", "dijit/layout/BorderContainer", "dijit/layout/StackContainer", "dijit/layout/ContentPane", "dijit/form/ToggleButton",
+                "templateDocumentSimpleTable", "request", "sysadminDialogs"],
+            function (APP, domStyle, BorderContainer, StackContainer, ContentPane, ToggleButton,
+                      TDocumentSimpleTable, Request, SysadminDialogs) {
                 var sysadmin_database_PageContainer =
                         APP.instanceForID("sysadmin_database_PageContainer", BorderContainer, {});
                 var sysadmin_database_ContentPaneTop =
@@ -42,14 +41,6 @@
                 sysadmin_database_PageContainer.domNode.style.display="";
                 sysadmin_database_PageContainer.startup();
 
-                var dialog = new DialogSimple({ style:"text-align:center", title:"FAIL", content: "No connection to the server!<br>", closable:true });
-                var okButton = new Button({label:"OK"});
-                okButton.onClick=function(){
-                    dialog.onCancel();
-                };
-                dialog.addChild(okButton);
-                dialog.startup();
-
                 btnCurrentChanges.onClick = function () {
                     this.set("checked",true);
                     btnChangeLog.set("checked",false);
@@ -60,8 +51,8 @@
                     }
                     btnCurrentChanges.document =
                             APP.childFor(sysadmin_database_ContentPaneDetailContainer, "sysadmin_database_TableCurrentChanges",
-                                    TDocumentSimpleTable, {titleText: "Data model current changes", dataURL: '/sysadmin/database/getCurrentChanges', buttonPrint: false,
-                                        rightPane:true, rightPaneWidth:200})
+                                    TDocumentSimpleTable, {titleText: "Data model current changes", dataURL: '/sysadmin/database/getCurrentChanges',
+                                        buttonPrint: false, rightPane:true, rightPaneWidth:200})
                                     .addTotalCountNumberBox("ИТОГО строк:", 140, {style: "font-weight:bold;", inputStyle: "width:40px;"})
                                     .addContentTableRowAction("applyChangesRowData",
                                         function (tableContentRowData, params, contentTableUpdatedRowData, startNextAction, finishedAction) {
@@ -72,19 +63,41 @@
                                                         data: {"CHANGE_ID": changeID, appliedDatetime:moment().format("YYYY.MM.DD HH:mm:ss")}, consoleLog: true },
                                                     function (success, result) {
                                                         var typeValue = type, changeMsg = null;
+                                                        var infoMsgByParams= function(params){
+                                                            var infoToolPaneMsg=null;
+                                                            if(params["connectionFailed"]>0)
+                                                                infoToolPaneMsg= "<b style='color:red'>FAILED because failed connent to server!</b>"+
+                                                                    "<br><b style='color:red'>Try number "+params["finishedCounterByNoConnection"]+" ...</b>";
+                                                            if(params["finishedCounterByFailed"]>0) {
+                                                                if(!infoToolPaneMsg) infoToolPaneMsg=""; else infoToolPaneMsg+="<br>";
+                                                                infoToolPaneMsg+="<b style='color:red'>FAILED APPLIED!"
+                                                                        +"<br>Reason:"+params["failedMsg"]+"</b>";
+                                                            }
+                                                            if(infoToolPaneMsg) params.toolPanes[0].set("content",infoToolPaneMsg);
+                                                        };
                                                         if (!success) {
                                                             if(!params["connectionFailed"]) params["connectionFailed"]=0;
                                                             params["connectionFailed"]++;
-                                                            dialog.show();
+                                                            if(!params["finishedCounterByNoConnection"]) params["finishedCounterByNoConnection"]=0;
+                                                            params["finishedCounterByNoConnection"]++;
+                                                            infoMsgByParams(params);
+                                                            if(params["finishedCounterByNoConnection"]>10) {
+                                                                SysadminDialogs.noServerConnectDialog();
+                                                                finishedAction();
+                                                                return;
+                                                            }
+                                                            startNextAction(false);
+                                                            return;
                                                         }
+                                                        params["finishedCounterByNoConnection"]=0;
                                                         var resultItem = result["resultItem"];
                                                         if (result.error) {
                                                             changeMsg = "NOT APPLIED! Reason: " + result.error;
-                                                            if(!params["resultError"]) params["resultError"]=0;
-                                                            params["resultError"]++;
+                                                            params["failedMsg"]=result.error;
+                                                            if(!params["finishedCounterByFailed"]) params["finishedCounterByFailed"]=0;
+                                                            params["finishedCounterByFailed"]++;
                                                         }
-                                                        if (resultItem) {
-                                                            params["connectionFailed"]=0;params["resultError"]=0;
+                                                        if (resultItem) {                                           console.log("resultItem",resultItem);
                                                             if(resultItem.ID == changeID) typeValue = "applied";
                                                             if(resultItem.CHANGE_MSG)
                                                                 changeMsg = (changeMsg == null) ? resultItem.CHANGE_MSG : changeMsg + " <br>Change message: " + resultItem.CHANGE_MSG;
@@ -94,7 +107,8 @@
                                                             }
                                                         }
                                                         contentTableUpdatedRowData["message"]= changeMsg; contentTableUpdatedRowData["type"]= typeValue;
-                                                        if(params["connectionFailed"]>5||params["resultError"]>5) {
+                                                        infoMsgByParams(params);
+                                                        if(params["finishedCounterByFailed"]>0) {
                                                             finishedAction();
                                                             return;
                                                         }
@@ -103,24 +117,28 @@
                                             } else
                                                 startNextAction();
                                         })
+                                    .addToolPane("info")
                                     .addToolPane("apply changes")
                                     .addToolPaneButtonForContentTableRowAction("Apply all changes", "applyChangesRowData", { btnStyle:"width:160px" },
-                                    null,/*endAction*/function () {
-                                        if (sysadmin_database_PageContainer.getParent().updateDBState)
-                                            sysadmin_database_PageContainer.getParent().updateDBState({revalidate:true});
-                                    })
+                                        /*startAction*/function (tableContent,tableInstance, toolPanes,thisInstance, startContentTableRowsAction) {
+                                            if(toolPanes&&toolPanes[0]) toolPanes[0].set("content","");
+                                            startContentTableRowsAction();
+                                        },/*endAction*/function () {
+                                            if (sysadmin_database_PageContainer.getParent().updateDBState)
+                                                sysadmin_database_PageContainer.getParent().updateDBState({revalidate:true});
+                                        })
                                     .addContentTablePopupMenuItemForAction("applySelectedRowsChanges", "Apply selected changes...", "applyChangesRowData",
                                         null,/*endAction*/function () {
                                             if (sysadmin_database_PageContainer.getParent().updateDBState)
                                                 sysadmin_database_PageContainer.getParent().updateDBState({revalidate:true});
                                         })
                                     .addContentTablePopupMenuItemForAction("applyAllRowsChanges", "Apply all changes...", "applyChangesRowData",
-                                    /*startAction*/function (selRowsData, params, contentTable, startApplyChangesRowData) {
-                                        startApplyChangesRowData(contentTable.getContent());
-                                    },/*endAction*/function () {
-                                        if (sysadmin_database_PageContainer.getParent().updateDBState)
-                                            sysadmin_database_PageContainer.getParent().updateDBState({revalidate:true});
-                                    })
+                                        /*startAction*/function (selRowsData, params, contentTable, startApplyChangesRowData) {
+                                            startApplyChangesRowData(contentTable.getContent());
+                                        },/*endAction*/function () {
+                                            if (sysadmin_database_PageContainer.getParent().updateDBState)
+                                                sysadmin_database_PageContainer.getParent().updateDBState({revalidate:true});
+                                        })
                                     .startUp();
                     sysadmin_database_ContentPaneDetailContainer.selectChild(btnCurrentChanges.document);
                 };
@@ -153,7 +171,7 @@
                                         .addToolPane("restore")
                                         .addToolPaneActionButton("connect to bata1 DB",{ btnStyle:"width:160px" },
                                             function(tableContent,contentTableInstance, toolPanes){
-                                                sysadminDialogs.showAdminAuthDialog({},
+                                                SysadminDialogs.showAdminAuthDialog({},
                                                         function(result) {
                                                             if (!result.result) return;
                                                             Request.postJSONData({url: "/sysadmin/database/connectToBata1DB",
@@ -247,7 +265,7 @@
                                                     });
                                             })
                                         .addToolPaneButtonForContentTableRowAction("restore from bata1 DB", "importDataForRowDataDataModel", { btnStyle:"width:160px" },
-                                            /*startAction*/function(tableContent,contentTableInstance, toolPanes,thisInstance, startContentTableRowActionCallback){
+                                            /*startAction*/function(tableContent,contentTableInstance, toolPanes,thisInstance, startContentTableRowAction){
                                                 var dataModelDataTables= [];
                                                 for(var i=0;i<tableContent.length;i++) dataModelDataTables.push(tableContent[i]["DATA_TABLE_NAME"]);
                                                 Request.postJSONData({url: "/sysadmin/database/deleteDataFromDataModels",
@@ -271,7 +289,7 @@
                                                                 var tableContentRowData=tableContent[i], resultItem=result.resultItems[i];
                                                                 contentTableInstance.updateRowData(tableContentRowData,{"RESULT":resultItem["RESULT"]});
                                                             }
-                                                            startContentTableRowActionCallback();
+                                                            startContentTableRowAction();
                                                         })
                                             })
                                         .addContentTablePopupMenuItemForAction("deleteDataFromRowsDataDataModel","Delete data from selected objects...",

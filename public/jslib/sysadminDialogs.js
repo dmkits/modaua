@@ -1,10 +1,22 @@
 /**
  * Created by dmkits on 30.12.16.
  */
-define(["dojox/widget/DialogSimple", "dijit/ConfirmDialog", "dojo/keys", "dojo/on", "dijit/registry", "dojo/domReady!"],
-    function (DialogSimple, ConfirmDialog, keys, on, registry) {
+define(["dojox/widget/DialogSimple", "dijit/ConfirmDialog", "dijit/form/Button", "dojo/keys", "dojo/on", "dijit/registry", "dojo/domReady!"],
+    function (DialogSimple, ConfirmDialog, Button, keys, on, registry) {
         return {
-
+            noServerConnectDialog: function(){
+                var noServerConnectDialog = registry.byId('noServerConnectDialog');
+                if(noServerConnectDialog) return noServerConnectDialog.show();
+                var noServerConnectDialog = new DialogSimple({ id:"noServerConnectDialog",
+                    style:"text-align:center", title:"FAIL", content: "No connection to the server!<br>", closable:true });
+                var okButton = new Button({label:"OK"});
+                okButton.onClick=function(){
+                    noServerConnectDialog.onCancel();
+                };
+                noServerConnectDialog.addChild(okButton);
+                noServerConnectDialog.startup();
+                return noServerConnectDialog.show();
+            },
             /**
              * IANAGEZ 2017-09-07
              * @param params
@@ -243,7 +255,6 @@ define(["dojox/widget/DialogSimple", "dijit/ConfirmDialog", "dojo/keys", "dojo/o
             },
 
             showDbListForUserDialog: function (resultCallback) {
-
                 var dbListForUserDialog = registry.byId('dbForUserDialog');
                 if (dbListForUserDialog){
                     if (resultCallback) {

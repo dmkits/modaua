@@ -485,7 +485,8 @@ define(["dojo/_base/declare", "dijit/layout/ContentPane","dojox/widget/Standby",
             },
             /**
              * actionFunction = function(rowData, params, updatedRowData, nextAction, finishedAction)
-             * finishedCallback = function(rowsData, params)
+             * nextAction = function(true/false) if false restart current action
+             * finishedAction = function(rowsData, params)
              */
             updateRowsAction: function(rowsData, params, actionFunction, finishedAction){
                 this.updateRowsActionCallback(this, rowsData, 0, params, actionFunction, finishedAction);
@@ -517,9 +518,10 @@ define(["dojo/_base/declare", "dijit/layout/ContentPane","dojox/widget/Standby",
                     progressBarForDialog.set("value",ind);
                 var updatedRowData={};
                 actionFunction(rowData, params, updatedRowData,
-                    /*nextAction*/function(){
+                    /*nextAction*/function(next){
+                        var indNext=(next===false)?ind:ind+1;
                         tableInstance.updateRowData(rowData, updatedRowData, {callUpdateContent:false});
-                        tableInstance.updateRowsActionCallback(tableInstance, rowsData, ind+1, params, actionFunction, finishedAction);
+                        tableInstance.updateRowsActionCallback(tableInstance, rowsData, indNext, params, actionFunction, finishedAction);
                     },/*finishedAction*/function(){
                         tableInstance.updateRowData(rowData, updatedRowData, {callUpdateContent:false});
                         tableInstance.updateRowsActionCallback(tableInstance, rowsData, rowsData.length, params, actionFunction, finishedAction);
