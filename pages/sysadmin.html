@@ -74,14 +74,14 @@
                         StackContainer, {region: "center", tabPosition: "top", class: "sysadmin_Content"});
                 document.body.style.display = "";
                 sysadmin_MainContainer.startup();
-                /**
+                /** getting main json data from server and run action parameter function
                  * params = { revalidate:true/false }
                  */
-                sysadmin_MainContainer.updateDBState = function (params) {  console.log("updateDBState");                          //getting main json data from server and run action parameter function
+                sysadmin_MainContainer.updateDBState = function (params) {
                     var condition;
                     if(params&&params.revalidate) condition={"REVALIDATE":true};
                     Request.getJSONData({url: "/sysadmin/serverState", condition:condition, consoleLog: true},
-                            function (success, result) {                               console.log("sysadmin_MainContainer.updateDBState result",result);
+                            function (success, result) {                                                                console.log("sysadmin_MainContainer.updateDBState result=",result);
                                if(!success){
                                    document.getElementById("sysadmin_connectToDBState").innerHTML =
                                            "<b>DB CONNECTION STATE:<span id ='dbConnection_color'>No connection to the server!</span></b>";
