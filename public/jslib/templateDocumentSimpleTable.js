@@ -304,6 +304,11 @@ define(["dojo/_base/declare", "app", "templateDocumentBase", "hTableSimpleFilter
                 return this;
             },
 
+            addToolPaneBR: function(){
+                var row= this.addRowToTable(this.toolPanes[this.toolPanes.length-1].containerNode.lastChild);
+                this.addLeftCellToTableRow(row).innerHTML="<br>";
+                return this;
+            },
             /**
              * params = { btnStyle, btnParams }
              * actionFunction = function(tableContent,tableInstance, toolPanes,this)
@@ -342,7 +347,7 @@ define(["dojo/_base/declare", "app", "templateDocumentBase", "hTableSimpleFilter
              * params: { btnStyle, btnParams }
              * startAction = function(tableContent, actionParams, startContentTableRowsAction)
              * actionParams = { tableInstance, toolPanes, thisInstance }
-             * endAction = function(tableContent, params)
+             * endAction = function(tableContent, actionParams)
              */
             addToolPaneButtonForContentTableRowAction: function(label, actionName, params, startAction, endAction){
                 if(!this.rightContainer) {

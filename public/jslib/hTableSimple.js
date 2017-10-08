@@ -484,20 +484,20 @@ define(["dojo/_base/declare", "dijit/layout/ContentPane","dojox/widget/Standby",
                 return rowData;
             },
             /**
-             * actionFunction = function(rowData, params, updatedRowData, nextAction, finishedAction)
+             * actionFunction = function(rowData, actionParams, updatedRowData, nextAction, finishedAction)
              * nextAction = function(true/false) if false restart current action
-             * finishedAction = function(rowsData, params)
+             * finishedAction = function(rowsData, actionParams)
              */
-            updateRowsAction: function(rowsData, params, actionFunction, finishedAction){
-                this.updateRowsActionCallback(this, rowsData, 0, params, actionFunction, finishedAction);
+            updateRowsAction: function(rowsData, actionParams, actionFunction, finishedAction){
+                this.updateRowsActionCallback(this, rowsData, 0, actionParams, actionFunction, finishedAction);
             },
-            updateRowsActionCallback: function(tableInstance, rowsData, ind, params, actionFunction, finishedAction){
+            updateRowsActionCallback: function(tableInstance, rowsData, ind, actionParams, actionFunction, finishedAction){
                 var rowData=rowsData[ind];
                 var progressBarDialog = Registry.byId(tableInstance.id + "_progressDialog");
                 var progressBarForDialog = Registry.byId(tableInstance.id + "_progressBarForDialog");
                 if(!rowData){
                     if(progressBarDialog) progressBarDialog.hide();
-                    if(finishedAction) finishedAction(rowsData, params);
+                    if(finishedAction) finishedAction(rowsData, actionParams);
                     else tableInstance.updateRowData(rowData, {}, {callUpdateContent:true});
                     return;
                 }
@@ -517,14 +517,14 @@ define(["dojo/_base/declare", "dijit/layout/ContentPane","dojox/widget/Standby",
                 } else
                     progressBarForDialog.set("value",ind);
                 var updatedRowData={};
-                actionFunction(rowData, params, updatedRowData,
+                actionFunction(rowData, actionParams, updatedRowData,
                     /*nextAction*/function(next){
                         var indNext=(next===false)?ind:ind+1;
                         tableInstance.updateRowData(rowData, updatedRowData, {callUpdateContent:false});
-                        tableInstance.updateRowsActionCallback(tableInstance, rowsData, indNext, params, actionFunction, finishedAction);
+                        tableInstance.updateRowsActionCallback(tableInstance, rowsData, indNext, actionParams, actionFunction, finishedAction);
                     },/*finishedAction*/function(){
                         tableInstance.updateRowData(rowData, updatedRowData, {callUpdateContent:false});
-                        tableInstance.updateRowsActionCallback(tableInstance, rowsData, rowsData.length, params, actionFunction, finishedAction);
+                        tableInstance.updateRowsActionCallback(tableInstance, rowsData, rowsData.length, actionParams, actionFunction, finishedAction);
                     })
             },
             setSelectedRow: function(rowIndex){

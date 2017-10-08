@@ -175,6 +175,43 @@
                                         .addTotalCountNumberBox("Total rows:", 120, {style:"font-weight:bold;",inputStyle:"width:40px"})
                                         .addToolPane("info")
                                         .addToolPane("restore")
+                                        .addContentTableRowAction("deleteDataFromRowDataDataModel",
+                                            function(contentTableRowData, actionParams, contentTableUpdatedRowData, startNextAction, finishedAction) {
+                                                Request.postJSONData({url:"/sysadmin/database/deleteDataFromDataModel", condition:null,
+                                                        data:{"DATA_MODEL_NAME":contentTableRowData["DATA_MODEL_NAME"],
+                                                            "DATA_TABLE_NAME":contentTableRowData["DATA_TABLE_NAME"]},
+                                                        consoleLog:true, timeout:10*60*1000},
+                                                    function(success,result){
+                                                        if (!success) {
+                                                            actionParams["noConnectFailCounter"]=(!actionParams["noConnectFailCounter"])?1:actionParams["noConnectFailCounter"]+1;
+                                                            contentTableUpdatedRowData["RESULT"]="Failed delete! Reason:No connect to server!";
+                                                            if(actionParams["noConnectFailCounter"]<=20) startNextAction(false); else finishedAction();
+                                                            return;
+                                                        }
+                                                        actionParams["noConnectFailCounter"]=0;
+                                                        var resultItem = result["resultItem"], importResultMsg=null;
+                                                        if(result.error) importResultMsg="FAILED delete! Reason: "+result.error;
+                                                        if (resultItem && resultItem["RESULT"])
+                                                            importResultMsg= (importResultMsg==null)?resultItem["RESULT"]:importResultMsg+" <br>"+resultItem["RESULT"];
+                                                        contentTableUpdatedRowData["RESULT"]=importResultMsg;
+                                                        startNextAction();
+                                                    });
+                                            })
+                                        .addToolPaneButtonForContentTableRowAction("delete data from data model", "deleteDataFromRowDataDataModel",
+                                                { btnStyle:"width:160px" },
+                                            /*startAction*/function(tableContent, actionParams, startContentTableRowsAction){
+                                                if(actionParams&&actionParams.toolPanes&&actionParams.toolPanes[0]){
+                                                    actionParams.toolPanes[0].set("content","Start delete data from data model...")
+                                                }
+                                                startContentTableRowsAction();
+                                            },/*endAction*/function(tableContent, actionParams){
+                                                if(actionParams&&actionParams.toolPanes&&actionParams.toolPanes[0]){
+                                                    var infoToolPane=actionParams.toolPanes[0],
+                                                            infoMsg=infoToolPane.get("content");
+                                                    infoToolPane.set("content",infoMsg.replace("Start delete data from data model...","Data deleted from data model."))
+                                                }
+                                            })
+                                        .addToolPaneBR()
                                         .addToolPaneActionButton("connect to bata1 DB",{ btnStyle:"width:160px" },
                                             function(tableContent,contentTableInstance, toolPanes){
                                                 SysadminDialogs.showAdminAuthDialog({},
@@ -229,8 +266,9 @@
                                                                     });
                                                         });
                                             })
+                                        .addToolPaneBR()
                                         .addContentTableRowAction("importDataForRowDataDataModel",
-                                            function(contentTableRowData, params, contentTableUpdatedRowData, startNextAction, finishedAction) {
+                                            function(contentTableRowData, actionParams, contentTableUpdatedRowData, startNextAction, finishedAction) {
                                                 Request.postJSONData({url:"/sysadmin/database/importDataFromBata1DB", condition:null,
                                                             data:{"DATA_MODEL_NAME":contentTableRowData["DATA_MODEL_NAME"],
                                                                 "DATA_TABLE_NAME":contentTableRowData["DATA_TABLE_NAME"],
@@ -238,10 +276,12 @@
                                                             consoleLog:true, timeout:30*60*1000},
                                                     function(success,result){
                                                         if (!success) {
-                                                            contentTableUpdatedRowData["RESULT"]="Failed! Reason:No connect to server!";
-                                                            startNextAction();
+                                                            actionParams["noConnectFailCounter"]=(!actionParams["noConnectFailCounter"])?1:actionParams["noConnectFailCounter"]+1;
+                                                            contentTableUpdatedRowData["RESULT"]="Failed import! Reason:No connect to server!";
+                                                            if(actionParams["noConnectFailCounter"]<=20) startNextAction(false); else finishedAction();
                                                             return;
                                                         }
+                                                        actionParams["noConnectFailCounter"]=0;
                                                         var resultItem = result["resultItem"], importResultMsg=null;
                                                         if(result.error) importResultMsg="FAILED! Reason: "+result.error;
                                                         if (resultItem && resultItem["RESULT"])
@@ -250,50 +290,30 @@
                                                         startNextAction();
                                                     });
                                             })
-                                        .addContentTableRowAction("deleteDataFromRowDataDataModel",
-                                            function(contentTableRowData, params, contentTableUpdatedRowData, startNextAction, finishedAction) {
-                                                Request.postJSONData({url:"/sysadmin/database/deleteDataFromDataModel", condition:null,
-                                                        data:{"DATA_MODEL_NAME":contentTableRowData["DATA_MODEL_NAME"],
-                                                            "DATA_TABLE_NAME":contentTableRowData["DATA_TABLE_NAME"]},
-                                                        consoleLog:true, timeout:10*60*1000},
-                                                    function(success,result){
-                                                        if (!success) {
-                                                            contentTableUpdatedRowData["RESULT"]="Failed delete! Reason:No connect to server!";
-                                                            startNextAction();
-                                                            return;
-                                                        }
-                                                        var resultItem = result["resultItem"], importResultMsg=null;
-                                                        if(result.error) importResultMsg="FAILED delete! Reason: "+result.error;
-                                                        if (resultItem && resultItem["RESULT"])
-                                                            importResultMsg= (importResultMsg==null)?resultItem["RESULT"]:importResultMsg+" <br>"+resultItem["RESULT"];
-                                                        contentTableUpdatedRowData["RESULT"]=importResultMsg;
-                                                        startNextAction();
-                                                    });
-                                            })
                                         .addToolPaneButtonForContentTableRowAction("restore from bata1 DB", "importDataForRowDataDataModel", { btnStyle:"width:160px" },
-                                            /*startAction*/function(tableContent,contentTableInstance, toolPanes,thisInstance, startContentTableRowAction){
+                                            /*startAction*/function(tableContent, actionParams, startContentTableRowAction){
                                                 var dataModelDataTables= [];
                                                 for(var i=0;i<tableContent.length;i++) dataModelDataTables.push(tableContent[i]["DATA_TABLE_NAME"]);
                                                 Request.postJSONData({url: "/sysadmin/database/deleteDataFromDataModels",
                                                             data: dataModelDataTables,
                                                             consoleLog: true},
                                                         function (success, result) {
-                                                            var infoPaneMsg=toolPanes[0].get("content");
-                                                            if (!success&&toolPanes&&toolPanes[0]) {
-                                                                infoPaneMsg+="<br><b style='color:red;'>Filed connect to server!</b>";
-                                                                toolPanes[0].set("content",infoPaneMsg);
+                                                            var infoPaneMsg=actionParams.toolPanes[0].get("content");
+                                                            if (!success&&actionParams.toolPanes&&actionParams.toolPanes[0]) {
+                                                                infoPaneMsg+="<br><b style='color:red;'>Failed connect to server!</b>";
+                                                                actionParams.toolPanes[0].set("content",infoPaneMsg);
                                                                 return;
                                                             }
-                                                            if ((!result||!result.resultItems)&&toolPanes&&toolPanes[0]) {
+                                                            if ((!result||!result.resultItems)&&actionParams.toolPanes&&actionParams.toolPanes[0]) {
                                                                 infoPaneMsg+="<br><b style='color:red;'>No server response data!</b>";
-                                                                toolPanes[0].set("content",infoPaneMsg);
+                                                                actionParams.toolPanes[0].set("content",infoPaneMsg);
                                                                 return;
                                                             }
                                                             infoPaneMsg+="<br><b>Deleted data from current data model.</b>";
-                                                            toolPanes[0].set("content",infoPaneMsg);
+                                                            actionParams.toolPanes[0].set("content",infoPaneMsg);
                                                             for(var i=0;i<tableContent.length;i++){
                                                                 var tableContentRowData=tableContent[i], resultItem=result.resultItems[i];
-                                                                contentTableInstance.updateRowData(tableContentRowData,{"RESULT":resultItem["RESULT"]});
+                                                                actionParams.tableInstance.updateRowData(tableContentRowData,{"RESULT":resultItem["RESULT"]});
                                                             }
                                                             startContentTableRowAction();
                                                         })
