@@ -54,12 +54,23 @@
                                     TDocumentSimpleTable, {titleText: "Data model current changes", dataURL: '/sysadmin/database/getCurrentChanges',
                                         buttonPrint: false, rightPane:true, rightPaneWidth:200})
                                     .addTotalCountNumberBox("ИТОГО строк:", 140, {style: "font-weight:bold;", inputStyle: "width:40px;"})
-                                    .addContentTableRowAction("applyChangesRowData",
-                                        function (tableContentRowData, actionParams, contentTableUpdatedRowData, startNextAction, finishedAction) {
+                                    .addToolPane("info")
+                                    .addToolPane("apply changes")
+                                    .addContentTableRowsAction("applyChangesRowData",{
+                                        startAction:function(tableContent, actionParams, startContentTableRowsAction){
+                                            actionParams["finishedCounterByNoConnection"]=0;actionParams["finishedCounterByFailed"]=0;
+                                            if(actionParams.toolPanes&&actionParams.toolPanes[0]) actionParams.toolPanes[0].set("content","");
+                                            startContentTableRowsAction();
+                                        },
+                                        tableRowAction:function(tableContentRowData, actionParams, contentTableUpdatedRowData, startNextAction, finishedAction){
                                             var changeID = tableContentRowData.changeID;
                                             var type = tableContentRowData.type;
-                                            if (type == "new") {
-                                                Request.postJSONData({url: "/sysadmin/database/applyChange", condition: null,
+                                            if (type !== "new"){
+                                                startNextAction();
+                                                return;
+                                            }
+                                            //if type == "new"
+                                            Request.postJSONData({url: "/sysadmin/database/applyChange", condition: null,
                                                         data: {"CHANGE_ID": changeID, appliedDatetime:moment().format("YYYY.MM.DD HH:mm:ss")}, consoleLog: true },
                                                     function (success, result) {
                                                         var typeValue = type, changeMsg = null;
@@ -68,7 +79,7 @@
                                                             var infoToolPaneMsg=null;
                                                             if(actionParams["finishedCounterByNoConnection"]>0)
                                                                 infoToolPaneMsg= "<b style='color:red'>FAILED because failed connent to server!</b>"+
-                                                                    "<br><b style='color:red'>Try number "+actionParams["finishedCounterByNoConnection"]+" ...</b>";
+                                                                        "<br><b style='color:red'>Try number "+actionParams["finishedCounterByNoConnection"]+" ...</b>";
                                                             if(actionParams["finishedCounterByFailed"]>0) {
                                                                 if(!infoToolPaneMsg) infoToolPaneMsg=""; else infoToolPaneMsg+="<br>";
                                                                 infoToolPaneMsg+="<b style='color:red'>FAILED APPLIED!"
@@ -113,38 +124,20 @@
                                                         }
                                                         startNextAction();
                                                     });
-                                            } else
-                                                startNextAction();
-                                        })
-                                    .addToolPane("info")
-                                    .addToolPane("apply changes")
-                                    .addToolPaneButtonForContentTableRowAction("Apply all changes", "applyChangesRowData", { btnStyle:"width:160px" },
-                                        /*startAction*/function (tableContent, actionParams, startContentTableRowsAction) {
-                                            actionParams["finishedCounterByNoConnection"]=0;actionParams["finishedCounterByFailed"]=0;
-                                            if(actionParams.toolPanes&&actionParams.toolPanes[0]) actionParams.toolPanes[0].set("content","");
-                                            startContentTableRowsAction();
-                                        },/*endAction*/function () {
+                                        },
+                                        endAction:function(){
                                             if (sysadmin_database_PageContainer.getParent().updateDBState)
                                                 sysadmin_database_PageContainer.getParent().updateDBState({revalidate:true});
-                                        })
-                                    .addContentTablePopupMenuItemForAction("applySelectedRowsChanges", "Apply selected changes...", "applyChangesRowData",
-                                        /*startAction*/function (selectedTableContent, actionParams, startContentTableRowsAction) {
-                                            actionParams["finishedCounterByNoConnection"]=0;actionParams["finishedCounterByFailed"]=0;
-                                            if(actionParams.toolPanes&&actionParams.toolPanes[0]) actionParams.toolPanes[0].set("content","");
-                                            startContentTableRowsAction();
-                                        },/*endAction*/function () {
-                                            if (sysadmin_database_PageContainer.getParent().updateDBState)
-                                                sysadmin_database_PageContainer.getParent().updateDBState({revalidate:true});
-                                        })
-                                    .addContentTablePopupMenuItemForAction("applyAllRowsChanges", "Apply all changes...", "applyChangesRowData",
-                                        /*startAction*/function (selectedTableContent, actionParams, startContentTableRowsAction) {
-                                            actionParams["finishedCounterByNoConnection"]=0;actionParams["finishedCounterByFailed"]=0;
-                                            if(actionParams.toolPanes&&actionParams.toolPanes[0]) actionParams.toolPanes[0].set("content","");
-                                            startContentTableRowsAction(actionParams.tableContent);
-                                        },/*endAction*/function () {
-                                            if (sysadmin_database_PageContainer.getParent().updateDBState)
-                                                sysadmin_database_PageContainer.getParent().updateDBState({revalidate:true});
-                                        })
+                                        }
+                                    })
+                                    .addToolPaneActionButton("Apply all changes",{ btnStyle:"width:160px", contentTableActionName:"applyChangesRowData" })
+                                    .addContentTablePopupMenuAction("Apply selected changes...", {contentTableActionName:"applyChangesRowData"})
+                                    .addContentTablePopupMenuAction("Apply all changes...", {
+                                        contentTableActionName:"applyChangesRowData",
+                                        beforeContentTableRowsAction:function(selectedTableContent, actionParams, startContentTableRowsAction){
+                                            startContentTableRowsAction(actionParams.thisInstance.getTableContent());
+                                        }
+                                    })
                                     .startUp();
                     sysadmin_database_ContentPaneDetailContainer.selectChild(btnCurrentChanges.document);
                 };

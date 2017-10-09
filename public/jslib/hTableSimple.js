@@ -48,7 +48,7 @@ define(["dojo/_base/declare", "dijit/layout/ContentPane","dojox/widget/Standby",
                 this.readOnly= true;
                 this.wordWrap= false;
                 this.persistentState= false;
-                this.popupMenuItems= {};
+                this.popupMenuItems= [];
                 this.enableComments=false; this.htComments=[];
                 this.htSelection=null;
                 declare.safeMixin(this,args);
@@ -584,9 +584,9 @@ define(["dojo/_base/declare", "dijit/layout/ContentPane","dojox/widget/Standby",
             /**
              * menuAction= function(selRowsData, actionParams, thisInstance)
              */
-            setMenuItem: function(itemID, itemName, actionParams, menuAction){                                              //console.log("HTableSimple setMenuItem",itemID,this.popupMenuItems,this);
+            setMenuItem: function(itemName, actionParams, menuAction){                                              //console.log("HTableSimple setMenuItem",itemID,this.popupMenuItems,this);
                 var thisInstance= this;
-                this.popupMenuItems[itemID]= {
+                this.popupMenuItems.push({
                     name:itemName,
                     callback: function(key, options){                                                                       //console.log("HTableSimple menuItem callback",key,options);
                         var selRowsData= [];
@@ -597,9 +597,8 @@ define(["dojo/_base/declare", "dijit/layout/ContentPane","dojox/widget/Standby",
                         }
                         menuAction(selRowsData, actionParams, thisInstance);
                     }
-                };
-                var popupMenuItems = this.popupMenuItems;
-                this.handsonTable.updateSettings({ contextMenu: { items: popupMenuItems } });
+                });
+                this.handsonTable.updateSettings({ contextMenu: { items: this.popupMenuItems } });
             }
         });
     });

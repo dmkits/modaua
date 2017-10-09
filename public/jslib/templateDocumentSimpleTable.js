@@ -309,116 +309,133 @@ define(["dojo/_base/declare", "app", "templateDocumentBase", "hTableSimpleFilter
                 this.addLeftCellToTableRow(row).innerHTML="<br>";
                 return this;
             },
+
             /**
-             * params = { btnStyle, btnParams }
-             * actionFunction = function(tableContent,tableInstance, toolPanes,this)
+             * tableRowAction = function(contentTableRowData, actionParams, contentTableUpdatedRowData, startNextAction, finishedAction)
+             *      startNextAction = function(true/false), if false- restart current action
+             *      actionParams = { tableInstance, toolPanes, thisInstance }
              */
-            addToolPaneActionButton: function(label, params, actionFunction){
-                if(!this.rightContainer) {
-                    console.log("WARNING! Failed addToolPaneActionButton! Reason: no rightContainer!");
-                    return this;
-                }
-                if(!params) params={};
-                if (!this.toolPanes||this.toolPanes.length==0) this.addToolPane("");
-                var actionsTableRow= this.addRowToTable(this.toolPanes[this.toolPanes.length-1].containerNode.lastChild);
-                var actionButton= this.addTableCellButtonTo(actionsTableRow, {labelText:label, cellWidth:0, btnStyle:params.btnStyle, btnParameters:params.btnParams});
-                if (!this.toolPanesActionButtons) this.toolPanesActionButtons={};
-                if(actionFunction) {
-                    var thisInstance=this;
-                    actionButton.onClick=function(){
-                        actionFunction(thisInstance.getTableContent(),thisInstance.contentTable, thisInstance.toolPanes, thisInstance);
-                    }
-                }
+            addContentTableRowAction: function(actionName, tableRowAction){
+                if(!this.contentTableActions) this.contentTableActions={};
+                this.contentTableActions[actionName] = { tableRowActionFunction:tableRowAction };
+                return this;
+            },
+            /**
+             * actions = { startAction, tableRowAction, endAction }
+             *      startAction = function(contentTableRowData, actionParams, startTableRowActions)
+             *      tableRowAction = function(contentTableRowData, actionParams, contentTableUpdatedRowData, startNextAction, finishedAction)
+             *          startNextAction = function(true/false), if false- restart current action
+             *      endAction = function(contentTableRowData, actionParams)
+             *      actionParams = { tableInstance, toolPanes, thisInstance }
+             */
+            addContentTableRowsAction: function(actionName, actions){
+                if(!actions) return this;
+                if(!this.contentTableActions) this.contentTableActions={};
+                this.contentTableActions[actionName] = {
+                    startActionFunction:actions.startAction,
+                    tableRowActionFunction:actions.tableRowAction,//function(tableContentRowData, params, tableUpdatedRowData, startNextAction, finishedAction)
+                    endActionFunction:actions.endAction
+                };
                 return this;
             },
 
             /**
-             * actionFunction = function(contentTableRowData, actionParams, contentTableUpdatedRowData, startNextAction, finishedAction)
-             * startNextAction = function(true/false), if false- restart current action
-             * actionParams = { tableInstance, toolPanes, thisInstance }
+             * actionParams = { btnStyle, btnParams, actionFunction, contentTableActionName }
+             *      actionFunction = function(tableContent, actionParams)
+             *          actionParams = { tableInstance, toolPanes, thisInstance }
              */
-            addContentTableRowAction: function(actionName, actionFunction){
-                if(!this.contentTableActions) this.contentTableActions={};
-                this.contentTableActions[actionName] = actionFunction;
-                return this;
-            },
-            /**
-             * actionName
-             * params: { btnStyle, btnParams }
-             * startAction = function(tableContent, actionParams, startContentTableRowsAction)
-             * actionParams = { tableInstance, toolPanes, thisInstance }
-             * endAction = function(tableContent, actionParams)
-             */
-            addToolPaneButtonForContentTableRowAction: function(label, actionName, params, startAction, endAction){
+            addToolPaneActionButton: function(label, actionParams){
                 if(!this.rightContainer) {
                     console.log("WARNING! Failed addToolPaneActionButton! Reason: no rightContainer!");
                     return this;
                 }
                 if (!this.toolPanes||this.toolPanes.length==0) this.addToolPane("");
                 var actionsTableRow= this.addRowToTable(this.toolPanes[this.toolPanes.length-1].containerNode.lastChild);
-                var actionButton= this.addTableCellButtonTo(actionsTableRow,
-                    {labelText:label, cellWidth:0, btnStyle:params.btnStyle, btnParameters:params.btnParams});
+                if(!actionParams) actionParams={};
+                var actionButton= this.addTableCellButtonTo(actionsTableRow, {labelText:label, cellWidth:0,
+                    btnStyle:actionParams.btnStyle, btnParameters:actionParams.btnParams});
                 if (!this.toolPanesActionButtons) this.toolPanesActionButtons={};
-                if(actionName) this.toolPanesActionButtons[actionName]= actionButton;
                 var thisInstance=this;
-                var contentTableRowAction=
-                    this.contentTableActions[actionName];//function(tableContentRowData, params, tableUpdatedRowData, startNextAction, finishedAction)
+                if(actionParams.actionFunction) {
+                    actionButton.onClick=function(){
+                        actionParams.actionFunction(thisInstance.getTableContent(),
+                            {tableInstance:thisInstance.contentTable, toolPanes:thisInstance.toolPanes, thisInstance:thisInstance});
+                    };
+                    return this;
+                }
+                if(!actionParams.contentTableActionName) return this;
+                var contentTableRowAction= this.contentTableActions[actionParams.contentTableActionName];
                 if(!contentTableRowAction) return this;
-                var actionParams={tableInstance:thisInstance.contentTable, toolPanes:thisInstance.toolPanes, thisInstance:thisInstance};
-                for(var pItemName in params) actionParams[pItemName]=params[pItemName];
-                if(startAction)
+                if(contentTableRowAction.startActionFunction&&contentTableRowAction.tableRowActionFunction){
                     actionButton.onClick= function(){
                         var contentTableRowsData=thisInstance.getTableContent();
-                        startAction(contentTableRowsData, actionParams,
+                        contentTableRowAction.startActionFunction(contentTableRowsData, actionParams,
                             /*startContentTableRowsAction*/function(){
-                                thisInstance.contentTable.updateRowsAction(contentTableRowsData, actionParams, contentTableRowAction, endAction);
+                                thisInstance.contentTable.updateRowsAction(contentTableRowsData, actionParams,
+                                    contentTableRowAction.tableRowActionFunction, contentTableRowAction.endActionFunction);
                             });
                     };
-                else
+                } else if(contentTableRowAction.tableRowActionFunction){
                     actionButton.onClick= function(){
                         var contentTableRowsData=thisInstance.getTableContent();
-                        thisInstance.contentTable.updateRowsAction(contentTableRowsData, actionParams, contentTableRowAction, endAction);
+                        thisInstance.contentTable.updateRowsAction(contentTableRowsData, actionParams,
+                            contentTableRowAction.tableRowActionFunction, contentTableRowAction.endActionFunction);
                     };
-                return this;
-            },
-
-            /*
-             * menuActionFunction = function(selRowsData, {}, this.contentTable)
-             * selRowsData= non numeric index array of selected rows in this.contentTable
-             */
-            addPopupMenuItem: function(itemID, itemName, menuActionFunction){
-                this.contentTable.setMenuItem(itemID, itemName, {}, menuActionFunction);
+                }
                 return this;
             },
 
             /**
-             * params = {}
-             * startAction - starting process calls actionFunction for action by actionName
-             * startAction = function(contentTableSelectedRowsDataForAction, actionParams, startContentTableRowsAction)
-             * actionParams = { tableContent, tableInstance, toolPanes, thisInstance }
-             * startContentTableRowsAction = function(rowsDataForTableRowsAction)
-             * endAction - action on end calls for all rows action by actionID
-             * endAction = function(contentTableRowsDataForAction, params, thisContentTable)
+             * actionParams = { btnStyle, btnParams, actionFunction, contentTableActionName, beforeContentTableRowsAction }
+             *      actionFunction = function(selectedTableContent, actionParams)
+             *      beforeContentTableRowsAction = function(selectedTableContent, actionParams, startContentTableRowsAction)
+             *          actionParams = { tableInstance, toolPanes, thisInstance }
+             *          startContentTableRowsAction= function(tableContentForAction)
              */
-            addContentTablePopupMenuItemForAction: function(itemID, itemName, actionName, startAction, endAction){
-                var contentTableRowAction=
-                    this.contentTableActions[actionName];//function(tableContentRowData, params, tableUpdatedRowData, startNextAction, finishedAction)
-                if(!contentTableRowAction) return this;
+            addContentTablePopupMenuAction: function(itemName, actionParams){
                 var thisInstance=this, thisContentTable= this.contentTable;
-                var actionParams={ tableInstance:thisContentTable, toolPanes:thisInstance.toolPanes, thisInstance:thisInstance };
-                thisContentTable.setMenuItem(itemID, itemName, actionParams,
+                if(!actionParams) actionParams={};
+                actionParams.tableInstance=thisContentTable;
+                actionParams.toolPanes=thisInstance.toolPanes;
+                actionParams.thisInstance=thisInstance;
+                var menuItemActionFunction;
+                if(actionParams.actionFunction) {
+                    menuItemActionFunction= actionParams.actionFunction;
+                } else {
+                    var contentTableRowAction= this.contentTableActions[actionParams.contentTableActionName];
+                    var contentTableRowsActionFunction;
+                    if(contentTableRowAction&&contentTableRowAction.startActionFunction&&contentTableRowAction.tableRowActionFunction){
+                        contentTableRowsActionFunction=function(rowsDataForAction, actionParams){
+                            contentTableRowAction.startActionFunction(rowsDataForAction, actionParams,
+                                /*startContentTableRowsAction*/function(){
+                                    thisInstance.contentTable.updateRowsAction(rowsDataForAction, actionParams,
+                                        contentTableRowAction.tableRowActionFunction, contentTableRowAction.endActionFunction);
+                                });
+                        };
+                    } else if(contentTableRowAction&&contentTableRowAction.tableRowActionFunction){
+                        contentTableRowsActionFunction=function(rowsDataForAction, actionParams){
+                            thisInstance.contentTable.updateRowsAction(rowsDataForAction, actionParams,
+                                contentTableRowAction.tableRowActionFunction, contentTableRowAction.endActionFunction);
+                        }
+                    }
+                    if(actionParams.beforeContentTableRowsAction){
+                        menuItemActionFunction= function(rowsDataForAction, actionParams){
+                            actionParams.beforeContentTableRowsAction(rowsDataForAction, actionParams,
+                                function(tableContentForAction){
+                                    if(!tableContentForAction) tableContentForAction=rowsDataForAction;
+                                    if(contentTableRowsActionFunction) contentTableRowsActionFunction(tableContentForAction, actionParams)
+                                })
+                        }
+                    } else if (contentTableRowsActionFunction){
+                        menuItemActionFunction= contentTableRowsActionFunction;
+                    }
+                }
+                if(!menuItemActionFunction) return this;
+                thisContentTable.setMenuItem(itemName, actionParams,
                     /*menuItemAction*/function(selRowsData, actionParams){
                         var rowsDataForAction=[];
                         for(var selInd in selRowsData) rowsDataForAction.push(selRowsData[selInd]);
-                        actionParams.tableContent=actionParams.thisInstance.getTableContent();
-                        if(startAction)
-                            startAction(rowsDataForAction, actionParams,
-                                function(rowsDataForTableRowsAction){
-                                    if(!rowsDataForTableRowsAction) rowsDataForTableRowsAction=rowsDataForAction;
-                                    thisContentTable.updateRowsAction(rowsDataForTableRowsAction, actionParams, contentTableRowAction, endAction);
-                                });
-                        else
-                            thisContentTable.updateRowsAction(rowsDataForAction, actionParams, contentTableRowAction, endAction);
+                        menuItemActionFunction(rowsDataForAction, actionParams);
                     });
                 return this;
             },
