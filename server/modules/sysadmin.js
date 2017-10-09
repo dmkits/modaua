@@ -905,7 +905,7 @@ module.exports.init = function(app){
             callback("Failed delete! Reason: no table name.");
             return;
         }
-        if(tableName=="change_log"){
+        if(tableName=="change_log"||tableName=="dir_products_types"){
             callback("Data model data cannot be deleted!");
             return;
         }
@@ -998,7 +998,9 @@ module.exports.init = function(app){
             sqlInsertFieldsList= (!sqlInsertFieldsList)?importTableFieldName:sqlInsertFieldsList+","+importTableFieldName;
             sqlInsertFieldsValues= (!sqlInsertFieldsValues)?"?":sqlInsertFieldsValues+",?";
             var importFieldValue=bata1TableDataItem[importTableFieldName];
-            if(importTableName=="wrh_invs"||importTableName=="wrh_ret_invs"){
+            if(importTableName=="dir_products"){
+                if(importTableFieldName=="TYPE_ID") importFieldValue=1;
+            } else if(importTableName=="wrh_invs"||importTableName=="wrh_ret_invs"){
                 if(importTableFieldName=="CURRENCY_ID") importFieldValue=2;
                 if(importTableFieldName=="DOCSTATE_ID") importFieldValue=0;
                 if(importTableFieldName=="RATE") importFieldValue=33;
