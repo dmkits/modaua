@@ -322,11 +322,11 @@ define(["dojo/_base/declare", "app", "templateDocumentBase", "hTableSimpleFilter
             },
             /**
              * actions = { startAction, tableRowAction, endAction }
-             *      startAction = function(contentTableRowData, actionParams, startTableRowActions)
+             *      startAction = function(contentTableRowsData, actionParams, startTableRowActions)
              *      tableRowAction = function(contentTableRowData, actionParams, contentTableUpdatedRowData, startNextAction, finishedAction)
              *          startNextAction = function(true/false), if false- restart current action
-             *      endAction = function(contentTableRowData, actionParams)
-             *      actionParams = { tableInstance, toolPanes, thisInstance }
+             *      endAction = function(contentTableRowsData, actionParams)
+             *      actionParams = { contentTableInstance, toolPanes, thisInstance }
              */
             addContentTableRowsAction: function(actionName, actions){
                 if(!actions) return this;
@@ -340,9 +340,12 @@ define(["dojo/_base/declare", "app", "templateDocumentBase", "hTableSimpleFilter
             },
 
             /**
-             * actionParams = { btnStyle, btnParams, actionFunction, contentTableActionName }
-             *      actionFunction = function(tableContent, actionParams)
-             *          actionParams = { tableInstance, toolPanes, thisInstance }
+             * actionParams = { btnStyle, btnParams, actionFunction, contentTableActionName, beforeContentTableRowsAction }
+             *      actionFunction = function(contentTableRowsData, actionParams)
+             *          actionParams = { contentTableInstance, toolPanes, thisInstance }
+             *      beforeContentTableRowsAction = function(contentTableRowsData, actionParams, startContentTableRowsAction)
+             *          actionParams = { contentTableInstance, toolPanes, thisInstance }
+             *          startContentTableRowsAction= function(contentTableRowsDataForAction)
              */
             addToolPaneActionButton: function(label, actionParams){
                 if(!this.rightContainer) {
@@ -355,33 +358,48 @@ define(["dojo/_base/declare", "app", "templateDocumentBase", "hTableSimpleFilter
                 var actionButton= this.addTableCellButtonTo(actionsTableRow, {labelText:label, cellWidth:0,
                     btnStyle:actionParams.btnStyle, btnParameters:actionParams.btnParams});
                 if (!this.toolPanesActionButtons) this.toolPanesActionButtons={};
+                actionParams.contentTableInstance=this.contentTable;
+                actionParams.toolPanes=this.toolPanes;
+                actionParams.thisInstance=this;
                 var thisInstance=this;
                 if(actionParams.actionFunction) {
                     actionButton.onClick=function(){
-                        actionParams.actionFunction(thisInstance.getTableContent(),
-                            {tableInstance:thisInstance.contentTable, toolPanes:thisInstance.toolPanes, thisInstance:thisInstance});
+                        actionParams.actionFunction(thisInstance.getTableContent(),actionParams);
                     };
                     return this;
                 }
-                if(!actionParams.contentTableActionName) return this;
-                var contentTableRowAction= this.contentTableActions[actionParams.contentTableActionName];
-                if(!contentTableRowAction) return this;
-                if(contentTableRowAction.startActionFunction&&contentTableRowAction.tableRowActionFunction){
-                    actionButton.onClick= function(){
-                        var contentTableRowsData=thisInstance.getTableContent();
-                        contentTableRowAction.startActionFunction(contentTableRowsData, actionParams,
+                var contentTableRowAction, contentTableRowsActionFunction;
+                if (actionParams.contentTableActionName)
+                    contentTableRowAction= this.contentTableActions[actionParams.contentTableActionName];
+                if(contentTableRowAction&&contentTableRowAction.startActionFunction&&contentTableRowAction.tableRowActionFunction){
+                    contentTableRowsActionFunction= function(tableContentForAction,actionParams){
+                        contentTableRowAction.startActionFunction(tableContentForAction, actionParams,
                             /*startContentTableRowsAction*/function(){
-                                thisInstance.contentTable.updateRowsAction(contentTableRowsData, actionParams,
+                                thisInstance.contentTable.updateRowsAction(tableContentForAction, actionParams,
                                     contentTableRowAction.tableRowActionFunction, contentTableRowAction.endActionFunction);
                             });
                     };
-                } else if(contentTableRowAction.tableRowActionFunction){
-                    actionButton.onClick= function(){
-                        var contentTableRowsData=thisInstance.getTableContent();
-                        thisInstance.contentTable.updateRowsAction(contentTableRowsData, actionParams,
+                } else if(contentTableRowAction&&contentTableRowAction.tableRowActionFunction){
+                    contentTableRowsActionFunction= function(tableContentForAction,actionParams){
+                        thisInstance.contentTable.updateRowsAction(tableContentForAction, actionParams,
                             contentTableRowAction.tableRowActionFunction, contentTableRowAction.endActionFunction);
                     };
                 }
+                if(actionParams.beforeContentTableRowsAction){
+                    actionButton.onClick= function(){
+                        var contentTableRowsData=thisInstance.getTableContent();
+                        actionParams.beforeContentTableRowsAction(contentTableRowsData,actionParams,
+                            function(contentTableRowsDataForAction){
+                                if(!contentTableRowsDataForAction) contentTableRowsDataForAction=contentTableRowsData;
+                                if(contentTableRowsActionFunction)
+                                    contentTableRowsActionFunction(contentTableRowsDataForAction, actionParams);
+                            });
+                    }
+                } else if(contentTableRowsActionFunction)
+                    actionButton.onClick= function(){
+                        var contentTableRowsData=thisInstance.getTableContent();
+                        contentTableRowsActionFunction(contentTableRowsData, actionParams);
+                    };
                 return this;
             },
 
@@ -389,13 +407,13 @@ define(["dojo/_base/declare", "app", "templateDocumentBase", "hTableSimpleFilter
              * actionParams = { btnStyle, btnParams, actionFunction, contentTableActionName, beforeContentTableRowsAction }
              *      actionFunction = function(selectedTableContent, actionParams)
              *      beforeContentTableRowsAction = function(selectedTableContent, actionParams, startContentTableRowsAction)
-             *          actionParams = { tableInstance, toolPanes, thisInstance }
-             *          startContentTableRowsAction= function(tableContentForAction)
+             *          actionParams = { contentTableInstance, toolPanes, thisInstance }
+             *          startContentTableRowsAction= function(contentTableRowsDataForAction)
              */
             addContentTablePopupMenuAction: function(itemName, actionParams){
                 var thisInstance=this, thisContentTable= this.contentTable;
                 if(!actionParams) actionParams={};
-                actionParams.tableInstance=thisContentTable;
+                actionParams.contentTableInstance=thisContentTable;
                 actionParams.toolPanes=thisInstance.toolPanes;
                 actionParams.thisInstance=thisInstance;
                 var menuItemActionFunction;
@@ -421,9 +439,10 @@ define(["dojo/_base/declare", "app", "templateDocumentBase", "hTableSimpleFilter
                     if(actionParams.beforeContentTableRowsAction){
                         menuItemActionFunction= function(rowsDataForAction, actionParams){
                             actionParams.beforeContentTableRowsAction(rowsDataForAction, actionParams,
-                                function(tableContentForAction){
-                                    if(!tableContentForAction) tableContentForAction=rowsDataForAction;
-                                    if(contentTableRowsActionFunction) contentTableRowsActionFunction(tableContentForAction, actionParams)
+                                function(contentTableRowsDataForAction){
+                                    if(!contentTableRowsDataForAction) contentTableRowsDataForAction=rowsDataForAction;
+                                    if(contentTableRowsActionFunction)
+                                        contentTableRowsActionFunction(contentTableRowsDataForAction, actionParams)
                                 })
                         }
                     } else if (contentTableRowsActionFunction){
