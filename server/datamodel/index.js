@@ -1080,7 +1080,7 @@ function _storeTableDataItem(params, resultCallback) {
     }
     var idValue=params.storeTableData[idFieldName];
     if (idValue===undefined||idValue===null){//insert
-        params.storeTableData[idFieldName]=getUIDNumber();
+        params.storeTableData[idFieldName]=util.getUIDNumber();
         this.insTableDataItem({tableName:params.tableName, idFieldName:idFieldName, tableColumns:params.tableColumns,
             insTableData:params.storeTableData}, resultCallback);
         return;

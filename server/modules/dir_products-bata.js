@@ -30,16 +30,57 @@ module.exports.modulePagePath = "dir/products-bata.html";
 module.exports.init = function(app){
     var dirProductsTableColumns=[
         {"data": "ID", "name": "ID", "width": 80, "type": "text", readOnly:true, visible:false},
+        {"data": "GENDER_CODE", "name": "Код группы", "width": 65,
+            "type": "combobox", "sourceURL":"/dir/products/getDataForProductsGendersCombobox/genderCode",
+            dataSource:"dir_products_genders", dataField:"CODE"},
+        {"data": "GENDER", "name": "Группа", "width": 150,
+            "type": "combobox", "sourceURL":"/dir/products/getDataForProductsGendersCombobox/gender",
+            dataSource:"dir_products_genders", dataField:"NAME"},
+        {"data": "CATEGORY_CODE", "name": "Код категории", "width": 80,
+            "type": "combobox", "sourceURL":"/dir/products/getDataForProductsCategoryCombobox/CategoryCode",
+            dataSource:"dir_products_categories", dataField:"CODE"},
+        {"data": "CATEGORY", "name": "Категория", "width": 200,
+            "type": "combobox", "sourceURL":"/dir/products/getDataForProductsCategoryCombobox/category",
+            dataSource:"dir_products_categories", dataField:"NAME"},
+        {"data": "SUBCATEGORY_CODE", "name": "Код подкатегории", "width": 100,
+            "type": "comboboxWN", "sourceURL":"/dir/products/getDataForProductsSubcategoryCombobox/SubcategoryCode",
+            dataSource:"dir_products_subcategories", dataField:"CODE"},
+        {"data": "SUBCATEGORY", "name": "Подкатегория", "width": 200,
+            "type": "comboboxWN", "sourceURL":"/dir/products/getDataForProductsSubcategoryCombobox/subcategory",
+            dataSource:"dir_products_subcategories", dataField:"NAME"},
+
+        {"data": "COLLECTION", "name": "Коллекция", "width": 120,
+            "type": "text",
+            //"type": "comboboxWN", "sourceURL":"/dir/products/getDataForProductsSubcategoryCombobox/subcategory",
+            dataSource:"dir_products_collections", dataField:"NAME"},
+        {"data": "COLLECTION_CODE", "name": "Код коллекции", "width": 120, visible:false,
+            "type": "text",
+            //"type": "comboboxWN", "sourceURL":"/dir/products/getDataForProductsSubcategoryCombobox/subcategory",
+            dataSource:"dir_products_collections", dataField:"CODE"},
+        {"data": "ARTICLE", "name": "Артикул", "width": 80,
+            "type": "text",
+            //"type": "comboboxWN", "sourceURL":"/dir/products/getDataForProductsSubcategoryCombobox/subcategory",
+            dataSource:"dir_products_articles", dataField:"VALUE"},
+        {"data": "KIND", "name": "Вид", "width": 150,
+            "type": "text",
+            //"type": "comboboxWN", "sourceURL":"/dir/products/getDataForProductsSubcategoryCombobox/subcategory",
+            dataSource:"dir_products_kinds", dataField:"NAME"},
+        {"data": "COMPOSITION_ID", "name": "Состав", "width": 150,
+            "type": "text",
+            //"type": "comboboxWN", "sourceURL":"/dir/products/getDataForProductsSubcategoryCombobox/subcategory",
+            dataSource:"dir_products_compositions", dataField:"VALUE"},
+        {"data": "SIZE", "name": "Размер", "width": 50,
+            "type": "text",
+            //"type": "comboboxWN", "sourceURL":"/dir/products/getDataForProductsSubcategoryCombobox/subcategory",
+            dataSource:"dir_products_sizes", dataField:"VALUE"},
+
         {"data": "CODE", "name": "Код", "width": 55, "type": "text"},
         {"data": "NAME", "name": "Наименование", "width": 220, "type": "text"},
-        {"data": "PRINT_NAME", "name": "Печатное наименование", "width": 220, "type": "text"},
+        {"data": "PRINT_NAME", "name": "Печатное наименование", "width": 220, "type": "text", visible:false},
         {"data": "UM", "name": "Ед.изм.", "width": 55, "type": "text"},
-        {"data": "PBARCODE", "name": "Штрихкод", "width": 100, "type": "text"},
-        {"data": "ARTICLE_ID", "name": "ARTICLE_ID", "width": 80, "type": "text"},
-        {"data": "KIND_ID", "name": "KIND_ID", "width": 80, "type": "text"},
-        {"data": "COMPOSITION_ID", "name": "COMPOSITION_ID", "width": 80, "type": "text"},
-        {"data": "SIZE_ID", "name": "SIZE_ID", "width": 80, "type": "text"},
-        {"data": "COLLECTION_ID", "name": "COLLECTION_ID", "width": 80, "type": "text"}
+        {"data": "PBARCODE", "name": "Штрихкод", "width": 100, "type": "text", visible:false},
+
+
     ];
     app.get("/dir/products/getDataForDirProductsTable", function(req, res){
         dir_products_bata.getDataForTable({tableColumns:dirProductsTableColumns, identifier:dirProductsTableColumns[0].data,
@@ -75,7 +116,7 @@ module.exports.init = function(app){
     app.get("/dir/products/getDataForProductsGendersTable", function(req, res){
         dir_products_genders.getDataForTable({tableColumns:dirProductsGendersBataTableColumns,
                 identifier:dirProductsGendersBataTableColumns[0].data,
-                conditions:req.query, order:"CODE"},
+                conditions:req.query, order:["CODE"]},
             function(result){
                 res.send(result);
             });
@@ -117,7 +158,7 @@ module.exports.init = function(app){
     app.get("/dir/products/getDataForProductsCategoriesTable", function(req, res){
         dir_products_categories.getDataForTable({tableColumns:dirProductsCategoriesBataTableColumns,
                 identifier:dirProductsCategoriesBataTableColumns[0].data,
-                conditions:req.query, order:"dir_products_categories.CODE"},
+                conditions:req.query, order:["GENDER_CODE","CODE"]},
             function(result){
                 res.send(result);
             });
@@ -194,7 +235,8 @@ module.exports.init = function(app){
     app.get("/dir/products/getDataForDirProductsSubCategoriesTable", function(req, res){
         dir_products_categories_subcategories.getDataForTable({tableColumns:dirProductsSubcategoriesBataTableColumns,
                 identifier:dirProductsSubcategoriesBataTableColumns[0].data,
-                conditions:req.query},
+                conditions:req.query,
+                order:["CATEGORY_CODE","SUBCATEGORY_CODE"]},
             function(result){
                 res.send(result);
             });
@@ -344,7 +386,7 @@ module.exports.init = function(app){
     });
     app.get("/dir/products/newDataForProductsCollectionsTable", function(req, res){
         dir_products_collections.setDataItemForTable({tableColumns:dirProductsCollectionsTableColumns,
-                values:[null,"","Новая коллекция"]},
+                values:[null,"Новая коллекция",""]},
             function(result){
                 res.send(result);
             });

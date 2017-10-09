@@ -27,22 +27,27 @@ define(["dojo/_base/declare", "app", "templateDocumentSimpleTable", "hTableEdita
                 return this;
             },
 
-            /*
-             * actionParams: { action:"insertTableRow"/"allowEditTableSelectedRow"/"storeTableSelectedRow"/"deleteTableSelectedRow" }
-             * actionFunction = function()
+            /**
+             * actionParams: {
+             *      btnStyle, btnParams,
+             *      actionFunction = function()
+             *      actionName:"insertTableRow"/"allowEditTableSelectedRow"/"storeTableSelectedRow"/"deleteTableSelectedRow"
+             * }
              */
-            addToolPaneTableActionButton: function(label, actionParams, btnStyle, btnParams, actionFunction){
+            addToolPaneTableActionButton: function(label, actionParams){
                 if(!this.rightContainer) {
                     console.log("WARNING! Failed addToolPaneTableActionButton! Reason: no rightContainer!");
                     return this;
                 }
                 if (!this.toolPanes||this.toolPanes.length==0) this.addToolPane("");
                 var actionsTableRow= this.addRowToTable(this.toolPanes[this.toolPanes.length-1].containerNode.lastChild);
-                var actionButton= this.addTableCellButtonTo(actionsTableRow, {labelText:label, cellWidth:0, btnStyle:btnStyle, btnParameters:btnParams});
+                if(!actionParams) actionParams={};
+                var actionButton= this.addTableCellButtonTo(actionsTableRow, {labelText:label, cellWidth:0,
+                    btnStyle:actionParams.btnStyle, btnParameters:actionParams.btnParams});
                 if (!this.toolPanesActionButtons) this.toolPanesActionButtons={};
                 this.toolPanesActionButtons[actionParams.action]= actionButton;
-                if(actionFunction) {
-                    actionButton.onClick=actionFunction;
+                if(actionParams.actionFunction) {
+                    actionButton.onClick=actionParams.actionFunction;
                     actionButton.contentTable= this.contentTable;
                 } else {
                     actionButton.onClick= this.getOnClickButtonTableAction(actionParams);
@@ -52,22 +57,22 @@ define(["dojo/_base/declare", "app", "templateDocumentSimpleTable", "hTableEdita
             },
             getOnClickButtonTableAction: function(actionParams){
                 var actionFunction, thisInstance=this;
-                if (actionParams&&actionParams.action=="insertTableRow"){
+                if (actionParams&&actionParams.actionName=="insertTableRow"){
                     actionFunction= function(){
                         thisInstance.contentTable.insertRowAfterSelected();
                         if (thisInstance.dataNewURL)
                             thisInstance.contentTable.getRowDataFromURL({url:thisInstance.dataNewURL, condition:null,
                                 rowData:thisInstance.contentTable.getSelectedRow(), consoleLog:true, callUpdateContent:false});
                     };
-                } else if (actionParams&&actionParams.action=="allowEditTableSelectedRow"){
+                } else if (actionParams&&actionParams.actionName=="allowEditTableSelectedRow"){
                     actionFunction= function(){
                         thisInstance.contentTable.allowEditSelectedRow();
                     };
-                } else if (actionParams&&actionParams.action=="storeTableSelectedRow"){
+                } else if (actionParams&&actionParams.actionName=="storeTableSelectedRow"){
                     actionFunction= function(){
                         thisInstance.contentTable.storeSelectedRowDataByURL({url:thisInstance.dataStoreURL, condition:null});
                     };
-                } else if (actionParams&&actionParams.action=="deleteTableSelectedRow"){
+                } else if (actionParams&&actionParams.actionName=="deleteTableSelectedRow"){
                     actionFunction= function(){
                         thisInstance.contentTable.deleteSelectedRowDataByURL({url:thisInstance.dataDeleteURL, condition:null});
                     };
@@ -75,13 +80,14 @@ define(["dojo/_base/declare", "app", "templateDocumentSimpleTable", "hTableEdita
                 return actionFunction;
             },
 
-            /*
-             * actionParams = { action: "insertTableRowsAfterSelected" / "allowEditTableSelectedRows" / "storeTableSelectedRows" }
-             *
+            /**
+             * actionParams = {
+             *      actionName: "insertTableRowsAfterSelected" / "allowEditTableSelectedRows" / "storeTableSelectedRows"
+             * }
              */
-            addContentTablePopupMenuItemAction: function(itemName, actionParams){
+            addContentTablePopupMenuTableRowsAction: function(itemName, actionParams){
                 var menuItemCallback, thisInstance=this;
-                if (actionParams.action==="insertTableRowsAfterSelected"){
+                if (actionParams.actionName==="insertTableRowsAfterSelected"){
                     menuItemCallback= function(selRowsData){
                         var count=0;
                         if(selRowsData.length>0) {
@@ -90,17 +96,17 @@ define(["dojo/_base/declare", "app", "templateDocumentSimpleTable", "hTableEdita
                         } else
                             thisInstance.contentTable.insertRowAfterSelected();
                     }
-                } else if (actionParams.action==="allowEditTableSelectedRows"){
+                } else if (actionParams.actionName==="allowEditTableSelectedRows"){
                     menuItemCallback= function(selRowsData){
                         thisInstance.contentTable.allowEditRows(selRowsData);
                     }
-                } else if (actionParams.action==="storeTableSelectedRows"){
+                } else if (actionParams.actionName==="storeTableSelectedRows"){
                     menuItemCallback= function(selRowsData){
                         thisInstance.contentTable.storeRowsDataByURL({url:thisInstance.dataStoreURL, rowsData:selRowsData, condition:null});
                     }
                 }
                 if (menuItemCallback)
-                    this.contentTable.setMenuItem(this.id+actionParams.action, itemName, {}, menuItemCallback);
+                    this.contentTable.setMenuItem(itemName, {}, menuItemCallback);
                 return this;
             }
         });
