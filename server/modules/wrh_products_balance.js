@@ -22,7 +22,7 @@ module.exports.init = function(app) {
             return;
         }
         var prodID=params.prodData["PRODUCT_ID"], thisInstance=this;
-        this.getDataItem({fieldFunction:{name:"NEWBATCHNUMBER", function:"maxPlus1", sourceField:"BATCH_NUMBER"},
+        this.getDataItem({fields:["NEWBATCHNUMBER"],fieldsFunctions:{"NEWBATCHNUMBER":{function:"maxPlus1", sourceField:"BATCH_NUMBER"}},
                 conditions:{"PRODUCT_ID=":prodID}},
             function(result) {
                 var newBatchNumber = (result && result.item) ? result.item["NEWBATCHNUMBER"] : "1";

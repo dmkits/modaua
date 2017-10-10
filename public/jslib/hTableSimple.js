@@ -154,6 +154,11 @@ define(["dojo/_base/declare", "dijit/layout/ContentPane","dojox/widget/Standby",
                                     td.innerHTML= moment(new Date(value) /*value,"YYYY-MM-DD"*/).format(cellProperties["datetimeFormat"]);
                                 else td.innerHTML="";
                             }
+                            if (cellProperties["align"]){
+                                if(cellProperties["align"]=="left") td.setAttribute("style","text-align:left");
+                                if(cellProperties["align"]=="center") td.setAttribute("style","text-align:center");
+                                if(cellProperties["align"]=="right") td.setAttribute("style","text-align:right");
+                            }
                         }
                         var rowSourceData= instance.getContentRow(row);
                         if(rowSourceData&&rowSourceData[instance.getSettings().htDataSelectedProp]===true) td.classList.add('hTableCurrentRow');

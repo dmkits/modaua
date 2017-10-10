@@ -65,7 +65,7 @@ module.exports.init = function(app){
             });
     });
     app.get("/wrh/pInvoices/getNewPInvData", function(req, res){
-        wrh_pinvs.getDataItem({fieldFunction:{name:"MAXNUMBER", function:"maxPlus1", sourceField:"NUMBER"},
+        wrh_pinvs.getDataItem({fields:["MAXNUMBER"],fieldsFunctions:{"MAXNUMBER":{function:"maxPlus1", sourceField:"NUMBER"}},
                 conditions:{"1=1":null}},
             function(result){
                 var newNumber=(result&&result.item)?result.item["MAXNUMBER"]:"", docDate=dateFormat(new Date(),"yyyy-mm-dd");

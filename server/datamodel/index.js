@@ -85,9 +85,9 @@ function initValidateDataModel(dataModelName, dataModel, errs, nextValidateDataM
     dataModel.updTableDataItem= _updTableDataItem;
     dataModel.storeTableDataItem= _storeTableDataItem;
     dataModel.delTableDataItem= _delTableDataItem;
-    if(!tableName) {
+    if(!tableName&&!viewName) {
         errs[dataModelName+"_initError"]="Failed init dataModel:"+dataModelName
-            +"! Reason: no model table name!";                                                          log.error('FAILED init dataModel:'+dataModelName+"! Reason: no model table name!");//test
+            +"! Reason: no model table or view name!";                                                  log.error('FAILED init dataModel:'+dataModelName+"! Reason: no model table or view name!");//test
         nextValidateDataModelCallback();
         return;
     }
@@ -156,7 +156,7 @@ module.exports.initValidateDataModels=function(dataModelsList, errs, resultCallb
  * fieldsFunctions[].function: "maxPlus1" / "concat"
  * resultCallback = function(err, recordset)
  */
-function _getSelectItems(params, resultCallback){                                                       //log.debug("_getSelectItems params:",params,{});//test
+function _getSelectItems(params, resultCallback){                                                       log.debug("_getSelectItems params:",params,{});//test
     if(!params){                                                                                        log.error("FAILED _getSelectItems! Reason: no function parameters!");//test
         resultCallback("FAILED _getSelectItems! Reason: no function parameters!");
         return;
@@ -194,7 +194,8 @@ function _getSelectItems(params, resultCallback){                               
                     fieldFunction="CONCAT("+fieldFunction+")";
                 } else if(fieldFunctionData.function&&fieldFunctionData.sourceField){
                     fieldFunction=fieldFunctionData.function+"("+((fieldFunctionData.source)?fieldFunctionData.source+".":"")+fieldFunctionData.sourceField+")";
-                }
+                } else if(fieldFunctionData.function)
+                    fieldFunction=fieldFunctionData.function;
             }
         }
         queryFields+= ((fieldFunction)?fieldFunction+" as ":"") + fieldName;
@@ -310,21 +311,19 @@ function _getDataItems(params, resultCallback){                                 
 /**
  * params = { source,
  *      fields = [<tableFieldName>,<tableFieldName>,<tableFieldName>,...],
- *      fieldFunction = { name:<fieldName>, function:<function>, sourceField:<function field name> },
- *      conditions={ <condition>:<conditionValue>, ... },
+ *      fieldsFunctions = {
+ *          <fieldName>:
+ *              "<function>" OR
+ *              { function:<function>, source:<functionSource>, sourceField:<functionSourceField>, fields:[ <functionBodySourceFieldName> ] },
+ *      ... },conditions={ <condition>:<conditionValue>, ... },
  * }
- * fieldFunction: "maxPlus1"
+ *      <function>: "maxPlus1"
  * resultCallback = function(result = { item:{<tableFieldName>:<value>,...}, error, errorCode } )
  */
 function _getDataItem(params, resultCallback){
     if(!params) params={};
     if(!params.source) params.source= this.source;
     if(!params.fields) params.fields=this.fields;
-    if(params.fieldFunction) {
-        params.fields=[params.fieldFunction.name];
-        params.fieldsFunctions = {};
-        params.fieldsFunctions[params.fieldFunction.name]={ function:params.fieldFunction.function, sourceField:params.fieldFunction.sourceField };
-    }
     _getDataItems(params, function(result){                                                                 log.debug('_getDataItem: _getDataItems: result:',result,{});//test
         var getDataItemResult={};
         if(result.error) getDataItemResult.error=result.error;
@@ -464,7 +463,8 @@ function _setDataItem(params, resultCallback){
  *          ...
  *      ],
  *      conditions={ <condition>:<conditionValue>, ... },
- *      order = "<orderFieldsList>"
+ *      order = "<orderFieldsList>",
+ *      tableData = { columns:tableColumns, identifier:identifier }
  * }
  * tableColumns: -<dataType> = text / html_text / text_date / text_datetime / date / numeric / numeric2 / checkbox
  * OR tableColumns: -<dataType> = text / text & dateFormat:"DD.MM.YY HH:mm:ss" / html_text / date /
@@ -489,20 +489,22 @@ function _getDataItemsForTable(params, resultCallback){
         return;
     }
     if(!params.source&&this.source) params.source=this.source;
-    var hasSources=false, hasChildSources=false;
+    var hasSources=false, hasAFunctions=false;
     for(var i in params.tableColumns) {
         var tableColumnData=params.tableColumns[i];
         if(tableColumnData.dataSource) hasSources=true;
-        if(tableColumnData.childDataSource) hasChildSources=true;
-        if(hasSources&&hasChildSources) break;
+        if(tableColumnData.dataFunction
+                && (tableColumnData.dataFunction.function=="sumIsNull"||tableColumnData.dataFunction.function=="rowsCountIsNull") )
+            hasAFunctions=true;
+        if(hasSources&&hasAFunctions) break;
     }
     var fieldsList=[], fieldsSources={}, fieldsFunctions, groupedFieldsList=[], addJoinedSources;
     for(var i in params.tableColumns) {
         var tableColumnData=params.tableColumns[i], fieldName=tableColumnData.data;
 
         if(this.fieldsMetadata&&this.fieldsMetadata[fieldName]) {
-            fieldsList.push(fieldName);
-            if(hasChildSources)groupedFieldsList.push(fieldName);
+            if(tableColumnData.name) fieldsList.push(fieldName);
+            if(tableColumnData.name&&hasAFunctions)groupedFieldsList.push(fieldName);
             if(tableColumnData.dataSource&&tableColumnData.dataField)
                 fieldsSources[fieldName]=tableColumnData.dataSource+"."+tableColumnData.dataField;
             else if(tableColumnData.dataSource)
@@ -510,18 +512,24 @@ function _getDataItemsForTable(params, resultCallback){
             else if(hasSources&&(params.source||this.source))
                 fieldsSources[fieldName]=((params.source)?params.source:this.source)+"."+fieldName;
         } else if(tableColumnData.dataField){
-            fieldsList.push(fieldName);
-            if(hasChildSources)groupedFieldsList.push(fieldName);
-            if(tableColumnData.dataSource) fieldsSources[fieldName]=tableColumnData.dataSource+"."+tableColumnData.dataField;
-            else fieldsSources[fieldName]=tableColumnData.dataSource+"."+fieldName;
+            if(tableColumnData.name) fieldsList.push(fieldName);
+            if(tableColumnData.name&&hasAFunctions)groupedFieldsList.push(fieldName);
+            if(tableColumnData.dataSource&&tableColumnData.dataField)
+                fieldsSources[fieldName]=tableColumnData.dataSource+"."+tableColumnData.dataField;
+            else if(tableColumnData.dataSource)
+                fieldsSources[fieldName]=tableColumnData.dataSource+"."+fieldName;
+            else if(tableColumnData.dataField)
+                fieldsSources[fieldName]=tableColumnData.dataField;
         } else if(tableColumnData.dataFunction){
-            fieldsList.push(fieldName);
-            if(!tableColumnData.childDataSource&&hasChildSources) groupedFieldsList.push(fieldName);
+            if(tableColumnData.name) fieldsList.push(fieldName);
+            if(hasAFunctions&&tableColumnData.name&&!tableColumnData.dataFunction
+                    &&tableColumnData.dataFunction.function!="sumIsNull"&&tableColumnData.dataFunction.function!="rowsCountIsNull")
+                groupedFieldsList.push(fieldName);
             if(!fieldsFunctions)fieldsFunctions={};
             fieldsFunctions[fieldName]= tableColumnData.dataFunction;
         } else if(!this.fieldsMetadata) {
-            fieldsList.push(fieldName);
-            if(hasChildSources)groupedFieldsList.push(fieldName);
+            if(tableColumnData.name) fieldsList.push(fieldName);
+            if(tableColumnData.name&&hasAFunctions)groupedFieldsList.push(fieldName);
         }
         if(tableColumnData.dataSource && this.joinedSources&&this.joinedSources[tableColumnData.dataSource]){
             if(!params.joinedSources) params.joinedSources={};
@@ -546,8 +554,10 @@ function _getDataItemsForTable(params, resultCallback){
     }
     params.fields=fieldsList;
     params.fieldsSources=fieldsSources;
-    if(addJoinedSources&&params.joinedSources)
+    if(addJoinedSources){
+        if(!params.joinedSources) params.joinedSources={};
         for(var sourceName in addJoinedSources) params.joinedSources[sourceName]=addJoinedSources[sourceName];
+    }
     params.fieldsFunctions=fieldsFunctions;
     if(groupedFieldsList.length>0)params.groupedFields=groupedFieldsList;
     _getSelectItems(params, function(err, recordset){
@@ -558,27 +568,28 @@ function _getDataItemsForTable(params, resultCallback){
 }
 function _getDataItemForTable(params, resultCallback){
     this.getDataItemsForTable(params,function(tableData){
-        var itemTableData={};
+        var tableDataItem={};
         for(var itemName in tableData){
             if(itemName!="items"){
-                itemTableData[itemName]=tableData[itemName];
+                tableDataItem[itemName]=tableData[itemName];
                 continue;
             }
             var tableDataItems=tableData.items;
             if(tableDataItems&&tableDataItems.length>1){
-                itemTableData.error="Failed get data item for table! Reason: result contains more that one items!";
+                tableDataItem.error="Failed get data item for table! Reason: result contains more that one items!";
                 continue;
             } else if(!tableDataItems||tableDataItems.length==0){
                 continue;
             }
-            itemTableData.item=tableDataItems[0];
+            tableDataItem.item=tableDataItems[0];
         }
-        resultCallback(itemTableData);
+        resultCallback(tableDataItem);
     });
 }
 /**
  * tableColumns = [
- *      { data:<tableFieldName>, name:<tableColumnHeader>, width:<tableColumnWidth>, type:<dataType>, readOnly:true/false, visible:true/false },
+ *      { data:<tableFieldName>, name:<tableColumnHeader>, width:<tableColumnWidth>, type:<dataType>, align:"left"/"center"/"right",
+ *          useFilter:true/false default:true, readOnly:true/false, default:false, visible:true/false default:true },
  *       ...
  * ]
  * tableColumns: -<dataType> = text / html_text / text_date / text_datetime / date / numeric / numeric2 / checkbox
@@ -588,37 +599,57 @@ function _getDataItemForTable(params, resultCallback){
  *              checkbox, checkedTemplate:1, uncheckedTemplate:0 /
  *              autocomplete, strict, allowInvalid, sourceURL
  */
-function _fillDataTypeForTableColumns(tableColumns){
+function _getTableColumnsDataForHTable(tableColumns){
     if (!tableColumns) return tableColumns;
+    var tableColumnsDataForHTable=[];
     for(var col=0;col<tableColumns.length;col++){
         var tableColData=tableColumns[col];
-        if(!tableColData) continue;
-        if (tableColData.type=="dateAsText"){
-            tableColData.type="text";
-            //if(!tableColData.dateFormat) tableColData.dateFormat="DD.MM.YY";
-            if(!tableColData.datetimeFormat) tableColData.datetimeFormat="DD.MM.YY";
-        } else if (tableColData.type=="datetimeAsText"){
-            tableColData.type="text";
-            //if(!tableColData.dateFormat) tableColData.dateFormat="DD.MM.YY HH:mm:ss";
-            if(!tableColData.datetimeFormat) tableColData.datetimeFormat="DD.MM.YY HH:mm:ss";
-        } else if(tableColData.type=="numeric"){
-            if(!tableColData.format) tableColData.format="#,###,###,##0.[#########]";
-            if(!tableColData.language) tableColData.language="ru-RU";
-        } else if(tableColData.type=="numeric2"){
-            tableColData.type="numeric";
-            if(!tableColData.format) tableColData.format="#,###,###,##0.00[#######]";
-            if(!tableColData.language) tableColData.language="ru-RU";
-        } else if(tableColData.type=="checkbox"){
-            if(!tableColData.checkedTemplate) tableColData.checkedTemplate="1";
-            if(!tableColData.uncheckedTemplate) tableColData.uncheckedTemplate="0";
-        } else if(tableColData.type=="combobox"||tableColData.type=="comboboxWN") {
-            if (!tableColData.strict)
-                if(tableColData.type=="combobox") tableColData.strict =true; else tableColData.strict= false;
-            if (!tableColData.allowInvalid) tableColData.allowInvalid= false;
-            tableColData.type="autocomplete";
+        if(!tableColData||!tableColData.data||!tableColData.name) continue;
+        var tableColumnsDataItemForHTable= { data:tableColData.data };
+        if(tableColData.name!==undefined) tableColumnsDataItemForHTable.name=tableColData.name;
+        if(tableColData.width!==undefined) tableColumnsDataItemForHTable.width=tableColData.width;
+        if(tableColData.type!==undefined) tableColumnsDataItemForHTable.type=tableColData.type;
+        if(tableColData.align!==undefined) tableColumnsDataItemForHTable.align=tableColData.align;
+        if(tableColData.useFilter!==undefined) tableColumnsDataItemForHTable.useFilter=tableColData.useFilter;
+        if(tableColData.readOnly!==undefined) tableColumnsDataItemForHTable.readOnly=tableColData.readOnly;
+        if(tableColData.visible!==undefined) tableColumnsDataItemForHTable.visible=tableColData.visible;
+        if(tableColData.format!==undefined) tableColumnsDataItemForHTable.format=tableColData.format;
+        if(tableColData.datetimeFormat!==undefined) tableColumnsDataItemForHTable.datetimeFormat=tableColData.datetimeFormat;
+        if(tableColData.format!==undefined) tableColumnsDataItemForHTable.format=tableColData.format;
+        if(tableColData.language!==undefined) tableColumnsDataItemForHTable.language=tableColData.language;
+        if(tableColData.checkedTemplate!==undefined) tableColumnsDataItemForHTable.checkedTemplate=tableColData.checkedTemplate;
+        if(tableColData.uncheckedTemplate!==undefined) tableColumnsDataItemForHTable.uncheckedTemplate=tableColData.uncheckedTemplate;
+        if(tableColData.strict!==undefined) tableColumnsDataItemForHTable.strict=tableColData.strict;
+        if(tableColData.allowInvalid!==undefined) tableColumnsDataItemForHTable.allowInvalid=tableColData.allowInvalid;
+        if(tableColData.sourceURL!==undefined) tableColumnsDataItemForHTable.sourceURL=tableColData.sourceURL;
+        tableColumnsDataForHTable.push(tableColumnsDataItemForHTable);
+        if (tableColumnsDataItemForHTable.type=="dateAsText"){
+            tableColumnsDataItemForHTable.type="text";
+            //if(!tableColumnsDataItemForHTable.dateFormat) tableColumnsDataItemForHTable.dateFormat="DD.MM.YY";
+            if(!tableColumnsDataItemForHTable.datetimeFormat) tableColumnsDataItemForHTable.datetimeFormat="DD.MM.YY";
+        } else if (tableColumnsDataItemForHTable.type=="datetimeAsText"){
+            tableColumnsDataItemForHTable.type="text";
+            //if(!tableColumnsDataItemForHTable.dateFormat) tableColumnsDataItemForHTable.dateFormat="DD.MM.YY HH:mm:ss";
+            if(!tableColumnsDataItemForHTable.datetimeFormat) tableColumnsDataItemForHTable.datetimeFormat="DD.MM.YY HH:mm:ss";
+        } else if(tableColumnsDataItemForHTable.type=="numeric"){
+            if(!tableColumnsDataItemForHTable.format) tableColumnsDataItemForHTable.format="#,###,###,##0.[#########]";
+            if(!tableColumnsDataItemForHTable.language) tableColumnsDataItemForHTable.language="ru-RU";
+        } else if(tableColumnsDataItemForHTable.type=="numeric2"){
+            tableColumnsDataItemForHTable.type="numeric";
+            if(!tableColumnsDataItemForHTable.format) tableColumnsDataItemForHTable.format="#,###,###,##0.00[#######]";
+            if(!tableColumnsDataItemForHTable.language) tableColumnsDataItemForHTable.language="ru-RU";
+        } else if(tableColumnsDataItemForHTable.type=="checkbox"){
+            if(!tableColumnsDataItemForHTable.checkedTemplate) tableColumnsDataItemForHTable.checkedTemplate="1";
+            if(!tableColumnsDataItemForHTable.uncheckedTemplate) tableColumnsDataItemForHTable.uncheckedTemplate="0";
+        } else if(tableColumnsDataItemForHTable.type=="combobox"||tableColumnsDataItemForHTable.type=="comboboxWN") {
+            if (!tableColumnsDataItemForHTable.strict)
+                if(tableColumnsDataItemForHTable.type=="combobox") tableColumnsDataItemForHTable.strict =true;
+                else tableColumnsDataItemForHTable.strict= false;
+            if (!tableColumnsDataItemForHTable.allowInvalid) tableColumnsDataItemForHTable.allowInvalid= false;
+            tableColumnsDataItemForHTable.type="autocomplete";
         }
     }
-    return tableColumns;
+    return tableColumnsDataForHTable;
 }
 /**
  * params = { source,
@@ -652,7 +683,8 @@ function _getDataForTable(params, resultCallback){
         resultCallback(tableData);
         return;
     }
-    tableData.columns= _fillDataTypeForTableColumns(params.tableColumns);
+
+    tableData.columns= _getTableColumnsDataForHTable(params.tableColumns);
     tableData.identifier=params.identifier;
     if (!params.conditions) {
         resultCallback(tableData);

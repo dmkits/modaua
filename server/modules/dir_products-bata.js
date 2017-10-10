@@ -698,7 +698,7 @@ module.exports.init = function(app){
                                     return;
                                 }
                                 for(var resultItemName in result.resultItem) insProdData[resultItemName]=result.resultItem[resultItemName];
-                                thisInstance.getDataItem({fieldFunction:{name:"MAXCODE", function:"maxPlus1", sourceField:"CODE"},
+                                thisInstance.getDataItem({fields:["MAXCODE"],fieldsFunctions:{"MAXCODE":{function:"maxPlus1", sourceField:"CODE"}},
                                         conditions:{"1=1":null}},
                                     function(result) {
                                         var newCode = (result && result.item) ? result.item["MAXCODE"] : "";

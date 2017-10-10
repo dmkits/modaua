@@ -44,6 +44,7 @@ define(["dojo/_base/declare", "hTableSimple"], function(declare, HTableSimple){
             var parent= this;
             handsontableSettings.colHeadersFilterButton= function (colIndex) {
                 if(parent.useFilters!=true) return "";
+                if(parent.htVisibleColumns&&parent.htVisibleColumns[colIndex]&&parent.htVisibleColumns[colIndex].useFilter===false) return "";
                 var filterButton = document.createElement('BUTTON');
                 filterButton.id = "filter_button_for_col_"+colIndex; filterButton.innerHTML = "\u25BC"; filterButton.className = "changeType";
                 if (this.columns[colIndex]["filtered"]==true) filterButton.style.color = 'black'; else filterButton.style.color = '#bbb';

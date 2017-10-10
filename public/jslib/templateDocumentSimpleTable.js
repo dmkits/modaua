@@ -72,9 +72,9 @@ define(["dojo/_base/declare", "app", "templateDocumentBase", "hTableSimpleFilter
             },
             loadTableContent: function(additionalCondition){                                                            //console.log("TemplateDocumentSimpleTable loadTableContent");
                 var condition = (this.dataURLCondition)?this.dataURLCondition:{};
-                if (this.beginDateBox) condition[this.beginDateBox.conditionName] =
+                if (this.beginDateBox) condition[this.beginDateBox.conditionName.replace("=","~")] =
                     this.beginDateBox.format(this.beginDateBox.get("value"),{selector:"date",datePattern:"yyyy-MM-dd"});
-                if (this.endDateBox) condition[this.endDateBox.conditionName] =
+                if (this.endDateBox) condition[this.endDateBox.conditionName.replace("=","~")] =
                     this.endDateBox.format(this.endDateBox.get("value"),{selector:"date",datePattern:"yyyy-MM-dd"});
                 if (this.btnsConditions) {
                     for(var ibtn=0;ibtn<this.btnsConditions.length;ibtn++){
@@ -84,7 +84,8 @@ define(["dojo/_base/declare", "app", "templateDocumentBase", "hTableSimpleFilter
                     }
                 }
                 if (additionalCondition)
-                    for(var addConditionItemName in additionalCondition) condition[addConditionItemName]=additionalCondition[addConditionItemName];
+                    for(var addConditionItemName in additionalCondition)
+                        condition[addConditionItemName.replace("=","~")]=additionalCondition[addConditionItemName];
                 this.contentTable.setContentFromUrl({url:this.dataURL,condition:condition, clearContentBeforeLoad:true});
             },
             reloadTableContentByCondition: function(additionalCondition){                                                     //console.log("TemplateDocumentSimpleTable reloadTableContentByCondition condition=",condition);

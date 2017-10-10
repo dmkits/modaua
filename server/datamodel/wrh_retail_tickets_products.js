@@ -8,7 +8,8 @@ var changeLog = [
         "field":"RETAIL_TICKET_ID"},
     { 'changeID':'wrh_retail_tickets_products__3', 'changeDatetime':'2016-09-26 22:23:00', 'changeObj':'wrh_retail_tickets_products',
         'changeVal':'ALTER TABLE wrh_retail_tickets_products ADD CONSTRAINT WRH_RETAIL_TICKETS_PRODUCTS_RETAIL_TICKET_ID_FK ' +
-            'FOREIGN KEY (RETAIL_TICKET_ID) REFERENCES wrh_retail_tickets(ID)' },
+            'FOREIGN KEY (RETAIL_TICKET_ID) REFERENCES wrh_retail_tickets(ID)',
+        "field":"RETAIL_TICKET_ID", "source":"wrh_retail_tickets", "linkField":"ID" },
     { 'changeID':'wrh_retail_tickets_products__4', 'changeDatetime':'2016-09-26 22:24:00', 'changeObj':'wrh_retail_tickets_products',
         'changeVal':'ALTER TABLE wrh_retail_tickets_products ADD COLUMN POS INTEGER UNSIGNED NOT NULL',
         "field":"POS"},
@@ -17,7 +18,8 @@ var changeLog = [
         "field":"PRODUCT_ID"},
     { 'changeID':'wrh_retail_tickets_products__6', 'changeDatetime':'2016-09-26 22:26:00', 'changeObj':'wrh_retail_tickets_products',
         'changeVal':'ALTER TABLE wrh_retail_tickets_products ADD CONSTRAINT WRH_RETAIL_TICKETS_PRODUCTS_PRODUCT_ID_FK ' +
-            'FOREIGN KEY (PRODUCT_ID) REFERENCES dir_products(ID)' },
+            'FOREIGN KEY (PRODUCT_ID) REFERENCES dir_products(ID)',
+        "field":"PRODUCT_ID", "source":"dir_products", "linkField":"ID" },
     { 'changeID':'wrh_retail_tickets_products__7', 'changeDatetime':'2016-09-26 22:27:00', 'changeObj':'wrh_retail_tickets_products',
         'changeVal':'ALTER TABLE wrh_retail_tickets_products ADD COLUMN QTY DECIMAL(12,3) NOT NULL',
         "field":"QTY"},

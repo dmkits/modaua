@@ -25,50 +25,63 @@
     "wrh_invoices-bata",
     "wrh_ret_invoices-bata",
     "wrh_retail_tickets",
+    "reports_retail_cashier-bata",
     "wrh_products_balance"
   ],
   "appMenu":[
     { "menuTitle":"Главная страница", "menuItemName":"menuBarItemMainPage", "pageTitle":"Главная страница", "module":"mainPage", "closable":false},
-    { "menuItemName":"menuBarPopupMenuMain", "menuTitle":"Предприятие",
-      "popupMenu":[
-        { "menuTitle":"Подразделения", "menuItemName":"menuBarDirsItemUnits", "pageTitle":"Подразделения", "module":"dir_units", "closable":true},
-        { "menuItemName":"separator_dir1"},
-        { "menuTitle":"Контрагенты", "menuItemName":"menuBarDirsItemContractors", "pageTitle":"Контрагенты", "module":"dir_contractors", "closable":true},
-        { "menuItemName":"separator_dir2"},
-        { "menuTitle":"Товарные номенклатуры", "menuItemName":"menuBarDirsItemProducts", "pageTitle":"Товарные номенклатуры", "module":"dir_products-bata", "closable":true}
-      ]},
-    { "menuItemName":"menuBarWrh", "menuTitle":"Склад",
+    { "menuItemName":"menuBarWrhPur", "menuTitle":"Закупки",
       "popupMenu":[
         { "menuItemName":"menuBarWrhOrdersBata", "menuTitle":"Заказы (Bata)", "pageTitle":"Заказы (Bata)", "module":"wrh_orders-bata", "closable":true},
-        { "menuItemName":"separator_wrh1"},
+        { "menuItemName":"separatorWrhPur1"},
         { "menuItemName":"menuBarWrhPInvoices", "menuTitle":"Приходные накладные", "pageTitle":"Приходные накладные", "module":"wrh_pinvoices-bata", "closable":true},
-        { "menuItemName":"separator_wrh2"},
-        {"menuItemName":"menuBarWrhInvoices", "menuTitle":"Расходные накладные", "pageTitle":"Расходные накладные", "module":"wrh_invoices-bata", "closable":true},
-        {"menuItemName":"menuBarWrhRetInvoices", "menuTitle":"Возвратные накладные", "pageTitle":"Возвратные накладные", "module":"wrh_ret_invoices-bata", "closable":true},
-        { "menuItemName":"separator_wrh3"},
-        { "menuItemName":"menuBarWrhProdsBalance", "menuTitle":"Остатки товара", "pageTitle":"Остатки товара", "module":"wrh_prods_balance", "closable":true},
+        { "menuItemName":"separatorWrhPur2"},
+        { "menuItemName":"menuBarWrhPurReps", "menuTitle":"Отчеты по закупкам", "pageTitle":"Отчеты по закупкам", "module":"", "closable":true}
+      ]},
+    { "menuItemName":"menuBarWrh", "menuTitle":"Запасы (склад)",
+      "popupMenu":[
+        { "menuItemName":"menuBarWrhProdsBalance", "menuTitle":"Остатки товаров", "pageTitle":"Остатки товаров", "module":"wrh_prods_balance", "closable":true},
+        { "menuItemName":"separatorWrh1"},
         { "menuItemName":"menuBarWrhProdsMoves", "menuTitle":"Движение товаров", "pageTitle":"Движение товаров", "module":"wrh_prods_moves", "closable":true}
       ]},
-    { "menuTitle":"Отчеты кассира", "menuItemName":"menuBarItemSalesCashier", "pageTitle":"Отчеты кассира", "module":"sales_cashier", "closable":false},
-    { "menuItemName":"menuBarPopupMenuSales", "menuTitle":"Продажи",
+    { "menuItemName":"menuBarWrhSales", "menuTitle":"Продажи",
       "popupMenu":[
-        { "menuTitle":"Отчеты кассира", "menuItemName":"menuBarSalesItemCashier", "pageTitle":"Отчеты кассира", "module":"sales_cashier", "closable":true}
+        { "menuItemName":"menuBarWrhInvoices", "menuTitle":"Расходные накладные", "pageTitle":"Расходные накладные", "module":"wrh_invoices-bata", "closable":true},
+        { "menuItemName":"menuBarWrhRetInvoices", "menuTitle":"Возвратные накладные", "pageTitle":"Возвратные накладные", "module":"wrh_ret_invoices-bata", "closable":true},
+        { "menuItemName":"separatorWrhSales1"},
+        { "menuItemName":"menuBarWrhSalesReps", "menuTitle":"Отчеты по продажам", "pageTitle":"Отчеты по продажам", "module":"", "closable":true},
+        { "menuItemName":"separatorWrhSales2"},
+        { "menuItemName":"menuBarSalesItemCashier", "menuTitle":"Отчеты кассира", "pageTitle":"Отчеты кассира", "module":"reports_retail_cashier-bata", "closable":true}
+      ]},
+    { "menuItemName":"menuBarItemSalesCashier", "menuTitle":"Отчеты кассира", "pageTitle":"Отчеты кассира", "module":"reports_retail_cashier-bata", "closable":false},
+    /*{ "menuItemName":"menuBarPopupMenuPrices", "menuTitle":"Цены",
+      "popupMenu":[
+      ]},*/
+    { "menuItemName":"menuBarPopupMenuDirs", "menuTitle":"Справочники",
+      "popupMenu":[
+        { "menuItemName":"menuBarDirsItemUnits", "menuTitle":"Подразделения", "pageTitle":"Подразделения", "module":"dir_units", "closable":true},
+        { "menuItemName":"separatorDir1"},
+        { "menuItemName":"menuBarDirsItemContractors", "menuTitle":"Контрагенты", "pageTitle":"Контрагенты", "module":"dir_contractors", "closable":true},
+        { "menuItemName":"separatorDir2"},
+        { "menuItemName":"menuBarDirsItemProducts", "menuTitle":"Товарные номенклатуры", "pageTitle":"Товарные номенклатуры", "module":"dir_products-bata", "closable":true}
       ]},
     { "menuItemName":"menuBarItemClose", "menuTitle":"Выход", "action":"close"},
     { "menuItemName":"menuBarItemHelpAbout", "menuTitle":"О программе", "action":"help_about"}
   ],
   "usersRoleMenu":{
     "user":["menuBarItemMainPage",
-      "menuBarPopupMenuMain", "menuBarDirsItemUnits", "separator_dir1", "menuBarDirsItemContractors", "separator_wrh2", "menuBarDirsItemProducts",
-      "menuBarWrh", "menuBarWrhPInvoice", "separator_wrh1", "menuBarWrhInvoice", "menuBarWrhRetInvoice", "separator_wrh2", "menuBarWrhBalance", "menuBarWrhMoves",
-      "menuBarPopupMenuSales", "menuBarSalesItemCashier",
+      "menuBarWrhPur", "menuBarWrhPInvoice", "separatorWrhPur1", "separatorWrhPur2", "menuBarWrhPurReps",
+      "menuBarWrh","menuBarWrhBalance", "separatorWrh1", "menuBarWrhMoves",
+      "menuBarWrhSales", "menuBarWrhInvoice", "menuBarWrhRetInvoice", "separatorWrhSales1", "menuBarWrhSalesReps", "separatorWrhSales2", "menuBarSalesItemCashier",
+      "menuBarItemSalesCashier",
+      "menuBarPopupMenuDirs", "menuBarDirsItemUnits", "separatorDir1", "menuBarDirsItemContractors", "separatorDir2", "menuBarDirsItemProducts",
       "menuBarItemClose","menuBarItemHelpAbout"],
     "cashier":["menuBarItemSalesCashier",
       "menuBarItemClose","menuBarItemHelpAbout"]
   },
   "usersRoleAutorun":{
     "admin":["menuBarItemMainPage"],
-    "adminDev":["menuBarItemMainPage","menuBarDirsItemUnits","menuBarDirsItemProducts","menuBarWrhOrdersBata", "menuBarWrhPInvoices"],
+    "adminDev":["menuBarItemMainPage","menuBarDirsItemUnits","menuBarDirsItemProducts","menuBarWrhOrdersBata", "menuBarWrhPInvoices", "menuBarItemSalesCashier"],
     "user":["menuBarItemMainPage"],
     "cashier":["menuBarItemSalesCashier"]
   }

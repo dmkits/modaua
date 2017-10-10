@@ -10,8 +10,6 @@
         <table style="width:100%;">
             <tr><th>Товарные номенклатуры</th></tr>
             <tr><td>
-                <button id="dir_products_Btn_viewProducts">Товарные номенклатуры</button>
-                <br><br>
                 <button id="dir_products_Btn_viewGenders">Группы номенклатур</button>
                 <button id="dir_products_Btn_viewCategories">Категории номенклатур</button>
                 <button id="dir_products_Btn_viewSubcategories">Подкатегории номенклатур</button>
@@ -21,6 +19,8 @@
                 <button id="dir_products_Btn_viewTypes">Типы</button>
                 <br><br>
                 <button id="dir_products_Btn_viewKinds">Виды</button>
+                <br><br>
+                <button id="dir_products_Btn_viewProducts">Товарные номенклатуры</button>
             </td></tr>
         </table>
     </div>
@@ -34,9 +34,6 @@
                 var dir_products_PageContainer=
                         APP.instanceForID("dir_products_PageContainer", BorderContainer, {});
                 APP.instanceForID("dir_products_ContentPaneLeft", ContentPane, {region:'left', splitter:false});
-                var dir_products_Btn_viewProducts=
-                        APP.instanceForID("dir_products_Btn_viewProducts", Button, {style:"width:100px"});
-                domStyle.set("dir_products_Btn_viewProducts", "width", "155px");
                 var dir_products_Btn_viewGenders=
                         APP.instanceForID("dir_products_Btn_viewGenders", Button, {style:"width:100px"});
                 domStyle.set("dir_products_Btn_viewGenders", "width", "155px");
@@ -57,27 +54,10 @@
                 domStyle.set("dir_products_Btn_viewKinds", "width", "155px");
                 var dir_products_ContentContainer=
                         APP.instanceForID("dir_products_ContentContainer", StackContainer, {region:'center'});
+                var dir_products_Btn_viewProducts=
+                        APP.instanceForID("dir_products_Btn_viewProducts", Button, {style:"width:100px"});
+                domStyle.set("dir_products_Btn_viewProducts", "width", "155px");
 
-                dir_products_Btn_viewProducts.onClick= function(){
-                    if (!dir_products_Btn_viewProducts.document){
-                        dir_products_Btn_viewProducts.document =
-                                APP.childFor(dir_products_ContentContainer, "dir_products_TableProducts",
-                                        TDocumentSimpleTableEditable, {titleText:"Товарные номенклатуры",
-                                            dataURL:"/dir/products/getDataForDirProductsTable", dataURLCondition:{"1~":1},
-                                            dataStoreURL:"/dir/products/storeDirProductsTableData",
-                                            rightPane:true, rightPaneWidth:180})
-                                        .addTotalCountNumberBox("ИТОГО строк:", 140, {style:"font-weight:bold;",inputStyle:"width:50px"})
-                                        .addToolPane("Действия")
-                                        .addToolPaneTableActionButton("Изменить строку", {btnStyle:"width:145px;", actionName:"allowEditTableSelectedRow"})
-                                        .addToolPaneTableActionButton("Сохранить строку", {btnStyle:"width:145px;", actionName:"storeTableSelectedRow"})
-//                                        .addToolPaneTableActionButton("Удалить строку", {btnStyle:"width:145px;", actionName:"deleteTableSelectedRow"})
-//                                        .addContentTablePopupMenuTableRowsAction("Добавить строки",{actionName:"insertTableRowsAfterSelected"})
-                                        .addContentTablePopupMenuTableRowsAction("Изменить строки",{actionName:"allowEditTableSelectedRows"})
-                                        .addContentTablePopupMenuTableRowsAction("Сохранить строки",{actionName:"storeTableSelectedRows"})
-                                        .startUp();
-                    }
-                    dir_products_ContentContainer.selectChild(dir_products_Btn_viewProducts.document);
-                };
                 dir_products_Btn_viewGenders.onClick= function(){
                     if (!dir_products_Btn_viewGenders.document){
                         dir_products_Btn_viewGenders.document =
@@ -248,9 +228,29 @@
                     }
                     dir_products_ContentContainer.selectChild(dir_products_Btn_viewKinds.document);
                 };
+                dir_products_Btn_viewProducts.onClick= function(){
+                    if (!dir_products_Btn_viewProducts.document){
+                        dir_products_Btn_viewProducts.document =
+                                APP.childFor(dir_products_ContentContainer, "dir_products_TableProducts",
+                                        TDocumentSimpleTableEditable, {titleText:"Товарные номенклатуры",
+                                            dataURL:"/dir/products/getDataForDirProductsTable", dataURLCondition:{"1~":1},
+                                            dataStoreURL:"/dir/products/storeDirProductsTableData",
+                                            rightPane:true, rightPaneWidth:180})
+                                        .addTotalCountNumberBox("ИТОГО строк:", 140, {style:"font-weight:bold;",inputStyle:"width:50px"})
+                                        .addToolPane("Действия")
+                                        .addToolPaneTableActionButton("Изменить строку", {btnStyle:"width:145px;", actionName:"allowEditTableSelectedRow"})
+                                        .addToolPaneTableActionButton("Сохранить строку", {btnStyle:"width:145px;", actionName:"storeTableSelectedRow"})
+//                                        .addToolPaneTableActionButton("Удалить строку", {btnStyle:"width:145px;", actionName:"deleteTableSelectedRow"})
+//                                        .addContentTablePopupMenuTableRowsAction("Добавить строки",{actionName:"insertTableRowsAfterSelected"})
+                                .addContentTablePopupMenuTableRowsAction("Изменить строки",{actionName:"allowEditTableSelectedRows"})
+                                .addContentTablePopupMenuTableRowsAction("Сохранить строки",{actionName:"storeTableSelectedRows"})
+                                .startUp();
+                    }
+                    dir_products_ContentContainer.selectChild(dir_products_Btn_viewProducts.document);
+                };
 
                 dir_products_PageContainer.layout();
-                dir_products_Btn_viewProducts.onClick();
+                dir_products_Btn_viewGenders.onClick();
             });
 </script>
 </html>

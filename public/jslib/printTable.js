@@ -26,7 +26,7 @@ var calcTableWidth = function (printSectionData) {
 /*
  * tableColumns: [
  *  {"data":"date", "name":"DATE","width":80, "type":"date", format:"DD.MM.YYYY" },
- *  {"data":"date2", "name":"DATE2","width":80, "type":"text", dateFormat:"DD.MM.YYYY" },
+ *  {"data":"date2", "name":"DATE2","width":80, "type":"text", datetimeFormat:"DD.MM.YYYY" },
  *  {"data":"trailer", "name":"TRAILER", "width":80, "align":"center"},
  *  {"data":"sum","name":"SUM", "width":85, "type":"currency", format:"#,###,###,##0.00#######",  printFormat:"#,###,###,##0.00#######" },
  *  {"data":"distance", "name":"DISTANCE", "width":85, "type":"numeric", format:"#,###,###,##0.#########",  printFormat:"#,###,###,##0.#########" }
@@ -72,8 +72,8 @@ var createPrintDetailTable = function (tableColumns, tableData, table_width) {  
             var data_type = tableCol.type;
             var cellValue=null, printFormat=tableCol.printFormat;
             if(!printFormat&&tableCol.format) printFormat=tableCol.format;
-            if (data_type==="text"&&tableCol.dateFormat){
-                data_type="date"; printFormat=tableCol.dateFormat;
+            if (data_type==="text"&&tableCol.datetimeFormat){
+                data_type="date"; printFormat=tableCol.datetimeFormat;
             }
             if (dataItemName) {
                 cellValue = getPrintValue(dataItem[dataItemName], data_type, printFormat);
@@ -177,9 +177,10 @@ var createDescriptiveTable = function (descriptiveData, table_width) {          
     return descriptContent;
 };
 var getBaseStyleForValue = function (ItemData) {
-    if (ItemData.type == "date" ||(ItemData.type == "text"&&ItemData.dateFormat) ) return "text-align:center;";
+    if (ItemData.type == "date" ||(ItemData.type == "text"&&ItemData.datetimeFormat) ) return "text-align:center;";
     else if (ItemData.type == "numeric") return "text-align:right;";
     else if (ItemData.type == "currency") return "text-align:right;";
+    else if (ItemData.align) return "text-align:"+ItemData.align+";";
     return "text-align:left;";
 };
 var getPrintValue = function (value, valueType, printFormat) {
