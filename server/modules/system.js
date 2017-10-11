@@ -26,6 +26,14 @@ module.exports.init = function(app) {
             res.sendStatus(500);   console.log("Impossible to parse data! Reason:"+e);
             return;
         }
+        if(!columns) {
+            res.sendStatus(500);                                     console.log("Error: No columns data to create excel file.");
+            return;
+        }
+        if(!rows) {
+            res.sendStatus(500);                                     console.log("Error: No table data to create excel file.");
+            return;
+        }
         var uniqueFileName = util.getUIDNumber();
         var fname = path.join(__dirname, '../../XLSX_temp/' + uniqueFileName + '.xlsx');
         try {fs.writeFileSync(fname);

@@ -290,40 +290,7 @@
                             }
                         })
                         .addToolPane("экспорт")
-                        .addToolPaneActionButton("таблице в эксель", {action:"exportTableContentToExcel"}, "width:200px;", {}, function(){
-                            var tableData=this.detailTable.getContent();                                              console.log("exportTableContentToExcel.onClick detailTable.content=",this.detailTable.getVisibleColumns(),this.detailTable.getContent());
-                          var visibleColumns= this.detailTable.getVisibleColumns();
-                           var columnsDataForExcel= [];
-                            for (var i in visibleColumns) {
-                                var column = visibleColumns[i];
-                                var columnForExcel = {};
-                                columnForExcel.data = column.data;
-                                columnForExcel.type = column.type;
-                                columnForExcel.name = column.name;
-                                columnForExcel.width = column.width;
-                                if (column.format)columnForExcel.format = column.format;
-                                columnsDataForExcel.push(columnForExcel);
-                            }
-                            var xhr = new XMLHttpRequest();
-                            xhr.open('POST', /*"/wrh/pInvoices/get_excel_file"*/ "/sys/getExcelFile");
-                            xhr.responseType = 'blob';
-                            xhr.send(JSON.stringify({columns:columnsDataForExcel,rows:tableData}));
-                            xhr.onload = function (e){
-                                if (this.status == 200) {
-                                    var blob = new Blob([this.response], {type:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'});
-                                    var a = document.createElement("a");
-                                    a.style = "display: none";
-                                    document.body.appendChild(a);
-                                    var url = window.URL.createObjectURL(blob);
-                                    a.href = url;
-                                    a.download = 'myExcel.xlsx';
-                                    a.click();
-                                    window.URL.revokeObjectURL(url);
-                                }else{
-                                    console.log("Impossible to load file");
-                                }
-                            };
-                        })
+                        .addToolPaneActionButton("таблица в эксель", {action:"exportTableContentToExcel"}, "width:200px;")
                         .addToolPane("Печать")
                         .addToolPaneActionButton("Печать ценников", {action:"printProdTags"}, "width:200px;", {}, function(){
                             var printWindow= window.open("/print/printTags");                                           //console.log("printProdTags.onClick printWindow=",printWindow);
