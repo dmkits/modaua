@@ -305,7 +305,7 @@
                                 columnsDataForExcel.push(columnForExcel);
                             }
                             var xhr = new XMLHttpRequest();
-                            xhr.open('POST', "/wrh/pInvoices/get_excel_file");
+                            xhr.open('POST', /*"/wrh/pInvoices/get_excel_file"*/ "/sys/getExcelFile");
                             xhr.responseType = 'blob';
                             xhr.send(JSON.stringify({columns:columnsDataForExcel,rows:tableData}));
                             xhr.onload = function (e){

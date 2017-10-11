@@ -1,5 +1,4 @@
-var dataModel=require('../datamodel'), dateFormat = require('dateformat'),util=require('../util'), path=require('path');
-var XLSX=require('xlsx'),fs=require('fs');
+var dataModel=require('../datamodel'), dateFormat = require('dateformat');
 var wrh_pinvs= require(appDataModelPath+"wrh_pinvs"), wrh_pinvs_products= require(appDataModelPath+"wrh_pinvs_products");
 var dir_units= require(appDataModelPath+"dir_units"), dirContractors= require(appDataModelPath+"dir_contractors"),
     sys_currency= require(appDataModelPath+"sys_currency"), sysDocStates= require(appDataModelPath+"sys_docstates"),
@@ -268,82 +267,4 @@ module.exports.init = function(app){
                 res.send(result);
             });
     });
-
-    app.post("/wrh/pInvoices/get_excel_file", function(req, res){
-        try {
-            var body = JSON.parse(req.body), columns=body.columns, rows=body.rows;
-        }catch(e){
-            res.sendStatus(500);   console.log("Impossible to parse data! Reason:"+e);
-            return;
-        }
-        var uniqueFileName = util.getUIDNumber();
-        var fname = path.join(__dirname, '../../XLSX_temp/' + uniqueFileName + '.xlsx');
-        try {fs.writeFileSync(fname);} catch (e) {
-            res.sendStatus(500);
-            return;
-        }
-        try {
-            var wb = XLSX.readFileSync(fname);
-        }catch(e){
-            res.sendStatus(500);
-            return;
-        }
-        wb.SheetNames = [];
-        wb.SheetNames.push('Sheet1');
-
-        fillTable(wb,columns,rows);
-
-        XLSX.writeFileAsync(fname, wb, {bookType: "xlsx", cellStyles: true}, function(err){
-            if (err) {
-                res.sendStatus(500);    console.log("send xlsx file err=", err);
-                return;
-            }
-            var options = {headers: {'Content-Disposition': 'attachment; filename =out.xlsx'}};
-            res.sendFile(fname, options, function (err) {
-                if (err) {
-                    res.sendStatus(500); console.log("send xlsx file err=", err);
-                }
-                fs.unlinkSync(fname);
-            })
-        });
-    });
-    function fillTable(wb,columns,rows){
-        fillHeaders(wb,columns);
-        var lineNum=1;
-        for (var i in rows){
-            fillRowData(wb,rows[i],columns,lineNum);
-            lineNum++;
-        }
-    }
-    function fillHeaders(wb,columns){
-        var worksheetColumns = [];
-        wb.Sheets['Sheet1'] = {
-            '!cols': worksheetColumns
-        };
-        for (var j = 0; j < columns.length; j++) {
-            worksheetColumns.push({wpx: columns[j].width});
-            var currentHeader = XLSX.utils.encode_cell({c: j, r: 0});
-            wb.Sheets['Sheet1'][currentHeader] = {t: "s", v: columns[j].name, s: {font: {bold: true}}};
-        }
-    }
-    function fillRowData(wb,rowData,columns, lineNum){
-        var lastCellInRaw;
-        for (var i = 0; i < columns.length; i++) {
-            var cellType=getCellType(columns[i]);
-            var columnDataID = columns[i].data;
-            var displayValue = rowData[columnDataID];
-            var currentCell = XLSX.utils.encode_cell({c: i, r: lineNum});
-            lastCellInRaw=currentCell;
-            wb.Sheets['Sheet1'][currentCell] = {
-                t: cellType,
-                v: displayValue
-            };
-            wb.Sheets['Sheet1']['!ref']='A1:'+lastCellInRaw;
-        }
-    }
-    function getCellType(columnData){
-        if(!columnData.type) return's';
-        if(columnData.type=="numeric") return'n';
-        else return's';
-    }
 };
