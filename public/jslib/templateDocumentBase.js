@@ -261,6 +261,46 @@ define(["dojo/_base/declare", "dijit/layout/BorderContainer", "dijit/layout/Layo
                         //if (printFormats.dateFormat&&colData.type==="text"&&colData.dateFormat) colData.dateFormat= printFormats.dateFormat;
                     }
                 }
+            },
+            /**
+             * IANAGEZ 11.10.2017
+             * @param (visibleColumns,tableData)
+             */
+            getAndSendExcelFile:function(params){
+
+                var tableData=params.tableData;
+                var visibleColumns=params.visibleColumns;
+
+                var columnsDataForExcel= [];
+                for (var i in visibleColumns) {
+                    var column = visibleColumns[i];
+                    var columnForExcel = {};
+                    columnForExcel.data = column.data;
+                    columnForExcel.type = column.type;
+                    columnForExcel.name = column.name;
+                    columnForExcel.width = column.width;
+                    if (column.format)columnForExcel.format = column.format;
+                    columnsDataForExcel.push(columnForExcel);
+                }
+                var xhr = new XMLHttpRequest();
+                xhr.open('POST',"/sys/getExcelFile");
+                xhr.responseType = 'blob';
+                xhr.send(JSON.stringify({columns:columnsDataForExcel,rows:tableData}));
+                xhr.onload = function (e){
+                    if (this.status == 200) {
+                        var blob = new Blob([this.response], {type:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'});
+                        var a = document.createElement("a");
+                        a.style = "display: none";
+                        document.body.appendChild(a);
+                        var url = window.URL.createObjectURL(blob);
+                        a.href = url;
+                        a.download = 'myExcel.xlsx';
+                        a.click();
+                        window.URL.revokeObjectURL(url);
+                    }else{
+                        console.log("Impossible to load file");
+                    }
+                };
             }
         })
     });

@@ -707,6 +707,10 @@ define(["dojo/_base/declare", "dijit/layout/BorderContainer", "dijit/layout/Cont
                     return function(){
                         thisInstance.deleteDetailTableSelectedRowFromServer();
                     }
+                } else if (actionParams.action==="exportTableContentToExcel"){
+                    return function(){
+                        thisInstance.exportTableContentToExcel();
+                    }
                 } else return function(){};
             },
             getSetStateAction: function(action){
@@ -843,7 +847,9 @@ define(["dojo/_base/declare", "dijit/layout/BorderContainer", "dijit/layout/Cont
                 this.setPrintDataFormats(printData, this.printFormats);
                 var printWindow= window.open("/print/printSimpleDocument");                                             //console.log("doPrint printWindow printData=",printData);
                 printWindow["printTableContentData"]= printData;
-
+            },
+            exportTableContentToExcel:function(){
+                this.getAndSendExcelFile({tableData:this.detailTable.getContent(), visibleColumns:this.detailTable.getVisibleColumns()});
             }
         })
     });

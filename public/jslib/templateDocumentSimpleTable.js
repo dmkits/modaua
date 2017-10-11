@@ -508,6 +508,9 @@ define(["dojo/_base/declare", "app", "templateDocumentBase", "hTableSimpleFilter
                 this.setPrintDataFormats(printData, printFormats);
                 var printWindow= window.open("/print/printSimpleDocument");                                             //console.log("doPrint printWindow printData=",printData);
                 printWindow["printTableContentData"]= printData;
+            },
+            exportTableContentToExcel:function(){
+                this.getAndSendExcelFile({tableData:this.contentTable.getContent(),visibleColumns:this.contentTable.getVisibleColumns()});
             }
         });
     });
