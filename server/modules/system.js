@@ -52,7 +52,7 @@ module.exports.init = function(app) {
 
         fillTable(wb,columns,rows);
 
-        XLSX.writeFileAsync(fname, wb, {bookType: "xlsx", cellStyles: true, cellDates:true}, function(err){
+        XLSX.writeFileAsync(fname, wb, {bookType: "xlsx", /*cellStyles: true,*/ cellDates:true}, function(err){
             if (err) {
                 res.sendStatus(500);                                                 console.log("send xlsx file err=", err);
                 return;
@@ -102,7 +102,15 @@ module.exports.init = function(app) {
             wbCell.t=cellType;
             wbCell.v=displayValue;
             if(wbCell.t=="d"){
+
                 wbCell.z=column.datetimeFormat || "DD.MM.YYYY";
+                XLSX.utils.format_cell(wbCell);
+
+              //  XLSX.utils.format_cell(wbCell, null, {dateNF:column.datetimeFormat|| "DD.MM.YYYY"});
+            }
+            if(wbCell.t=="n"){                                 // console.log("column.format=",column.format);
+                if(column.format )wbCell.z= column.format.replace("[","").replace("]",""); //.replace(/,/g," ");//||*/ // '#,###,##0.00';
+               // XLSX.utils.format_cell(wbCell);
             }
             wb.Sheets['Sheet1']['!ref']='A1:'+lastCellInRaw;
         }
@@ -110,7 +118,7 @@ module.exports.init = function(app) {
     function getCellType(columnData){
         if(!columnData.type) return's';
         if(columnData.type=="numeric") return'n';
-        if(columnData.data.indexOf("DATE".toUpperCase())>0) return'd';
+        if(columnData.type=="text" && columnData.datetimeFormat) return'd';
         else return's';
     }
 };
