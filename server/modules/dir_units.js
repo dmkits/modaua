@@ -23,7 +23,7 @@ module.exports.init = function(app){
         {"data": "NOT_USED", "name": "Не используется", "width": 120, "type": "checkbox", visible:true},
         {"data": "PRICELIST_NAME", "name": "Прайс-лист", "width": 150,
             "type": "combobox", "sourceURL":"/dir/pricelists/getDataForPriceListsCombobox",
-            dataSource:"dir_pricelists", dataField:"NAME"}
+            dataSource:"dir_pricelists", sourceField:"NAME"}
     ];
     app.get("/dir/units/getDataForDirUnitsTable", function(req, res){
         dir_units.getDataForTable({tableColumns:dirUnitsTableColumns, identifier:dirUnitsTableColumns[0].data, conditions:req.query},

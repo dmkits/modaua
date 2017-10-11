@@ -26,6 +26,7 @@
     "wrh_ret_invoices-bata",
     "wrh_retail_tickets",
     "reports_retail_cashier-bata",
+    "reports_retail_sales-bata",
     "wrh_products_balance"
   ],
   "appMenu":[
@@ -51,6 +52,8 @@
         { "menuItemName":"separatorWrhSales1"},
         { "menuItemName":"menuBarWrhSalesReports", "menuTitle":"Отчеты по продажам", "pageTitle":"Отчеты по продажам", "module":"", "closable":true},
         { "menuItemName":"separatorWrhSales2"},
+        { "menuItemName":"menuBarWrhSalesRetailSales", "menuTitle":"Отчеты по розничным продажам", "pageTitle":"Отчеты по розничным продажам", "module":"reports_retail_sales-bata", "closable":true},
+        { "menuItemName":"separatorWrhSales3"},
         { "menuItemName":"menuBarWrhSalesCashierReports", "menuTitle":"Отчеты кассира", "pageTitle":"Отчеты кассира", "module":"reports_retail_cashier-bata", "closable":true}
       ]},
     { "menuItemName":"menuBarItemSalesCashierReports", "menuTitle":"Отчеты кассира", "pageTitle":"Отчеты кассира", "module":"reports_retail_cashier-bata", "closable":false},
@@ -60,10 +63,12 @@
     { "menuItemName":"menuBarReports", "menuTitle":"Отчеты",
       "popupMenu":[
         { "menuItemName":"menuBarReportsPur", "menuTitle":"Отчеты по закупкам", "pageTitle":"Отчеты по закупкам", "module":"wrh_invoices-bata", "closable":true},
-        { "menuItemName":"menuBarReportsSales", "menuTitle":"Отчеты по продажам", "pageTitle":"Отчеты по продажам", "module":"wrh_ret_invoices-bata", "closable":true},
         { "menuItemName":"separatorReports1"},
-        { "menuItemName":"menuBarReportsCashier", "menuTitle":"Отчеты кассира", "pageTitle":"Отчеты кассира", "module":"reports_retail_cashier-bata", "closable":true},
+        { "menuItemName":"menuBarReportsSales", "menuTitle":"Отчеты по продажам", "pageTitle":"Отчеты по продажам", "module":"wrh_ret_invoices-bata", "closable":true},
+        { "menuItemName":"menuBarReportsRetailSales", "menuTitle":"Отчеты по розничным продажам", "pageTitle":"Отчеты по розничным продажам", "module":"reports_retail_sales-bata", "closable":true},
         { "menuItemName":"separatorReports2"},
+        { "menuItemName":"menuBarReportsCashier", "menuTitle":"Отчеты кассира", "pageTitle":"Отчеты кассира", "module":"reports_retail_cashier-bata", "closable":true},
+        { "menuItemName":"separatorReports3"},
         { "menuItemName":"menuBarReportsProdsBalance", "menuTitle":"Остатки товаров", "pageTitle":"Остатки товаров", "module":"wrh_prods_balance", "closable":true}
       ]},
     { "menuItemName":"menuBarPopupMenuDirs", "menuTitle":"Справочники",
@@ -79,10 +84,12 @@
   ],
   "usersRoleMenu":{
     "user":["menuBarItemMainPage",
-      "menuBarWrhPur", "menuBarWrhPInvoice", "separatorWrhPur1", "separatorWrhPur2", "menuBarWrhPurReports",
-      "menuBarWrh","menuBarWrhBalance", "separatorWrh1", "menuBarWrhMoves",
-      "menuBarWrhSales", "menuBarWrhSalesInvoices", "menuBarWrhSalesRetInvoices", "separatorWrhSales1", "menuBarWrhSalesReports", "separatorWrhSales2", "menuBarWrhSalesCashierReports",
-      "menuBarReportsPur","menuBarReportsSales","menuBarReportsSales","separatorReports1","menuBarReportsCashier","separatorReports2","menuBarReportsProdsBalance",
+      "menuBarWrhPur", "menuBarWrhOrdersBata", "separatorWrhPur1", "menuBarWrhPInvoice", "separatorWrhPur2", "menuBarWrhPurReports",
+      "menuBarWrh","menuBarWrhProdsBalance", "separatorWrh1", "menuBarWrhProdsMoves",
+      "menuBarWrhSales", "menuBarWrhSalesInvoices", "menuBarWrhSalesRetInvoices", "separatorWrhSales1", "menuBarWrhSalesReports", "separatorWrhSales2", "menuBarWrhSalesRetailSales",
+      "separatorWrhSales3","menuBarWrhSalesCashierReports",
+      "menuBarReports","menuBarReportsPur","separatorReports1","menuBarReportsSales","menuBarReportsRetailSales","separatorReports2","menuBarReportsCashier",
+      "separatorReports3","menuBarReportsProdsBalance",
       "menuBarPopupMenuDirs", "menuBarDirsItemUnits", "separatorDir1", "menuBarDirsItemContractors", "separatorDir2", "menuBarDirsItemProducts",
       "menuBarItemClose","menuBarItemHelpAbout"],
     "cashier":["menuBarItemSalesCashierReports",

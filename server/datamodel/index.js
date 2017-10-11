@@ -457,8 +457,10 @@ function _setDataItem(params, resultCallback){
 /**
  * params = { source,
  *      tableColumns = [
- *          {data:<sourceFieldName>, name:<tableColumnHeader>, width:<tableColumnWidth>, type:<dataType>, readOnly:true/false, visible:true/false,
- *                dataSource:<sourceName>, dataField:<sourceFieldName>, linkCondition:<dataSource join link condition>
+ *          {data:<dataFieldName>, name:<tableColumnHeader>, width:<tableColumnWidth>, type:<dataType>, readOnly:true/false, visible:true/false,
+ *              sourceField:<sourceFieldName>
+ *             OR dataSource:<sourceName>, sourceField:<sourceFieldName>
+ *             OR dataSource:<sourceName>, sourceField:<sourceFieldName>, linkCondition:<dataSource join link condition>
  *             OR childDataSource:<childSourceName>, childLinkField:<childSourceLinkFieldName>, parentDataSource, parentLinkField:<parentSourceLinkFieldName> },
  *          ...
  *      ],
@@ -505,21 +507,21 @@ function _getDataItemsForTable(params, resultCallback){
         if(this.fieldsMetadata&&this.fieldsMetadata[fieldName]) {
             if(tableColumnData.name) fieldsList.push(fieldName);
             if(tableColumnData.name&&hasAFunctions)groupedFieldsList.push(fieldName);
-            if(tableColumnData.dataSource&&tableColumnData.dataField)
-                fieldsSources[fieldName]=tableColumnData.dataSource+"."+tableColumnData.dataField;
+            if(tableColumnData.dataSource&&tableColumnData.sourceField)
+                fieldsSources[fieldName]=tableColumnData.dataSource+"."+tableColumnData.sourceField;
             else if(tableColumnData.dataSource)
                 fieldsSources[fieldName]=tableColumnData.dataSource+"."+fieldName;
             else if(hasSources&&(params.source||this.source))
                 fieldsSources[fieldName]=((params.source)?params.source:this.source)+"."+fieldName;
-        } else if(tableColumnData.dataField){
+        } else if(tableColumnData.sourceField){
             if(tableColumnData.name) fieldsList.push(fieldName);
             if(tableColumnData.name&&hasAFunctions)groupedFieldsList.push(fieldName);
-            if(tableColumnData.dataSource&&tableColumnData.dataField)
-                fieldsSources[fieldName]=tableColumnData.dataSource+"."+tableColumnData.dataField;
+            if(tableColumnData.dataSource&&tableColumnData.sourceField)
+                fieldsSources[fieldName]=tableColumnData.dataSource+"."+tableColumnData.sourceField;
             else if(tableColumnData.dataSource)
                 fieldsSources[fieldName]=tableColumnData.dataSource+"."+fieldName;
-            else if(tableColumnData.dataField)
-                fieldsSources[fieldName]=tableColumnData.dataField;
+            else if(tableColumnData.sourceField)
+                fieldsSources[fieldName]=tableColumnData.sourceField;
         } else if(tableColumnData.dataFunction){
             if(tableColumnData.name) fieldsList.push(fieldName);
             if(hasAFunctions&&tableColumnData.name&&!tableColumnData.dataFunction
@@ -655,7 +657,7 @@ function _getTableColumnsDataForHTable(tableColumns){
  * params = { source,
  *      tableColumns = [
  *          {data:<sourceFieldName>, name:<tableColumnHeader>, width:<tableColumnWidth>, type:<dataType>, readOnly:true/false, visible:true/false,
- *                dataSource:<sourceName>, dataField:<sourceFieldName> },
+ *                dataSource:<sourceName>, sourceField:<sourceFieldName> },
  *          ...
  *      ],
  *      identifier= <sourceIDFieldName>,
