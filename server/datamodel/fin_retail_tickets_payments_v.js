@@ -22,7 +22,7 @@ var changeLog=[
         "LEFT JOIN fin_retail_payments frp ON frp.RETAIL_RECEIPT_ID=frtp.RETAIL_RECEIPT_ID "+
         "GROUP BY m.ID, m.RETAIL_TICKET_ID, wrtv.RETAIL_RECEIPT_ID, wrtv.DOCDATE, wrtv.NUMBER, " +
         "m.POS, m.PRODUCT_ID, m.QTY, m.SALE_PRICE, m.DISCOUNT, m.PRICE, m.POSSUM,"+
-        "wrtv.DOCSUM, frtp.PAYSUM "+
+        "wrtv.DOCSUM, frtp.PAYSUM, frp.PAYMENT_FORM_CODE "+
         "ORDER BY wrtv.DOCDATE, wrtv.NUMBER, m.POS",
         viewName:"fin_retail_tickets_payments_v",
         fields:["ID", "RETAIL_TICKET_ID", "RETAIL_RECEIPT_ID", "DOCDATE", "NUMBER",
