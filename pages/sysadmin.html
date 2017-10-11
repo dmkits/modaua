@@ -25,6 +25,7 @@
             <div id="sysadmin_dbName" style="display:inline;;margin-left:20px;"></div>
             <div id="sysadmin_ConnUserName" style="display:inline;;margin-left:20px;"></div>
             <div id="sysadmin_connectToDBState" style="display:inline;margin-left:20px;"></div>
+            <div id="sysadmin_modulesFailures" style="display:inline;margin-left:20px;"></div>
             <div id="sysadmin_dbValidateState" style="display:inline;margin-left:20px;"></div>
         </div>
         <div id="sysadmin_TopActions">
@@ -137,6 +138,11 @@
                                         document.getElementById("sysadmin_connectToDBState").innerHTML =
                                                 "<b>DB CONNECTION STATE:<span id ='dbConnection_color'>UNKNOWN</span></b>";
                                     }
+                                    var modulesFailures=document.getElementById("sysadmin_modulesFailures");
+                                    if (result.modulesFailures)
+                                        modulesFailures.innerHTML = "<b style='color:red'>MODULES FAILS:" + result.modulesFailures + "</b>";
+                                    else
+                                        modulesFailures.setAttribute("style","display:none");
                                     if (result.dbValidation) {
                                         document.getElementById("sysadmin_dbValidateState").innerHTML =
                                                 "<b>DB VALIDATION STATE:<span id ='dbValidationcolor'>" + result.dbValidation + "</span></b>";

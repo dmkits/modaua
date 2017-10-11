@@ -50,7 +50,7 @@ module.exports.validateModules= function(resultCallback){
     validateModuleCallback(modules, 0, errs);
 };
 
-module.exports.init = function(app){
+module.exports.init = function(app,errs){
     var modules= server.getConfigModules();
     if (!modules) return;
     for(var i=0; i<modules.length; i++){
@@ -58,6 +58,7 @@ module.exports.init = function(app){
         try{
             module=require("./"+moduleName);
         }catch(e){                                                                                          log.error('FAILED loaded module '+moduleName+"! Reason:", e.message);//test
+            errs[moduleName+"_loadError"]="Failed load module:"+moduleName+"! Reason:"+ e.message;
             continue;
         }
         if (module.modulePageURL&&module.modulePagePath) {
@@ -71,6 +72,7 @@ module.exports.init = function(app){
         try{
             module.init(app);
         }catch(e){                                                                                          log.error('FAILED inited module '+moduleName+"! Reason:", e.message);//test
+            errs[moduleName+"_initError"]="Failed init module:"+moduleName+"! Reason:"+ e.message;
             continue;
         }
         loadedModules[moduleName]= module;

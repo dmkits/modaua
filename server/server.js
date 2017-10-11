@@ -93,13 +93,23 @@ global.appModulesPath= path.join(__dirname,'/modules/','');
 global.appDataModelPath= path.join(__dirname,'/datamodel/','');
 
 var appModules=require("./modules");
+var loadInitModulesErrorMsg=null;
+module.exports.getLoadInitModulesError= function(){ return loadInitModulesErrorMsg; };
 appModules.validateModules(function(errs, errMessage){
     if (errMessage){                                                                                log.error("FAILED validate! Reason: ",errMessage);
     }
     require("./access")(server);//check user access
 
-    appModules.init(server);
-
+    appModules.init(server,errs);
+    if(errs&&!errMessage){                                  console.log("appModules.init errs",errMessage,errs,{});
+        var eCount=0;
+        for(var errItem in errs){
+            if (!loadInitModulesErrorMsg) loadInitModulesErrorMsg=""; else loadInitModulesErrorMsg+="<br>";
+            loadInitModulesErrorMsg+=errs[errItem];
+            eCount++;
+            if(eCount>3) break;
+        }
+    }
     server.listen(appStartupParams.port, function (err) {
         if(err){
             console.log("listen port err= ", err);

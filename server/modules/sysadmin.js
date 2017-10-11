@@ -1,7 +1,7 @@
 var path = require('path');
 
 var fs = require('fs');
-var server=require('../server');
+var server=require('../server'), getLoadInitModulesError=server.getLoadInitModulesError;
 var log = server.log;
 var appParams=server.getAppStartupParams(), getServerConfig=server.getServerConfig, setAppConfig=server.setAppConfig;
 var getConfig=server.getConfig;
@@ -159,6 +159,8 @@ module.exports.init = function(app){
             return
         }
         outData.dbConnection = 'Connected';
+        var loadInitModulesError=getLoadInitModulesError();
+        if(loadInitModulesError) outData.modulesFailures = loadInitModulesError;
         if (revalidateModules) {
             appModules.validateModules(function(errs, errMessage){
                 if(errMessage) outData.dbValidation = errMessage; else outData.dbValidation = "success";
