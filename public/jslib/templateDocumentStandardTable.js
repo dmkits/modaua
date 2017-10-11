@@ -849,7 +849,7 @@ define(["dojo/_base/declare", "dijit/layout/BorderContainer", "dijit/layout/Cont
                 printWindow["printTableContentData"]= printData;
             },
             exportTableContentToExcel:function(){
-                this.getAndSendExcelFile({tableData:this.detailTable.getContent(), visibleColumns:this.detailTable.getVisibleColumns()});
+                this.requestForExcelFile({tableData:this.detailTable.getContent(), visibleColumns:this.detailTable.getVisibleColumns()});
             }
         })
     });

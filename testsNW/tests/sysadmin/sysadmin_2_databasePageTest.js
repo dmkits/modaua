@@ -31,7 +31,7 @@ module.exports = {
             .assert.containsText('@createDBResultField', 'created')
     },
 
-    'step_2 Assert first raw in  ChangeLog table contains values Tests': function (browser) {
+    'step_2 Assert first row in  ChangeLog table contains values Tests': function (browser) {
         var sysadminHeader = browser.page.sysadminHeader();
         var database = browser.page.database();
         browser.maximizeWindow();

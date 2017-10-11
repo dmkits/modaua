@@ -266,7 +266,7 @@ define(["dojo/_base/declare", "dijit/layout/BorderContainer", "dijit/layout/Layo
              * IANAGEZ 11.10.2017
              * @param (visibleColumns,tableData)
              */
-            getAndSendExcelFile:function(params){
+            requestForExcelFile:function(params){
 
                 var tableData=params.tableData;
                 var visibleColumns=params.visibleColumns;
@@ -280,12 +280,14 @@ define(["dojo/_base/declare", "dijit/layout/BorderContainer", "dijit/layout/Layo
                     columnForExcel.name = column.name;
                     columnForExcel.width = column.width;
                     if (column.format)columnForExcel.format = column.format;
+                    if (column.datetimeFormat)columnForExcel.datetimeFormat = column.datetimeFormat;
                     columnsDataForExcel.push(columnForExcel);
                 }
                 var xhr = new XMLHttpRequest();
                 xhr.open('POST',"/sys/getExcelFile");
                 xhr.responseType = 'blob';
-                xhr.send(JSON.stringify({columns:columnsDataForExcel,rows:tableData}));
+                var data=JSON.stringify({columns:columnsDataForExcel,rows:tableData});
+                xhr.send(data);
                 xhr.onload = function (e){
                     if (this.status == 200) {
                         var blob = new Blob([this.response], {type:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'});

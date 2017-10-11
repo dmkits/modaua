@@ -5,7 +5,9 @@ define(["dojo/_base/declare", "app", "templateDocumentBase", "hTableSimpleFilter
     function(declare, APP, DocumentBase, HTable) {
         return declare("TemplateDocumentSimpleTable", [DocumentBase], {
             /*
-            * args: {titleText, dataURL, dataURLCondition={...}, rightPane:true/false, rightPaneWidth, buttonUpdate, buttonPrint, printFormats={ ... } }
+            * args: {titleText, dataURL, dataURLCondition={...}, rightPane:true/false, rightPaneWidth,
+            *       buttonUpdate, buttonPrint, buttonExportToExcel,
+            *       printFormats={ ... } }
             * default:
             * rightPane=false,
             * buttonUpdate=true, buttonPrint=true,
@@ -16,6 +18,7 @@ define(["dojo/_base/declare", "app", "templateDocumentBase", "hTableSimpleFilter
                 this.dataURL=null; this.dataURLCondition=null;
                 this.buttonUpdate= true;
                 this.buttonPrint= true;
+                this.buttonExportToExcel= true;
                 this.printFormats= { dateFormat:"DD.MM.YY", numericFormat:"#,###,###,###,##0.#########", currencyFormat:"#,###,###,###,##0.00#######" };
                 this.detailContentErrorMsg="Failed get data!";
                 this.srcNodeRef = document.getElementById(parentName);
@@ -179,6 +182,17 @@ define(["dojo/_base/declare", "app", "templateDocumentBase", "hTableSimpleFilter
                 var instance = this;
                 this.btnPrint.onClick = function(){
                     instance.doPrint();
+                };
+                return this;
+            },
+            addBtnExportToExcel: function(width, labelText){
+                if (width===undefined) width=100;
+                if (!this.btnUpdate) this.addBtnUpdate(width);
+                if (!labelText) labelText="Скачать excel";
+                this.btnExportToExcel= this.addTableCellButtonTo(this.topTableRow, {labelText:labelText, cellWidth:1, cellStyle:"text-align:right;"});
+                var instance = this;
+                this.btnExportToExcel.onClick = function(){
+                    instance.exportTableContentToExcel();
                 };
                 return this;
             },
@@ -463,6 +477,7 @@ define(["dojo/_base/declare", "app", "templateDocumentBase", "hTableSimpleFilter
             startUp: function(){
                 if (this.buttonUpdate!=false&&!this.btnUpdate) this.addBtnUpdate();
                 if (this.buttonPrint!=false&&!this.btnPrint) this.addBtnPrint();
+                if (this.buttonExportToExcel!=false&&!this.btnExportToExcel) this.addBtnExportToExcel();
                 this.loadTableContent();
                 this.layout();
                 return this;
@@ -510,7 +525,7 @@ define(["dojo/_base/declare", "app", "templateDocumentBase", "hTableSimpleFilter
                 printWindow["printTableContentData"]= printData;
             },
             exportTableContentToExcel:function(){
-                this.getAndSendExcelFile({tableData:this.contentTable.getContent(),visibleColumns:this.contentTable.getVisibleColumns()});
+                this.requestForExcelFile({tableData:this.contentTable.getContent(),visibleColumns:this.contentTable.getVisibleColumns()});
             }
         });
     });

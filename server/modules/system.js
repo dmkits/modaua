@@ -23,7 +23,7 @@ module.exports.init = function(app) {
         try {
             var body = JSON.parse(req.body), columns=body.columns, rows=body.rows;
         }catch(e){
-            res.sendStatus(500);   console.log("Impossible to parse data! Reason:"+e);
+            res.sendStatus(500);                                                    console.log("Impossible to parse data! Reason:"+e);
             return;
         }
         if(!columns) {
@@ -52,7 +52,7 @@ module.exports.init = function(app) {
 
         fillTable(wb,columns,rows);
 
-        XLSX.writeFileAsync(fname, wb, {bookType: "xlsx", cellStyles: true}, function(err){
+        XLSX.writeFileAsync(fname, wb, {bookType: "xlsx", cellStyles: true, cellDates:true}, function(err){
             if (err) {
                 res.sendStatus(500);                                                 console.log("send xlsx file err=", err);
                 return;
@@ -85,24 +85,32 @@ module.exports.init = function(app) {
             wb.Sheets['Sheet1'][currentHeader] = {t: "s", v: columns[j].name, s: {font: {bold: true}}};
         }
     }
+
     function fillRowData(wb,rowData,columns, lineNum){
         var lastCellInRaw;
         for (var i = 0; i < columns.length; i++) {
-            var cellType=getCellType(columns[i]);
-            var columnDataID = columns[i].data;
-            var displayValue = rowData[columnDataID];
+            var column=columns[i];
+            var columnDataID = column.data;
+
+            var cellType=getCellType(column);
+            var displayValue =  rowData[columnDataID] || "";
             var currentCell = XLSX.utils.encode_cell({c: i, r: lineNum});
+
             lastCellInRaw=currentCell;
-            wb.Sheets['Sheet1'][currentCell] = {
-                t: cellType,
-                v: displayValue
-            };
+            wb.Sheets['Sheet1'][currentCell]={};
+            var wbCell=wb.Sheets['Sheet1'][currentCell];
+            wbCell.t=cellType;
+            wbCell.v=displayValue;
+            if(wbCell.t=="d"){
+                wbCell.z=column.datetimeFormat || "DD.MM.YYYY";
+            }
             wb.Sheets['Sheet1']['!ref']='A1:'+lastCellInRaw;
         }
     }
     function getCellType(columnData){
         if(!columnData.type) return's';
         if(columnData.type=="numeric") return'n';
+        if(columnData.data.indexOf("DATE".toUpperCase())>0) return'd';
         else return's';
     }
 };
