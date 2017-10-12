@@ -66,6 +66,7 @@ module.exports.init = function(app) {
             })
         });
     });
+
     function fillTable(wb,columns,rows){
         fillHeaders(wb,columns);
         var lineNum=1;
@@ -102,19 +103,16 @@ module.exports.init = function(app) {
             wbCell.t=cellType;
             wbCell.v=displayValue;
             if(wbCell.t=="d"){
-
                 wbCell.z=column.datetimeFormat || "DD.MM.YYYY";
-                XLSX.utils.format_cell(wbCell);
-
-              //  XLSX.utils.format_cell(wbCell, null, {dateNF:column.datetimeFormat|| "DD.MM.YYYY"});
             }
-            if(wbCell.t=="n"){                                 // console.log("column.format=",column.format);
-                if(column.format )wbCell.z= column.format.replace("[","").replace("]",""); //.replace(/,/g," ");//||*/ // '#,###,##0.00';
-               // XLSX.utils.format_cell(wbCell);
+            if(wbCell.t=="n"){
+                if(column.format.indexOf("0.00")>0 )wbCell.z= '#,###,##0.00';
+                if(column.format.indexOf("0.[")>0 )wbCell.z= '#,###,##0';
             }
             wb.Sheets['Sheet1']['!ref']='A1:'+lastCellInRaw;
         }
     }
+
     function getCellType(columnData){
         if(!columnData.type) return's';
         if(columnData.type=="numeric") return'n';
