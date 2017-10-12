@@ -21,11 +21,11 @@ module.exports.modulePageURL = "/reports/retailCashier";
 module.exports.modulePagePath = "reports/retailCashier-bata.html";
 module.exports.init = function(app) {
     var repRetailCashReportTableColumns=[
-        {"data": "DOCDATE", "name": "Дата", sourceField:"DOCDATE" },
-        {"data": "DOCNUMBER", "name": "Номер", sourceField:"NUMBER" },
+        {"data": "DOCDATE", "name": "Дата чека", sourceField:"DOCDATE" },
+        {"data": "DOCNUMBER", "name": "Номер чека", sourceField:"NUMBER" },
         {"data": "POS", "name": "Позиция", visible:false },
         {"data": "SALE_PRICE", "name": "Цена"  },
-        {"data": "DISCOUNT_PERCENT", "name": "Скидка, %", "width": 55, align:"center", dataFunction:"DISCOUNT*100" },
+        {"data": "DISCOUNT_PERCENT", "name": "Скидка ", "width": 65, align:"center", dataFunction:"DISCOUNT*100" },
         {"data": "PRICE", "name": "Цена со ск." },
         {"data": "QTY", "name": "Кол-во" },
         {"data": "SALE_QTY", "name": "Кол-во продаж", visible:false },
@@ -33,7 +33,7 @@ module.exports.init = function(app) {
         {"data": "POSSUM", "name": "Сумма" },
         {"data": "SALE_POSSUM", "name": "Сумма продаж", visible:false },
         {"data": "RET_SALE_POSSUM", "name": "Сумма возвратов", visible:false },
-        {"data": "SEP1", "name": " ", "width": 25, "type": "text", useFilter:false },
+        {"data": "SEP1", "name": " ", "width": 5, "type": "text", useFilter:false },
         {"data": "CASH_SUM", "name": "Сумма нал."  },
         {"data": "CARD_SUM", "name": "Сумма плат.карт." },
         {"data": "SALE_CASH_SUM", "name": "Сумма продаж нал.", visible:false },

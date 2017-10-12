@@ -16,39 +16,39 @@
     "print",
     "system",
     "mainPage",
-    "dir_pricelists",
-    "dir_units",
-    "dir_contractors",
-    "dir_products-bata",
-    "wrh_orders-bata",
-    "wrh_pinvoices-bata",
-    "wrh_invoices-bata",
-    "wrh_ret_invoices-bata",
-    "wrh_retail_tickets",
+    "dirPriceLists",
+    "dirUnits",
+    "dirContractors",
+    "dirProducts-bata",
+    "wrhOrders-bata",
+    "wrhPInvoices-bata",
+    "wrhInvoices-bata",
+    "wrhRetInvoices-bata",
+    "wrhRetailTickets",
     "reportsRetailCashier-bata",
     "reportsRetailSales-bata",
-    "wrh_products_balance"
+    "wrhProductsBalance"
   ],
   "appMenu":[
     { "menuTitle":"Главная страница", "menuItemName":"menuBarItemMainPage", "pageTitle":"Главная страница", "module":"mainPage", "closable":false},
     { "menuItemName":"menuBarWrhPur", "menuTitle":"Закупки",
       "popupMenu":[
-        { "menuItemName":"menuBarWrhOrdersBata", "menuTitle":"Заказы (Bata)", "pageTitle":"Заказы (Bata)", "module":"wrh_orders-bata", "closable":true},
+        { "menuItemName":"menuBarWrhOrdersBata", "menuTitle":"Заказы (Bata)", "pageTitle":"Заказы (Bata)", "module":"wrhOrders-bata", "closable":true},
         { "menuItemName":"separatorWrhPur1"},
-        { "menuItemName":"menuBarWrhPInvoices", "menuTitle":"Приходные накладные", "pageTitle":"Приходные накладные", "module":"wrh_pinvoices-bata", "closable":true},
+        { "menuItemName":"menuBarWrhPInvoices", "menuTitle":"Приходные накладные", "pageTitle":"Приходные накладные", "module":"wrhPInvoices-bata", "closable":true},
         { "menuItemName":"separatorWrhPur2"},
         { "menuItemName":"menuBarWrhPurReports", "menuTitle":"Отчеты по закупкам", "pageTitle":"Отчеты по закупкам", "module":"", "closable":true}
       ]},
     { "menuItemName":"menuBarWrh", "menuTitle":"Запасы (склад)",
       "popupMenu":[
-        { "menuItemName":"menuBarWrhProdsBalance", "menuTitle":"Остатки товаров", "pageTitle":"Остатки товаров", "module":"wrh_prods_balance", "closable":true},
+        { "menuItemName":"menuBarWrhProdsBalance", "menuTitle":"Остатки товаров", "pageTitle":"Остатки товаров", "module":"wrhProdsBalance", "closable":true},
         { "menuItemName":"separatorWrh1"},
-        { "menuItemName":"menuBarWrhProdsMoves", "menuTitle":"Движение товаров", "pageTitle":"Движение товаров", "module":"wrh_prods_moves", "closable":true}
+        { "menuItemName":"menuBarWrhProdsMoves", "menuTitle":"Движение товаров", "pageTitle":"Движение товаров", "module":"wrhProdsMoves", "closable":true}
       ]},
     { "menuItemName":"menuBarWrhSales", "menuTitle":"Продажи",
       "popupMenu":[
-        { "menuItemName":"menuBarWrhSalesInvoices", "menuTitle":"Расходные накладные", "pageTitle":"Расходные накладные", "module":"wrh_invoices-bata", "closable":true},
-        { "menuItemName":"menuBarWrhSalesRetInvoices", "menuTitle":"Возвратные накладные", "pageTitle":"Возвратные накладные", "module":"wrh_ret_invoices-bata", "closable":true},
+        { "menuItemName":"menuBarWrhSalesInvoices", "menuTitle":"Расходные накладные", "pageTitle":"Расходные накладные", "module":"wrhInvoices-bata", "closable":true},
+        { "menuItemName":"menuBarWrhSalesRetInvoices", "menuTitle":"Возвратные накладные", "pageTitle":"Возвратные накладные", "module":"wrhRetInvoices-bata", "closable":true},
         { "menuItemName":"separatorWrhSales1"},
         { "menuItemName":"menuBarWrhSalesReports", "menuTitle":"Отчеты по продажам", "pageTitle":"Отчеты по продажам", "module":"", "closable":true},
         { "menuItemName":"separatorWrhSales2"},
@@ -62,22 +62,22 @@
       ]},*/
     { "menuItemName":"menuBarReports", "menuTitle":"Отчеты",
       "popupMenu":[
-        { "menuItemName":"menuBarReportsPur", "menuTitle":"Отчеты по закупкам", "pageTitle":"Отчеты по закупкам", "module":"wrh_invoices-bata", "closable":true},
+        { "menuItemName":"menuBarReportsPur", "menuTitle":"Отчеты по закупкам", "pageTitle":"Отчеты по закупкам", "module":"wrhInvoices-bata", "closable":true},
         { "menuItemName":"separatorReports1"},
-        { "menuItemName":"menuBarReportsSales", "menuTitle":"Отчеты по продажам", "pageTitle":"Отчеты по продажам", "module":"wrh_ret_invoices-bata", "closable":true},
+        { "menuItemName":"menuBarReportsSales", "menuTitle":"Отчеты по продажам", "pageTitle":"Отчеты по продажам", "module":"wrhRetInvoices-bata", "closable":true},
         { "menuItemName":"menuBarReportsRetailSales", "menuTitle":"Отчеты по розничным продажам", "pageTitle":"Отчеты по розничным продажам", "module":"reportsRetailSales-bata", "closable":true},
         { "menuItemName":"separatorReports2"},
         { "menuItemName":"menuBarReportsCashier", "menuTitle":"Отчеты кассира", "pageTitle":"Отчеты кассира", "module":"reportsRetailCashier-bata", "closable":true},
         { "menuItemName":"separatorReports3"},
-        { "menuItemName":"menuBarReportsProdsBalance", "menuTitle":"Остатки товаров", "pageTitle":"Остатки товаров", "module":"wrh_prods_balance", "closable":true}
+        { "menuItemName":"menuBarReportsProdsBalance", "menuTitle":"Остатки товаров", "pageTitle":"Остатки товаров", "module":"wrhProdsBalance", "closable":true}
       ]},
     { "menuItemName":"menuBarPopupMenuDirs", "menuTitle":"Справочники",
       "popupMenu":[
-        { "menuItemName":"menuBarDirsItemUnits", "menuTitle":"Подразделения", "pageTitle":"Подразделения", "module":"dir_units", "closable":true},
+        { "menuItemName":"menuBarDirsItemUnits", "menuTitle":"Подразделения", "pageTitle":"Подразделения", "module":"dirUnits", "closable":true},
         { "menuItemName":"separatorDir1"},
-        { "menuItemName":"menuBarDirsItemContractors", "menuTitle":"Контрагенты", "pageTitle":"Контрагенты", "module":"dir_contractors", "closable":true},
+        { "menuItemName":"menuBarDirsItemContractors", "menuTitle":"Контрагенты", "pageTitle":"Контрагенты", "module":"dirContractors", "closable":true},
         { "menuItemName":"separatorDir2"},
-        { "menuItemName":"menuBarDirsItemProducts", "menuTitle":"Товарные номенклатуры", "pageTitle":"Товарные номенклатуры", "module":"dir_products-bata", "closable":true}
+        { "menuItemName":"menuBarDirsItemProducts", "menuTitle":"Товарные номенклатуры", "pageTitle":"Товарные номенклатуры", "module":"dirProducts-bata", "closable":true}
       ]},
     { "menuItemName":"menuBarItemClose", "menuTitle":"Выход", "action":"close"},
     { "menuItemName":"menuBarItemHelpAbout", "menuTitle":"О программе", "action":"help_about"}

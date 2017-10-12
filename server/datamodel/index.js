@@ -650,7 +650,7 @@ function _getTableColumnsDataForHTable(tableColumns){
                 else tableColumnsDataItemForHTable.strict= false;
             if (!tableColumnsDataItemForHTable.allowInvalid) tableColumnsDataItemForHTable.allowInvalid= false;
             tableColumnsDataItemForHTable.type="autocomplete";
-        }
+        } else if(!tableColumnsDataItemForHTable.type) tableColumnsDataItemForHTable.type="text";
     }
     return tableColumnsDataForHTable;
 }
@@ -715,7 +715,7 @@ function _getTableColumnsDataForDocHTable(tableColumns){
             if(tableColData.data.indexOf("QTY")>=0) tableColData.width=50;
             else if(tableColData.data.indexOf("PRICE")>=0) tableColData.width=65;
             else if(tableColData.data.indexOf("SUM")>=0) tableColData.width=80;
-            else if(tableColData.data.indexOf("NUMBER")>=0||tableColData.data.indexOf("POS")>=0) tableColData.width=55;
+            else if(tableColData.data.indexOf("NUMBER")>=0||tableColData.data.indexOf("POS")>=0) tableColData.width=65;
             else if(tableColData.data.indexOf("DATE")>=0) tableColData.width=55;
         }
         if(tableColData.type===undefined){

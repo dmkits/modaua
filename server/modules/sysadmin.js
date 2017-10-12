@@ -801,12 +801,12 @@ module.exports.init = function(app){
         });
     });
     var importDataModelsTableColumns=[
-        {"data": "PRIORITY", "name": "Priority", "width": 55, "type": "numeric"}
+        {"data": "PRIORITY", "name": "Priority", "width": 65, "type": "numeric"}
         , {"data": "DATA_MODEL_NAME", "name": "Data model name", "width": 220, "type": "text"}
         , {"data": "DATA_TABLE_NAME", "name": "Data table name", "width": 220, "type": "text"}
         , {"data": "IMPORT_DATA_TABLE_NAME", "name": "import data table name", "width": 220, "type": "text"}
-        , {"data": "CUR_ROW_COUNT", "name": " current row count", "width": 60, "type": "numeric"}
-        , {"data": "IMPORT_ROW_COUNT", "name": "import row count", "width": 60, "type": "numeric"}
+        , {"data": "CUR_ROW_COUNT", "name": " current row count", "width": 65, "type": "numeric"}
+        , {"data": "IMPORT_ROW_COUNT", "name": "import row count", "width": 65, "type": "numeric"}
         , {"data": "RESULT", "name": "result", "width": 450, "type": "text"}
     ];
 

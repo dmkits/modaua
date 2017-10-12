@@ -21,7 +21,7 @@ module.exports.addProductColumnsTo= function(columnsData, ind, params){
             result.push({ "data": "PRODUCT_NAME", "name": "Наименование товара", "width": 220, "type": "text",
                 visible:params.visibleColumns["NAME"],
                 dataSource:"dir_products", sourceField:"NAME"});
-            result.push({ "data": "PRODUCT_UM", "name": "Ед.изм.", "width": 55, "type": "text", align:"center",
+            result.push({ "data": "PRODUCT_UM", "name": "Ед. изм.", "width": 55, "type": "text", align:"center",
                 visible:params.visibleColumns["UM"],
                 dataSource:"dir_products", sourceField:"UM"});
             result.push({ "data": "PRODUCT_PRINT_NAME", "name": "Печатное наименование товара", "width": 220, "type": "text",
