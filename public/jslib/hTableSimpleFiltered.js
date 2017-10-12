@@ -52,8 +52,21 @@ define(["dojo/_base/declare", "hTableSimple"], function(declare, HTableSimple){
                 return filterButton.outerHTML;
             };
             handsontableSettings.colHeaders= function(colIndex){
-                return this.getColumnHeader(colIndex)+this.colHeadersFilterButton(colIndex);
+                return "<span>"+this.getColumnHeader(colIndex)+"</span>"+this.colHeadersFilterButton(colIndex);
             };
+
+            this.handsonTable.updateSettings({
+                afterGetColHeader:function(col, TH) {                             console.log("afterGetColHeader",col,TH);
+
+                }
+                //afterRenderer:function(TD, row, col, prop, value, cellProperties) {                             console.log("afterRenderer",TD,row,col);
+                //
+                //}
+            });
+
+
+
+
             this.handsonTable.updateSettings({
                 beforeOnCellMouseDown:function(event, coords, element) {
                     if(event.target.id.indexOf("filter_menu")<0)/*filter menu closed if filter button focusout*/

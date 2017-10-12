@@ -25,8 +25,8 @@
     "wrh_invoices-bata",
     "wrh_ret_invoices-bata",
     "wrh_retail_tickets",
-    "reports_retail_cashier-bata",
-    "reports_retail_sales-bata",
+    "reportsRetailCashier-bata",
+    "reportsRetailSales-bata",
     "wrh_products_balance"
   ],
   "appMenu":[
@@ -52,11 +52,11 @@
         { "menuItemName":"separatorWrhSales1"},
         { "menuItemName":"menuBarWrhSalesReports", "menuTitle":"Отчеты по продажам", "pageTitle":"Отчеты по продажам", "module":"", "closable":true},
         { "menuItemName":"separatorWrhSales2"},
-        { "menuItemName":"menuBarWrhSalesRetailSales", "menuTitle":"Отчеты по розничным продажам", "pageTitle":"Отчеты по розничным продажам", "module":"reports_retail_sales-bata", "closable":true},
+        { "menuItemName":"menuBarWrhSalesRetailSales", "menuTitle":"Отчеты по розничным продажам", "pageTitle":"Отчеты по розничным продажам", "module":"reportsRetailSales-bata", "closable":true},
         { "menuItemName":"separatorWrhSales3"},
-        { "menuItemName":"menuBarWrhSalesCashierReports", "menuTitle":"Отчеты кассира", "pageTitle":"Отчеты кассира", "module":"reports_retail_cashier-bata", "closable":true}
+        { "menuItemName":"menuBarWrhSalesCashierReports", "menuTitle":"Отчеты кассира", "pageTitle":"Отчеты кассира", "module":"reportsRetailCashier-bata", "closable":true}
       ]},
-    { "menuItemName":"menuBarItemSalesCashierReports", "menuTitle":"Отчеты кассира", "pageTitle":"Отчеты кассира", "module":"reports_retail_cashier-bata", "closable":false},
+    { "menuItemName":"menuBarItemSalesCashierReports", "menuTitle":"Отчеты кассира", "pageTitle":"Отчеты кассира", "module":"reportsRetailCashier-bata", "closable":false},
     /*{ "menuItemName":"menuBarPopupMenuPrices", "menuTitle":"Цены",
       "popupMenu":[
       ]},*/
@@ -65,9 +65,9 @@
         { "menuItemName":"menuBarReportsPur", "menuTitle":"Отчеты по закупкам", "pageTitle":"Отчеты по закупкам", "module":"wrh_invoices-bata", "closable":true},
         { "menuItemName":"separatorReports1"},
         { "menuItemName":"menuBarReportsSales", "menuTitle":"Отчеты по продажам", "pageTitle":"Отчеты по продажам", "module":"wrh_ret_invoices-bata", "closable":true},
-        { "menuItemName":"menuBarReportsRetailSales", "menuTitle":"Отчеты по розничным продажам", "pageTitle":"Отчеты по розничным продажам", "module":"reports_retail_sales-bata", "closable":true},
+        { "menuItemName":"menuBarReportsRetailSales", "menuTitle":"Отчеты по розничным продажам", "pageTitle":"Отчеты по розничным продажам", "module":"reportsRetailSales-bata", "closable":true},
         { "menuItemName":"separatorReports2"},
-        { "menuItemName":"menuBarReportsCashier", "menuTitle":"Отчеты кассира", "pageTitle":"Отчеты кассира", "module":"reports_retail_cashier-bata", "closable":true},
+        { "menuItemName":"menuBarReportsCashier", "menuTitle":"Отчеты кассира", "pageTitle":"Отчеты кассира", "module":"reportsRetailCashier-bata", "closable":true},
         { "menuItemName":"separatorReports3"},
         { "menuItemName":"menuBarReportsProdsBalance", "menuTitle":"Остатки товаров", "pageTitle":"Остатки товаров", "module":"wrh_prods_balance", "closable":true}
       ]},
@@ -97,7 +97,7 @@
   },
   "usersRoleAutorun":{
     "admin":["menuBarItemMainPage"],
-    "adminDev":["menuBarItemMainPage","menuBarDirsItemUnits","menuBarDirsItemProducts","menuBarWrhOrdersBata", "menuBarWrhPInvoices", "menuBarItemSalesCashierReports"],
+    "adminDev":["menuBarItemMainPage","menuBarDirsItemUnits","menuBarDirsItemProducts","menuBarWrhOrdersBata", "menuBarWrhPInvoices", "menuBarReportsRetailSales"],
     "user":["menuBarItemMainPage"],
     "cashier":["menuBarItemSalesCashierReports"]
   }

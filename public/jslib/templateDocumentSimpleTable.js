@@ -188,7 +188,7 @@ define(["dojo/_base/declare", "app", "templateDocumentBase", "hTableSimpleFilter
             addBtnExportToExcel: function(width, labelText){
                 if (width===undefined) width=100;
                 if (!this.btnUpdate) this.addBtnUpdate(width);
-                if (!labelText) labelText="Скачать excel";
+                if (!labelText) labelText="Экспорт в excel";
                 this.btnExportToExcel= this.addTableCellButtonTo(this.topTableRow, {labelText:labelText, cellWidth:1, cellStyle:"text-align:right;"});
                 var instance = this;
                 this.btnExportToExcel.onClick = function(){

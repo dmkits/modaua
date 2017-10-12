@@ -86,7 +86,7 @@
                     if (!reports_retail_cashierBtn_SalesByArticles.document){
                         reports_retail_cashierBtn_SalesByArticles.document =
                                 APP.childFor(reports_retail_cashierContentPaneDetailContainer, "reports_retail_cashierTableSalesByArticles",
-                                        TDocumentSimpleTable, {titleText:"Продажи по артикулам", dataURL:"/reports/retailCashier/getSalesByArticles"})
+                                        TDocumentSimpleTable, {titleText:"Продажи по артикулам", dataURL:"/reports/retailSales/getSalesByArticles"})
                                         .addBeginDateBox("с","DOCDATE>=", {initValueDate:"curMonthBDate"}).addEndDateBox("по","DOCDATE<=")
                                         .addTotalCountNumberBox("ИТОГО строк:", 140, {style:"font-weight:bold;",inputStyle:"width:50px"})
                                         .addTotalSumNumberTextBox("ИТОГО кол-во:", 210, "SQTY", {style:"font-weight:bold;",inputStyle:"width:60px"})

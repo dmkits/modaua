@@ -74,6 +74,7 @@ function initValidateDataModel(dataModelName, dataModel, errs, nextValidateDataM
     dataModel.getDataItemsForTable= _getDataItemsForTable;
     dataModel.getDataItemForTable= _getDataItemForTable;
     dataModel.getDataForTable= _getDataForTable;
+    dataModel.getDataForDocTable= _getDataForDocTable;
     dataModel.setDataItemForTable= _setDataItemForTable;
     dataModel.insDataItem= _insDataItem;
     dataModel.insDataItemWithNewID= _insDataItemWithNewID;
@@ -685,7 +686,6 @@ function _getDataForTable(params, resultCallback){
         resultCallback(tableData);
         return;
     }
-
     tableData.columns= _getTableColumnsDataForHTable(params.tableColumns);
     tableData.identifier=params.identifier;
     if (!params.conditions) {
@@ -703,7 +703,60 @@ function _getDataForTable(params, resultCallback){
     params.tableData=tableData;
     this.getDataItemsForTable(params, resultCallback);
 }
-
+/**
+ * set column width and type for tableColumnItem.data containing "QTY"/"PRICE"/"SUM"/"NUMBER"/"DATE"
+ */
+function _getTableColumnsDataForDocHTable(tableColumns){
+    if (!tableColumns) return tableColumns;
+    for(var col=0;col<tableColumns.length;col++){
+        var tableColData=tableColumns[col];
+        if(!tableColData||!tableColData.data) continue;
+        if(tableColData.width===undefined){
+            if(tableColData.data.indexOf("QTY")>=0) tableColData.width=50;
+            else if(tableColData.data.indexOf("PRICE")>=0) tableColData.width=65;
+            else if(tableColData.data.indexOf("SUM")>=0) tableColData.width=80;
+            else if(tableColData.data.indexOf("NUMBER")>=0||tableColData.data.indexOf("POS")>=0) tableColData.width=55;
+            else if(tableColData.data.indexOf("DATE")>=0) tableColData.width=55;
+        }
+        if(tableColData.type===undefined){
+            if(tableColData.data.indexOf("QTY")>=0) tableColData.type="numeric";
+            else if(tableColData.data.indexOf("PRICE")>=0) tableColData.type="numeric2";
+            else if(tableColData.data.indexOf("SUM")>=0) tableColData.type="numeric2";
+            else if(tableColData.data.indexOf("NUMBER")>=0||tableColData.data.indexOf("POS")>=0) tableColData.type="numeric";
+            else if(tableColData.data.indexOf("DATE")>=0) tableColData.type="dateAsText";
+        }
+    }
+    return tableColumns;
+}
+function _getDataForDocTable(params, resultCallback){
+    var tableData={};
+    if(!params){                                                                                        log.error("FAILED _getDataForDocTable! Reason: no function parameters!");//test
+        tableData.error="FAILED _getDataForDocTable! Reason: no function parameters!";
+        resultCallback(tableData);
+        return;
+    }
+    if(!params.tableColumns){                                                                           log.error("FAILED _getDataForDocTable! Reason: no table columns!");//test
+        tableData.error="FAILED _getDataForDocTable! Reason: no table columns!";
+        resultCallback(tableData);
+        return;
+    }
+    tableData.columns= _getTableColumnsDataForHTable(_getTableColumnsDataForDocHTable(params.tableColumns));
+    tableData.identifier=params.identifier;
+    if (!params.conditions) {
+        resultCallback(tableData);
+        return;
+    }
+    var hasConditions=false;
+    for(var conditionItem in params.conditions){
+        hasConditions=true; break;
+    }
+    if (!hasConditions) {
+        resultCallback(tableData);
+        return;
+    }
+    params.tableData=tableData;
+    this.getDataItemsForTable(params, resultCallback);
+}
 /**
  * params = {
  *      tableColumns = [{data:<tableField1Name>},{data:<tableField2Name>},{data:<tableField3Name>},...],

@@ -148,7 +148,7 @@ module.exports.init = function(app){
         {"data": "GENDER_CODE", "name": "Код группы", "width": 65,
             "type": "combobox", "sourceURL":"/dir/products/getDataForProductsGendersCombobox/genderCode",
             dataSource:"dir_products_genders", sourceField:"CODE"},
-        {"data": "GENDER", "name": "Группа", "width": 150,
+        {"data": "GENDER", "name": "Группа", "width": 120,
             "type": "combobox", "sourceURL":"/dir/products/getDataForProductsGendersCombobox/gender",
             dataSource:"dir_products_genders", sourceField:"NAME"},
         {"data": "CODE", "name": "Код категории", "width": 80, "type": "text", dataSource:"dir_products_categories"},
