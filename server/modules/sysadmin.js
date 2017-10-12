@@ -1200,6 +1200,12 @@ module.exports.init = function(app){
             fs.existsSync(logFile);
             var fileDataStr = fs.readFileSync(logFile, "utf8");
         } catch (e) {
+            if(e.code== 'ENOENT'){
+                log.info("There are no logs for " +fileDate+".");
+                outData.error = "There are no logs for " +fileDate+".";
+                res.send(outData);
+                return;
+            }
             log.error("Impossible to read logs! Reason:", e);
             outData.error = "Impossible to read logs! Reason:" + e;
             res.send(outData);

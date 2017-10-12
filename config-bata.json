@@ -97,7 +97,7 @@
   },
   "usersRoleAutorun":{
     "admin":["menuBarItemMainPage"],
-    "adminDev":["menuBarItemMainPage","menuBarDirsItemUnits","menuBarDirsItemProducts","menuBarWrhOrdersBata", "menuBarWrhPInvoices", "menuBarReportsRetailSales"],
+    "adminDev":["menuBarItemMainPage","menuBarDirsItemUnits","menuBarDirsItemProducts","menuBarWrhOrdersBata", "menuBarWrhPInvoices", "menuBarReportsRetailSales","menuBarWrhSalesCashierReports"],
     "user":["menuBarItemMainPage"],
     "cashier":["menuBarItemSalesCashierReports"]
   }

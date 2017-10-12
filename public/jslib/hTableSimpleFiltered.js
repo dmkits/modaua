@@ -52,21 +52,15 @@ define(["dojo/_base/declare", "hTableSimple"], function(declare, HTableSimple){
                 return filterButton.outerHTML;
             };
             handsontableSettings.colHeaders= function(colIndex){
-                return "<span>"+this.getColumnHeader(colIndex)+"</span>"+this.colHeadersFilterButton(colIndex);
+                return "<span style=\"float:right\">"+this.colHeadersFilterButton(colIndex)+"</span><span>"+this.getColumnHeader(colIndex)+"</span>";
             };
-
-            this.handsonTable.updateSettings({
-                afterGetColHeader:function(col, TH) {                             console.log("afterGetColHeader",col,TH);
-
-                }
-                //afterRenderer:function(TD, row, col, prop, value, cellProperties) {                             console.log("afterRenderer",TD,row,col);
-                //
-                //}
-            });
-
-
-
-
+            //this.handsonTable.updateSettings({
+            //    afterGetColHeader:function(col, TH) {                             console.log("afterGetColHeader",col,TH);
+            //    }
+            //    //afterRenderer:function(TD, row, col, prop, value, cellProperties) {                             console.log("afterRenderer",TD,row,col);
+            //    //
+            //    //}
+            //});
             this.handsonTable.updateSettings({
                 beforeOnCellMouseDown:function(event, coords, element) {
                     if(event.target.id.indexOf("filter_menu")<0)/*filter menu closed if filter button focusout*/
@@ -117,8 +111,60 @@ define(["dojo/_base/declare", "hTableSimple"], function(declare, HTableSimple){
                 if(!filterMenu) {
                     filterMenu = document.createElement('UL');
                     filterMenu.id = "filter_menu"; filterMenu.className = "changeTypeMenu";
-                    this.filterMenu = filterMenu;
+                    this.filterMenu = filterMenu; filterMenu.filterButton=button;
                     document.body.appendChild(filterMenu);
+                    var menuBtnOkOnClick= function(filterMenu){
+                        if(!filterMenu) return;
+                        var filterColProps= filterMenu.colProps, filterValues= filterColProps["filterValues"];
+                        var filtered = false;
+                        if(filterMenu.valueType=="text") {
+                            if(filterMenu.valueEdit) {
+                                if(filterMenu.valueEdit.value=="") filterColProps["filterValue"]=null;
+                                else {
+                                    filterColProps["filterValue"]= filterMenu.valueEdit.value;
+                                    filtered=true;
+                                    for(var filterMenuItemName in filterMenu.valueItems) {
+                                        var filterMenuItem=filterMenu.valueItems[filterMenuItemName];
+                                        filterMenuItem.checked= filterMenuItem.value.toString().indexOf(filterMenu.valueEdit.value)>=0;
+                                    }
+                                }
+                            }
+                            for(var filterMenuItemName in filterMenu.valueItems) {
+                                var filterMenuItem = filterMenu.valueItems[filterMenuItemName];
+                                var filterItemValue=filterMenuItem["value"];
+                                filterValues[filterItemValue]=filterMenuItem.checked;
+                            }
+                            for(var filterMenuItemName in filterMenu.valueItems)
+                                if(filterMenu.valueItems[filterMenuItemName].checked==false){ filtered=true; break; }
+                        } else if(filterMenu.valueType=="numeric") {
+                            for(var filterValueItem in filterValues) filterValues[filterValueItem]= null;
+                            if(filterMenu.valueEdit.value!="") {
+                                var filterEditValues = filterMenu.valueEdit.value, filterValueNum=1;
+                                while(filterEditValues.length>0){
+                                    var posDelimiter = filterEditValues.indexOf(","); if(posDelimiter<0) posDelimiter=filterEditValues.length;
+                                    var filterEditValueItem = filterEditValues.substring(0,posDelimiter);
+                                    var posInterval= filterEditValueItem.indexOf("-");
+                                    if(posInterval<0){
+                                        var filterValueItem= parseFloat(filterEditValueItem);
+                                        if(!isNaN(filterValueItem)) filterValues["value_"+filterValueNum] = filterValueItem;
+                                    } else {
+                                        filterValues["value_"+filterValueNum] = [];
+                                        var filterEditValueItemFrom= parseFloat(filterEditValueItem.substring(0,posInterval));
+                                        if(!isNaN(filterEditValueItemFrom)) filterValues["value_"+filterValueNum]["from"] = filterEditValueItemFrom;
+                                        var filterEditValueItemTo= parseFloat(filterEditValueItem.substring(posInterval+1,filterEditValueItem.length));
+                                        if(!isNaN(filterEditValueItemTo)) filterValues["value_"+filterValueNum]["to"] = filterEditValueItemTo;
+                                    }
+                                    filterEditValues= filterEditValues.substring(posDelimiter+1,filterEditValues.length);
+                                    filterValueNum++;
+                                }
+                            }
+                            for(var filterValueItem in filterValues) if(filterValues[filterValueItem]!=null) { filtered= true; break; }
+                        }
+                        filterColProps["filtered"]= filtered;
+                        if (filtered==true) filterMenu.filterButton.style.color = 'black'; else filterMenu.filterButton.style.color = '#bbb';
+                        parent.handsonTable.hideFilterMenu();
+                        parent.onUpdateContent({filtered:parent.filterContentData()});
+                    };
                     Handsontable.Dom.addEvent(filterMenu, 'click', function (event) {/*menu item click*/                //console.log("HTableSimpleFiltered.handsonTable.showFilterMenu filterMenu click ",event.target);
                         var eventTarget = event.target, eventTargetID = event.target.id;
                         if (eventTargetID.indexOf("filter_menu_item_elem_")==0&&eventTargetID.indexOf("buttonCancel")>0) {   //console.log("HTableSimpleFiltered.handsonTable.showFilterMenu filterMenu click filter_menu_item_ buttonCancel", event.target);
@@ -130,58 +176,7 @@ define(["dojo/_base/declare", "hTableSimple"], function(declare, HTableSimple){
                             parent.handsonTable.hideFilterMenu();
                             parent.onUpdateContent({filtered:parent.filterContentData()});
                         } else if (eventTargetID.indexOf("filter_menu_item_elem_")==0&&eventTargetID.indexOf("buttonOK")>0) { //console.log("HTableSimpleFiltered.handsonTable.showFilterMenu filterMenu click filter_menu_item_ buttonOK", event.target);
-                            var filterColProps= eventTarget.filterMenu.colProps;
-                            var filterValues= filterColProps["filterValues"];
-                            var filterMenu= eventTarget.filterMenu;
-                            var filtered = false;
-                            if(eventTarget.filterMenu.valueType=="text") {
-                                if(filterMenu.valueEdit) {
-                                    if(filterMenu.valueEdit.value=="") filterColProps["filterValue"]=null;
-                                    else {
-                                        filterColProps["filterValue"]= filterMenu.valueEdit.value;
-                                        filtered=true;
-                                        for(var filterMenuItemName in filterMenu.valueItems) {
-                                            var filterMenuItem=filterMenu.valueItems[filterMenuItemName];
-                                            filterMenuItem.checked= filterMenuItem.value.toString().indexOf(filterMenu.valueEdit.value)>=0;
-                                        }
-                                    }
-                                }
-                                for(var filterMenuItemName in filterMenu.valueItems) {
-                                    var filterMenuItem = filterMenu.valueItems[filterMenuItemName];
-                                    var filterItemValue=filterMenuItem["value"];
-                                    filterValues[filterItemValue]=filterMenuItem.checked;
-                                }
-                                for(var filterMenuItemName in filterMenu.valueItems)
-                                    if(filterMenu.valueItems[filterMenuItemName].checked==false){ filtered=true; break; }
-                            } else if(eventTarget.filterMenu.valueType=="numeric") {
-                                for(var filterValueItem in filterValues) filterValues[filterValueItem]= null;
-                                if(filterMenu.valueEdit.value!="") {
-                                    var filterEditValues = filterMenu.valueEdit.value, filterValueNum=1;
-                                    while(filterEditValues.length>0){
-                                        var posDelimiter = filterEditValues.indexOf(","); if(posDelimiter<0) posDelimiter=filterEditValues.length;
-                                        var filterEditValueItem = filterEditValues.substring(0,posDelimiter);
-                                        var posInterval= filterEditValueItem.indexOf("-");
-                                        if(posInterval<0){
-                                            var filterValueItem= parseFloat(filterEditValueItem);
-                                            if(!isNaN(filterValueItem)) filterValues["value_"+filterValueNum] = filterValueItem;
-                                        } else {
-                                            filterValues["value_"+filterValueNum] = [];
-                                            var filterEditValueItemFrom= parseFloat(filterEditValueItem.substring(0,posInterval));
-                                            if(!isNaN(filterEditValueItemFrom)) filterValues["value_"+filterValueNum]["from"] = filterEditValueItemFrom;
-                                            var filterEditValueItemTo= parseFloat(filterEditValueItem.substring(posInterval+1,filterEditValueItem.length));
-                                            if(!isNaN(filterEditValueItemTo)) filterValues["value_"+filterValueNum]["to"] = filterEditValueItemTo;
-                                        }
-                                        filterEditValues= filterEditValues.substring(posDelimiter+1,filterEditValues.length);
-                                        filterValueNum++;
-                                    }
-                                }
-                                for(var filterValueItem in filterValues) if(filterValues[filterValueItem]!=null) { filtered= true; break; }
-                            }
-                            filterColProps["filtered"]= filtered;
-                            var filterButton = event.target.filterButton;
-                            if (filtered==true) filterButton.style.color = 'black'; else filterButton.style.color = '#bbb';
-                            parent.handsonTable.hideFilterMenu();
-                            parent.onUpdateContent({filtered:parent.filterContentData()});
+                            menuBtnOkOnClick(eventTarget.filterMenu);
                         } else if (eventTargetID.indexOf("filter_menu_item_elem_")==0&&eventTargetID.indexOf("buttonClearAll")>0) {
                             if(eventTarget.filterMenu.valueItems){
                                 for(var filterValueItemName in eventTarget.filterMenu.valueItems)
@@ -191,7 +186,17 @@ define(["dojo/_base/declare", "hTableSimple"], function(declare, HTableSimple){
                             if(eventTarget.filterMenu.valueEdit) eventTarget.filterMenu.valueEdit.value="";
                         }
                     });
+                    filterMenu.onkeyup=function(event){
+                        if(event.key=='Enter'&&event.code=='Enter') {
+                            if(event.target&&event.target.filterMenu)
+                            menuBtnOkOnClick(event.target.filterMenu);
+                        }
+                        if(event.key=='Escape'&&event.code=='Escape')parent.handsonTable.hideFilterMenu();
+                    };
                 }
+                button.onkeyup=function(event){
+                    if(event.key=='Escape'&&event.code=='Escape')parent.handsonTable.hideFilterMenu();
+                };
                 filterMenu.style.display = 'block'; filterMenu.isOpen = true;
                 var position = button.getBoundingClientRect();
                 filterMenu.style.top = (position.top + (window.scrollY || window.pageYOffset)) + 2 + 'px';
@@ -233,7 +238,9 @@ define(["dojo/_base/declare", "hTableSimple"], function(declare, HTableSimple){
                             filterMenuElem.filterMenu = filterMenu; filterMenu.valueItems[idPostfix+"_"+i] = filterMenuElem;
                             filterMenuElemLabel = document.createElement("label"); filterMenuElemLabel.id = "filter_menu_item_elem_label_"+idPostfix+"_"+i;
                             if(elemValue=="")elemValue="(Без значения)";
-                            filterMenuElemLabel.htmlFor = filterMenuElem.id; filterMenuElemLabel.appendChild(document.createTextNode(elemValue));
+                            filterMenuElemLabel.htmlFor = filterMenuElem.id;
+                            var filterMenuElemLabelText=elemValue; //
+                            filterMenuElemLabel.appendChild(document.createTextNode(filterMenuElemLabelText));
                             filterMenuElem.label = filterMenuElemLabel;
                             filterMenuItemElemDIV.appendChild(filterMenuElem); filterMenuItemElemDIV.appendChild(filterMenuElemLabel);
                         }
