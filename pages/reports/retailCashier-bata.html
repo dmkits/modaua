@@ -89,7 +89,7 @@
                                         TDocumentSimpleTable, {titleText:"Продажи по артикулам", dataURL:"/reports/retailSales/getSalesByArticles"})
                                         .addBeginDateBox("с","DOCDATE>=", {initValueDate:"curMonthBDate"}).addEndDateBox("по","DOCDATE<=")
                                         .addTotalCountNumberBox("ИТОГО строк:", 140, {style:"font-weight:bold;",inputStyle:"width:50px"})
-                                        .addTotalSumNumberTextBox("ИТОГО кол-во:", 210, "SQTY", {style:"font-weight:bold;",inputStyle:"width:60px"})
+                                        .addTotalSumNumberTextBox("ИТОГО кол-во:", 230, "SQTY", {style:"font-weight:bold;",inputStyle:"width:60px"})
                                         .addTotalSumNumberTextBox("ИТОГО сумма:", 200, "SPOSSUM", {style:"font-weight:bold;",inputStyle:"width:90px",pattern:"###,###,##0.00#######"})
                                         .startUp();
                     }
@@ -102,7 +102,7 @@
                                         TDocumentSimpleTable, {titleText:"Продажи по атрибутам Bata", dataURL:"/reports/retailCashier/getSalesByBataAttributes"})
                                         .addBeginDateBox("с","DOCDATE>=", {initValueDate:"curMonthBDate"}).addEndDateBox("по","DOCDATE<=")
                                         .addTotalCountNumberBox("ИТОГО строк:", 140, {style:"font-weight:bold;",inputStyle:"width:50px"})
-                                        .addTotalSumNumberTextBox("ИТОГО кол-во:", 710, "SQTY", {style:"font-weight:bold;",inputStyle:"width:60px"})
+                                        .addTotalSumNumberTextBox("ИТОГО кол-во:", 530, "SQTY", {style:"font-weight:bold;",inputStyle:"width:60px"})
                                         .addTotalSumNumberTextBox("ИТОГО сумма:", 220, "SPOSSUM", {style:"font-weight:bold;",inputStyle:"width:90px",pattern:"###,###,##0.00#######"})
                                         .startUp();
                     }

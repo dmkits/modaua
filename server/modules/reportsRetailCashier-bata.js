@@ -1,5 +1,5 @@
-var dataModel=require('../datamodel'), reportsBase=require('./reportsBase'),
-    reportsBaseBata=require('./reportsBase-bata');
+var dataModel=require('../datamodel'),
+    dirProducts=require('./dirProducts-bata');
 var wrh_retail_tickets= require(appDataModelPath+"wrh_retail_tickets"),
     wrh_retail_tickets= require(appDataModelPath+"wrh_retail_tickets"),
     wrh_retail_tickets_products= require(appDataModelPath+"wrh_retail_tickets_products"),
@@ -42,7 +42,7 @@ module.exports.init = function(app) {
         {"data": "RET_SALE_CARD_SUM", "name": "Сумма возвратов плат.карт.", visible:false }
     ];
     repRetailCashReportTableColumns=
-        reportsBase.addProductColumnsTo(repRetailCashReportTableColumns,3,{linkSource:"fin_retail_tickets_payments_v",
+        dirProducts.addProductColumnsTo(repRetailCashReportTableColumns,3,{linkSource:"fin_retail_tickets_payments_v",
             visibleColumns:{"PRINT_NAME":false,"PBARCODE":false}});
     app.get("/reports/retailCashier/getCashReport", function (req, res) {
         fin_retail_tickets_payments_v.getDataForDocTable({tableColumns:repRetailCashReportTableColumns,
@@ -55,30 +55,27 @@ module.exports.init = function(app) {
     });
     var repRetailSalesByBataAttributesTableColumns=[
         { dataSource:"wrh_retail_tickets" },
-        { dataSource:"dir_products" },
-        {"data": "PRODUCT_GENDER_CODE", "name": "Код группы товара", "width": 65, "type": "text", align:"center",
-            dataSource:"dir_products_genders", sourceField:"CODE", linkCondition:"dir_products_genders.ID=dir_products.GENDER_ID" },
-        {"data": "PRODUCT_GENDER", "name": "Группа товара", "width": 150, "type": "text",
-            dataSource:"dir_products_genders", sourceField:"NAME", linkCondition:"dir_products_genders.ID=dir_products.GENDER_ID" },
-        {"data": "PRODUCT_CATEGORY_CODE", "name": "Код категории товара", "width": 80, "type": "text", align:"center",
-            dataSource:"dir_products_categories", sourceField:"CODE", linkCondition:"dir_products_categories.ID=dir_products.CATEGORY_ID" },
-        {"data": "PRODUCT_CATEGORY", "name": "Категория товара", "width": 200, "type": "text",
-            dataSource:"dir_products_categories", sourceField:"NAME", linkCondition:"dir_products_categories.ID=dir_products.CATEGORY_ID" },
-        {"data": "PRODUCT_SUBCATEGORY_CODE", "name": "Код подкатегории товара", "width": 100, "type": "text", align:"center",
-            dataSource:"dir_products_subcategories", sourceField:"CODE", linkCondition:"dir_products_subcategories.ID=dir_products.SUBCATEGORY_ID" },
-        {"data": "PRODUCT_SUBCATEGORY", "name": "Подкатегория товара", "width": 200, "type": "text",
-            dataSource:"dir_products_subcategories", sourceField:"NAME", linkCondition:"dir_products_subcategories.ID=dir_products.SUBCATEGORY_ID" },
-        {"data": "PRICE", "name": "Цена", "width": 65, "type": "numeric2" },
-        {"data": "SQTY", "name": "Кол-во", "width": 50, "type": "numeric",
-            dataFunction:{function:"sumIsNull", source:"wrh_retail_tickets_products", sourceField:"QTY"} },
-        {"data": "SPOSSUM", "name": "Сумма", "width": 80, "type": "numeric2",
-            dataFunction:{function:"sumIsNull", source:"wrh_retail_tickets_products", sourceField:"POSSUM"}}
+        //{ dataSource:"dir_products" },
+        //{"data": "PRODUCT_GENDER_CODE", "name": "Код группы товара", "width": 65, "type": "text", align:"center",
+        //    dataSource:"dir_products_genders", sourceField:"CODE", linkCondition:"dir_products_genders.ID=dir_products.GENDER_ID" },
+        //{"data": "PRODUCT_GENDER", "name": "Группа товара", "width": 150, "type": "text",
+        //    dataSource:"dir_products_genders", sourceField:"NAME", linkCondition:"dir_products_genders.ID=dir_products.GENDER_ID" },
+        //{"data": "PRODUCT_CATEGORY_CODE", "name": "Код категории товара", "width": 80, "type": "text", align:"center",
+        //    dataSource:"dir_products_categories", sourceField:"CODE", linkCondition:"dir_products_categories.ID=dir_products.CATEGORY_ID" },
+        //{"data": "PRODUCT_CATEGORY", "name": "Категория товара", "width": 200, "type": "text",
+        //    dataSource:"dir_products_categories", sourceField:"NAME", linkCondition:"dir_products_categories.ID=dir_products.CATEGORY_ID" },
+        //{"data": "PRODUCT_SUBCATEGORY_CODE", "name": "Код подкатегории товара", "width": 100, "type": "text", align:"center",
+        //    dataSource:"dir_products_subcategories", sourceField:"CODE", linkCondition:"dir_products_subcategories.ID=dir_products.SUBCATEGORY_ID" },
+        //{"data": "PRODUCT_SUBCATEGORY", "name": "Подкатегория товара", "width": 200, "type": "text",
+        //    dataSource:"dir_products_subcategories", sourceField:"NAME", linkCondition:"dir_products_subcategories.ID=dir_products.SUBCATEGORY_ID" },
+        {"data": "PRICE", "name": "Цена" },
+        {"data": "SQTY", "name": "Кол-во", dataFunction:{function:"sumIsNull", source:"wrh_retail_tickets_products", sourceField:"QTY"} },
+        {"data": "SPOSSUM", "name": "Сумма", dataFunction:{function:"sumIsNull", source:"wrh_retail_tickets_products", sourceField:"POSSUM"}}
     ];
-    //reportsBaseBata
     repRetailSalesByBataAttributesTableColumns=
-        reportsBaseBata.addProductBataAttrsColumnsTo(repRetailSalesByBataAttributesTableColumns,3);
+        dirProducts.addProductBataAttrsColumnsTo(repRetailSalesByBataAttributesTableColumns,0);
     app.get("/reports/retailCashier/getSalesByBataAttributes", function (req, res) {
-        wrh_retail_tickets_products.getDataForTable({tableColumns:repRetailSalesByBataAttributesTableColumns,
+        wrh_retail_tickets_products.getDataForDocTable({tableColumns:repRetailSalesByBataAttributesTableColumns,
                 identifier:repRetailSalesByBataAttributesTableColumns[0].data,
                 conditions:req.query,
                 order:["PRODUCT_GENDER_CODE","PRODUCT_CATEGORY_CODE","PRODUCT_SUBCATEGORY_CODE"]},
