@@ -185,7 +185,7 @@ var getBaseStyleForValue = function (ItemData) {
 };
 var getPrintValue = function (value, valueType, printFormat) {
     numeral.language('ru-UA');
-    if (!valueType) return value;
+    if (value===undefined||value===null||!valueType) return value;
     if (valueType === "date") {
         if (!printFormat) return moment(value).format("DD.MM.YYYY");
         else return moment(value).format(printFormat);

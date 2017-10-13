@@ -81,17 +81,21 @@ module.exports.addProductAttrsColumnsTo= function(columnsData, ind, params){
         if(cInd==ind){
             if(!hasSource) result.push({dataSource:params.linkSource});
             if(!params.excludeColumns["COLLECTION_CODE"])
-                result.push({"data": "PRODUCT_COLLECTION_CODE", "name": "Код коллекции товара", "width": 100, "type": "text", align:"center",
+                result.push({"data": "PRODUCT_COLLECTION_CODE", "name": "Код коллекции товара", "width": 65, "type": "text", align:"center",
                     visible:params.visibleColumns["COLLECTION_CODE"],
                     dataSource:"dir_products_collections", sourceField:"CODE", linkCondition:"dir_products_collections.ID="+params.linkSource+".COLLECTION_ID" });
             if(!params.excludeColumns["COLLECTION"])
-                result.push({"data": "PRODUCT_COLLECTION", "name": "Коллекция товара", "width": 150, "type": "text",
+                result.push({"data": "PRODUCT_COLLECTION", "name": "Коллекция товара", "width": 120, "type": "text",
                     visible:params.visibleColumns["COLLECTION"],
                     dataSource:"dir_products_collections", sourceField:"NAME", linkCondition:"dir_products_collections.ID="+params.linkSource+".COLLECTION_ID" });
             if(!params.excludeColumns["ARTICLE"])
                 result.push({"data": "PRODUCT_ARTICLE", "name": "Артикул товара", "width": 80, "type": "text", align:"center",
                     visible:params.visibleColumns["ARTICLE"],
                     dataSource:"dir_products_articles", sourceField:"VALUE", linkCondition:"dir_products_articles.ID="+params.linkSource+".ARTICLE_ID" });
+            if(!params.excludeColumns["TYPE"])
+                result.push({"data": "PRODUCT_TYPE", "name": "Тип товара", "width": 100, "type": "text",
+                    visible:params.visibleColumns["TYPE"],
+                    dataSource:"dir_products_types", sourceField:"NAME", linkCondition:"dir_products_types.ID="+params.linkSource+".TYPE_ID" });
             if(!params.excludeColumns["KIND"])
                 result.push({"data": "PRODUCT_KIND", "name": "Вид товара", "width": 150, "type": "text",
                     visible:params.visibleColumns["KIND"],
@@ -100,13 +104,10 @@ module.exports.addProductAttrsColumnsTo= function(columnsData, ind, params){
                 result.push({"data": "PRODUCT_COMPOSITION", "name": "Состав товара", "width": 150, "type": "text",
                     visible:params.visibleColumns["COMPOSITION"],
                     dataSource:"dir_products_compositions", sourceField:"VALUE", linkCondition:"dir_products_compositions.ID="+params.linkSource+".COMPOSITION_ID" });
-
-            //result.push({ "data": "PRODUCT_PRINT_NAME", "name": "Печатное наименование товара", "width": 220, "type": "text",
-            //    visible:params.visibleColumns["PRINT_NAME"],
-            //    dataSource:"dir_products", sourceField:"PRINT_NAME"});
-            //result.push({ "data": "PRODUCT_PBARCODE", "name": "Осн.штрихкод", "width": 100, "type": "text", align:"center",
-            //    visible:params.visibleColumns["PBARCODE"],
-            //    dataSource:"dir_products", sourceField:"PBARCODE"});
+            if(!params.excludeColumns["SIZE"])
+                result.push({"data": "PRODUCT_SIZE", "name": "Размер товара", "width": 65, "type": "text",
+                    visible:params.visibleColumns["SIZE"],
+                    dataSource:"dir_products_sizes", sourceField:"VALUE", linkCondition:"dir_products_sizes.ID="+params.linkSource+".SIZE_ID" });
         }
         result.push(columnsData[cInd]);
     }

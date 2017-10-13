@@ -50,6 +50,8 @@ module.exports.init = function(app) {
         {"data": "SUM_BEGIN_BALANCE", "name": "Начальный остаток", "width": 90 },
         {"data": "SUM_CASH_IN", "name": "Сумма вноса", sourceField:"CASH_IN" },
         {"data": "SUM_CASH_OUT", "name": "Сумма выноса", sourceField:"CASH_OUT" },
+        {"data": "CASH_IN_OUT_PURPOSE", "name": "Причина вноса/выноса", width:150 },
+        {"data": "PURPOSE_NOTE", "name": "Примечание вноса/выноса", width:150 },
         {"data": "TICKET_DOCNUMBER", "name": "Номер чека", "width": 65, "type": "numeric", sourceField:"TICKET_NUMBER" },
         {"data": "SUM_CASH_SALE", "name": "Сумма чека", sourceField:"CASH_SALE" },
         {"data": "SUM_CASH_RET_SALE", "name": "Сумма возврата", sourceField:"CASH_RET_SALE" },
@@ -71,14 +73,15 @@ module.exports.init = function(app) {
                         var beginBalance=result.item["BEGIN_BALANCE"]+0;
                         if(outData.items&&outData.items.length>0) outData.items[0]["SUM_BEGIN_BALANCE"]=beginBalance;
                         else outData.items.push({"SUM_BEGIN_BALANCE":beginBalance});
-                        fin_retail_receipts_payments_v.getDataItem({fields:["CASH_IN","CASH_OUT","CASH_SALE","CASH_RET_SALE"],
-                                fieldsFunctions:{"CASH_IN":{function:"SUM(CASH_IN)"},"CASH_OUT":{function:"SUM(CASH_OUT)"},
-                                    "CASH_SALE":{function:"SUM(CASH_SALE)"},"CASH_RET_SALE":{function:"SUM(CASH_RET_SALE)"}},
+                        fin_retail_receipts_payments_v.getDataItem({fields:["SUM_CASH_IN","SUM_CASH_OUT","SUM_CASH_SALE","SUM_CASH_RET_SALE"],
+                                fieldsFunctions:{"SUM_CASH_IN":{function:"SUM(SUM_CASH_IN)"},"SUM_CASH_OUT":{function:"SUM(SUM_CASH_OUT)"},
+                                    "SUM_CASH_SALE":{function:"SUM(SUM_CASH_SALE)"},"SUM_CASH_RET_SALE":{function:"SUM(SUM_CASH_RET_SALE)"}},
                                 conditions:req.query },
                             function(result){
                                 if(result.error){ res.send(result); return; }
                                 var endBalance=
-                                    beginBalance+result.item["CASH_IN"]-result.item["CASH_OUT"]+result.item["CASH_SALE"]-result.item["CASH_RET_SALE"];
+                                    beginBalance+result.item["SUM_CASH_IN"]-result.item["SUM_CASH_OUT"]
+                                        +result.item["SUM_CASH_SALE"]-result.item["SUM_CASH_RET_SALE"];
                                 if(outData.items&&outData.items.length>0) outData.items[outData.items.length-1]["SUM_END_BALANCE"]=endBalance;
                                 else  outData.items.push({"SUM_END_BALANCE":endBalance});
                                 res.send(outData);

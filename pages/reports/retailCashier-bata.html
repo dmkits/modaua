@@ -72,7 +72,7 @@
                                 TDocumentSimpleTable, {titleText:"Продажи по артикулам", dataURL:"/reports/retailSales/getSalesByArticles"})
                                 .addBeginDateBox("с","DOCDATE>=", {initValueDate:"curMonthBDate"}).addEndDateBox("по","DOCDATE<=")
                                 .addTotalCountNumberBox("ИТОГО строк:", 140)
-                                .addTotalSumNumberTextBox("ИТОГО кол-во:", 230, "SQTY", {style:"font-weight:bold;"})
+                                .addTotalSumNumberTextBox("ИТОГО кол-во:", 330, "SQTY", {style:"font-weight:bold;"})
                                 .addTotalSumNumberTextBox("ИТОГО сумма:", 200, "SPOSSUM", {style:"font-weight:bold;"})
                                 .startUp();
                     }
@@ -96,7 +96,7 @@
                                 TDocumentSimpleTable, {titleText:"Продажи по дням", dataURL:"/reports/retailSales/getSalesByDates"})
                                 .addBeginDateBox("с","DOCDATE>=", {initValueDate:"curMonthBDate"}).addEndDateBox("по","DOCDATE<=")
                                 .addTotalCountNumberBox("ИТОГО строк:", 140)
-                                .addTotalSumNumberTextBox("ИТОГО кол-во:", 445, "SQTY", {style:"font-weight:bold;"})
+                                .addTotalSumNumberTextBox("ИТОГО кол-во:", 640, "SQTY", {style:"font-weight:bold;"})
                                 .addTotalSumNumberTextBox("ИТОГО сумма:", 200, "SPOSSUM", {style:"font-weight:bold;"})
                                 .startUp();
                     }
@@ -107,18 +107,17 @@
                         btnCashInsOuts.document = APP.childFor(contentPaneDetailContainer, "reportsRetailCashier_tableCashInOuts",
                                 TDocumentSimpleTable, {titleText:"Оперативная касса", dataURL:"/reports/retailCashier/getRetailCashBalance"})
                                 .addBeginDateBox("с","DOCDATE>=", {initValueDate:"curMonthBDate"}).addEndDateBox("по","DOCDATE<=")
-                                .addTotalCountNumberBox("ИТОГО строк:", 140)
-                                .addTotalSumNumberTextBox("ИТОГО начальный баланс:", 270, "SUM_BEGIN_BALANCE", {style:"font-weight:bold;"})
-                                .addTotalSumNumberTextBox("ИТОГО вносов:", 270, "SUM_CASH_IN", {style:"font-weight:bold;"})
-                                .addTotalRow().addTotalEmpty().addTotalEmpty()
-                                .addTotalSumNumberTextBox("ИТОГО выносов:", 0, "SUM_CASH_OUT", {style:"font-weight:bold;"})
-                                .addTotalRow().addTotalEmpty().addTotalEmpty()
-                                .addTotalSumNumberTextBox("ИТОГО сумма по чекам:", 0, "SUM_CASH_SALE", {style:"font-weight:bold;"})
-                                .addTotalRow().addTotalEmpty().addTotalEmpty()
-                                .addTotalSumNumberTextBox("ИТОГО сумма по возвратам:", 0, "SUM_CASH_RET_SALE", {style:"font-weight:bold;"})
-                                .addTotalRow().addTotalEmpty().addTotalEmpty()
-                                .addTotalSumNumberTextBox("ИТОГО сумма:", 0, "SUM_END_BALANCE", {style:"font-weight:bold;"})
                                 .addTotalEmpty()
+                                .addTotalSumNumberTextBox("ИТОГО начальный остаток:", 270, "SUM_BEGIN_BALANCE", {style:"font-weight:bold;"})
+                                .addTotalSumNumberTextBox("ИТОГО вносов:", 280, "SUM_CASH_IN")
+                                .addTotalSumNumberTextBox("ИТОГО выносов:",290, "SUM_CASH_OUT")
+                                .addTotalRow().addTotalEmpty().addTotalEmpty()
+                                .addTotalSumNumberTextBox("ИТОГО сумма по чекам:", 0, "SUM_CASH_SALE")
+                                .addTotalSumNumberTextBox("ИТОГО сумма по возвратам:", 0, "SUM_CASH_RET_SALE")
+                                .addTotalRow()
+                                .addTotalCountNumberBox("ИТОГО строк:", 140)
+                                .addTotalEmpty().addTotalEmpty()
+                                .addTotalSumNumberTextBox("ИТОГО сумма на конец:", 0, "SUM_END_BALANCE", {style:"font-weight:bold;"})
                                 .startUp();
                     }
                     contentPaneDetailContainer.selectChild(btnCashInsOuts.document);

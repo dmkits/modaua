@@ -134,7 +134,6 @@ module.exports.init = function(app) {
                 res.send(result);
             });
     });
-
     var repRetailSalesByBataAttributesTableColumns=[
         { dataSource:"wrh_retail_tickets" },
         {"data": "PRICE", "name": "Цена" },
@@ -152,30 +151,16 @@ module.exports.init = function(app) {
                 res.send(result);
             });
     });
-
     var repRetailSalesByDatesTableColumns=[
-        {"data": "DOCDATE", "name": "Дата", "width": 55, "type": "dateAsText", dataSource:"wrh_retail_tickets",sourceField:"DOCDATE" },
-        { dataSource:"dir_products" },
-        {"data": "PRODUCT_COLLECTION_CODE", "name": "Код коллекции товара", "width": 100, "type": "text",
-            dataSource:"dir_products_collections", sourceField:"CODE", linkCondition:"dir_products_collections.ID=dir_products.COLLECTION_ID" },
-        {"data": "PRODUCT_COLLECTION", "name": "Коллекция товара", "width": 150, "type": "text",
-            dataSource:"dir_products_collections", sourceField:"NAME", linkCondition:"dir_products_collections.ID=dir_products.COLLECTION_ID" },
-        {"data": "PRODUCT_ARTICLE", "name": "Артикул товара", "width": 80, "type": "text",
-            dataSource:"dir_products_articles", sourceField:"VALUE", linkCondition:"dir_products_articles.ID=dir_products.ARTICLE_ID" },
-        {"data": "PRODUCT_KIND", "name": "Вид товара", "width": 150, "type": "text",
-            dataSource:"dir_products_kinds", sourceField:"NAME", linkCondition:"dir_products_kinds.ID=dir_products.KIND_ID" },
-        {"data": "PRODUCT_COMPOSITION", "name": "Состав товара", "width": 150, "type": "text",
-            dataSource:"dir_products_compositions", sourceField:"VALUE", linkCondition:"dir_products_compositions.ID=dir_products.COMPOSITION_ID" },
-        {"data": "PRODUCT_SIZE", "name": "Размер товара", "width": 80, "type": "text",
-            dataSource:"dir_products_sizes", sourceField:"VALUE", linkCondition:"dir_products_sizes.ID=dir_products.SIZE_ID" },
-        {"data": "PRICE", "name": "Цена", "width": 60, "type": "numeric2" },
-        {"data": "SQTY", "name": "Кол-во", "width": 50, "type": "numeric",
-            dataFunction:{function:"sumIsNull", source:"wrh_retail_tickets_products", sourceField:"QTY"} },
-        {"data": "SPOSSUM", "name": "Сумма", "width": 80, "type": "numeric2",
-            dataFunction:{function:"sumIsNull", source:"wrh_retail_tickets_products", sourceField:"POSSUM"} }
+        {"data": "DOCDATE", "name": "Дата", dataSource:"wrh_retail_tickets",sourceField:"DOCDATE" },
+        {"data": "PRICE", "name": "Цена" },
+        {"data": "SQTY", "name": "Кол-во", dataFunction:{function:"sumIsNull", source:"wrh_retail_tickets_products", sourceField:"QTY"} },
+        {"data": "SPOSSUM", "name": "Сумма", dataFunction:{function:"sumIsNull", source:"wrh_retail_tickets_products", sourceField:"POSSUM"} }
     ];
+    repRetailSalesByDatesTableColumns=
+        dirProducts.addProductAttrsColumnsTo(repRetailSalesByDatesTableColumns,1,{ excludeColumns:{}});
     app.get("/reports/retailSales/getSalesByDates", function (req, res) {
-        wrh_retail_tickets_products.getDataForTable({tableColumns:repRetailSalesByDatesTableColumns,
+        wrh_retail_tickets_products.getDataForDocTable({tableColumns:repRetailSalesByDatesTableColumns,
                 identifier:repRetailSalesByDatesTableColumns[0].data,
                 conditions:req.query,
                 order:["DOCDATE","PRODUCT_ARTICLE","PRODUCT_COLLECTION","PRODUCT_KIND","PRODUCT_COMPOSITION","PRODUCT_SIZE","PRICE"]},

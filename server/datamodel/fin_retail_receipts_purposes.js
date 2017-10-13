@@ -8,7 +8,8 @@ var changeLog = [
         "field":"RETAIL_RECEIPT_PURPOSE_ID"},
     { 'changeID':'fin_retail_receipts_purposes__3', 'changeDatetime':'2017-06-26 16:57:00', 'changeObj':'fin_retail_receipts_purposes',
         'changeVal':'ALTER TABLE fin_retail_receipts_purposes ADD CONSTRAINT FIN_RETAIL_RECEIPTS_PURPOSES_R_R_PURPOSE_ID_FK ' +
-            'FOREIGN KEY (RETAIL_RECEIPT_PURPOSE_ID) REFERENCES dir_retail_receipt_purposes(ID)' },
+            'FOREIGN KEY (RETAIL_RECEIPT_PURPOSE_ID) REFERENCES dir_retail_receipt_purposes(ID)',
+        "field":"RETAIL_RECEIPT_PURPOSE_ID", "source":"dir_retail_receipt_purposes", "linkField":"ID" },
     { 'changeID':'fin_retail_receipts_purposes__4', 'changeDatetime':'2017-06-26 16:58:00', 'changeObj':'fin_retail_receipts_purposes',
         'changeVal':'ALTER TABLE fin_retail_receipts_purposes ADD COLUMN NOTE VARCHAR(255) NOT NULL',
         "field":"NOTE"}
