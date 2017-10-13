@@ -137,41 +137,22 @@ module.exports.init = function(app) {
 
     var repRetailSalesByBataAttributesTableColumns=[
         { dataSource:"wrh_retail_tickets" },
-        { dataSource:"dir_products" },
-        {"data": "PRODUCT_GENDER_CODE", "name": "Код группы товара", "width": 65, "type": "text",
-            dataSource:"dir_products_genders", sourceField:"CODE", linkCondition:"dir_products_genders.ID=dir_products.GENDER_ID" },
-        {"data": "PRODUCT_GENDER", "name": "Группа товара", "width": 150, "type": "text",
-            dataSource:"dir_products_genders", sourceField:"NAME", linkCondition:"dir_products_genders.ID=dir_products.GENDER_ID" },
-        {"data": "PRODUCT_CATEGORY_CODE", "name": "Код категории товара", "width": 80, "type": "text",
-            dataSource:"dir_products_categories", sourceField:"CODE", linkCondition:"dir_products_categories.ID=dir_products.CATEGORY_ID" },
-        {"data": "PRODUCT_CATEGORY", "name": "Категория товара", "width": 200, "type": "text",
-            dataSource:"dir_products_categories", sourceField:"NAME", linkCondition:"dir_products_categories.ID=dir_products.CATEGORY_ID" },
-        {"data": "PRODUCT_SUBCATEGORY_CODE", "name": "Код подкатегории товара", "width": 100, "type": "text",
-            dataSource:"dir_products_subcategories", sourceField:"CODE", linkCondition:"dir_products_subcategories.ID=dir_products.SUBCATEGORY_ID" },
-        {"data": "PRODUCT_SUBCATEGORY", "name": "Подкатегория товара", "width": 200, "type": "text",
-            dataSource:"dir_products_subcategories", sourceField:"NAME", linkCondition:"dir_products_subcategories.ID=dir_products.SUBCATEGORY_ID" },
-        {"data": "PRODUCT_ARTICLE", "name": "Артикул товара", "width": 80, "type": "text",
-            dataSource:"dir_products_articles", sourceField:"VALUE", linkCondition:"dir_products_articles.ID=dir_products.ARTICLE_ID" },
-        {"data": "PRODUCT_KIND", "name": "Вид товара", "width": 150, "type": "text",
-            dataSource:"dir_products_kinds", sourceField:"NAME", linkCondition:"dir_products_kinds.ID=dir_products.KIND_ID" },
-        {"data": "PRODUCT_COMPOSITION", "name": "Состав товара", "width": 150, "type": "text",
-            dataSource:"dir_products_compositions", sourceField:"VALUE", linkCondition:"dir_products_compositions.ID=dir_products.COMPOSITION_ID" },
-        {"data": "PRICE", "name": "Цена", "width": 60, "type": "numeric2" },
-        {"data": "SQTY", "name": "Кол-во", "width": 50, "type": "numeric",
-            dataFunction:{function:"sumIsNull", source:"wrh_retail_tickets_products", sourceField:"QTY"} },
-        {"data": "SPOSSUM", "name": "Сумма", "width": 80, "type": "numeric2",
-            dataFunction:{function:"sumIsNull", source:"wrh_retail_tickets_products", sourceField:"POSSUM"}}
+        {"data": "PRICE", "name": "Цена" },
+        {"data": "SQTY", "name": "Кол-во", dataFunction:{function:"sumIsNull", source:"wrh_retail_tickets_products", sourceField:"QTY"} },
+        {"data": "SPOSSUM", "name": "Сумма", dataFunction:{function:"sumIsNull", source:"wrh_retail_tickets_products", sourceField:"POSSUM"}}
     ];
+    repRetailSalesByBataAttributesTableColumns=
+        dirProducts.addProductBataAttrsColumnsTo(repRetailSalesByBataAttributesTableColumns,0);
     app.get("/reports/retailSales/getSalesByBataAttributes", function (req, res) {
-        wrh_retail_tickets_products.getDataForTable({tableColumns:repRetailSalesByBataAttributesTableColumns,
-                identifier:repRetailSalesByBataAttributesTableColumns[6].data,
+        wrh_retail_tickets_products.getDataForDocTable({tableColumns:repRetailSalesByBataAttributesTableColumns,
+                identifier:repRetailSalesByBataAttributesTableColumns[0].data,
                 conditions:req.query,
-                order:["PRODUCT_GENDER_CODE","PRODUCT_CATEGORY_CODE","PRODUCT_SUBCATEGORY_CODE",
-                    "PRODUCT_ARTICLE","PRODUCT_KIND","PRODUCT_COMPOSITION","PRICE"]},
+                order:["PRODUCT_GENDER_CODE","PRODUCT_CATEGORY_CODE","PRODUCT_SUBCATEGORY_CODE"]},
             function(result){
                 res.send(result);
             });
     });
+
     var repRetailSalesByDatesTableColumns=[
         {"data": "DOCDATE", "name": "Дата", "width": 55, "type": "dateAsText", dataSource:"wrh_retail_tickets",sourceField:"DOCDATE" },
         { dataSource:"dir_products" },
@@ -200,52 +181,6 @@ module.exports.init = function(app) {
                 order:["DOCDATE","PRODUCT_ARTICLE","PRODUCT_COLLECTION","PRODUCT_KIND","PRODUCT_COMPOSITION","PRODUCT_SIZE","PRICE"]},
             function(result){
                 res.send(result);
-            });
-    });
-    var repRetailCashBalanceTableColumns=[
-        {"data": "DOCDATE", "name": "Дата", "width": 55, "type": "dateAsText", sourceField:"DOCDATE" },
-        {"data": "DOCNUMBER", "name": "Номер", "width": 55, "type": "numeric", sourceField:"NUMBER" },
-        {"data": "BEGIN_BALANCE", "name": "Начальный остаток", "width": 80, "type": "numeric2" },
-        {"data": "CASH_IN", "name": "Внос", "width": 80, "type": "numeric2" },
-        {"data": "CASH_OUT", "name": "Вынос", "width": 80, "type": "numeric2" },
-        {"data": "TICKET_DOCNUMBER", "name": "Номер чека", "width": 80, "type": "numeric", sourceField:"TICKET_NUMBER" },
-        {"data": "CASH_SALE", "name": "Чек", "width": 90, "type": "numeric2" },
-        {"data": "CASH_RET_SALE", "name": "Возврат", "width": 90, "type": "numeric2" },
-        {"data": "END_BALANCE", "name": "Конечный остаток", "width": 80, "type": "numeric2" }
-        //{ "data": "PRODUCT_NAME", "name": "Наименование товара", "width": 300, "type": "text",
-        //    dataSource:"dir_products", sourceField:"NAME", linkCondition:"dir_products.ID=fin_retail_tickets_payments_v.PRODUCT_ID"},
-
-    ];
-    app.get("/reports/retailSales/getRetailCashBalance", function (req, res) {
-        fin_retail_receipts_payments_v.getDataForTable({tableColumns:repRetailCashBalanceTableColumns,
-                identifier:repRetailCashBalanceTableColumns[0].data,
-                conditions:req.query,
-                order:["DOCDATE","NUMBER","TICKET_NUMBER"]},
-            function(result){
-                if(result.items===undefined){
-                    res.send(result);
-                    return;
-                }
-                var outData=result;
-                fin_retail_receipts_payments_v.getDataItem({fields:["BEGIN_BALANCE"],fieldsFunctions:{"BEGIN_BALANCE":{function:"SUM(DOCSUM)"}},
-                        conditions:{"DOCDATE<":req.query["DOCDATE>~"]} },
-                    function(result){
-                        var beginBalance=result.item["BEGIN_BALANCE"];
-                        outData.items.unshift({"BEGIN_BALANCE":beginBalance});
-                        fin_retail_receipts_payments_v.getDataItem({fields:["CASH_IN","CASH_OUT","CASH_SALE","CASH_RET_SALE"],
-                                fieldsFunctions:{"CASH_IN":{function:"SUM(CASH_IN)"},"CASH_OUT":{function:"SUM(CASH_OUT)"},
-                                    "CASH_SALE":{function:"SUM(CASH_SALE)"},"CASH_RET_SALE":{function:"SUM(CASH_RET_SALE)"}},
-                                conditions:req.query },
-                            function(result){
-                                outData.items.push({
-                                    "END_BALANCE":beginBalance+result.item["CASH_IN"]-result.item["CASH_OUT"]+result.item["CASH_SALE"]-result.item["CASH_RET_SALE"]});
-
-                                //outData.items.push(beginBalance);
-                                res.send(outData);
-                            });
-                        //outData.items.push(beginBalance);
-                        //res.send(outData);
-                    });
             });
     });
 };

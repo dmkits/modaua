@@ -29,54 +29,39 @@
     require(["app", "dojo/dom-style", "dijit/layout/BorderContainer", "dijit/layout/StackContainer", "dijit/layout/ContentPane",
                 "dijit/form/Button", "templateDocumentSimpleTable"],
             function (APP, domStyle, BorderContainer, StackContainer, ContentPane, Button, TDocumentSimpleTable) {
-                var pageContainer=
-                        APP.instanceForID("reportsRetailCashier_PageContainer", BorderContainer, {});
+                var pageContainer= APP.instanceForID("reportsRetailCashier_PageContainer", BorderContainer, {});
                 APP.instanceForID("reportsRetailCashier_ContentPaneLeft", ContentPane, {region:'left', splitter:true});
-                var btnCashReport=
-                        APP.instanceForID("reportsRetailCashier_btnCashReport", Button, {style:"width:100px"});
-                domStyle.set("reportsRetailCashier_btnCashReport", "width", "150px");
-                var btnSalesByArticles=
-                        APP.instanceForID("reportsRetailCashier_btnSalesByArticles", Button, {style:"width:100px"});
-                domStyle.set("reportsRetailCashier_btnSalesByArticles", "width", "150px");
-                var btnSalesByBataAttributes=
-                        APP.instanceForID("reportsRetailCashier_btnSalesByBataAttributes", Button, {style:"width:100px"});
-                domStyle.set("reportsRetailCashier_btnSalesByBataAttributes", "width", "150px");
-                var btnSalesByDays=
-                        APP.instanceForID("reportsRetailCashier_btnSalesByDays", Button, {style:"width:100px"});
-                domStyle.set("reportsRetailCashier_btnSalesByDays", "width", "150px");
-                var btnCashInsOuts=
-                        APP.instanceForID("reportsRetailCashier_btnCashInsOuts", Button, {style:"width:100px"});
-                domStyle.set("reportsRetailCashier_btnCashInsOuts", "width", "150px");
-                var btnProdsBalance=
-                        APP.instanceForID("reportsRetailCashier_btnProdsBalance", Button, {style:"width:100px"});
-                domStyle.set("reportsRetailCashier_btnProdsBalance", "width", "150px");
-                var contentPaneDetailContainer=
-                        APP.instanceForID("reportsRetailCashier_ContentPaneDetailContainer", StackContainer, {region:'center'});
-
+                var btnCashReport= APP.instanceForID("reportsRetailCashier_btnCashReport", Button, {},{"width":"150px"});
+                var btnSalesByArticles= APP.instanceForID("reportsRetailCashier_btnSalesByArticles", Button, {},{"width":"150px"});
+                var btnSalesByBataAttributes= APP.instanceForID("reportsRetailCashier_btnSalesByBataAttributes", Button, {},{"width":"150px"});
+                var btnSalesByDays= APP.instanceForID("reportsRetailCashier_btnSalesByDays", Button, {},{"width":"150px"});
+                var btnCashInsOuts= APP.instanceForID("reportsRetailCashier_btnCashInsOuts", Button, {},{"width":"150px"});
+                var btnProdsBalance= APP.instanceForID("reportsRetailCashier_btnProdsBalance", Button, {},{"width":"150px"});
+                var contentPaneDetailContainer= APP.instanceForID("reportsRetailCashier_ContentPaneDetailContainer", StackContainer, {region:'center'});
                 btnCashReport.onClick= function(){
                     if (!btnCashReport.document){
                         btnCashReport.document = APP.childFor(contentPaneDetailContainer, "reportsRetailCashier_tableCashReport",
                                 TDocumentSimpleTable, {titleText:"Кассовый лист", dataURL:"/reports/retailCashier/getCashReport"})
                                 .addBeginDateBox("с","DOCDATE>=", {initValueDate:"curMonthBDate"}).addEndDateBox("по","DOCDATE<=")
                                 .addBtnPrint(550).addTotalEmpty()
-                                .addTotalSumNumberTextBox("Кол-во реализации:", 255, "SALE_QTY", {inputStyle:"width:60px"})
-                                .addTotalSumNumberTextBox("Сумма реализации:", 230, "SALE_POSSUM", {inputStyle:"width:90px",pattern:"###,###,##0.00#######"})
-                                .addTotalSumNumberTextBox("Сумма реализации наличными:", 310, "SALE_CASH_SUM", {inputStyle:"width:90px",pattern:"###,###,##0.00#######"})
+                                .addTotalSumNumberTextBox("Кол-во реализации:", 255, "SALE_QTY")
+                                .addTotalSumNumberTextBox("Сумма реализации:", 230, "SALE_POSSUM")
+                                .addTotalSumNumberTextBox("Сумма реализации наличными:", 310, "SALE_CASH_SUM")
                                 .addTotalRow().addTotalEmpty().addTotalEmpty().addTotalEmpty()
-                                .addTotalSumNumberTextBox("Сумма реализации плат.карты:", 310, "SALE_CARD_SUM", {inputStyle:"width:90px",pattern:"###,###,##0.00#######"})
+                                .addTotalSumNumberTextBox("Сумма реализации плат.карты:", 310, "SALE_CARD_SUM")
                                 .addTotalRow().addTotalEmpty()
-                                .addTotalSumNumberTextBox("Кол-во возвратов:", 255, "RET_SALE_QTY", {inputStyle:"width:60px"})
-                                .addTotalSumNumberTextBox("Сумма возвратов:", 230, "RET_SALE_POSSUM", {inputStyle:"width:90px",pattern:"###,###,##0.00#######"})
-                                .addTotalSumNumberTextBox("Сумма возвратов наличными:", 310, "RET_SALE_CASH_SUM", {inputStyle:"width:90px",pattern:"###,###,##0.00#######"})
+                                .addTotalSumNumberTextBox("Кол-во возвратов:", 255, "RET_SALE_QTY")
+                                .addTotalSumNumberTextBox("Сумма возвратов:", 230, "RET_SALE_POSSUM")
+                                .addTotalSumNumberTextBox("Сумма возвратов наличными:", 310, "RET_SALE_CASH_SUM")
                                 .addTotalRow().addTotalEmpty().addTotalEmpty().addTotalEmpty()
-                                .addTotalSumNumberTextBox("Сумма возвратов по плат.картам:", 310, "RET_SALE_CARD_SUM", {inputStyle:"width:90px",pattern:"###,###,##0.00#######"})
+                                .addTotalSumNumberTextBox("Сумма возвратов по плат.картам:", 310, "RET_SALE_CARD_SUM")
                                 .addTotalRow()
-                                .addTotalCountNumberBox("ИТОГО строк:", 140, {style:"font-weight:bold;",inputStyle:"width:50px"})
-                                .addTotalSumNumberTextBox("ИТОГО кол-во:",0, "QTY", {style:"font-weight:bold;",inputStyle:"width:60px"})
-                                .addTotalSumNumberTextBox("ИТОГО сумма:",0, "POSSUM", {style:"font-weight:bold;",inputStyle:"width:90px",pattern:"###,###,##0.00#######"})
-                                .addTotalSumNumberTextBox("ИТОГО сумма наличными:", 0, "CASH_SUM", {style:"font-weight:bold;",inputStyle:"width:90px",pattern:"###,###,##0.00#######"})
+                                .addTotalCountNumberBox("ИТОГО строк:", 140)
+                                .addTotalSumNumberTextBox("ИТОГО кол-во:",0, "QTY", {style:"font-weight:bold;"})
+                                .addTotalSumNumberTextBox("ИТОГО сумма:",0, "POSSUM", {style:"font-weight:bold;"})
+                                .addTotalSumNumberTextBox("ИТОГО сумма наличными:", 0, "CASH_SUM", {style:"font-weight:bold;"})
                                 .addTotalRow().addTotalEmpty().addTotalEmpty().addTotalEmpty()
-                                .addTotalSumNumberTextBox("ИТОГО сумма плат.карты:", 0, "CARD_SUM", {style:"font-weight:bold;",inputStyle:"width:90px",pattern:"###,###,##0.00#######"})
+                                .addTotalSumNumberTextBox("ИТОГО сумма плат.карты:", 0, "CARD_SUM", {style:"font-weight:bold;"})
                                 .startUp();
                     }
                     contentPaneDetailContainer.selectChild(btnCashReport.document);
@@ -86,9 +71,9 @@
                         btnSalesByArticles.document = APP.childFor(contentPaneDetailContainer, "reportsRetailCashier_tableSalesByArticles",
                                 TDocumentSimpleTable, {titleText:"Продажи по артикулам", dataURL:"/reports/retailSales/getSalesByArticles"})
                                 .addBeginDateBox("с","DOCDATE>=", {initValueDate:"curMonthBDate"}).addEndDateBox("по","DOCDATE<=")
-                                .addTotalCountNumberBox("ИТОГО строк:", 140, {style:"font-weight:bold;",inputStyle:"width:50px"})
-                                .addTotalSumNumberTextBox("ИТОГО кол-во:", 230, "SQTY", {style:"font-weight:bold;",inputStyle:"width:60px"})
-                                .addTotalSumNumberTextBox("ИТОГО сумма:", 200, "SPOSSUM", {style:"font-weight:bold;",inputStyle:"width:90px",pattern:"###,###,##0.00#######"})
+                                .addTotalCountNumberBox("ИТОГО строк:", 140)
+                                .addTotalSumNumberTextBox("ИТОГО кол-во:", 230, "SQTY", {style:"font-weight:bold;"})
+                                .addTotalSumNumberTextBox("ИТОГО сумма:", 200, "SPOSSUM", {style:"font-weight:bold;"})
                                 .startUp();
                     }
                     contentPaneDetailContainer.selectChild(btnSalesByArticles.document);
@@ -96,11 +81,11 @@
                 btnSalesByBataAttributes.onClick= function(){
                     if (!btnSalesByBataAttributes.document){
                         btnSalesByBataAttributes.document = APP.childFor(contentPaneDetailContainer, "reportsRetailCashier_tableSalesByBataAttributes",
-                                TDocumentSimpleTable, {titleText:"Продажи по атрибутам Bata", dataURL:"/reports/retailCashier/getSalesByBataAttributes"})
+                                TDocumentSimpleTable, {titleText:"Продажи по атрибутам Bata", dataURL:"/reports/retailSales/getSalesByBataAttributes"})
                                 .addBeginDateBox("с","DOCDATE>=", {initValueDate:"curMonthBDate"}).addEndDateBox("по","DOCDATE<=")
-                                .addTotalCountNumberBox("ИТОГО строк:", 140, {style:"font-weight:bold;",inputStyle:"width:50px"})
-                                .addTotalSumNumberTextBox("ИТОГО кол-во:", 530, "SQTY", {style:"font-weight:bold;",inputStyle:"width:60px"})
-                                .addTotalSumNumberTextBox("ИТОГО сумма:", 220, "SPOSSUM", {style:"font-weight:bold;",inputStyle:"width:90px",pattern:"###,###,##0.00#######"})
+                                .addTotalCountNumberBox("ИТОГО строк:", 140)
+                                .addTotalSumNumberTextBox("ИТОГО кол-во:", 530, "SQTY", {style:"font-weight:bold;"})
+                                .addTotalSumNumberTextBox("ИТОГО сумма:", 220, "SPOSSUM", {style:"font-weight:bold;"})
                                 .startUp();
                     }
                     contentPaneDetailContainer.selectChild(btnSalesByBataAttributes.document);
@@ -108,11 +93,11 @@
                 btnSalesByDays.onClick= function(){
                     if (!btnSalesByDays.document){
                         btnSalesByDays.document = APP.childFor(contentPaneDetailContainer, "reportsRetailCashier_tableSalesByDays",
-                                TDocumentSimpleTable, {titleText:"Продажи по дням", dataURL:"/reports/retailCashier/getSalesByDates"})
+                                TDocumentSimpleTable, {titleText:"Продажи по дням", dataURL:"/reports/retailSales/getSalesByDates"})
                                 .addBeginDateBox("с","DOCDATE>=", {initValueDate:"curMonthBDate"}).addEndDateBox("по","DOCDATE<=")
-                                .addTotalCountNumberBox("ИТОГО строк:", 140, {style:"font-weight:bold;",inputStyle:"width:50px"})
-                                .addTotalSumNumberTextBox("ИТОГО кол-во:", 445, "SQTY", {style:"font-weight:bold;",inputStyle:"width:60px"})
-                                .addTotalSumNumberTextBox("ИТОГО сумма:", 200, "SPOSSUM", {style:"font-weight:bold;",inputStyle:"width:90px",pattern:"###,###,##0.00#######"})
+                                .addTotalCountNumberBox("ИТОГО строк:", 140)
+                                .addTotalSumNumberTextBox("ИТОГО кол-во:", 445, "SQTY", {style:"font-weight:bold;"})
+                                .addTotalSumNumberTextBox("ИТОГО сумма:", 200, "SPOSSUM", {style:"font-weight:bold;"})
                                 .startUp();
                     }
                     contentPaneDetailContainer.selectChild(btnSalesByDays.document);
@@ -122,17 +107,17 @@
                         btnCashInsOuts.document = APP.childFor(contentPaneDetailContainer, "reportsRetailCashier_tableCashInOuts",
                                 TDocumentSimpleTable, {titleText:"Оперативная касса", dataURL:"/reports/retailCashier/getRetailCashBalance"})
                                 .addBeginDateBox("с","DOCDATE>=", {initValueDate:"curMonthBDate"}).addEndDateBox("по","DOCDATE<=")
-                                .addTotalCountNumberBox("ИТОГО строк:", 140, {style:"font-weight:bold;",inputStyle:"width:50px"})
-                                .addTotalSumNumberTextBox("ИТОГО начальный баланс:", 270, "BEGIN_BALANCE", {style:"font-weight:bold;",inputStyle:"width:90px",pattern:"###,###,##0.00#######"})
-                                .addTotalSumNumberTextBox("ИТОГО вносов:", 270, "CASH_IN", {style:"font-weight:bold;",inputStyle:"width:90px",pattern:"###,###,##0.00#######"})
+                                .addTotalCountNumberBox("ИТОГО строк:", 140)
+                                .addTotalSumNumberTextBox("ИТОГО начальный баланс:", 270, "SUM_BEGIN_BALANCE", {style:"font-weight:bold;"})
+                                .addTotalSumNumberTextBox("ИТОГО вносов:", 270, "SUM_CASH_IN", {style:"font-weight:bold;"})
                                 .addTotalRow().addTotalEmpty().addTotalEmpty()
-                                .addTotalSumNumberTextBox("ИТОГО выносов:", 0, "CASH_OUT", {style:"font-weight:bold;",inputStyle:"width:90px",pattern:"###,###,##0.00#######"})
+                                .addTotalSumNumberTextBox("ИТОГО выносов:", 0, "SUM_CASH_OUT", {style:"font-weight:bold;"})
                                 .addTotalRow().addTotalEmpty().addTotalEmpty()
-                                .addTotalSumNumberTextBox("ИТОГО сумма по чекам:", 0, "CASH_SALE", {style:"font-weight:bold;",inputStyle:"width:90px",pattern:"###,###,##0.00#######"})
+                                .addTotalSumNumberTextBox("ИТОГО сумма по чекам:", 0, "SUM_CASH_SALE", {style:"font-weight:bold;"})
                                 .addTotalRow().addTotalEmpty().addTotalEmpty()
-                                .addTotalSumNumberTextBox("ИТОГО сумма по возвратам:", 0, "CASH_RET_SALE", {style:"font-weight:bold;",inputStyle:"width:90px",pattern:"###,###,##0.00#######"})
+                                .addTotalSumNumberTextBox("ИТОГО сумма по возвратам:", 0, "SUM_CASH_RET_SALE", {style:"font-weight:bold;"})
                                 .addTotalRow().addTotalEmpty().addTotalEmpty()
-                                .addTotalSumNumberTextBox("ИТОГО сумма:", 0, "END_BALANCE", {style:"font-weight:bold;",inputStyle:"width:90px",pattern:"###,###,##0.00#######"})
+                                .addTotalSumNumberTextBox("ИТОГО сумма:", 0, "SUM_END_BALANCE", {style:"font-weight:bold;"})
                                 .addTotalEmpty()
                                 .startUp();
                     }
@@ -143,7 +128,7 @@
                         btnProdsBalance.report = APP.childFor(contentPaneDetailContainer, "reports_prods_balance_tableProdsBalance",
                                 TDocumentSimpleTable, {titleText:"Остатки товаров", dataURL:"/reports/retailCashier/get_products_balance"})
                                 .addEndDateBox("по","DOCDATE<=")
-                                .addTotalCountNumberBox("ИТОГО строк:", 150, {style:"font-weight:bold;",inputStyle:"width:50px"})
+                                .addTotalCountNumberBox("ИТОГО строк:", 150)
                                 .addTotalSumNumberTextBox("ИТОГО остаток:", 845, "PROD_BALANCE", {style:"font-weight:bold;",inputStyle:"width:60px"})
                                 .startUp();
                     }

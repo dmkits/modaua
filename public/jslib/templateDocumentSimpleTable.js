@@ -248,23 +248,33 @@ define(["dojo/_base/declare", "app", "templateDocumentBase", "hTableSimpleFilter
                 if (text) totalTableCell.appendChild(document.createTextNode(text));
                 return this;
             },
-            /*
+            /**
              * params { style, inputStyle, pattern }
+             * default inputStyle = "width:50px"
+             * default inputStyle for totalItemName contain "QTY" = "width:60px"
+             * default inputStyle for totalItemName contain "SUM" = "width:90px"
              * default pattern="#,###,###,###,##0.#########"
+             * * default pattern for totalItemName contain "SUM" ="#,###,###,###,##0.00#######"
              */
-            addTotalNumberBox: function(labelText, width, tableItemName, params){
+            addTotalNumberBox: function(labelText, width, totalItemName, params){
                 this.setTotalContent();
-                var style="",inputStyle="", pattern="#,###,###,###,##0.#########";
-                if (params&&params.style) style=params.style;
-                if (params&&params.inputStyle) inputStyle=params.inputStyle;
-                if (params&&params.pattern) pattern=params.pattern;
+                if (!params) params={};
+                if (!params.style&&totalItemName=="TableRowCount") params.style="font-weight:bold;";
+                else if (!params.style) params.style="";
+                if (!params.inputStyle&&totalItemName&&totalItemName.indexOf("QTY")>=0) params.inputStyle="width:60px";
+                else if (!params.inputStyle&&totalItemName&&totalItemName.indexOf("SUM")>=0) params.inputStyle="width:90px";
+                else if (!params.inputStyle) params.inputStyle="width:50px";
+                if (params.inputStyle&&params.inputStyle.indexOf("width:")<0) params.inputStyle+=";width:50px;";
+                if (!params.pattern&&totalItemName.indexOf("SUM")>=0) params.pattern="#,###,###,###,##0.00#######";
+                else if(!params.pattern) params.pattern="#,###,###,###,##0.#########";
                 var totalNumberTextBox= this.addTableCellNumberTextBoxTo(this.totalTableRow,
                     {cellWidth:width, cellStyle:"text-align:right;",
-                        labelText:labelText, labelStyle:style, inputStyle:"text-align:right;"+style+inputStyle,
-                        inputParams:{constraints:{pattern:pattern}, readOnly:true,
-                            /*it's for print*/cellWidth:width, labelText:labelText, printStyle:style, inputStyle:"text-align:right;"+inputStyle, typeFormat:pattern } });
+                        labelText:labelText, labelStyle:params.style, inputStyle:"text-align:right;"+params.style+params.inputStyle,
+                        inputParams:{constraints:{pattern:params.pattern}, readOnly:true,
+                            /*it's for print*/cellWidth:width, labelText:labelText, printStyle:params.style,
+                            inputStyle:"text-align:right;"+params.inputStyle, typeFormat:params.pattern } });
                 if (!this.totals) this.totals = {};
-                this.totals[tableItemName]= totalNumberTextBox;
+                this.totals[totalItemName]= totalNumberTextBox;
                 var totalTableRowData= this.totalTableData[this.totalTableData.length-1];
                 totalTableRowData.push(totalNumberTextBox);
                 return totalNumberTextBox;
