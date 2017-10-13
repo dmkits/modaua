@@ -133,7 +133,7 @@ define(["dojo/_base/declare", "app", "templateDocumentBase", "hTableSimpleFilter
                 else if (params.initValueDate==="curMonthBDate") initValueDate= APP.curMonthBDate();
                 else if (params.initValueDate==="curMonthEDate") initValueDate= APP.curMonthEDate();
                 this.beginDateBox= this.addTableCellDateBoxTo(this.topTableRow,
-                    {labelText:labelText, labelStyle:"margin-left:5px;", cellWidth:110, cellStyle:"text-align:right;",
+                    {labelText:labelText, labelStyle:"margin-left:5px;", cellWidth:150, cellStyle:"text-align:right;",
                         inputParams:{conditionName:conditionName}, initValueDate:initValueDate});
                 var instance = this;
                 this.beginDateBox.onChange = function(){
@@ -144,8 +144,8 @@ define(["dojo/_base/declare", "app", "templateDocumentBase", "hTableSimpleFilter
             addEndDateBox: function(labelText, conditionName, initValueDate){
                 if (initValueDate===undefined||initValueDate===null) initValueDate= APP.today();
                 this.endDateBox= this.addTableCellDateBoxTo(this.topTableRow,
-                    {labelText:labelText, labelStyle:"margin-left:5px;", cellWidth:110, cellStyle:"text-align:right;",
-                        inputParams:{conditionName:conditionName}, initValueDate:initValueDate});
+                    {labelText:labelText, labelStyle:"margin-left:5px;", cellWidth:150, cellStyle:"text-align:right;",
+                        inputParams:{conditionName:conditionName}, initValueDate:initValueDate});;
                 var instance = this;
                 this.endDateBox.onChange = function(){
                     instance.loadTableContent();

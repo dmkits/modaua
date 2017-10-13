@@ -74,7 +74,7 @@ define(["dojo/_base/declare", "dijit/layout/BorderContainer", "dijit/layout/Cont
                 var instance = this;
                 if (params.bdateCondition) {
                     this.listBDate = this.addTableCellDateBoxTo(this.listPeriodTableRow,
-                        {labelText:params.bdatelabelText, labelStyle:"margin-left:5px;", cellWidth:110, cellStyle:"text-align:right;",
+                        {labelText:params.bdatelabelText, labelStyle:"margin-left:5px;", cellWidth:150, cellStyle:"text-align:right;",
                             inputParams:{conditionName:params.bdateCondition}, initValueDate:APP.curMonthBDate()});
                     this.listBDate.onChange = function(){
                         instance.loadListTableContentFromServer();
@@ -82,7 +82,7 @@ define(["dojo/_base/declare", "dijit/layout/BorderContainer", "dijit/layout/Cont
                 }
                 if (params.edateCondition) {
                     this.listEDate = this.addTableCellDateBoxTo(this.listPeriodTableRow,
-                        {labelText:params.edatelabelText, labelStyle:"margin-left:5px;", cellWidth:110, cellStyle:"text-align:right;",
+                        {labelText:params.edatelabelText, labelStyle:"margin-left:5px;", cellWidth:150, cellStyle:"text-align:right;",
                             inputParams:{conditionName:params.edateCondition}, initValueDate:APP.curMonthEDate()});
                     this.listEDate.onChange = function(){
                         instance.loadListTableContentFromServer();

@@ -185,7 +185,10 @@ define(["dojo/_base/declare", "dijit/layout/BorderContainer", "dijit/layout/Layo
                 if (params.initValueDate!==undefined) dateBoxParams.value= params.initValueDate;
                 dateBoxParams.style= "width:85px";
                 if (params.inputStyle) dateBoxParams.style=params.inputStyle;
-                return new DateTextBox(dateBoxParams,inputDateBox);
+                var dateTextBox=new DateTextBox(dateBoxParams,inputDateBox);
+                this.addPreviousDayBtn(tableCell,dateTextBox);
+                this.addNextDayBtn(tableCell,dateTextBox);
+                return  dateTextBox;
             },
             /*
              * params= {cellWidth, cellStyle, labelText, labelStyle, inputParam, inputStyle, initValues}
@@ -270,7 +273,6 @@ define(["dojo/_base/declare", "dijit/layout/BorderContainer", "dijit/layout/Layo
 
                 var tableData=params.tableData;
                 var visibleColumns=params.visibleColumns;
-
                 var columnsDataForExcel= [];
                 for (var i in visibleColumns) {
                     var column = visibleColumns[i];
@@ -302,6 +304,37 @@ define(["dojo/_base/declare", "dijit/layout/BorderContainer", "dijit/layout/Layo
                     }else{
                         console.log("Impossible to load file");
                     }
+                };
+            },
+            addPreviousDayBtn:function(tableCell,dateTextBox){
+                var previousDayBtn = document.createElement('BUTTON');
+                previousDayBtn.setAttribute("id","previousDayBtnFor"+dateTextBox.id);
+                previousDayBtn.className = "dijitReset dijitButtonNode";
+                previousDayBtn.style.width = "18px";
+                previousDayBtn.style.height = "18px";
+                previousDayBtn.style.border="solid 1px #b5bcc7";
+                previousDayBtn.style.color="#b5bcc7";
+                previousDayBtn.innerText= "\u25c4";
+                tableCell.insertBefore(previousDayBtn, tableCell.lastChild);
+                previousDayBtn.onclick=function(){
+                    var newDate=moment(new Date(dateTextBox.value)).subtract(1, 'days');
+                    dateTextBox.set("displayedValue",newDate.format("DD.MM.YYYY"));
+                };
+            },
+            addNextDayBtn:function(tableCell,dateTextBox){
+                var nextDayBtn = document.createElement('BUTTON');
+                nextDayBtn.setAttribute("id","nextDayBtn"+dateTextBox.id);
+                nextDayBtn.className = "dijitReset dijitButtonNode";
+                nextDayBtn.style.width = "18px";
+                nextDayBtn.style.height = "18px";
+                nextDayBtn.style.border="solid 1px #b5bcc7";
+                nextDayBtn.style.color="#b5bcc7";
+                nextDayBtn.innerText= "\u25ba";
+                tableCell.appendChild(nextDayBtn);
+                nextDayBtn.onclick=function(){
+                    var newDate=moment(new Date(dateTextBox.value)).add(1, 'days');
+                    console.log("newDate=",newDate);
+                    dateTextBox.set("displayedValue",newDate.format("DD.MM.YYYY"));
                 };
             }
         })
