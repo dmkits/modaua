@@ -1,5 +1,6 @@
 var path=require('path'), XLSX=require('xlsx'),fs=require('fs');
 var dataModel=require('../datamodel'), util=require('../util');
+var log=require('../server').log;
 var sys_currency= require(appDataModelPath+"sys_currency"),
     sys_docstates= require(appDataModelPath+"sys_docstates");
 
@@ -23,27 +24,27 @@ module.exports.init = function(app) {
         try {
             var body = JSON.parse(req.body), columns=body.columns, rows=body.rows;
         }catch(e){
-            res.sendStatus(500);                                                    console.log("Impossible to parse data! Reason:"+e);
+            res.sendStatus(500);                                                    log.error("Impossible to parse data! Reason:"+e);
             return;
         }
         if(!columns) {
-            res.sendStatus(500);                                                     console.log("Error: No columns data to create excel file.");
+            res.sendStatus(500);                                                    log.error("Error: No columns data to create excel file.");
             return;
         }
         if(!rows) {
-            res.sendStatus(500);                                                     console.log("Error: No table data to create excel file.");
+            res.sendStatus(500);                                                    log.error("Error: No table data to create excel file.");
             return;
         }
         var uniqueFileName = util.getUIDNumber();
         var fname = path.join(__dirname, '../../XLSX_temp/' + uniqueFileName + '.xlsx');
         try {fs.writeFileSync(fname);
-        } catch (e) {                                                               console.log("Impossible to write file! Reason:",e);
+        } catch (e) {                                                               log.error("Impossible to write file! Reason:",e);
             res.sendStatus(500);
             return;
         }
         try {
             var wb = XLSX.readFileSync(fname);
-        }catch(e){                                                                  console.log("Impossible to create workbook! Reason:",e);
+        }catch(e){                                                                  log.error("Impossible to create workbook! Reason:",e);
             res.sendStatus(500);
             return;
         }
@@ -54,13 +55,13 @@ module.exports.init = function(app) {
 
         XLSX.writeFileAsync(fname, wb, {bookType: "xlsx", /*cellStyles: true,*/ cellDates:true}, function(err){
             if (err) {
-                res.sendStatus(500);                                                 console.log("send xlsx file err=", err);
+                res.sendStatus(500);                                                 log.error("send xlsx file err=", err);
                 return;
             }
             var options = {headers: {'Content-Disposition': 'attachment; filename =out.xlsx'}};
             res.sendFile(fname, options, function (err) {
                 if (err) {
-                    res.sendStatus(500);                                             console.log("send xlsx file err=", err);
+                    res.sendStatus(500);                                             log.error("send xlsx file err=", err);
                 }
                 fs.unlinkSync(fname);
             })
