@@ -98,6 +98,26 @@ module.exports.init = function(app) {
                 res.send(result);
             });
     });
+
+    var repRetailSalesByCollectionsTableColumns=[
+        { dataSource:"wrh_retail_tickets" },
+        {"data": "PRICE", "name": "Цена" },
+        {"data": "SQTY", "name": "Кол-во", dataFunction:{function:"sumIsNull", source:"wrh_retail_tickets_products", sourceField:"QTY"} },
+        {"data": "SPOSSUM", "name": "Сумма", dataFunction:{function:"sumIsNull", source:"wrh_retail_tickets_products", sourceField:"POSSUM"}}
+    ];
+    repRetailSalesByCollectionsTableColumns=
+        dirProducts.addProductAttrsColumnsTo(repRetailSalesByCollectionsTableColumns,1,{
+            excludeColumns:{"SIZE":true}});
+    app.get("/reports/retailSales/getSalesByCollections", function (req, res) {
+        wrh_retail_tickets_products.getDataForDocTable({tableColumns:repRetailSalesByCollectionsTableColumns,
+                identifier:repRetailSalesByCollectionsTableColumns[0].data,
+                conditions:req.query,
+                order:["PRODUCT_COLLECTION","PRODUCT_COLLECTION_CODE","PRODUCT_KIND","PRODUCT_COMPOSITION","PRICE"]},
+            function(result){
+                res.send(result);
+            });
+    });
+
     var repRetailSalesByBataAttributesTableColumns=[
         { dataSource:"wrh_retail_tickets" },
         {"data": "PRICE", "name": "Цена" },
