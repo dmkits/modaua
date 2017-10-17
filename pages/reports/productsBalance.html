@@ -65,9 +65,9 @@
                 btnProdsBalanceRegByArts.onClick= function(){
                     if (!btnProdsBalanceRegByArts.report){
                         btnProdsBalanceRegByArts.report =
-                                APP.childFor(contentContainer, "reportsProductsBalance_TableProdsBalanceRegisterByArts",
+                                APP.childFor(contentContainer, "reportsProductsBalance_TableProdsBalanceRegisterByProductsArticles",
                                         TDocumentSimpleTable, {titleText:"Реестр остатков по артикулам",
-                                            dataURL:"/wrh/products_balance/get_products_balance_register_by_arts"})
+                                            dataURL:"/reports/productsBalance/getProductsBalanceRegisterByProductsArticles"})
                                         .addEndDateBox("по","DOCDATE<=")
                                         .addTotalCountNumberBox("ИТОГО строк:", 140, {style:"font-weight:bold;",inputStyle:"width:50px"})
                                         .addTotalSumNumberTextBox("ИТОГО остаток:", 660, "SQTY", {style:"font-weight:bold;",inputStyle:"width:60px"})

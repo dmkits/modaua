@@ -20,9 +20,19 @@ module.exports.init = function(app) {
         {"data": "UNIT_NAME", "name": "Подразделение", "width": 120, "type": "text",
             dataSource:"dir_units", sourceField:"NAME", linkCondition:"dir_units.ID=wrh_products_operations_v.UNIT_ID" },
         { dataSource:"dir_products", linkCondition:"dir_products.ID=wrh_products_operations_v.PRODUCT_ID"},
-        {"data": "SQTY", "name": "Кол-во", dataFunction:{function:"sumIsNull", sourceField:"BATCH_QTY"}},
-        {"data": "COST_SUM", "name": "Себе-стоимость" /*, dataFunction:{function:"sumIsNull", sourceField:"BATCH_QTY"}*/}
+        //{ "data": "PROD_ID", "name": "PROD_ID", sourceField:"ID", dataSource:"dir_products", linkCondition:"dir_products.ID=wrh_products_operations_v.PRODUCT_ID"},
+        {"data": "PINV_SQTY", "name": "Кол-во прихода"},
+        {"data": "SQTY", "name": "Кол-во остатка", dataFunction:{function:"sumIsNull", sourceField:"BATCH_QTY"}},
+        {"data": "PINV_NUMBER", "name": "Номер прихода"},
+        {"data": "PINV_CURRENCY_CODE", "name": "Валюта прихода", width:70},
+        {"data": "PINV_PRICE", "name": "Цена прихода"},
+        {"data": "COST_SUM", "name": "Себе-стоимость" /*, dataFunction:{function:"sumIsNull", sourceField:"BATCH_QTY"}*/},
+        {"data": "SALE_PRICE_WD", "name": "Цена продажи"},
+        {"data": "DISCOUNT_PERCENT", "name": "Скидка, %", width:70}
     ];
+    //repProductsBalanceRegisterTableColumns=
+    //    dirProducts.addProductColumnsTo(repProductsBalanceRegisterTableColumns,1,{linkSource:"wrh_products_operations_v",
+    //        visibleColumns:{"CODE":false,"NAME":false,"UM":false,"PRINT_NAME":false,"PBARCODE":false}});
     repProductsBalanceRegisterTableColumns=
         dirProducts.addProductAttrsColumnsTo(repProductsBalanceRegisterTableColumns,2);
     app.get("/reports/productsBalance/getProductsBalanceRegister", function (req, res) {
@@ -33,7 +43,38 @@ module.exports.init = function(app) {
         wrh_products_operations_v.getDataForDocTable({tableColumns:repProductsBalanceRegisterTableColumns,
                 identifier:repProductsBalanceRegisterTableColumns[0].data,
                 conditions:conditions,
-                order:["PRODUCT_TYPE","PRODUCT_KIND"]},
+                order:["PRODUCT_ARTICLE","PRODUCT_TYPE","PRODUCT_KIND","PRODUCT_SIZE"]},
+            function(result){
+                res.send(result);
+            });
+    });
+    var repProductsBalanceRegisterByProductsArticlesTableColumns=[
+        {"data": "UNIT_NAME", "name": "Подразделение", "width": 120, "type": "text",
+            dataSource:"dir_units", sourceField:"NAME", linkCondition:"dir_units.ID=wrh_products_operations_v.UNIT_ID" },
+        { dataSource:"dir_products", linkCondition:"dir_products.ID=wrh_products_operations_v.PRODUCT_ID"},
+        //{ "data": "PROD_ID", "name": "PROD_ID", sourceField:"ID", dataSource:"dir_products", linkCondition:"dir_products.ID=wrh_products_operations_v.PRODUCT_ID"},
+        {"data": "PINV_SQTY", "name": "Кол-во прихода"},
+        {"data": "SQTY", "name": "Кол-во остатка", dataFunction:{function:"sumIsNull", sourceField:"BATCH_QTY"}},
+        {"data": "PINV_NUMBER", "name": "Номер прихода"},
+        {"data": "PINV_CURRENCY_CODE", "name": "Валюта прихода", width:70},
+        {"data": "PINV_PRICE", "name": "Цена прихода"},
+        {"data": "COST_SUM", "name": "Себе-стоимость" /*, dataFunction:{function:"sumIsNull", sourceField:"BATCH_QTY"}*/},
+        {"data": "SALE_PRICE_WD", "name": "Цена продажи"},
+        {"data": "DISCOUNT_PERCENT", "name": "Скидка, %", width:70}
+    ];
+    repProductsBalanceRegisterByProductsArticlesTableColumns=
+        dirProducts.addProductAttrsColumnsTo(repProductsBalanceRegisterByProductsArticlesTableColumns,2,{
+            excludeColumns:{"SIZE":true}
+        });
+    app.get("/reports/productsBalance/getProductsBalanceRegisterByProductsArticles", function (req, res) {
+        var conditions=req.query;
+        for(var conditionItem in conditions){
+            conditions["SUM(BATCH_QTY)<>0"]=null; break;
+        }
+        wrh_products_operations_v.getDataForDocTable({tableColumns:repProductsBalanceRegisterByProductsArticlesTableColumns,
+                identifier:repProductsBalanceRegisterByProductsArticlesTableColumns[0].data,
+                conditions:conditions,
+                order:["PRODUCT_ARTICLE","PRODUCT_TYPE","PRODUCT_KIND"]},
             function(result){
                 res.send(result);
             });
