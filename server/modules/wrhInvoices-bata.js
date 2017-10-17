@@ -39,7 +39,7 @@ module.exports.init = function(app){
     app.get("/wrh/invoices/getDataForInvsListTable", function(req, res){
         var conditions={};
         for(var condItem in req.query) conditions["wrh_invs."+condItem]=req.query[condItem];
-        wrh_invs.getDataForTable({tableColumns:wrhInvsListTableColumns,
+        wrh_invs.getDataForDocTable({tableColumns:wrhInvsListTableColumns,
                 identifier:wrhInvsListTableColumns[0].data,
                 conditions:conditions,
                 order:["DOCDATE","UNIT_NAME","NUMBER"]},
