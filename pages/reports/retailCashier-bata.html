@@ -124,11 +124,11 @@
                 };
                 btnProdsBalance.onClick= function(){
                     if (!btnProdsBalance.report){
-                        btnProdsBalance.report = APP.childFor(contentPaneDetailContainer, "reports_prods_balance_tableProdsBalance",
-                                TDocumentSimpleTable, {titleText:"Остатки товаров", dataURL:"/reports/retailCashier/get_products_balance"})
+                        btnProdsBalance.report = APP.childFor(contentPaneDetailContainer, "reportsRetailCashier_tableProdsBalance",
+                                TDocumentSimpleTable, {titleText:"Остатки товаров", dataURL:"/reports/productsBalance/getProductsBalance"})
                                 .addEndDateBox("по","DOCDATE<=")
                                 .addTotalCountNumberBox("ИТОГО строк:", 150)
-                                .addTotalSumNumberTextBox("ИТОГО остаток:", 845, "PROD_BALANCE", {style:"font-weight:bold;",inputStyle:"width:60px"})
+                                .addTotalSumNumberTextBox("ИТОГО остаток:", 845, "SQTY", {style:"font-weight:bold;"})
                                 .startUp();
                     }
                     contentPaneDetailContainer.selectChild(btnProdsBalance.report);

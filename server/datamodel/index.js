@@ -220,13 +220,16 @@ function _getSelectItems(params, resultCallback){                               
         }
     }
     selectQuery+=joins;
-    var conditionQuery, coditionValues=[];
+    var wConditionQuery, hConditionQuery, coditionValues=[];
     if (params.conditions&&typeof(params.conditions)=="object") {
         for(var conditionItem in params.conditions) {
             var conditionItemValue=params.conditions[conditionItem];
             var conditionItemValueQuery= (conditionItemValue===null)?conditionItem:conditionItem+"?";
             conditionItemValueQuery= conditionItemValueQuery.replace("~","=");
-            conditionQuery= (!conditionQuery)?conditionItemValueQuery:conditionQuery+" and "+conditionItemValueQuery;
+            if(conditionItem.indexOf("SUM(")>=0)
+                hConditionQuery= (!hConditionQuery)?conditionItemValueQuery:hConditionQuery+" and "+conditionItemValueQuery;
+            else
+                wConditionQuery= (!wConditionQuery)?conditionItemValueQuery:wConditionQuery+" and "+conditionItemValueQuery;
             if (conditionItemValue!==null) coditionValues.push(conditionItemValue);
         }
     } else if (params.conditions) {
@@ -237,11 +240,11 @@ function _getSelectItems(params, resultCallback){                               
                 conditionFieldName= params.fieldsSources[conditionFieldName];
             var conditionItemValueQuery=
                 (conditionItem.value===null)?conditionFieldName+conditionItem.condition:conditionFieldName+conditionItem.condition+"?";
-            conditionQuery= (!conditionQuery)?conditionItemValueQuery:conditionQuery+" and "+conditionItemValueQuery;
+            wConditionQuery= (!wConditionQuery)?conditionItemValueQuery:wConditionQuery+" and "+conditionItemValueQuery;
             if (conditionItem.value!==null) coditionValues.push(conditionItem.value);
         }
     }
-    if(conditionQuery)selectQuery+=" where "+conditionQuery;
+    if(wConditionQuery)selectQuery+=" where "+wConditionQuery;
     if (params.groupedFields) {
         var queryGroupedFields = "";
         for (var groupedFieldNameIndex in params.groupedFields) {
@@ -254,6 +257,7 @@ function _getSelectItems(params, resultCallback){                               
         }
         selectQuery+=" group by "+queryGroupedFields;
     }
+    if(hConditionQuery)selectQuery+=" having "+hConditionQuery;
     if (params.order) selectQuery+=" order by "+params.order;
     if (coditionValues.length==0)
         database.selectQuery(selectQuery,function(err, recordset, count, fields){

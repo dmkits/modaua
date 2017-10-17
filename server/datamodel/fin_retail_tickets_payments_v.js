@@ -1,6 +1,6 @@
 module.exports.id=module.id;
 var changeLog=[
-    { "changeID":"fin_retail_tickets_payments_v__1", "changeDatetime": "2017-10-09 14:30:00", "changeObj": "fin_retail_tickets_payments_v",
+    { "changeID":"fin_retail_tickets_payments_v__1", "changeDatetime": "2017-10-09 14:40:00", "changeObj": "fin_retail_tickets_payments_v",
         "changeVal": "CREATE VIEW fin_retail_tickets_payments_v" +
         "(ID, RETAIL_TICKET_ID, RETAIL_RECEIPT_ID, DOCDATE, NUMBER, POS, PRODUCT_ID, QTY, SALE_PRICE, DISCOUNT, PRICE, POSSUM,"+
         "SALE_QTY, RET_SALE_QTY, SALE_POSSUM, RET_SALE_POSSUM, DOCSUM, PAYSUM, " +
