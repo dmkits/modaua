@@ -719,8 +719,12 @@ function _getTableColumnsDataForDocHTable(tableColumns){
             if(tableColData.data.indexOf("QTY")>=0) tableColData.width=50;
             else if(tableColData.data.indexOf("PRICE")>=0) tableColData.width=65;
             else if(tableColData.data.indexOf("SUM")>=0) tableColData.width=80;
-            else if(tableColData.data.indexOf("NUMBER")>=0||tableColData.data.indexOf("POS")>=0) tableColData.width=65;
+            else if(tableColData.data.indexOf("NUMBER")>=0) tableColData.width=65;
+            else if(tableColData.data=="POS"||tableColData.data.indexOf("POSITION")>=0) tableColData.width=75;
             else if(tableColData.data.indexOf("DATE")>=0) tableColData.width=55;
+        }
+        if(tableColData.align===undefined){
+            if(tableColData.data.indexOf("DATE")>=0) tableColData.align="center";
         }
         if(tableColData.type===undefined){
             if(tableColData.data.indexOf("QTY")>=0) tableColData.type="numeric";
