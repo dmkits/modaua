@@ -25,8 +25,8 @@ define(["app", "dijit/ConfirmDialog", "dijit/form/Button", "dijit/form/TextBox",
                 if (onExecute != null) myDialog.onExecute = function () {
                     onExecute(myDialog);
                 };
-                myDialog.show()
-
+                myDialog.show();
+                myDialog.startup();
             },
 
             mainAboutDialog: function (){
@@ -38,7 +38,16 @@ define(["app", "dijit/ConfirmDialog", "dijit/form/Button", "dijit/form/TextBox",
                 this.doDialogMsg({title:"Внимание",content:"Невозможно завершить операцию! <br>Нет всязи с сервером!",
                     style:"width:300px;", btnOkLabel:"OK", btnCancelLabel:"Закрыть"});
             },
-
+            printTagsDialog: function(callback) {
+                this.doDialogMsg({title:"Напечать все ценники?",content:"<div align='center'>Вы хотите напечатать<br>более 100 ценников?</div>",
+                    btnOkLabel:"Да", btnCancelLabel:"Отмена"},function(dialog){
+                    callback();
+                    dialog.hide();
+                    });
+            },
+            impossibleToPrintTagsDialog: function() {
+                this.doDialogMsg({title:"Превышение количества!",content:"<div align='center'>Максимальное количество -<br>1000шт. </div>"});
+            },
             /**
              * DMKITS 2016.02.29 v.1.1
              * @param params = {title, style, btnOkLabel, btnCancelLabel, content}

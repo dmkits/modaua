@@ -7,7 +7,7 @@ define(["dojox/widget/DialogSimple", "dijit/ConfirmDialog", "dijit/form/Button",
             noServerConnectDialog: function(){
                 var noServerConnectDialog = registry.byId('noServerConnectDialog');
                 if(noServerConnectDialog) return noServerConnectDialog.show();
-                var noServerConnectDialog = new DialogSimple({ id:"noServerConnectDialog",
+                 noServerConnectDialog = new DialogSimple({ id:"noServerConnectDialog",
                     style:"text-align:center", title:"FAIL", content: "No connection to the server!<br>", closable:true });
                 var okButton = new Button({label:"OK"});
                 okButton.onClick=function(){
