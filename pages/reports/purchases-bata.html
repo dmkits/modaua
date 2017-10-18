@@ -12,7 +12,7 @@
 <tr><td>
 <button id="purchases_Btn_purchasesByPinv">Закупки по накладным</button>
 <button id="purchases_Btn_purchasesByDays">Закупки по дням</button>
-<button id="purchases_Btn_purchasesExt">Закупки ПН с атрибутами</button>
+<button id="purchases_Btn_purchasesExt">Закупки по ПН с атрибутами</button>
 </td></tr>
 </table>
 </div>
@@ -61,7 +61,7 @@
                 if (!purchases_Btn_purchasesExt.document){
                     purchases_Btn_purchasesExt.document =
                         APP.childFor(purchases_ContentPaneDetailContainer, "purchases_TablePurchasesByBataAttributes",
-                            TDocumentSimpleTable, {titleText:"Закупки ПН с аттрибутами", dataURL:"/reports/purchases/getPurchasesWithProdAttr"})
+                            TDocumentSimpleTable, {titleText:"Закупки по ПН с аттрибутами", dataURL:"/reports/purchases/getPurchasesWithProdAttr"})
                             .addBeginDateBox("с","DOCDATE>=", {initValueDate:"curMonthBDate"}).addEndDateBox("по","DOCDATE<=")
                             .addTotalCountNumberBox("ИТОГО строк:", 140, {style:"font-weight:bold;",inputStyle:"width:50px"})
                             .addTotalSumNumberTextBox("ИТОГО кол-во:", 710, "QTY", {style:"font-weight:bold;",inputStyle:"width:60px"})

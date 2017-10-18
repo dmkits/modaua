@@ -52,7 +52,7 @@
         { "menuItemName":"menuBarWrhSalesInvoices", "menuTitle":"Расходные накладные", "pageTitle":"Расходные накладные", "module":"wrhInvoices-bata", "closable":true},
         { "menuItemName":"menuBarWrhSalesRetInvoices", "menuTitle":"Возвратные накладные", "pageTitle":"Возвратные накладные", "module":"wrhRetInvoices-bata", "closable":true},
         { "menuItemName":"separatorWrhSales1"},
-        { "menuItemName":"menuBarWrhSalesReports", "menuTitle":"Отчеты по продажам", "pageTitle":"Отчеты по продажам", "module":"", "closable":true},
+        { "menuItemName":"menuBarWrhSalesReports", "menuTitle":"Отчеты по продажам", "pageTitle":"Отчеты по продажам", "module":"reportsSales-bata", "closable":true},
         { "menuItemName":"separatorWrhSales2"},
         { "menuItemName":"menuBarWrhSalesRetailSales", "menuTitle":"Отчеты по розничным продажам", "pageTitle":"Отчеты по розничным продажам", "module":"reportsRetailSales-bata", "closable":true},
         { "menuItemName":"separatorWrhSales3"},
