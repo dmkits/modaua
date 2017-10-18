@@ -48,14 +48,19 @@
                 parentHTML.children[3].children[0].innerHTML = prodTagContentData["PRODUCT_KIND"];
                 parentHTML.children[3].children[1].innerHTML = prodTagContentData["PRODUCT_COMPOSITION"];
                 parentHTML.children[3].children[2].innerHTML = "<b>р."+prodTagContentData["PRODUCT_SIZE"]+"</b>";
-                parentHTML.children[4].innerHTML = "<b>"+prodTagContentData["SALE_PRICE"]+" Грн.</b>";
+                var priceItemName=parent.prodTagsContentPriceItemName;
+                if(!priceItemName) priceItemName="SALE_PRICE";
+                parentHTML.children[4].innerHTML =
+                        (prodTagContentData[priceItemName])?"<b>"+prodTagContentData[priceItemName]+" Грн.</b>":"";
                 var pageNum = parent["printPageNumber"];
                 if(!pageNum) pageNum="";
                 parentHTML.children[6].innerHTML = pageNum;
                 var barcodeID = parentID+"_prodbarcode";
                 var barcodeHTML = parentHTML.children[5];
                 barcodeHTML.setAttribute("id",barcodeID);
-                if(prodTagContentData) printBarcode(barcodeID, prodTagContentData["BARCODE"]);
+                var barcode=prodTagContentData["BARCODE"];
+                if(!barcode) barcode=prodTagContentData["PRODUCT_PBARCODE"];
+                if(barcode) printBarcode(barcodeID, barcode);
             });
 </script>
 </html>

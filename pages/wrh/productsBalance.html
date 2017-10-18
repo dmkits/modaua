@@ -33,8 +33,8 @@
 </body>
 <script type="text/javascript">
     require(["app", "dojo/dom-style", "dijit/layout/BorderContainer", "dijit/layout/StackContainer", "dijit/layout/ContentPane",
-               "dijit/form/Button", "templateDocumentSimpleTable"],
-            function (APP, domStyle, BorderContainer, StackContainer, ContentPane, Button, TDocumentSimpleTable) {
+               "dijit/form/Button", "templateDocumentSimpleTable", "print"],
+            function (APP, domStyle, BorderContainer, StackContainer, ContentPane, Button, TDocumentSimpleTable, Print) {
                 var pageContainer= APP.instanceForID("wrhProductsBalance_PageContainer", BorderContainer, {});
                 APP.instanceForID("wrhProductsBalance_ContentPaneLeft", ContentPane, {region:'left', splitter:false});
                 var btnProdsBalanceReg= APP.instanceForID("wrhProductsBalance_btnProdsBalanceReg", Button, {}, {"width":"155px"});
@@ -53,14 +53,13 @@
                                         TDocumentSimpleTable, {titleText:"Реестр остатков",
                                             dataURL:"/wrh/productsBalance/getProductsBalanceRegister"})
                                         .addEndDateBox("на","DOCDATE<=").addBtnUpdate().addBtnPrint()
-                                        .addBtn("Печатать ценники",150, function(contentTableContent,contentTableInstance){
-                                            var printWindow= window.open("/print/prod_tags");                                           //console.log("printProdTags.onClick printWindow=",printWindow);
-                                            //window.open("/print?pinvid="+wrh_pinv_ContentController.getDataIDValue(), "", "location=1,status=1,scrollbars=1,width=650,height=600");
-                                            printWindow["prodTagsContentData"]= contentTableContent;
-                                            printWindow["pageProdTagType"]= "tag58X30";
+                                        .addBtn("Печать ценников",150, function(contentTableContent,contentTableInstance){
+                                            Print.openPagePrintProductsTags({
+                                                prodTagsContentData:contentTableContent, pageProdTagType:"productTag58x30",
+                                                priceItemName:"SALE_PRICE_WD"});
                                         })
                                         .addTotalCountNumberBox("ИТОГО строк:", 140)
-                                        .addTotalSumNumberTextBox("ИТОГО остаток:", 550, "SQTY", {style:"font-weight:bold;"})
+                                        .addTotalSumNumberTextBox("ИТОГО остаток:", 550, "QTY", {style:"font-weight:bold;"})
                                         .addTotalSumNumberTextBox("ИТОГО сумма себестоимости:", 290, "COST_SUM", {style:"font-weight:bold;"})
                                         .startUp();
                     }
@@ -74,7 +73,7 @@
                                             dataURL:"/wrh/productsBalance/getProductsBalanceRegisterByProductsArticles"})
                                         .addEndDateBox("на","DOCDATE<=")
                                         .addTotalCountNumberBox("ИТОГО строк:", 140, {style:"font-weight:bold;",inputStyle:"width:50px"})
-                                        .addTotalSumNumberTextBox("ИТОГО остаток:", 660, "SQTY", {style:"font-weight:bold;",inputStyle:"width:60px"})
+                                        .addTotalSumNumberTextBox("ИТОГО остаток:", 660, "QTY", {style:"font-weight:bold;",inputStyle:"width:60px"})
                                         .addTotalSumNumberTextBox("ИТОГО сумма себестоимости:", 290, "PRODUCT_COST_SUM", {style:"font-weight:bold;",inputStyle:"width:80px"})
                                         .startUp();
                     }
