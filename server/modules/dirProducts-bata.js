@@ -178,7 +178,7 @@ module.exports.init = function(app){
 
 
     var dirProductsTableColumns=[
-        {"data": "ID", "name": "ID", "width": 80, "type": "text", readOnly:true, visible:false},
+        {"data": "ID", "name": "ID", "width": 80, "type": "text", readOnly:true, visible:false}
         //{"data": "GENDER_CODE", "name": "Код группы", "width": 50,
         //    "type": "combobox", "sourceURL":"/dir/products/getDataForProductsGendersCombobox/genderCode",
         //    dataSource:"dir_products_genders", sourceField:"CODE"},
@@ -197,7 +197,6 @@ module.exports.init = function(app){
         //{"data": "SUBCATEGORY", "name": "Подкатегория", "width": 200,
         //    "type": "comboboxWN", "sourceURL":"/dir/products/getDataForProductsSubcategoryCombobox/subcategory",
         //    dataSource:"dir_products_subcategories", sourceField:"NAME"},
-
         //{"data": "COLLECTION", "name": "Коллекция", "width": 120,
         //    "type": "text",
         //    //"type": "comboboxWN", "sourceURL":"/dir/products/getDataForProductsSubcategoryCombobox/subcategory",
@@ -222,12 +221,6 @@ module.exports.init = function(app){
         //    "type": "text",
         //    //"type": "comboboxWN", "sourceURL":"/dir/products/getDataForProductsSubcategoryCombobox/subcategory",
         //    dataSource:"dir_products_sizes", sourceField:"VALUE"},
-
-        //{"data": "CODE", "name": "Код", "width": 55, "type": "text"},
-        //{"data": "NAME", "name": "Наименование", "width": 220, "type": "text"},
-        //{"data": "PRINT_NAME", "name": "Печатное наименование", "width": 220, "type": "text", visible:false},
-        //{"data": "UM", "name": "Ед.изм.", "width": 55, "type": "text"},
-        //{"data": "PBARCODE", "name": "Штрихкод", "width": 100, "type": "text", visible:false},
     ];
     dirProductsTableColumns=
         dir_products_bata.addProductColumnsTo(dirProductsTableColumns,1);
