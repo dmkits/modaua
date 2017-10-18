@@ -826,6 +826,8 @@ module.exports.init = function(app){
                 importTableName= importTableName.replace("wrh_ret_invs_products","wrh_ret_inv_products");
                 importTableName= importTableName.replace("wrh_ret_invs_products_wob","wrh_ret_inv_products_wob");
                 importTableName= importTableName.replace("dir_products_types","-");
+                importTableName= importTableName.replace("wrh_r_documents_products_batches","-");
+                importTableName= importTableName.replace("wrh_r_documents","-");
                 importTableName= importTableName.replace("wrh_retail_tickets_products","wrh_retail_ticket_products");
                 importTableName= importTableName.replace("wrh_retail_tickets_products_wob","wrh_retail_ticket_products_wob");
                 dataModelsListForImport.push({ "PRIORITY":i,"DATA_MODEL_NAME":dataModelName,
@@ -1039,7 +1041,30 @@ module.exports.init = function(app){
             resultCallback(resultItem);
             return;
         }
-        insertDataItemFromBata1DB(importTableName, importTableFields, bata1TableDataItem, resultItem ,
+        if(importTableName=="wrh_pinvs"){
+            insertDataItemFromBata1DB("wrh_r_documents", ["ID"], {"ID":bata1TableDataItem["ID"]}, resultItem,
+                function(resultItem){
+                    insertDataItemFromBata1DB(importTableName, importTableFields, bata1TableDataItem, resultItem,
+                        function(resultItem){
+                            insertDataFromBata1DB(importTableName, importTableFields, bata1TableData, ind+1, resultItem ,resultCallback);
+                        });
+                });
+            return;
+        }
+        if(importTableName=="wrh_pinvs_products"){
+            insertDataItemFromBata1DB("wrh_r_documents_products_batches",
+                ["R_DOCUMENT_ID","PRODUCT_ID","BATCH_NUMBER"],
+                {"R_DOCUMENT_ID":bata1TableDataItem["PINV_ID"],
+                    "PRODUCT_ID":bata1TableDataItem["PRODUCT_ID"],"BATCH_NUMBER":bata1TableDataItem["BATCH_NUMBER"]}, resultItem,
+                function(resultItem){
+                    insertDataItemFromBata1DB(importTableName, importTableFields, bata1TableDataItem, resultItem,
+                        function(resultItem){
+                            insertDataFromBata1DB(importTableName, importTableFields, bata1TableData, ind+1, resultItem ,resultCallback);
+                        });
+                });
+            return;
+        }
+        insertDataItemFromBata1DB(importTableName, importTableFields, bata1TableDataItem, resultItem,
             function(resultItem){
                 insertDataFromBata1DB(importTableName, importTableFields, bata1TableData, ind+1, resultItem ,resultCallback);
             });

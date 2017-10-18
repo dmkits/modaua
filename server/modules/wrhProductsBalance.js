@@ -1,12 +1,13 @@
 var dataModel=require('../datamodel');
 var wrh_products_operations_v= require(appDataModelPath+"wrh_products_operations_v"),
     dir_products=require(appDataModelPath+'dir_products-bata'),
-    dir_products_batches= require(appDataModelPath+"dir_products_batches");
+    dir_products_batches= require(appDataModelPath+"dir_products_batches"),
+    dir_products_batches_v= require(appDataModelPath+"dir_products_batches_v");
 var server= require("../server"), log= server.log;
 
 module.exports.validateModule = function(errs, nextValidateModuleCallback){
     dataModel.initValidateDataModels([wrh_products_operations_v, dir_products,
-            dir_products_batches], errs,
+            dir_products_batches, dir_products_batches_v], errs,
         function(){
             nextValidateModuleCallback();
         });
@@ -22,6 +23,8 @@ module.exports.init = function(app) {
         { dataSource:"dir_products", linkCondition:"dir_products.ID=wrh_products_operations_v.PRODUCT_ID"},
         {"data": "PINV_SQTY", "name": "Кол-во прихода"},
         {"data": "QTY", "name": "Кол-во остатка", dataFunction:{function:"sumIsNull", sourceField:"BATCH_QTY"}},
+        { dataSource:"wrh_pinvs_products",
+            linkCondition:"wrh_pinvs_products.PRODUCT_ID=wrh_products_operations_v.PRODUCT_ID and wrh_pinvs_products.BATCH_NUMBER=wrh_products_operations_v.BATCH_NUMBER"},
         {"data": "PINV_NUMBER", "name": "Номер прихода"},
         {"data": "PINV_CURRENCY_CODE", "name": "Валюта прихода", width:70},
         {"data": "PINV_PRICE", "name": "Цена прихода"},

@@ -44,11 +44,11 @@ var changeLog = [
     //{ 'changeID':'wrh_pinvs_products_14', 'changeDatetime':'2016-09-08 11:44:00', 'changeObj':'wrh_pinvs_products',
     //    'changeVal':'ALTER TABLE wrh_pinvs_products ADD CONSTRAINT WRH_PINVS_PINV_ID_POSIND_UNIQUE' +
     //        ' UNIQUE(PINV_ID,POSIND)' },
-    { 'changeID':'wrh_pinvs_products_15', 'changeDatetime':'2017-06-09 11:11:00', 'changeObj':'wrh_pinvs_products',
+    { 'changeID':'wrh_pinvs_products_15', 'changeDatetime':'2017-06-09 12:01:00', 'changeObj':'wrh_pinvs_products',
         'changeVal':'ALTER TABLE wrh_pinvs_products ADD COLUMN BATCH_NUMBER INTEGER UNSIGNED NOT NULL',
         "field":"BATCH_NUMBER"},
-    { 'changeID':'wrh_pinvs_products_16', 'changeDatetime':'2017-06-09 11:12:00', 'changeObj':'wrh_pinvs_products',
-        'changeVal':'ALTER TABLE wrh_pinvs_products ADD CONSTRAINT WRH_PINVS_PRODUCTS_PRODUCT_BATCH_NUMBER_PRODUCT_ID_FK ' +
-            'FOREIGN KEY (BATCH_NUMBER,PRODUCT_ID) REFERENCES dir_products_batches(BATCH_NUMBER,PRODUCT_ID)' }
+    { 'changeID':'wrh_pinvs_products_16', 'changeDatetime':'2017-06-09 12:02:00', 'changeObj':'wrh_pinvs_products',
+        'changeVal':'ALTER TABLE wrh_pinvs_products ADD CONSTRAINT WRH_PINVS_PRODUCTS_R_DPB_R_DOC_ID_PRODUCT_ID_BATCH_NUMBER_FK ' +
+            'FOREIGN KEY (PINV_ID,PRODUCT_ID,BATCH_NUMBER) REFERENCES wrh_r_documents_products_batches(R_DOCUMENT_ID,PRODUCT_ID,BATCH_NUMBER)' }
 ];
 module.exports.changeLog=changeLog;
