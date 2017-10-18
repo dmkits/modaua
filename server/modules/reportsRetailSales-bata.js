@@ -1,11 +1,11 @@
-var dataModel=require('../datamodel'),
-    dirProducts=require('./dirProducts-bata');
+var dataModel=require('../datamodel');
 var wrh_retail_tickets= require(appDataModelPath+"wrh_retail_tickets"),
     wrh_retail_tickets_products= require(appDataModelPath+"wrh_retail_tickets_products"),
     wrh_retail_tickets_v= require(appDataModelPath+"wrh_retail_tickets_v"),
     fin_retail_tickets_v= require(appDataModelPath+"fin_retail_tickets_v"),
     fin_retail_tickets_payments_v= require(appDataModelPath+"fin_retail_tickets_payments_v"),
-    fin_retail_receipts_payments_v= require(appDataModelPath+"fin_retail_receipts_payments_v");
+    fin_retail_receipts_payments_v= require(appDataModelPath+"fin_retail_receipts_payments_v"),
+    dir_products=require(appDataModelPath+'dir_products-bata');
 
 module.exports.validateModule = function(errs, nextValidateModuleCallback){
     dataModel.initValidateDataModels([wrh_retail_tickets,wrh_retail_tickets_products,
@@ -38,7 +38,7 @@ module.exports.init = function(app) {
         {"data": "POSSUM", "name": "Сумма" }
     ];
     repRetailSalesReportTableColumns=
-        dirProducts.addProductColumnsTo(repRetailSalesReportTableColumns,8,{
+        dir_products.addProductColumnsTo(repRetailSalesReportTableColumns,8,{
             visibleColumns:{"PRINT_NAME":false,"PBARCODE":false}});
     app.get("/reports/retailSales/getRetailSales", function (req, res) {
         wrh_retail_tickets_products.getDataForDocTable({tableColumns:repRetailSalesReportTableColumns,
@@ -66,10 +66,10 @@ module.exports.init = function(app) {
         {"data": "POSSUM", "name": "Сумма" }
     ];
     repRetailSalesReportWithProductAttrsTableColumns=
-        dirProducts.addProductColumnsTo(repRetailSalesReportWithProductAttrsTableColumns,7,{
+        dir_products.addProductColumnsTo(repRetailSalesReportWithProductAttrsTableColumns,7,{
             visibleColumns:{"CODE":false,"NAME":false,"UM":false,"PRINT_NAME":false,"PBARCODE":false}});
     repRetailSalesReportWithProductAttrsTableColumns=
-        dirProducts.addProductAttrsColumnsTo(repRetailSalesReportWithProductAttrsTableColumns,7,{
+        dir_products.addProductAttrsColumnsTo(repRetailSalesReportWithProductAttrsTableColumns,7,{
             visibleColumns:{}});
     app.get("/reports/retailSales/getRetailSalesWithProductsAttrs", function (req, res) {
         wrh_retail_tickets_products.getDataForDocTable({tableColumns:repRetailSalesReportWithProductAttrsTableColumns,
@@ -87,7 +87,7 @@ module.exports.init = function(app) {
         {"data": "SPOSSUM", "name": "Сумма", dataFunction:{function:"sumIsNull", source:"wrh_retail_tickets_products", sourceField:"POSSUM"}}
     ];
     repRetailSalesByArticlesTableColumns=
-        dirProducts.addProductAttrsColumnsTo(repRetailSalesByArticlesTableColumns,1,{
+        dir_products.addProductAttrsColumnsTo(repRetailSalesByArticlesTableColumns,1,{
             excludeColumns:{"COLLECTION_CODE":true,"COLLECTION":true,"SIZE":true}});
     app.get("/reports/retailSales/getSalesByArticles", function (req, res) {
         wrh_retail_tickets_products.getDataForDocTable({tableColumns:repRetailSalesByArticlesTableColumns,
@@ -106,7 +106,7 @@ module.exports.init = function(app) {
         {"data": "SPOSSUM", "name": "Сумма", dataFunction:{function:"sumIsNull", source:"wrh_retail_tickets_products", sourceField:"POSSUM"}}
     ];
     repRetailSalesByCollectionsTableColumns=
-        dirProducts.addProductAttrsColumnsTo(repRetailSalesByCollectionsTableColumns,1,{
+        dir_products.addProductAttrsColumnsTo(repRetailSalesByCollectionsTableColumns,1,{
             excludeColumns:{"SIZE":true}});
     app.get("/reports/retailSales/getSalesByCollections", function (req, res) {
         wrh_retail_tickets_products.getDataForDocTable({tableColumns:repRetailSalesByCollectionsTableColumns,
@@ -125,9 +125,9 @@ module.exports.init = function(app) {
         {"data": "SPOSSUM", "name": "Сумма", dataFunction:{function:"sumIsNull", source:"wrh_retail_tickets_products", sourceField:"POSSUM"}}
     ];
     repRetailSalesByBataAttributesTableColumns=
-        dirProducts.addProductBataAttrsColumnsTo(repRetailSalesByBataAttributesTableColumns,0);
+        dir_products.addProductBataAttrsColumnsTo(repRetailSalesByBataAttributesTableColumns,0);
     repRetailSalesByBataAttributesTableColumns=
-        dirProducts.addProductAttrsColumnsTo(repRetailSalesByBataAttributesTableColumns,7,{
+        dir_products.addProductAttrsColumnsTo(repRetailSalesByBataAttributesTableColumns,7,{
             excludeColumns:{"COLLECTION_CODE":true,"COLLECTION":true,
                 "TYPE":true,"KIND":true,"COMPOSITION":true,"SIZE":true}});
 
@@ -147,7 +147,7 @@ module.exports.init = function(app) {
         {"data": "SPOSSUM", "name": "Сумма", dataFunction:{function:"sumIsNull", source:"wrh_retail_tickets_products", sourceField:"POSSUM"} }
     ];
     repRetailSalesByDatesTableColumns=
-        dirProducts.addProductAttrsColumnsTo(repRetailSalesByDatesTableColumns,1,{ excludeColumns:{}});
+        dir_products.addProductAttrsColumnsTo(repRetailSalesByDatesTableColumns,1,{ excludeColumns:{}});
     app.get("/reports/retailSales/getSalesByDates", function (req, res) {
         wrh_retail_tickets_products.getDataForDocTable({tableColumns:repRetailSalesByDatesTableColumns,
                 identifier:repRetailSalesByDatesTableColumns[0].data,

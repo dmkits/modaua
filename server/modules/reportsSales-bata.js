@@ -1,7 +1,9 @@
-var dataModel=require('../datamodel'), dirProducts=require('./dirProducts-bata');
+var dataModel=require('../datamodel');
 var wrh_invs= require(appDataModelPath+"wrh_invs"),
-    wrh_invs_products= require(appDataModelPath+"wrh_invs_products");
-var dir_units= require(appDataModelPath+"dir_units"), dir_contractors= require(appDataModelPath+"dir_contractors");
+    wrh_invs_products= require(appDataModelPath+"wrh_invs_products"),
+    dir_products=require(appDataModelPath+'dir_products-bata');
+var dir_units= require(appDataModelPath+"dir_units"),
+    dir_contractors= require(appDataModelPath+"dir_contractors");
 
 module.exports.validateModule = function(errs, nextValidateModuleCallback){
     dataModel.initValidateDataModels([wrh_invs,wrh_invs_products, dir_units,dir_contractors], errs,
@@ -29,7 +31,7 @@ module.exports.init = function(app) {
         {"data": "POSSUM", "name": "Сумма" }
     ];
     repSalesReportTableColumns=
-        dirProducts.addProductColumnsTo(repSalesReportTableColumns,8,{
+        dir_products.addProductColumnsTo(repSalesReportTableColumns,8,{
             visibleColumns:{"PRINT_NAME":false,"PBARCODE":false}});
    app.get("/reports/sales/getSales", function (req, res) {
        wrh_invs_products.getDataForDocTable({tableColumns:repSalesReportTableColumns,
@@ -47,7 +49,7 @@ module.exports.init = function(app) {
         {"data": "SPOSSUM", "name": "Сумма", dataFunction:{function:"sumIsNull", source:"wrh_invs_products", sourceField:"POSSUM"} }
     ];
     repSalesByDatesTableColumns=
-        dirProducts.addProductAttrsColumnsTo(repSalesByDatesTableColumns,1,{ excludeColumns:{}});
+        dir_products.addProductAttrsColumnsTo(repSalesByDatesTableColumns,1,{ excludeColumns:{}});
     app.get("/reports/sales/getSalesByDates", function (req, res) {
         wrh_invs_products.getDataForDocTable({tableColumns:repSalesByDatesTableColumns,
                 identifier:repSalesByDatesTableColumns[0].data,
@@ -72,10 +74,10 @@ module.exports.init = function(app) {
         {"data": "POSSUM", "name": "Сумма" }
     ];
     repSalesWithProdAttrReportTableColumns=
-        dirProducts.addProductColumnsTo(repSalesWithProdAttrReportTableColumns,7,{
+        dir_products.addProductColumnsTo(repSalesWithProdAttrReportTableColumns,7,{
             visibleColumns:{"CODE":false,"NAME":false,"UM":false,"PRINT_NAME":false,"PBARCODE":false}});
     repSalesWithProdAttrReportTableColumns=
-        dirProducts.addProductAttrsColumnsTo(repSalesWithProdAttrReportTableColumns,7,{
+        dir_products.addProductAttrsColumnsTo(repSalesWithProdAttrReportTableColumns,7,{
             visibleColumns:{}});
     app.get("/reports/sales/getSalesWithProdAttr", function (req, res) {
         wrh_invs_products.getDataForDocTable({tableColumns:repSalesWithProdAttrReportTableColumns,

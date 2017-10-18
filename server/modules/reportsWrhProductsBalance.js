@@ -1,11 +1,11 @@
 var dataModel=require('../datamodel');
 var wrh_products_operations_v= require(appDataModelPath+"wrh_products_operations_v"),
-    dirProducts=require('./dirProducts-bata'),
+    dir_products=require(appDataModelPath+'dir_products-bata'),
     dir_products_batches= require(appDataModelPath+"dir_products_batches");
 var server= require("../server"), log= server.log;
 
 module.exports.validateModule = function(errs, nextValidateModuleCallback){
-    dataModel.initValidateDataModels([wrh_products_operations_v, dirProducts,
+    dataModel.initValidateDataModels([wrh_products_operations_v, dir_products,
             dir_products_batches], errs,
         function(){
             nextValidateModuleCallback();
@@ -27,14 +27,15 @@ module.exports.init = function(app) {
         {"data": "PINV_CURRENCY_CODE", "name": "Валюта прихода", width:70},
         {"data": "PINV_PRICE", "name": "Цена прихода"},
         {"data": "COST_SUM", "name": "Себе-стоимость" /*, dataFunction:{function:"sumIsNull", sourceField:"BATCH_QTY"}*/},
-        {"data": "SALE_PRICE_WD", "name": "Цена продажи"},
-        {"data": "DISCOUNT_PERCENT", "name": "Скидка, %", width:70}
+        {"data": "SALE_PRICE", "name": "Розн. цена"},
+        {"data": "DISCOUNT_PERCENT", "name": "Скидка, %", width:70},
+        {"data": "SALE_PRICE_WD", "name": "Розн. цена со ск."}
     ];
     //repProductsBalanceRegisterTableColumns=
-    //    dirProducts.addProductColumnsTo(repProductsBalanceRegisterTableColumns,1,{linkSource:"wrh_products_operations_v",
+    //    dir_products.addProductColumnsTo(repProductsBalanceRegisterTableColumns,1,{linkSource:"wrh_products_operations_v",
     //        visibleColumns:{"CODE":false,"NAME":false,"UM":false,"PRINT_NAME":false,"PBARCODE":false}});
     repProductsBalanceRegisterTableColumns=
-        dirProducts.addProductAttrsColumnsTo(repProductsBalanceRegisterTableColumns,2);
+        dir_products.addProductAttrsColumnsTo(repProductsBalanceRegisterTableColumns,2);
     app.get("/reports/productsBalance/getProductsBalanceRegister", function (req, res) {
         var conditions=req.query;
         for(var conditionItem in conditions){
@@ -63,7 +64,7 @@ module.exports.init = function(app) {
         {"data": "DISCOUNT_PERCENT", "name": "Скидка, %", width:70}
     ];
     repProductsBalanceRegisterByProductsArticlesTableColumns=
-        dirProducts.addProductAttrsColumnsTo(repProductsBalanceRegisterByProductsArticlesTableColumns,2,{
+        dir_products.addProductAttrsColumnsTo(repProductsBalanceRegisterByProductsArticlesTableColumns,2,{
             excludeColumns:{"SIZE":true}
         });
     app.get("/reports/productsBalance/getProductsBalanceRegisterByProductsArticles", function (req, res) {
@@ -86,10 +87,10 @@ module.exports.init = function(app) {
         {"data": "SQTY", "name": "Кол-во", dataFunction:{function:"sumIsNull", sourceField:"BATCH_QTY"} }
     ];
     repProductsBalanceTableColumns=
-        dirProducts.addProductColumnsTo(repProductsBalanceTableColumns,1,{linkSource:"wrh_products_operations_v",
+        dir_products.addProductColumnsTo(repProductsBalanceTableColumns,1,{linkSource:"wrh_products_operations_v",
             visibleColumns:{"CODE":false,"NAME":false,"UM":false,"PRINT_NAME":false,"PBARCODE":false}});
     repProductsBalanceTableColumns=
-        dirProducts.addProductAttrsColumnsTo(repProductsBalanceTableColumns,6);
+        dir_products.addProductAttrsColumnsTo(repProductsBalanceTableColumns,6);
     app.get("/reports/productsBalance/getProductsBalance", function (req, res) {
         var conditions=req.query;
         for(var conditionItem in conditions){
@@ -110,7 +111,7 @@ module.exports.init = function(app) {
         {"data": "SQTY", "name": "Кол-во", dataFunction:{function:"sumIsNull", sourceField:"BATCH_QTY"} }
     ];
     repProductsBalanceByBataAttributesTableColumns=
-        dirProducts.addProductBataAttrsColumnsTo(repProductsBalanceByBataAttributesTableColumns,2);
+        dir_products.addProductBataAttrsColumnsTo(repProductsBalanceByBataAttributesTableColumns,2);
     app.get("/reports/productsBalance/getProductsBalanceByBataAttributes", function (req, res) {
         var conditions=req.query;
         for(var conditionItem in conditions){
@@ -131,7 +132,7 @@ module.exports.init = function(app) {
         {"data": "SQTY", "name": "Кол-во", dataFunction:{function:"sumIsNull", sourceField:"BATCH_QTY"} }
     ];
     repProductsBalanceByTypesKindsTableColumns=
-        dirProducts.addProductAttrsColumnsTo(repProductsBalanceByTypesKindsTableColumns,2, {
+        dir_products.addProductAttrsColumnsTo(repProductsBalanceByTypesKindsTableColumns,2, {
             excludeColumns:{"ARTICLE":true,"COLLECTION":true,"COLLECTION_CODE":true,"COMPOSITION":true,"SIZE":true}});
     app.get("/reports/productsBalance/getProductsBalanceByTypesKinds", function (req, res) {
         var conditions=req.query;
@@ -154,10 +155,10 @@ module.exports.init = function(app) {
         {"data": "SQTY", "name": "Кол-во", dataFunction:{function:"sumIsNull", sourceField:"BATCH_QTY"} }
     ];
     repProductsBatchesBalanceTableColumns=
-        dirProducts.addProductColumnsTo(repProductsBatchesBalanceTableColumns,1,{linkSource:"wrh_products_operations_v",
+        dir_products.addProductColumnsTo(repProductsBatchesBalanceTableColumns,1,{linkSource:"wrh_products_operations_v",
             visibleColumns:{"CODE":false,"NAME":false,"UM":false,"PRINT_NAME":false,"PBARCODE":false}});
     repProductsBatchesBalanceTableColumns=
-        dirProducts.addProductAttrsColumnsTo(repProductsBatchesBalanceTableColumns,6);
+        dir_products.addProductAttrsColumnsTo(repProductsBatchesBalanceTableColumns,6);
     app.get("/reports/productsBalance/getProductsBatchesBalance", function (req, res) {
         var conditions=req.query;
         for(var conditionItem in conditions){
@@ -179,10 +180,10 @@ module.exports.init = function(app) {
         {"data": "COST_SUM", "name": "Себе-стоимость" /*, dataFunction:{function:"sumIsNull", sourceField:"BATCH_QTY"}*/}
     ];
     repProductsBalanceWCCTableColumns=
-        dirProducts.addProductColumnsTo(repProductsBalanceWCCTableColumns,1,{linkSource:"wrh_products_operations_v",
+        dir_products.addProductColumnsTo(repProductsBalanceWCCTableColumns,1,{linkSource:"wrh_products_operations_v",
             visibleColumns:{"CODE":false,"NAME":false,"UM":false,"PRINT_NAME":false,"PBARCODE":false}});
     repProductsBalanceWCCTableColumns=
-        dirProducts.addProductAttrsColumnsTo(repProductsBalanceWCCTableColumns,6);
+        dir_products.addProductAttrsColumnsTo(repProductsBalanceWCCTableColumns,6);
     app.get("/reports/productsBalance/getProductsBalanceWCC", function (req, res) {
         var conditions=req.query;
         for(var conditionItem in conditions){
@@ -205,10 +206,10 @@ module.exports.init = function(app) {
         {"data": "COST_SUM", "name": "Себе-стоимость" /*, dataFunction:{function:"sumIsNull", sourceField:"BATCH_QTY"}*/}
     ];
     repProductsBatchesBalanceWCCTableColumns=
-        dirProducts.addProductColumnsTo(repProductsBatchesBalanceWCCTableColumns,1,{linkSource:"wrh_products_operations_v",
+        dir_products.addProductColumnsTo(repProductsBatchesBalanceWCCTableColumns,1,{linkSource:"wrh_products_operations_v",
             visibleColumns:{"CODE":false,"NAME":false,"UM":false,"PRINT_NAME":false,"PBARCODE":false}});
     repProductsBatchesBalanceWCCTableColumns=
-        dirProducts.addProductAttrsColumnsTo(repProductsBatchesBalanceWCCTableColumns,6);
+        dir_products.addProductAttrsColumnsTo(repProductsBatchesBalanceWCCTableColumns,6);
     app.get("/reports/productsBalance/getProductsBatchesBalanceWCC", function (req, res) {
         var conditions=req.query;
         for(var conditionItem in conditions){

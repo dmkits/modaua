@@ -1,7 +1,7 @@
-var dataModel=require('../datamodel'),
-    dirProducts=require('./dirProducts-bata');
+var dataModel=require('../datamodel');
 var fin_retail_tickets_payments_v= require(appDataModelPath+"fin_retail_tickets_payments_v"),
-    fin_retail_receipts_payments_v= require(appDataModelPath+"fin_retail_receipts_payments_v");
+    fin_retail_receipts_payments_v= require(appDataModelPath+"fin_retail_receipts_payments_v"),
+    dir_products=require(appDataModelPath+'dir_products-bata');
 
 module.exports.validateModule = function(errs, nextValidateModuleCallback){
     dataModel.initValidateDataModels([fin_retail_tickets_payments_v, fin_retail_receipts_payments_v], errs,
@@ -33,7 +33,7 @@ module.exports.init = function(app) {
         {"data": "RET_SALE_CARD_SUM", "name": "Сумма возвратов плат.карт.", visible:false }
     ];
     repRetailCashReportTableColumns=
-        dirProducts.addProductColumnsTo(repRetailCashReportTableColumns,3,{linkSource:"fin_retail_tickets_payments_v",
+        dir_products.addProductColumnsTo(repRetailCashReportTableColumns,3,{linkSource:"fin_retail_tickets_payments_v",
             visibleColumns:{"PRINT_NAME":false,"PBARCODE":false}});
     app.get("/reports/retailCashier/getCashReport", function (req, res) {
         fin_retail_tickets_payments_v.getDataForDocTable({tableColumns:repRetailCashReportTableColumns,

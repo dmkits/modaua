@@ -25,207 +25,216 @@ module.exports.validateModule = function(errs, nextValidateModuleCallback){
         });
 };
 
-/**
- * params.linkSource
- * params.visibleColumns = { columnsItem.data:true/false }
- */
-module.exports.addProductColumnsTo= function(columnsData, ind, params){
-    var result=[];
-    if(!params) params={};
-    if(!params.visibleColumns) params.visibleColumns={};
-    for(var cInd=0; cInd<columnsData.length;cInd++){
-        if(cInd==ind){
+module.exports.modulePageURL = "/dir/products";
+module.exports.modulePagePath = "dir/products-bata.html";
+module.exports.init = function(app){
+    /**
+     * params.linkSource
+     * params.visibleColumns = { columnsItem.data:true/false }
+     */
+    dir_products_bata.addProductColumnsTo= function(columnsData, ind, params){
+        var addProductColumns= function(columnsData, params){
             var prodColData={ "data": "PRODUCT_CODE", "name": "Код товара", "width": 55, "type": "text", align:"center",
                 visible:params.visibleColumns["CODE"],
                 dataSource:"dir_products", sourceField:"CODE"};
             if(params.linkSource) prodColData.linkCondition="dir_products.ID="+params.linkSource+".PRODUCT_ID";
-            result.push(prodColData);
-            result.push({ "data": "PRODUCT_NAME", "name": "Наименование товара", "width": 220, "type": "text",
+            columnsData.push(prodColData);
+            columnsData.push({ "data": "PRODUCT_NAME", "name": "Наименование товара", "width": 220, "type": "text",
                 visible:params.visibleColumns["NAME"],
                 dataSource:"dir_products", sourceField:"NAME"});
-            result.push({ "data": "PRODUCT_UM", "name": "Ед. изм.", "width": 55, "type": "text", align:"center",
+            columnsData.push({ "data": "PRODUCT_UM", "name": "Ед. изм.", "width": 55, "type": "text", align:"center",
                 visible:params.visibleColumns["UM"],
                 dataSource:"dir_products", sourceField:"UM"});
-            result.push({ "data": "PRODUCT_PRINT_NAME", "name": "Печатное наименование товара", "width": 220, "type": "text",
+            columnsData.push({ "data": "PRODUCT_PRINT_NAME", "name": "Печатное наименование товара", "width": 220, "type": "text",
                 visible:params.visibleColumns["PRINT_NAME"],
                 dataSource:"dir_products", sourceField:"PRINT_NAME"});
-            result.push({ "data": "PRODUCT_PBARCODE", "name": "Осн.штрихкод", "width": 100, "type": "text", align:"center",
+            columnsData.push({ "data": "PRODUCT_PBARCODE", "name": "Осн.штрихкод", "width": 100, "type": "text", align:"center",
                 visible:params.visibleColumns["PBARCODE"],
                 dataSource:"dir_products", sourceField:"PBARCODE"});
+            return columnsData;
+        };
+        if(!params) params={};
+        if(!params.visibleColumns) params.visibleColumns={};
+        if(ind>=columnsData.length)
+            return addProductColumns(columnsData,params);
+        var result=[];
+        for(var cInd=0; cInd<columnsData.length;cInd++){
+            if(cInd==ind) addProductColumns(result,params);
+            result.push(columnsData[cInd]);
         }
-        result.push(columnsData[cInd]);
-    }
-    return result;
-};
-/**
- * params.linkSource
- * params.visibleColumns = { columnsItem.data:true/false }
- * params.excludeColumns = { columnsItem.data:true/false }
- */
-module.exports.addProductAttrsColumnsTo= function(columnsData, ind, params){
-    var result=[];
-    if(!params) params={};
-    if(!params.linkSource) params.linkSource="dir_products";
-    if(!params.visibleColumns) params.visibleColumns={};
-    if(!params.excludeColumns) params.excludeColumns={};
-    var hasSource=false;
-    for(var cInd=0; cInd<columnsData.length;cInd++){
-        if(!columnsData) continue;
-        if(columnsData.dataSource==params.linkSource){
-            hasSource=true; break;
-        } else if(columnsData.linkCondition&&columnsData.linkCondition.indexOf(params.linkSource+".")>=0){
-            hasSource=true; break;
+        return result;
+    };
+    /**
+     * params.linkSource
+     * params.visibleColumns = { columnsItem.data:true/false }
+     * params.excludeColumns = { columnsItem.data:true/false }
+     */
+    dir_products_bata.addProductAttrsColumnsTo= function(columnsData, ind, params){
+        var result=[];
+        if(!params) params={};
+        if(!params.linkSource) params.linkSource="dir_products";
+        if(!params.visibleColumns) params.visibleColumns={};
+        if(!params.excludeColumns) params.excludeColumns={};
+        var hasSource=false;
+        for(var cInd=0; cInd<columnsData.length;cInd++){
+            if(!columnsData) continue;
+            if(columnsData.dataSource==params.linkSource){
+                hasSource=true; break;
+            } else if(columnsData.linkCondition&&columnsData.linkCondition.indexOf(params.linkSource+".")>=0){
+                hasSource=true; break;
+            }
         }
-    }
-    for(var cInd=0; cInd<columnsData.length;cInd++){
-        if(cInd==ind){
-            if(!hasSource) result.push({dataSource:params.linkSource});
-            if(!params.excludeColumns["COLLECTION_CODE"])
-                result.push({"data": "PRODUCT_COLLECTION_CODE", "name": "Код коллекции товара", "width": 65, "type": "text", align:"center",
-                    visible:params.visibleColumns["COLLECTION_CODE"],
-                    dataSource:"dir_products_collections", sourceField:"CODE", linkCondition:"dir_products_collections.ID="+params.linkSource+".COLLECTION_ID" });
-            if(!params.excludeColumns["COLLECTION"])
-                result.push({"data": "PRODUCT_COLLECTION", "name": "Коллекция товара", "width": 120, "type": "text",
-                    visible:params.visibleColumns["COLLECTION"],
-                    dataSource:"dir_products_collections", sourceField:"NAME", linkCondition:"dir_products_collections.ID="+params.linkSource+".COLLECTION_ID" });
-            if(!params.excludeColumns["ARTICLE"])
-                result.push({"data": "PRODUCT_ARTICLE", "name": "Артикул товара", "width": 80, "type": "text", align:"center",
-                    visible:params.visibleColumns["ARTICLE"],
-                    dataSource:"dir_products_articles", sourceField:"VALUE", linkCondition:"dir_products_articles.ID="+params.linkSource+".ARTICLE_ID" });
-            if(!params.excludeColumns["TYPE"])
-                result.push({"data": "PRODUCT_TYPE", "name": "Тип товара", "width": 100, "type": "text",
-                    visible:params.visibleColumns["TYPE"],
-                    dataSource:"dir_products_types", sourceField:"NAME", linkCondition:"dir_products_types.ID="+params.linkSource+".TYPE_ID" });
-            if(!params.excludeColumns["KIND"])
-                result.push({"data": "PRODUCT_KIND", "name": "Вид товара", "width": 150, "type": "text",
-                    visible:params.visibleColumns["KIND"],
-                    dataSource:"dir_products_kinds", sourceField:"NAME", linkCondition:"dir_products_kinds.ID="+params.linkSource+".KIND_ID" });
-            if(!params.excludeColumns["COMPOSITION"])
-                result.push({"data": "PRODUCT_COMPOSITION", "name": "Состав товара", "width": 150, "type": "text",
-                    visible:params.visibleColumns["COMPOSITION"],
-                    dataSource:"dir_products_compositions", sourceField:"VALUE", linkCondition:"dir_products_compositions.ID="+params.linkSource+".COMPOSITION_ID" });
-            if(!params.excludeColumns["SIZE"])
-                result.push({"data": "PRODUCT_SIZE", "name": "Размер товара", "width": 65, "type": "text", align:"center",
-                    visible:params.visibleColumns["SIZE"],
-                    dataSource:"dir_products_sizes", sourceField:"VALUE", linkCondition:"dir_products_sizes.ID="+params.linkSource+".SIZE_ID" });
+        for(var cInd=0; cInd<columnsData.length;cInd++){
+            if(cInd==ind){
+                if(!hasSource) result.push({dataSource:params.linkSource});
+                if(!params.excludeColumns["COLLECTION_CODE"])
+                    result.push({"data": "PRODUCT_COLLECTION_CODE", "name": "Код коллекции товара", "width": 65, "type": "text", align:"center",
+                        visible:params.visibleColumns["COLLECTION_CODE"],
+                        dataSource:"dir_products_collections", sourceField:"CODE", linkCondition:"dir_products_collections.ID="+params.linkSource+".COLLECTION_ID" });
+                if(!params.excludeColumns["COLLECTION"])
+                    result.push({"data": "PRODUCT_COLLECTION", "name": "Коллекция товара", "width": 120, "type": "text",
+                        visible:params.visibleColumns["COLLECTION"],
+                        dataSource:"dir_products_collections", sourceField:"NAME", linkCondition:"dir_products_collections.ID="+params.linkSource+".COLLECTION_ID" });
+                if(!params.excludeColumns["ARTICLE"])
+                    result.push({"data": "PRODUCT_ARTICLE", "name": "Артикул товара", "width": 80, "type": "text", align:"center",
+                        visible:params.visibleColumns["ARTICLE"],
+                        dataSource:"dir_products_articles", sourceField:"VALUE", linkCondition:"dir_products_articles.ID="+params.linkSource+".ARTICLE_ID" });
+                if(!params.excludeColumns["TYPE"])
+                    result.push({"data": "PRODUCT_TYPE", "name": "Тип товара", "width": 100, "type": "text",
+                        visible:params.visibleColumns["TYPE"],
+                        dataSource:"dir_products_types", sourceField:"NAME", linkCondition:"dir_products_types.ID="+params.linkSource+".TYPE_ID" });
+                if(!params.excludeColumns["KIND"])
+                    result.push({"data": "PRODUCT_KIND", "name": "Вид товара", "width": 150, "type": "text",
+                        visible:params.visibleColumns["KIND"],
+                        dataSource:"dir_products_kinds", sourceField:"NAME", linkCondition:"dir_products_kinds.ID="+params.linkSource+".KIND_ID" });
+                if(!params.excludeColumns["COMPOSITION"])
+                    result.push({"data": "PRODUCT_COMPOSITION", "name": "Состав товара", "width": 150, "type": "text",
+                        visible:params.visibleColumns["COMPOSITION"],
+                        dataSource:"dir_products_compositions", sourceField:"VALUE", linkCondition:"dir_products_compositions.ID="+params.linkSource+".COMPOSITION_ID" });
+                if(!params.excludeColumns["SIZE"])
+                    result.push({"data": "PRODUCT_SIZE", "name": "Размер товара", "width": 65, "type": "text", align:"center",
+                        visible:params.visibleColumns["SIZE"],
+                        dataSource:"dir_products_sizes", sourceField:"VALUE", linkCondition:"dir_products_sizes.ID="+params.linkSource+".SIZE_ID" });
+            }
+            result.push(columnsData[cInd]);
         }
-        result.push(columnsData[cInd]);
-    }
-    return result;
-};
-/**
- * params.linkSource
- * params.visibleColumns = { columnsItem.data:true/false }
- * params.excludeColumns = { columnsItem.data:true/false }
- * params.editableValues = true/false
- *
- */
-module.exports.addProductBataAttrsColumnsTo= function(columnsData, ind, params){
-    var result=[];
-    if(!params) params={};
-    if(!params.linkSource) params.linkSource="dir_products";
-    if(!params.visibleColumns) params.visibleColumns={};
-    if(!params.excludeColumns) params.excludeColumns={};
-    var hasSource=false;
-    for(var cInd=0; cInd<columnsData.length;cInd++){
-        if(!columnsData) continue;
-        if(columnsData.dataSource==params.linkSource){
-            hasSource=true; break;
-        } else if(columnsData.linkCondition&&columnsData.linkCondition.indexOf(params.linkSource+".")>=0){
-            hasSource=true; break;
+        return result;
+    };
+    /**
+     * params.linkSource
+     * params.visibleColumns = { columnsItem.data:true/false }
+     * params.excludeColumns = { columnsItem.data:true/false }
+     * params.editableValues = true/false
+     *
+     */
+    dir_products_bata.addProductBataAttrsColumnsTo= function(columnsData, ind, params){
+        var result=[];
+        if(!params) params={};
+        if(!params.linkSource) params.linkSource="dir_products";
+        if(!params.visibleColumns) params.visibleColumns={};
+        if(!params.excludeColumns) params.excludeColumns={};
+        var hasSource=false;
+        for(var cInd=0; cInd<columnsData.length;cInd++){
+            if(!columnsData) continue;
+            if(columnsData.dataSource==params.linkSource){
+                hasSource=true; break;
+            } else if(columnsData.linkCondition&&columnsData.linkCondition.indexOf(params.linkSource+".")>=0){
+                hasSource=true; break;
+            }
         }
-    }
-    var editableWidth=(params.editableValues)?15:0;
-    for(var cInd=0; cInd<columnsData.length;cInd++){
-        if(cInd==ind){
-            if(!hasSource) result.push({dataSource:params.linkSource});
-            if(!params.excludeColumns["GENDER_CODE"])
-                result.push({"data": "PRODUCT_GENDER_CODE", "name": "Код группы товара", "width": 50+editableWidth, "type": "text", align:"center",
-                    visible:params.visibleColumns["GENDER_CODE"],
-                    dataSource:"dir_products_genders", sourceField:"CODE", linkCondition:"dir_products_genders.ID="+params.linkSource+".GENDER_ID" });
-            if(!params.excludeColumns["GENDER"])
-                result.push({"data": "PRODUCT_GENDER", "name": "Группа товара", "width": 130+editableWidth, "type": "text",
-                    visible:params.visibleColumns["GENDER"],
-                    dataSource:"dir_products_genders", sourceField:"NAME", linkCondition:"dir_products_genders.ID=dir_products.GENDER_ID" });
-            if(!params.excludeColumns["CATEGORY_CODE"])
-                result.push({"data": "PRODUCT_CATEGORY_CODE", "name": "Код категории товара", "width": 60+editableWidth, "type": "text", align:"center",
-                    visible:params.visibleColumns["CATEGORY_CODE"],
-                    dataSource:"dir_products_categories", sourceField:"CODE", linkCondition:"dir_products_categories.ID=dir_products.CATEGORY_ID" });
-            if(!params.excludeColumns["CATEGORY"])
-                result.push({"data": "PRODUCT_CATEGORY", "name": "Категория товара", "width": 190+editableWidth, "type": "text",
-                    visible:params.visibleColumns["CATEGORY"],
-                    dataSource:"dir_products_categories", sourceField:"NAME", linkCondition:"dir_products_categories.ID=dir_products.CATEGORY_ID" });
-            if(!params.excludeColumns["SUBCATEGORY_CODE"])
-                result.push({"data": "PRODUCT_SUBCATEGORY_CODE", "name": "Код подкатегории товара", "width": 80+editableWidth, "type": "text", align:"center",
-                    visible:params.visibleColumns["SUBCATEGORY_CODE"],
-                    dataSource:"dir_products_subcategories", sourceField:"CODE", linkCondition:"dir_products_subcategories.ID=dir_products.SUBCATEGORY_ID" });
-            if(!params.excludeColumns["SUBCATEGORY"])
-                result.push({"data": "PRODUCT_SUBCATEGORY", "name": "Подкатегория товара", "width": 190+editableWidth, "type": "text",
-                    visible:params.visibleColumns["SUBCATEGORY"],
-                    dataSource:"dir_products_subcategories", sourceField:"NAME", linkCondition:"dir_products_subcategories.ID=dir_products.SUBCATEGORY_ID" });
+        var editableWidth=(params.editableValues)?15:0;
+        for(var cInd=0; cInd<columnsData.length;cInd++){
+            if(cInd==ind){
+                if(!hasSource) result.push({dataSource:params.linkSource});
+                if(!params.excludeColumns["GENDER_CODE"])
+                    result.push({"data": "PRODUCT_GENDER_CODE", "name": "Код группы товара", "width": 50+editableWidth, "type": "text", align:"center",
+                        visible:params.visibleColumns["GENDER_CODE"],
+                        dataSource:"dir_products_genders", sourceField:"CODE", linkCondition:"dir_products_genders.ID="+params.linkSource+".GENDER_ID" });
+                if(!params.excludeColumns["GENDER"])
+                    result.push({"data": "PRODUCT_GENDER", "name": "Группа товара", "width": 130+editableWidth, "type": "text",
+                        visible:params.visibleColumns["GENDER"],
+                        dataSource:"dir_products_genders", sourceField:"NAME", linkCondition:"dir_products_genders.ID=dir_products.GENDER_ID" });
+                if(!params.excludeColumns["CATEGORY_CODE"])
+                    result.push({"data": "PRODUCT_CATEGORY_CODE", "name": "Код категории товара", "width": 60+editableWidth, "type": "text", align:"center",
+                        visible:params.visibleColumns["CATEGORY_CODE"],
+                        dataSource:"dir_products_categories", sourceField:"CODE", linkCondition:"dir_products_categories.ID=dir_products.CATEGORY_ID" });
+                if(!params.excludeColumns["CATEGORY"])
+                    result.push({"data": "PRODUCT_CATEGORY", "name": "Категория товара", "width": 190+editableWidth, "type": "text",
+                        visible:params.visibleColumns["CATEGORY"],
+                        dataSource:"dir_products_categories", sourceField:"NAME", linkCondition:"dir_products_categories.ID=dir_products.CATEGORY_ID" });
+                if(!params.excludeColumns["SUBCATEGORY_CODE"])
+                    result.push({"data": "PRODUCT_SUBCATEGORY_CODE", "name": "Код подкатегории товара", "width": 80+editableWidth, "type": "text", align:"center",
+                        visible:params.visibleColumns["SUBCATEGORY_CODE"],
+                        dataSource:"dir_products_subcategories", sourceField:"CODE", linkCondition:"dir_products_subcategories.ID=dir_products.SUBCATEGORY_ID" });
+                if(!params.excludeColumns["SUBCATEGORY"])
+                    result.push({"data": "PRODUCT_SUBCATEGORY", "name": "Подкатегория товара", "width": 190+editableWidth, "type": "text",
+                        visible:params.visibleColumns["SUBCATEGORY"],
+                        dataSource:"dir_products_subcategories", sourceField:"NAME", linkCondition:"dir_products_subcategories.ID=dir_products.SUBCATEGORY_ID" });
+            }
+            result.push(columnsData[cInd]);
         }
-        result.push(columnsData[cInd]);
-    }
-    return result;
-};
+        return result;
+    };
 
-module.exports.modulePageURL = "/dir/products";
-module.exports.modulePagePath = "dir/products-bata.html";
-module.exports.init = function(app){
+
     var dirProductsTableColumns=[
         {"data": "ID", "name": "ID", "width": 80, "type": "text", readOnly:true, visible:false},
-        {"data": "GENDER_CODE", "name": "Код группы", "width": 50,
-            "type": "combobox", "sourceURL":"/dir/products/getDataForProductsGendersCombobox/genderCode",
-            dataSource:"dir_products_genders", sourceField:"CODE"},
-        {"data": "GENDER", "name": "Группа", "width": 120,
-            "type": "combobox", "sourceURL":"/dir/products/getDataForProductsGendersCombobox/gender",
-            dataSource:"dir_products_genders", sourceField:"NAME"},
-        {"data": "CATEGORY_CODE", "name": "Код категории", "width": 60,
-            "type": "combobox", "sourceURL":"/dir/products/getDataForProductsCategoryCombobox/CategoryCode",
-            dataSource:"dir_products_categories", sourceField:"CODE"},
-        {"data": "CATEGORY", "name": "Категория", "width": 200,
-            "type": "combobox", "sourceURL":"/dir/products/getDataForProductsCategoryCombobox/category",
-            dataSource:"dir_products_categories", sourceField:"NAME"},
-        {"data": "SUBCATEGORY_CODE", "name": "Код подкатегории", "width": 100,
-            "type": "comboboxWN", "sourceURL":"/dir/products/getDataForProductsSubcategoryCombobox/SubcategoryCode",
-            dataSource:"dir_products_subcategories", sourceField:"CODE"},
-        {"data": "SUBCATEGORY", "name": "Подкатегория", "width": 200,
-            "type": "comboboxWN", "sourceURL":"/dir/products/getDataForProductsSubcategoryCombobox/subcategory",
-            dataSource:"dir_products_subcategories", sourceField:"NAME"},
+        //{"data": "GENDER_CODE", "name": "Код группы", "width": 50,
+        //    "type": "combobox", "sourceURL":"/dir/products/getDataForProductsGendersCombobox/genderCode",
+        //    dataSource:"dir_products_genders", sourceField:"CODE"},
+        //{"data": "GENDER", "name": "Группа", "width": 120,
+        //    "type": "combobox", "sourceURL":"/dir/products/getDataForProductsGendersCombobox/gender",
+        //    dataSource:"dir_products_genders", sourceField:"NAME"},
+        //{"data": "CATEGORY_CODE", "name": "Код категории", "width": 60,
+        //    "type": "combobox", "sourceURL":"/dir/products/getDataForProductsCategoryCombobox/CategoryCode",
+        //    dataSource:"dir_products_categories", sourceField:"CODE"},
+        //{"data": "CATEGORY", "name": "Категория", "width": 200,
+        //    "type": "combobox", "sourceURL":"/dir/products/getDataForProductsCategoryCombobox/category",
+        //    dataSource:"dir_products_categories", sourceField:"NAME"},
+        //{"data": "SUBCATEGORY_CODE", "name": "Код подкатегории", "width": 100,
+        //    "type": "comboboxWN", "sourceURL":"/dir/products/getDataForProductsSubcategoryCombobox/SubcategoryCode",
+        //    dataSource:"dir_products_subcategories", sourceField:"CODE"},
+        //{"data": "SUBCATEGORY", "name": "Подкатегория", "width": 200,
+        //    "type": "comboboxWN", "sourceURL":"/dir/products/getDataForProductsSubcategoryCombobox/subcategory",
+        //    dataSource:"dir_products_subcategories", sourceField:"NAME"},
 
-        {"data": "COLLECTION", "name": "Коллекция", "width": 120,
-            "type": "text",
-            //"type": "comboboxWN", "sourceURL":"/dir/products/getDataForProductsSubcategoryCombobox/subcategory",
-            dataSource:"dir_products_collections", sourceField:"NAME"},
-        {"data": "COLLECTION_CODE", "name": "Код коллекции", "width": 120, visible:false,
-            "type": "text",
-            //"type": "comboboxWN", "sourceURL":"/dir/products/getDataForProductsSubcategoryCombobox/subcategory",
-            dataSource:"dir_products_collections", sourceField:"CODE"},
-        {"data": "ARTICLE", "name": "Артикул", "width": 80,
-            "type": "text",
-            //"type": "comboboxWN", "sourceURL":"/dir/products/getDataForProductsSubcategoryCombobox/subcategory",
-            dataSource:"dir_products_articles", sourceField:"VALUE"},
-        {"data": "KIND", "name": "Вид", "width": 150,
-            "type": "text",
-            //"type": "comboboxWN", "sourceURL":"/dir/products/getDataForProductsSubcategoryCombobox/subcategory",
-            dataSource:"dir_products_kinds", sourceField:"NAME"},
-        {"data": "COMPOSITION_ID", "name": "Состав", "width": 150,
-            "type": "text",
-            //"type": "comboboxWN", "sourceURL":"/dir/products/getDataForProductsSubcategoryCombobox/subcategory",
-            dataSource:"dir_products_compositions", sourceField:"VALUE"},
-        {"data": "SIZE", "name": "Размер", "width": 50,
-            "type": "text",
-            //"type": "comboboxWN", "sourceURL":"/dir/products/getDataForProductsSubcategoryCombobox/subcategory",
-            dataSource:"dir_products_sizes", sourceField:"VALUE"},
+        //{"data": "COLLECTION", "name": "Коллекция", "width": 120,
+        //    "type": "text",
+        //    //"type": "comboboxWN", "sourceURL":"/dir/products/getDataForProductsSubcategoryCombobox/subcategory",
+        //    dataSource:"dir_products_collections", sourceField:"NAME"},
+        //{"data": "COLLECTION_CODE", "name": "Код коллекции", "width": 120, visible:false,
+        //    "type": "text",
+        //    //"type": "comboboxWN", "sourceURL":"/dir/products/getDataForProductsSubcategoryCombobox/subcategory",
+        //    dataSource:"dir_products_collections", sourceField:"CODE"},
+        //{"data": "ARTICLE", "name": "Артикул", "width": 80,
+        //    "type": "text",
+        //    //"type": "comboboxWN", "sourceURL":"/dir/products/getDataForProductsSubcategoryCombobox/subcategory",
+        //    dataSource:"dir_products_articles", sourceField:"VALUE"},
+        //{"data": "KIND", "name": "Вид", "width": 150,
+        //    "type": "text",
+        //    //"type": "comboboxWN", "sourceURL":"/dir/products/getDataForProductsSubcategoryCombobox/subcategory",
+        //    dataSource:"dir_products_kinds", sourceField:"NAME"},
+        //{"data": "COMPOSITION_ID", "name": "Состав", "width": 150,
+        //    "type": "text",
+        //    //"type": "comboboxWN", "sourceURL":"/dir/products/getDataForProductsSubcategoryCombobox/subcategory",
+        //    dataSource:"dir_products_compositions", sourceField:"VALUE"},
+        //{"data": "SIZE", "name": "Размер", "width": 50,
+        //    "type": "text",
+        //    //"type": "comboboxWN", "sourceURL":"/dir/products/getDataForProductsSubcategoryCombobox/subcategory",
+        //    dataSource:"dir_products_sizes", sourceField:"VALUE"},
 
-        {"data": "CODE", "name": "Код", "width": 55, "type": "text"},
-        {"data": "NAME", "name": "Наименование", "width": 220, "type": "text"},
-        {"data": "PRINT_NAME", "name": "Печатное наименование", "width": 220, "type": "text", visible:false},
-        {"data": "UM", "name": "Ед.изм.", "width": 55, "type": "text"},
-        {"data": "PBARCODE", "name": "Штрихкод", "width": 100, "type": "text", visible:false},
-
-
+        //{"data": "CODE", "name": "Код", "width": 55, "type": "text"},
+        //{"data": "NAME", "name": "Наименование", "width": 220, "type": "text"},
+        //{"data": "PRINT_NAME", "name": "Печатное наименование", "width": 220, "type": "text", visible:false},
+        //{"data": "UM", "name": "Ед.изм.", "width": 55, "type": "text"},
+        //{"data": "PBARCODE", "name": "Штрихкод", "width": 100, "type": "text", visible:false},
     ];
+    dirProductsTableColumns=
+        dir_products_bata.addProductColumnsTo(dirProductsTableColumns,1);
+    //dirProductsTableColumns=
+    //    dir_products_bata.addProductBataAttrsColumnsTo(dirProductsTableColumns,6);
+    //dirProductsTableColumns=
+    //    dir_products_bata.addProductAttrsColumnsTo(dirProductsTableColumns,12);
     app.get("/dir/products/getDataForDirProductsTable", function(req, res){
         dir_products_bata.getDataForTable({tableColumns:dirProductsTableColumns, identifier:dirProductsTableColumns[0].data,
                 conditions:req.query,

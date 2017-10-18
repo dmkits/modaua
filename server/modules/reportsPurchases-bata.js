@@ -1,7 +1,8 @@
-var dataModel=require('../datamodel'), dirProducts=require('./dirProducts-bata');
+var dataModel=require('../datamodel');
 var wrh_pinvs= require(appDataModelPath+"wrh_pinvs"),
     wrh_pinvs_products= require(appDataModelPath+"wrh_pinvs_products"),
-    sys_currency= require(appDataModelPath+"sys_currency");
+    sys_currency= require(appDataModelPath+"sys_currency"),
+    dir_products=require(appDataModelPath+'dir_products-bata');
 var dir_units= require(appDataModelPath+"dir_units"), dir_contractors= require(appDataModelPath+"dir_contractors");
 
 module.exports.validateModule = function(errs, nextValidateModuleCallback){
@@ -33,7 +34,7 @@ module.exports.init = function(app) {
         {"data": "POSSUM", "name": "Сумма" }
     ];
     repPurchasesReportTableColumns=
-        dirProducts.addProductColumnsTo(repPurchasesReportTableColumns,10,{
+        dir_products.addProductColumnsTo(repPurchasesReportTableColumns,10,{
             visibleColumns:{"PRINT_NAME":false,"PBARCODE":false}});
     app.get("/reports/purchases/getPurchases", function (req, res) {
         wrh_pinvs_products.getDataForDocTable({tableColumns:repPurchasesReportTableColumns,
@@ -54,7 +55,7 @@ module.exports.init = function(app) {
         {"data": "SPOSSUM", "name": "Сумма", dataFunction:{function:"sumIsNull", source:"wrh_pinvs_products", sourceField:"POSSUM"} }
     ];
     repPurchasesByDatesTableColumns=
-        dirProducts.addProductAttrsColumnsTo(repPurchasesByDatesTableColumns,3,{ excludeColumns:{}});
+        dir_products.addProductAttrsColumnsTo(repPurchasesByDatesTableColumns,3,{ excludeColumns:{}});
     app.get("/reports/purchases/getPurchasesByDates", function (req, res) {
         wrh_pinvs_products.getDataForDocTable({tableColumns:repPurchasesByDatesTableColumns,
                 identifier:repPurchasesByDatesTableColumns[0].data,
@@ -82,10 +83,10 @@ module.exports.init = function(app) {
         {"data": "POSSUM", "name": "Сумма" }
     ];
     repPurchasesWithProdAttrReportTableColumns=
-        dirProducts.addProductColumnsTo(repPurchasesWithProdAttrReportTableColumns,9,{
+        dir_products.addProductColumnsTo(repPurchasesWithProdAttrReportTableColumns,9,{
             visibleColumns:{"CODE":false,"NAME":false,"UM":false,"PRINT_NAME":false,"PBARCODE":false}});
     repPurchasesWithProdAttrReportTableColumns=
-        dirProducts.addProductAttrsColumnsTo(repPurchasesWithProdAttrReportTableColumns,9,{
+        dir_products.addProductAttrsColumnsTo(repPurchasesWithProdAttrReportTableColumns,9,{
             visibleColumns:{}});
     app.get("/reports/purchases/getPurchasesWithProdAttr", function (req, res) {
         wrh_pinvs_products.getDataForDocTable({tableColumns:repPurchasesWithProdAttrReportTableColumns,
