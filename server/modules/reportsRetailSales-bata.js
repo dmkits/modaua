@@ -6,11 +6,13 @@ var wrh_retail_tickets= require(appDataModelPath+"wrh_retail_tickets"),
     fin_retail_tickets_payments_v= require(appDataModelPath+"fin_retail_tickets_payments_v"),
     fin_retail_receipts_payments_v= require(appDataModelPath+"fin_retail_receipts_payments_v"),
     dir_products=require(appDataModelPath+'dir_products-bata');
+var dir_units= require(appDataModelPath+"dir_units"),
+    dir_contractors= require(appDataModelPath+"dir_contractors");
 
 module.exports.validateModule = function(errs, nextValidateModuleCallback){
     dataModel.initValidateDataModels([wrh_retail_tickets,wrh_retail_tickets_products,
             wrh_retail_tickets_v, fin_retail_tickets_v, fin_retail_tickets_payments_v,
-            fin_retail_receipts_payments_v], errs,
+            fin_retail_receipts_payments_v,dir_units,dir_contractors], errs,
         function(){
             nextValidateModuleCallback();
         });
@@ -153,6 +155,34 @@ module.exports.init = function(app) {
                 identifier:repRetailSalesByDatesTableColumns[0].data,
                 conditions:req.query,
                 order:["DOCDATE","PRODUCT_ARTICLE","PRODUCT_COLLECTION","PRODUCT_KIND","PRODUCT_COMPOSITION","PRODUCT_SIZE","PRICE"]},
+            function(result){
+                res.send(result);
+            });
+    });
+    var repRetailSalesTicketsListTableColumns=[
+        {"data": "ID", "name": "ID", "width": 50, "type": "text", readOnly:true, visible:false, dataSource:"wrh_retail_tickets"},
+        {"data": "NUMBER", "name": "Номер", "width": 65, "type": "text", dataSource:"wrh_retail_tickets"},
+        {"data": "DOCDATE", "name": "Дата", "width": 55, "type": "dateAsText", dataSource:"wrh_retail_tickets"},
+        {"data": "UNIT_NAME", "name": "Подразделение", "width": 120, "type": "text", dataSource:"dir_units",
+            sourceField:"NAME",linkCondition:"dir_units.ID=wrh_retail_tickets.UNIT_ID" },
+        {"data": "BUYER_NAME", "name": "Покупатель", "width": 150, "type": "text", dataSource:"dir_contractors",
+            sourceField:"NAME",linkCondition:"dir_contractors.ID=wrh_retail_tickets.BUYER_ID"},
+        {"data": "SQTY", "name": "Кол-во", dataFunction:{function:"sumIsNull", source:"wrh_retail_tickets_products", sourceField:"QTY"} },
+        {"data": "SPOSSUM", "name": "Сумма", dataFunction:{function:"sumIsNull", source:"wrh_retail_tickets_products", sourceField:"POSSUM"} },
+        {"data": "CURRENCY_CODE", "name": "Валюта", "width": 70, "type": "text", dataSource:"sys_currency",
+            sourceField:"CODE", linkCondition:"sys_currency.ID=wrh_retail_tickets.CURRENCY_ID"},
+        {"data": "CURRENCY_CODENAME", "name": "Валюта", "width": 50, "type": "text", visible:false,
+            dataSource:"sys_currency", dataFunction:{function:"concat",fields:["sys_currency.CODE","' ('","sys_currency.NAME","')'"]} },
+        {"data": "DOCSTATE_NAME", "name": "Статус", "width": 110, "type": "text", dataSource:"sys_docstates", sourceField:"NAME",
+            linkCondition:"sys_docstates.ID=wrh_retail_tickets.DOCSTATE_ID"}
+    ];
+    app.get("/reports/retailSales/getTicketsList", function(req, res){
+        var conditions={};
+        for(var condItem in req.query) conditions["wrh_retail_tickets."+condItem]=req.query[condItem];
+        wrh_retail_tickets_products.getDataForDocTable({tableColumns:repRetailSalesTicketsListTableColumns,
+                identifier:repRetailSalesTicketsListTableColumns[0].data,
+                conditions:conditions,
+                order:["DOCDATE","UNIT_NAME","NUMBER"]},
             function(result){
                 res.send(result);
             });
