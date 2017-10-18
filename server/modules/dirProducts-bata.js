@@ -231,14 +231,14 @@ module.exports.init = function(app){
     ];
     dirProductsTableColumns=
         dir_products_bata.addProductColumnsTo(dirProductsTableColumns,1);
-    //dirProductsTableColumns=
-    //    dir_products_bata.addProductBataAttrsColumnsTo(dirProductsTableColumns,6);
-    //dirProductsTableColumns=
-    //    dir_products_bata.addProductAttrsColumnsTo(dirProductsTableColumns,12);
+    dirProductsTableColumns=
+        dir_products_bata.addProductBataAttrsColumnsTo(dirProductsTableColumns,1);
+    dirProductsTableColumns=
+        dir_products_bata.addProductAttrsColumnsTo(dirProductsTableColumns,8);
     app.get("/dir/products/getDataForDirProductsTable", function(req, res){
         dir_products_bata.getDataForTable({tableColumns:dirProductsTableColumns, identifier:dirProductsTableColumns[0].data,
                 conditions:req.query,
-                order:"NAME"},
+                order:"PRODUCT_NAME"},
             function(result){
                 res.send(result);
             });

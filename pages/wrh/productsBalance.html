@@ -1,0 +1,170 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<div id="wrhProductsBalance_PageContainer" style="width:100%;height:100%;">
+    <div id="wrhProductsBalance_ContentPaneLeft" style="width:170px;height:100%; margin:0;padding:0;">
+        <table style="width:100%;">
+            <tr><th>Реестры</th></tr>
+            <tr><td>
+                <button id="wrhProductsBalance_btnProdsBalanceReg">Реестр остатков</button><br>
+                <button id="wrhProductsBalance_btnProdsBalanceRegByArts">Реестр остатков по артикулам</button><br>
+            </td></tr>
+        </table>
+        <table style="width:100%;">
+            <tr><th>Отчеты</th></tr>
+            <tr><td>
+                <button id="wrhProductsBalance_btnProdsBalance">Остатки товаров</button><br>
+                <button id="wrhProductsBalance_btnProdsBalanceByGroups">Остатки по группам Bata</button><br>
+                <button id="wrhProductsBalance_btnProdsBalanceByKinds">Остатки по видам</button><br>
+                <br>
+                <button id="wrhProductsBalance_btnProdsBatchesBalance">Остатки партий товаров</button><br>
+                <br>
+                <button id="wrhProductsBalance_btnProdsBalanceWCC">Остатки товаров с СС</button><br>
+                <button id="wrhProductsBalance_btnProdsBatchesBalanceWCC">Остатки партий товаров с СС</button><br>
+            </td></tr>
+        </table>
+    </div>
+    <div id="wrhProductsBalance_ContentContainer" style="width:100%;height:100%; margin:0;padding:0;"></div>
+</div>
+</body>
+<script type="text/javascript">
+    require(["app", "dojo/dom-style", "dijit/layout/BorderContainer", "dijit/layout/StackContainer", "dijit/layout/ContentPane",
+               "dijit/form/Button", "templateDocumentSimpleTable"],
+            function (APP, domStyle, BorderContainer, StackContainer, ContentPane, Button, TDocumentSimpleTable) {
+                var pageContainer= APP.instanceForID("wrhProductsBalance_PageContainer", BorderContainer, {});
+                APP.instanceForID("wrhProductsBalance_ContentPaneLeft", ContentPane, {region:'left', splitter:false});
+                var btnProdsBalanceReg= APP.instanceForID("wrhProductsBalance_btnProdsBalanceReg", Button, {}, {"width":"155px"});
+                var btnProdsBalanceRegByArts= APP.instanceForID("wrhProductsBalance_btnProdsBalanceRegByArts", Button, {}, {"width":"155px"});
+                var btnProdsBalance= APP.instanceForID("wrhProductsBalance_btnProdsBalance", Button, {}, {"width":"155px"});
+                var btnProdsBalanceByGroups= APP.instanceForID("wrhProductsBalance_btnProdsBalanceByGroups", Button, {}, {"width":"155px"});
+                var btnProdsBalanceByKinds= APP.instanceForID("wrhProductsBalance_btnProdsBalanceByKinds", Button, {}, {"width":"155px"});
+                var btnProdsBatchesBalance= APP.instanceForID("wrhProductsBalance_btnProdsBatchesBalance", Button, {}, {"width":"155px"});
+                var btnProdsBalanceWCC= APP.instanceForID("wrhProductsBalance_btnProdsBalanceWCC", Button, {}, {"width":"155px"});
+                var btnProdsBatchesBalanceWCC= APP.instanceForID("wrhProductsBalance_btnProdsBatchesBalanceWCC", Button, {}, {"width":"155px"});
+                var contentContainer= APP.instanceForID("wrhProductsBalance_ContentContainer", StackContainer, {region:'center'});
+                btnProdsBalanceReg.onClick= function(){
+                    if (!btnProdsBalanceReg.report){
+                        btnProdsBalanceReg.report =
+                                APP.childFor(contentContainer, "wrhProductsBalance_TableProdsBalanceRegister",
+                                        TDocumentSimpleTable, {titleText:"Реестр остатков",
+                                            dataURL:"/wrh/productsBalance/getProductsBalanceRegister"})
+                                        .addEndDateBox("на","DOCDATE<=").addBtnUpdate().addBtnPrint()
+                                        .addBtn("Печатать ценники",150, function(contentTableContent,contentTableInstance){
+                                            var printWindow= window.open("/print/prod_tags");                                           //console.log("printProdTags.onClick printWindow=",printWindow);
+                                            //window.open("/print?pinvid="+wrh_pinv_ContentController.getDataIDValue(), "", "location=1,status=1,scrollbars=1,width=650,height=600");
+                                            printWindow["prodTagsContentData"]= contentTableContent;
+                                            printWindow["pageProdTagType"]= "tag58X30";
+                                        })
+                                        .addTotalCountNumberBox("ИТОГО строк:", 140)
+                                        .addTotalSumNumberTextBox("ИТОГО остаток:", 550, "SQTY", {style:"font-weight:bold;"})
+                                        .addTotalSumNumberTextBox("ИТОГО сумма себестоимости:", 290, "COST_SUM", {style:"font-weight:bold;"})
+                                        .startUp();
+                    }
+                    contentContainer.selectChild(btnProdsBalanceReg.report);
+                };
+                btnProdsBalanceRegByArts.onClick= function(){
+                    if (!btnProdsBalanceRegByArts.report){
+                        btnProdsBalanceRegByArts.report =
+                                APP.childFor(contentContainer, "wrhProductsBalance_TableProdsBalanceRegisterByProductsArticles",
+                                        TDocumentSimpleTable, {titleText:"Реестр остатков по артикулам",
+                                            dataURL:"/wrh/productsBalance/getProductsBalanceRegisterByProductsArticles"})
+                                        .addEndDateBox("на","DOCDATE<=")
+                                        .addTotalCountNumberBox("ИТОГО строк:", 140, {style:"font-weight:bold;",inputStyle:"width:50px"})
+                                        .addTotalSumNumberTextBox("ИТОГО остаток:", 660, "SQTY", {style:"font-weight:bold;",inputStyle:"width:60px"})
+                                        .addTotalSumNumberTextBox("ИТОГО сумма себестоимости:", 290, "PRODUCT_COST_SUM", {style:"font-weight:bold;",inputStyle:"width:80px"})
+                                        .startUp();
+                    }
+                    contentContainer.selectChild(btnProdsBalanceRegByArts.report);
+                };
+                btnProdsBalance.onClick= function(){
+                    if (!btnProdsBalance.report){
+                        btnProdsBalance.report =
+                                APP.childFor(contentContainer, "wrhProductsBalance_TableProdsBalance",
+                                        TDocumentSimpleTable, {titleText:"Остатки товаров",
+                                                dataURL:"/reports/productsBalance/getProductsBalance"})
+                                        .addEndDateBox("на","DOCDATE<=")
+                                        .addTotalCountNumberBox("ИТОГО строк:", 140)
+                                        .addTotalSumNumberTextBox("ИТОГО остаток:", 760, "SQTY", {style:"font-weight:bold;"})
+                                        .startUp();
+                    }
+                    contentContainer.selectChild(btnProdsBalance.report);
+                };
+                btnProdsBalanceByGroups.onClick= function(){
+                    if (!btnProdsBalanceByGroups.report){
+                        btnProdsBalanceByGroups.report =
+                                APP.childFor(contentContainer, "wrhProductsBalance_TableProdsBalanceByBataGroups",
+                                        TDocumentSimpleTable, {titleText:"Остатки товаров по группам Bata",
+                                            dataURL:"/reports/productsBalance/getProductsBalanceByBataAttributes"})
+                                        .addEndDateBox("на","DOCDATE<=")
+                                        .addTotalCountNumberBox("ИТОГО строк:", 140)
+                                        .addTotalSumNumberTextBox("ИТОГО остаток:", 730, "SQTY", {style:"font-weight:bold;"})
+                                        .startUp();
+                    }
+                    contentContainer.selectChild(btnProdsBalanceByGroups.report);
+                };
+                btnProdsBalanceByKinds.onClick= function(){
+                    if (!btnProdsBalanceByKinds.report){
+                        btnProdsBalanceByKinds.report =
+                                APP.childFor(contentContainer, "wrhProductsBalance_TableProdsBalanceByTypesKinds",
+                                        TDocumentSimpleTable, {titleText:"Остатки товаров по видам товара",
+                                            dataURL:"/reports/productsBalance/getProductsBalanceByTypesKinds"})
+                                        .addEndDateBox("на","DOCDATE<=")
+                                        .addTotalCountNumberBox("ИТОГО строк:", 140)
+                                        .addTotalSumNumberTextBox("ИТОГО остаток:",280, "SQTY", {style:"font-weight:bold;"})
+                                        .startUp();
+                    }
+                    contentContainer.selectChild(btnProdsBalanceByKinds.report);
+                };
+
+                btnProdsBatchesBalance.onClick= function(){
+                    if (!btnProdsBatchesBalance.report){
+                        btnProdsBatchesBalance.report =
+                                APP.childFor(contentContainer, "wrhProductsBalance_TableProdsBatchesBalance",
+                                        TDocumentSimpleTable, {titleText:"Остатки партий товаров",
+                                            dataURL:"/reports/productsBalance/getProductsBatchesBalance"})
+                                        .addEndDateBox("на","DOCDATE<=")
+                                        .addTotalCountNumberBox("ИТОГО строк:", 140)
+                                        .addTotalSumNumberTextBox("ИТОГО остаток:", 895, "SQTY", {style:"font-weight:bold;"})
+                                        .startUp();
+                    }
+                    contentContainer.selectChild(btnProdsBatchesBalance.report);
+                };
+
+                btnProdsBalanceWCC.onClick= function(){
+                    if (!btnProdsBalanceWCC.report){
+                        btnProdsBalanceWCC.report =
+                                APP.childFor(contentContainer, "wrhProductsBalance_TableProdsBalanceWCC",
+                                        TDocumentSimpleTable, {titleText:"Остатки товаров с себестоимостью",
+                                            dataURL:"/reports/productsBalance/getProductsBalanceWCC"})
+                                        .addEndDateBox("на","DOCDATE<=")
+                                        .addTotalCountNumberBox("ИТОГО строк:", 140)
+                                        .addTotalSumNumberTextBox("ИТОГО остаток:", 660, "SQTY", {style:"font-weight:bold;"})
+                                        .addTotalSumNumberTextBox("ИТОГО сумма себестоимости:", 290, "COST_SUM", {style:"font-weight:bold;"})
+                                        .startUp();
+                    }
+                    contentContainer.selectChild(btnProdsBalanceWCC.report);
+                };
+                btnProdsBatchesBalanceWCC.onClick= function(){
+                    if (!btnProdsBatchesBalanceWCC.report){
+                        btnProdsBatchesBalanceWCC.report =
+                                APP.childFor(contentContainer, "wrhProductsBalance_TableProdsBatchesBalanceWCC",
+                                        TDocumentSimpleTable, {titleText:"Остатки партий товаров с себестоимостью",
+                                            dataURL:"/reports/productsBalance/getProductsBatchesBalanceWCC"})
+                                        .addEndDateBox("на","DOCDATE<=")
+                                        .addTotalCountNumberBox("ИТОГО строк:", 140)
+                                        .addTotalSumNumberTextBox("ИТОГО остаток:", 710, "SQTY", {style:"font-weight:bold;"})
+                                        .addTotalSumNumberTextBox("ИТОГО сумма себестоимости:", 290, "COST_SUM", {style:"font-weight:bold;"})
+                                        .startUp();
+                    }
+                    contentContainer.selectChild(btnProdsBatchesBalanceWCC.report);
+                };
+
+                pageContainer.layout();
+                btnProdsBalanceReg.onClick();
+        });
+</script>
+</html>

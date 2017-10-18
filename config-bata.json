@@ -25,11 +25,12 @@
     "wrhInvoices-bata",
     "wrhRetInvoices-bata",
     "wrhRetailTickets",
+    "wrhProductsBalance",
     "reportsPurchases-bata",
     "reportsRetailCashier-bata",
     "reportsRetailSales-bata",
     "reportsSales-bata",
-    "reportsWrhProductsBalance"
+    "reportsProductsBalance"
   ],
   "appMenu":[
     { "menuTitle":"Главная страница", "menuItemName":"menuBarItemMainPage", "pageTitle":"Главная страница", "module":"mainPage", "closable":false},
@@ -43,7 +44,7 @@
       ]},
     { "menuItemName":"menuBarWrh", "menuTitle":"Запасы (склад)",
       "popupMenu":[
-        { "menuItemName":"menuBarWrhProdsBalance", "menuTitle":"Остатки товаров", "pageTitle":"Остатки товаров", "module":"reportsWrhProductsBalance", "closable":true},
+        { "menuItemName":"menuBarWrhProdsBalance", "menuTitle":"Запасы (остатки) товаров", "pageTitle":"Запасы (остатки) товаров", "module":"wrhProductsBalance", "closable":true},
         { "menuItemName":"separatorWrh1"},
         { "menuItemName":"menuBarWrhProdsMoves", "menuTitle":"Движение товаров", "pageTitle":"Движение товаров", "module":"wrhProdsMoves", "closable":true}
       ]},
@@ -71,7 +72,7 @@
         { "menuItemName":"separatorReports2"},
         { "menuItemName":"menuBarReportsCashier", "menuTitle":"Отчеты кассира", "pageTitle":"Отчеты кассира", "module":"reportsRetailCashier-bata", "closable":true},
         { "menuItemName":"separatorReports3"},
-        { "menuItemName":"menuBarReportsProdsBalance", "menuTitle":"Остатки товаров", "pageTitle":"Остатки товаров", "module":"reportsWrhProductsBalance", "closable":true}
+        { "menuItemName":"menuBarReportsProdsBalance", "menuTitle":"Отчеты по запасам (остаткам)", "pageTitle":"Отчеты по запасам (остаткам)", "module":"reportsProductsBalance", "closable":true}
       ]},
     { "menuItemName":"menuBarPopupMenuDirs", "menuTitle":"Справочники",
       "popupMenu":[
@@ -99,7 +100,7 @@
   },
   "usersRoleAutorun":{
     "admin":["menuBarItemMainPage"],
-    "adminDev":["menuBarItemMainPage","menuBarDirsItemUnits","menuBarDirsItemProducts","menuBarWrhOrdersBata", "menuBarWrhPInvoices", "menuBarReportsRetailSales","menuBarReportsProdsBalance"],
+    "adminDev":["menuBarItemMainPage","menuBarDirsItemUnits","menuBarDirsItemProducts","menuBarWrhOrdersBata", "menuBarWrhPInvoices", "menuBarReportsRetailSales","menuBarWrhProdsBalance"],
     "user":["menuBarItemMainPage"],
     "cashier":["menuBarItemSalesCashierReports"]
   }

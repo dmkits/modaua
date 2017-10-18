@@ -10,9 +10,6 @@
         <table style="width:100%;">
             <tr><th>Отчеты</th></tr>
             <tr><td>
-                <button id="reportsProductsBalance_btnProdsBalanceReg">Реестр остатков</button>
-                <button id="reportsProductsBalance_btnProdsBalanceRegByArts">Реестр остатков по артикулам</button>
-                <br><br>
                 <button id="reportsProductsBalance_btnProdsBalance">Остатки товаров</button>
                 <button id="reportsProductsBalance_btnProdsBalanceByGroups">Остатки по группам Bata</button>
                 <button id="reportsProductsBalance_btnProdsBalanceByKinds">Остатки по видам</button>
@@ -33,8 +30,6 @@
             function (APP, domStyle, BorderContainer, StackContainer, ContentPane, Button, TDocumentSimpleTable) {
                 var pageContainer= APP.instanceForID("reportsProductsBalance_PageContainer", BorderContainer, {});
                 APP.instanceForID("reportsProductsBalance_ContentPaneLeft", ContentPane, {region:'left', splitter:false});
-                var btnProdsBalanceReg= APP.instanceForID("reportsProductsBalance_btnProdsBalanceReg", Button, {}, {"width":"155px"});
-                var btnProdsBalanceRegByArts= APP.instanceForID("reportsProductsBalance_btnProdsBalanceRegByArts", Button, {}, {"width":"155px"});
                 var btnProdsBalance= APP.instanceForID("reportsProductsBalance_btnProdsBalance", Button, {}, {"width":"155px"});
                 var btnProdsBalanceByGroups= APP.instanceForID("reportsProductsBalance_btnProdsBalanceByGroups", Button, {}, {"width":"155px"});
                 var btnProdsBalanceByKinds= APP.instanceForID("reportsProductsBalance_btnProdsBalanceByKinds", Button, {}, {"width":"155px"});
@@ -42,40 +37,6 @@
                 var btnProdsBalanceWCC= APP.instanceForID("reportsProductsBalance_btnProdsBalanceWCC", Button, {}, {"width":"155px"});
                 var btnProdsBatchesBalanceWCC= APP.instanceForID("reportsProductsBalance_btnProdsBatchesBalanceWCC", Button, {}, {"width":"155px"});
                 var contentContainer= APP.instanceForID("reportsProductsBalance_ContentContainer", StackContainer, {region:'center'});
-                btnProdsBalanceReg.onClick= function(){
-                    if (!btnProdsBalanceReg.report){
-                        btnProdsBalanceReg.report =
-                                APP.childFor(contentContainer, "reportsProductsBalance_TableProdsBalanceRegister",
-                                        TDocumentSimpleTable, {titleText:"Реестр остатков",
-                                            dataURL:"/reports/productsBalance/getProductsBalanceRegister"})
-                                        .addEndDateBox("на","DOCDATE<=").addBtnUpdate().addBtnPrint()
-                                        .addBtn("Печатать ценники",150, function(contentTableContent,contentTableInstance){
-                                            var printWindow= window.open("/print/prod_tags");                                           //console.log("printProdTags.onClick printWindow=",printWindow);
-                                            //window.open("/print?pinvid="+wrh_pinv_ContentController.getDataIDValue(), "", "location=1,status=1,scrollbars=1,width=650,height=600");
-                                            printWindow["prodTagsContentData"]= contentTableContent;
-                                            printWindow["pageProdTagType"]= "tag58X30";
-                                        })
-                                        .addTotalCountNumberBox("ИТОГО строк:", 140)
-                                        .addTotalSumNumberTextBox("ИТОГО остаток:", 550, "SQTY", {style:"font-weight:bold;"})
-                                        .addTotalSumNumberTextBox("ИТОГО сумма себестоимости:", 290, "COST_SUM", {style:"font-weight:bold;"})
-                                        .startUp();
-                    }
-                    contentContainer.selectChild(btnProdsBalanceReg.report);
-                };
-                btnProdsBalanceRegByArts.onClick= function(){
-                    if (!btnProdsBalanceRegByArts.report){
-                        btnProdsBalanceRegByArts.report =
-                                APP.childFor(contentContainer, "reportsProductsBalance_TableProdsBalanceRegisterByProductsArticles",
-                                        TDocumentSimpleTable, {titleText:"Реестр остатков по артикулам",
-                                            dataURL:"/reports/productsBalance/getProductsBalanceRegisterByProductsArticles"})
-                                        .addEndDateBox("на","DOCDATE<=")
-                                        .addTotalCountNumberBox("ИТОГО строк:", 140, {style:"font-weight:bold;",inputStyle:"width:50px"})
-                                        .addTotalSumNumberTextBox("ИТОГО остаток:", 660, "SQTY", {style:"font-weight:bold;",inputStyle:"width:60px"})
-                                        .addTotalSumNumberTextBox("ИТОГО сумма себестоимости:", 290, "PRODUCT_COST_SUM", {style:"font-weight:bold;",inputStyle:"width:80px"})
-                                        .startUp();
-                    }
-                    contentContainer.selectChild(btnProdsBalanceRegByArts.report);
-                };
                 btnProdsBalance.onClick= function(){
                     if (!btnProdsBalance.report){
                         btnProdsBalance.report =
@@ -160,7 +121,7 @@
                 };
 
                 pageContainer.layout();
-                btnProdsBalanceReg.onClick();
+                btnProdsBalance.onClick();
         });
 </script>
 </html>
