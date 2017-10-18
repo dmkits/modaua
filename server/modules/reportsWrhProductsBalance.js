@@ -146,6 +146,83 @@ module.exports.init = function(app) {
                 res.send(result);
             });
     });
+
+    var repProductsBatchesBalanceTableColumns=[
+        {"data": "UNIT_NAME", "name": "Подразделение", "width": 120, "type": "text",
+            dataSource:"dir_units", sourceField:"NAME", linkCondition:"dir_units.ID=wrh_products_operations_v.UNIT_ID" },
+        {"data": "BATCH_NUMBER", "name": "Партия", width:70, type:"text", align:"center" },
+        {"data": "SQTY", "name": "Кол-во", dataFunction:{function:"sumIsNull", sourceField:"BATCH_QTY"} }
+    ];
+    repProductsBatchesBalanceTableColumns=
+        dirProducts.addProductColumnsTo(repProductsBatchesBalanceTableColumns,1,{linkSource:"wrh_products_operations_v",
+            visibleColumns:{"CODE":false,"NAME":false,"UM":false,"PRINT_NAME":false,"PBARCODE":false}});
+    repProductsBatchesBalanceTableColumns=
+        dirProducts.addProductAttrsColumnsTo(repProductsBatchesBalanceTableColumns,6);
+    app.get("/reports/productsBalance/getProductsBatchesBalance", function (req, res) {
+        var conditions=req.query;
+        for(var conditionItem in conditions){
+            conditions["SUM(BATCH_QTY)<>0"]=null; break;
+        }
+        wrh_products_operations_v.getDataForDocTable({tableColumns:repProductsBatchesBalanceTableColumns,
+                identifier:repProductsBatchesBalanceTableColumns[0].data,
+                conditions:conditions,
+                order:["PRODUCT_ARTICLE","PRODUCT_SIZE"]},
+            function(result){
+                res.send(result);
+            });
+    });
+
+    var repProductsBalanceWCCTableColumns=[
+        {"data": "UNIT_NAME", "name": "Подразделение", "width": 120, "type": "text",
+            dataSource:"dir_units", sourceField:"NAME", linkCondition:"dir_units.ID=wrh_products_operations_v.UNIT_ID" },
+        {"data": "SQTY", "name": "Кол-во", dataFunction:{function:"sumIsNull", sourceField:"BATCH_QTY"} },
+        {"data": "COST_SUM", "name": "Себе-стоимость" /*, dataFunction:{function:"sumIsNull", sourceField:"BATCH_QTY"}*/}
+    ];
+    repProductsBalanceWCCTableColumns=
+        dirProducts.addProductColumnsTo(repProductsBalanceWCCTableColumns,1,{linkSource:"wrh_products_operations_v",
+            visibleColumns:{"CODE":false,"NAME":false,"UM":false,"PRINT_NAME":false,"PBARCODE":false}});
+    repProductsBalanceWCCTableColumns=
+        dirProducts.addProductAttrsColumnsTo(repProductsBalanceWCCTableColumns,6);
+    app.get("/reports/productsBalance/getProductsBalanceWCC", function (req, res) {
+        var conditions=req.query;
+        for(var conditionItem in conditions){
+            conditions["SUM(BATCH_QTY)<>0"]=null; break;
+        }
+        wrh_products_operations_v.getDataForDocTable({tableColumns:repProductsBalanceWCCTableColumns,
+                identifier:repProductsBalanceWCCTableColumns[0].data,
+                conditions:conditions,
+                order:["PRODUCT_ARTICLE","PRODUCT_SIZE"]},
+            function(result){
+                res.send(result);
+            });
+    });
+
+    var repProductsBatchesBalanceWCCTableColumns=[
+        {"data": "UNIT_NAME", "name": "Подразделение", "width": 120, "type": "text",
+            dataSource:"dir_units", sourceField:"NAME", linkCondition:"dir_units.ID=wrh_products_operations_v.UNIT_ID" },
+        {"data": "BATCH_NUMBER", "name": "Партия", width:70, type:"text", align:"center" },
+        {"data": "SQTY", "name": "Кол-во", dataFunction:{function:"sumIsNull", sourceField:"BATCH_QTY"} },
+        {"data": "COST_SUM", "name": "Себе-стоимость" /*, dataFunction:{function:"sumIsNull", sourceField:"BATCH_QTY"}*/}
+    ];
+    repProductsBatchesBalanceWCCTableColumns=
+        dirProducts.addProductColumnsTo(repProductsBatchesBalanceWCCTableColumns,1,{linkSource:"wrh_products_operations_v",
+            visibleColumns:{"CODE":false,"NAME":false,"UM":false,"PRINT_NAME":false,"PBARCODE":false}});
+    repProductsBatchesBalanceWCCTableColumns=
+        dirProducts.addProductAttrsColumnsTo(repProductsBatchesBalanceWCCTableColumns,6);
+    app.get("/reports/productsBalance/getProductsBatchesBalanceWCC", function (req, res) {
+        var conditions=req.query;
+        for(var conditionItem in conditions){
+            conditions["SUM(BATCH_QTY)<>0"]=null; break;
+        }
+        wrh_products_operations_v.getDataForDocTable({tableColumns:repProductsBatchesBalanceWCCTableColumns,
+                identifier:repProductsBatchesBalanceWCCTableColumns[0].data,
+                conditions:conditions,
+                order:["PRODUCT_ARTICLE","PRODUCT_SIZE"]},
+            function(result){
+                res.send(result);
+            });
+    });
+
     dir_products_batches.createNewBatch= function(params,resultCallback){
         if (!params) {                                                                                      log.error("FAILED dir_products_batches.createNewBatch! Reason: no parameters!");//test
             resultCallback({ error:"Failed create new batch for product! Reason:no function parameters!"});

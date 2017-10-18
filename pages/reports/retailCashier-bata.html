@@ -13,7 +13,7 @@
                 <button id="reportsRetailCashier_btnCashReport">Кассовый лист</button>
                 <br><br>
                 <button id="reportsRetailCashier_btnSalesByArticles">Продажи по артикулам</button>
-                <button id="reportsRetailCashier_btnSalesByBataAttributes">Продажи по атрибутам Bata</button>
+                <button id="reportsRetailCashier_btnSalesByBataAttributes">Продажи по группам Bata</button>
                 <button id="reportsRetailCashier_btnSalesByDays">Продажи по дням</button>
                 <br><br>
                 <button id="reportsRetailCashier_btnCashInsOuts">Оперативная касса</button>
@@ -81,7 +81,7 @@
                 btnSalesByBataAttributes.onClick= function(){
                     if (!btnSalesByBataAttributes.document){
                         btnSalesByBataAttributes.document = APP.childFor(contentPaneDetailContainer, "reportsRetailCashier_tableSalesByBataAttributes",
-                                TDocumentSimpleTable, {titleText:"Продажи по атрибутам Bata", dataURL:"/reports/retailSales/getSalesByBataAttributes"})
+                                TDocumentSimpleTable, {titleText:"Продажи по группам Bata", dataURL:"/reports/retailSales/getSalesByBataAttributes"})
                                 .addBeginDateBox("с","DOCDATE>=", {initValueDate:"curMonthBDate"}).addEndDateBox("по","DOCDATE<=")
                                 .addTotalCountNumberBox("ИТОГО строк:", 140)
                                 .addTotalSumNumberTextBox("ИТОГО кол-во:", 610, "SQTY", {style:"font-weight:bold;"})

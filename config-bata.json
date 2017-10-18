@@ -27,6 +27,7 @@
     "wrhRetailTickets",
     "reportsRetailCashier-bata",
     "reportsRetailSales-bata",
+    "reportsSales-bata",
     "reportsWrhProductsBalance"
   ],
   "appMenu":[
@@ -50,7 +51,7 @@
         { "menuItemName":"menuBarWrhSalesInvoices", "menuTitle":"Расходные накладные", "pageTitle":"Расходные накладные", "module":"wrhInvoices-bata", "closable":true},
         { "menuItemName":"menuBarWrhSalesRetInvoices", "menuTitle":"Возвратные накладные", "pageTitle":"Возвратные накладные", "module":"wrhRetInvoices-bata", "closable":true},
         { "menuItemName":"separatorWrhSales1"},
-        { "menuItemName":"menuBarWrhSalesReports", "menuTitle":"Отчеты по продажам", "pageTitle":"Отчеты по продажам", "module":"", "closable":true},
+        { "menuItemName":"menuBarWrhSalesReports", "menuTitle":"Отчеты по продажам", "pageTitle":"Отчеты по продажам", "module":"reportsSales-bata", "closable":true},
         { "menuItemName":"separatorWrhSales2"},
         { "menuItemName":"menuBarWrhSalesRetailSales", "menuTitle":"Отчеты по розничным продажам", "pageTitle":"Отчеты по розничным продажам", "module":"reportsRetailSales-bata", "closable":true},
         { "menuItemName":"separatorWrhSales3"},
@@ -64,7 +65,7 @@
       "popupMenu":[
         { "menuItemName":"menuBarReportsPur", "menuTitle":"Отчеты по закупкам", "pageTitle":"Отчеты по закупкам", "module":"wrhInvoices-bata", "closable":true},
         { "menuItemName":"separatorReports1"},
-        { "menuItemName":"menuBarReportsSales", "menuTitle":"Отчеты по продажам", "pageTitle":"Отчеты по продажам", "module":"wrhRetInvoices-bata", "closable":true},
+        { "menuItemName":"menuBarReportsSales", "menuTitle":"Отчеты по продажам", "pageTitle":"Отчеты по продажам", "module":"reportsSales-bata", "closable":true},
         { "menuItemName":"menuBarReportsRetailSales", "menuTitle":"Отчеты по розничным продажам", "pageTitle":"Отчеты по розничным продажам", "module":"reportsRetailSales-bata", "closable":true},
         { "menuItemName":"separatorReports2"},
         { "menuItemName":"menuBarReportsCashier", "menuTitle":"Отчеты кассира", "pageTitle":"Отчеты кассира", "module":"reportsRetailCashier-bata", "closable":true},

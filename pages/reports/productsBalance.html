@@ -121,10 +121,10 @@
                         btnProdsBatchesBalance.report =
                                 APP.childFor(contentContainer, "reportsProductsBalance_TableProdsBatchesBalance",
                                         TDocumentSimpleTable, {titleText:"Остатки партий товаров",
-                                            dataURL:"/wrh/products_balance/get_products_batches_balance"})
+                                            dataURL:"/reports/productsBalance/getProductsBatchesBalance"})
                                         .addEndDateBox("по","DOCDATE<=")
-                                        .addTotalCountNumberBox("ИТОГО строк:", 140, {style:"font-weight:bold;",inputStyle:"width:50px"})
-                                        .addTotalSumNumberTextBox("ИТОГО остаток:", 895, "BATCH_BALANCE", {style:"font-weight:bold;",inputStyle:"width:60px"})
+                                        .addTotalCountNumberBox("ИТОГО строк:", 140)
+                                        .addTotalSumNumberTextBox("ИТОГО остаток:", 895, "SQTY", {style:"font-weight:bold;"})
                                         .startUp();
                     }
                     contentContainer.selectChild(btnProdsBatchesBalance.report);
@@ -135,11 +135,11 @@
                         btnProdsBalanceWCC.report =
                                 APP.childFor(contentContainer, "reportsProductsBalance_TableProdsBalanceWCC",
                                         TDocumentSimpleTable, {titleText:"Остатки товаров с себестоимостью",
-                                            dataURL:"/wrh/products_balance/get_products_balance_wcc"})
+                                            dataURL:"/reports/productsBalance/getProductsBalanceWCC"})
                                         .addEndDateBox("по","DOCDATE<=")
-                                        .addTotalCountNumberBox("ИТОГО строк:", 140, {style:"font-weight:bold;",inputStyle:"width:50px"})
-                                        .addTotalSumNumberTextBox("ИТОГО остаток:", 660, "PROD_BALANCE", {style:"font-weight:bold;",inputStyle:"width:60px"})
-                                        .addTotalSumNumberTextBox("ИТОГО сумма себестоимости:", 290, "PRODUCT_COST_SUM", {style:"font-weight:bold;",inputStyle:"width:80px"})
+                                        .addTotalCountNumberBox("ИТОГО строк:", 140)
+                                        .addTotalSumNumberTextBox("ИТОГО остаток:", 660, "SQTY", {style:"font-weight:bold;"})
+                                        .addTotalSumNumberTextBox("ИТОГО сумма себестоимости:", 290, "COST_SUM", {style:"font-weight:bold;"})
                                         .startUp();
                     }
                     contentContainer.selectChild(btnProdsBalanceWCC.report);
@@ -149,11 +149,11 @@
                         btnProdsBatchesBalanceWCC.report =
                                 APP.childFor(contentContainer, "reportsProductsBalance_TableProdsBatchesBalanceWCC",
                                         TDocumentSimpleTable, {titleText:"Остатки партий товаров с себестоимостью",
-                                            dataURL:"/wrh/products_balance/get_products_batches_balance_wcc"})
+                                            dataURL:"/reports/productsBalance/getProductsBatchesBalanceWCC"})
                                         .addEndDateBox("по","DOCDATE<=")
-                                        .addTotalCountNumberBox("ИТОГО строк:", 140, {style:"font-weight:bold;",inputStyle:"width:50px"})
-                                        .addTotalSumNumberTextBox("ИТОГО остаток:", 710, "BATCH_BALANCE", {style:"font-weight:bold;",inputStyle:"width:60px"})
-                                        .addTotalSumNumberTextBox("ИТОГО сумма себестоимости:", 290, "PRODUCT_COST_SUM", {style:"font-weight:bold;",inputStyle:"width:80px"})
+                                        .addTotalCountNumberBox("ИТОГО строк:", 140)
+                                        .addTotalSumNumberTextBox("ИТОГО остаток:", 710, "SQTY", {style:"font-weight:bold;"})
+                                        .addTotalSumNumberTextBox("ИТОГО сумма себестоимости:", 290, "COST_SUM", {style:"font-weight:bold;"})
                                         .startUp();
                     }
                     contentContainer.selectChild(btnProdsBatchesBalanceWCC.report);
