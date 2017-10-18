@@ -187,7 +187,7 @@ define(["dojo/_base/declare", "hTableSimple"], function(declare, HTableSimple){
                         }
                     });
                     filterMenu.onkeyup=function(event){
-                        if(event.key=='Enter'&&event.code=='Enter') {
+                        if(event.key=='Enter'&&(event.code=='Enter'||event.code=='NumpadEnter')) {
                             if(event.target&&event.target.filterMenu)
                             menuBtnOkOnClick(event.target.filterMenu);
                         }
