@@ -25,6 +25,7 @@
     "wrhInvoices-bata",
     "wrhRetInvoices-bata",
     "wrhRetailTickets",
+    "reportsPurchases-bata",
     "reportsRetailCashier-bata",
     "reportsRetailSales-bata",
     "reportsSales-bata",
@@ -51,7 +52,7 @@
         { "menuItemName":"menuBarWrhSalesInvoices", "menuTitle":"Расходные накладные", "pageTitle":"Расходные накладные", "module":"wrhInvoices-bata", "closable":true},
         { "menuItemName":"menuBarWrhSalesRetInvoices", "menuTitle":"Возвратные накладные", "pageTitle":"Возвратные накладные", "module":"wrhRetInvoices-bata", "closable":true},
         { "menuItemName":"separatorWrhSales1"},
-        { "menuItemName":"menuBarWrhSalesReports", "menuTitle":"Отчеты по продажам", "pageTitle":"Отчеты по продажам", "module":"reportsSales-bata", "closable":true},
+        { "menuItemName":"menuBarWrhSalesReports", "menuTitle":"Отчеты по продажам", "pageTitle":"Отчеты по продажам", "module":"", "closable":true},
         { "menuItemName":"separatorWrhSales2"},
         { "menuItemName":"menuBarWrhSalesRetailSales", "menuTitle":"Отчеты по розничным продажам", "pageTitle":"Отчеты по розничным продажам", "module":"reportsRetailSales-bata", "closable":true},
         { "menuItemName":"separatorWrhSales3"},
@@ -63,7 +64,7 @@
       ]},*/
     { "menuItemName":"menuBarReports", "menuTitle":"Отчеты",
       "popupMenu":[
-        { "menuItemName":"menuBarReportsPur", "menuTitle":"Отчеты по закупкам", "pageTitle":"Отчеты по закупкам", "module":"wrhInvoices-bata", "closable":true},
+        { "menuItemName":"menuBarReportsPur", "menuTitle":"Отчеты по закупкам", "pageTitle":"Отчеты по закупкам", "module":"reportsPurchases-bata", "closable":true},
         { "menuItemName":"separatorReports1"},
         { "menuItemName":"menuBarReportsSales", "menuTitle":"Отчеты по продажам", "pageTitle":"Отчеты по продажам", "module":"reportsSales-bata", "closable":true},
         { "menuItemName":"menuBarReportsRetailSales", "menuTitle":"Отчеты по розничным продажам", "pageTitle":"Отчеты по розничным продажам", "module":"reportsRetailSales-bata", "closable":true},
