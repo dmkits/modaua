@@ -39,7 +39,7 @@
         { "menuItemName":"separatorWrhPur1"},
         { "menuItemName":"menuBarWrhPInvoices", "menuTitle":"Приходные накладные", "pageTitle":"Приходные накладные", "module":"wrhPInvoices-bata", "closable":true},
         { "menuItemName":"separatorWrhPur2"},
-        { "menuItemName":"menuBarWrhPurReports", "menuTitle":"Отчеты по закупкам", "pageTitle":"Отчеты по закупкам", "module":"", "closable":true}
+        { "menuItemName":"menuBarWrhPurReports", "menuTitle":"Отчеты по закупкам", "pageTitle":"Отчеты по закупкам", "module":"reportsPurchases-bata", "closable":true}
       ]},
     { "menuItemName":"menuBarWrh", "menuTitle":"Запасы (склад)",
       "popupMenu":[
