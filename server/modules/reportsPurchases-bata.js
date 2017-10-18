@@ -97,4 +97,42 @@ module.exports.init = function(app) {
                 res.send(result);
             });
     });
+
+    var wrhPInvsListTableColumns=[
+        {"data": "ID", "name": "ID", "width": 50, "type": "text", readOnly:true, visible:false, dataSource:"wrh_pinvs"},
+        {"data": "NUMBER", "name": "Номер", "width": 65, "type": "text", dataSource:"wrh_pinvs"},
+        {"data": "DOCDATE", "name": "Дата", "width": 55, "type": "dateAsText", dataSource:"wrh_pinvs"},
+        {"data": "UNIT_NAME", "name": "Подразделение", "width": 120, "type": "text", dataSource:"dir_units", sourceField:"NAME"},
+        {"data": "SUPPLIER_NAME", "name": "Поставщик", "width": 150, "type": "text", dataSource:"dir_contractors", sourceField:"NAME"},
+        {"data": "SUPPLIER_ORDER_NUM", "name": "Номер заказа поставщика", "width": 100, "type": "text", dataSource:"wrh_pinvs"},
+        {"data": "SUPPLIER_INV_NUM", "name": "Номер накл. поставщика", "width": 100, "type": "text", dataSource:"wrh_pinvs"},
+        {"data": "PRODUCT_COLLECTION", "name": "Коллекция", "width": 120, "type": "text", visible:false,
+            dataSource:"dir_products_collections", sourceField:"NAME"},
+        {"data": "DOCCOUNT", "name": "Строк", "width": 60, "type": "numeric", visible:false,
+            childDataSource:"wrh_pinvs_products", childLinkField:"PINV_ID", parentLinkField:"ID",
+            dataFunction:{function:"rowsCountIsNull", source:"wrh_pinvs_products", sourceField:"POSIND"} },
+        {"data": "DOCQTYSUM", "name": "Кол-во", "width": 60, "type": "numeric",
+            childDataSource:"wrh_pinvs_products", childLinkField:"PINV_ID", parentLinkField:"ID",
+            dataFunction:{function:"sumIsNull", source:"wrh_pinvs_products", sourceField:"QTY"} },
+        {"data": "DOCSUM", "name": "Сумма", "width": 80, "type": "numeric2",
+            childDataSource:"wrh_pinvs_products", childLinkField:"PINV_ID", parentLinkField:"ID",
+            dataFunction:{function:"sumIsNull", source:"wrh_pinvs_products", sourceField:"POSSUM"} },
+        {"data": "CURRENCY_CODE", "name": "Валюта", "width": 70, "type": "text", dataSource:"sys_currency", sourceField:"CODE"},
+        {"data": "CURRENCY_CODENAME", "name": "Валюта", "width": 50, "type": "text", visible:false,
+            dataSource:"sys_currency", dataFunction:{function:"concat",fields:["sys_currency.CODE","' ('","sys_currency.NAME","')'"]} },
+        {"data": "DOCSTATE_NAME", "name": "Статус", "width": 110, "type": "text", dataSource:"sys_docstates", sourceField:"NAME"},
+        {"data": "RATE", "name": "Курс валюты", "width": 60, "type": "numeric2", visible:false, dataSource:"wrh_pinvs"},
+        {"data": "BASE_FACTOR", "name": "Базов.коэфф.", "width": 60, "type": "numeric2", visible:false, dataSource:"wrh_pinvs"}
+    ];
+    app.get("/reports/purchases/getPinvsList", function(req, res){
+        var conditions={};
+        for(var condItem in req.query) conditions["wrh_pinvs."+condItem]=req.query[condItem];
+        wrh_pinvs.getDataForTable({tableColumns:wrhPInvsListTableColumns,
+                identifier:wrhPInvsListTableColumns[0].data,
+                conditions:conditions,
+                order:["DOCDATE","NUMBER","UNIT_NAME","SUPPLIER_NAME","SUPPLIER_ORDER_NUM","SUPPLIER_INV_NUM"]},
+            function(result){
+                res.send(result);
+            });
+    });
 };

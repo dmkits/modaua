@@ -88,4 +88,36 @@ module.exports.init = function(app) {
                 res.send(result);
             });
     });
+    var wrhInvsListTableColumns=[
+        {"data": "ID", "name": "ID", "width": 50, "type": "text", readOnly:true, visible:false, dataSource:"wrh_invs"},
+        {"data": "NUMBER", "name": "Номер", "width": 65, "type": "text", dataSource:"wrh_invs"},
+        {"data": "DOCDATE", "name": "Дата", "width": 55, "type": "dateAsText", dataSource:"wrh_invs"},
+        {"data": "UNIT_NAME", "name": "Подразделение", "width": 120, "type": "text", dataSource:"dir_units", sourceField:"NAME"},
+        {"data": "BUYER_NAME", "name": "Покупатель", "width": 150, "type": "text", dataSource:"dir_contractors", sourceField:"NAME"},
+        {"data": "DOCCOUNT", "name": "Строк", "width": 60, "type": "numeric", visible:false,
+            childDataSource:"wrh_invs_products", childLinkField:"INV_ID", parentLinkField:"ID",
+            dataFunction:{function:"rowsCountIsNull", source:"wrh_invs_products", sourceField:"POSIND"} },
+        {"data": "DOCQTYSUM", "name": "Кол-во", "width": 60, "type": "numeric",
+            childDataSource:"wrh_invs_products", childLinkField:"INV_ID", parentLinkField:"ID",
+            dataFunction:{function:"sumIsNull", source:"wrh_invs_products", sourceField:"QTY"} },
+        {"data": "DOCSUM", "name": "Сумма", "width": 80, "type": "numeric2",
+            childDataSource:"wrh_invs_products", childLinkField:"INV_ID", parentLinkField:"ID",
+            dataFunction:{function:"sumIsNull", source:"wrh_invs_products", sourceField:"POSSUM"} },
+        {"data": "CURRENCY_CODE", "name": "Валюта", "width": 70, "type": "text", dataSource:"sys_currency", sourceField:"CODE"},
+        {"data": "CURRENCY_CODENAME", "name": "Валюта", "width": 50, "type": "text", visible:false,
+            dataSource:"sys_currency", dataFunction:{function:"concat",fields:["sys_currency.CODE","' ('","sys_currency.NAME","')'"]} },
+        {"data": "DOCSTATE_NAME", "name": "Статус", "width": 110, "type": "text", dataSource:"sys_docstates", sourceField:"NAME"},
+        {"data": "RATE", "name": "Курс валюты", "width": 60, "type": "numeric2", visible:false, dataSource:"wrh_invs"}
+    ];
+    app.get("/reports/sales/getInvsList", function(req, res){
+        var conditions={};
+        for(var condItem in req.query) conditions["wrh_invs."+condItem]=req.query[condItem];
+        wrh_invs.getDataForDocTable({tableColumns:wrhInvsListTableColumns,
+                identifier:wrhInvsListTableColumns[0].data,
+                conditions:conditions,
+                order:["DOCDATE","UNIT_NAME","NUMBER"]},
+            function(result){
+                res.send(result);
+            });
+    });
 };
