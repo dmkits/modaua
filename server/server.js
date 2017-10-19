@@ -1,26 +1,22 @@
 var startDateTime=new Date(), startTime=startDateTime.getTime();                                    console.log('STARTING at ',startDateTime );//test
-var dateformat =require('dateformat'), log = require('winston');
-var util=require('./util'), appStartupParams = util.getStartupParams();
-var moment = require('moment'), fs = require('fs'),path = require ('path');
+var dateformat =require('dateformat'), log = require('winston'),
+    moment = require('moment');
+var fs = require('fs');                                                                             log.info('fs loaded on ', new Date().getTime()-startTime );//test
+var path = require('path');                                                                         log.info('path loaded on ', new Date().getTime()-startTime );//test
 
 var ENV=process.env.NODE_ENV; console.log("ENV=",ENV);
 
-var tempExcelRepDir=path.join(__dirname, '/../XLSX_temp/');
-try {
-    if (!fs.existsSync(tempExcelRepDir)) {
-        fs.mkdirSync(tempExcelRepDir);
-    }
-}catch (e){
-    console.log('Impossible to create XLSX_temp directory! Reason:'+e)
-}
+var util=require('./util'), appStartupParams = util.getStartupParams();
+module.exports.getAppStartupParams = function(){
+    return appStartupParams;
+};                                                                                                  log.info('started with startup params:',  appStartupParams);//test
 
 var logDir= path.join(__dirname, '/../logs/');
 try {
     if (!fs.existsSync(logDir)) {
         fs.mkdirSync(logDir);
     }
-}catch (e){
-    console.log('Impossible to create log directory! Reason:'+e)
+}catch (e){                                                                                         log.warn('Failed create log directory! Reason:'+e);
 }
 var transports  = [];
 transports.push(new (require('winston-daily-rotate-file'))({
@@ -42,12 +38,17 @@ if (!appStartupParams.logToConsole) {
     });
 }                                                                                                   log.info('STARTING at', startDateTime );//test
 module.exports.log=log;                                                                             log.info('dateformat, winston util loaded' );//test
-module.exports.getAppStartupParams = function(){
-    return appStartupParams;
-};                                                                                                  log.info('started with startup params:',  appStartupParams);//test
 
-var fs = require('fs');                                                                             log.info('fs loaded on ', new Date().getTime()-startTime );//test
-var path = require('path');                                                                         log.info('path loaded on ', new Date().getTime()-startTime );//test
+var tempExcelRepDir=path.join(__dirname, '/../temp/');
+try {
+    if (!fs.existsSync(tempExcelRepDir)) {
+        fs.mkdirSync(tempExcelRepDir);
+    }
+}catch (e){                                                                                         log.warn('Failed create XLSX_temp directory! Reason:'+e);
+    tempExcelRepDir=null;
+}
+module.exports.tempExcelRepDir=tempExcelRepDir;
+
 var express = require('express');                                                                   log.info('express loaded on ', new Date().getTime()-startTime );//test
 var server = express();
 var bodyParser = require('body-parser');                                                            log.info('body-parser loaded on ', new Date().getTime()-startTime );//test
@@ -75,13 +76,10 @@ module.exports.getConfig=function(){ return config; }
 module.exports.getConfigAppMenu=function(){ return (config&&config.appMenu)?config.appMenu:null; };
 module.exports.getConfigModules=function(){ return (config&&config.modules)?config.modules:null; };
 
-server.use(function (req, res, next) {
-    log.info("START CONTROLLER:", req.url, req.method, " params:", req.query, " body:", req.body);
+server.use(function (req, res, next) {                                                              log.info("REQUEST CONTROLLER:", req.url, req.method, " params:", req.query, " body:", req.body);
     next();
 });
-
 server.use(cookieParser());
-
 server.use(bodyParser.json({limit: '5mb'}));
 server.use(bodyParser.urlencoded({limit: '5mb'}));
 server.use(bodyParser.text({limit: '5mb'}));
@@ -101,7 +99,7 @@ appModules.validateModules(function(errs, errMessage){
     require("./access")(server);//check user access
 
     appModules.init(server,errs);
-    if(errs&&!errMessage){                                  console.log("appModules.init errs",errMessage,errs,{});
+    if(errs&&!errMessage){
         var eCount=0;
         for(var errItem in errs){
             if (!loadInitModulesErrorMsg) loadInitModulesErrorMsg=""; else loadInitModulesErrorMsg+="<br>";

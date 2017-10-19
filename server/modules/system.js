@@ -1,6 +1,6 @@
 var path=require('path'), XLSX=require('xlsx'),fs=require('fs');
 var dataModel=require('../datamodel'), util=require('../util');
-var log=require('../server').log;
+var server=require('../server'), log=server.log, tempExcelRepDir=server.tempExcelRepDir;
 var sys_currency= require(appDataModelPath+"sys_currency"),
     sys_docstates= require(appDataModelPath+"sys_docstates");
 
@@ -36,7 +36,7 @@ module.exports.init = function(app) {
             return;
         }
         var uniqueFileName = util.getUIDNumber();
-        var fname = path.join(__dirname, '../../XLSX_temp/' + uniqueFileName + '.xlsx');
+        var fname = path.join(tempExcelRepDir, uniqueFileName + '.xlsx');
         try {fs.writeFileSync(fname);
         } catch (e) {                                                               log.error("Impossible to write file! Reason:",e);
             res.sendStatus(500);
@@ -55,13 +55,13 @@ module.exports.init = function(app) {
 
         XLSX.writeFileAsync(fname, wb, {bookType: "xlsx", /*cellStyles: true,*/ cellDates:true}, function(err){
             if (err) {
-                res.sendStatus(500);                                                 log.error("send xlsx file err=", err);
+                res.sendStatus(500);                                                 log.error("send xls file err=", err);
                 return;
             }
             var options = {headers: {'Content-Disposition': 'attachment; filename =out.xlsx'}};
             res.sendFile(fname, options, function (err) {
                 if (err) {
-                    res.sendStatus(500);                                             log.error("send xlsx file err=", err);
+                    res.sendStatus(500);                                             log.error("send xls file err=", err);
                 }
                 fs.unlinkSync(fname);
             })
