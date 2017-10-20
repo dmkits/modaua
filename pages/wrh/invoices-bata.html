@@ -10,8 +10,8 @@
 </div>
 </body>
 <script type="text/javascript">
-    require(["app","templateDocumentStandardTable", "request"],
-            function (APP, TDocumentStandardTable, Request) {
+    require(["app","templateDocumentStandardTable", "dialogsWTable", "dialogs", "request"],
+            function (APP, TDocumentStandardTable, DialogsWTable, Dialogs, Request) {
                 var wrh_inv= APP.instanceForID("wrh_inv_PageContainer", TDocumentStandardTable,
                             { idListContainer:"wrh_inv_ListContainer",idDetailContainer:"wrh_inv_DetailContainer",
                                 idDetailHeader:"wrh_inv_DetailHeader",idDetailTable:"wrh_inv_ProductsTable",idDetailTotal:"wrh_inv_DetailTotal",
@@ -60,6 +60,29 @@
                         .addToolPaneActionButton("Отменить изменения", {action:"loadHeaderLastValues"}, "width:200px;")
                         .addToolPaneActionButton("Удалить накладную", {action:"deleteHeader"}, "width:200px;")
                         .addToolPaneBR()
+                        .addToolPaneActionButton("Добавить из остатков", {/*action:"showSearchDialog"*/}, "width:200px;",{}, function() {
+                                var condition = {};
+                            Request.getJSONData({
+                                        url: "/wrh/productsBalance/getSearchedProducts", condition: condition, consoleLog: true},
+                                    function (success, result) {
+                                        if (success && result) {
+                                            var buttons = [];
+                                            var addBtn = {"label": "Добавить", onClickFunction: function (dialog, data) {}};
+                                            var cancelBtn = {"label": "Отменить", onClickFunction: function (dialog, data) {}};
+                                            buttons.push(addBtn, cancelBtn);
+                                            DialogsWTable.showDialog({"title": "Добавить из остатков", "buttons": buttons, width: "600px;"}, result,
+                                                    function (targetStr) {
+                                                        condition["STR_TARGET"] = targetStr;
+                                                        Request.getJSONData({url: "/wrh/productsBalance/getSearchedProducts", condition: condition, consoleLog: true},
+                                                                function (success, result) {
+                                                                    if (success && result) {
+                                                                        DialogsWTable.showDialog({"title": "Добавить из остатков", "buttons": buttons, width: "600px;"}, result);
+                                                                    }
+                                                                });
+                                                    });
+                                        }
+                                    });
+                        })
                         .addToolPaneActionButton("Добавить строку", {action:"insertDetailTableRow",rowPosIndexName:"POSIND",rowPosName:"POS"}, "width:200px;")
                         .addToolPaneActionButton("Копировать строку", {action:"insertDetailTableCopySelectedRow"}, "width:200px;")
                         .addToolPaneActionButton("Изменить строку", {action:"allowEditDetailTableSelectedRow"}, "width:200px;")

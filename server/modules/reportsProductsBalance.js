@@ -158,4 +158,37 @@ module.exports.init = function(app) {
                 res.send(result);
             });
     });
+
+    var repSearchedProducTableColumns=[
+        {"data": "UNIT_NAME", "name": "Подразделение", "width": 120, "type": "text",
+            dataSource:"dir_units", sourceField:"NAME", linkCondition:"dir_units.ID=wrh_products_operations_v.UNIT_ID" },
+        {"data": "BATCH_NUMBER", "name": "Партия", width:70, type:"text", align:"center" },
+        {"data": "SQTY", "name": "Кол-во", dataFunction:{function:"sumIsNull", sourceField:"BATCH_QTY"} },
+        {"data": "COST_SUM", "name": "Себе-стоимость" /*, dataFunction:{function:"sumIsNull", sourceField:"BATCH_QTY"}*/}
+    ];
+    repSearchedProducTableColumns=
+        dir_products.addProductColumnsTo(repSearchedProducTableColumns,1,{linkSource:"wrh_products_operations_v",
+            visibleColumns:{"CODE":true,"NAME":true,"UM":true,"PRINT_NAME":false,"PBARCODE":false}});
+
+    app.get("/wrh/productsBalance/getSearchedProducts", function (req, res) {
+       var outData={};
+
+        if(!req.query.STR_TARGET){
+            outData.columns=repSearchedProducTableColumns;
+            res.send(outData);
+            return;
+        }
+
+        var str_target=req.query.STR_TARGET;
+        var conditions={};
+        conditions["dir_products.NAME LIKE '%"+str_target+"%' "]=null;
+
+        wrh_products_operations_v.getDataForDocTable({tableColumns:repSearchedProducTableColumns,
+                identifier:repProductsBalanceTableColumns[0].data,
+                conditions:conditions,
+                order:["PRODUCT_NAME"]},
+            function(result){  console.log("result=",result);
+                res.send(result);
+            });
+    });
 };
