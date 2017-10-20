@@ -139,7 +139,11 @@ define(["dojo/_base/declare", "dijit/layout/BorderContainer", "dijit/layout/Cont
                 };
                 return this;
             },
-            loadListTableContentFromServer: function(selectedRowDataID){
+            /**
+             * params: { selectedRowDataID, callUpdateContent:true/false}
+             * default callUpdateContent=true
+             */
+            loadListTableContentFromServer: function(params){
                 var condition = this.listTable.getDataCondition;
                 if (!condition) condition={};
                 if (this.listBDate) condition[this.listBDate.conditionName.replace("=","~")] =
@@ -147,8 +151,9 @@ define(["dojo/_base/declare", "dijit/layout/BorderContainer", "dijit/layout/Cont
                 if (this.listEDate) condition[this.listEDate.conditionName.replace("=","~")] =
                     this.listEDate.format(this.listEDate.get("value"),{selector:"date",datePattern:"yyyy-MM-dd"});
                 var thisListTable=this.listTable;
-                thisListTable.selectedRowDataIDForSet=selectedRowDataID;
-                this.listTable.setContentFromUrl({url:this.listTable.getDataUrl,condition:condition});
+                if(!params) params={};
+                thisListTable.selectedRowDataIDForSet=params.selectedRowDataID;
+                this.listTable.setContentFromUrl({url:this.listTable.getDataUrl,condition:condition, callUpdateContent:params.callUpdateContent});
             },
 
             /*
@@ -169,13 +174,13 @@ define(["dojo/_base/declare", "dijit/layout/BorderContainer", "dijit/layout/Cont
                             //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                             return;
                         }
-                        thisInstance.loadListTableContentFromServer(thisInstance.detailHeader.getContentDataIDValue());
+                        thisInstance.loadListTableContentFromServer({selectedRowDataID:thisInstance.detailHeader.getContentDataIDValue()});
                     }
                     if (idIsChanged===true) thisInstance.loadDetailTableContentDataFromServer();
                     else {
                         if (!contentData||contentData.length==0) thisInstance.setDetailSubtotalContent({disabled:true, clearValue:true});
                         thisInstance.setToolPanesActions();
-                    }
+                    }                                                                                   console.log("this.detailHeader.onContentUpdated end",contentData, sourceparams, idIsChanged,this.lastContentData);
                 };
                 this.detailHeader.onContentChanged= function(isContentChanged){                                     //console.log("TemplateDocumentStandardTable.detailHeader.onContentChanged ",isContentChanged,this.getContentData());
                     //thisInstance.detailTableSetDisabled(isContentChanged);
@@ -278,9 +283,9 @@ define(["dojo/_base/declare", "dijit/layout/BorderContainer", "dijit/layout/Cont
                 if (width===undefined) width=200;
                 if (!labelText) labelText="Обновить";
                 this.detailHeader.btnUpdate= this.addTableHeaderButtonTo(this.detailHeaderTable.lastChild, {labelText:labelText, cellWidth:width, cellStyle:"text-align:right;"});
-                var instance= this;
+                var thisInstance= this;
                 this.detailHeader.btnUpdate.onClick = function(){
-                    instance.setDetailHeaderContentByListSelectedRow(this.detailHeader.lastContentData, {reloadData:true, clearBeforeLoad:true});
+                    thisInstance.setDetailHeaderContentByListSelectedRow(thisInstance.detailHeader.lastContentData, {reloadData:true, clearBeforeLoad:true});
                 };
                 return this;
             },
@@ -380,8 +385,8 @@ define(["dojo/_base/declare", "dijit/layout/BorderContainer", "dijit/layout/Cont
                 var thisInstance= this;
                 this.detailTable.onUpdateContent = function(params){                                                console.log("TemplateDocumentStandardTable.detailTable.onUpdateContent ",params);
                     if(params&&(params.updatedRows||params.deletedRows)) {
-                        thisInstance.setDetailHeaderContentByListSelectedRow(this.detailHeader.lastContentData, {reloadData:true});
-                        thisInstance.loadListTableContentFromServer();
+                        thisInstance.setDetailHeaderContentByListSelectedRow(thisInstance.detailHeader.lastContentData, {reloadData:false});
+                        thisInstance.loadListTableContentFromServer({callUpdateContent:false});
                     }
                     var selectedRowData = this.getSelectedRow();
                     if ( !selectedRowData && this.getContent().length>0) {
@@ -770,7 +775,7 @@ define(["dojo/_base/declare", "dijit/layout/BorderContainer", "dijit/layout/Cont
             /*
              * actionParams: {action, rowPosName, rowPosIndexName}
              */
-            addDetailTableMenuItemAction: function(itemName, actionParams, menuItemCallback){
+            addDetailTableMenuItemAction: function(itemName, actionParams, menuItemAction){
                 if (!itemName||!actionParams) return this;
                 var menuItemCallback, thisInstance=this;
                 if (actionParams.action==="insertDetailTableRowsAfterSelected"){
@@ -792,7 +797,7 @@ define(["dojo/_base/declare", "dijit/layout/BorderContainer", "dijit/layout/Cont
                     }
                 }
                 if (menuItemCallback)
-                    this.detailTable.setMenuItem(this.id+"_menuItemFor_"+actionParams.action, itemName, null, menuItemCallback);
+                    this.detailTable.setMenuItem(itemName, null, menuItemCallback);
                 return this;
             },
 

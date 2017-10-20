@@ -344,7 +344,7 @@ define(["dojo/_base/declare", "dijit/layout/ContentPane","dojox/widget/Standby",
                 //TODO actions on/after update table content (after set/reset/reload/clear table content data)
                 //TODO actions and after call updateRowData({rowData,newRowData})
             },
-            /*
+            /**
              * params: {method=get/post , url, condition:string or object, duplexRequest:true/false, dontClearContent:true/false, data, callUpdateContent:true/false}
              * if (duplexRequest=true) or (duplexRequest=undefined and no htColumns data),
              *     sends two requests: first request without parameters to get columns data without table data
