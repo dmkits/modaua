@@ -6,6 +6,7 @@
   "users":[
     { "userLogin":"admin", "pswrd":"admin", "userRole":"admin" },
     { "userLogin":"adminDev", "pswrd":"admin", "userRole":"adminDev" },
+    { "userLogin":"adminDev2", "pswrd":"admin", "userRole":"adminDev2" },
     { "userLogin":"zina", "pswrd":"zinaBata", "userRole":"user" },
     { "userLogin":"marina", "pswrd":"marinaBata", "userRole":"user" },
     { "userLogin":"bata1", "pswrd":"bata1", "userRole":"cashier" }
@@ -101,6 +102,7 @@
   "usersRoleAutorun":{
     "admin":["menuBarItemMainPage"],
     "adminDev":["menuBarItemMainPage","menuBarDirsItemUnits","menuBarDirsItemProducts","menuBarWrhOrdersBata", "menuBarWrhPInvoices", "menuBarReportsRetailSales","menuBarWrhProdsBalance"],
+    "adminDev2":["menuBarItemMainPage","menuBarDirsItemUnits","menuBarWrhSalesInvoices"],
     "user":["menuBarItemMainPage"],
     "cashier":["menuBarItemSalesCashierReports"]
   }
