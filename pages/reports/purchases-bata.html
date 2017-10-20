@@ -80,7 +80,7 @@
                                     TDocumentSimpleTable, {titleText:"Реестр приходных накладных", dataURL:"/reports/purchases/getPinvsList"})
                                     .addBeginDateBox("с","DOCDATE>=", {initValueDate:"curMonthBDate"}).addEndDateBox("по","DOCDATE<=")
                                     .addTotalCountNumberBox("ИТОГО строк:", 140, {style:"font-weight:bold;",inputStyle:"width:50px"})
-                                    .addTotalSumNumberTextBox("ИТОГО кол-во:", 530, "DOCQTYSUM", {style:"font-weight:bold;",inputStyle:"width:60px"})
+                                    .addTotalSumNumberTextBox("ИТОГО кол-во:", 550, "DOCQTYSUM", {style:"font-weight:bold;",inputStyle:"width:60px"})
                                     .addTotalSumNumberTextBox("ИТОГО сумма:", 220, "DOCSUM", {style:"font-weight:bold;",inputStyle:"width:90px",pattern:"###,###,##0.00#######"})
                                     .startUp();
                 }
