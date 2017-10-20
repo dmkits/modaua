@@ -76,12 +76,12 @@ module.exports.getConfig=function(){ return config; }
 module.exports.getConfigAppMenu=function(){ return (config&&config.appMenu)?config.appMenu:null; };
 module.exports.getConfigModules=function(){ return (config&&config.modules)?config.modules:null; };
 
-server.use(function (req, res, next) {                                                              log.info("REQUEST CONTROLLER:", req.url, req.method, " params:", req.query, " body:", req.body);
+server.use(function (req, res, next) {                                                              log.info("REQUEST CONTROLLER:", req.url, req.method, " params:", req.query, " body:", req.body,{});
     next();
 });
 server.use(cookieParser());
+server.use(bodyParser.urlencoded({extended: true,limit: '5mb'}));
 server.use(bodyParser.json({limit: '5mb'}));
-server.use(bodyParser.urlencoded({limit: '5mb'}));
 server.use(bodyParser.text({limit: '5mb'}));
 server.use('/', express.static('public'));
 server.set('view engine','ejs');
