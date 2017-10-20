@@ -60,7 +60,7 @@ define(["app", "dijit/ConfirmDialog","dojox/widget/DialogSimple", "dijit/form/Bu
             },
             printTagsDialog: function(callback) {
                 this.doDialogMsg({title:"Напечать все ценники?",content:"<div align='center'>Вы хотите напечатать<br>более 100 ценников?</div>",
-                    btnOkLabel:"Да", btnCancelLabel:"Отмена",width:"220px"},function(dialog){
+                    btnOkLabel:"Да", btnCancelLabel:"Нет",width:"220px"},function(dialog){
                     callback();
                     dialog.hide();
                     });

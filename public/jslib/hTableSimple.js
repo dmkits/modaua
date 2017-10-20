@@ -234,6 +234,7 @@ define(["dojo/_base/declare", "dijit/layout/ContentPane","dojox/widget/Standby",
                 });
             },
             resizeAll: function(changeSize,resultSize){
+                if(!changeSize) return;
                 this.resizePane(changeSize,resultSize);
                 var thisMarginTop= (this.domNode.style.marginTop).replace("px",""),
                     thisMarginBottom= (this.domNode.style.marginBottom).replace("px","");
