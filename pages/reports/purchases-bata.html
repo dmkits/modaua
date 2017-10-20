@@ -77,7 +77,7 @@
                 if (!purchases_Btn_purchasesExt.document){
                     purchases_Btn_purchasesExt.document =
                             APP.childFor(purchases_ContentPaneDetailContainer, "purchases_TablePurchasesPinvsList",
-                                    TDocumentSimpleTable, {titleText:"Реестр приходных накладных", dataURL:"/reports/purchases/getPinvsList"})
+                                    TDocumentSimpleTable, {titleText:"Реестр приходных накладных", dataURL:"/reports/purchases/getPInvsList"})
                                     .addBeginDateBox("с","DOCDATE>=", {initValueDate:"curMonthBDate"}).addEndDateBox("по","DOCDATE<=")
                                     .addTotalCountNumberBox("ИТОГО строк:", 140, {style:"font-weight:bold;",inputStyle:"width:50px"})
                                     .addTotalSumNumberTextBox("ИТОГО кол-во:", 550, "DOCQTYSUM", {style:"font-weight:bold;",inputStyle:"width:60px"})

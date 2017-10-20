@@ -724,7 +724,9 @@ function _getTableColumnsDataForDocHTable(tableColumns){
             else if(tableColData.data.indexOf("DATE")>=0) tableColData.width=55;
         }
         if(tableColData.align===undefined){
-            if(tableColData.data.indexOf("DATE")>=0) tableColData.align="center";
+            if(tableColData.data.indexOf("DATE")>=0
+                || tableColData.data.indexOf("NUMBER")>=0
+                || tableColData.data.indexOf("POSITION")>=0 || tableColData.data=="POS") tableColData.align="center";
         }
         if(tableColData.type===undefined){
             if(tableColData.data.indexOf("QTY")>=0) tableColData.type="numeric";

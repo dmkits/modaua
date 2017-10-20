@@ -92,23 +92,23 @@ module.exports.init = function(app){
                         visible:params.visibleColumns["COLLECTION_CODE"],
                         dataSource:"dir_products_collections", sourceField:"CODE", linkCondition:"dir_products_collections.ID="+params.linkSource+".COLLECTION_ID" });
                 if(!params.excludeColumns["COLLECTION"])
-                    result.push({"data": "PRODUCT_COLLECTION", "name": "Коллекция товара", "width": 120, "type": "text",
+                    result.push({"data": "PRODUCT_COLLECTION", "name": "Коллекция товара", "width": 110, "type": "text",
                         visible:params.visibleColumns["COLLECTION"],
                         dataSource:"dir_products_collections", sourceField:"NAME", linkCondition:"dir_products_collections.ID="+params.linkSource+".COLLECTION_ID" });
                 if(!params.excludeColumns["ARTICLE"])
-                    result.push({"data": "PRODUCT_ARTICLE", "name": "Артикул товара", "width": 80, "type": "text", align:"center",
+                    result.push({"data": "PRODUCT_ARTICLE", "name": "Артикул товара", "width": 70, "type": "text", align:"center",
                         visible:params.visibleColumns["ARTICLE"],
                         dataSource:"dir_products_articles", sourceField:"VALUE", linkCondition:"dir_products_articles.ID="+params.linkSource+".ARTICLE_ID" });
                 if(!params.excludeColumns["TYPE"])
-                    result.push({"data": "PRODUCT_TYPE", "name": "Тип товара", "width": 100, "type": "text",
+                    result.push({"data": "PRODUCT_TYPE", "name": "Тип товара", "width": 80, "type": "text",
                         visible:params.visibleColumns["TYPE"],
                         dataSource:"dir_products_types", sourceField:"NAME", linkCondition:"dir_products_types.ID="+params.linkSource+".TYPE_ID" });
                 if(!params.excludeColumns["KIND"])
-                    result.push({"data": "PRODUCT_KIND", "name": "Вид товара", "width": 150, "type": "text",
+                    result.push({"data": "PRODUCT_KIND", "name": "Вид товара", "width": 100, "type": "text",
                         visible:params.visibleColumns["KIND"],
                         dataSource:"dir_products_kinds", sourceField:"NAME", linkCondition:"dir_products_kinds.ID="+params.linkSource+".KIND_ID" });
                 if(!params.excludeColumns["COMPOSITION"])
-                    result.push({"data": "PRODUCT_COMPOSITION", "name": "Состав товара", "width": 150, "type": "text",
+                    result.push({"data": "PRODUCT_COMPOSITION", "name": "Состав товара", "width": 110, "type": "text",
                         visible:params.visibleColumns["COMPOSITION"],
                         dataSource:"dir_products_compositions", sourceField:"VALUE", linkCondition:"dir_products_compositions.ID="+params.linkSource+".COMPOSITION_ID" });
                 if(!params.excludeColumns["SIZE"])
