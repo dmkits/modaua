@@ -775,7 +775,7 @@ define(["dojo/_base/declare", "dijit/layout/BorderContainer", "dijit/layout/Cont
             /*
              * actionParams: {action, rowPosName, rowPosIndexName}
              */
-            addDetailTableMenuItemAction: function(itemName, actionParams, menuItemCallback){
+            addDetailTableMenuItemAction: function(itemName, actionParams, menuItemAction){
                 if (!itemName||!actionParams) return this;
                 var menuItemCallback, thisInstance=this;
                 if (actionParams.action==="insertDetailTableRowsAfterSelected"){
@@ -797,7 +797,7 @@ define(["dojo/_base/declare", "dijit/layout/BorderContainer", "dijit/layout/Cont
                     }
                 }
                 if (menuItemCallback)
-                    this.detailTable.setMenuItem(this.id+"_menuItemFor_"+actionParams.action, itemName, null, menuItemCallback);
+                    this.detailTable.setMenuItem(itemName, null, menuItemCallback);
                 return this;
             },
 
