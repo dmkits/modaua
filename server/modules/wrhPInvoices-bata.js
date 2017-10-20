@@ -1,7 +1,7 @@
 var dataModel=require('../datamodel'), dateFormat = require('dateformat');
 var wrh_pinvs= require(appDataModelPath+"wrh_pinvs"), wrh_pinvs_products= require(appDataModelPath+"wrh_pinvs_products"),
-    wrh_r_documents=require(appDataModelPath+"wrh_r_documents"),
-    wrh_r_documents_products_batches=require(appDataModelPath+"wrh_r_documents_products_batches");
+    sys_operations=require(appDataModelPath+"sys_operations"),
+    wrh_products_r_operations=require(appDataModelPath+"wrh_products_r_operations");
 var dir_units= require(appDataModelPath+"dir_units"), dirContractors= require(appDataModelPath+"dir_contractors"),
     sys_currency= require(appDataModelPath+"sys_currency"), sysDocStates= require(appDataModelPath+"sys_docstates"),
     dir_products_collections= require(appDataModelPath+"dir_products_collections"),
@@ -9,7 +9,7 @@ var dir_units= require(appDataModelPath+"dir_units"), dirContractors= require(ap
     dir_products_batches= require(appDataModelPath+"dir_products_batches");
 
 module.exports.validateModule = function(errs, nextValidateModuleCallback){
-    dataModel.initValidateDataModels([wrh_pinvs,wrh_pinvs_products, wrh_r_documents, wrh_r_documents_products_batches,
+    dataModel.initValidateDataModels([wrh_pinvs,wrh_pinvs_products, sys_operations, wrh_products_r_operations,
             dir_products_bata, dir_products_batches], errs,
         function(){
             nextValidateModuleCallback();

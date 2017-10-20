@@ -112,7 +112,7 @@ module.exports.init = function(app){
                         visible:params.visibleColumns["COMPOSITION"],
                         dataSource:"dir_products_compositions", sourceField:"VALUE", linkCondition:"dir_products_compositions.ID="+params.linkSource+".COMPOSITION_ID" });
                 if(!params.excludeColumns["SIZE"])
-                    result.push({"data": "PRODUCT_SIZE", "name": "Размер товара", "width": 65, "type": "text", align:"center",
+                    result.push({"data": "PRODUCT_SIZE", "name": "Размер товара", "width": 67, "type": "text", align:"center",
                         visible:params.visibleColumns["SIZE"],
                         dataSource:"dir_products_sizes", sourceField:"VALUE", linkCondition:"dir_products_sizes.ID="+params.linkSource+".SIZE_ID" });
             }

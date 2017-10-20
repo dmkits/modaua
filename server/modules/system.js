@@ -2,10 +2,11 @@ var path=require('path'), XLSX=require('xlsx'),fs=require('fs');
 var dataModel=require('../datamodel'), util=require('../util');
 var server=require('../server'), log=server.log, tempExcelRepDir=server.tempExcelRepDir;
 var sys_currency= require(appDataModelPath+"sys_currency"),
-    sys_docstates= require(appDataModelPath+"sys_docstates");
+    sys_docstates= require(appDataModelPath+"sys_docstates"),
+    sys_operations= require(appDataModelPath+"sys_operations");
 
 module.exports.validateModule = function(errs, nextValidateModuleCallback){
-    dataModel.initValidateDataModels([sys_currency,sys_docstates], errs,
+    dataModel.initValidateDataModels([sys_currency,sys_docstates,sys_operations], errs,
         function(){
             nextValidateModuleCallback();
         });
