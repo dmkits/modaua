@@ -4,9 +4,9 @@
   "imageSmall":"/imgs/bata_small.jpg",
   "imageMain":"/imgs/bata.jpg",
   "users":[
-    { "userLogin":"admin", "pswrd":"admin", "userRole":"admin" },
-    { "userLogin":"adminDev", "pswrd":"admin", "userRole":"adminDev" },
-    { "userLogin":"adminDev2", "pswrd":"admin", "userRole":"adminDev2" },
+    { "userLogin":"sysAdmin", "pswrd":"sysadmin", "userRole":"sysAdmin" },
+    { "userLogin":"sysAdminDev", "pswrd":"sysadmin", "userRole":"sysAdminDev" },
+    { "userLogin":"sysAdminDev2", "pswrd":"sysadmin", "userRole":"sysAdminDev2" },
     { "userLogin":"zina", "pswrd":"zinaBata", "userRole":"user" },
     { "userLogin":"marina", "pswrd":"marinaBata", "userRole":"user" },
     { "userLogin":"bata1", "pswrd":"bata1", "userRole":"cashier" }
@@ -100,9 +100,9 @@
       "menuBarItemClose","menuBarItemHelpAbout"]
   },
   "usersRoleAutorun":{
-    "admin":["menuBarItemMainPage"],
-    "adminDev":["menuBarItemMainPage","menuBarDirsItemUnits","menuBarDirsItemProducts","menuBarWrhOrdersBata", "menuBarWrhPInvoices", "menuBarReportsRetailSales","menuBarWrhProdsBalance"],
-    "adminDev2":["menuBarItemMainPage","menuBarDirsItemUnits","menuBarWrhSalesInvoices"],
+    "sysAdmin":["menuBarItemMainPage"],
+    "sysAdminDev":["menuBarItemMainPage","menuBarDirsItemUnits","menuBarDirsItemProducts","menuBarWrhOrdersBata", "menuBarWrhPInvoices", "menuBarReportsRetailSales","menuBarWrhProdsBalance"],
+    "sysAdminDev2":["menuBarItemMainPage","menuBarDirsItemUnits","menuBarWrhSalesInvoices"],
     "user":["menuBarItemMainPage"],
     "cashier":["menuBarItemSalesCashierReports"]
   }

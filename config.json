@@ -4,8 +4,8 @@
   "imageSmall":"/imgs/modaua_small.jpg",
   "imageMain":"/imgs/modaua_big.jpg",
   "users":[
-    { "userLogin":"admin", "pswrd":"admin", "userRole":"admin" },
-    { "userLogin":"adminDev", "pswrd":"admin", "userRole":"adminDev" },
+    { "userLogin":"sysAdmin", "pswrd":"sysadmin", "userRole":"sysAdmin" },
+    { "userLogin":"sysAdminDev", "pswrd":"sysadmin", "userRole":"sysAdminDev" },
     { "userLogin":"user", "pswrd":"user", "userRole":"user" },
     { "userLogin":"cashier", "pswrd":"cashier", "userRole":"cashier" }
   ],
@@ -65,8 +65,8 @@
       "menuBarItemClose","menuBarItemHelpAbout"]
   },
   "usersRoleAutorun":{
-    "admin":["menuBarItemMainPage","menuBarWrhPInvoice"],
-    "adminDev":["menuBarItemMainPage","menuBarDirsItemUnits","menuBarDirsItemProducts","menuBarWrhPInvoices","menuBarWrhInvoices"],
+    "sysadmin":["menuBarItemMainPage","menuBarWrhPInvoice"],
+    "sysAdminDev":["menuBarItemMainPage","menuBarDirsItemUnits","menuBarDirsItemProducts","menuBarWrhPInvoices","menuBarWrhInvoices"],
     "user":["menuBarItemMainPage"],
     "cashier":["menuBarItemSalesCashier"]
   }
