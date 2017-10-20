@@ -166,6 +166,7 @@ module.exports.init = function(app){
         //{"data": "PRODUCT_SIZE", "name": "Размер", "width": 50, "type": "text",
         //    dataSource:"dir_products_sizes", sourceField:"VALUE", linkCondition:"dir_products_sizes.ID=dir_products.SIZE_ID" },
 
+        {"data": "BALANCE_QTY", "name": "Кол-во остатка", "width": 50, "type": "numeric", readOnly:true},
         {"data": "QTY", "name": "Кол-во", "width": 50, "type": "numeric"},
         {"data": "PRICE", "name": "Цена", "width": 60, "type": "numeric2"},
         {"data": "POSSUM", "name": "Сумма", "width": 80, "type": "numeric2"}
