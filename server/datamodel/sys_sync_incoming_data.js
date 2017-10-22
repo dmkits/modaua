@@ -7,17 +7,17 @@ var changeLog = [
         changeVal:"ALTER TABLE sys_sync_incoming_data ADD COLUMN CREATE_DATE DATETIME NOT NULL",
         field:"CREATE_DATE"},
     { changeID:"sys_sync_incoming_data__3", changeDatetime:"2016-09-26 10:24:00", changeObj:"sys_sync_incoming_data",
-        changeVal:"ALTER TABLE sys_sync_incoming_data ADD COLUMN SYNC_DATABASE_ID BIGINT UNSIGNED NOT NULL",
-        field:"SYNC_DATABASE_ID"},
+        changeVal:"ALTER TABLE sys_sync_incoming_data ADD COLUMN SYNC_POS_ID BIGINT UNSIGNED NOT NULL",
+        field:"SYNC_POS_ID"},
     { changeID:"sys_sync_incoming_data__4", changeDatetime:"2016-09-26 10:25:00", changeObj:"sys_sync_incoming_data",
-        changeVal:"ALTER TABLE sys_sync_incoming_data ADD CONSTRAINT SYS_SYNC_INCOMING_DATA_SYNC_DATABASE_ID_FK " +
-            "FOREIGN KEY (SYNC_DATABASE_ID) REFERENCES sys_sync_databases(ID)" },
+        changeVal:"ALTER TABLE sys_sync_incoming_data ADD CONSTRAINT SYS_SYNC_INCOMING_DATA_SYNC_POS_ID_FK " +
+            "FOREIGN KEY(SYNC_POS_ID) REFERENCES sys_sync_POSes(ID)" },
     { changeID:"sys_sync_incoming_data__5", changeDatetime:"2016-09-26 10:26:00", changeObj:"sys_sync_incoming_data",
         changeVal:"ALTER TABLE sys_sync_incoming_data ADD COLUMN CLIENT_DATA_ID BIGINT UNSIGNED NOT NULL",
         field:"CLIENT_DATA_ID"},
     { changeID:"sys_sync_incoming_data__6", changeDatetime:"2016-09-26 10:27:00", changeObj:"sys_sync_incoming_data",
-        changeVal:"ALTER TABLE sys_sync_incoming_data ADD CONSTRAINT SYS_SYNC_INCOMING_DATA_SYNC_DATABASE_ID_CLIENT_DATA_ID_UNIQUE " +
-            "UNIQUE(SYNC_DATABASE_ID,CLIENT_DATA_ID)" },
+        changeVal:"ALTER TABLE sys_sync_incoming_data ADD CONSTRAINT SYS_SYNC_INCOMING_DATA_SYNC_POS_ID_CLIENT_DATA_ID_UNIQUE " +
+            "UNIQUE(SYNC_POS_ID,CLIENT_DATA_ID)" },
     { changeID:"sys_sync_incoming_data__7", changeDatetime:"2016-09-26 10:28:00", changeObj:"sys_sync_incoming_data",
         changeVal:"ALTER TABLE sys_sync_incoming_data ADD COLUMN CLIENT_CREATE_DATE DATETIME NOT NULL",
         field:"CLIENT_CREATE_DATE"},

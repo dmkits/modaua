@@ -9,11 +9,11 @@ var changeLog = [
     { changeID:"sys_sync_output_data__3", changeDatetime:"2016-10-07 12:23:00", changeObj:"sys_sync_output_data",
         changeVal:"ALTER TABLE sys_sync_output_data ALTER COLUMN CREATE_DATE  DROP DEFAULT" },
     { changeID:"sys_sync_output_data__4", changeDatetime:"2016-10-07 12:24:00", changeObj:"sys_sync_output_data",
-        changeVal:"ALTER TABLE sys_sync_output_data ADD COLUMN SYNC_DATABASE_ID BIGINT UNSIGNED NOT NULL",
-        field:"SYNC_DATABASE_ID"},
+        changeVal:"ALTER TABLE sys_sync_output_data ADD COLUMN SYNC_POS_ID BIGINT UNSIGNED NOT NULL",
+        field:"SYNC_POS_ID"},
     { changeID:"sys_sync_output_data__5", changeDatetime:"2016-10-07 12:25:00", changeObj:"sys_sync_output_data",
-        changeVal:"ALTER TABLE sys_sync_output_data ADD CONSTRAINT SYS_SYNC_OUTPUT_DATA_SYNC_DATABASE_ID_FK " +
-            "FOREIGN KEY (SYNC_DATABASE_ID) REFERENCES sys_sync_databases(ID)" },
+        changeVal:"ALTER TABLE sys_sync_output_data ADD CONSTRAINT SYS_SYNC_OUTPUT_DATA_SYNC_POS_ID_FK " +
+            "FOREIGN KEY(SYNC_POS_ID) REFERENCES sys_sync_POSes(ID)" },
     { changeID:"sys_sync_output_data__6", changeDatetime:"2016-10-07 12:26:00", changeObj:"sys_sync_output_data",
         changeVal:"ALTER TABLE sys_sync_output_data ADD COLUMN TABLE_NAME VARCHAR(255) NOT NULL",
         field:"TABLE_NAME"},

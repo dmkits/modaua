@@ -525,6 +525,8 @@ function _getDataItemsForTable(params, resultCallback){
                 fieldsSources[fieldName]=tableColumnData.dataSource+"."+tableColumnData.sourceField;
             else if(tableColumnData.dataSource)
                 fieldsSources[fieldName]=tableColumnData.dataSource+"."+fieldName;
+            else if(tableColumnData.sourceField&&hasSources)
+                fieldsSources[fieldName]=((params.source)?params.source:this.source)+"."+tableColumnData.sourceField;
             else if(tableColumnData.sourceField)
                 fieldsSources[fieldName]=tableColumnData.sourceField;
         } else if(tableColumnData.dataFunction){

@@ -15,7 +15,7 @@ var dataModel=require('../datamodel');
 var changeLog= require(appDataModelPath+"change_log");
 var sys_currency= require(appDataModelPath+"sys_currency"),
     sys_docstates= require(appDataModelPath+"sys_docstates"),
-    sys_sync_databases= require(appDataModelPath+"sys_sync_databases"),
+    sys_sync_POSes= require(appDataModelPath+"sys_sync_POSes"),
     sys_sync_errors_log= require(appDataModelPath+"sys_sync_errors_log"),
     sys_sync_incoming_data=require(appDataModelPath+"sys_sync_incoming_data"),
     sys_sync_incoming_data_details=require(appDataModelPath+"sys_sync_incoming_data_details"),
@@ -24,7 +24,7 @@ var sys_currency= require(appDataModelPath+"sys_currency"),
 
 module.exports.validateModule = function(errs, nextValidateModuleCallback){
     dataModel.initValidateDataModels([changeLog, sys_docstates,sys_currency,
-            sys_sync_databases, sys_sync_errors_log,
+            sys_sync_POSes, sys_sync_errors_log,
             sys_sync_incoming_data, sys_sync_incoming_data_details,
             sys_sync_output_data, sys_sync_output_data_details], errs,
         function(){
@@ -817,6 +817,7 @@ module.exports.init = function(app){
             var dataModel=validatedDataModels[dataModelName];
             if(dataModel.sourceType=="table"){
                 var importTableName=dataModel.source;
+                importTableName= importTableName.replace("sys_sync_POSes","sys_sync_databases");
                 importTableName= importTableName.replace("wrh_orders_bata_details","wrh_order_bata_details");
                 importTableName= importTableName.replace("wrh_pinvs_products","wrh_pinv_products");
                 importTableName= importTableName.replace("wrh_invs_products","wrh_inv_products");
@@ -997,8 +998,6 @@ module.exports.init = function(app){
         var sqlInsertFieldsList, sqlInsertFieldsValues, insertFieldsValues=[];
         for(var i=0; i<importTableFields.length; i++){
             var importTableFieldName=importTableFields[i];
-            sqlInsertFieldsList= (!sqlInsertFieldsList)?importTableFieldName:sqlInsertFieldsList+","+importTableFieldName;
-            sqlInsertFieldsValues= (!sqlInsertFieldsValues)?"?":sqlInsertFieldsValues+",?";
             var importFieldValue=bata1TableDataItem[importTableFieldName];
             if(importTableName=="dir_products"){
                 if(importTableFieldName=="TYPE_ID") importFieldValue=1;
@@ -1006,7 +1005,13 @@ module.exports.init = function(app){
                 if(importTableFieldName=="CURRENCY_ID") importFieldValue=2;
                 if(importTableFieldName=="DOCSTATE_ID") importFieldValue=0;
                 if(importTableFieldName=="RATE") importFieldValue=33;
+            } else if(importTableName=="sys_sync_POSes"){
+                if(importTableFieldName=="NAME") importFieldValue=bata1TableDataItem["POS_NAME"];
+                if(importTableFieldName=="PC_NAME") importFieldValue=bata1TableDataItem["STOCK_NAME"];
+                if(importTableFieldName=="UNIT_ID") importFieldValue=1;
             }
+            sqlInsertFieldsList= (!sqlInsertFieldsList)?importTableFieldName:sqlInsertFieldsList+","+importTableFieldName;
+            sqlInsertFieldsValues= (!sqlInsertFieldsValues)?"?":sqlInsertFieldsValues+",?";
             insertFieldsValues.push(importFieldValue);
         }
         database.executeParamsQuery("INSERT INTO "+importTableName+"("+sqlInsertFieldsList+") values("+sqlInsertFieldsValues+")",
@@ -1119,15 +1124,15 @@ module.exports.init = function(app){
     app.get("/sysadmin/synchronization", function (req, res) {
         res.sendFile(appViewsPath+'sysadmin/synchronization.html');
     });
-    var sysSyncDatabasesTableColumns=[
-        {data: "ID", name: "DatabaseID", width: 90, type: "text"},
-        {data: "POS_NAME", name: "POSName", width: 200, type: "text"},
-        {data: "DATABASE_NAME", name: "DatabaseName", width: 200, type: "text"},
-        {data: "STOCK_NAME", name: "UnitName", width: 200, type: "text"}
-
+    var sysSyncPOSesTableColumns=[
+        {data: "ID", name: "POS ID", width: 90, type: "text"},
+        {data: "POS_NAME", name: "POS name", width: 150, type: "text", sourceField:"NAME"},
+        {data: "POS_PC_NAME", name: "POS PC name", width: 150, type: "text", sourceField:"PC_NAME"},
+        {data: "DATABASE_NAME", name: "Database", width: 200, type: "text"},
+        {data: "UNIT_NAME", name: "Unit", width: 200, type: "text", dataSource:"dir_units", sourceField:"NAME"}
     ];
     app.get('/sysadmin/synchronization/getDatabasesDataForTable', function(req, res){
-        sys_sync_databases.getDataForTable({tableColumns:sysSyncDatabasesTableColumns, identifier:sysSyncDatabasesTableColumns[0].data,
+        sys_sync_POSes.getDataForTable({tableColumns:sysSyncPOSesTableColumns, identifier:sysSyncPOSesTableColumns[0].data,
             order:"ID", conditions:req.query}, function(result){
             res.send(result);
         });
