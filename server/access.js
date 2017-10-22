@@ -19,7 +19,7 @@ module.exports= function(app){                                                  
                 var configUser=configUsers[i];
                 if(user==configUser.userLogin && pswrd==configUser.pswrd){
                     userAccess= true;
-                    if(configUser.userRole=="admin"||configUser.userRole=="adminDev") sysadminAccess=true;
+                    if(configUser.userRole=="sysAdmin"||configUser.userRole=="sysAdminDev") sysadminAccess=true;
                     break;
                 }
             }
