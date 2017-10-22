@@ -1,7 +1,7 @@
 module.exports.id=module.id;
 var changeLog=[
-    { "changeID":"wrh_products_operations_v_v__1", "changeDatetime": "2017-10-16 09:00:00", "changeObj": "wrh_products_operations_v",
-        "changeVal": "CREATE VIEW wrh_products_operations_v(PRODUCT_ID, UNIT_ID, DOCCODE, DOCDATE, DOCNUMBER, DOCPOSIND, DOCOPERID, DOCQTY, BATCH_NUMBER, BATCH_QTY) AS\n"+
+    { changeID:"wrh_products_operations_v_v__1", changeDatetime: "2017-10-16 09:00:00", changeObj: "wrh_products_operations_v",
+        changeVal: "CREATE VIEW wrh_products_operations_v(PRODUCT_ID, UNIT_ID, DOCCODE, DOCDATE, DOCNUMBER, DOCPOSIND, DOCOPERID, DOCQTY, BATCH_NUMBER, BATCH_QTY) AS\n"+
             "SELECT wpip.PRODUCT_ID, wpi.UNIT_ID, 10 as DOCCODE, wpi.DOCDATE, wpi.NUMBER, wpip.POSIND, wpip.ID, wpip.QTY, wpip.BATCH_NUMBER, wpip.QTY\n"+
             "FROM wrh_pinvs_products wpip\n"+
             "INNER JOIN wrh_pinvs wpi ON wpi.ID=wpip.PINV_ID\n"+
