@@ -14,15 +14,15 @@ module.exports.modulePageURL = "/dir/units";
 module.exports.modulePagePath = "dir/units.html";
 module.exports.init = function(app){
     var dirUnitsTableColumns=[
-        {"data": "ID", "name": "ID", "width": 80, "type": "text", readOnly:true, visible:false},
-        {"data": "NAME", "name": "Наименование", "width": 120, "type": "text"},
-        {"data": "FULL_NAME", "name": "Полное наименование", "width": 250, "type": "text"},
-        {"data": "NOTE", "name": "Примечание", "width": 200, "type": "text"},
-        {"data": "CITY", "name": "Город", "width": 120, "type": "text"},
-        {"data": "ADDRESS", "name": "Адрес", "width": 200, "type": "text"},
-        {"data": "NOT_USED", "name": "Не используется", "width": 120, "type": "checkbox", visible:true},
-        {"data": "PRICELIST_NAME", "name": "Прайс-лист", "width": 150,
-            "type": "combobox", "sourceURL":"/dir/pricelists/getDataForPriceListsCombobox",
+        {data: "ID", name: "ID", width: 80, type: "text", readOnly:true, visible:false},
+        {data: "NAME", name: "Наименование", width: 120, type: "text"},
+        {data: "FULL_NAME", name: "Полное наименование", width: 250, type: "text"},
+        {data: "NOTE", name: "Примечание", width: 200, type: "text"},
+        {data: "CITY", name: "Город", width: 120, type: "text"},
+        {data: "ADDRESS", name: "Адрес", width: 200, type: "text"},
+        {data: "NOT_USED", name: "Не используется", width: 120, type: "checkbox", visible:true},
+        {data: "PRICELIST_NAME", name: "Прайс-лист", width: 150,
+            type: "combobox", "sourceURL":"/dir/pricelists/getDataForPriceListsCombobox",
             dataSource:"dir_pricelists", sourceField:"NAME"}
     ];
     app.get("/dir/units/getDataForDirUnitsTable", function(req, res){

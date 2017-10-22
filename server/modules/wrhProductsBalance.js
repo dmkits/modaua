@@ -18,23 +18,23 @@ module.exports.modulePagePath = "wrh/productsBalance.html";
 module.exports.init = function(app) {
 
     var repProductsBalanceRegisterTableColumns=[
-        {"data": "UNIT_NAME", "name": "Подразделение", "width": 120, "type": "text",
+        {data: "UNIT_NAME", name: "Подразделение", width: 120, type: "text",
             dataSource:"dir_units", sourceField:"NAME", linkCondition:"dir_units.ID=wrh_products_operations_v.UNIT_ID" },
         { dataSource:"dir_products", linkCondition:"dir_products.ID=wrh_products_operations_v.PRODUCT_ID"},
-        {"data": "PINV_SQTY", "name": "Кол-во прихода", dataSource:"dir_products_batches_v", sourceField:"QTY"},
-        {"data": "QTY", "name": "Кол-во остатка", dataFunction:{function:"sumIsNull", sourceField:"BATCH_QTY"}},
+        {data: "PINV_SQTY", name: "Кол-во прихода", dataSource:"dir_products_batches_v", sourceField:"QTY"},
+        {data: "QTY", name: "Кол-во остатка", dataFunction:{function:"sumIsNull", sourceField:"BATCH_QTY"}},
         { dataSource:"dir_products_batches_v",
             linkCondition:"dir_products_batches_v.PRODUCT_ID=wrh_products_operations_v.PRODUCT_ID" +
                 " and dir_products_batches_v.BATCH_NUMBER=wrh_products_operations_v.BATCH_NUMBER"},
-        {"data": "PINV_NUMBER", "name": "Номер прихода", dataSource:"dir_products_batches_v", sourceField:"R_DOCNUMBER"},
-        {"data": "PINV_CURRENCY_CODE", "name": "Валюта прихода", width:70,
+        {data: "PINV_NUMBER", name: "Номер прихода", dataSource:"dir_products_batches_v", sourceField:"R_DOCNUMBER"},
+        {data: "PINV_CURRENCY_CODE", name: "Валюта прихода", width:70,
             dataSource:"sys_currency", sourceField:"CODE", linkCondition:"sys_currency.ID=dir_products_batches_v.CURRENCY_ID"},
-        {"data": "PINV_PRICE", "name": "Цена прихода", dataSource:"dir_products_batches_v", sourceField:"PRICE"},
-        {"data": "COST_SUM", "name": "Себе-стоимость",
+        {data: "PINV_PRICE", name: "Цена прихода", dataSource:"dir_products_batches_v", sourceField:"PRICE"},
+        {data: "COST_SUM", name: "Себе-стоимость",
             dataFunction:{function:"sumIsNull", sourceField:"wrh_products_operations_v.BATCH_QTY*dir_products_batches_v.PRICE"}},
-        {"data": "SALE_PRICE", "name": "Розн. цена"},
-        {"data": "DISCOUNT_PERCENT", "name": "Скидка, %", width:70},
-        {"data": "SALE_PRICE_WD", "name": "Розн. цена со ск."}
+        {data: "SALE_PRICE", name: "Розн. цена"},
+        {data: "DISCOUNT_PERCENT", name: "Скидка, %", width:70},
+        {data: "SALE_PRICE_WD", name: "Розн. цена со ск."}
     ];
     repProductsBalanceRegisterTableColumns=
         dir_products.addProductColumnsTo(repProductsBalanceRegisterTableColumns,2,{linkSource:"wrh_products_operations_v",
@@ -55,18 +55,18 @@ module.exports.init = function(app) {
             });
     });
     var repProductsBalanceRegisterByProductsArticlesTableColumns=[
-        {"data": "UNIT_NAME", "name": "Подразделение", "width": 120, "type": "text",
+        {data: "UNIT_NAME", name: "Подразделение", width: 120, type: "text",
             dataSource:"dir_units", sourceField:"NAME", linkCondition:"dir_units.ID=wrh_products_operations_v.UNIT_ID" },
         { dataSource:"dir_products", linkCondition:"dir_products.ID=wrh_products_operations_v.PRODUCT_ID"},
-        //{ "data": "PROD_ID", "name": "PROD_ID", sourceField:"ID", dataSource:"dir_products", linkCondition:"dir_products.ID=wrh_products_operations_v.PRODUCT_ID"},
-        {"data": "PINV_SQTY", "name": "Кол-во прихода"},
-        {"data": "QTY", "name": "Кол-во остатка", dataFunction:{function:"sumIsNull", sourceField:"BATCH_QTY"}},
-        {"data": "PINV_NUMBER", "name": "Номер прихода"},
-        {"data": "PINV_CURRENCY_CODE", "name": "Валюта прихода", width:70},
-        {"data": "PINV_PRICE", "name": "Цена прихода"},
-        {"data": "COST_SUM", "name": "Себе-стоимость" /*, dataFunction:{function:"sumIsNull", sourceField:"BATCH_QTY"}*/},
-        {"data": "SALE_PRICE_WD", "name": "Цена продажи"},
-        {"data": "DISCOUNT_PERCENT", "name": "Скидка, %", width:70}
+        //{ data: "PROD_ID", name: "PROD_ID", sourceField:"ID", dataSource:"dir_products", linkCondition:"dir_products.ID=wrh_products_operations_v.PRODUCT_ID"},
+        {data: "PINV_SQTY", name: "Кол-во прихода"},
+        {data: "QTY", name: "Кол-во остатка", dataFunction:{function:"sumIsNull", sourceField:"BATCH_QTY"}},
+        {data: "PINV_NUMBER", name: "Номер прихода"},
+        {data: "PINV_CURRENCY_CODE", name: "Валюта прихода", width:70},
+        {data: "PINV_PRICE", name: "Цена прихода"},
+        {data: "COST_SUM", name: "Себе-стоимость" /*, dataFunction:{function:"sumIsNull", sourceField:"BATCH_QTY"}*/},
+        {data: "SALE_PRICE_WD", name: "Цена продажи"},
+        {data: "DISCOUNT_PERCENT", name: "Скидка, %", width:70}
     ];
     repProductsBalanceRegisterByProductsArticlesTableColumns=
         dir_products.addProductAttrsColumnsTo(repProductsBalanceRegisterByProductsArticlesTableColumns,2,{

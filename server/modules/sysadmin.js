@@ -656,12 +656,12 @@ module.exports.init = function(app){
     };
 
     var changesTableColumns=[
-        {"data": "changeID", "name": "changeID", "width": 200, "type": "text"}
-        , {"data": "changeDatetime", "name": "changeDatetime", "width": 120, "type":"text", "datetimeFormat":"YYYY-MM-DD HH:mm:ss"}
-        , {"data": "changeObj", "name": "changeObj", "width": 200, "type": "text"}
-        , {"data": "changeVal", "name": "changeVal", "width": 450, "type": "text"}
-        , {"data": "type", "name": "type", "width": 100, "type": "text"}
-        , {"data": "message", "name": "message", "width": 200, "type": "text"}
+        {data: "changeID", name: "changeID", width: 200, type: "text"},
+        {data: "changeDatetime", name: "changeDatetime", width: 120, type:"text", datetimeFormat:"YYYY-MM-DD HH:mm:ss"},
+        {data: "changeObj", name: "changeObj", width: 200, type: "text"},
+        {data: "changeVal", name: "changeVal", width: 450, type: "text"},
+        {data: "type", name: "type", width: 100, type: "text"},
+        {data: "message", name: "message", width: 200, type: "text"}
     ];
 
     app.get("/sysadmin/database/getCurrentChanges", function (req, res) {
@@ -700,11 +700,11 @@ module.exports.init = function(app){
     };
 
     var changeLogTableColumns=[
-        {"data": "ID", "name": "changeID", "width": 200, "type": "text"}
-        , {"data": "CHANGE_DATETIME", "name": "changeDatetime", "width": 120, "type": "datetimeAsText"}
-        , {"data": "CHANGE_OBJ", "name": "changeObj", "width": 200, "type": "text"}
-        , {"data": "CHANGE_VAL", "name": "changeVal", "width": 450, "type": "text"}
-        , {"data": "APPLIED_DATETIME", "name": "appliedDatetime", "width": 120, "type": "datetimeAsText"}
+        {data: "ID", name: "changeID", width: 200, type: "text"},
+        {data: "CHANGE_DATETIME", name: "changeDatetime", width: 120, type: "datetimeAsText"},
+        {data: "CHANGE_OBJ", name: "changeObj", width: 200, type: "text"},
+        {data: "CHANGE_VAL", name: "changeVal", width: 450, type: "text"},
+        {data: "APPLIED_DATETIME", name: "appliedDatetime", width: 120, type: "datetimeAsText"}
     ];
     /**
      * resultCallback = function(result = { updateCount, resultItem:{<tableFieldName>:<value>,...}, error } )
@@ -799,13 +799,13 @@ module.exports.init = function(app){
         });
     });
     var importDataModelsTableColumns=[
-        {"data": "PRIORITY", "name": "Priority", "width": 65, "type": "numeric"}
-        , {"data": "DATA_MODEL_NAME", "name": "Data model name", "width": 220, "type": "text"}
-        , {"data": "DATA_TABLE_NAME", "name": "Data table name", "width": 220, "type": "text"}
-        , {"data": "IMPORT_DATA_TABLE_NAME", "name": "import data table name", "width": 220, "type": "text"}
-        , {"data": "CUR_ROW_COUNT", "name": " current row count", "width": 65, "type": "numeric"}
-        , {"data": "IMPORT_ROW_COUNT", "name": "import row count", "width": 65, "type": "numeric"}
-        , {"data": "RESULT", "name": "result", "width": 450, "type": "text"}
+        {data: "PRIORITY", name: "Priority", width: 65, type: "numeric"},
+        {data: "DATA_MODEL_NAME", name: "Data model name", width: 220, type: "text"},
+        {data: "DATA_TABLE_NAME", name: "Data table name", width: 220, type: "text"},
+        {data: "IMPORT_DATA_TABLE_NAME", name: "import data table name", width: 220, type: "text"},
+        {data: "CUR_ROW_COUNT", name: " current row count", width: 65, type: "numeric"},
+        {data: "IMPORT_ROW_COUNT", name: "import row count", width: 65, type: "numeric"},
+        {data: "RESULT", name: "result", width: 450, type: "text"}
     ];
 
     /**
@@ -1092,10 +1092,10 @@ module.exports.init = function(app){
         res.sendFile(appViewsPath+'sysadmin/appModelSettings.html');
     });
     var sysCurrencyTableColumns=[
-        {"data": "ID", "name": "ID", "width": 50, "type": "text", visible:true}
-        , {"data": "CODE", "name": "CODE", "width": 120, "type": "text"}
-        , {"data": "NAME", "name": "NAME", "width": 200, "type": "text"}
-        , {"data": "NOTE", "name": "NOTE", "width": 450, "type": "text"}
+        {data: "ID", name: "ID", width: 50, type: "text", visible:true},
+        {data: "CODE", name: "CODE", width: 120, type: "text"},
+        {data: "NAME", name: "NAME", width: 200, type: "text"},
+        {data: "NOTE", name: "NOTE", width: 450, type: "text"}
     ];
     app.get("/sysadmin/appModelSettings/getSysCurrencyDataForTable", function(req, res){
         sys_currency.getDataForTable({tableColumns:sysCurrencyTableColumns, identifier:sysCurrencyTableColumns[0].data,
@@ -1104,10 +1104,10 @@ module.exports.init = function(app){
         });
     });
     var sysDocsStatesTableColumns=[
-        {"data": "ID", "name": "ID", "width": 200, "type": "text", visible:false}
-        , {"data": "ALIAS", "name": "ALIAS", "width": 120, "type": "text"}
-        , {"data": "NAME", "name": "NAME", "width": 200, "type": "text"}
-        , {"data": "NOTE", "name": "NOTE", "width": 450, "type": "text"}
+        {data: "ID", name: "ID", width: 200, type: "text", visible:false},
+        {data: "ALIAS", name: "ALIAS", width: 120, type: "text"},
+        {data: "NAME", name: "NAME", width: 200, type: "text"},
+        {data: "NOTE", name: "NOTE", width: 450, type: "text"}
     ];
     app.get("/sysadmin/appModelSettings/getSysDocumentsStatesDataForTable", function(req, res){
         sys_docstates.getDataForTable({tableColumns:sysDocsStatesTableColumns, identifier:sysCurrencyTableColumns[0].data,
@@ -1120,10 +1120,10 @@ module.exports.init = function(app){
         res.sendFile(appViewsPath+'sysadmin/synchronization.html');
     });
     var sysSyncDatabasesTableColumns=[
-        {"data": "ID", "name": "DatabaseID", "width": 90, "type": "text"}
-        , {"data": "POS_NAME", "name": "POSName", "width": 200, "type": "text"}
-        , {"data": "DATABASE_NAME", "name": "DatabaseName", "width": 200, "type": "text"}
-        , {"data": "STOCK_NAME", "name": "UnitName", "width": 200, "type": "text"}
+        {data: "ID", name: "DatabaseID", width: 90, type: "text"},
+        {data: "POS_NAME", name: "POSName", width: 200, type: "text"},
+        {data: "DATABASE_NAME", name: "DatabaseName", width: 200, type: "text"},
+        {data: "STOCK_NAME", name: "UnitName", width: 200, type: "text"}
 
     ];
     app.get('/sysadmin/synchronization/getDatabasesDataForTable', function(req, res){
@@ -1134,12 +1134,12 @@ module.exports.init = function(app){
     });
 
     var sysSyncErrorsLogTableColumns=[
-          {"data": "CREATE_DATE", "name": "Log date", "width": 70, "type": "text"}
-        , {"data": "ERROR_MSG", "name": "Error msg", "width": 350, "type": "text"}
-        , {"data": "HEADER", "name": "SOAP Message Header", "width": 250, "type": "text"}
-        , {"data": "CLIENT_POS_NAME", "name": "Client POS Name", "width": 100, "type": "text"}
-        , {"data": "CLIENT_CREATE_DATE", "name": "Client create date", "width": 70, "type": "text"}
-        , {"data": "CLIENT_SYNC_DATA_ID", "name": "Client ID", "width": 70, "type": "text"}
+        {data: "CREATE_DATE", name: "Log date", width: 70, type: "text"},
+        {data: "ERROR_MSG", name: "Error msg", width: 350, type: "text"},
+        {data: "HEADER", name: "SOAP Message Header", width: 250, type: "text"},
+        {data: "CLIENT_POS_NAME", name: "Client POS Name", width: 100, type: "text"},
+        {data: "CLIENT_CREATE_DATE", name: "Client create date", width: 70, type: "text"},
+        {data: "CLIENT_SYNC_DATA_ID", name: "Client ID", width: 70, type: "text"}
 
     ];
     app.get('/sysadmin/synchronization/getErrorLogDataForTable', function(req, res){
@@ -1150,20 +1150,20 @@ module.exports.init = function(app){
     });
 
     var sysSyncIncomingDataTableColumns=[
-          {"data": "CREATE_DATE", "name": "Create date", "width": 70, "type": "text"}
-        , {"data": "SYNC_DATABASE_ID", "name": "Sync database ID", "width": 90, "type": "text"}
-        , {"data": "CLIENT_DATA_ID", "name": "Client data ID", "width": 70, "type": "text"}
-        , {"data": "CLIENT_CREATE_DATE", "name": "Client create date", "width": 80, "type": "text"}
-        , {"data": "OPERATION_TYPE", "name": "Operation type", "width": 60, "type": "text"}
-        , {"data": "CLIENT_TABLE_NAME", "name": "Client table name", "width": 160, "type": "text"}
-        , {"data": "CLIENT_TABLE_KEY1_NAME", "name": "Client table key1 name", "width": 100, "type": "text"}
-        , {"data": "CLIENT_TABLE_KEY1_VALUE", "name": "Client table key1 value", "width": 160, "type": "text"}
-        , {"data": "LAST_UPDATE_DATE", "name": "Last update date", "width": 70, "type": "text"}
-        , {"data": "STATE", "name": "State", "width": 40, "type": "text"}
-        , {"data": "MSG", "name": "Message", "width": 70, "type": "text"}
-        , {"data": "APPLIED_DATE", "name": "Applied date", "width": 60, "type": "text"}
-        , {"data": "DEST_TABLE_CODE", "name": "Dest.t code", "width": 60, "type": "text"}
-        , {"data": "DEST_TABLE_DATA_ID", "name": "Dest.t ID", "width": 130, "type": "text"}
+        {data: "CREATE_DATE", name: "Create date", width: 70, type: "text"},
+        {data: "SYNC_DATABASE_ID", name: "Sync database ID", width: 90, type: "text"},
+        {data: "CLIENT_DATA_ID", name: "Client data ID", width: 70, type: "text"},
+        {data: "CLIENT_CREATE_DATE", name: "Client create date", width: 80, type: "text"},
+        {data: "OPERATION_TYPE", name: "Operation type", width: 60, type: "text"},
+        {data: "CLIENT_TABLE_NAME", name: "Client table name", width: 160, type: "text"},
+        {data: "CLIENT_TABLE_KEY1_NAME", name: "Client table key1 name", width: 100, type: "text"},
+        {data: "CLIENT_TABLE_KEY1_VALUE", name: "Client table key1 value", width: 160, type: "text"},
+        {data: "LAST_UPDATE_DATE", name: "Last update date", width: 70, type: "text"},
+        {data: "STATE", name: "State", width: 40, type: "text"},
+        {data: "MSG", name: "Message", width: 70, type: "text"},
+        {data: "APPLIED_DATE", name: "Applied date", width: 60, type: "text"},
+        {data: "DEST_TABLE_CODE", name: "Dest.t code", width: 60, type: "text"},
+        {data: "DEST_TABLE_DATA_ID", name: "Dest.t ID", width: 130, type: "text"}
 
     ];
     app.get('/sysadmin/synchronization/getIncomingDataForTable', function(req, res){
@@ -1174,16 +1174,16 @@ module.exports.init = function(app){
     });
 
     var sysSyncOutputDataTableColumns=[
-          {"data": "CREATE_DATE", "name": "CreateDate", "width": 75, "type": "text"}
-        , {"data": "SYNC_DATABASE_ID", "name": "SyncDatabaseID", "width": 90, "type": "text"}
-        , {"data": "TABLE_NAME", "name": "TableName", "width": 250, "type": "text"}
-        , {"data": "KEY_DATA_NAME", "name": "KeyName", "width": 150, "type": "text"}
-        , {"data": "KEY_DATA_VALUE", "name": "KeyValue", "width": 150, "type": "text"}
-        , {"data": "LAST_UPDATE_DATE", "name": "LastUpdateDate", "width": 90, "type": "text"}
-        , {"data": "STATE", "name": "State", "width": 60, "type": "text"}
-        , {"data": "CLIENT_SYNC_DATA_ID", "name": "ClientDataID", "width": 80, "type": "text"}
-        , {"data": "APPLIED_DATE", "name": "AppliedDate", "width": 80, "type": "text"}
-        , {"data": "CLIENT_MESSAGE", "name": "ClientMessage", "width": 250, "type": "text"}
+        {data: "CREATE_DATE", name: "CreateDate", width: 75, type: "text"},
+        {data: "SYNC_DATABASE_ID", name: "SyncDatabaseID", width: 90, type: "text"},
+        {data: "TABLE_NAME", name: "TableName", width: 250, type: "text"},
+        {data: "KEY_DATA_NAME", name: "KeyName", width: 150, type: "text"},
+        {data: "KEY_DATA_VALUE", name: "KeyValue", width: 150, type: "text"},
+        {data: "LAST_UPDATE_DATE", name: "LastUpdateDate", width: 90, type: "text"},
+        {data: "STATE", name: "State", width: 60, type: "text"},
+        {data: "CLIENT_SYNC_DATA_ID", name: "ClientDataID", width: 80, type: "text"},
+        {data: "APPLIED_DATE", name: "AppliedDate", width: 80, type: "text"},
+        {data: "CLIENT_MESSAGE", name: "ClientMessage", width: 250, type: "text"}
     ];
     app.get('/sysadmin/synchronization/getOutputDataForTable', function(req, res){
         sys_sync_output_data.getDataForTable({tableColumns:sysSyncOutputDataTableColumns, identifier:sysSyncOutputDataTableColumns[0].data,
@@ -1197,9 +1197,9 @@ module.exports.init = function(app){
     });
 
     var sysLogsTableColumns=[
-          {"data": "level", "name": "Level", "width": 100, "type": "text"}
-        , {"data": "message", "name": "Message", "width": 700, "type": "text"}
-        , {"data": "timestamp", "name": "Timestamp", "width": 220, "type": "text", datetimeFormat:"DD.MM.YY HH:mm:ss"}
+        {data: "level", name: "Level", width: 100, type: "text"},
+        {data: "message", name: "Message", width: 700, type: "text"},
+        {data: "timestamp", name: "Timestamp", width: 220, type: "text", datetimeFormat:"DD.MM.YY HH:mm:ss"}
     ];
     app.get('/sysadmin/logs/getDataForTable', function (req, res) {
         var fileDate = req.query.DATE;

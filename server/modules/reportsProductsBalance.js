@@ -17,9 +17,9 @@ module.exports.modulePagePath = "reports/productsBalance.html";
 module.exports.init = function(app) {
 
     var repProductsBalanceTableColumns=[
-        {"data": "UNIT_NAME", "name": "Подразделение", "width": 120, "type": "text",
+        {data: "UNIT_NAME", name: "Подразделение", width: 120, type: "text",
             dataSource:"dir_units", sourceField:"NAME", linkCondition:"dir_units.ID=wrh_products_operations_v.UNIT_ID" },
-        {"data": "SQTY", "name": "Кол-во", dataFunction:{function:"sumIsNull", sourceField:"BATCH_QTY"} }
+        {data: "SQTY", name: "Кол-во", dataFunction:{function:"sumIsNull", sourceField:"BATCH_QTY"} }
     ];
     repProductsBalanceTableColumns=
         dir_products.addProductColumnsTo(repProductsBalanceTableColumns,1,{linkSource:"wrh_products_operations_v",
@@ -40,10 +40,10 @@ module.exports.init = function(app) {
             });
     });
     var repProductsBalanceByBataAttributesTableColumns=[
-        {"data": "UNIT_NAME", "name": "Подразделение", "width": 120, "type": "text",
+        {data: "UNIT_NAME", name: "Подразделение", width: 120, type: "text",
             dataSource:"dir_units", sourceField:"NAME", linkCondition:"dir_units.ID=wrh_products_operations_v.UNIT_ID" },
         { dataSource:"dir_products", linkCondition:"dir_products.ID=wrh_products_operations_v.PRODUCT_ID"},
-        {"data": "SQTY", "name": "Кол-во", dataFunction:{function:"sumIsNull", sourceField:"BATCH_QTY"} }
+        {data: "SQTY", name: "Кол-во", dataFunction:{function:"sumIsNull", sourceField:"BATCH_QTY"} }
     ];
     repProductsBalanceByBataAttributesTableColumns=
         dir_products.addProductBataAttrsColumnsTo(repProductsBalanceByBataAttributesTableColumns,2);
@@ -61,10 +61,10 @@ module.exports.init = function(app) {
             });
     });
     var repProductsBalanceByTypesKindsTableColumns=[
-        {"data": "UNIT_NAME", "name": "Подразделение", "width": 120, "type": "text",
+        {data: "UNIT_NAME", name: "Подразделение", width: 120, type: "text",
             dataSource:"dir_units", sourceField:"NAME", linkCondition:"dir_units.ID=wrh_products_operations_v.UNIT_ID" },
         { dataSource:"dir_products", linkCondition:"dir_products.ID=wrh_products_operations_v.PRODUCT_ID"},
-        {"data": "SQTY", "name": "Кол-во", dataFunction:{function:"sumIsNull", sourceField:"BATCH_QTY"} }
+        {data: "SQTY", name: "Кол-во", dataFunction:{function:"sumIsNull", sourceField:"BATCH_QTY"} }
     ];
     repProductsBalanceByTypesKindsTableColumns=
         dir_products.addProductAttrsColumnsTo(repProductsBalanceByTypesKindsTableColumns,2, {
@@ -84,10 +84,10 @@ module.exports.init = function(app) {
     });
 
     var repProductsBatchesBalanceTableColumns=[
-        {"data": "UNIT_NAME", "name": "Подразделение", "width": 120, "type": "text",
+        {data: "UNIT_NAME", name: "Подразделение", width: 120, type: "text",
             dataSource:"dir_units", sourceField:"NAME", linkCondition:"dir_units.ID=wrh_products_operations_v.UNIT_ID" },
-        {"data": "BATCH_NUMBER", "name": "Партия", width:70, type:"text", align:"center" },
-        {"data": "SQTY", "name": "Кол-во", dataFunction:{function:"sumIsNull", sourceField:"BATCH_QTY"} }
+        {data: "BATCH_NUMBER", name: "Партия", width:70, type:"text", align:"center" },
+        {data: "SQTY", name: "Кол-во", dataFunction:{function:"sumIsNull", sourceField:"BATCH_QTY"} }
     ];
     repProductsBatchesBalanceTableColumns=
         dir_products.addProductColumnsTo(repProductsBatchesBalanceTableColumns,1,{linkSource:"wrh_products_operations_v",
@@ -109,10 +109,10 @@ module.exports.init = function(app) {
     });
 
     var repProductsBalanceWCCTableColumns=[
-        {"data": "UNIT_NAME", "name": "Подразделение", "width": 120, "type": "text",
+        {data: "UNIT_NAME", name: "Подразделение", width: 120, type: "text",
             dataSource:"dir_units", sourceField:"NAME", linkCondition:"dir_units.ID=wrh_products_operations_v.UNIT_ID" },
-        {"data": "SQTY", "name": "Кол-во", dataFunction:{function:"sumIsNull", sourceField:"BATCH_QTY"} },
-        {"data": "COST_SUM", "name": "Себе-стоимость" /*, dataFunction:{function:"sumIsNull", sourceField:"BATCH_QTY"}*/}
+        {data: "SQTY", name: "Кол-во", dataFunction:{function:"sumIsNull", sourceField:"BATCH_QTY"} },
+        {data: "COST_SUM", name: "Себе-стоимость" /*, dataFunction:{function:"sumIsNull", sourceField:"BATCH_QTY"}*/}
     ];
     repProductsBalanceWCCTableColumns=
         dir_products.addProductColumnsTo(repProductsBalanceWCCTableColumns,1,{linkSource:"wrh_products_operations_v",
@@ -134,11 +134,11 @@ module.exports.init = function(app) {
     });
 
     var repProductsBatchesBalanceWCCTableColumns=[
-        {"data": "UNIT_NAME", "name": "Подразделение", "width": 120, "type": "text",
+        {data: "UNIT_NAME", name: "Подразделение", width: 120, type: "text",
             dataSource:"dir_units", sourceField:"NAME", linkCondition:"dir_units.ID=wrh_products_operations_v.UNIT_ID" },
-        {"data": "BATCH_NUMBER", "name": "Партия", width:70, type:"text", align:"center" },
-        {"data": "SQTY", "name": "Кол-во", dataFunction:{function:"sumIsNull", sourceField:"BATCH_QTY"} },
-        {"data": "COST_SUM", "name": "Себе-стоимость" /*, dataFunction:{function:"sumIsNull", sourceField:"BATCH_QTY"}*/}
+        {data: "BATCH_NUMBER", name: "Партия", width:70, type:"text", align:"center" },
+        {data: "SQTY", name: "Кол-во", dataFunction:{function:"sumIsNull", sourceField:"BATCH_QTY"} },
+        {data: "COST_SUM", name: "Себе-стоимость" /*, dataFunction:{function:"sumIsNull", sourceField:"BATCH_QTY"}*/}
     ];
     repProductsBatchesBalanceWCCTableColumns=
         dir_products.addProductColumnsTo(repProductsBatchesBalanceWCCTableColumns,1,{linkSource:"wrh_products_operations_v",
@@ -160,11 +160,11 @@ module.exports.init = function(app) {
     });
 
     var repSearchedProducTableColumns=[
-        {"data": "UNIT_NAME", "name": "Подразделение", "width": 120, "type": "text",
+        {data: "UNIT_NAME", name: "Подразделение", width: 120, type: "text",
             dataSource:"dir_units", sourceField:"NAME", linkCondition:"dir_units.ID=wrh_products_operations_v.UNIT_ID" },
-        {"data": "BATCH_NUMBER", "name": "Партия", width:70, type:"text", align:"center" },
-        {"data": "SQTY", "name": "Кол-во", dataFunction:{function:"sumIsNull", sourceField:"BATCH_QTY"} },
-        {"data": "COST_SUM", "name": "Себе-стоимость" /*, dataFunction:{function:"sumIsNull", sourceField:"BATCH_QTY"}*/}
+        {data: "BATCH_NUMBER", name: "Партия", width:70, type:"text", align:"center" },
+        {data: "SQTY", name: "Кол-во", dataFunction:{function:"sumIsNull", sourceField:"BATCH_QTY"} },
+        {data: "COST_SUM", name: "Себе-стоимость" /*, dataFunction:{function:"sumIsNull", sourceField:"BATCH_QTY"}*/}
     ];
     repSearchedProducTableColumns=
         dir_products.addProductColumnsTo(repSearchedProducTableColumns,1,{linkSource:"wrh_products_operations_v",

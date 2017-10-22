@@ -22,22 +22,22 @@ module.exports.modulePageURL = "/reports/retailSales";
 module.exports.modulePagePath = "reports/retailSales-bata.html";
 module.exports.init = function(app) {
     var repRetailSalesReportTableColumns=[
-        {"data": "ID", "name": "ID", "width": 100, "type": "text", visible:false },
+        {data: "ID", name: "ID", width: 100, type: "text", visible:false },
         { dataSource:"wrh_retail_tickets" },
-        {"data": "UNIT_NAME", "name": "Подразделение", "width": 120, "type": "text",
+        {data: "UNIT_NAME", name: "Подразделение", width: 120, type: "text",
             dataSource:"dir_units", sourceField:"NAME", linkCondition:"dir_units.ID=wrh_retail_tickets.UNIT_ID" },
-        {"data": "DOCDATE", "name": "Дата", dataSource:"wrh_retail_tickets", sourceField:"DOCDATE" },
-        {"data": "DOCNUMBER", "name": "Номер чека", dataSource:"wrh_retail_tickets", sourceField:"NUMBER" },
-        {"data": "BUYER_NAME", "name": "Покупатель", "width": 100, "type": "text", visible:false,
+        {data: "DOCDATE", name: "Дата", dataSource:"wrh_retail_tickets", sourceField:"DOCDATE" },
+        {data: "DOCNUMBER", name: "Номер чека", dataSource:"wrh_retail_tickets", sourceField:"NUMBER" },
+        {data: "BUYER_NAME", name: "Покупатель", width: 100, type: "text", visible:false,
             dataSource:"dir_contractors", sourceField:"NAME", linkCondition:"dir_contractors.ID=wrh_retail_tickets.BUYER_ID" },
-        {"data": "POSITION", "name": "Позиция в чеке", dataFunction:"POS+1" },
-        { "data": "BARCODE", "name": "Штрихкод", "width": 100, "type": "text", align:"center",
+        {data: "POSITION", name: "Позиция в чеке", dataFunction:"POS+1" },
+        { data: "BARCODE", name: "Штрихкод", width: 100, type: "text", align:"center",
             dataSource:"dir_products", sourceField:"PBARCODE", linkCondition:"dir_products.ID=fin_retail_tickets_payments_v.PRODUCT_ID"},
-        {"data": "SALE_PRICE", "name": "Цена" },
-        {"data": "DISCOUNT_PERCENT", "name": "Скидка, %", "width": 70, "type": "text",align:"center", dataFunction:"DISCOUNT*100" },
-        {"data": "PRICE", "name": "Цена со ск." },
-        {"data": "QTY", "name": "Кол-во" },
-        {"data": "POSSUM", "name": "Сумма" }
+        {data: "SALE_PRICE", name: "Цена" },
+        {data: "DISCOUNT_PERCENT", name: "Скидка, %", width: 70, type: "text",align:"center", dataFunction:"DISCOUNT*100" },
+        {data: "PRICE", name: "Цена со ск." },
+        {data: "QTY", name: "Кол-во" },
+        {data: "POSSUM", name: "Сумма" }
     ];
     repRetailSalesReportTableColumns=
         dir_products.addProductColumnsTo(repRetailSalesReportTableColumns,8,{
@@ -52,20 +52,20 @@ module.exports.init = function(app) {
             });
     });
     var repRetailSalesReportWithProductAttrsTableColumns=[
-        {"data": "ID", "name": "ID", "width": 100, "type": "text", visible:false },
+        {data: "ID", name: "ID", width: 100, type: "text", visible:false },
         { dataSource:"wrh_retail_tickets" },
-        {"data": "UNIT_NAME", "name": "Подразделение", "width": 120, "type": "text",
+        {data: "UNIT_NAME", name: "Подразделение", width: 120, type: "text",
             dataSource:"dir_units", sourceField:"NAME", linkCondition:"dir_units.ID=wrh_retail_tickets.UNIT_ID" },
-        {"data": "DOCDATE", "name": "Дата", dataSource:"wrh_retail_tickets", sourceField:"DOCDATE" },
-        {"data": "DOCNUMBER", "name": "Номер чека", dataSource:"wrh_retail_tickets", sourceField:"NUMBER" },
-        {"data": "BUYER_NAME", "name": "Покупатель", "width": 100, "type": "text", visible:false,
+        {data: "DOCDATE", name: "Дата", dataSource:"wrh_retail_tickets", sourceField:"DOCDATE" },
+        {data: "DOCNUMBER", name: "Номер чека", dataSource:"wrh_retail_tickets", sourceField:"NUMBER" },
+        {data: "BUYER_NAME", name: "Покупатель", width: 100, type: "text", visible:false,
             dataSource:"dir_contractors", sourceField:"NAME", linkCondition:"dir_contractors.ID=wrh_retail_tickets.BUYER_ID" },
-        {"data": "POSITION", "name": "Позиция в чеке", dataFunction:"POS+1" },
-        {"data": "SALE_PRICE", "name": "Цена" },
-        {"data": "DISCOUNT_PERCENT", "name": "Скидка, %", "width": 70, "type": "text",align:"center", dataFunction:"DISCOUNT*100" },
-        {"data": "PRICE", "name": "Цена со ск." },
-        {"data": "QTY", "name": "Кол-во" },
-        {"data": "POSSUM", "name": "Сумма" }
+        {data: "POSITION", name: "Позиция в чеке", dataFunction:"POS+1" },
+        {data: "SALE_PRICE", name: "Цена" },
+        {data: "DISCOUNT_PERCENT", name: "Скидка, %", width: 70, type: "text",align:"center", dataFunction:"DISCOUNT*100" },
+        {data: "PRICE", name: "Цена со ск." },
+        {data: "QTY", name: "Кол-во" },
+        {data: "POSSUM", name: "Сумма" }
     ];
     repRetailSalesReportWithProductAttrsTableColumns=
         dir_products.addProductColumnsTo(repRetailSalesReportWithProductAttrsTableColumns,7,{
@@ -84,9 +84,9 @@ module.exports.init = function(app) {
     });
     var repRetailSalesByArticlesTableColumns=[
         { dataSource:"wrh_retail_tickets" },
-        {"data": "PRICE", "name": "Цена" },
-        {"data": "SQTY", "name": "Кол-во", dataFunction:{function:"sumIsNull", source:"wrh_retail_tickets_products", sourceField:"QTY"} },
-        {"data": "SPOSSUM", "name": "Сумма", dataFunction:{function:"sumIsNull", source:"wrh_retail_tickets_products", sourceField:"POSSUM"}}
+        {data: "PRICE", name: "Цена" },
+        {data: "SQTY", name: "Кол-во", dataFunction:{function:"sumIsNull", source:"wrh_retail_tickets_products", sourceField:"QTY"} },
+        {data: "SPOSSUM", name: "Сумма", dataFunction:{function:"sumIsNull", source:"wrh_retail_tickets_products", sourceField:"POSSUM"}}
     ];
     repRetailSalesByArticlesTableColumns=
         dir_products.addProductAttrsColumnsTo(repRetailSalesByArticlesTableColumns,1,{
@@ -103,9 +103,9 @@ module.exports.init = function(app) {
 
     var repRetailSalesByCollectionsTableColumns=[
         { dataSource:"wrh_retail_tickets" },
-        {"data": "PRICE", "name": "Цена" },
-        {"data": "SQTY", "name": "Кол-во", dataFunction:{function:"sumIsNull", source:"wrh_retail_tickets_products", sourceField:"QTY"} },
-        {"data": "SPOSSUM", "name": "Сумма", dataFunction:{function:"sumIsNull", source:"wrh_retail_tickets_products", sourceField:"POSSUM"}}
+        {data: "PRICE", name: "Цена" },
+        {data: "SQTY", name: "Кол-во", dataFunction:{function:"sumIsNull", source:"wrh_retail_tickets_products", sourceField:"QTY"} },
+        {data: "SPOSSUM", name: "Сумма", dataFunction:{function:"sumIsNull", source:"wrh_retail_tickets_products", sourceField:"POSSUM"}}
     ];
     repRetailSalesByCollectionsTableColumns=
         dir_products.addProductAttrsColumnsTo(repRetailSalesByCollectionsTableColumns,1,{
@@ -122,9 +122,9 @@ module.exports.init = function(app) {
 
     var repRetailSalesByBataAttributesTableColumns=[
         { dataSource:"wrh_retail_tickets" },
-        {"data": "PRICE", "name": "Цена" },
-        {"data": "SQTY", "name": "Кол-во", dataFunction:{function:"sumIsNull", source:"wrh_retail_tickets_products", sourceField:"QTY"} },
-        {"data": "SPOSSUM", "name": "Сумма", dataFunction:{function:"sumIsNull", source:"wrh_retail_tickets_products", sourceField:"POSSUM"}}
+        {data: "PRICE", name: "Цена" },
+        {data: "SQTY", name: "Кол-во", dataFunction:{function:"sumIsNull", source:"wrh_retail_tickets_products", sourceField:"QTY"} },
+        {data: "SPOSSUM", name: "Сумма", dataFunction:{function:"sumIsNull", source:"wrh_retail_tickets_products", sourceField:"POSSUM"}}
     ];
     repRetailSalesByBataAttributesTableColumns=
         dir_products.addProductBataAttrsColumnsTo(repRetailSalesByBataAttributesTableColumns,0);
@@ -143,10 +143,10 @@ module.exports.init = function(app) {
             });
     });
     var repRetailSalesByDatesTableColumns=[
-        {"data": "DOCDATE", "name": "Дата", dataSource:"wrh_retail_tickets",sourceField:"DOCDATE" },
-        {"data": "PRICE", "name": "Цена" },
-        {"data": "SQTY", "name": "Кол-во", dataFunction:{function:"sumIsNull", source:"wrh_retail_tickets_products", sourceField:"QTY"} },
-        {"data": "SPOSSUM", "name": "Сумма", dataFunction:{function:"sumIsNull", source:"wrh_retail_tickets_products", sourceField:"POSSUM"} }
+        {data: "DOCDATE", name: "Дата", dataSource:"wrh_retail_tickets",sourceField:"DOCDATE" },
+        {data: "PRICE", name: "Цена" },
+        {data: "SQTY", name: "Кол-во", dataFunction:{function:"sumIsNull", source:"wrh_retail_tickets_products", sourceField:"QTY"} },
+        {data: "SPOSSUM", name: "Сумма", dataFunction:{function:"sumIsNull", source:"wrh_retail_tickets_products", sourceField:"POSSUM"} }
     ];
     repRetailSalesByDatesTableColumns=
         dir_products.addProductAttrsColumnsTo(repRetailSalesByDatesTableColumns,1,{ excludeColumns:{}});
@@ -160,20 +160,20 @@ module.exports.init = function(app) {
             });
     });
     var repRetailSalesTicketsListTableColumns=[
-        {"data": "ID", "name": "ID", "width": 50, "type": "text", readOnly:true, visible:false, dataSource:"wrh_retail_tickets"},
-        {"data": "NUMBER", "name": "Номер", "width": 65, "type": "text", dataSource:"wrh_retail_tickets"},
-        {"data": "DOCDATE", "name": "Дата", "width": 55, "type": "dateAsText", dataSource:"wrh_retail_tickets"},
-        {"data": "UNIT_NAME", "name": "Подразделение", "width": 120, "type": "text", dataSource:"dir_units",
+        {data: "ID", name: "ID", width: 50, type: "text", readOnly:true, visible:false, dataSource:"wrh_retail_tickets"},
+        {data: "NUMBER", name: "Номер", width: 65, type: "text", dataSource:"wrh_retail_tickets"},
+        {data: "DOCDATE", name: "Дата", width: 55, type: "dateAsText", dataSource:"wrh_retail_tickets"},
+        {data: "UNIT_NAME", name: "Подразделение", width: 120, type: "text", dataSource:"dir_units",
             sourceField:"NAME",linkCondition:"dir_units.ID=wrh_retail_tickets.UNIT_ID" },
-        {"data": "BUYER_NAME", "name": "Покупатель", "width": 150, "type": "text", dataSource:"dir_contractors",
+        {data: "BUYER_NAME", name: "Покупатель", width: 150, type: "text", dataSource:"dir_contractors",
             sourceField:"NAME",linkCondition:"dir_contractors.ID=wrh_retail_tickets.BUYER_ID"},
-        {"data": "SQTY", "name": "Кол-во", dataFunction:{function:"sumIsNull", source:"wrh_retail_tickets_products", sourceField:"QTY"} },
-        {"data": "SPOSSUM", "name": "Сумма", dataFunction:{function:"sumIsNull", source:"wrh_retail_tickets_products", sourceField:"POSSUM"} },
-        {"data": "CURRENCY_CODE", "name": "Валюта", "width": 70, "type": "text", dataSource:"sys_currency",
+        {data: "SQTY", name: "Кол-во", dataFunction:{function:"sumIsNull", source:"wrh_retail_tickets_products", sourceField:"QTY"} },
+        {data: "SPOSSUM", name: "Сумма", dataFunction:{function:"sumIsNull", source:"wrh_retail_tickets_products", sourceField:"POSSUM"} },
+        {data: "CURRENCY_CODE", name: "Валюта", width: 70, type: "text", dataSource:"sys_currency",
             sourceField:"CODE", linkCondition:"sys_currency.ID=wrh_retail_tickets.CURRENCY_ID"},
-        {"data": "CURRENCY_CODENAME", "name": "Валюта", "width": 50, "type": "text", visible:false,
+        {data: "CURRENCY_CODENAME", name: "Валюта", width: 50, type: "text", visible:false,
             dataSource:"sys_currency", dataFunction:{function:"concat",fields:["sys_currency.CODE","' ('","sys_currency.NAME","')'"]} },
-        {"data": "DOCSTATE_NAME", "name": "Статус", "width": 110, "type": "text", dataSource:"sys_docstates", sourceField:"NAME",
+        {data: "DOCSTATE_NAME", name: "Статус", width: 110, type: "text", dataSource:"sys_docstates", sourceField:"NAME",
             linkCondition:"sys_docstates.ID=wrh_retail_tickets.DOCSTATE_ID"}
     ];
     app.get("/reports/retailSales/getTicketsList", function(req, res){

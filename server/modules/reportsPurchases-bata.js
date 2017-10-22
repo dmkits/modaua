@@ -15,23 +15,23 @@ module.exports.modulePageURL = "/reports/purchases";
 module.exports.modulePagePath = "reports/purchases-bata.html";
 module.exports.init = function(app) {
     var repPurchasesReportTableColumns=[
-        {"data": "ID", "name": "ID", "width": 100, "type": "text", visible:false },
+        {data: "ID", name: "ID", width: 100, type: "text", visible:false },
         { dataSource:"wrh_pinvs" },
-        {"data": "UNIT_NAME", "name": "Подразделение", "width": 120, "type": "text",
+        {data: "UNIT_NAME", name: "Подразделение", width: 120, type: "text",
             dataSource:"dir_units", sourceField:"NAME", linkCondition:"dir_units.ID=wrh_pinvs.UNIT_ID" },
-        {"data": "SUPPLIER_NAME", "name": "Поставщик", "width": 100, "type": "text", /*visible:false,*/
+        {data: "SUPPLIER_NAME", name: "Поставщик", width: 100, type: "text", /*visible:false,*/
             dataSource:"dir_contractors", sourceField:"NAME", linkCondition:"dir_contractors.ID=wrh_pinvs.SUPPLIER_ID" },
-        {"data": "DOCDATE", "name": "Дата", dataSource:"wrh_pinvs", sourceField:"DOCDATE" },
-        {"data": "DOCNUMBER", "name": "Номер накладной", dataSource:"wrh_pinvs", sourceField:"NUMBER" },
-        {"data": "CURRENCY_CODE", "name": "Валюта", "width": 50, "type": "text", dataSource:"sys_currency", sourceField:"CODE",
+        {data: "DOCDATE", name: "Дата", dataSource:"wrh_pinvs", sourceField:"DOCDATE" },
+        {data: "DOCNUMBER", name: "Номер накладной", dataSource:"wrh_pinvs", sourceField:"NUMBER" },
+        {data: "CURRENCY_CODE", name: "Валюта", width: 50, type: "text", dataSource:"sys_currency", sourceField:"CODE",
             linkCondition:"wrh_pinvs.CURRENCY_ID=sys_currency.ID"},
-        {"data": "RATE", "name": "Курс валюты", "width": 60, "type": "numeric2", dataSource:"wrh_pinvs"},
-        {"data": "POSITION", "name": "Позиция в накладной", dataFunction:"ROUND(POSIND)" },
-        { "data": "BARCODE", "name": "Штрихкод", "width": 100, "type": "text", align:"center",
+        {data: "RATE", name: "Курс валюты", width: 60, type: "numeric2", dataSource:"wrh_pinvs"},
+        {data: "POSITION", name: "Позиция в накладной", dataFunction:"ROUND(POSIND)" },
+        { data: "BARCODE", name: "Штрихкод", width: 100, type: "text", align:"center",
             dataSource:"dir_products", sourceField:"PBARCODE", linkCondition:"dir_products.ID=wrh_pinvs_products.PRODUCT_ID"},
-        {"data": "PRICE", "name": "Цена" },
-        {"data": "QTY", "name": "Кол-во" },
-        {"data": "POSSUM", "name": "Сумма" }
+        {data: "PRICE", name: "Цена" },
+        {data: "QTY", name: "Кол-во" },
+        {data: "POSSUM", name: "Сумма" }
     ];
     repPurchasesReportTableColumns=
         dir_products.addProductColumnsTo(repPurchasesReportTableColumns,10,{
@@ -46,13 +46,13 @@ module.exports.init = function(app) {
             });
     });
     var repPurchasesByDatesTableColumns=[
-        {"data": "DOCDATE", "name": "Дата", dataSource:"wrh_pinvs",sourceField:"DOCDATE" },
-        {"data": "CURRENCY_CODE", "name": "Валюта", "width": 50, "type": "text", dataSource:"sys_currency", sourceField:"CODE",
+        {data: "DOCDATE", name: "Дата", dataSource:"wrh_pinvs",sourceField:"DOCDATE" },
+        {data: "CURRENCY_CODE", name: "Валюта", width: 50, type: "text", dataSource:"sys_currency", sourceField:"CODE",
             linkCondition:"wrh_pinvs.CURRENCY_ID=sys_currency.ID"},
-        {"data": "RATE", "name": "Курс валюты", "width": 60, "type": "numeric2", dataSource:"wrh_pinvs"},
-        {"data": "PRICE", "name": "Цена" },
-        {"data": "SQTY", "name": "Кол-во", dataFunction:{function:"sumIsNull", source:"wrh_pinvs_products", sourceField:"QTY"} },
-        {"data": "SPOSSUM", "name": "Сумма", dataFunction:{function:"sumIsNull", source:"wrh_pinvs_products", sourceField:"POSSUM"} }
+        {data: "RATE", name: "Курс валюты", width: 60, type: "numeric2", dataSource:"wrh_pinvs"},
+        {data: "PRICE", name: "Цена" },
+        {data: "SQTY", name: "Кол-во", dataFunction:{function:"sumIsNull", source:"wrh_pinvs_products", sourceField:"QTY"} },
+        {data: "SPOSSUM", name: "Сумма", dataFunction:{function:"sumIsNull", source:"wrh_pinvs_products", sourceField:"POSSUM"} }
     ];
     repPurchasesByDatesTableColumns=
         dir_products.addProductAttrsColumnsTo(repPurchasesByDatesTableColumns,3,{ excludeColumns:{}});
@@ -66,21 +66,21 @@ module.exports.init = function(app) {
             });
     });
     var repPurchasesWithProdAttrReportTableColumns=[
-        {"data": "ID", "name": "ID", "width": 100, "type": "text", visible:false },
+        {data: "ID", name: "ID", width: 100, type: "text", visible:false },
         { dataSource:"wrh_pinvs" },
-        {"data": "UNIT_NAME", "name": "Подразделение", "width": 120, "type": "text",
+        {data: "UNIT_NAME", name: "Подразделение", width: 120, type: "text",
             dataSource:"dir_units", sourceField:"NAME", linkCondition:"dir_units.ID=wrh_pinvs.UNIT_ID" },
-        {"data": "DOCDATE", "name": "Дата", dataSource:"wrh_pinvs", sourceField:"DOCDATE" },
-        {"data": "DOCNUMBER", "name": "Номер накладной", dataSource:"wrh_pinvs", sourceField:"NUMBER" },
-        {"data": "CURRENCY_CODE", "name": "Валюта", "width": 50, "type": "text", dataSource:"sys_currency", sourceField:"CODE",
+        {data: "DOCDATE", name: "Дата", dataSource:"wrh_pinvs", sourceField:"DOCDATE" },
+        {data: "DOCNUMBER", name: "Номер накладной", dataSource:"wrh_pinvs", sourceField:"NUMBER" },
+        {data: "CURRENCY_CODE", name: "Валюта", width: 50, type: "text", dataSource:"sys_currency", sourceField:"CODE",
             linkCondition:"wrh_pinvs.CURRENCY_ID=sys_currency.ID"},
-        {"data": "RATE", "name": "Курс валюты", "width": 60, "type": "numeric2", dataSource:"wrh_pinvs"},
-        {"data": "SUPPLIER_NAME", "name": "Поставщик", "width": 100, "type": "text", visible:false,
+        {data: "RATE", name: "Курс валюты", width: 60, type: "numeric2", dataSource:"wrh_pinvs"},
+        {data: "SUPPLIER_NAME", name: "Поставщик", width: 100, type: "text", visible:false,
             dataSource:"dir_contractors", sourceField:"NAME", linkCondition:"dir_contractors.ID=wrh_pinvs.SUPPLIER_ID" },
-        {"data": "POSITION", "name": "Позиция в накладной", dataFunction:"ROUND(POSIND)" },
-        {"data": "PRICE", "name": "Цена" },
-        {"data": "QTY", "name": "Кол-во" },
-        {"data": "POSSUM", "name": "Сумма" }
+        {data: "POSITION", name: "Позиция в накладной", dataFunction:"ROUND(POSIND)" },
+        {data: "PRICE", name: "Цена" },
+        {data: "QTY", name: "Кол-во" },
+        {data: "POSSUM", name: "Сумма" }
     ];
     repPurchasesWithProdAttrReportTableColumns=
         dir_products.addProductColumnsTo(repPurchasesWithProdAttrReportTableColumns,9,{
@@ -99,30 +99,30 @@ module.exports.init = function(app) {
     });
 
     var wrhPInvsListTableColumns=[
-        {"data": "ID", "name": "ID", "width": 50, "type": "text", readOnly:true, visible:false, dataSource:"wrh_pinvs"},
-        {"data": "NUMBER", "name": "Номер", "width": 65, "type": "text", dataSource:"wrh_pinvs"},
-        {"data": "DOCDATE", "name": "Дата", "width": 55, "type": "dateAsText", dataSource:"wrh_pinvs"},
-        {"data": "UNIT_NAME", "name": "Подразделение", "width": 120, "type": "text", dataSource:"dir_units", sourceField:"NAME"},
-        {"data": "SUPPLIER_NAME", "name": "Поставщик", "width": 150, "type": "text", dataSource:"dir_contractors", sourceField:"NAME"},
-        {"data": "SUPPLIER_ORDER_NUMBER", "name": "Номер заказа поставщика", "width": 100, "type": "text", dataSource:"wrh_pinvs", sourceField:"SUPPLIER_ORDER_NUM"},
-        {"data": "SUPPLIER_INV_NUMBER", "name": "Номер накл. поставщика", "width": 100, "type": "text", dataSource:"wrh_pinvs", sourceField:"SUPPLIER_INV_NUM"},
-        {"data": "PRODUCT_COLLECTION", "name": "Коллекция", "width": 120, "type": "text", visible:false,
+        {data: "ID", name: "ID", width: 50, type: "text", readOnly:true, visible:false, dataSource:"wrh_pinvs"},
+        {data: "NUMBER", name: "Номер", width: 65, type: "text", dataSource:"wrh_pinvs"},
+        {data: "DOCDATE", name: "Дата", width: 55, type: "dateAsText", dataSource:"wrh_pinvs"},
+        {data: "UNIT_NAME", name: "Подразделение", width: 120, type: "text", dataSource:"dir_units", sourceField:"NAME"},
+        {data: "SUPPLIER_NAME", name: "Поставщик", width: 150, type: "text", dataSource:"dir_contractors", sourceField:"NAME"},
+        {data: "SUPPLIER_ORDER_NUMBER", name: "Номер заказа поставщика", width: 100, type: "text", dataSource:"wrh_pinvs", sourceField:"SUPPLIER_ORDER_NUM"},
+        {data: "SUPPLIER_INV_NUMBER", name: "Номер накл. поставщика", width: 100, type: "text", dataSource:"wrh_pinvs", sourceField:"SUPPLIER_INV_NUM"},
+        {data: "PRODUCT_COLLECTION", name: "Коллекция", width: 120, type: "text", visible:false,
             dataSource:"dir_products_collections", sourceField:"NAME"},
-        {"data": "DOCCOUNT", "name": "Строк", "width": 60, "type": "numeric", visible:false,
+        {data: "DOCCOUNT", name: "Строк", width: 60, type: "numeric", visible:false,
             childDataSource:"wrh_pinvs_products", childLinkField:"PINV_ID", parentLinkField:"ID",
             dataFunction:{function:"rowsCountIsNull", source:"wrh_pinvs_products", sourceField:"POSIND"} },
-        {"data": "DOCQTYSUM", "name": "Кол-во", "width": 60, "type": "numeric",
+        {data: "DOCQTYSUM", name: "Кол-во", width: 60, type: "numeric",
             childDataSource:"wrh_pinvs_products", childLinkField:"PINV_ID", parentLinkField:"ID",
             dataFunction:{function:"sumIsNull", source:"wrh_pinvs_products", sourceField:"QTY"} },
-        {"data": "DOCSUM", "name": "Сумма", "width": 80, "type": "numeric2",
+        {data: "DOCSUM", name: "Сумма", width: 80, type: "numeric2",
             childDataSource:"wrh_pinvs_products", childLinkField:"PINV_ID", parentLinkField:"ID",
             dataFunction:{function:"sumIsNull", source:"wrh_pinvs_products", sourceField:"POSSUM"} },
-        {"data": "CURRENCY_CODE", "name": "Валюта", "width": 70, "type": "text", dataSource:"sys_currency", sourceField:"CODE"},
-        {"data": "CURRENCY_CODENAME", "name": "Валюта", "width": 50, "type": "text", visible:false,
+        {data: "CURRENCY_CODE", name: "Валюта", width: 70, type: "text", dataSource:"sys_currency", sourceField:"CODE"},
+        {data: "CURRENCY_CODENAME", name: "Валюта", width: 50, type: "text", visible:false,
             dataSource:"sys_currency", dataFunction:{function:"concat",fields:["sys_currency.CODE","' ('","sys_currency.NAME","')'"]} },
-        {"data": "DOCSTATE_NAME", "name": "Статус", "width": 110, "type": "text", dataSource:"sys_docstates", sourceField:"NAME"},
-        {"data": "RATE", "name": "Курс валюты", "width": 60, "type": "numeric2", visible:false, dataSource:"wrh_pinvs"},
-        {"data": "BASE_FACTOR", "name": "Базов.коэфф.", "width": 60, "type": "numeric2", visible:false, dataSource:"wrh_pinvs"}
+        {data: "DOCSTATE_NAME", name: "Статус", width: 110, type: "text", dataSource:"sys_docstates", sourceField:"NAME"},
+        {data: "RATE", name: "Курс валюты", width: 60, type: "numeric2", visible:false, dataSource:"wrh_pinvs"},
+        {data: "BASE_FACTOR", name: "Базов.коэфф.", width: 60, type: "numeric2", visible:false, dataSource:"wrh_pinvs"}
     ];
     app.get("/reports/purchases/getPInvsList", function(req, res){
         var conditions={};

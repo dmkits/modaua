@@ -15,20 +15,20 @@ module.exports.modulePageURL = "/reports/sales";
 module.exports.modulePagePath = "reports/sales-bata.html";
 module.exports.init = function(app) {
     var repSalesReportTableColumns=[
-        {"data": "ID", "name": "ID", "width": 100, "type": "text", visible:false },
+        {data: "ID", name: "ID", width: 100, type: "text", visible:false },
         { dataSource:"wrh_invs" },
-        {"data": "UNIT_NAME", "name": "Подразделение", "width": 120, "type": "text",
+        {data: "UNIT_NAME", name: "Подразделение", width: 120, type: "text",
             dataSource:"dir_units", sourceField:"NAME", linkCondition:"dir_units.ID=wrh_invs.UNIT_ID" },
-        {"data": "DOCDATE", "name": "Дата", dataSource:"wrh_invs", sourceField:"DOCDATE" },
-        {"data": "DOCNUMBER", "name": "Номер накладной", dataSource:"wrh_invs", sourceField:"NUMBER" },
-        {"data": "BUYER_NAME", "name": "Покупатель", "width": 100, "type": "text", visible:false,
+        {data: "DOCDATE", name: "Дата", dataSource:"wrh_invs", sourceField:"DOCDATE" },
+        {data: "DOCNUMBER", name: "Номер накладной", dataSource:"wrh_invs", sourceField:"NUMBER" },
+        {data: "BUYER_NAME", name: "Покупатель", width: 100, type: "text", visible:false,
             dataSource:"dir_contractors", sourceField:"NAME", linkCondition:"dir_contractors.ID=wrh_invs.BUYER_ID" },
-        {"data": "POSITION", "name": "Позиция в накладной", dataFunction:"ROUND(POSIND)" },
-        { "data": "BARCODE", "name": "Штрихкод", "width": 100, "type": "text", align:"center",
+        {data: "POSITION", name: "Позиция в накладной", dataFunction:"ROUND(POSIND)" },
+        { data: "BARCODE", name: "Штрихкод", width: 100, type: "text", align:"center",
             dataSource:"dir_products", sourceField:"PBARCODE", linkCondition:"dir_products.ID=wrh_invs_products.PRODUCT_ID"},
-        {"data": "PRICE", "name": "Цена" },
-        {"data": "QTY", "name": "Кол-во" },
-        {"data": "POSSUM", "name": "Сумма" }
+        {data: "PRICE", name: "Цена" },
+        {data: "QTY", name: "Кол-во" },
+        {data: "POSSUM", name: "Сумма" }
     ];
     repSalesReportTableColumns=
         dir_products.addProductColumnsTo(repSalesReportTableColumns,8,{
@@ -43,10 +43,10 @@ module.exports.init = function(app) {
            });
     });
     var repSalesByDatesTableColumns=[
-        {"data": "DOCDATE", "name": "Дата", dataSource:"wrh_invs",sourceField:"DOCDATE" },
-        {"data": "PRICE", "name": "Цена" },
-        {"data": "SQTY", "name": "Кол-во", dataFunction:{function:"sumIsNull", source:"wrh_invs_products", sourceField:"QTY"} },
-        {"data": "SPOSSUM", "name": "Сумма", dataFunction:{function:"sumIsNull", source:"wrh_invs_products", sourceField:"POSSUM"} }
+        {data: "DOCDATE", name: "Дата", dataSource:"wrh_invs",sourceField:"DOCDATE" },
+        {data: "PRICE", name: "Цена" },
+        {data: "SQTY", name: "Кол-во", dataFunction:{function:"sumIsNull", source:"wrh_invs_products", sourceField:"QTY"} },
+        {data: "SPOSSUM", name: "Сумма", dataFunction:{function:"sumIsNull", source:"wrh_invs_products", sourceField:"POSSUM"} }
     ];
     repSalesByDatesTableColumns=
         dir_products.addProductAttrsColumnsTo(repSalesByDatesTableColumns,1,{ excludeColumns:{}});
@@ -60,18 +60,18 @@ module.exports.init = function(app) {
             });
     });
     var repSalesWithProdAttrReportTableColumns=[
-        {"data": "ID", "name": "ID", "width": 100, "type": "text", visible:false },
+        {data: "ID", name: "ID", width: 100, type: "text", visible:false },
         { dataSource:"wrh_invs" },
-        {"data": "UNIT_NAME", "name": "Подразделение", "width": 120, "type": "text",
+        {data: "UNIT_NAME", name: "Подразделение", width: 120, type: "text",
             dataSource:"dir_units", sourceField:"NAME", linkCondition:"dir_units.ID=wrh_invs.UNIT_ID" },
-        {"data": "DOCDATE", "name": "Дата", dataSource:"wrh_invs", sourceField:"DOCDATE" },
-        {"data": "DOCNUMBER", "name": "Номер накладной", dataSource:"wrh_invs", sourceField:"NUMBER" },
-        {"data": "BUYER_NAME", "name": "Покупатель", "width": 100, "type": "text", visible:false,
+        {data: "DOCDATE", name: "Дата", dataSource:"wrh_invs", sourceField:"DOCDATE" },
+        {data: "DOCNUMBER", name: "Номер накладной", dataSource:"wrh_invs", sourceField:"NUMBER" },
+        {data: "BUYER_NAME", name: "Покупатель", width: 100, type: "text", visible:false,
             dataSource:"dir_contractors", sourceField:"NAME", linkCondition:"dir_contractors.ID=wrh_invs.BUYER_ID" },
-        {"data": "POSITION", "name": "Позиция в накладной", dataFunction:"ROUND(POSIND)" },
-        {"data": "PRICE", "name": "Цена" },
-        {"data": "QTY", "name": "Кол-во" },
-        {"data": "POSSUM", "name": "Сумма" }
+        {data: "POSITION", name: "Позиция в накладной", dataFunction:"ROUND(POSIND)" },
+        {data: "PRICE", name: "Цена" },
+        {data: "QTY", name: "Кол-во" },
+        {data: "POSSUM", name: "Сумма" }
     ];
     repSalesWithProdAttrReportTableColumns=
         dir_products.addProductColumnsTo(repSalesWithProdAttrReportTableColumns,7,{
@@ -89,25 +89,25 @@ module.exports.init = function(app) {
             });
     });
     var wrhInvsListTableColumns=[
-        {"data": "ID", "name": "ID", "width": 50, "type": "text", readOnly:true, visible:false, dataSource:"wrh_invs"},
-        {"data": "NUMBER", "name": "Номер", "width": 65, "type": "text", dataSource:"wrh_invs"},
-        {"data": "DOCDATE", "name": "Дата", "width": 55, "type": "dateAsText", dataSource:"wrh_invs"},
-        {"data": "UNIT_NAME", "name": "Подразделение", "width": 120, "type": "text", dataSource:"dir_units", sourceField:"NAME"},
-        {"data": "BUYER_NAME", "name": "Покупатель", "width": 150, "type": "text", dataSource:"dir_contractors", sourceField:"NAME"},
-        {"data": "DOCCOUNT", "name": "Строк", "width": 60, "type": "numeric", visible:false,
+        {data: "ID", name: "ID", width: 50, type: "text", readOnly:true, visible:false, dataSource:"wrh_invs"},
+        {data: "NUMBER", name: "Номер", width: 65, type: "text", dataSource:"wrh_invs"},
+        {data: "DOCDATE", name: "Дата", width: 55, type: "dateAsText", dataSource:"wrh_invs"},
+        {data: "UNIT_NAME", name: "Подразделение", width: 120, type: "text", dataSource:"dir_units", sourceField:"NAME"},
+        {data: "BUYER_NAME", name: "Покупатель", width: 150, type: "text", dataSource:"dir_contractors", sourceField:"NAME"},
+        {data: "DOCCOUNT", name: "Строк", width: 60, type: "numeric", visible:false,
             childDataSource:"wrh_invs_products", childLinkField:"INV_ID", parentLinkField:"ID",
             dataFunction:{function:"rowsCountIsNull", source:"wrh_invs_products", sourceField:"POSIND"} },
-        {"data": "DOCQTYSUM", "name": "Кол-во", "width": 60, "type": "numeric",
+        {data: "DOCQTYSUM", name: "Кол-во", width: 60, type: "numeric",
             childDataSource:"wrh_invs_products", childLinkField:"INV_ID", parentLinkField:"ID",
             dataFunction:{function:"sumIsNull", source:"wrh_invs_products", sourceField:"QTY"} },
-        {"data": "DOCSUM", "name": "Сумма", "width": 80, "type": "numeric2",
+        {data: "DOCSUM", name: "Сумма", width: 80, type: "numeric2",
             childDataSource:"wrh_invs_products", childLinkField:"INV_ID", parentLinkField:"ID",
             dataFunction:{function:"sumIsNull", source:"wrh_invs_products", sourceField:"POSSUM"} },
-        {"data": "CURRENCY_CODE", "name": "Валюта", "width": 70, "type": "text", dataSource:"sys_currency", sourceField:"CODE"},
-        {"data": "CURRENCY_CODENAME", "name": "Валюта", "width": 50, "type": "text", visible:false,
+        {data: "CURRENCY_CODE", name: "Валюта", width: 70, type: "text", dataSource:"sys_currency", sourceField:"CODE"},
+        {data: "CURRENCY_CODENAME", name: "Валюта", width: 50, type: "text", visible:false,
             dataSource:"sys_currency", dataFunction:{function:"concat",fields:["sys_currency.CODE","' ('","sys_currency.NAME","')'"]} },
-        {"data": "DOCSTATE_NAME", "name": "Статус", "width": 110, "type": "text", dataSource:"sys_docstates", sourceField:"NAME"},
-        {"data": "RATE", "name": "Курс валюты", "width": 60, "type": "numeric2", visible:false, dataSource:"wrh_invs"}
+        {data: "DOCSTATE_NAME", name: "Статус", width: 110, type: "text", dataSource:"sys_docstates", sourceField:"NAME"},
+        {data: "RATE", name: "Курс валюты", width: 60, type: "numeric2", visible:false, dataSource:"wrh_invs"}
     ];
     app.get("/reports/sales/getInvsList", function(req, res){
         var conditions={};

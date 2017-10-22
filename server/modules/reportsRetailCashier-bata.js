@@ -12,25 +12,25 @@ module.exports.modulePageURL = "/reports/retailCashier";
 module.exports.modulePagePath = "reports/retailCashier-bata.html";
 module.exports.init = function(app) {
     var repRetailCashReportTableColumns=[
-        {"data": "DOCDATE", "name": "Дата чека", sourceField:"DOCDATE" },
-        {"data": "DOCNUMBER", "name": "Номер чека", sourceField:"NUMBER" },
-        {"data": "POS", "name": "Позиция", visible:false },
-        {"data": "SALE_PRICE", "name": "Цена"  },
-        {"data": "DISCOUNT_PERCENT", "name": "Скидка ", "width": 65, align:"center", dataFunction:"DISCOUNT*100" },
-        {"data": "PRICE", "name": "Цена со ск." },
-        {"data": "QTY", "name": "Кол-во" },
-        {"data": "SALE_QTY", "name": "Кол-во продаж", visible:false },
-        {"data": "RET_SALE_QTY", "name": "Кол-во возвратов", visible:false },
-        {"data": "POSSUM", "name": "Сумма" },
-        {"data": "SALE_POSSUM", "name": "Сумма продаж", visible:false },
-        {"data": "RET_SALE_POSSUM", "name": "Сумма возвратов", visible:false },
-        {"data": "SEP1", "name": " ", "width": 5, "type": "text", useFilter:false },
-        {"data": "CASH_SUM", "name": "Сумма нал."  },
-        {"data": "CARD_SUM", "name": "Сумма плат.карт." },
-        {"data": "SALE_CASH_SUM", "name": "Сумма продаж нал.", visible:false },
-        {"data": "SALE_CARD_SUM", "name": "Сумма продаж плат.карт.", visible:false },
-        {"data": "RET_SALE_CASH_SUM", "name": "Сумма возвратов нал", visible:false },
-        {"data": "RET_SALE_CARD_SUM", "name": "Сумма возвратов плат.карт.", visible:false }
+        {data: "DOCDATE", name: "Дата чека", sourceField:"DOCDATE" },
+        {data: "DOCNUMBER", name: "Номер чека", sourceField:"NUMBER" },
+        {data: "POS", name: "Позиция", visible:false },
+        {data: "SALE_PRICE", name: "Цена"  },
+        {data: "DISCOUNT_PERCENT", name: "Скидка ", width: 65, align:"center", dataFunction:"DISCOUNT*100" },
+        {data: "PRICE", name: "Цена со ск." },
+        {data: "QTY", name: "Кол-во" },
+        {data: "SALE_QTY", name: "Кол-во продаж", visible:false },
+        {data: "RET_SALE_QTY", name: "Кол-во возвратов", visible:false },
+        {data: "POSSUM", name: "Сумма" },
+        {data: "SALE_POSSUM", name: "Сумма продаж", visible:false },
+        {data: "RET_SALE_POSSUM", name: "Сумма возвратов", visible:false },
+        {data: "SEP1", name: " ", width: 5, type: "text", useFilter:false },
+        {data: "CASH_SUM", name: "Сумма нал."  },
+        {data: "CARD_SUM", name: "Сумма плат.карт." },
+        {data: "SALE_CASH_SUM", name: "Сумма продаж нал.", visible:false },
+        {data: "SALE_CARD_SUM", name: "Сумма продаж плат.карт.", visible:false },
+        {data: "RET_SALE_CASH_SUM", name: "Сумма возвратов нал", visible:false },
+        {data: "RET_SALE_CARD_SUM", name: "Сумма возвратов плат.карт.", visible:false }
     ];
     repRetailCashReportTableColumns=
         dir_products.addProductColumnsTo(repRetailCashReportTableColumns,3,{linkSource:"fin_retail_tickets_payments_v",
@@ -45,17 +45,17 @@ module.exports.init = function(app) {
             });
     });
     var repRetailCashBalanceTableColumns=[
-        {"data": "DOCDATE", "name": "Дата", "type": "dateAsText", sourceField:"DOCDATE" },
-        {"data": "DOCNUMBER", "name": "Номер", "type": "numeric", sourceField:"NUMBER" },
-        {"data": "SUM_BEGIN_BALANCE", "name": "Начальный остаток", "width": 90 },
-        {"data": "SUM_CASH_IN", "name": "Сумма вноса", sourceField:"CASH_IN" },
-        {"data": "SUM_CASH_OUT", "name": "Сумма выноса", sourceField:"CASH_OUT" },
-        {"data": "CASH_IN_OUT_PURPOSE", "name": "Причина вноса/выноса", width:150 },
-        {"data": "PURPOSE_NOTE", "name": "Примечание вноса/выноса", width:150 },
-        {"data": "TICKET_DOCNUMBER", "name": "Номер чека", "width": 65, "type": "numeric", sourceField:"TICKET_NUMBER" },
-        {"data": "SUM_CASH_SALE", "name": "Сумма чека", sourceField:"CASH_SALE" },
-        {"data": "SUM_CASH_RET_SALE", "name": "Сумма возврата", sourceField:"CASH_RET_SALE" },
-        {"data": "SUM_END_BALANCE", "name": "Конечный остаток", "width": 90 }
+        {data: "DOCDATE", name: "Дата", type: "dateAsText", sourceField:"DOCDATE" },
+        {data: "DOCNUMBER", name: "Номер", type: "numeric", sourceField:"NUMBER" },
+        {data: "SUM_BEGIN_BALANCE", name: "Начальный остаток", width: 90 },
+        {data: "SUM_CASH_IN", name: "Сумма вноса", sourceField:"CASH_IN" },
+        {data: "SUM_CASH_OUT", name: "Сумма выноса", sourceField:"CASH_OUT" },
+        {data: "CASH_IN_OUT_PURPOSE", name: "Причина вноса/выноса", width:150 },
+        {data: "PURPOSE_NOTE", name: "Примечание вноса/выноса", width:150 },
+        {data: "TICKET_DOCNUMBER", name: "Номер чека", width: 65, type: "numeric", sourceField:"TICKET_NUMBER" },
+        {data: "SUM_CASH_SALE", name: "Сумма чека", sourceField:"CASH_SALE" },
+        {data: "SUM_CASH_RET_SALE", name: "Сумма возврата", sourceField:"CASH_RET_SALE" },
+        {data: "SUM_END_BALANCE", name: "Конечный остаток", width: 90 }
     ];
     app.get("/reports/retailCashier/getRetailCashBalance", function (req, res) {
         fin_retail_receipts_payments_v.getDataForDocTable({tableColumns:repRetailCashBalanceTableColumns,
