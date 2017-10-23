@@ -16,6 +16,7 @@
     "main",
     "print",
     "system",
+    "syncService",
     "mainPage",
     "dirPriceLists",
     "dirUnits",

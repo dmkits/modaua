@@ -1,6 +1,4 @@
-var path = require('path');
-
-var fs = require('fs');
+var path = require('path'), fs = require('fs');
 var server=require('../server'), getLoadInitModulesError=server.getLoadInitModulesError;
 var log = server.log;
 var appParams=server.getAppStartupParams(), getServerConfig=server.getServerConfig, setAppConfig=server.setAppConfig;

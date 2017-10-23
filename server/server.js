@@ -72,17 +72,18 @@ var database = require('./database');                                           
 
 var configFileName=serverConfig.configName || 'config.json';
 var config=JSON.parse(util.getJSONWithoutComments(fs.readFileSync('./'+configFileName,'utf-8')));
-module.exports.getConfig=function(){ return config; }
+module.exports.getConfig=function(){ return config; };
 module.exports.getConfigAppMenu=function(){ return (config&&config.appMenu)?config.appMenu:null; };
 module.exports.getConfigModules=function(){ return (config&&config.modules)?config.modules:null; };
 
-server.use(function (req, res, next) {                                                              log.info("REQUEST CONTROLLER:", req.url, req.method, " params:", req.query, " body:", req.body);
+server.use(function (req, res, next) {                                                              log.info("REQUEST CONTROLLER:", req.url, req.method, " params:", req.query, " headers:", req.headers);
     next();
 });
 server.use(cookieParser());
 server.use(bodyParser.urlencoded({extended: true,limit: '5mb'}));
 server.use(bodyParser.json({limit: '5mb'}));
 server.use(bodyParser.text({limit: '5mb'}));
+server.use(bodyParser.xml());
 server.use('/', express.static('public'));
 server.set('view engine','ejs');
 
