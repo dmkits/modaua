@@ -170,19 +170,13 @@ module.exports.init = function(app) {
         dir_products.addProductColumnsTo(repSearchedProducTableColumns,1,{linkSource:"wrh_products_operations_v",
             visibleColumns:{"CODE":true,"NAME":true,"UM":true,"PRINT_NAME":false,"PBARCODE":false}});
 
-    app.get("/wrh/productsBalance/getSearchedProducts", function (req, res) {
-       var outData={};
-
-        if(!req.query.STR_TARGET){
-            outData.columns=repSearchedProducTableColumns;
-            res.send(outData);
-            return;
-        }
-
+    app.get("/reports/productsBalance/getSearchedProducts", function (req, res) {
         var str_target=req.query.STR_TARGET;
-        var conditions={};
-        conditions["dir_products.NAME LIKE '%"+str_target+"%' "]=null;
-
+        var conditions=null;
+        if(req.query.STR_TARGET){
+            conditions={};
+            conditions["dir_products.NAME LIKE '%"+str_target+"%' "]=null;
+        }
         wrh_products_operations_v.getDataForDocTable({tableColumns:repSearchedProducTableColumns,
                 identifier:repProductsBalanceTableColumns[0].data,
                 conditions:conditions,

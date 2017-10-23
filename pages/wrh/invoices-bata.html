@@ -61,27 +61,12 @@
                         .addToolPaneActionButton("Удалить накладную", {action:"deleteHeader"}, "width:200px;")
                         .addToolPaneBR()
                         .addToolPaneActionButton("Добавить из остатков", {/*action:"showSearchDialog"*/}, "width:200px;",{}, function() {
-                                var condition = {};
-                            Request.getJSONData({
-                                        url: "/wrh/productsBalance/getSearchedProducts", condition: condition, consoleLog: true},
-                                    function (success, result) {
-                                        if (success && result) {
-                                            var buttons = [];
-                                            var addBtn = {"label": "Добавить", onClickFunction: function (dialog, data) {}};
-                                            var cancelBtn = {"label": "Отменить", onClickFunction: function (dialog, data) {}};
-                                            buttons.push(addBtn, cancelBtn);
-                                            DialogsWTable.showDialog({"title": "Добавить из остатков", "buttons": buttons, width: "600px;"}, result,
-                                                    function (targetStr) {
-                                                        condition["STR_TARGET"] = targetStr;
-                                                        Request.getJSONData({url: "/wrh/productsBalance/getSearchedProducts", condition: condition, consoleLog: true},
-                                                                function (success, result) {
-                                                                    if (success && result) {
-                                                                        DialogsWTable.showDialog({"title": "Добавить из остатков", "buttons": buttons, width: "600px;"}, result);
-                                                                    }
-                                                                });
-                                                    });
-                                        }
-                                    });
+                            DialogsWTable.showDialogProdBalance({"title": "Добавить из остатков", url: "/reports/productsBalance/getSearchedProducts", /*minSearchStrLength:3,*/
+                                width: "685px;"}, function(selectedRows, dialog){
+                                console.log("dialog=",dialog);
+                                console.log("selectedRows=",selectedRows);
+                                /*....*/
+                            })
                         })
                         .addToolPaneActionButton("Добавить строку", {action:"insertDetailTableRow",rowPosIndexName:"POSIND",rowPosName:"POS"}, "width:200px;")
                         .addToolPaneActionButton("Копировать строку", {action:"insertDetailTableCopySelectedRow"}, "width:200px;")
