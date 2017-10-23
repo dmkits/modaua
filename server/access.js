@@ -27,7 +27,8 @@ module.exports= function(app){                                                  
                 configUser=configUsers[i];
                 if(user==configUser.userLogin && pswrd==configUser.pswrd){
                     userAccess= true;
-                    if(configUser.userRole=="sysAdmin"||configUser.userRole=="sysAdminDev") sysadminAccess=true;
+                    if(configUser.userRole &&
+                        (configUser.userRole=="sysAdmin"||configUser.userRole.indexOf("sysAdminDev")>=0)) sysadminAccess=true;
                     break;
                 }
             }
