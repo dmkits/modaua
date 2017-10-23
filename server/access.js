@@ -10,7 +10,10 @@ module.exports= function(app){                                                  
         return (headers&&headers["content-type"]=="application/json;charset=UTF-8"&&headers["Accept"]=="application/json");
     };
 
-    app.use(function (req, res, next) {                                                     log.info("ACCESS CONTROLLER for check user access:",req.url,req.method," params:",req.query," body:",req.body);
+    app.use(function (req, res, next) {
+        if(!server.logDebug)log.info("ACCESS CONTROLLER for check user access:"," params:",req.query);
+        else if(server.logDebug&&req.method=="GET")log.debug("ACCESS CONTROLLER for check user access:"," params:",req.query,{});
+        else if(server.logDebug&&req.method=="POST")log.debug("ACCESS CONTROLLER for check user access:"," params:",req.query,"\n body:",req.body,{});
         if(req.originalUrl=="/login" && req.method=="POST"){
             var userName=req.body.user, userPswrd=req.body.pswrd;
             res.cookie("mduUser", userName);

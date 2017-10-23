@@ -157,7 +157,7 @@ module.exports.initValidateDataModels=function(dataModelsList, errs, resultCallb
  * fieldsFunctions[].function: "maxPlus1" / "concat"
  * resultCallback = function(err, recordset)
  */
-function _getSelectItems(params, resultCallback){                                                       log.debug("_getSelectItems params:",params,{});//test
+function _getSelectItems(params, resultCallback){                                                       //log.debug("_getSelectItems params:",params,{});//test
     if(!params){                                                                                        log.error("FAILED _getSelectItems! Reason: no function parameters!");//test
         resultCallback("FAILED _getSelectItems! Reason: no function parameters!");
         return;

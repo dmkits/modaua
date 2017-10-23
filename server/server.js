@@ -1,8 +1,9 @@
 var startDateTime=new Date(), startTime=startDateTime.getTime();                                    console.log('STARTING at ',startDateTime );//test
 try{
     var ENV=process.env.NODE_ENV;                                                                   if(ENV=="development") console.log("START IN DEVELOPMENT MODE");
-    var util=require('./util'), appStartupParams = util.getStartupParams();
-    var logDebug = (appStartupParams && appStartupParams.logDebug);                                 if(logDebug) console.log("DEBUG LOG ON");
+    var util=require('./util'), appStartupParams = util.getStartupParams();                         console.log('Started with startup params:',appStartupParams);//test
+    var logDebug = (ENV=='development' || (appStartupParams && appStartupParams.logDebug));         if(logDebug) console.log("DEBUG LOG ON");
+    module.exports.logDebug = logDebug;
     var path = require('path'), fs = require('fs'), dateformat =require('dateformat'),
         log = require('winston');
 } catch(e){                                                                                         console.log("FAILED START! Reason: ", e.message);
@@ -16,7 +17,7 @@ module.exports.getAppStartupParams = function(){
 if (appStartupParams.logToConsole) {
     log.configure({
         transports: [
-            new (log.transports.Console)({ colorize: true,level:(ENV=='development'||logDebug)?'silly':'info', timestamp: function() {
+            new (log.transports.Console)({ colorize: true,level:(logDebug)?'silly':'info', timestamp: function() {
                 return dateformat(Date.now(), "yyyy-mm-dd HH:MM:ss.l");
             } })
         ]
@@ -36,7 +37,7 @@ if (appStartupParams.logToConsole) {
         datePattern: '.yyyy-MM-dd',
         filename: path.join(logDir, "log_file.log")
     }));
-    log = new log.Logger({transports: transports,level:(ENV=='development'||logDebug)?'silly':'info', timestamp: function() {
+    log = new log.Logger({transports: transports,level:(logDebug)?'silly':'info', timestamp: function() {
         return dateformat(Date.now(), "yyyy-mm-dd HH:MM:ss.l");
     }});
 }                                                                                                   log.info('STARTING at', startDateTime );//test
@@ -80,7 +81,7 @@ module.exports.getConfig=function(){ return config; };
 module.exports.getConfigAppMenu=function(){ return (config&&config.appMenu)?config.appMenu:null; };
 module.exports.getConfigModules=function(){ return (config&&config.modules)?config.modules:null; };
 
-server.use(function (req, res, next) {                                                              log.info("REQUEST CONTROLLER:", req.url, req.method);
+server.use(function (req, res, next) {                                                              log.info("REQUEST CONTROLLER:",req.method,req.url);
     next();
 });
 server.use(cookieParser());
