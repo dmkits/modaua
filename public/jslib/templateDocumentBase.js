@@ -173,6 +173,20 @@ define(["dojo/_base/declare", "dijit/layout/BorderContainer", "dijit/layout/Layo
                 if (params.inputStyle!==undefined) textBoxParams.style=params.inputStyle;
                 return new TextBox(textBoxParams,inputTextBox);
             },
+
+            addTableInputTo: function(tableRowNode, params){
+                if (!params) params={};
+                //if (!params.inputStyle) params.inputStyle="";
+                //if (!params.style) params.style="";
+                var tableCell= this.addLeftCellToTableRow(tableRowNode, params.cellWidth, params.cellStyle);
+                var input= this.createInputTo(tableCell, params.labelText/*, params.labelStyle*/);
+                //var select= APP.instanceFor(input, Select,
+                //    {style:params.inputStyle+params.style, labelDataItem:params.labelDataItem,loadDropDownURL:params.loadDropDownURL,
+                //        /*it's for print*/cellWidth:cellWidth, labelText:label, printStyle:params.style, inputStyle:params.inputStyle });
+                //this.detailHeader.addControlElementObject(select, itemName);
+                //this.addDetailHeaderElement(false,select);
+                return input;
+            },
             /*
              * params= {labelText,labelStyle, inputStyle, cellWidth,cellStyle, initValueDate, inputParams}
              */

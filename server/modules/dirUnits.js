@@ -65,4 +65,10 @@ module.exports.init = function(app){
                 res.send(result);
             });
     });
+    app.get("/dir/units/getUnitsForCombobox", function(req, res){
+        dir_units.getDataItemsForSelect({valueField:"NAME",labelField:"NAME", conditions:{"NOT_USED=":0}, order: "NAME" },
+            function (result) {
+                res.send(result);
+            });
+    });
 };

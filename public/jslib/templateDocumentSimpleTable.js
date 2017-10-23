@@ -1,8 +1,8 @@
 /**
  * Created by dmkits on 18.12.16.
  */
-define(["dojo/_base/declare", "app", "templateDocumentBase", "hTableSimpleFiltered"],
-    function(declare, APP, DocumentBase, HTable) {
+define(["dojo/_base/declare", "app", "templateDocumentBase","dijit/form/Select", "hTableSimpleFiltered","request"],
+    function(declare, APP, DocumentBase,Select, HTable, Request) {
         return declare("TemplateDocumentSimpleTable", [DocumentBase], {
             /*
             * args: {titleText, dataURL, dataURLCondition={...}, rightPane:true/false, rightPaneWidth,
@@ -145,11 +145,71 @@ define(["dojo/_base/declare", "app", "templateDocumentBase", "hTableSimpleFilter
                 if (initValueDate===undefined||initValueDate===null) initValueDate= APP.today();
                 this.endDateBox= this.addTableCellDateBoxTo(this.topTableRow,
                     {labelText:labelText, labelStyle:"margin-left:5px;", cellWidth:150, cellStyle:"text-align:right;",
-                        inputParams:{conditionName:conditionName}, initValueDate:initValueDate});;
+                        inputParams:{conditionName:conditionName}, initValueDate:initValueDate});
                 var instance = this;
                 this.endDateBox.onChange = function(){
                     instance.loadTableContent();
                 };
+                return this;
+            },
+
+            addSelectBox:function(label, params){
+                var input=this.addTableInputTo(this.topTableRow,{labelText:label, /*labelStyle:"margin-left:5px;",*/ cellWidth:200, cellStyle:"text-align:right;"});
+                var select= APP.instanceFor(input, Select,
+                    {style:"width:180px;", labelDataItem:params.labelDataItem,loadDropDownURL:params.loadDropDownURL,contentTableCondition:params.contentTableCondition});
+                        ///*it's for print*/cellWidth:cellWidth, labelText:label, printStyle:params.style, inputStyle:params.inputStyle });
+                if(!this.selectBoxes) this.selectBoxes=[];
+                this.selectBoxes.push(select);
+                select.loadDropDownValuesFromServer= function(callback){
+                    Request.getJSONData({url: select.loadDropDownURL, consoleLog: true},
+                        function (success,data) {
+                            var options=select.get("options"),value = select.get("value");
+                            if (success&&data.items) {
+                                select.set("options", data.items);
+                                select.set("value", value);
+                            } else if (success&&!data.items) console.log("templateDocumentSimpleTable.addSelectBox loadDropDown getJSONData data error:",data);
+                            if(callback) callback();
+                        });
+                };
+                select.selectToggleDropDown= select.toggleDropDown;
+                select.toggleDropDown= function(){                                                                   //console.log("ContentController.setSelectDropDown toggleDropDown");
+                    select.loadDropDownValuesFromServer(function(){
+                        select.selectToggleDropDown();
+                    });
+                };
+                var thisInstance=this;
+                select.onChange=function(){
+                    thisInstance.loadTableContent();
+                    //setSelectDropDown(select);
+                    //select.selectToggleDropDown= select.toggleDropDown;
+                    //selectObj.toggleDropDown= function(){                                                                   //console.log("ContentController.setSelectDropDown toggleDropDown");
+                    //    Request.getJSONData({url: selectObj.loadDropDownURL, consoleLog: true},
+                    //        function (success,data) {
+                    //            var options=selectObj.get("options"),value = selectObj.get("value");
+                    //            if (success&&data.items) {
+                    //                selectObj.set("options", data.items);
+                    //                selectObj.set("value", value);
+                    //            } else if (success&&!data.items) console.log("ContentController.setSelectDropDown loadDropDown getJSONData data error:",data);
+                    //            selectObj.selectToggleDropDown();
+                    //        });
+                };
+                function setSelectDropDown(selectObj) {
+                    selectObj.selectToggleDropDown= selectObj.toggleDropDown;
+                    selectObj.toggleDropDown= function(){                                                                   //console.log("ContentController.setSelectDropDown toggleDropDown");
+                        Request.getJSONData({url: selectObj.loadDropDownURL, consoleLog: true},
+                            function (success,data) {
+                                var options=selectObj.get("options"),value = selectObj.get("value");
+                                if (success&&data.items) {
+                                    selectObj.set("options", data.items);
+                                    selectObj.set("value", value);
+                                } else if (success&&!data.items) console.log("ContentController.setSelectDropDown loadDropDown getJSONData data error:",data);
+                                selectObj.selectToggleDropDown();
+                            });
+                    };
+                }
+
+             //   this.setContentFromUrl(params.loadDropDownURL);
+
                 return this;
             },
             /*
@@ -488,6 +548,11 @@ define(["dojo/_base/declare", "app", "templateDocumentBase", "hTableSimpleFilter
                 if (this.buttonUpdate!=false&&!this.btnUpdate) this.addBtnUpdate();
                 if (this.buttonPrint!=false&&!this.btnPrint) this.addBtnPrint();
                 if (this.buttonExportToExcel!=false&&!this.btnExportToExcel) this.addBtnExportToExcel();
+                if(this.selectBoxes)
+                    for(var i=0;i<this.selectBoxes.length;i++){
+                        var selectBox= this.selectBoxes[i];
+                        if(selectBox.loadDropDownValuesFromServer) selectBox.loadDropDownValuesFromServer();
+                    }
                 this.loadTableContent();
                 this.layout();
                 return this;
