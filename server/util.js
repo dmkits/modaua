@@ -21,6 +21,8 @@ module.exports.getStartupParams = function() {
             var logParam = process.argv[i].replace("-log:", "");
             if (logParam.toLowerCase() == "console") {
                 app_params.logToConsole = true;
+            } else if (logParam.toLowerCase() == "debug") {
+                app_params.logDebug = true;
             }
         }
     }
