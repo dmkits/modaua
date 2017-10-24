@@ -86,6 +86,16 @@ define(["dojo/_base/declare", "app", "templateDocumentBase","dijit/form/Select",
                             for(var conditionItemName in btnConditions) condition[conditionItemName]=btnConditions[conditionItemName];
                     }
                 }
+                if(this.selectBoxes){
+                    for(var j in this.selectBoxes){
+                        var selectBox=this.selectBoxes[j];
+                    if (selectBox.contentTableCondition.indexOf("UNIT_NAME")>=0){
+                        selectBox.contentTableCondition=selectBox.contentTableCondition.replace("UNIT_NAME","dir_units.NAME");
+                    }
+                        condition[selectBox.contentTableCondition.replace("=","~")] =selectBox.get("value");
+                    }
+                }
+
                 if (additionalCondition)
                     for(var addConditionItemName in additionalCondition)
                         condition[addConditionItemName.replace("=","~")]=additionalCondition[addConditionItemName];
@@ -180,18 +190,6 @@ define(["dojo/_base/declare", "app", "templateDocumentBase","dijit/form/Select",
                 var thisInstance=this;
                 select.onChange=function(){
                     thisInstance.loadTableContent();
-                    //setSelectDropDown(select);
-                    //select.selectToggleDropDown= select.toggleDropDown;
-                    //selectObj.toggleDropDown= function(){                                                                   //console.log("ContentController.setSelectDropDown toggleDropDown");
-                    //    Request.getJSONData({url: selectObj.loadDropDownURL, consoleLog: true},
-                    //        function (success,data) {
-                    //            var options=selectObj.get("options"),value = selectObj.get("value");
-                    //            if (success&&data.items) {
-                    //                selectObj.set("options", data.items);
-                    //                selectObj.set("value", value);
-                    //            } else if (success&&!data.items) console.log("ContentController.setSelectDropDown loadDropDown getJSONData data error:",data);
-                    //            selectObj.selectToggleDropDown();
-                    //        });
                 };
                 function setSelectDropDown(selectObj) {
                     selectObj.selectToggleDropDown= selectObj.toggleDropDown;
@@ -207,9 +205,6 @@ define(["dojo/_base/declare", "app", "templateDocumentBase","dijit/form/Select",
                             });
                     };
                 }
-
-             //   this.setContentFromUrl(params.loadDropDownURL);
-
                 return this;
             },
             /*
