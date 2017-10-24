@@ -46,7 +46,8 @@ module.exports.init = function(app) {
         {data: "DOCDATE", name: "Дата", dataSource:"wrh_invs",sourceField:"DOCDATE" },
         {data: "PRICE", name: "Цена" },
         {data: "SQTY", name: "Кол-во", dataFunction:{function:"sumIsNull", source:"wrh_invs_products", sourceField:"QTY"} },
-        {data: "SPOSSUM", name: "Сумма", dataFunction:{function:"sumIsNull", source:"wrh_invs_products", sourceField:"POSSUM"} }
+        {data: "SPOSSUM", name: "Сумма", dataFunction:{function:"sumIsNull", source:"wrh_invs_products", sourceField:"POSSUM"} },
+        {data: "UNIT_NAME", name: "Подразделение", dataSource:"dir_units", sourceField:"NAME", linkCondition:"wrh_invs.UNIT_ID=dir_units.ID", visible:false}
     ];
     repSalesByDatesTableColumns=
         dir_products.addProductAttrsColumnsTo(repSalesByDatesTableColumns,1,{ excludeColumns:{}});
@@ -111,7 +112,12 @@ module.exports.init = function(app) {
     ];
     app.get("/reports/sales/getInvsList", function(req, res){
         var conditions={};
-        for(var condItem in req.query) conditions["wrh_invs."+condItem]=req.query[condItem];
+        for(var condItem in req.query) {
+            if (condItem.indexOf("DOCDATE")>=0) {
+                conditions["wrh_invs."+condItem]=req.query[condItem];
+            }
+            conditions[condItem]=req.query[condItem];
+        }
         wrh_invs.getDataForDocTable({tableColumns:wrhInvsListTableColumns,
                 identifier:wrhInvsListTableColumns[0].data,
                 conditions:conditions,

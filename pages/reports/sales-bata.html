@@ -39,6 +39,9 @@
                                 APP.childFor(sales_ContentPaneDetailContainer, "sales_TableSales",
                                         TDocumentSimpleTable, {titleText:"Продажи по накладным", dataURL:"/reports/sales/getSales"})
                                         .addBeginDateBox("с","DOCDATE>=", {initValueDate:"curMonthBDate"}).addEndDateBox("по","DOCDATE<=")
+                                        .addSelectBox("Подразделение",{valueItemName:"UNIT_NAME", labelItemName:"UNIT_NAME",
+                                            loadDropDownURL:"/dir/units/getDirUnitsForSelect",
+                                            contentTableCondition:"UNIT_NAME="})
                                         .addTotalCountNumberBox("ИТОГО строк:", 140)
                                         .addTotalSumNumberTextBox("ИТОГО кол-во:", 595, "QTY", {style:"font-weight:bold;"})
                                         .addTotalSumNumberTextBox("ИТОГО сумма:", 200, "POSSUM", {style:"font-weight:bold;"})
@@ -52,6 +55,9 @@
                                 APP.childFor(sales_ContentPaneDetailContainer, "sales_TableSalesByDays",
                                         TDocumentSimpleTable, {titleText:"Продажи по дням", dataURL:"/reports/sales/getSalesByDates"})
                                         .addBeginDateBox("с","DOCDATE>=", {initValueDate:"curMonthBDate"}).addEndDateBox("по","DOCDATE<=")
+                                        .addSelectBox("Подразделение",{valueItemName:"UNIT_NAME", labelItemName:"UNIT_NAME",
+                                            loadDropDownURL:"/dir/units/getDirUnitsForSelect",
+                                            contentTableCondition:"UNIT_NAME="})
                                         .addTotalCountNumberBox("ИТОГО строк:", 140)
                                         .addTotalSumNumberTextBox("ИТОГО кол-во:", 640, "SQTY", {style:"font-weight:bold;"})
                                         .addTotalSumNumberTextBox("ИТОГО сумма:", 200, "SPOSSUM", {style:"font-weight:bold;"})
@@ -65,6 +71,9 @@
                                 APP.childFor(sales_ContentPaneDetailContainer, "sales_TableSalesByBataAttributes",
                                         TDocumentSimpleTable, {titleText:"Продажи по РН с аттрибутами", dataURL:"/reports/sales/getSalesWithProdAttr"})
                                         .addBeginDateBox("с","DOCDATE>=", {initValueDate:"curMonthBDate"}).addEndDateBox("по","DOCDATE<=")
+                                        .addSelectBox("Подразделение",{valueItemName:"UNIT_NAME", labelItemName:"UNIT_NAME",
+                                            loadDropDownURL:"/dir/units/getDirUnitsForSelect",
+                                            contentTableCondition:"UNIT_NAME="})
                                         .addTotalCountNumberBox("ИТОГО строк:", 140)
                                         .addTotalSumNumberTextBox("ИТОГО кол-во:", 710, "QTY", {style:"font-weight:bold;"})
                                         .addTotalSumNumberTextBox("ИТОГО сумма:", 220, "POSSUM", {style:"font-weight:bold;"})
@@ -73,17 +82,20 @@
                     sales_ContentPaneDetailContainer.selectChild(sales_Btn_SalesExt.document);
                 };
                 sales_Btn_invsList.onClick= function(){
-                    if (!sales_Btn_SalesExt.document){
-                        sales_Btn_SalesExt.document =
+                    if (!sales_Btn_invsList.document){
+                        sales_Btn_invsList.document =
                                 APP.childFor(sales_ContentPaneDetailContainer, "sales_TableSalesInvsList",
                                         TDocumentSimpleTable, {titleText:"Реестр расходных накладных", dataURL:"/reports/sales/getInvsList"})
                                         .addBeginDateBox("с","DOCDATE>=", {initValueDate:"curMonthBDate"}).addEndDateBox("по","DOCDATE<=")
+                                        .addSelectBox("Подразделение",{valueItemName:"UNIT_NAME", labelItemName:"UNIT_NAME",
+                                            loadDropDownURL:"/dir/units/getDirUnitsForSelect",
+                                            contentTableCondition:"UNIT_NAME="})
                                         .addTotalCountNumberBox("ИТОГО строк:", 140)
                                         .addTotalSumNumberTextBox("ИТОГО кол-во:", 348, "DOCQTYSUM", {style:"font-weight:bold;"})
                                         .addTotalSumNumberTextBox("ИТОГО сумма:", 220, "DOCSUM", {style:"font-weight:bold;"})
                                         .startUp();
                     }
-                    sales_ContentPaneDetailContainer.selectChild(sales_Btn_SalesExt.document);
+                    sales_ContentPaneDetailContainer.selectChild(sales_Btn_invsList.document);
                 };
                 sales_PageContainer.layout();
                 sales_Btn_SalesByInv.onClick();

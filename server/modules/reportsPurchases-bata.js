@@ -52,7 +52,8 @@ module.exports.init = function(app) {
         {data: "RATE", name: "Курс валюты", width: 60, type: "numeric2", dataSource:"wrh_pinvs"},
         {data: "PRICE", name: "Цена" },
         {data: "SQTY", name: "Кол-во", dataFunction:{function:"sumIsNull", source:"wrh_pinvs_products", sourceField:"QTY"} },
-        {data: "SPOSSUM", name: "Сумма", dataFunction:{function:"sumIsNull", source:"wrh_pinvs_products", sourceField:"POSSUM"} }
+        {data: "SPOSSUM", name: "Сумма", dataFunction:{function:"sumIsNull", source:"wrh_pinvs_products", sourceField:"POSSUM"} },
+        {data: "UNIT_NAME", name: "Подразделение", dataSource:"dir_units", sourceField:"NAME", linkCondition:"wrh_pinvs.UNIT_ID=dir_units.ID", visible:false}
     ];
     repPurchasesByDatesTableColumns=
         dir_products.addProductAttrsColumnsTo(repPurchasesByDatesTableColumns,3,{ excludeColumns:{}});
@@ -124,9 +125,14 @@ module.exports.init = function(app) {
         {data: "RATE", name: "Курс валюты", width: 60, type: "numeric2", visible:false, dataSource:"wrh_pinvs"},
         {data: "BASE_FACTOR", name: "Базов.коэфф.", width: 60, type: "numeric2", visible:false, dataSource:"wrh_pinvs"}
     ];
-    app.get("/reports/purchases/getPInvsList", function(req, res){
+    app.get("/reports/purchases/getPInvsList", function(req, res){    console.log("req.query=",req.query);
         var conditions={};
-        for(var condItem in req.query) conditions["wrh_pinvs."+condItem]=req.query[condItem];
+        for(var condItem in req.query) {
+            if (condItem.indexOf("DOCDATE")>=0) {
+                conditions["wrh_pinvs."+condItem]=req.query[condItem];
+            }
+            conditions[condItem]=req.query[condItem];
+        }
         wrh_pinvs.getDataForDocTable({tableColumns:wrhPInvsListTableColumns,
                 identifier:wrhPInvsListTableColumns[0].data,
                 conditions:conditions,
