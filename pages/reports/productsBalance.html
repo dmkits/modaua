@@ -43,10 +43,10 @@
                                 APP.childFor(contentContainer, "reportsProductsBalance_TableProdsBalance",
                                         TDocumentSimpleTable, {titleText:"Остатки товаров",
                                                 dataURL:"/reports/productsBalance/getProductsBalance"})
-                                        .addEndDateBox("на","DOCDATE<=")
                                         .addSelectBox("Подразделение",{valueItemName:"UNIT_NAME", labelItemName:"UNIT_NAME",
                                             loadDropDownURL:"/dir/units/getDirUnitsForSelect",
                                             contentTableCondition:"UNIT_NAME="})
+                                        .addEndDateBox("на","DOCDATE<=")
                                         .addTotalCountNumberBox("ИТОГО строк:", 140)
                                         .addTotalSumNumberTextBox("ИТОГО остаток:", 630, "SQTY", {style:"font-weight:bold;"})
                                         .startUp();

@@ -133,6 +133,31 @@ define(["dojo/_base/declare", "app", "templateDocumentBase","dijit/form/Select",
             onSelectTableContent: function(firstSelectedRowData, selection){
                 if (this.infoPane&&this.infoPane.updateCallback) this.infoPane.updateCallback(this.infoPane, this);
             },
+
+            /**
+             * params : { initValueDate:"curDate"/"curMonthBDate"/"curMonthEDate", contentTableCondition:"<conditions>" }
+             * default params.initValueDate = "curDate"
+             * default: initValueDate="curDate"
+             */
+            addHeaderDateBox: function(labelText, conditionName, params){
+                if(!params) params={};
+                var initValueDate=null;
+                if (params.initValueDate==="curMonthBDate") initValueDate= APP.curMonthBDate();
+                else if (params.initValueDate==="curMonthEDate") initValueDate= APP.curMonthEDate();
+                else initValueDate= APP.today();
+                if(!this.headerData) this.headerData=[];
+                var dateBox= this.addTableCellDateBoxTo(this.topTableRow,
+                    {labelText:labelText, labelStyle:"margin-left:5px;", cellWidth:150, cellStyle:"text-align:right;",
+                        inputParams:{conditionName:conditionName}, initValueDate:initValueDate});
+                this.headerData.push({type:"DateBox",instance:dateBox});
+                if(params.contentTableCondition) dateBox.contentTableCondition=params.contentTableCondition;
+                var instance = this;
+                dateBox.onChange = function(){
+                    instance.loadTableContent();
+                };
+                return this;
+            },
+
             /*
              * params : { initValueDate:"curDate"/"curMonthBDate"/"curMonthEDate" }
              * default: initValueDate="curDate"
