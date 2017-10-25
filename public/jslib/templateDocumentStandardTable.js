@@ -812,18 +812,27 @@ define(["dojo/_base/declare", "dijit/layout/BorderContainer", "dijit/layout/Cont
                 var headerTextStyle="font-size:14px;";
                 if(this.detailHeaderElements){
                     for(var ri=0;ri<this.detailHeaderElements.length;ri++){
-                        var detHRow=this.detailHeaderElements[ri];
+                        var detHRow=this.detailHeaderElements[ri];  console.log("detHRow=",detHRow);
                         this.addPrintDataItemTo(printData, "header", {newTable:true, style:headerTextStyle});
                         for(var ci=0;ci<detHRow.length;ci++){
                             var detHElem=detHRow[ci];                                                                   //console.log("TemplateDocumentStandardTable.doPrint ",ri,ci,detHElem);
                             if(detHElem.tagName&&detHElem.tagName==="TH")
                                 this.addPrintDataSubItemTo(printData, "header",
-                                    {label:detHElem.innerHTML, width:0, align:"center",style:"width:100%;font-size:14px;font-weight:bold;text-align:center;",
+                                    {label:detHElem.innerText, width:0, align:"center",style:"width:100%;font-size:14px;font-weight:bold;text-align:center;",
                                         contentStyle:"margin-top:5px;margin-bottom:3px;"});
                             else {
                                 value=null;
                                 if (detHElem.textbox) value=detHElem.textbox.value;
                                 else if(detHElem.textDirNode) value=detHElem.textDirNode.textContent;//if element Select
+                                if(value==""){
+                                  if(detHElem.inputStyle) {
+                                      var oldStyleStr =detHElem.inputStyle;
+                                      var newStyleStr=oldStyleStr.trim().charAt(oldStyleStr.length-1) == ";" ? " height:14px;" : "; height:14px;";
+                                      detHElem.inputStyle = oldStyleStr + newStyleStr;
+                                  }
+                                    else detHElem.inputStyle = " height:14px;";
+                                }
+
                                 this.addPrintDataSubItemTo(printData, "header", {width:detHElem.cellWidth+5, style:detHElem.printStyle,
                                     contentStyle:"margin-bottom:3px;", label:detHElem.labelText, value:value, type:"text", valueStyle:detHElem.inputStyle});
                             }
@@ -844,6 +853,14 @@ define(["dojo/_base/declare", "dijit/layout/BorderContainer", "dijit/layout/Cont
                             if (detTElem.print===false) continue;
                             if (detTElem.textbox) value=detTElem.textbox.value;
                             else if(detTElem.textDirNode) value=detTElem.textDirNode.textContent;//if element Select
+                            if(value==""){
+                                if(detTElem.inputStyle) {
+                                    var oldStyleStr =detHElem.inputStyle;
+                                    var newStyleStr=oldStyleStr.trim().charAt(oldStyleStr.length-1) == ";" ? " height:14px;" : "; height:14px;";
+                                    detTElem.inputStyle = oldStyleStr + newStyleStr;
+                                }
+                                else detTElem.inputStyle = " height:14px;";
+                            }
                             this.addPrintDataSubItemTo(printData, "total", {width:detTElem.cellWidth+5, style:detTElem.printStyle, align:"right",
                                     contentStyle:"margin-top:3px;", label:detTElem.labelText, value:value, type:"text", valueStyle:detTElem.inputStyle});
                         }

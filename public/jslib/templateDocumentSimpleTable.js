@@ -86,6 +86,16 @@ define(["dojo/_base/declare", "app", "templateDocumentBase","dijit/form/Select",
                             for(var conditionItemName in btnConditions) condition[conditionItemName]=btnConditions[conditionItemName];
                     }
                 }
+                if(this.selectBoxes){
+                    for(var j in this.selectBoxes){
+                        var selectBox=this.selectBoxes[j];  console.log("selectBox=",selectBox);
+                    if (selectBox.contentTableCondition.indexOf("UNIT_NAME")>=0){      console.log("inside if");
+                        selectBox.contentTableCondition=selectBox.contentTableCondition.replace("UNIT_NAME","dir_units.NAME");
+                    }
+                        condition[selectBox.contentTableCondition.replace("=","~")] =selectBox.get("value");
+                    }
+                }
+
                 if (additionalCondition)
                     for(var addConditionItemName in additionalCondition)
                         condition[addConditionItemName.replace("=","~")]=additionalCondition[addConditionItemName];
@@ -154,10 +164,10 @@ define(["dojo/_base/declare", "app", "templateDocumentBase","dijit/form/Select",
             },
 
             addSelectBox:function(label, params){
-                var input=this.addTableInputTo(this.topTableRow,{labelText:label, /*labelStyle:"margin-left:5px;",*/ cellWidth:200, cellStyle:"text-align:right;"});
+                var input=this.addTableInputTo(this.topTableRow,{labelText:label, labelStyle:"margin-left:5px;", cellWidth:200, cellStyle:"text-align:right;"});
                 var select= APP.instanceFor(input, Select,
-                    {style:"width:180px;", labelDataItem:params.labelDataItem,loadDropDownURL:params.loadDropDownURL,contentTableCondition:params.contentTableCondition});
-                        ///*it's for print*/cellWidth:cellWidth, labelText:label, printStyle:params.style, inputStyle:params.inputStyle });
+                    {style:"width:180px;", labelDataItem:params.labelDataItem,loadDropDownURL:params.loadDropDownURL,contentTableCondition:params.contentTableCondition,
+                        /*it's for print*/width:200, labelText:label/*, printStyle:params.style, inputStyle:params.inputStyle*/ });
                 if(!this.selectBoxes) this.selectBoxes=[];
                 this.selectBoxes.push(select);
                 select.loadDropDownValuesFromServer= function(callback){
@@ -180,18 +190,6 @@ define(["dojo/_base/declare", "app", "templateDocumentBase","dijit/form/Select",
                 var thisInstance=this;
                 select.onChange=function(){
                     thisInstance.loadTableContent();
-                    //setSelectDropDown(select);
-                    //select.selectToggleDropDown= select.toggleDropDown;
-                    //selectObj.toggleDropDown= function(){                                                                   //console.log("ContentController.setSelectDropDown toggleDropDown");
-                    //    Request.getJSONData({url: selectObj.loadDropDownURL, consoleLog: true},
-                    //        function (success,data) {
-                    //            var options=selectObj.get("options"),value = selectObj.get("value");
-                    //            if (success&&data.items) {
-                    //                selectObj.set("options", data.items);
-                    //                selectObj.set("value", value);
-                    //            } else if (success&&!data.items) console.log("ContentController.setSelectDropDown loadDropDown getJSONData data error:",data);
-                    //            selectObj.selectToggleDropDown();
-                    //        });
                 };
                 function setSelectDropDown(selectObj) {
                     selectObj.selectToggleDropDown= selectObj.toggleDropDown;
@@ -207,9 +205,6 @@ define(["dojo/_base/declare", "app", "templateDocumentBase","dijit/form/Select",
                             });
                     };
                 }
-
-             //   this.setContentFromUrl(params.loadDropDownURL);
-
                 return this;
             },
             /*
@@ -576,6 +571,13 @@ define(["dojo/_base/declare", "app", "templateDocumentBase","dijit/form/Select",
                 if (this.endDateBox)
                     this.addPrintDataSubItemTo(printData, "header",
                         {label:"по ", width:110, align:"left",style:headerTextStyle, contentStyle:headerDateContentStyle, value:this.endDateBox.get("value"),type:"date"});
+                if (this.selectBoxes) {
+                    for (var i in this.selectBoxes){
+                        var selectBox=this.selectBoxes[i];
+                        this.addPrintDataSubItemTo(printData, "header",
+                            {label:selectBox.labelText, width:selectBox.width, align:"center",style:headerTextStyle, contentStyle:headerDateContentStyle, value:selectBox.get("value")});
+                    }
+                }
                 this.addPrintDataSubItemTo(printData, "header");
                 printData.columns = this.contentTable.getVisibleColumns();                                       //console.log("doPrint printData.columns=",this.contentTable.getVisibleColumns());
                 printData.data = this.contentTable.getContent();

@@ -44,11 +44,11 @@
                                         TDocumentSimpleTable, {titleText:"Остатки товаров",
                                                 dataURL:"/reports/productsBalance/getProductsBalance"})
                                         .addEndDateBox("на","DOCDATE<=")
-                                        .addSelectBox("подразделение",{valueItemName:"UNIT_NAME", labelItemName:"UNIT_NAME",
-                                            loadDropDownURL:"/dir/units/getUnitsForCombobox",
+                                        .addSelectBox("Подразделение",{valueItemName:"UNIT_NAME", labelItemName:"UNIT_NAME",
+                                            loadDropDownURL:"/dir/units/getDirUnitsForSelect",
                                             contentTableCondition:"UNIT_NAME="})
                                         .addTotalCountNumberBox("ИТОГО строк:", 140)
-                                        .addTotalSumNumberTextBox("ИТОГО остаток:", 760, "SQTY", {style:"font-weight:bold;"})
+                                        .addTotalSumNumberTextBox("ИТОГО остаток:", 630, "SQTY", {style:"font-weight:bold;"})
                                         .startUp();
                     }
                     contentContainer.selectChild(btnProdsBalance.report);
@@ -60,6 +60,9 @@
                                         TDocumentSimpleTable, {titleText:"Остатки товаров по группам Bata",
                                             dataURL:"/reports/productsBalance/getProductsBalanceByBataAttributes"})
                                         .addEndDateBox("на","DOCDATE<=")
+                                        .addSelectBox("Подразделение",{valueItemName:"UNIT_NAME", labelItemName:"UNIT_NAME",
+                                            loadDropDownURL:"/dir/units/getDirUnitsForSelect",
+                                            contentTableCondition:"UNIT_NAME="})
                                         .addTotalCountNumberBox("ИТОГО строк:", 140)
                                         .addTotalSumNumberTextBox("ИТОГО остаток:", 730, "SQTY", {style:"font-weight:bold;"})
                                         .startUp();
@@ -73,8 +76,11 @@
                                         TDocumentSimpleTable, {titleText:"Остатки товаров по видам товара",
                                             dataURL:"/reports/productsBalance/getProductsBalanceByTypesKinds"})
                                         .addEndDateBox("на","DOCDATE<=")
+                                        .addSelectBox("Подразделение",{valueItemName:"UNIT_NAME", labelItemName:"UNIT_NAME",
+                                            loadDropDownURL:"/dir/units/getDirUnitsForSelect",
+                                            contentTableCondition:"UNIT_NAME="})
                                         .addTotalCountNumberBox("ИТОГО строк:", 140)
-                                        .addTotalSumNumberTextBox("ИТОГО остаток:",280, "SQTY", {style:"font-weight:bold;"})
+                                        .addTotalSumNumberTextBox("ИТОГО остаток:",200, "SQTY", {style:"font-weight:bold;"})
                                         .startUp();
                     }
                     contentContainer.selectChild(btnProdsBalanceByKinds.report);
@@ -87,8 +93,11 @@
                                         TDocumentSimpleTable, {titleText:"Остатки партий товаров",
                                             dataURL:"/reports/productsBalance/getProductsBatchesBalance"})
                                         .addEndDateBox("на","DOCDATE<=")
+                                        .addSelectBox("Подразделение",{valueItemName:"UNIT_NAME", labelItemName:"UNIT_NAME",
+                                            loadDropDownURL:"/dir/units/getDirUnitsForSelect",
+                                            contentTableCondition:"UNIT_NAME="})
                                         .addTotalCountNumberBox("ИТОГО строк:", 140)
-                                        .addTotalSumNumberTextBox("ИТОГО остаток:", 895, "SQTY", {style:"font-weight:bold;"})
+                                        .addTotalSumNumberTextBox("ИТОГО остаток:", 700, "SQTY", {style:"font-weight:bold;"})
                                         .startUp();
                     }
                     contentContainer.selectChild(btnProdsBatchesBalance.report);
@@ -101,8 +110,11 @@
                                         TDocumentSimpleTable, {titleText:"Остатки товаров с себестоимостью",
                                             dataURL:"/reports/productsBalance/getProductsBalanceWCC"})
                                         .addEndDateBox("на","DOCDATE<=")
+                                        .addSelectBox("Подразделение",{valueItemName:"UNIT_NAME", labelItemName:"UNIT_NAME",
+                                            loadDropDownURL:"/dir/units/getDirUnitsForSelect",
+                                            contentTableCondition:"UNIT_NAME="})
                                         .addTotalCountNumberBox("ИТОГО строк:", 140)
-                                        .addTotalSumNumberTextBox("ИТОГО остаток:", 660, "SQTY", {style:"font-weight:bold;"})
+                                        .addTotalSumNumberTextBox("ИТОГО остаток:", 420, "SQTY", {style:"font-weight:bold;"})
                                         .addTotalSumNumberTextBox("ИТОГО сумма себестоимости:", 290, "COST_SUM", {style:"font-weight:bold;"})
                                         .startUp();
                     }
@@ -115,8 +127,11 @@
                                         TDocumentSimpleTable, {titleText:"Остатки партий товаров с себестоимостью",
                                             dataURL:"/reports/productsBalance/getProductsBatchesBalanceWCC"})
                                         .addEndDateBox("на","DOCDATE<=")
+                                        .addSelectBox("Подразделение",{valueItemName:"UNIT_NAME", labelItemName:"UNIT_NAME",
+                                            loadDropDownURL:"/dir/units/getDirUnitsForSelect",
+                                            contentTableCondition:"UNIT_NAME="})
                                         .addTotalCountNumberBox("ИТОГО строк:", 140)
-                                        .addTotalSumNumberTextBox("ИТОГО остаток:", 710, "SQTY", {style:"font-weight:bold;"})
+                                        .addTotalSumNumberTextBox("ИТОГО остаток:", 485, "SQTY", {style:"font-weight:bold;"})
                                         .addTotalSumNumberTextBox("ИТОГО сумма себестоимости:", 290, "COST_SUM", {style:"font-weight:bold;"})
                                         .startUp();
                     }

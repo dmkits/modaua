@@ -46,6 +46,9 @@
                                 APP.childFor(contentPaneDetailContainer, "retailSales_TableSalesRetail",
                                         TDocumentSimpleTable, {titleText:"Продажи чекам", dataURL:"/reports/retailSales/getRetailSales"})
                                         .addBeginDateBox("с","DOCDATE>=", {initValueDate:"curMonthBDate"}).addEndDateBox("по","DOCDATE<=")
+                                        .addSelectBox("Подразделение",{valueItemName:"UNIT_NAME", labelItemName:"UNIT_NAME",
+                                            loadDropDownURL:"/dir/units/getDirUnitsForSelect",
+                                            contentTableCondition:"UNIT_NAME="})
                                         .addTotalCountNumberBox("ИТОГО строк:", 140)
                                         .addTotalSumNumberTextBox("ИТОГО кол-во:", 920, "QTY", {style:"font-weight:bold;"})
                                         .addTotalSumNumberTextBox("ИТОГО сумма:", 200, "POSSUM", {style:"font-weight:bold;"})
@@ -59,6 +62,9 @@
                                 APP.childFor(contentPaneDetailContainer, "retailSales_TableSalesByDays",
                                         TDocumentSimpleTable, {titleText:"Продажи по дням", dataURL:"/reports/retailSales/getSalesByDates"})
                                         .addBeginDateBox("с","DOCDATE>=", {initValueDate:"curMonthBDate"}).addEndDateBox("по","DOCDATE<=")
+                                        .addSelectBox("Подразделение",{valueItemName:"UNIT_NAME", labelItemName:"UNIT_NAME",
+                                            loadDropDownURL:"/dir/units/getDirUnitsForSelect",
+                                            contentTableCondition:"UNIT_NAME="})
                                         .addTotalCountNumberBox("ИТОГО строк:", 140)
                                         .addTotalSumNumberTextBox("ИТОГО кол-во:", 640, "SQTY", {style:"font-weight:bold;"})
                                         .addTotalSumNumberTextBox("ИТОГО сумма:", 200, "SPOSSUM", {style:"font-weight:bold;"})
@@ -71,6 +77,9 @@
                         btnSalesRetailByProdsAttrs.document =
                                 APP.childFor(contentPaneDetailContainer, "retailSales_TableSalesRetailByProdsAttrs",
                                         TDocumentSimpleTable, {titleText:"Продажи чекам с атрибутами", dataURL:"/reports/retailSales/getRetailSalesWithProductsAttrs"})
+                                        .addSelectBox("Подразделение",{valueItemName:"UNIT_NAME", labelItemName:"UNIT_NAME",
+                                            loadDropDownURL:"/dir/units/getDirUnitsForSelect",
+                                            contentTableCondition:"UNIT_NAME="})
                                         .addBeginDateBox("с","DOCDATE>=", {initValueDate:"curMonthBDate"}).addEndDateBox("по","DOCDATE<=")
                                         .addTotalCountNumberBox("ИТОГО строк:", 140)
                                         .addTotalSumNumberTextBox("ИТОГО кол-во:", 930, "QTY", {style:"font-weight:bold;"})
@@ -125,6 +134,9 @@
                                 APP.childFor(contentPaneDetailContainer, "retailSales_TableTicketList",
                                         TDocumentSimpleTable, {titleText:"Реестр чеков", dataURL:"/reports/retailSales/getTicketsList"})
                                         .addBeginDateBox("с","DOCDATE>=", {initValueDate:"curMonthBDate"}).addEndDateBox("по","DOCDATE<=")
+                                        .addSelectBox("Подразделение",{valueItemName:"UNIT_NAME", labelItemName:"UNIT_NAME",
+                                            loadDropDownURL:"/dir/units/getDirUnitsForSelect",
+                                            contentTableCondition:"UNIT_NAME="})
                                         .addTotalCountNumberBox("ИТОГО строк:", 140)
                                         .addTotalSumNumberTextBox("ИТОГО кол-во:", 340, "SQTY", {style:"font-weight:bold;"})
                                         .addTotalSumNumberTextBox("ИТОГО сумма:", 220, "SPOSSUM", {style:"font-weight:bold;"})

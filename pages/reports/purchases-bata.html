@@ -39,6 +39,9 @@
                         APP.childFor(purchases_ContentPaneDetailContainer, "purchases_TablePurchases",
                             TDocumentSimpleTable, {titleText:"Закупки по приходным накладным", dataURL:"/reports/purchases/getPurchases"})
                             .addBeginDateBox("с","DOCDATE>=", {initValueDate:"curMonthBDate"}).addEndDateBox("по","DOCDATE<=")
+                            .addSelectBox("Подразделение",{valueItemName:"UNIT_NAME", labelItemName:"UNIT_NAME",
+                                    loadDropDownURL:"/dir/units/getDirUnitsForSelect",
+                                    contentTableCondition:"UNIT_NAME="})
                             .addTotalCountNumberBox("ИТОГО строк:", 140, {style:"font-weight:bold;",inputStyle:"width:40px"})
                             .addTotalSumNumberTextBox("ИТОГО кол-во:", 595, "QTY", {style:"font-weight:bold;",inputStyle:"width:60px"})
                             .addTotalSumNumberTextBox("ИТОГО сумма:", 200, "POSSUM", {style:"font-weight:bold;",inputStyle:"width:80px",pattern:"###,###,##0.00######"})
@@ -52,8 +55,11 @@
                         APP.childFor(purchases_ContentPaneDetailContainer, "purchases_TablepurchasesByDays",
                             TDocumentSimpleTable, {titleText:"Закупки по дням", dataURL:"/reports/purchases/getPurchasesByDates"})
                             .addBeginDateBox("с","DOCDATE>=", {initValueDate:"curMonthBDate"}).addEndDateBox("по","DOCDATE<=")
+                            .addSelectBox("Подразделение",{valueItemName:"UNIT_NAME", labelItemName:"UNIT_NAME",
+                                    loadDropDownURL:"/dir/units/getDirUnitsForSelect",
+                                    contentTableCondition:"UNIT_NAME="})
                             .addTotalCountNumberBox("ИТОГО строк:", 140, {style:"font-weight:bold;",inputStyle:"width:50px"})
-                            .addTotalSumNumberTextBox("ИТОГО кол-во:", 640, "SQTY", {style:"font-weight:bold;",inputStyle:"width:60px"})
+                            .addTotalSumNumberTextBox("ИТОГО кол-во:", 620, "SQTY", {style:"font-weight:bold;",inputStyle:"width:60px"})
                             .addTotalSumNumberTextBox("ИТОГО сумма:", 200, "SPOSSUM", {style:"font-weight:bold;",inputStyle:"width:90px",pattern:"###,###,##0.00#######"})
                             .startUp();
                 }
@@ -65,6 +71,9 @@
                         APP.childFor(purchases_ContentPaneDetailContainer, "purchases_TablePurchasesByBataAttributes",
                             TDocumentSimpleTable, {titleText:"Закупки по ПН с аттрибутами", dataURL:"/reports/purchases/getPurchasesWithProdAttr"})
                             .addBeginDateBox("с","DOCDATE>=", {initValueDate:"curMonthBDate"}).addEndDateBox("по","DOCDATE<=")
+                            .addSelectBox("Подразделение",{valueItemName:"UNIT_NAME", labelItemName:"UNIT_NAME",
+                                    loadDropDownURL:"/dir/units/getDirUnitsForSelect",
+                                    contentTableCondition:"UNIT_NAME="})
                             .addTotalCountNumberBox("ИТОГО строк:", 140, {style:"font-weight:bold;",inputStyle:"width:50px"})
                             .addTotalSumNumberTextBox("ИТОГО кол-во:", 710, "QTY", {style:"font-weight:bold;",inputStyle:"width:60px"})
                             .addTotalSumNumberTextBox("ИТОГО сумма:", 220, "POSSUM", {style:"font-weight:bold;",inputStyle:"width:90px",pattern:"###,###,##0.00#######"})
@@ -74,17 +83,20 @@
             };
 
             purchases_Btn_pinvsList.onClick= function(){
-                if (!purchases_Btn_purchasesExt.document){
-                    purchases_Btn_purchasesExt.document =
+                if (!purchases_Btn_pinvsList.document){
+                    purchases_Btn_pinvsList.document =
                             APP.childFor(purchases_ContentPaneDetailContainer, "purchases_TablePurchasesPinvsList",
                                     TDocumentSimpleTable, {titleText:"Реестр приходных накладных", dataURL:"/reports/purchases/getPInvsList"})
                                     .addBeginDateBox("с","DOCDATE>=", {initValueDate:"curMonthBDate"}).addEndDateBox("по","DOCDATE<=")
+                                    .addSelectBox("Подразделение",{valueItemName:"UNIT_NAME", labelItemName:"UNIT_NAME",
+                                        loadDropDownURL:"/dir/units/getDirUnitsForSelect",
+                                        contentTableCondition:"UNIT_NAME="})
                                     .addTotalCountNumberBox("ИТОГО строк:", 140, {style:"font-weight:bold;",inputStyle:"width:50px"})
                                     .addTotalSumNumberTextBox("ИТОГО кол-во:", 550, "DOCQTYSUM", {style:"font-weight:bold;",inputStyle:"width:60px"})
                                     .addTotalSumNumberTextBox("ИТОГО сумма:", 220, "DOCSUM", {style:"font-weight:bold;",inputStyle:"width:90px",pattern:"###,###,##0.00#######"})
                                     .startUp();
                 }
-                purchases_ContentPaneDetailContainer.selectChild(purchases_Btn_purchasesExt.document);
+                purchases_ContentPaneDetailContainer.selectChild(purchases_Btn_pinvsList.document);
             };
             purchases_PageContainer.layout();
             purchases_Btn_purchasesByPinv.onClick();
