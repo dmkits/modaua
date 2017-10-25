@@ -12,7 +12,7 @@ module.exports.validateModule = function(errs, nextValidateModuleCallback){
 //module.exports.modulePageURL = "/syncService";
 
 module.exports.init = function(app){
-    app.post("/syncService", function(req, res){                        console.log("syncService");
+    app.post("/syncService", function(req, res){
         if(req.headers&&
             (!req.headers["sync-service-client"]||req.headers["sync-service-client"]!="derbySyncClient_1.7")){
             res.send({error:"Failed check syncClient request header!"});                                    log.info("Failed syncService request! Reason: header sync-service-client non correct!");
@@ -42,13 +42,13 @@ module.exports.init = function(app){
                     res.send({error:"Failed syncClient request! Reason: failed finded sync POS name!"});    log.info("Failed syncService request! Reason: failed finded sync POS name! Reason: no result!");
                 }
                 var sSyncPOSID=result.item["ID"],sUnitID=result.item["UNIT_ID"];
-                if(syncServiceClientRequestType=="getIncData"){
-                    res.send({ resultItem:{} });
+                if(syncServiceClientRequestType=="getSyncIncData"){
+                    res.send({ resultItem:null });
                     return;
-                } else if(syncServiceClientRequestType=="sendOutData"){
-                    res.send({error:"!"});
+                } else if(syncServiceClientRequestType=="storeSyncOutData"){
+                    res.send({error:"!"});                                              //console.log("syncService sendOutData",req.body,{});
                     return;
-                } else  if(syncServiceClientRequestType=="applyOutData"){
+                } else  if(syncServiceClientRequestType=="applySyncOutData"){
                     res.send({error:"!"});
                     return;
                 } else {
