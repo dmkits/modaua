@@ -826,8 +826,9 @@ define(["dojo/_base/declare", "dijit/layout/BorderContainer", "dijit/layout/Cont
                                 else if(detHElem.textDirNode) value=detHElem.textDirNode.textContent;//if element Select
                                 if(value==""){
                                   if(detHElem.inputStyle) {
-                                      var oldStyleStr =detHElem.inputStyle;
-                                      var newStyleStr=oldStyleStr.trim().charAt(oldStyleStr.length-1) == ";" ? " height:14px;" : "; height:14px;";
+                                      var oldStyleStr =detHElem.inputStyle,
+                                          newStyleStr= (oldStyleStr.trim().charAt(oldStyleStr.length-1)!=";")?";":"";
+                                      newStyleStr+="height:14px;";
                                       detHElem.inputStyle = oldStyleStr + newStyleStr;
                                   }
                                     else detHElem.inputStyle = " height:14px;";
@@ -855,8 +856,9 @@ define(["dojo/_base/declare", "dijit/layout/BorderContainer", "dijit/layout/Cont
                             else if(detTElem.textDirNode) value=detTElem.textDirNode.textContent;//if element Select
                             if(value==""){
                                 if(detTElem.inputStyle) {
-                                    var oldStyleStr =detHElem.inputStyle;
-                                    var newStyleStr=oldStyleStr.trim().charAt(oldStyleStr.length-1) == ";" ? " height:14px;" : "; height:14px;";
+                                    var oldStyleStr =detTElem.inputStyle,
+                                        newStyleStr= (oldStyleStr.trim().charAt(oldStyleStr.length-1)!=";")?";":"";
+                                    newStyleStr+="height:14px;";
                                     detTElem.inputStyle = oldStyleStr + newStyleStr;
                                 }
                                 else detTElem.inputStyle = " height:14px;";

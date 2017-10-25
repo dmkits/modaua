@@ -89,8 +89,6 @@ define(["dojo/_base/declare", "app", "templateDocumentBase","dijit/form/Select",
                         }
                     }
                 }
-                //addBeginDateBox
-                //addEndDateBox
                 if (additionalCondition)
                     for(var addConditionItemName in additionalCondition)
                         condition[addConditionItemName.replace("=","~")]=additionalCondition[addConditionItemName];

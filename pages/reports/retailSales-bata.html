@@ -45,7 +45,7 @@
                         btnSalesRetail.document =
                                 APP.childFor(contentPaneDetailContainer, "retailSales_TableSalesRetail",
                                         TDocumentSimpleTable, {titleText:"Продажи чекам", dataURL:"/reports/retailSales/getRetailSales"})
-                                        .addBeginDateBox("с","DOCDATE>=", {initValueDate:"curMonthBDate"}).addEndDateBox("по","DOCDATE<=")
+                                        .addHeaderDateBox("с", {initValueDate:"curMonthBDate", contentTableCondition:"DOCDATE>="}).addHeaderDateBox("по",{contentTableCondition:"DOCDATE<="})
                                         .addSelectBox("Подразделение",{valueItemName:"UNIT_NAME", labelItemName:"UNIT_NAME",
                                             loadDropDownURL:"/dir/units/getDirUnitsForSelect",
                                             contentTableCondition:"UNIT_NAME="})
@@ -61,7 +61,7 @@
                         btnSalesByDays.document =
                                 APP.childFor(contentPaneDetailContainer, "retailSales_TableSalesByDays",
                                         TDocumentSimpleTable, {titleText:"Продажи по дням", dataURL:"/reports/retailSales/getSalesByDates"})
-                                        .addBeginDateBox("с","DOCDATE>=", {initValueDate:"curMonthBDate"}).addEndDateBox("по","DOCDATE<=")
+                                        .addHeaderDateBox("с", {initValueDate:"curMonthBDate",contentTableCondition:"DOCDATE>="}).addHeaderDateBox("по",{contentTableCondition:"DOCDATE<="})
                                         .addSelectBox("Подразделение",{valueItemName:"UNIT_NAME", labelItemName:"UNIT_NAME",
                                             loadDropDownURL:"/dir/units/getDirUnitsForSelect",
                                             contentTableCondition:"UNIT_NAME="})
@@ -80,7 +80,7 @@
                                         .addSelectBox("Подразделение",{valueItemName:"UNIT_NAME", labelItemName:"UNIT_NAME",
                                             loadDropDownURL:"/dir/units/getDirUnitsForSelect",
                                             contentTableCondition:"UNIT_NAME="})
-                                        .addBeginDateBox("с","DOCDATE>=", {initValueDate:"curMonthBDate"}).addEndDateBox("по","DOCDATE<=")
+                                        .addHeaderDateBox("с", {initValueDate:"curMonthBDate",contentTableCondition:"DOCDATE>="}).addHeaderDateBox("по",{contentTableCondition:"DOCDATE<="})
                                         .addTotalCountNumberBox("ИТОГО строк:", 140)
                                         .addTotalSumNumberTextBox("ИТОГО кол-во:", 930, "QTY", {style:"font-weight:bold;"})
                                         .addTotalSumNumberTextBox("ИТОГО сумма:", 200, "POSSUM", {style:"font-weight:bold;"})
@@ -93,7 +93,7 @@
                         btnSalesByArticles.document =
                                 APP.childFor(contentPaneDetailContainer, "retailSales_TableSalesByArticles",
                                         TDocumentSimpleTable, {titleText:"Продажи по артикулам", dataURL:"/reports/retailSales/getSalesByArticles"})
-                                        .addBeginDateBox("с","DOCDATE>=", {initValueDate:"curMonthBDate"}).addEndDateBox("по","DOCDATE<=")
+                                        .addHeaderDateBox("с", {initValueDate:"curMonthBDate",contentTableCondition:"DOCDATE>="}).addHeaderDateBox("по",{contentTableCondition:"DOCDATE<="})
                                         .addTotalCountNumberBox("ИТОГО строк:", 140)
                                         .addTotalSumNumberTextBox("ИТОГО кол-во:", 330, "SQTY", {style:"font-weight:bold;"})
                                         .addTotalSumNumberTextBox("ИТОГО сумма:", 200, "SPOSSUM", {style:"font-weight:bold;"})
@@ -106,7 +106,7 @@
                         btnSalesByCollections.document =
                                 APP.childFor(contentPaneDetailContainer, "retailSales_TableSalesByCollections",
                                         TDocumentSimpleTable, {titleText:"Продажи по коллекциям", dataURL:"/reports/retailSales/getSalesByCollections"})
-                                        .addBeginDateBox("с","DOCDATE>=", {initValueDate:"curMonthBDate"}).addEndDateBox("по","DOCDATE<=")
+                                        .addHeaderDateBox("с",{initValueDate:"curMonthBDate",contentTableCondition:"DOCDATE>="}).addHeaderDateBox("по",{contentTableCondition:"DOCDATE<="})
                                         .addTotalCountNumberBox("ИТОГО строк:", 140)
                                         .addTotalSumNumberTextBox("ИТОГО кол-во:", 495, "SQTY", {style:"font-weight:bold;"})
                                         .addTotalSumNumberTextBox("ИТОГО сумма:", 220, "SPOSSUM", {style:"font-weight:bold;"})
@@ -119,7 +119,7 @@
                         btnSalesByBataAttributes.document =
                                 APP.childFor(contentPaneDetailContainer, "retailSales_TableSalesByBataAttributes",
                                         TDocumentSimpleTable, {titleText:"Продажи по группам Bata", dataURL:"/reports/retailSales/getSalesByBataAttributes"})
-                                        .addBeginDateBox("с","DOCDATE>=", {initValueDate:"curMonthBDate"}).addEndDateBox("по","DOCDATE<=")
+                                        .addHeaderDateBox("с", {initValueDate:"curMonthBDate",contentTableCondition:"DOCDATE>="}).addHeaderDateBox("по",{contentTableCondition:"DOCDATE<="})
                                         .addTotalCountNumberBox("ИТОГО строк:", 140)
                                         .addTotalSumNumberTextBox("ИТОГО кол-во:", 600, "SQTY", {style:"font-weight:bold;"})
                                         .addTotalSumNumberTextBox("ИТОГО сумма:", 220, "SPOSSUM", {style:"font-weight:bold;"})
@@ -133,7 +133,7 @@
                         retailSales_btnTicketList.document =
                                 APP.childFor(contentPaneDetailContainer, "retailSales_TableTicketList",
                                         TDocumentSimpleTable, {titleText:"Реестр чеков", dataURL:"/reports/retailSales/getTicketsList"})
-                                        .addBeginDateBox("с","DOCDATE>=", {initValueDate:"curMonthBDate"}).addEndDateBox("по","DOCDATE<=")
+                                        .addHeaderDateBox("с", {initValueDate:"curMonthBDate",contentTableCondition:"DOCDATE>="}).addHeaderDateBox("по",{contentTableCondition:"DOCDATE<="})
                                         .addSelectBox("Подразделение",{valueItemName:"UNIT_NAME", labelItemName:"UNIT_NAME",
                                             loadDropDownURL:"/dir/units/getDirUnitsForSelect",
                                             contentTableCondition:"UNIT_NAME="})

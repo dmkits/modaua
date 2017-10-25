@@ -38,7 +38,7 @@
                     purchases_Btn_purchasesByPinv.document =
                         APP.childFor(purchases_ContentPaneDetailContainer, "purchases_TablePurchases",
                             TDocumentSimpleTable, {titleText:"Закупки по приходным накладным", dataURL:"/reports/purchases/getPurchases"})
-                            .addBeginDateBox("с","DOCDATE>=", {initValueDate:"curMonthBDate"}).addEndDateBox("по","DOCDATE<=")
+                            .addHeaderDateBox("с", {initValueDate:"curMonthBDate",contentTableCondition:"DOCDATE>="}).addHeaderDateBox("по",{contentTableCondition:"DOCDATE<="})
                             .addSelectBox("Подразделение",{valueItemName:"UNIT_NAME", labelItemName:"UNIT_NAME",
                                     loadDropDownURL:"/dir/units/getDirUnitsForSelect",
                                     contentTableCondition:"UNIT_NAME="})
@@ -54,7 +54,7 @@
                     purchases_Btn_purchasesByDays.document =
                         APP.childFor(purchases_ContentPaneDetailContainer, "purchases_TablepurchasesByDays",
                             TDocumentSimpleTable, {titleText:"Закупки по дням", dataURL:"/reports/purchases/getPurchasesByDates"})
-                            .addBeginDateBox("с","DOCDATE>=", {initValueDate:"curMonthBDate"}).addEndDateBox("по","DOCDATE<=")
+                            .addHeaderDateBox("с", {initValueDate:"curMonthBDate",contentTableCondition:"DOCDATE>="}).addHeaderDateBox("по",{contentTableCondition:"DOCDATE<="})
                             .addSelectBox("Подразделение",{valueItemName:"UNIT_NAME", labelItemName:"UNIT_NAME",
                                     loadDropDownURL:"/dir/units/getDirUnitsForSelect",
                                     contentTableCondition:"UNIT_NAME="})
@@ -70,7 +70,7 @@
                     purchases_Btn_purchasesExt.document =
                         APP.childFor(purchases_ContentPaneDetailContainer, "purchases_TablePurchasesByBataAttributes",
                             TDocumentSimpleTable, {titleText:"Закупки по ПН с аттрибутами", dataURL:"/reports/purchases/getPurchasesWithProdAttr"})
-                            .addBeginDateBox("с","DOCDATE>=", {initValueDate:"curMonthBDate"}).addEndDateBox("по","DOCDATE<=")
+                            .addHeaderDateBox("с", {initValueDate:"curMonthBDate",contentTableCondition:"DOCDATE>="}).addHeaderDateBox("по",{contentTableCondition:"DOCDATE<="})
                             .addSelectBox("Подразделение",{valueItemName:"UNIT_NAME", labelItemName:"UNIT_NAME",
                                     loadDropDownURL:"/dir/units/getDirUnitsForSelect",
                                     contentTableCondition:"UNIT_NAME="})
@@ -87,7 +87,7 @@
                     purchases_Btn_pinvsList.document =
                             APP.childFor(purchases_ContentPaneDetailContainer, "purchases_TablePurchasesPinvsList",
                                     TDocumentSimpleTable, {titleText:"Реестр приходных накладных", dataURL:"/reports/purchases/getPInvsList"})
-                                    .addBeginDateBox("с","DOCDATE>=", {initValueDate:"curMonthBDate"}).addEndDateBox("по","DOCDATE<=")
+                                    .addHeaderDateBox("с",{initValueDate:"curMonthBDate",contentTableCondition:"DOCDATE>="}).addHeaderDateBox("по",{contentTableCondition:"DOCDATE<="})
                                     .addSelectBox("Подразделение",{valueItemName:"UNIT_NAME", labelItemName:"UNIT_NAME",
                                         loadDropDownURL:"/dir/units/getDirUnitsForSelect",
                                         contentTableCondition:"UNIT_NAME="})

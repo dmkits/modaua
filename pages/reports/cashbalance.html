@@ -41,7 +41,7 @@
                                 APP.childFor(fin_cashbalanceContentPaneDetailContainer, "fin_cashbalanceTableRetailCashbalanceExt",
                                         TDocumentSimpleTableEditable, {titleText:"Оперативная касса", dataURL:"/fin/cashbalance/get_retail_cash_balance_ext", rightPane:true, rightPaneWidth:180,
                                             dataStoreURL:"/fin/cashbalance/store_cashbalance_operation"})
-                                        .addBeginDateBox("с","BDATE", {initValueDate:"curMonthBDate"}).addEndDateBox("по","EDATE")
+                                        .addHeaderDateBox("с",{initValueDate:"curMonthBDate",contentTableCondition:"BDATE"}).addHeaderDateBox("по",{contentTableCondition:"EDATE"})
                                         .addTotalCountNumberBox("ИТОГО строк:", 140, {style:"font-weight:bold;",inputStyle:"width:50px"})
                                         .addTotalSumNumberTextBox("ИТОГО сумма по чекам:", 250, "TICKETPAY1SUM", {style:"font-weight:bold;",inputStyle:"width:90px",pattern:"###,###,##0.00#######"})
                                         .addTotalSumNumberTextBox("ИТОГО сумма по служебным чекам:", 330, "RECEIPTPAY1SUM", {style:"font-weight:bold;",inputStyle:"width:90px",pattern:"###,###,##0.00#######"})
@@ -59,7 +59,6 @@
                     }
                     fin_cashbalanceContentPaneDetailContainer.selectChild(fin_cashbalanceBtn_RetailCashbalance.document);
                 };
-
                 fin_cashbalancePageContainer.layout();
                 fin_cashbalanceBtn_RetailCashbalance.onClick();
         });

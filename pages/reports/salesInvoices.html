@@ -64,7 +64,7 @@
                         reports_invoices_Btn_SalesInvs.document =
                                 APP.childFor(reports_invoices_ContentPaneDetailContainer, "reports_invoices_TableSalesInvs",
                                         TDocumentSimpleTable, {titleText:"Продажи по РН", dataURL:"/sales/sales_invoices/get_sales_invoices"})
-                                        .addBeginDateBox("с","BDATE", {initValueDate:"curMonthBDate"}).addEndDateBox("по","EDATE")
+                                        .addHeaderDateBox("с", {initValueDate:"curMonthBDate",contentTableCondition:"BDATE"}).addHeaderDateBox("по",{contentTableCondition:"EDATE"})
                                         .addTotalCountNumberBox("ИТОГО строк:", 130, {style:"font-weight:bold;",inputStyle:"width:40px"})
                                         .addTotalSumNumberTextBox("ИТОГО кол-во:", 930, "QTY", {style:"font-weight:bold;",inputStyle:"width:60px"})
                                         .addTotalSumNumberTextBox("ИТОГО сумма:", 200, "POSSUM", {style:"font-weight:bold;",inputStyle:"width:80px",pattern:"###,###,##0.00######"})

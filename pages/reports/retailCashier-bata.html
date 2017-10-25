@@ -42,7 +42,7 @@
                     if (!btnCashReport.document){
                         btnCashReport.document = APP.childFor(contentPaneDetailContainer, "reportsRetailCashier_tableCashReport",
                                 TDocumentSimpleTable, {titleText:"Кассовый лист", dataURL:"/reports/retailCashier/getCashReport"})
-                                .addBeginDateBox("с","DOCDATE>=", {initValueDate:"curMonthBDate"}).addEndDateBox("по","DOCDATE<=")
+                                .addHeaderDateBox("с", {initValueDate:"curMonthBDate",contentTableCondition:"DOCDATE>="}).addHeaderDateBox("по",{contentTableCondition:"DOCDATE<="})
                                 .addBtnPrint(550).addTotalEmpty()
                                 .addTotalSumNumberTextBox("Кол-во реализации:", 255, "SALE_QTY")
                                 .addTotalSumNumberTextBox("Сумма реализации:", 230, "SALE_POSSUM")
@@ -70,7 +70,7 @@
                     if (!btnSalesByArticles.document){
                         btnSalesByArticles.document = APP.childFor(contentPaneDetailContainer, "reportsRetailCashier_tableSalesByArticles",
                                 TDocumentSimpleTable, {titleText:"Продажи по артикулам", dataURL:"/reports/retailSales/getSalesByArticles"})
-                                .addBeginDateBox("с","DOCDATE>=", {initValueDate:"curMonthBDate"}).addEndDateBox("по","DOCDATE<=")
+                                .addHeaderDateBox("с", {initValueDate:"curMonthBDate",contentTableCondition:"DOCDATE>="}).addHeaderDateBox("по",{contentTableCondition:"DOCDATE<="})
                                 .addTotalCountNumberBox("ИТОГО строк:", 140)
                                 .addTotalSumNumberTextBox("ИТОГО кол-во:", 330, "SQTY", {style:"font-weight:bold;"})
                                 .addTotalSumNumberTextBox("ИТОГО сумма:", 200, "SPOSSUM", {style:"font-weight:bold;"})
@@ -82,7 +82,7 @@
                     if (!btnSalesByBataAttributes.document){
                         btnSalesByBataAttributes.document = APP.childFor(contentPaneDetailContainer, "reportsRetailCashier_tableSalesByBataAttributes",
                                 TDocumentSimpleTable, {titleText:"Продажи по группам Bata", dataURL:"/reports/retailSales/getSalesByBataAttributes"})
-                                .addBeginDateBox("с","DOCDATE>=", {initValueDate:"curMonthBDate"}).addEndDateBox("по","DOCDATE<=")
+                                .addHeaderDateBox("с", {initValueDate:"curMonthBDate",contentTableCondition:"DOCDATE>="}).addHeaderDateBox("по",{contentTableCondition:"DOCDATE<="})
                                 .addTotalCountNumberBox("ИТОГО строк:", 140)
                                 .addTotalSumNumberTextBox("ИТОГО кол-во:", 610, "SQTY", {style:"font-weight:bold;"})
                                 .addTotalSumNumberTextBox("ИТОГО сумма:", 220, "SPOSSUM", {style:"font-weight:bold;"})
@@ -94,7 +94,7 @@
                     if (!btnSalesByDays.document){
                         btnSalesByDays.document = APP.childFor(contentPaneDetailContainer, "reportsRetailCashier_tableSalesByDays",
                                 TDocumentSimpleTable, {titleText:"Продажи по дням", dataURL:"/reports/retailSales/getSalesByDates"})
-                                .addBeginDateBox("с","DOCDATE>=", {initValueDate:"curMonthBDate"}).addEndDateBox("по","DOCDATE<=")
+                                .addHeaderDateBox("с", {initValueDate:"curMonthBDate",contentTableCondition:"DOCDATE>="}).addHeaderDateBox("по",{contentTableCondition:"DOCDATE<="})
                                 .addTotalCountNumberBox("ИТОГО строк:", 140)
                                 .addTotalSumNumberTextBox("ИТОГО кол-во:", 635, "SQTY", {style:"font-weight:bold;"})
                                 .addTotalSumNumberTextBox("ИТОГО сумма:", 200, "SPOSSUM", {style:"font-weight:bold;"})
@@ -106,7 +106,7 @@
                     if (!btnCashInsOuts.document){
                         btnCashInsOuts.document = APP.childFor(contentPaneDetailContainer, "reportsRetailCashier_tableCashInOuts",
                                 TDocumentSimpleTable, {titleText:"Оперативная касса", dataURL:"/reports/retailCashier/getRetailCashBalance"})
-                                .addBeginDateBox("с","DOCDATE>=", {initValueDate:"curMonthBDate"}).addEndDateBox("по","DOCDATE<=")
+                                .addHeaderDateBox("с", {initValueDate:"curMonthBDate",contentTableCondition:"DOCDATE>="}).addHeaderDateBox("по",{contentTableCondition:"DOCDATE<="})
                                 .addTotalEmpty()
                                 .addTotalSumNumberTextBox("ИТОГО начальный остаток:", 270, "SUM_BEGIN_BALANCE", {style:"font-weight:bold;"})
                                 .addTotalSumNumberTextBox("ИТОГО вносов:", 280, "SUM_CASH_IN")
@@ -126,7 +126,7 @@
                     if (!btnProdsBalance.report){
                         btnProdsBalance.report = APP.childFor(contentPaneDetailContainer, "reportsRetailCashier_tableProdsBalance",
                                 TDocumentSimpleTable, {titleText:"Остатки товаров", dataURL:"/reports/productsBalance/getProductsBalance"})
-                                .addEndDateBox("по","DOCDATE<=")
+                                .addHeaderDateBox("по",{contentTableCondition:"DOCDATE<="})
                                 .addTotalCountNumberBox("ИТОГО строк:", 140)
                                 .addTotalSumNumberTextBox("ИТОГО остаток:", 760, "SQTY", {style:"font-weight:bold;"})
                                 .startUp();

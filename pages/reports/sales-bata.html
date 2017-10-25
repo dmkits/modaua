@@ -38,7 +38,7 @@
                         sales_Btn_SalesByInv.document =
                                 APP.childFor(sales_ContentPaneDetailContainer, "sales_TableSales",
                                         TDocumentSimpleTable, {titleText:"Продажи по накладным", dataURL:"/reports/sales/getSales"})
-                                        .addBeginDateBox("с","DOCDATE>=", {initValueDate:"curMonthBDate"}).addEndDateBox("по","DOCDATE<=")
+                                        .addHeaderDateBox("с", {initValueDate:"curMonthBDate",contentTableCondition:"DOCDATE>="}).addHeaderDateBox("по",{contentTableCondition:"DOCDATE<="})
                                         .addSelectBox("Подразделение",{valueItemName:"UNIT_NAME", labelItemName:"UNIT_NAME",
                                             loadDropDownURL:"/dir/units/getDirUnitsForSelect",
                                             contentTableCondition:"UNIT_NAME="})
@@ -54,7 +54,7 @@
                         sales_Btn_SalesByDays.document =
                                 APP.childFor(sales_ContentPaneDetailContainer, "sales_TableSalesByDays",
                                         TDocumentSimpleTable, {titleText:"Продажи по дням", dataURL:"/reports/sales/getSalesByDates"})
-                                        .addBeginDateBox("с","DOCDATE>=", {initValueDate:"curMonthBDate"}).addEndDateBox("по","DOCDATE<=")
+                                        .addHeaderDateBox("с",{initValueDate:"curMonthBDate",contentTableCondition:"DOCDATE>="}).addHeaderDateBox("по",{contentTableCondition:"DOCDATE<="})
                                         .addSelectBox("Подразделение",{valueItemName:"UNIT_NAME", labelItemName:"UNIT_NAME",
                                             loadDropDownURL:"/dir/units/getDirUnitsForSelect",
                                             contentTableCondition:"UNIT_NAME="})
@@ -70,7 +70,7 @@
                         sales_Btn_SalesExt.document =
                                 APP.childFor(sales_ContentPaneDetailContainer, "sales_TableSalesByBataAttributes",
                                         TDocumentSimpleTable, {titleText:"Продажи по РН с аттрибутами", dataURL:"/reports/sales/getSalesWithProdAttr"})
-                                        .addBeginDateBox("с","DOCDATE>=", {initValueDate:"curMonthBDate"}).addEndDateBox("по","DOCDATE<=")
+                                        .addHeaderDateBox("с", {initValueDate:"curMonthBDate",contentTableCondition:"DOCDATE>="}).addHeaderDateBox("по",{contentTableCondition:"DOCDATE<="})
                                         .addSelectBox("Подразделение",{valueItemName:"UNIT_NAME", labelItemName:"UNIT_NAME",
                                             loadDropDownURL:"/dir/units/getDirUnitsForSelect",
                                             contentTableCondition:"UNIT_NAME="})
@@ -86,7 +86,7 @@
                         sales_Btn_invsList.document =
                                 APP.childFor(sales_ContentPaneDetailContainer, "sales_TableSalesInvsList",
                                         TDocumentSimpleTable, {titleText:"Реестр расходных накладных", dataURL:"/reports/sales/getInvsList"})
-                                        .addBeginDateBox("с","DOCDATE>=", {initValueDate:"curMonthBDate"}).addEndDateBox("по","DOCDATE<=")
+                                        .addHeaderDateBox("с",{initValueDate:"curMonthBDate",contentTableCondition:"DOCDATE>="}).addHeaderDateBox("по",{contentTableCondition:"DOCDATE<="})
                                         .addSelectBox("Подразделение",{valueItemName:"UNIT_NAME", labelItemName:"UNIT_NAME",
                                             loadDropDownURL:"/dir/units/getDirUnitsForSelect",
                                             contentTableCondition:"UNIT_NAME="})

@@ -52,7 +52,7 @@
                                 APP.childFor(contentContainer, "wrhProductsBalance_TableProdsBalanceRegister",
                                         TDocumentSimpleTable, {titleText:"Реестр остатков",
                                             dataURL:"/wrh/productsBalance/getProductsBalanceRegister"})
-                                        .addEndDateBox("на","DOCDATE<=").addBtnUpdate().addBtnPrint()
+                                        .addHeaderDateBox("на",{contentTableCondition:"DOCDATE<="}).addBtnUpdate().addBtnPrint()
                                         .addBtn("Печать ценников",150, function(contentTableContent,contentTableInstance){
                                             Print.openPagePrintProductsTags({
                                                 prodTagsContentData:contentTableContent, pageProdTagType:"productTag58x30",
@@ -71,7 +71,7 @@
                                 APP.childFor(contentContainer, "wrhProductsBalance_TableProdsBalanceRegisterByProductsArticles",
                                         TDocumentSimpleTable, {titleText:"Реестр остатков по артикулам",
                                             dataURL:"/wrh/productsBalance/getProductsBalanceRegisterByProductsArticles"})
-                                        .addEndDateBox("на","DOCDATE<=")
+                                        .addHeaderDateBox("на",{contentTableCondition:"DOCDATE<="})
                                         .addTotalCountNumberBox("ИТОГО строк:", 140, {style:"font-weight:bold;",inputStyle:"width:50px"})
                                         .addTotalSumNumberTextBox("ИТОГО остаток:", 660, "QTY", {style:"font-weight:bold;",inputStyle:"width:60px"})
                                         .addTotalSumNumberTextBox("ИТОГО сумма себестоимости:", 290, "PRODUCT_COST_SUM", {style:"font-weight:bold;",inputStyle:"width:80px"})
@@ -85,7 +85,7 @@
                                 APP.childFor(contentContainer, "wrhProductsBalance_TableProdsBalance",
                                         TDocumentSimpleTable, {titleText:"Остатки товаров",
                                                 dataURL:"/reports/productsBalance/getProductsBalance"})
-                                        .addEndDateBox("на","DOCDATE<=")
+                                        .addHeaderDateBox("на",{contentTableCondition:"DOCDATE<="})
                                         .addTotalCountNumberBox("ИТОГО строк:", 140)
                                         .addTotalSumNumberTextBox("ИТОГО остаток:", 760, "SQTY", {style:"font-weight:bold;"})
                                         .startUp();
@@ -98,7 +98,7 @@
                                 APP.childFor(contentContainer, "wrhProductsBalance_TableProdsBalanceByBataGroups",
                                         TDocumentSimpleTable, {titleText:"Остатки товаров по группам Bata",
                                             dataURL:"/reports/productsBalance/getProductsBalanceByBataAttributes"})
-                                        .addEndDateBox("на","DOCDATE<=")
+                                        .addHeaderDateBox("на",{contentTableCondition:"DOCDATE<="})
                                         .addTotalCountNumberBox("ИТОГО строк:", 140)
                                         .addTotalSumNumberTextBox("ИТОГО остаток:", 730, "SQTY", {style:"font-weight:bold;"})
                                         .startUp();
@@ -111,7 +111,7 @@
                                 APP.childFor(contentContainer, "wrhProductsBalance_TableProdsBalanceByTypesKinds",
                                         TDocumentSimpleTable, {titleText:"Остатки товаров по видам товара",
                                             dataURL:"/reports/productsBalance/getProductsBalanceByTypesKinds"})
-                                        .addEndDateBox("на","DOCDATE<=")
+                                        .addHeaderDateBox("на",{contentTableCondition:"DOCDATE<="})
                                         .addTotalCountNumberBox("ИТОГО строк:", 140)
                                         .addTotalSumNumberTextBox("ИТОГО остаток:",280, "SQTY", {style:"font-weight:bold;"})
                                         .startUp();
@@ -125,7 +125,7 @@
                                 APP.childFor(contentContainer, "wrhProductsBalance_TableProdsBatchesBalance",
                                         TDocumentSimpleTable, {titleText:"Остатки партий товаров",
                                             dataURL:"/reports/productsBalance/getProductsBatchesBalance"})
-                                        .addEndDateBox("на","DOCDATE<=")
+                                        .addHeaderDateBox("на",{contentTableCondition:"DOCDATE<="})
                                         .addTotalCountNumberBox("ИТОГО строк:", 140)
                                         .addTotalSumNumberTextBox("ИТОГО остаток:", 895, "SQTY", {style:"font-weight:bold;"})
                                         .startUp();
@@ -139,7 +139,7 @@
                                 APP.childFor(contentContainer, "wrhProductsBalance_TableProdsBalanceWCC",
                                         TDocumentSimpleTable, {titleText:"Остатки товаров с себестоимостью",
                                             dataURL:"/reports/productsBalance/getProductsBalanceWCC"})
-                                        .addEndDateBox("на","DOCDATE<=")
+                                        .addHeaderDateBox("на",{contentTableCondition:"DOCDATE<="})
                                         .addTotalCountNumberBox("ИТОГО строк:", 140)
                                         .addTotalSumNumberTextBox("ИТОГО остаток:", 660, "SQTY", {style:"font-weight:bold;"})
                                         .addTotalSumNumberTextBox("ИТОГО сумма себестоимости:", 290, "COST_SUM", {style:"font-weight:bold;"})
@@ -153,7 +153,7 @@
                                 APP.childFor(contentContainer, "wrhProductsBalance_TableProdsBatchesBalanceWCC",
                                         TDocumentSimpleTable, {titleText:"Остатки партий товаров с себестоимостью",
                                             dataURL:"/reports/productsBalance/getProductsBatchesBalanceWCC"})
-                                        .addEndDateBox("на","DOCDATE<=")
+                                        .addHeaderDateBox("на",{contentTableCondition:"DOCDATE<="})
                                         .addTotalCountNumberBox("ИТОГО строк:", 140)
                                         .addTotalSumNumberTextBox("ИТОГО остаток:", 710, "SQTY", {style:"font-weight:bold;"})
                                         .addTotalSumNumberTextBox("ИТОГО сумма себестоимости:", 290, "COST_SUM", {style:"font-weight:bold;"})

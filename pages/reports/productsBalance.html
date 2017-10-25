@@ -59,7 +59,7 @@
                                 APP.childFor(contentContainer, "reportsProductsBalance_TableProdsBalanceByBataGroups",
                                         TDocumentSimpleTable, {titleText:"Остатки товаров по группам Bata",
                                             dataURL:"/reports/productsBalance/getProductsBalanceByBataAttributes"})
-                                        .addEndDateBox("на","DOCDATE<=")
+                                        .addHeaderDateBox("на",{contentTableCondition:"DOCDATE<="})
                                         .addSelectBox("Подразделение",{valueItemName:"UNIT_NAME", labelItemName:"UNIT_NAME",
                                             loadDropDownURL:"/dir/units/getDirUnitsForSelect",
                                             contentTableCondition:"UNIT_NAME="})
@@ -75,7 +75,7 @@
                                 APP.childFor(contentContainer, "reportsProductsBalance_TableProdsBalanceByTypesKinds",
                                         TDocumentSimpleTable, {titleText:"Остатки товаров по видам товара",
                                             dataURL:"/reports/productsBalance/getProductsBalanceByTypesKinds"})
-                                        .addEndDateBox("на","DOCDATE<=")
+                                        .addHeaderDateBox("на",{contentTableCondition:"DOCDATE<="})
                                         .addSelectBox("Подразделение",{valueItemName:"UNIT_NAME", labelItemName:"UNIT_NAME",
                                             loadDropDownURL:"/dir/units/getDirUnitsForSelect",
                                             contentTableCondition:"UNIT_NAME="})
@@ -92,7 +92,7 @@
                                 APP.childFor(contentContainer, "reportsProductsBalance_TableProdsBatchesBalance",
                                         TDocumentSimpleTable, {titleText:"Остатки партий товаров",
                                             dataURL:"/reports/productsBalance/getProductsBatchesBalance"})
-                                        .addEndDateBox("на","DOCDATE<=")
+                                        .addHeaderDateBox("на",{contentTableCondition:"DOCDATE<="})
                                         .addSelectBox("Подразделение",{valueItemName:"UNIT_NAME", labelItemName:"UNIT_NAME",
                                             loadDropDownURL:"/dir/units/getDirUnitsForSelect",
                                             contentTableCondition:"UNIT_NAME="})
@@ -109,7 +109,7 @@
                                 APP.childFor(contentContainer, "reportsProductsBalance_TableProdsBalanceWCC",
                                         TDocumentSimpleTable, {titleText:"Остатки товаров с себестоимостью",
                                             dataURL:"/reports/productsBalance/getProductsBalanceWCC"})
-                                        .addEndDateBox("на","DOCDATE<=")
+                                        .addHeaderDateBox("на",{contentTableCondition:"DOCDATE<="})
                                         .addSelectBox("Подразделение",{valueItemName:"UNIT_NAME", labelItemName:"UNIT_NAME",
                                             loadDropDownURL:"/dir/units/getDirUnitsForSelect",
                                             contentTableCondition:"UNIT_NAME="})
@@ -126,7 +126,7 @@
                                 APP.childFor(contentContainer, "reportsProductsBalance_TableProdsBatchesBalanceWCC",
                                         TDocumentSimpleTable, {titleText:"Остатки партий товаров с себестоимостью",
                                             dataURL:"/reports/productsBalance/getProductsBatchesBalanceWCC"})
-                                        .addEndDateBox("на","DOCDATE<=")
+                                        .addHeaderDateBox("на",{contentTableCondition:"DOCDATE<="})
                                         .addSelectBox("Подразделение",{valueItemName:"UNIT_NAME", labelItemName:"UNIT_NAME",
                                             loadDropDownURL:"/dir/units/getDirUnitsForSelect",
                                             contentTableCondition:"UNIT_NAME="})
