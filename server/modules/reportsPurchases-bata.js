@@ -18,7 +18,7 @@ module.exports.init = function(app) {
         {data: "ID", name: "ID", width: 100, type: "text", visible:false },
         { dataSource:"wrh_pinvs" },
         {data: "UNIT_NAME", name: "Подразделение", width: 120, type: "text",
-            dataSource:"dir_units", sourceField:"NAME", linkCondition:"dir_units.ID=wrh_pinvs.UNIT_ID" },
+            dataSource:"dir_units", sourceField:"NAME", linkCondition:"dir_units.ID=wrh_pinvs.UNIT_ID", visible:false },
         {data: "SUPPLIER_NAME", name: "Поставщик", width: 100, type: "text", /*visible:false,*/
             dataSource:"dir_contractors", sourceField:"NAME", linkCondition:"dir_contractors.ID=wrh_pinvs.SUPPLIER_ID" },
         {data: "DOCDATE", name: "Дата", dataSource:"wrh_pinvs", sourceField:"DOCDATE" },
@@ -70,7 +70,7 @@ module.exports.init = function(app) {
         {data: "ID", name: "ID", width: 100, type: "text", visible:false },
         { dataSource:"wrh_pinvs" },
         {data: "UNIT_NAME", name: "Подразделение", width: 120, type: "text",
-            dataSource:"dir_units", sourceField:"NAME", linkCondition:"dir_units.ID=wrh_pinvs.UNIT_ID" },
+            dataSource:"dir_units", sourceField:"NAME", linkCondition:"dir_units.ID=wrh_pinvs.UNIT_ID", visible:false },
         {data: "DOCDATE", name: "Дата", dataSource:"wrh_pinvs", sourceField:"DOCDATE" },
         {data: "DOCNUMBER", name: "Номер накладной", dataSource:"wrh_pinvs", sourceField:"NUMBER" },
         {data: "CURRENCY_CODE", name: "Валюта", width: 50, type: "text", dataSource:"sys_currency", sourceField:"CODE",
@@ -103,7 +103,7 @@ module.exports.init = function(app) {
         {data: "ID", name: "ID", width: 50, type: "text", readOnly:true, visible:false, dataSource:"wrh_pinvs"},
         {data: "NUMBER", name: "Номер", width: 65, type: "text", dataSource:"wrh_pinvs"},
         {data: "DOCDATE", name: "Дата", width: 55, type: "dateAsText", dataSource:"wrh_pinvs"},
-        {data: "UNIT_NAME", name: "Подразделение", width: 120, type: "text", dataSource:"dir_units", sourceField:"NAME"},
+        {data: "UNIT_NAME", name: "Подразделение", width: 120, type: "text", dataSource:"dir_units", sourceField:"NAME", visible:false},
         {data: "SUPPLIER_NAME", name: "Поставщик", width: 150, type: "text", dataSource:"dir_contractors", sourceField:"NAME"},
         {data: "SUPPLIER_ORDER_NUMBER", name: "Номер заказа поставщика", width: 100, type: "text", dataSource:"wrh_pinvs", sourceField:"SUPPLIER_ORDER_NUM"},
         {data: "SUPPLIER_INV_NUMBER", name: "Номер накл. поставщика", width: 100, type: "text", dataSource:"wrh_pinvs", sourceField:"SUPPLIER_INV_NUM"},
@@ -125,7 +125,7 @@ module.exports.init = function(app) {
         {data: "RATE", name: "Курс валюты", width: 60, type: "numeric2", visible:false, dataSource:"wrh_pinvs"},
         {data: "BASE_FACTOR", name: "Базов.коэфф.", width: 60, type: "numeric2", visible:false, dataSource:"wrh_pinvs"}
     ];
-    app.get("/reports/purchases/getPInvsList", function(req, res){    console.log("req.query=",req.query);
+    app.get("/reports/purchases/getPInvsList", function(req, res){
         var conditions={};
         for(var condItem in req.query) {
             if (condItem.indexOf("DOCDATE")>=0) {

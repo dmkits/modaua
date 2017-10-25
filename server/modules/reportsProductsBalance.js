@@ -18,7 +18,7 @@ module.exports.init = function(app) {
 
     var repProductsBalanceTableColumns=[
         {data: "UNIT_NAME", name: "Подразделение", width: 120, type: "text",
-            dataSource:"dir_units", sourceField:"NAME", linkCondition:"dir_units.ID=wrh_products_operations_v.UNIT_ID" },
+            dataSource:"dir_units", sourceField:"NAME", linkCondition:"dir_units.ID=wrh_products_operations_v.UNIT_ID", visible:false},
         {data: "SQTY", name: "Кол-во", dataFunction:{function:"sumIsNull", sourceField:"BATCH_QTY"} }
     ];
     repProductsBalanceTableColumns=
@@ -41,7 +41,7 @@ module.exports.init = function(app) {
     });
     var repProductsBalanceByBataAttributesTableColumns=[
         {data: "UNIT_NAME", name: "Подразделение", width: 120, type: "text",
-            dataSource:"dir_units", sourceField:"NAME", linkCondition:"dir_units.ID=wrh_products_operations_v.UNIT_ID" },
+            dataSource:"dir_units", sourceField:"NAME", linkCondition:"dir_units.ID=wrh_products_operations_v.UNIT_ID", visible:false},
         { dataSource:"dir_products", linkCondition:"dir_products.ID=wrh_products_operations_v.PRODUCT_ID"},
         {data: "SQTY", name: "Кол-во", dataFunction:{function:"sumIsNull", sourceField:"BATCH_QTY"} }
     ];
@@ -62,13 +62,18 @@ module.exports.init = function(app) {
     });
     var repProductsBalanceByTypesKindsTableColumns=[
         {data: "UNIT_NAME", name: "Подразделение", width: 120, type: "text",
-            dataSource:"dir_units", sourceField:"NAME", linkCondition:"dir_units.ID=wrh_products_operations_v.UNIT_ID" },
+            dataSource:"dir_units", sourceField:"NAME", linkCondition:"dir_units.ID=wrh_products_operations_v.UNIT_ID", visible:false},
         { dataSource:"dir_products", linkCondition:"dir_products.ID=wrh_products_operations_v.PRODUCT_ID"},
-        {data: "SQTY", name: "Кол-во", dataFunction:{function:"sumIsNull", sourceField:"BATCH_QTY"} }
+        {data: "SQTY", name: "Кол-во", width:80, dataFunction:{function:"sumIsNull", sourceField:"BATCH_QTY"} }
     ];
     repProductsBalanceByTypesKindsTableColumns=
         dir_products.addProductAttrsColumnsTo(repProductsBalanceByTypesKindsTableColumns,2, {
             excludeColumns:{"ARTICLE":true,"COLLECTION":true,"COLLECTION_CODE":true,"COMPOSITION":true,"SIZE":true}});
+    for(var i in repProductsBalanceByTypesKindsTableColumns){
+      var colItem=repProductsBalanceByTypesKindsTableColumns[i];
+        if(colItem.data=="PRODUCT_KIND")colItem.width=220;
+        else if(colItem.data=="PRODUCT_TYPE")colItem.width=180;
+    }
     app.get("/reports/productsBalance/getProductsBalanceByTypesKinds", function (req, res) {
         var conditions=req.query;
         for(var conditionItem in conditions){
@@ -85,7 +90,7 @@ module.exports.init = function(app) {
 
     var repProductsBatchesBalanceTableColumns=[
         {data: "UNIT_NAME", name: "Подразделение", width: 120, type: "text",
-            dataSource:"dir_units", sourceField:"NAME", linkCondition:"dir_units.ID=wrh_products_operations_v.UNIT_ID" },
+            dataSource:"dir_units", sourceField:"NAME", linkCondition:"dir_units.ID=wrh_products_operations_v.UNIT_ID", visible:false},
         {data: "BATCH_NUMBER", name: "Партия", width:70, type:"text", align:"center" },
         {data: "SQTY", name: "Кол-во", dataFunction:{function:"sumIsNull", sourceField:"BATCH_QTY"} }
     ];
@@ -110,7 +115,7 @@ module.exports.init = function(app) {
 
     var repProductsBalanceWCCTableColumns=[
         {data: "UNIT_NAME", name: "Подразделение", width: 120, type: "text",
-            dataSource:"dir_units", sourceField:"NAME", linkCondition:"dir_units.ID=wrh_products_operations_v.UNIT_ID" },
+            dataSource:"dir_units", sourceField:"NAME", linkCondition:"dir_units.ID=wrh_products_operations_v.UNIT_ID", visible:false },
         {data: "SQTY", name: "Кол-во", dataFunction:{function:"sumIsNull", sourceField:"BATCH_QTY"} },
         {data: "COST_SUM", name: "Себе-стоимость" /*, dataFunction:{function:"sumIsNull", sourceField:"BATCH_QTY"}*/}
     ];
@@ -135,7 +140,7 @@ module.exports.init = function(app) {
 
     var repProductsBatchesBalanceWCCTableColumns=[
         {data: "UNIT_NAME", name: "Подразделение", width: 120, type: "text",
-            dataSource:"dir_units", sourceField:"NAME", linkCondition:"dir_units.ID=wrh_products_operations_v.UNIT_ID" },
+            dataSource:"dir_units", sourceField:"NAME", linkCondition:"dir_units.ID=wrh_products_operations_v.UNIT_ID", visible:false },
         {data: "BATCH_NUMBER", name: "Партия", width:70, type:"text", align:"center" },
         {data: "SQTY", name: "Кол-во", dataFunction:{function:"sumIsNull", sourceField:"BATCH_QTY"} },
         {data: "COST_SUM", name: "Себе-стоимость" /*, dataFunction:{function:"sumIsNull", sourceField:"BATCH_QTY"}*/}
@@ -161,7 +166,7 @@ module.exports.init = function(app) {
 
     var repSearchedProducTableColumns=[
         {data: "UNIT_NAME", name: "Подразделение", width: 120, type: "text",
-            dataSource:"dir_units", sourceField:"NAME", linkCondition:"dir_units.ID=wrh_products_operations_v.UNIT_ID" },
+            dataSource:"dir_units", sourceField:"NAME", linkCondition:"dir_units.ID=wrh_products_operations_v.UNIT_ID",  visible:false},
         {data: "BATCH_NUMBER", name: "Партия", width:70, type:"text", align:"center" },
         {data: "SQTY", name: "Кол-во", dataFunction:{function:"sumIsNull", sourceField:"BATCH_QTY"} },
         {data: "COST_SUM", name: "Себе-стоимость" /*, dataFunction:{function:"sumIsNull", sourceField:"BATCH_QTY"}*/}
