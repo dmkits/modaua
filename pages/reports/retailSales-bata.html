@@ -45,8 +45,9 @@
                         btnSalesRetail.document =
                                 APP.childFor(contentPaneDetailContainer, "retailSales_TableSalesRetail",
                                         TDocumentSimpleTable, {titleText:"Продажи по чекам", dataURL:"/reports/retailSales/getRetailSales"})
-                                        .addHeaderDateBox("с", {initValueDate:"curMonthBDate", contentTableCondition:"DOCDATE>="}).addHeaderDateBox("по",{contentTableCondition:"DOCDATE<="})
-                                        .addSelectBox("Подразделение",{valueItemName:"UNIT_NAME", labelItemName:"UNIT_NAME",
+                                        .addHeaderDateBox("с", {width:105,initValueDate:"curMonthBDate", contentTableCondition:"DOCDATE>="})
+                                        .addHeaderDateBox("по",{width:150, contentTableCondition:"DOCDATE<="})
+                                        .addSelectBox("Подразделение",{width:280, valueItemName:"UNIT_NAME", labelItemName:"UNIT_NAME",
                                             loadDropDownURL:"/dir/units/getDirUnitsForSelect",
                                             contentTableCondition:"UNIT_NAME="})
                                         .addTotalCountNumberBox("ИТОГО строк:", 140)
@@ -153,7 +154,6 @@
                     }
                     contentPaneDetailContainer.selectChild(retailSales_btnTicketList.document);
                 };
-
                 pageContainer.layout();
                 btnSalesRetail.onClick();
         });

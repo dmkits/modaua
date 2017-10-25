@@ -4,7 +4,7 @@
 define(["dojo/_base/declare", "app", "templateDocumentBase","dijit/form/Select", "hTableSimpleFiltered","request"],
     function(declare, APP, DocumentBase,Select, HTable, Request) {
         return declare("TemplateDocumentSimpleTable", [DocumentBase], {
-            /*
+            /**
             * args: {titleText, dataURL, dataURLCondition={...}, rightPane:true/false, rightPaneWidth,
             *       buttonUpdate, buttonPrint, buttonExportToExcel,
             *       printFormats={ ... } }
@@ -130,6 +130,7 @@ define(["dojo/_base/declare", "app", "templateDocumentBase","dijit/form/Select",
             /**
              * params : { initValueDate:"curDate"/"curMonthBDate"/"curMonthEDate", contentTableCondition:"<conditions>" }
              * default params.initValueDate = "curDate"
+             * default params.width = 100
              */
             addHeaderDateBox: function(labelText, params){
                 if(!params) params={};
@@ -137,8 +138,9 @@ define(["dojo/_base/declare", "app", "templateDocumentBase","dijit/form/Select",
                 if (params.initValueDate==="curMonthBDate") initValueDate= APP.curMonthBDate();
                 else if (params.initValueDate==="curMonthEDate") initValueDate= APP.curMonthEDate();
                 else initValueDate= APP.today();
+                if (!params.width) params.width=105;
                 var dateBox= this.addTableCellDateBoxTo(this.topTableRow,
-                    {labelText:labelText, labelStyle:"margin-left:5px;", cellWidth:150, cellStyle:"text-align:right;",
+                    {labelText:labelText, labelStyle:"margin-left:5px;", cellWidth:params.width, cellStyle:"text-align:right;",
                         initValueDate:initValueDate});
                 if(!this.headerData) this.headerData=[];
                 this.headerData.push({type:"DateBox",instance:dateBox});
@@ -156,11 +158,11 @@ define(["dojo/_base/declare", "app", "templateDocumentBase","dijit/form/Select",
             addCheckBtnCondition: function(labelText, params){
                 if(!params) params={};
                 if (params.width===undefined) params.width=100;
-                var btnChecked= false;
+                var btnChecked= true;
                 if (this.headerData) {
                     for(var i=0;i<this.headerData.length;i++)
                         if(this.headerData[i].type=="CheckButton"){
-                            btnChecked= true; break;
+                            btnChecked= false; break;
                         }
                 }
                 var checkBtn= this.addTableCellButtonTo(this.btnsTableRow, {labelText:labelText, cellWidth:params.width,
@@ -182,13 +184,16 @@ define(["dojo/_base/declare", "app", "templateDocumentBase","dijit/form/Select",
                 return this;
             },
             /**
-             * params : { loadDropDownURL, valueItemName, labelDataItem, contentTableCondition:"<conditions>" }
+             * params : { width, loadDropDownURL, valueItemName, labelDataItem, contentTableCondition:"<conditions>" }
              */
             addSelectBox:function(label, params){
-                var input=this.addTableInputTo(this.topTableRow,{labelText:label, labelStyle:"margin-left:5px;", cellWidth:200, cellStyle:"text-align:right;"});
+                if (!params) params={};
+                var input=this.addTableInputTo(this.topTableRow,{labelText:label, labelStyle:"margin-left:5px;", cellWidth:params.width, cellStyle:"text-align:right;"});
                 var select= APP.instanceFor(input, Select,
-                    {style:"width:180px;", labelDataItem:params.labelDataItem,loadDropDownURL:params.loadDropDownURL,contentTableCondition:params.contentTableCondition,
-                        /*it's for print*/width:200, labelText:label/*, printStyle:params.style, inputStyle:params.inputStyle*/ });
+                    {style:"width:180px;", labelDataItem:params.labelDataItem,loadDropDownURL:params.loadDropDownURL,contentTableCondition:params.contentTableCondition});
+
+                select.printParams = {cellWidth:params.width, labelText:label, printStyle:params.style};
+
                 if(!this.headerData) this.headerData=[];
                 this.headerData.push({type:"SelectBox",instance:select});
                 select.loadDropDownValuesFromServer= function(callback){
@@ -236,7 +241,10 @@ define(["dojo/_base/declare", "app", "templateDocumentBase","dijit/form/Select",
                 };
                 return this;
             },
-            addBtnPrint: function(width, labelText, printFormats){
+            /*
+             * params = { items:["print1","print2",...] }
+             */
+            addBtnPrint: function(width, labelText, printFormats, params){
                 if (width===undefined) width=100;
                 if (!this.btnUpdate) this.addBtnUpdate(width);
                 if (!labelText) labelText="Печатать";
@@ -539,6 +547,11 @@ define(["dojo/_base/declare", "app", "templateDocumentBase","dijit/form/Select",
                 return this;
             },
 
+            /**
+             * printParams={ cellWidth:params.cellWidth, cellStyle:params.cellStyle,
+                    labelText:params.labelText, labelStyle:params.labelStyle, inputStyle:params.inputStyle };
+             * @param printFormats
+             */
             doPrint: function(printFormats){
                 var printData = {};
                 if (this.titleText) {
@@ -546,22 +559,39 @@ define(["dojo/_base/declare", "app", "templateDocumentBase","dijit/form/Select",
                         {label:this.titleText, width:0, align:"center",style:"width:100%;font-size:14px;font-weight:bold;text-align:center;", contentStyle:"margin-top:5px;margin-bottom:3px;"});
                 }
                 var headerTextStyle="font-size:14px;", headerDateContentStyle="margin-bottom:3px;";
-                if (this.beginDateBox||this.endDateBox){
+                //if (this.beginDateBox||this.endDateBox){
+                //    this.addPrintDataItemTo(printData, "header", {newTable:true, style:headerTextStyle});
+                //    this.addPrintDataSubItemTo(printData, "header");
+                //    this.addPrintDataSubItemTo(printData, "header", {label:"Период:", width:80, align:"right",style:headerTextStyle, contentStyle:headerDateContentStyle});
+                //}
+                //if (this.beginDateBox)
+                //    this.addPrintDataSubItemTo(printData, "header",
+                //        {label:"с ", width:110, align:"left",style:headerTextStyle, contentStyle:headerDateContentStyle, value:this.beginDateBox.get("value"),type:"date"});
+                //if (this.endDateBox)
+                //    this.addPrintDataSubItemTo(printData, "header",
+                //        {label:"по ", width:110, align:"left",style:headerTextStyle, contentStyle:headerDateContentStyle, value:this.endDateBox.get("value"),type:"date"});
+                //if (this.selectBoxes) {
+                //    for (var i in this.selectBoxes){
+                //        var selectBox=this.selectBoxes[i];
+                //        this.addPrintDataSubItemTo(printData, "header",
+                //            {label:selectBox.labelText, width:selectBox.width, align:"center",style:headerTextStyle, contentStyle:headerDateContentStyle, value:selectBox.get("value")});
+                //    }
+                //}
+                if(this.headerData){
                     this.addPrintDataItemTo(printData, "header", {newTable:true, style:headerTextStyle});
                     this.addPrintDataSubItemTo(printData, "header");
-                    this.addPrintDataSubItemTo(printData, "header", {label:"Период:", width:80, align:"right",style:headerTextStyle, contentStyle:headerDateContentStyle});
-                }
-                if (this.beginDateBox)
-                    this.addPrintDataSubItemTo(printData, "header",
-                        {label:"с ", width:110, align:"left",style:headerTextStyle, contentStyle:headerDateContentStyle, value:this.beginDateBox.get("value"),type:"date"});
-                if (this.endDateBox)
-                    this.addPrintDataSubItemTo(printData, "header",
-                        {label:"по ", width:110, align:"left",style:headerTextStyle, contentStyle:headerDateContentStyle, value:this.endDateBox.get("value"),type:"date"});
-                if (this.selectBoxes) {
-                    for (var i in this.selectBoxes){
-                        var selectBox=this.selectBoxes[i];
-                        this.addPrintDataSubItemTo(printData, "header",
-                            {label:selectBox.labelText, width:selectBox.width, align:"center",style:headerTextStyle, contentStyle:headerDateContentStyle, value:selectBox.get("value")});
+                    for(var i in this.headerData){
+                        var headerItemData=this.headerData[i]; console.log("headerItemData=",headerItemData);
+                        var printParams={};
+                        if(headerItemData.type=="DateBox"){
+                            printParams = headerItemData.instance.printParams;
+                                this.addPrintDataSubItemTo(printData, "header",
+                                    {label:printParams.labelText, width:printParams.cellWidth, align:"left",style:headerTextStyle, contentStyle:headerDateContentStyle, value:headerItemData.instance.get("value"),type:"date"});
+                        }else if(headerItemData.type=="SelectBox"){
+                            printParams = headerItemData.instance.printParams;
+                            this.addPrintDataSubItemTo(printData, "header",
+                                        {label:printParams.labelText, width:printParams.cellWidth, align:"left",style:headerTextStyle, contentStyle:headerDateContentStyle, value:headerItemData.instance.get("value")});
+                        }
                     }
                 }
                 this.addPrintDataSubItemTo(printData, "header");

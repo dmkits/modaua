@@ -113,7 +113,7 @@ define(["dojo/_base/declare", "dijit/layout/BorderContainer", "dijit/layout/Layo
                 return tableCell;
             },
 
-            /*
+            /**
              * params= {labelText, btnStyle, btnChecked, btnParameters}
              */
             addButtonTo: function(parentNode, params){
@@ -133,14 +133,17 @@ define(["dojo/_base/declare", "dijit/layout/BorderContainer", "dijit/layout/Layo
                 parentNode.appendChild(button.domNode);
                 return button;
             },
-            /*
+            /**
              * params= {labelText, cellWidth, cellStyle, btnStyle, btnParameters}
              */
             addTableHeaderButtonTo: function(tableRowNode, params){
                 var tableCell = this.addHeaderCellToTableRow(tableRowNode, params.cellWidth, params.cellStyle);
-                return this.addButtonTo(tableCell, params);
+                var button= this.addButtonTo(tableCell, params);
+                button.printParams={ cellWidth:params.cellWidth, cellStyle:params.cellStyle,
+                    labelText:params.labelText };
+                return button;
             },
-            /*
+            /**
              * params= {labelText, cellWidth, cellStyle, btnStyle, btnChecked, btnParameters}
              */
             addTableCellButtonTo: function(tableRowNode, params){
@@ -160,7 +163,7 @@ define(["dojo/_base/declare", "dijit/layout/BorderContainer", "dijit/layout/Layo
                 parent.appendChild(tag);
                 return tag;
             },
-            /*
+            /**
              * params= {labelText,labelStyle, inputStyle, cellWidth,cellStyle, initValueText, inputParams}
              */
             addTableCellTextBoxTo: function(tableRowNode, params){
@@ -171,7 +174,10 @@ define(["dojo/_base/declare", "dijit/layout/BorderContainer", "dijit/layout/Layo
                 if (params.inputParams) textBoxParams=params.inputParams;
                 if (params.initValueText!==undefined) textBoxParams.value=params.initValueText;
                 if (params.inputStyle!==undefined) textBoxParams.style=params.inputStyle;
-                return new TextBox(textBoxParams,inputTextBox);
+                var textBox= new TextBox(textBoxParams,inputTextBox);
+                textBox.printParams={ cellWidth:params.cellWidth, cellStyle:params.cellStyle,
+                    labelText:params.labelText, labelStyle:params.labelStyle, inputStyle:params.inputStyle };
+                return textBox;
             },
 
             addTableInputTo: function(tableRowNode, params){
@@ -187,25 +193,27 @@ define(["dojo/_base/declare", "dijit/layout/BorderContainer", "dijit/layout/Layo
                 //this.addDetailHeaderElement(false,select);
                 return input;
             },
-            /*
-             * params= {labelText,labelStyle, inputStyle, cellWidth,cellStyle, initValueDate, inputParams}
+            /**
+             * params= {labelText,labelStyle, inputStyle, cellWidth,cellStyle, initValueDate, dateBoxParams}
              */
             addTableCellDateBoxTo: function(tableRowNode, params){
                 if (!params) params={};
                 var tableCell = this.addLeftCellToTableRow(tableRowNode, params.cellWidth, params.cellStyle);
                 var inputDateBox= this.createInputTo(tableCell, params.labelText, params.labelStyle);
                 var dateBoxParams={};
-                if (params.inputParams) dateBoxParams=params.inputParams;
+                if (params.dateBoxParams) dateBoxParams=params.dateBoxParams;
                 if (params.initValueDate!==undefined) dateBoxParams.value= params.initValueDate;
                 dateBoxParams.style= "width:85px";
                 if (params.inputStyle) dateBoxParams.style=params.inputStyle;
                 var dateTextBox=new DateTextBox(dateBoxParams,inputDateBox);
                 this.addPreviousDayBtn(tableCell,dateTextBox);
                 this.addNextDayBtn(tableCell,dateTextBox);
+                dateTextBox.printParams={ cellWidth:params.cellWidth, cellStyle:params.cellStyle,
+                    labelText:params.labelText, labelStyle:params.labelStyle, inputStyle:params.inputStyle };
                 return  dateTextBox;
             },
-            /*
-             * params= {cellWidth, cellStyle, labelText, labelStyle, inputParam, inputStyle, initValues}
+            /**
+             * params= {cellWidth, cellStyle, labelText, labelStyle, inputParams, inputStyle, initValues}
              */
             addTableCellNumberTextBoxTo: function(tableRowNode, params){
                 if (!params) params={};
@@ -215,7 +223,10 @@ define(["dojo/_base/declare", "dijit/layout/BorderContainer", "dijit/layout/Layo
                 if (params.inputParams) numberTextBoxParams=params.inputParams;
                 if (params.initValue!==undefined) numberTextBoxParams.value= params.initValue;
                 if (params.inputStyle) numberTextBoxParams.style=params.inputStyle;
-                return new NumberTextBox(numberTextBoxParams,inputNumberTextBox);
+                var numberTextBox= new NumberTextBox(numberTextBoxParams,inputNumberTextBox);
+                numberTextBox.printParams={ cellWidth:params.cellWidth, cellStyle:params.cellStyle,
+                    labelText:params.labelText, labelStyle:params.labelStyle, inputStyle:params.inputStyle };
+                return numberTextBox;
             },
             addChildTitlePaneTo: function(parent, params, style){
                 if (!params) params={};

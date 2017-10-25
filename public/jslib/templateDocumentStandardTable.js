@@ -75,7 +75,7 @@ define(["dojo/_base/declare", "dijit/layout/BorderContainer", "dijit/layout/Cont
                 if (params.bdateCondition) {
                     this.listBDate = this.addTableCellDateBoxTo(this.listPeriodTableRow,
                         {labelText:params.bdatelabelText, labelStyle:"margin-left:5px;", cellWidth:150, cellStyle:"text-align:right;",
-                            inputParams:{conditionName:params.bdateCondition}, initValueDate:APP.curMonthBDate()});
+                            dateBoxParams:{conditionName:params.bdateCondition}, initValueDate:APP.curMonthBDate()});
                     this.listBDate.onChange = function(){
                         instance.loadListTableContentFromServer();
                     }
@@ -83,7 +83,7 @@ define(["dojo/_base/declare", "dijit/layout/BorderContainer", "dijit/layout/Cont
                 if (params.edateCondition) {
                     this.listEDate = this.addTableCellDateBoxTo(this.listPeriodTableRow,
                         {labelText:params.edatelabelText, labelStyle:"margin-left:5px;", cellWidth:150, cellStyle:"text-align:right;",
-                            inputParams:{conditionName:params.edateCondition}, initValueDate:APP.curMonthEDate()});
+                            dateBoxParams:{conditionName:params.edateCondition}, initValueDate:APP.curMonthEDate()});
                     this.listEDate.onChange = function(){
                         instance.loadListTableContentFromServer();
                     }
@@ -308,8 +308,7 @@ define(["dojo/_base/declare", "dijit/layout/BorderContainer", "dijit/layout/Cont
                 if (!params.inputStyle) params.inputStyle="";
                 if (!params.style) params.style="";
                 var textBox= this.addTableCellTextBoxTo(this.detailHeaderTable.lastChild,
-                    {cellWidth:cellWidth, labelText:label, labelStyle:params.style, inputStyle:params.style+params.inputStyle,
-                        inputParams:{/*it's for print*/cellWidth:cellWidth, labelText:label, printStyle:params.style, inputStyle:params.inputStyle } });
+                    {cellWidth:cellWidth, labelText:label, labelStyle:params.style, inputStyle:params.style+params.inputStyle});
 
 
                 //var totalNumberTextBox= this.addTableCellNumberTextBoxTo(this.totalTableRow,
@@ -334,8 +333,7 @@ define(["dojo/_base/declare", "dijit/layout/BorderContainer", "dijit/layout/Cont
                 if (!params.inputStyle) params.inputStyle="";
                 if (!params.style) params.style="";
                 var dateBox= this.addTableCellDateBoxTo(this.detailHeaderTable.lastChild,
-                    {cellWidth:cellWidth, labelText:label, labelStyle:params.style, inputStyle:params.style+params.inputStyle,
-                        inputParams:{/*it's for print*/cellWidth:cellWidth, labelText:label, printStyle:params.style, inputStyle:params.inputStyle } });
+                    {cellWidth:cellWidth, labelText:label, labelStyle:params.style, inputStyle:params.style+params.inputStyle});
                 this.detailHeader.addControlElementObject(dateBox, itemName);
                 this.addDetailHeaderElement(false,dateBox);
                 return this;
@@ -350,8 +348,7 @@ define(["dojo/_base/declare", "dijit/layout/BorderContainer", "dijit/layout/Cont
                 if (!params.pattern||params.pattern.length==0) params.pattern="########0.00";
                 var numberTextBox= this.addTableCellNumberTextBoxTo(this.detailHeaderTable.lastChild,
                     { labelText:label, labelStyle:params.style, inputStyle:params.style+"text-align:right;"+params.inputStyle, cellWidth:cellWidth,
-                        inputParams:{constraints:{pattern:params.pattern},
-                        /*it's for print*/cellWidth:cellWidth, labelText:label, printStyle:params.style, inputStyle:"text-align:right;"+params.inputStyle} });
+                        inputParams:{constraints:{pattern:params.pattern}} });
                 this.detailHeader.addControlElementObject(numberTextBox, itemName);
                 this.addDetailHeaderElement(false,numberTextBox);
                 return this;
@@ -366,8 +363,8 @@ define(["dojo/_base/declare", "dijit/layout/BorderContainer", "dijit/layout/Cont
                 var cell= this.addLeftCellToTableRow(this.detailHeaderTable.lastChild, cellWidth);
                 var input= this.createInputTo(cell, label, params.style);
                 var select= APP.instanceFor(input, Select,
-                    {style:params.inputStyle+params.style, labelDataItem:params.labelDataItem,loadDropDownURL:params.loadDropDownURL,
-                        /*it's for print*/cellWidth:cellWidth, labelText:label, printStyle:params.style, inputStyle:params.inputStyle });
+                    {style:params.inputStyle+params.style, labelDataItem:params.labelDataItem,loadDropDownURL:params.loadDropDownURL});
+                select.printParams= {cellWidth:cellWidth, labelText:label, cellStyle:params.style, inputStyle:params.inputStyle};/*it's for print*/
                 this.detailHeader.addControlElementObject(select, itemName);
                 this.addDetailHeaderElement(false,select);
                 return this;
