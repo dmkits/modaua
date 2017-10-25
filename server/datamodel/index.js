@@ -767,6 +767,14 @@ function _getDataForDocTable(params, resultCallback){
         resultCallback(tableData);
         return;
     }
+    var tableConditions={};
+    for(var conditionItem in params.conditions){
+        if(conditionItem.indexOf("UNIT_NAME")>=0){
+            tableConditions[conditionItem.replace("UNIT_NAME","dir_units.NAME")]=params.conditions[conditionItem];
+        } else
+            tableConditions[conditionItem]=params.conditions[conditionItem];
+    }
+    params.conditions=tableConditions;
     params.tableData=tableData;
     this.getDataItemsForTable(params, resultCallback);
 }

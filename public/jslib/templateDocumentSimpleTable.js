@@ -75,27 +75,22 @@ define(["dojo/_base/declare", "app", "templateDocumentBase","dijit/form/Select",
             },
             loadTableContent: function(additionalCondition){                                                            //console.log("TemplateDocumentSimpleTable loadTableContent");
                 var condition = (this.dataURLCondition)?this.dataURLCondition:{};
-                if (this.beginDateBox) condition[this.beginDateBox.conditionName.replace("=","~")] =
-                    this.beginDateBox.format(this.beginDateBox.get("value"),{selector:"date",datePattern:"yyyy-MM-dd"});
-                if (this.endDateBox) condition[this.endDateBox.conditionName.replace("=","~")] =
-                    this.endDateBox.format(this.endDateBox.get("value"),{selector:"date",datePattern:"yyyy-MM-dd"});
-                if (this.btnsConditions) {
-                    for(var ibtn=0;ibtn<this.btnsConditions.length;ibtn++){
-                        var checkBtn=this.btnsConditions[ibtn], btnConditions=checkBtn.conditions;
-                        if (checkBtn.checked===true)
-                            for(var conditionItemName in btnConditions) condition[conditionItemName]=btnConditions[conditionItemName];
+                if(this.headerData){
+                    for(var i=0; i<this.headerData.length;i++){
+                        var headerDataItem=this.headerData[i], headerInstanceType=headerDataItem.type, headerInstance=headerDataItem.instance;
+                        if(headerInstanceType=="DateBox"&&headerInstance.contentTableCondition){
+                            condition[headerInstance.contentTableCondition.replace("=","~")] =
+                                headerInstance.format(headerInstance.get("value"),{selector:"date",datePattern:"yyyy-MM-dd"});
+                        } else if(headerInstanceType=="CheckButton"&&headerInstance.checked==true&&headerInstance.contentTableConditions){
+                            var checkBtnConditions=headerInstance.contentTableConditions;
+                            for(var conditionItemName in checkBtnConditions) condition[conditionItemName]=checkBtnConditions[conditionItemName];
+                        } else if(headerInstanceType=="SelectBox"&&headerInstance.contentTableCondition){
+                            condition[headerInstance.contentTableCondition.replace("=","~")] =headerInstance.get("value");
+                        }
                     }
                 }
-                if(this.selectBoxes){
-                    for(var j in this.selectBoxes){
-                        var selectBox=this.selectBoxes[j];  console.log("selectBox=",selectBox);
-                    if (selectBox.contentTableCondition.indexOf("UNIT_NAME")>=0){      console.log("inside if");
-                        selectBox.contentTableCondition=selectBox.contentTableCondition.replace("UNIT_NAME","dir_units.NAME");
-                    }
-                        condition[selectBox.contentTableCondition.replace("=","~")] =selectBox.get("value");
-                    }
-                }
-
+                //addBeginDateBox
+                //addEndDateBox
                 if (additionalCondition)
                     for(var addConditionItemName in additionalCondition)
                         condition[addConditionItemName.replace("=","~")]=additionalCondition[addConditionItemName];
@@ -137,18 +132,17 @@ define(["dojo/_base/declare", "app", "templateDocumentBase","dijit/form/Select",
             /**
              * params : { initValueDate:"curDate"/"curMonthBDate"/"curMonthEDate", contentTableCondition:"<conditions>" }
              * default params.initValueDate = "curDate"
-             * default: initValueDate="curDate"
              */
-            addHeaderDateBox: function(labelText, conditionName, params){
+            addHeaderDateBox: function(labelText, params){
                 if(!params) params={};
                 var initValueDate=null;
                 if (params.initValueDate==="curMonthBDate") initValueDate= APP.curMonthBDate();
                 else if (params.initValueDate==="curMonthEDate") initValueDate= APP.curMonthEDate();
                 else initValueDate= APP.today();
-                if(!this.headerData) this.headerData=[];
                 var dateBox= this.addTableCellDateBoxTo(this.topTableRow,
                     {labelText:labelText, labelStyle:"margin-left:5px;", cellWidth:150, cellStyle:"text-align:right;",
-                        inputParams:{conditionName:conditionName}, initValueDate:initValueDate});
+                        initValueDate:initValueDate});
+                if(!this.headerData) this.headerData=[];
                 this.headerData.push({type:"DateBox",instance:dateBox});
                 if(params.contentTableCondition) dateBox.contentTableCondition=params.contentTableCondition;
                 var instance = this;
@@ -157,44 +151,48 @@ define(["dojo/_base/declare", "app", "templateDocumentBase","dijit/form/Select",
                 };
                 return this;
             },
-
-            /*
-             * params : { initValueDate:"curDate"/"curMonthBDate"/"curMonthEDate" }
-             * default: initValueDate="curDate"
+            /**
+             * params : { checked:true/false, contentTableConditions:{<condition>:<conditionValue>, ... } }
+             * default params.width=100
              */
-            addBeginDateBox: function(labelText, conditionName, params){
-                var initValueDate=null;
-                if (!params||params.initValueDate===undefined||params.initValueDate==="curDate") initValueDate= APP.today();
-                else if (params.initValueDate==="curMonthBDate") initValueDate= APP.curMonthBDate();
-                else if (params.initValueDate==="curMonthEDate") initValueDate= APP.curMonthEDate();
-                this.beginDateBox= this.addTableCellDateBoxTo(this.topTableRow,
-                    {labelText:labelText, labelStyle:"margin-left:5px;", cellWidth:150, cellStyle:"text-align:right;",
-                        inputParams:{conditionName:conditionName}, initValueDate:initValueDate});
+            addCheckBtnCondition: function(labelText, params){
+                if(!params) params={};
+                if (params.width===undefined) params.width=100;
+                var btnChecked= false;
+                if (this.headerData) {
+                    for(var i=0;i<this.headerData.length;i++)
+                        if(this.headerData[i].type=="CheckButton"){
+                            btnChecked= true; break;
+                        }
+                }
+                var checkBtn= this.addTableCellButtonTo(this.btnsTableRow, {labelText:labelText, cellWidth:params.width,
+                    cellStyle:"text-align:center;", btnChecked:btnChecked});
+                if(!this.headerData) this.headerData=[];
+                this.headerData.push({type:"CheckButton",instance:checkBtn});
+                checkBtn.contentTableConditions=params.contentTableConditions;
                 var instance = this;
-                this.beginDateBox.onChange = function(){
+                checkBtn.onClick = function(){
+                    for(var i=0;i<instance.headerData.length;i++) {
+                        var headerDataItem = instance.headerData[i];
+                        if (headerDataItem.type=="CheckButton"&&headerDataItem.instance!=this)
+                            headerDataItem.instance.set("checked", false, false);
+                        else
+                            headerDataItem.instance.set("checked", true, false);
+                    }
                     instance.loadTableContent();
                 };
                 return this;
             },
-            addEndDateBox: function(labelText, conditionName, initValueDate){
-                if (initValueDate===undefined||initValueDate===null) initValueDate= APP.today();
-                this.endDateBox= this.addTableCellDateBoxTo(this.topTableRow,
-                    {labelText:labelText, labelStyle:"margin-left:5px;", cellWidth:150, cellStyle:"text-align:right;",
-                        inputParams:{conditionName:conditionName}, initValueDate:initValueDate});
-                var instance = this;
-                this.endDateBox.onChange = function(){
-                    instance.loadTableContent();
-                };
-                return this;
-            },
-
+            /**
+             * params : { loadDropDownURL, valueItemName, labelDataItem, contentTableCondition:"<conditions>" }
+             */
             addSelectBox:function(label, params){
                 var input=this.addTableInputTo(this.topTableRow,{labelText:label, labelStyle:"margin-left:5px;", cellWidth:200, cellStyle:"text-align:right;"});
                 var select= APP.instanceFor(input, Select,
                     {style:"width:180px;", labelDataItem:params.labelDataItem,loadDropDownURL:params.loadDropDownURL,contentTableCondition:params.contentTableCondition,
                         /*it's for print*/width:200, labelText:label/*, printStyle:params.style, inputStyle:params.inputStyle*/ });
-                if(!this.selectBoxes) this.selectBoxes=[];
-                this.selectBoxes.push(select);
+                if(!this.headerData) this.headerData=[];
+                this.headerData.push({type:"SelectBox",instance:select});
                 select.loadDropDownValuesFromServer= function(callback){
                     Request.getJSONData({url: select.loadDropDownURL, consoleLog: true},
                         function (success,data) {
@@ -216,20 +214,6 @@ define(["dojo/_base/declare", "app", "templateDocumentBase","dijit/form/Select",
                 select.onChange=function(){
                     thisInstance.loadTableContent();
                 };
-                function setSelectDropDown(selectObj) {
-                    selectObj.selectToggleDropDown= selectObj.toggleDropDown;
-                    selectObj.toggleDropDown= function(){                                                                   //console.log("ContentController.setSelectDropDown toggleDropDown");
-                        Request.getJSONData({url: selectObj.loadDropDownURL, consoleLog: true},
-                            function (success,data) {
-                                var options=selectObj.get("options"),value = selectObj.get("value");
-                                if (success&&data.items) {
-                                    selectObj.set("options", data.items);
-                                    selectObj.set("value", value);
-                                } else if (success&&!data.items) console.log("ContentController.setSelectDropDown loadDropDown getJSONData data error:",data);
-                                selectObj.selectToggleDropDown();
-                            });
-                    };
-                }
                 return this;
             },
             /*
@@ -276,28 +260,6 @@ define(["dojo/_base/declare", "app", "templateDocumentBase","dijit/form/Select",
                 };
                 return this;
             },
-            addCheckBtnCondition: function(width, labelText, conditions){
-                if (width===undefined) width=100;
-                var btnChecked= false;
-                if (!this.btnsConditions) {
-                    this.btnsConditions=[];
-                    btnChecked= true;
-                }
-                var checkBtnCondition= this.addTableCellButtonTo(this.btnsTableRow, {labelText:labelText, cellWidth:width, cellStyle:"text-align:center;", btnChecked:btnChecked});
-                this.btnsConditions.push(checkBtnCondition);
-                checkBtnCondition.btnsConditions=this.btnsConditions;
-                checkBtnCondition.conditions= conditions;
-                var instance = this;
-                checkBtnCondition.onClick = function(){
-                    for(var i=0;i<this.btnsConditions.length;i++) {
-                        var checkBtn = this.btnsConditions[i];
-                        if (checkBtn != this) checkBtn.set("checked", false, false); else checkBtn.set("checked", true, false);
-                    }
-                    instance.loadTableContent();
-                };
-                return this;
-            },
-
             setTotalContent: function(){
                 if (!this.totalContent) {
                     this.totalContent = this.setChildContentPaneTo(this, {region:'bottom',style:"margin:0;padding:0;border:none;"});
@@ -568,11 +530,12 @@ define(["dojo/_base/declare", "app", "templateDocumentBase","dijit/form/Select",
                 if (this.buttonUpdate!=false&&!this.btnUpdate) this.addBtnUpdate();
                 if (this.buttonPrint!=false&&!this.btnPrint) this.addBtnPrint();
                 if (this.buttonExportToExcel!=false&&!this.btnExportToExcel) this.addBtnExportToExcel();
-                if(this.selectBoxes)
-                    for(var i=0;i<this.selectBoxes.length;i++){
-                        var selectBox= this.selectBoxes[i];
-                        if(selectBox.loadDropDownValuesFromServer) selectBox.loadDropDownValuesFromServer();
+                if(this.headerData)
+                    for(var i=0;i<this.headerData.length;i++){
+                        var headerDataItem=this.headerData[i], headerInstanceType=headerDataItem.type, headerInstance=headerDataItem.instance;
+                        if(headerInstanceType=="SelectBox"&&headerInstance.loadDropDownValuesFromServer) headerInstance.loadDropDownValuesFromServer();
                     }
+
                 this.loadTableContent();
                 this.layout();
                 return this;
