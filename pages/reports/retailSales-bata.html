@@ -44,7 +44,7 @@
                     if (!btnSalesRetail.document){
                         btnSalesRetail.document =
                                 APP.childFor(contentPaneDetailContainer, "retailSales_TableSalesRetail",
-                                        TDocumentSimpleTable, {titleText:"Продажи чекам", dataURL:"/reports/retailSales/getRetailSales"})
+                                        TDocumentSimpleTable, {titleText:"Продажи по чекам", dataURL:"/reports/retailSales/getRetailSales"})
                                         .addHeaderDateBox("с", {initValueDate:"curMonthBDate", contentTableCondition:"DOCDATE>="}).addHeaderDateBox("по",{contentTableCondition:"DOCDATE<="})
                                         .addSelectBox("Подразделение",{valueItemName:"UNIT_NAME", labelItemName:"UNIT_NAME",
                                             loadDropDownURL:"/dir/units/getDirUnitsForSelect",
