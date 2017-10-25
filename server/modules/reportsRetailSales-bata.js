@@ -25,7 +25,7 @@ module.exports.init = function(app) {
         {data: "ID", name: "ID", width: 100, type: "text", visible:false },
         { dataSource:"wrh_retail_tickets" },
         {data: "UNIT_NAME", name: "Подразделение", width: 120, type: "text",
-            dataSource:"dir_units", sourceField:"NAME", linkCondition:"dir_units.ID=wrh_retail_tickets.UNIT_ID" },
+            dataSource:"dir_units", sourceField:"NAME", linkCondition:"dir_units.ID=wrh_retail_tickets.UNIT_ID", visible:false },
         {data: "DOCDATE", name: "Дата", dataSource:"wrh_retail_tickets", sourceField:"DOCDATE" },
         {data: "DOCNUMBER", name: "Номер чека", dataSource:"wrh_retail_tickets", sourceField:"NUMBER" },
         {data: "BUYER_NAME", name: "Покупатель", width: 100, type: "text", visible:false,
@@ -55,7 +55,7 @@ module.exports.init = function(app) {
         {data: "ID", name: "ID", width: 100, type: "text", visible:false },
         { dataSource:"wrh_retail_tickets" },
         {data: "UNIT_NAME", name: "Подразделение", width: 120, type: "text",
-            dataSource:"dir_units", sourceField:"NAME", linkCondition:"dir_units.ID=wrh_retail_tickets.UNIT_ID" },
+            dataSource:"dir_units", sourceField:"NAME", linkCondition:"dir_units.ID=wrh_retail_tickets.UNIT_ID", visible:false},
         {data: "DOCDATE", name: "Дата", dataSource:"wrh_retail_tickets", sourceField:"DOCDATE" },
         {data: "DOCNUMBER", name: "Номер чека", dataSource:"wrh_retail_tickets", sourceField:"NUMBER" },
         {data: "BUYER_NAME", name: "Покупатель", width: 100, type: "text", visible:false,
@@ -84,6 +84,8 @@ module.exports.init = function(app) {
     });
     var repRetailSalesByArticlesTableColumns=[
         { dataSource:"wrh_retail_tickets" },
+        {data: "UNIT_NAME", name: "Подразделение", width: 120, type: "text", dataSource:"dir_units",
+            sourceField:"NAME",linkCondition:"dir_units.ID=wrh_retail_tickets.UNIT_ID", visible:false  },
         {data: "PRICE", name: "Цена" },
         {data: "SQTY", name: "Кол-во", dataFunction:{function:"sumIsNull", source:"wrh_retail_tickets_products", sourceField:"QTY"} },
         {data: "SPOSSUM", name: "Сумма", dataFunction:{function:"sumIsNull", source:"wrh_retail_tickets_products", sourceField:"POSSUM"}}
@@ -103,6 +105,8 @@ module.exports.init = function(app) {
 
     var repRetailSalesByCollectionsTableColumns=[
         { dataSource:"wrh_retail_tickets" },
+        {data: "UNIT_NAME", name: "Подразделение", width: 120, type: "text", dataSource:"dir_units",
+            sourceField:"NAME",linkCondition:"dir_units.ID=wrh_retail_tickets.UNIT_ID", visible:false  },
         {data: "PRICE", name: "Цена" },
         {data: "SQTY", name: "Кол-во", dataFunction:{function:"sumIsNull", source:"wrh_retail_tickets_products", sourceField:"QTY"} },
         {data: "SPOSSUM", name: "Сумма", dataFunction:{function:"sumIsNull", source:"wrh_retail_tickets_products", sourceField:"POSSUM"}}
@@ -122,6 +126,8 @@ module.exports.init = function(app) {
 
     var repRetailSalesByBataAttributesTableColumns=[
         { dataSource:"wrh_retail_tickets" },
+        {data: "UNIT_NAME", name: "Подразделение", width: 120, type: "text", dataSource:"dir_units",
+            sourceField:"NAME",linkCondition:"dir_units.ID=wrh_retail_tickets.UNIT_ID", visible:false  },
         {data: "PRICE", name: "Цена" },
         {data: "SQTY", name: "Кол-во", dataFunction:{function:"sumIsNull", source:"wrh_retail_tickets_products", sourceField:"QTY"} },
         {data: "SPOSSUM", name: "Сумма", dataFunction:{function:"sumIsNull", source:"wrh_retail_tickets_products", sourceField:"POSSUM"}}
@@ -165,7 +171,7 @@ module.exports.init = function(app) {
         {data: "NUMBER", name: "Номер", width: 65, type: "text", dataSource:"wrh_retail_tickets"},
         {data: "DOCDATE", name: "Дата", width: 55, type: "dateAsText", dataSource:"wrh_retail_tickets"},
         {data: "UNIT_NAME", name: "Подразделение", width: 120, type: "text", dataSource:"dir_units",
-            sourceField:"NAME",linkCondition:"dir_units.ID=wrh_retail_tickets.UNIT_ID" },
+            sourceField:"NAME",linkCondition:"dir_units.ID=wrh_retail_tickets.UNIT_ID", visible:false  },
         {data: "BUYER_NAME", name: "Покупатель", width: 150, type: "text", dataSource:"dir_contractors",
             sourceField:"NAME",linkCondition:"dir_contractors.ID=wrh_retail_tickets.BUYER_ID"},
         {data: "SQTY", name: "Кол-во", dataFunction:{function:"sumIsNull", source:"wrh_retail_tickets_products", sourceField:"QTY"} },
