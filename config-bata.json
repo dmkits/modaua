@@ -103,7 +103,7 @@
   "usersRoleAutorun":{
     "sysAdmin":["menuBarItemMainPage"],
     "sysAdminDev":["menuBarItemMainPage","menuBarDirsItemUnits","menuBarDirsItemProducts","menuBarWrhOrdersBata", "menuBarWrhPInvoices", "menuBarReportsRetailSales","menuBarWrhProdsBalance"],
-    "sysAdminDev2":["menuBarItemMainPage","menuBarDirsItemUnits","menuBarWrhSalesInvoices", "menuBarReportsRetailSales"],
+    "sysAdminDev2":["menuBarItemMainPage","menuBarDirsItemUnits","menuBarWrhSalesInvoices"],
     "user":["menuBarItemMainPage"],
     "cashier":["menuBarItemSalesCashierReports"]
   }

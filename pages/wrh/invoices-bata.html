@@ -28,7 +28,7 @@
                         .addDetailHeaderSelect("UNIT_NAME","Подразделение", 330,
                             {inputStyle:"width:200px", loadDropDownURL:"/dir/units/getDirUnitsForSelect", labelDataItem:"UNIT_NAME"})
                         .addDetailHeaderTextBox("NUMBER", "Номер", 120, {inputStyle:"width:50px"})
-                        .addDetailHeaderDateTextBox("DOCDATE", "Дата", 150, "width:80px")
+                        .addDetailHeaderDateTextBox("DOCDATE", "Дата", 150 , {inputStyle:"width:80px;"})
                         .addDetailHeaderRow(25,true)
                         .addDetailHeaderSelect("BUYER_NAME","Покупатель", 280, {inputStyle:"width:200px",
                             loadDropDownURL:"/dir/contractors/getDirBuyersForSelect", labelDataItem:"BUYER_NAME"})
@@ -40,16 +40,16 @@
                             getDataUrl:"/wrh/invoices/getDataForInvProductsTable",
                             storeDataUrl:"/wrh/invoices/storeInvProductsTableData", deleteDataUrl:"/wrh/invoices/deleteInvProductsTableData"})
                         .addDetailTotalRow()
-                        .addDetailSubTotalCountNumberTextBox("ИТОГО СТРОК:", 190, {inputStyle:"width:40px;"})
-                        .addDetailSubtotalNumberTextBox("ИТОГО КОЛИЧЕСТВО:", 700, "QTY", {pattern:"###,###,##0.#########", inputStyle:"width:50px;"})
+                        .addDetailSubTotalCountNumberTextBox("ИТОГО СТРОК:", 140, {inputStyle:"width:40px;"})
+                        .addDetailSubtotalNumberTextBox("ИТОГО КОЛИЧЕСТВО:", 300, "QTY", {pattern:"###,###,##0.#########", inputStyle:"width:50px;"})
                         .addDetailSubtotalNumberTextBox("ИТОГО СУММА:", 245, "POSSUM", {pattern:"###,###,##0.00#######", inputStyle:"width:80px;"})
                         .addDetailTotalRow(true)
-                        .addDetailTotalNumberTextBox("В ДОКУМЕНТЕ СТРОК:", 190, "DOCCOUNT",
+                        .addDetailTotalNumberTextBox("В ДОКУМЕНТЕ СТРОК:", 200, "DOCCOUNT",
                             {pattern:"###,###,##0.#########", inputStyle:"width:40px;", style:"font-weight:bold;", printLabel:"ИТОГО СТРОК:"})
-                        .addDetailTotalNumberTextBox("В ДОКУМЕНТЕ КОЛИЧЕСТВО:", 700, "DOCQTYSUM",
+                        .addDetailTotalNumberTextBox("В ДОКУМЕНТЕ КОЛИЧЕСТВО:", 280, "DOCQTYSUM",
                             {pattern:"###,###,##0.#########", inputStyle:"width:50px;", style:"font-weight:bold;", printLabel:"ИТОГО КОЛИЧЕСТВО:"})
-                        .addDetailTotalNumberTextBox("В ДОКУМЕНТЕ СУММА:", 245, "DOCSUM",
-                            {pattern:"###,###,##0.00#######", inputStyle:"width:80px;", style:"font-weight:bold;", printLabel:"ИТОГО СУММА:"})
+                        .addDetailTotalNumberTextBox("В ДОКУМЕНТЕ СУММА:", 250, "DOCSUM",
+                            {pattern:"###,###,##0.00#######", inputStyle:"width:80px;", style:"font-weight:bold;", printLabel:"ИТОГО СУММА:", cellStyle:"align:right;"})
                         .addDetailTotalRow(true)
                         .addDetailTotalTextBox("Статус:", 1140, "DOCSTATE_NAME", {style:"font-weight:bold;", inputStyle:"width:200px", print:false})
                         //.addToolPane("Вид документа")

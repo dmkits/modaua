@@ -170,6 +170,7 @@ define(["dojo/_base/declare", "app", "templateDocumentBase","dijit/form/Select",
                 if(!this.headerData) this.headerData=[];
                 this.headerData.push({type:"CheckButton",instance:checkBtn});
                 checkBtn.contentTableConditions=params.contentTableConditions;
+                checkBtn.printParams={cellWidth:params.width, labelText:labelText};
                 var instance = this;
                 checkBtn.onClick = function(){
                     for(var i=0;i<instance.headerData.length;i++) {
@@ -192,7 +193,7 @@ define(["dojo/_base/declare", "app", "templateDocumentBase","dijit/form/Select",
                 var select= APP.instanceFor(input, Select,
                     {style:"width:180px;", labelDataItem:params.labelDataItem,loadDropDownURL:params.loadDropDownURL,contentTableCondition:params.contentTableCondition});
 
-                select.printParams = {cellWidth:params.width, labelText:label, printStyle:params.style};
+                select.printParams = {cellWidth:params.width, labelText:label/*, printStyle:params.style*/};
 
                 if(!this.headerData) this.headerData=[];
                 this.headerData.push({type:"SelectBox",instance:select});
@@ -248,7 +249,11 @@ define(["dojo/_base/declare", "app", "templateDocumentBase","dijit/form/Select",
                 if (width===undefined) width=100;
                 if (!this.btnUpdate) this.addBtnUpdate(width);
                 if (!labelText) labelText="Печатать";
-                this.btnPrint= this.addTableCellButtonTo(this.topTableRow, {labelText:labelText, cellWidth:1, cellStyle:"text-align:right;"});
+                var btnParams={labelText:labelText, cellWidth:1, cellStyle:"text-align:right;"};
+                if(params&&params.items!=undefined&&params.items.length>0){
+                    btnParams.items=params.items;
+                }
+                this.btnPrint= this.addTableCellButtonTo(this.topTableRow,btnParams);
                 var instance = this;
                 this.btnPrint.onClick = function(){
                     instance.doPrint();
@@ -591,6 +596,12 @@ define(["dojo/_base/declare", "app", "templateDocumentBase","dijit/form/Select",
                             printParams = headerItemData.instance.printParams;
                             this.addPrintDataSubItemTo(printData, "header",
                                         {label:printParams.labelText, width:printParams.cellWidth, align:"left",style:headerTextStyle, contentStyle:headerDateContentStyle, value:headerItemData.instance.get("value")});
+                        }else if(headerItemData.type=="CheckButton"){             console.log("headerItemData CheckButton=",headerItemData);
+                            if(headerItemData.instance.checked==true) {
+                                printParams = headerItemData.instance.printParams;
+                                this.addPrintDataSubItemTo(printData, "header",
+                                    {label: printParams.labelText, width: printParams.cellWidth, align: "left", style: headerTextStyle, contentStyle: headerDateContentStyle});
+                            }
                         }
                     }
                 }

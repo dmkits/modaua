@@ -30,15 +30,25 @@ module.exports.init = function(app) {
         {data: "SALE_CASH_SUM", name: "Сумма продаж нал.", visible:false },
         {data: "SALE_CARD_SUM", name: "Сумма продаж плат.карт.", visible:false },
         {data: "RET_SALE_CASH_SUM", name: "Сумма возвратов нал", visible:false },
-        {data: "RET_SALE_CARD_SUM", name: "Сумма возвратов плат.карт.", visible:false }
+        {data: "RET_SALE_CARD_SUM", name: "Сумма возвратов плат.карт.", visible:false },
+        { dataSource:"wrh_retail_tickets", linkCondition:"wrh_retail_tickets.ID=fin_retail_tickets_payments_v.RETAIL_TICKET_ID"},
+        { dataSource:"dir_units", linkCondition:"wrh_retail_tickets.UNIT_ID=dir_units.ID"}
     ];
     repRetailCashReportTableColumns=
         dir_products.addProductColumnsTo(repRetailCashReportTableColumns,3,{linkSource:"fin_retail_tickets_payments_v",
             visibleColumns:{"PRINT_NAME":false,"PBARCODE":false}});
-    app.get("/reports/retailCashier/getCashReport", function (req, res) {
+    app.get("/reports/retailCashier/getCashReport", function (req, res) {                     console.log("req.query getCashReport=",req.query);
+        var conditions={};
+        for(var condItem in req.query) {
+            if (condItem.indexOf("DOCDATE")>=0) {
+                conditions["fin_retail_tickets_payments_v."+condItem]=req.query[condItem];
+                continue;
+            }
+            conditions[condItem]=req.query[condItem];
+        }
         fin_retail_tickets_payments_v.getDataForDocTable({tableColumns:repRetailCashReportTableColumns,
                 identifier:repRetailCashReportTableColumns[0].data,
-                conditions:req.query,
+                conditions:conditions,
                 order:["DOCDATE","DOCNUMBER","POS","PRODUCT_NAME","PRICE"]},
             function(result){
                 res.send(result);
@@ -55,12 +65,22 @@ module.exports.init = function(app) {
         {data: "TICKET_DOCNUMBER", name: "Номер чека", width: 65, type: "numeric", sourceField:"TICKET_NUMBER" },
         {data: "SUM_CASH_SALE", name: "Сумма чека", sourceField:"CASH_SALE" },
         {data: "SUM_CASH_RET_SALE", name: "Сумма возврата", sourceField:"CASH_RET_SALE" },
-        {data: "SUM_END_BALANCE", name: "Конечный остаток", width: 90 }
+        {data: "SUM_END_BALANCE", name: "Конечный остаток", width: 90 },
+        {dataSource:"dir_units", linkCondition:"dir_units.ID=fin_retail_receipts_payments_v.UNIT_ID"}
     ];
-    app.get("/reports/retailCashier/getRetailCashBalance", function (req, res) {
+    app.get("/reports/retailCashier/getRetailCashBalance", function (req, res) {     console.log("req.query getRetailCashBalance=",req.query);
+        var conditions={};
+        for(var condItem in req.query) {
+            if (condItem.indexOf("DOCDATE")>=0) {
+                conditions["fin_retail_receipts_payments_v."+condItem]=req.query[condItem];
+                continue;
+            }
+            conditions[condItem]=req.query[condItem];
+        }
+
         fin_retail_receipts_payments_v.getDataForDocTable({tableColumns:repRetailCashBalanceTableColumns,
                 identifier:repRetailCashBalanceTableColumns[0].data,
-                conditions:req.query,
+                conditions:conditions,
                 order:["DOCDATE","NUMBER","TICKET_NUMBER"]},
             function(result){
                 if(result.error){ res.send(result); return; }

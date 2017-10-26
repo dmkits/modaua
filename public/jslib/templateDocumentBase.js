@@ -2,8 +2,10 @@
  * Created by dmkits on 16.02.17.
  */
 define(["dojo/_base/declare", "dijit/layout/BorderContainer", "dijit/layout/LayoutContainer", "dijit/layout/ContentPane", "dijit/TitlePane",
-        "dijit/form/Button","dijit/form/ToggleButton","dijit/form/TextBox","dijit/form/DateTextBox","dijit/form/NumberTextBox", "dojo/dom-style"],
-    function(declare, BorderContainer, LayoutContainer, ContentPane, TitlePane, Button,ToggleButton, TextBox,DateTextBox,NumberTextBox) {
+        "dijit/form/Button","dijit/form/ToggleButton","dijit/form/TextBox","dijit/form/DateTextBox","dijit/form/NumberTextBox",
+        "dijit/form/ComboButton","dijit/Menu", "dijit/MenuItem", "dojo/dom-style"],
+    function(declare, BorderContainer, LayoutContainer, ContentPane, TitlePane, Button,ToggleButton, TextBox,DateTextBox,NumberTextBox,
+             ComboButton, Menu, MenuItem) {
         return declare("TemplateDocumentBase", [BorderContainer], {
             constructor: function(args,parentName){
                 declare.safeMixin(this,args);
@@ -124,7 +126,23 @@ define(["dojo/_base/declare", "dijit/layout/BorderContainer", "dijit/layout/Layo
                     btnParameters.checked=params.btnChecked;
                     btnParameters.iconClass='dijitCheckBoxIcon';
                 }
-                var button = (params.btnChecked===undefined) ? new Button(btnParameters) : new ToggleButton(btnParameters);
+                var button;
+                if(params.btnChecked!==undefined){
+                    button=new ToggleButton(btnParameters);
+                } else if(params.items!==undefined&&params.items.length>0){
+                    button=new ComboButton(btnParameters);
+                    var menu = new Menu({ style: "display: none;"});
+                    for(var i in params.items){
+                        var item=params.items[i];
+                        var menuItem = new MenuItem({
+                            label: item,
+                            onClick: function(){ alert(item+" clicked!"); }
+                        });
+                        menu.addChild(menuItem);
+                    }
+                    menu.startup();
+                    button.set("dropDown", menu);
+                }else button = new Button(btnParameters);
                 var btnStyle="";
                 if (params.btnStyle) btnStyle=params.btnStyle;
                 var existsStyle=button.domNode.firstChild.getAttribute("style");
@@ -213,7 +231,7 @@ define(["dojo/_base/declare", "dijit/layout/BorderContainer", "dijit/layout/Layo
                 return  dateTextBox;
             },
             /**
-             * params= {cellWidth, cellStyle, labelText, labelStyle, inputParams, inputStyle, initValues}
+             * params= {cellWidth, cellStyle, labelText || printLabel, labelStyle, inputParams, inputStyle, initValues}
              */
             addTableCellNumberTextBoxTo: function(tableRowNode, params){
                 if (!params) params={};
@@ -224,8 +242,9 @@ define(["dojo/_base/declare", "dijit/layout/BorderContainer", "dijit/layout/Layo
                 if (params.initValue!==undefined) numberTextBoxParams.value= params.initValue;
                 if (params.inputStyle) numberTextBoxParams.style=params.inputStyle;
                 var numberTextBox= new NumberTextBox(numberTextBoxParams,inputNumberTextBox);
+               var printLabel=params.printLabel||params.labelText;
                 numberTextBox.printParams={ cellWidth:params.cellWidth, cellStyle:params.cellStyle,
-                    labelText:params.labelText, labelStyle:params.labelStyle, inputStyle:params.inputStyle };
+                    labelText:printLabel, labelStyle:params.labelStyle, inputStyle:params.inputStyle };
                 return numberTextBox;
             },
             addChildTitlePaneTo: function(parent, params, style){
@@ -335,8 +354,8 @@ define(["dojo/_base/declare", "dijit/layout/BorderContainer", "dijit/layout/Layo
                 var previousDayBtn = document.createElement('BUTTON');
                 previousDayBtn.setAttribute("id","previousDayBtnFor"+dateTextBox.id);
                 previousDayBtn.className = "dijitReset dijitButtonNode";
-                previousDayBtn.style.width = "18px";
-                previousDayBtn.style.height = "18px";
+                previousDayBtn.style.width = "19px";
+                previousDayBtn.style.height = "19px";
                 previousDayBtn.style.border="solid 1px #b5bcc7";
                 previousDayBtn.style.color="#b5bcc7";
                 previousDayBtn.innerText= "\u25c4";
@@ -350,8 +369,8 @@ define(["dojo/_base/declare", "dijit/layout/BorderContainer", "dijit/layout/Layo
                 var nextDayBtn = document.createElement('BUTTON');
                 nextDayBtn.setAttribute("id","nextDayBtn"+dateTextBox.id);
                 nextDayBtn.className = "dijitReset dijitButtonNode";
-                nextDayBtn.style.width = "18px";
-                nextDayBtn.style.height = "18px";
+                nextDayBtn.style.width = "19px";
+                nextDayBtn.style.height = "19px";
                 nextDayBtn.style.border="solid 1px #b5bcc7";
                 nextDayBtn.style.color="#b5bcc7";
                 nextDayBtn.innerText= "\u25ba";

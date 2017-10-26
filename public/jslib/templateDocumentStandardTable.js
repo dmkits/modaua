@@ -330,6 +330,7 @@ define(["dojo/_base/declare", "dijit/layout/BorderContainer", "dijit/layout/Cont
              */
             addDetailHeaderDateTextBox: function(itemName, label, cellWidth, params){
                 if (!params) params={};
+                if(!cellWidth)cellWidth=150;
                 if (!params.inputStyle) params.inputStyle="";
                 if (!params.style) params.style="";
                 var dateBox= this.addTableCellDateBoxTo(this.detailHeaderTable.lastChild,
@@ -809,7 +810,7 @@ define(["dojo/_base/declare", "dijit/layout/BorderContainer", "dijit/layout/Cont
                 var headerTextStyle="font-size:14px;";
                 if(this.detailHeaderElements){
                     for(var ri=0;ri<this.detailHeaderElements.length;ri++){
-                        var detHRow=this.detailHeaderElements[ri];  console.log("detHRow=",detHRow);
+                        var detHRow=this.detailHeaderElements[ri];
                         this.addPrintDataItemTo(printData, "header", {newTable:true, style:headerTextStyle});
                         for(var ci=0;ci<detHRow.length;ci++){
                             var detHElem=detHRow[ci];                                                                   //console.log("TemplateDocumentStandardTable.doPrint ",ri,ci,detHElem);
@@ -821,18 +822,18 @@ define(["dojo/_base/declare", "dijit/layout/BorderContainer", "dijit/layout/Cont
                                 value=null;
                                 if (detHElem.textbox) value=detHElem.textbox.value;
                                 else if(detHElem.textDirNode) value=detHElem.textDirNode.textContent;//if element Select
+                                var printParams=detHElem.printParams;
                                 if(value==""){
-                                  if(detHElem.inputStyle) {
-                                      var oldStyleStr =detHElem.inputStyle,
+                                  if(printParams.inputStyle) {
+                                      var oldStyleStr =printParams.inputStyle,
                                           newStyleStr= (oldStyleStr.trim().charAt(oldStyleStr.length-1)!=";")?";":"";
                                       newStyleStr+="height:14px;";
-                                      detHElem.inputStyle = oldStyleStr + newStyleStr;
+                                      printParams.inputStyle = oldStyleStr + newStyleStr;
                                   }
-                                    else detHElem.inputStyle = " height:14px;";
+                                    else printParams.inputStyle = " height:14px;";
                                 }
-
-                                this.addPrintDataSubItemTo(printData, "header", {width:detHElem.cellWidth+5, style:detHElem.printStyle,
-                                    contentStyle:"margin-bottom:3px;", label:detHElem.labelText, value:value, type:"text", valueStyle:detHElem.inputStyle});
+                                this.addPrintDataSubItemTo(printData, "header", {width:printParams.cellWidth+5, style:printParams.printStyle,
+                                    contentStyle:"margin-bottom:3px;", label:printParams.labelText, value:value, type:"text", valueStyle:printParams.inputStyle});
                             }
                         }
                         this.addPrintDataSubItemTo(printData, "header");
@@ -841,27 +842,28 @@ define(["dojo/_base/declare", "dijit/layout/BorderContainer", "dijit/layout/Cont
                 printData.columns = this.detailTable.getVisibleColumns();
                 printData.data = this.detailTable.getData();
                 var totalStyle="font-size:12px;";
-                if(this.detailTotalElements){
+                if(this.detailTotalElements){                                    console.log("ALL 845 this.detailTotalElements=",this.detailTotalElements);
                     for(var ri=0;ri<this.detailTotalElements.length;ri++){
-                        var detTRow=this.detailTotalElements[ri];
+                        var detTRow=this.detailTotalElements[ri];                console.log("RRR 847 detTRow=",detTRow);
                         this.addPrintDataItemTo(printData, "total", {newTable:true, style:totalStyle});
                         this.addPrintDataSubItemTo(printData, "total");
                         for(var ci=0;ci<detTRow.length;ci++){
-                            var detTElem=detTRow[ci], value=null;                                                       //console.log("TemplateDocumentStandardTable.doPrint ",ri,ci,detTElem);
+                            var detTElem=detTRow[ci], value=null;        console.log("EEE 851  detTElem=",detTElem);                                                 //console.log("TemplateDocumentStandardTable.doPrint ",ri,ci,detTElem);
                             if (detTElem.print===false) continue;
                             if (detTElem.textbox) value=detTElem.textbox.value;
                             else if(detTElem.textDirNode) value=detTElem.textDirNode.textContent;//if element Select
+                            var printParams=detTElem.printParams;
                             if(value==""){
-                                if(detTElem.inputStyle) {
-                                    var oldStyleStr =detTElem.inputStyle,
+                                if(printParams.inputStyle) {
+                                    var oldStyleStr =printParams.inputStyle,
                                         newStyleStr= (oldStyleStr.trim().charAt(oldStyleStr.length-1)!=";")?";":"";
                                     newStyleStr+="height:14px;";
-                                    detTElem.inputStyle = oldStyleStr + newStyleStr;
+                                    printParams.inputStyle = oldStyleStr + newStyleStr;
                                 }
-                                else detTElem.inputStyle = " height:14px;";
+                                else printParams.inputStyle = " height:14px;";
                             }
-                            this.addPrintDataSubItemTo(printData, "total", {width:detTElem.cellWidth+5, style:detTElem.printStyle, align:"right",
-                                    contentStyle:"margin-top:3px;", label:detTElem.labelText, value:value, type:"text", valueStyle:detTElem.inputStyle});
+                            this.addPrintDataSubItemTo(printData, "total", {width:printParams.cellWidth+5, style:printParams.printStyle,
+                                    contentStyle:"margin-top:3px;", label:printParams.labelText, value:value, type:"text", valueStyle:printParams.inputStyle});
                         }
                     }
                 }
