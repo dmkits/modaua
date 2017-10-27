@@ -110,7 +110,7 @@ define(["dojo/_base/declare", "dijit/layout/BorderContainer", "dijit/layout/Layo
                 var tableCell = document.createElement("td");
                 if (width!=undefined) tableCell.setAttribute("width", width+"px");
                 if (!style) style="";
-                tableCell.setAttribute("style", "white-space:nowrap;"+style);                                           //console.log("addLeftCellToTableRow ",style);
+                tableCell.setAttribute("style", "white-space:nowrap;"+style);
                 tableRow.insertBefore(tableCell, tableRow.lastChild);
                 return tableCell;
             },
@@ -136,7 +136,7 @@ define(["dojo/_base/declare", "dijit/layout/BorderContainer", "dijit/layout/Layo
                         var item=params.items[i];
                         var menuItem = new MenuItem({
                             label: item,
-                            onClick: function(){ alert(item+" clicked!"); }
+                            onClick: function(){console.log(item," clicked!");}
                         });
                         menu.addChild(menuItem);
                     }
@@ -242,7 +242,9 @@ define(["dojo/_base/declare", "dijit/layout/BorderContainer", "dijit/layout/Layo
                 if (params.initValue!==undefined) numberTextBoxParams.value= params.initValue;
                 if (params.inputStyle) numberTextBoxParams.style=params.inputStyle;
                 var numberTextBox= new NumberTextBox(numberTextBoxParams,inputNumberTextBox);
-               var printLabel=params.printLabel||params.labelText;
+                var printLabel;
+                if(numberTextBoxParams.printLabel)printLabel=numberTextBoxParams.printLabel;
+                else if(params.labelText) printLabel=params.labelText;
                 numberTextBox.printParams={ cellWidth:params.cellWidth, cellStyle:params.cellStyle,
                     labelText:printLabel, labelStyle:params.labelStyle, inputStyle:params.inputStyle };
                 return numberTextBox;
@@ -377,7 +379,6 @@ define(["dojo/_base/declare", "dijit/layout/BorderContainer", "dijit/layout/Layo
                 tableCell.appendChild(nextDayBtn);
                 nextDayBtn.onclick=function(){
                     var newDate=moment(new Date(dateTextBox.value)).add(1, 'days');
-                    console.log("newDate=",newDate);
                     dateTextBox.set("displayedValue",newDate.format("DD.MM.YYYY"));
                 };
             }

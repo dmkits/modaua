@@ -564,29 +564,11 @@ define(["dojo/_base/declare", "app", "templateDocumentBase","dijit/form/Select",
                         {label:this.titleText, width:0, align:"center",style:"width:100%;font-size:14px;font-weight:bold;text-align:center;", contentStyle:"margin-top:5px;margin-bottom:3px;"});
                 }
                 var headerTextStyle="font-size:14px;", headerDateContentStyle="margin-bottom:3px;";
-                //if (this.beginDateBox||this.endDateBox){
-                //    this.addPrintDataItemTo(printData, "header", {newTable:true, style:headerTextStyle});
-                //    this.addPrintDataSubItemTo(printData, "header");
-                //    this.addPrintDataSubItemTo(printData, "header", {label:"Период:", width:80, align:"right",style:headerTextStyle, contentStyle:headerDateContentStyle});
-                //}
-                //if (this.beginDateBox)
-                //    this.addPrintDataSubItemTo(printData, "header",
-                //        {label:"с ", width:110, align:"left",style:headerTextStyle, contentStyle:headerDateContentStyle, value:this.beginDateBox.get("value"),type:"date"});
-                //if (this.endDateBox)
-                //    this.addPrintDataSubItemTo(printData, "header",
-                //        {label:"по ", width:110, align:"left",style:headerTextStyle, contentStyle:headerDateContentStyle, value:this.endDateBox.get("value"),type:"date"});
-                //if (this.selectBoxes) {
-                //    for (var i in this.selectBoxes){
-                //        var selectBox=this.selectBoxes[i];
-                //        this.addPrintDataSubItemTo(printData, "header",
-                //            {label:selectBox.labelText, width:selectBox.width, align:"center",style:headerTextStyle, contentStyle:headerDateContentStyle, value:selectBox.get("value")});
-                //    }
-                //}
                 if(this.headerData){
                     this.addPrintDataItemTo(printData, "header", {newTable:true, style:headerTextStyle});
                     this.addPrintDataSubItemTo(printData, "header");
                     for(var i in this.headerData){
-                        var headerItemData=this.headerData[i]; console.log("headerItemData=",headerItemData);
+                        var headerItemData=this.headerData[i];
                         var printParams={};
                         if(headerItemData.type=="DateBox"){
                             printParams = headerItemData.instance.printParams;
@@ -596,7 +578,7 @@ define(["dojo/_base/declare", "app", "templateDocumentBase","dijit/form/Select",
                             printParams = headerItemData.instance.printParams;
                             this.addPrintDataSubItemTo(printData, "header",
                                         {label:printParams.labelText, width:printParams.cellWidth, align:"left",style:headerTextStyle, contentStyle:headerDateContentStyle, value:headerItemData.instance.get("value")});
-                        }else if(headerItemData.type=="CheckButton"){             console.log("headerItemData CheckButton=",headerItemData);
+                        }else if(headerItemData.type=="CheckButton"){
                             if(headerItemData.instance.checked==true) {
                                 printParams = headerItemData.instance.printParams;
                                 this.addPrintDataSubItemTo(printData, "header",

@@ -534,7 +534,7 @@ define(["dojo/_base/declare", "dijit/layout/BorderContainer", "dijit/layout/Cont
                 var numberTextBox= this.addTableCellNumberTextBoxTo(this.detailTotalTable.lastChild,
                     {cellWidth:cellWidth, cellStyle:"text-align:right;", labelText:label, labelStyle:style, inputStyle:"text-align:right;"+style+inputStyle,
                         inputParams:{constraints:{pattern:pattern}, readOnly:true,
-                            /*it's for print*/cellWidth:cellWidth, labelText:printLabel, printStyle:params.style, inputStyle:"text-align:right;"+params.inputStyle,
+                            /*it's for print*/cellWidth:cellWidth, printLabel:printLabel, printStyle:params.style, inputStyle:"text-align:right;"+params.inputStyle,
                                 print:params.print} });
                 this.detailHeader.addControlElementObject(numberTextBox, itemName);
                 this.addDetailTotalElement(false,numberTextBox);
@@ -832,7 +832,7 @@ define(["dojo/_base/declare", "dijit/layout/BorderContainer", "dijit/layout/Cont
                                   }
                                     else printParams.inputStyle = " height:14px;";
                                 }
-                                this.addPrintDataSubItemTo(printData, "header", {width:printParams.cellWidth+5, style:printParams.printStyle,
+                                this.addPrintDataSubItemTo(printData, "header", {width:printParams.cellWidth+5, style:printParams.printStyle,align:"left",
                                     contentStyle:"margin-bottom:3px;", label:printParams.labelText, value:value, type:"text", valueStyle:printParams.inputStyle});
                             }
                         }
@@ -842,13 +842,13 @@ define(["dojo/_base/declare", "dijit/layout/BorderContainer", "dijit/layout/Cont
                 printData.columns = this.detailTable.getVisibleColumns();
                 printData.data = this.detailTable.getData();
                 var totalStyle="font-size:12px;";
-                if(this.detailTotalElements){                                    console.log("ALL 845 this.detailTotalElements=",this.detailTotalElements);
+                if(this.detailTotalElements){
                     for(var ri=0;ri<this.detailTotalElements.length;ri++){
-                        var detTRow=this.detailTotalElements[ri];                console.log("RRR 847 detTRow=",detTRow);
+                        var detTRow=this.detailTotalElements[ri];
                         this.addPrintDataItemTo(printData, "total", {newTable:true, style:totalStyle});
                         this.addPrintDataSubItemTo(printData, "total");
                         for(var ci=0;ci<detTRow.length;ci++){
-                            var detTElem=detTRow[ci], value=null;        console.log("EEE 851  detTElem=",detTElem);                                                 //console.log("TemplateDocumentStandardTable.doPrint ",ri,ci,detTElem);
+                            var detTElem=detTRow[ci], value=null;                                                  //console.log("TemplateDocumentStandardTable.doPrint ",ri,ci,detTElem);
                             if (detTElem.print===false) continue;
                             if (detTElem.textbox) value=detTElem.textbox.value;
                             else if(detTElem.textDirNode) value=detTElem.textDirNode.textContent;//if element Select
@@ -862,7 +862,7 @@ define(["dojo/_base/declare", "dijit/layout/BorderContainer", "dijit/layout/Cont
                                 }
                                 else printParams.inputStyle = " height:14px;";
                             }
-                            this.addPrintDataSubItemTo(printData, "total", {width:printParams.cellWidth+5, style:printParams.printStyle,
+                            this.addPrintDataSubItemTo(printData, "total", {width:printParams.cellWidth+5, style:printParams.printStyle, align:"right",
                                     contentStyle:"margin-top:3px;", label:printParams.labelText, value:value, type:"text", valueStyle:printParams.inputStyle});
                         }
                     }
