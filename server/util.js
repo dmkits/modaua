@@ -1,5 +1,6 @@
 var fs = require('fs');
 var uid = require('uniqid');
+var BigNumber = require('big-number');
 
 module.exports.getStartupParams = function() {
     var app_params = {};
@@ -83,9 +84,8 @@ module.exports.getControlBarcodeFigure=function(barcode){
 module.exports.getUIDNumber=function() {
     var str= uid.time();
     var len = str.length;
-    var num = 0;
-    for (var i = (len - 1); i >= 0; i--) {
-        num+= Math.pow(256,i) * str.charCodeAt(i);
-    }
-    return num;
+    var num = BigNumber(0);
+    for (var i = (len - 1); i >= 0; i--)
+        num.plus(BigNumber(256).pow(i).mult(str.charCodeAt(i)));
+    return num.toString();
 };
