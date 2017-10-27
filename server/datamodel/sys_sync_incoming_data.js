@@ -11,7 +11,8 @@ var changeLog = [
         field:"SYNC_POS_ID"},
     { changeID:"sys_sync_incoming_data__4", changeDatetime:"2016-09-26 10:25:00", changeObj:"sys_sync_incoming_data",
         changeVal:"ALTER TABLE sys_sync_incoming_data ADD CONSTRAINT SYS_SYNC_INCOMING_DATA_SYNC_POS_ID_FK " +
-            "FOREIGN KEY(SYNC_POS_ID) REFERENCES sys_sync_POSes(ID)" },
+            "FOREIGN KEY(SYNC_POS_ID) REFERENCES sys_sync_POSes(ID)",
+        field:"SYNC_POS_ID", source:"sys_sync_POSes", linkField:"ID"},
     { changeID:"sys_sync_incoming_data__5", changeDatetime:"2016-09-26 10:26:00", changeObj:"sys_sync_incoming_data",
         changeVal:"ALTER TABLE sys_sync_incoming_data ADD COLUMN CLIENT_SYNC_DATA_OUT_ID BIGINT UNSIGNED NOT NULL",
         field:"CLIENT_SYNC_DATA_OUT_ID"},

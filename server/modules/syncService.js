@@ -40,14 +40,34 @@ module.exports.init = function(app){
         var storeClientSyncOutData= function(params, resultCallback){
             //params.clientDataItem
             //params.clientDataItemValues
-            sys_sync_incoming_data.getDataItem({
-                    conditions:{"SYNC_POS_ID=":params.syncPOSID, "CLIENT_SYNC_DATA_ID=":params.clientDataItem["ID"]}},
+            var clientSyncDataOut=params.clientDataItem;
+            sys_sync_incoming_data.getDataItem({ fields:["ID"],
+                    conditions:{"SYNC_POS_ID=":params.syncPOSID, "CLIENT_SYNC_DATA_OUT_ID=":clientSyncDataOut["ID"]}},
                 function(result){
                     if(result.error){
                         if(resultCallback) resultCallback({error:"Failed find client data in server sync incoming data! Reason:"+result.error.message});
                         return;
                     }
-                    if(resultCallback) resultCallback();
+                    if(result.item){
+                        var sysSyncDataInID=result.item["ID"];
+                        //update
+                        if(resultCallback) resultCallback();
+                        return;
+                    }
+                    sys_sync_incoming_data.insDataItemWithNewID({idFieldName:"ID",
+                            insData:{"CREATE_DATE":new Date(),"SYNC_POS_ID":params.syncPOSID, "CLIENT_SYNC_DATA_OUT_ID":clientSyncDataOut["ID"],
+                                "CLIENT_CREATE_DATE":clientSyncDataOut["CRDATE"],"OPERATION_TYPE":clientSyncDataOut["OTYPE"],
+                                "CLIENT_TABLE_NAME":clientSyncDataOut["TABLENAME"],
+                                "CLIENT_TABLE_KEY1_NAME":clientSyncDataOut["TABLEKEY1IDNAME"],"CLIENT_TABLE_KEY1_VALUE":clientSyncDataOut["TABLEKEY1IDVAL"],
+                                "STATE":0,"MSG":"client sync data out stored"}
+                        },
+                        function(result){
+                            if(result.error){
+                                if(resultCallback) resultCallback({error:"Failed insert client data in server sync incoming data! Reason:"+result.error.message});
+                                return;
+                            }
+                            if(resultCallback) resultCallback({resultItem:{"STATE":result.resultItem["STATE"],"MSG":result.resultItem["MSG"]}});
+                        });
                 });
         };
         sys_sync_POSes.getDataItem({fields:["ID","UNIT_ID"],conditions:{"NAME=":sPOSName}},

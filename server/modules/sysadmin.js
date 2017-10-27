@@ -1153,32 +1153,32 @@ module.exports.init = function(app){
     });
 
     var sysSyncIncomingDataTableColumns=[
-        {data: "CREATE_DATE", name: "Create date", width: 70, type: "text"},
-        {data: "SYNC_DATABASE_ID", name: "Sync database ID", width: 90, type: "text"},
-        {data: "CLIENT_DATA_ID", name: "Client data ID", width: 70, type: "text"},
-        {data: "CLIENT_CREATE_DATE", name: "Client create date", width: 80, type: "text"},
-        {data: "OPERATION_TYPE", name: "Operation type", width: 60, type: "text"},
+        {data: "CREATE_DATE", name: "Create date", width: 70, type: "datetimeAsText"},
+        {data: "SYNC_POS_NAME", name: "SyncPOS", width: 100, type: "text", dataSource:"sys_sync_POSes", sourceField:"NAME"},
+        {data: "CLIENT_SYNC_DATA_OUT_ID", name: "Client data sync out ID", width: 70, type: "text"},
+        {data: "CLIENT_CREATE_DATE", name: "Client create date", width: 80, type: "datetimeAsText"},
+        {data: "OPERATION_TYPE", name: "Operation type", width: 80, type: "text"},
         {data: "CLIENT_TABLE_NAME", name: "Client table name", width: 160, type: "text"},
         {data: "CLIENT_TABLE_KEY1_NAME", name: "Client table key1 name", width: 100, type: "text"},
         {data: "CLIENT_TABLE_KEY1_VALUE", name: "Client table key1 value", width: 160, type: "text"},
-        {data: "LAST_UPDATE_DATE", name: "Last update date", width: 70, type: "text"},
-        {data: "STATE", name: "State", width: 40, type: "text"},
-        {data: "MSG", name: "Message", width: 70, type: "text"},
-        {data: "APPLIED_DATE", name: "Applied date", width: 60, type: "text"},
+        {data: "LAST_UPDATE_DATE", name: "Last update date", width: 70, type: "datetimeAsText"},
+        {data: "STATE", name: "State", width: 60, type: "text"},
+        {data: "MSG", name: "Message", width: 150, type: "text"},
+        {data: "APPLIED_DATE", name: "Applied date", width: 70, type: "datetimeAsText"},
         {data: "DEST_TABLE_CODE", name: "Dest.t code", width: 60, type: "text"},
         {data: "DEST_TABLE_DATA_ID", name: "Dest.t ID", width: 130, type: "text"}
 
     ];
     app.get('/sysadmin/synchronization/getIncomingDataForTable', function(req, res){
         sys_sync_incoming_data.getDataForTable({tableColumns:sysSyncIncomingDataTableColumns, identifier:sysSyncIncomingDataTableColumns[0].data,
-            order:"ID", conditions:req.query}, function(result){
+            order:["CREATE_DATE"], conditions:req.query}, function(result){
             res.send(result);
         });
     });
 
     var sysSyncOutputDataTableColumns=[
         {data: "CREATE_DATE", name: "CreateDate", width: 75, type: "text"},
-        {data: "SYNC_DATABASE_ID", name: "SyncDatabaseID", width: 90, type: "text"},
+        {data: "SYNC_POS_NAME", name: "SyncPOS", width: 90, type: "text", dataSource:"sys_sync_POSes", sourceField:"NAME"},
         {data: "TABLE_NAME", name: "TableName", width: 250, type: "text"},
         {data: "KEY_DATA_NAME", name: "KeyName", width: 150, type: "text"},
         {data: "KEY_DATA_VALUE", name: "KeyValue", width: 150, type: "text"},
