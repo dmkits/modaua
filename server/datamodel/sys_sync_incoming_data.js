@@ -13,11 +13,11 @@ var changeLog = [
         changeVal:"ALTER TABLE sys_sync_incoming_data ADD CONSTRAINT SYS_SYNC_INCOMING_DATA_SYNC_POS_ID_FK " +
             "FOREIGN KEY(SYNC_POS_ID) REFERENCES sys_sync_POSes(ID)" },
     { changeID:"sys_sync_incoming_data__5", changeDatetime:"2016-09-26 10:26:00", changeObj:"sys_sync_incoming_data",
-        changeVal:"ALTER TABLE sys_sync_incoming_data ADD COLUMN CLIENT_DATA_ID BIGINT UNSIGNED NOT NULL",
-        field:"CLIENT_DATA_ID"},
+        changeVal:"ALTER TABLE sys_sync_incoming_data ADD COLUMN CLIENT_SYNC_DATA_OUT_ID BIGINT UNSIGNED NOT NULL",
+        field:"CLIENT_SYNC_DATA_OUT_ID"},
     { changeID:"sys_sync_incoming_data__6", changeDatetime:"2016-09-26 10:27:00", changeObj:"sys_sync_incoming_data",
-        changeVal:"ALTER TABLE sys_sync_incoming_data ADD CONSTRAINT SYS_SYNC_INCOMING_DATA_SYNC_POS_ID_CLIENT_DATA_ID_UNIQUE " +
-            "UNIQUE(SYNC_POS_ID,CLIENT_DATA_ID)" },
+        changeVal:"ALTER TABLE sys_sync_incoming_data ADD CONSTRAINT SYS_SYNC_INCOMING_DATA_SYNC_POS_ID_CLIENT_SD_OUT_ID_UNIQUE " +
+            "UNIQUE(SYNC_POS_ID,CLIENT_SYNC_DATA_OUT_ID)" },
     { changeID:"sys_sync_incoming_data__7", changeDatetime:"2016-09-26 10:28:00", changeObj:"sys_sync_incoming_data",
         changeVal:"ALTER TABLE sys_sync_incoming_data ADD COLUMN CLIENT_CREATE_DATE DATETIME NOT NULL",
         field:"CLIENT_CREATE_DATE"},
