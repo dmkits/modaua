@@ -320,7 +320,8 @@ function _getDataItems(params, resultCallback){                                 
  *          <fieldName>:
  *              "<function>" OR
  *              { function:<function>, source:<functionSource>, sourceField:<functionSourceField>, fields:[ <functionBodySourceFieldName> ] },
- *      ... },conditions={ <condition>:<conditionValue>, ... },
+ *      ... },
+ *      conditions={ <condition>:<conditionValue>, ... },
  * }
  *      <function>: "maxPlus1"
  * resultCallback = function(result = { item:{<tableFieldName>:<value>,...}, error, errorCode } )

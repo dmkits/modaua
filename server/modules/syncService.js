@@ -1,9 +1,11 @@
 var server= require("../server"), log= server.log;
 var dataModel=require('../datamodel');
-var sys_sync_POSes= require(appDataModelPath+"sys_sync_POSes");
+var sys_sync_POSes= require(appDataModelPath+"sys_sync_POSes"),
+    sys_sync_incoming_data= require(appDataModelPath+"sys_sync_incoming_data"),
+    sys_sync_output_data= require(appDataModelPath+"sys_sync_output_data");
 
 module.exports.validateModule = function(errs, nextValidateModuleCallback){
-    dataModel.initValidateDataModels([sys_sync_POSes], errs,
+    dataModel.initValidateDataModels([sys_sync_POSes,sys_sync_incoming_data,sys_sync_output_data], errs,
         function(){
             nextValidateModuleCallback();
         });
@@ -32,7 +34,22 @@ module.exports.init = function(app){
             res.send({error:"Failed syncClient request body! Reason: no POS name!"});                       log.info("Failed syncService request body! Reason: no POSName!");
             return;
         }
-
+        /**
+         * params = { syncPOSID, unitID, clientDataItem, clientDataItemValues }
+         */
+        var storeClientSyncOutData= function(params, resultCallback){
+            //params.clientDataItem
+            //params.clientDataItemValues
+            sys_sync_incoming_data.getDataItem({
+                    conditions:{"SYNC_POS_ID=":params.syncPOSID, "CLIENT_SYNC_DATA_ID=":params.clientDataItem["ID"]}},
+                function(result){
+                    if(result.error){
+                        if(resultCallback) resultCallback({error:"Failed find client data in server sync incoming data! Reason:"+result.error.message});
+                        return;
+                    }
+                    if(resultCallback) resultCallback();
+                });
+        };
         sys_sync_POSes.getDataItem({fields:["ID","UNIT_ID"],conditions:{"NAME=":sPOSName}},
             function(result){
                 if(result.error){
@@ -46,7 +63,11 @@ module.exports.init = function(app){
                     res.send({ resultItem:null });
                     return;
                 } else if(syncServiceClientRequestType=="storeSyncOutData"){
-                    res.send({error:"!"});                                              //console.log("syncService sendOutData",req.body,{});
+                    storeClientSyncOutData({ unitID:sUnitID, syncPOSID:sSyncPOSID,
+                            clientDataItem:req.body.dataItem, clientDataItemValues:req.body.dataItemValues },
+                        function(result){
+                            res.send(result);                                              //console.log("syncService sendOutData",req.body,{});
+                        });
                     return;
                 } else  if(syncServiceClientRequestType=="applySyncOutData"){
                     res.send({error:"!"});
