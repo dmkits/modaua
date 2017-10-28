@@ -1,12 +1,14 @@
 var server= require("../server"), log= server.log;
 var dataModel=require('../datamodel');
 var sys_sync_POSes= require(appDataModelPath+"sys_sync_POSes"),
+    sys_sync_errors_log= require(appDataModelPath+"sys_sync_errors_log"),
     sys_sync_incoming_data= require(appDataModelPath+"sys_sync_incoming_data"),
     sys_sync_incoming_data_details= require(appDataModelPath+"sys_sync_incoming_data_details"),
     sys_sync_output_data= require(appDataModelPath+"sys_sync_output_data");
 
 module.exports.validateModule = function(errs, nextValidateModuleCallback){
-    dataModel.initValidateDataModels([sys_sync_POSes,sys_sync_incoming_data,sys_sync_output_data, sys_sync_incoming_data_details], errs,
+    dataModel.initValidateDataModels([sys_sync_POSes, sys_sync_errors_log,
+            sys_sync_incoming_data,sys_sync_output_data, sys_sync_incoming_data_details], errs,
         function(){
             nextValidateModuleCallback();
         });
@@ -65,7 +67,7 @@ module.exports.init = function(app){
                         var storeSyncIncDataResult= result.resultItem, sysSyncIncDataID=storeSyncIncDataResult["ID"], clientDataItemValuesArray=[];
                         for (var item in clientDataItemValues)
                             clientDataItemValuesArray.push({"SYNC_INCOMING_DATA_ID":sysSyncIncDataID, "NAME":item,"VALUE":clientDataItemValues[item]});
-                        console.log("clientDataItemValuesArray=",clientDataItemValuesArray);
+                                                                                                                                console.log("clientDataItemValuesArray=",clientDataItemValuesArray);
                         insertClientDataItemValues(0,clientDataItemValuesArray,
                             function(result){
                                 if(resultCallback&&result&&result.error)
@@ -76,35 +78,49 @@ module.exports.init = function(app){
                     });
             });
     };
+    var insertSysSyncErrorsLog= function(dataItem,resultCallback){
+        sys_sync_errors_log.insDataItemWithNewID({idFieldName:"ID",insData:dataItem},
+            function(result){
+                if(result.error){                                                                           log.info("Failed to insert sys sync errors log! Reason:"+result.error.message);
+                    if(resultCallback) resultCallback({error:"Failed to insert sys sync errors log! Reason:"+result.error.message});
+                    return;
+                }
+                if(resultCallback) resultCallback();
+            });
+    };
     app.post("/syncService", function(req, res){
         if(req.headers&&
-            (!req.headers["sync-service-client"]||req.headers["sync-service-client"]!="derbySyncClient_1.7")){
-            res.send({error:"Failed check syncClient request header!"});                                    log.info("Failed syncService request! Reason: header sync-service-client non correct!");
+            (!req.headers["sync-service-client"]
+                ||req.headers["sync-service-client"]!="derbySyncClient_1.7")){                              log.info("Failed syncService request! Reason: header sync-service-client non correct!");
+            res.send({error:"Failed check syncClient request header!"});
             return;
         }
-        if(!req.body){
-            res.send({error:"Failed syncClient request body!"});                                            log.info("Failed syncService request body! Reason: no body!");
+        if(!req.body){                                                                                      log.info("Failed syncService request body! Reason: no body!");
+            res.send({error:"Failed syncClient request body!"});
             return;
         }
         var syncServiceClientRequestType=req.body["syncServiceClientRequestType"];
-        if(!syncServiceClientRequestType){
-            res.send({error:"Failed syncClient request body! Reason: no syncServiceClientRequestType!"});   log.info("Failed syncService request body! Reason: no syncServiceClientRequestType!");
+        if(!syncServiceClientRequestType){                                                                  log.info("Failed syncService request body! Reason: no syncServiceClientRequestType!");
+            res.send({error:"Failed syncClient request body! Reason: no syncServiceClientRequestType!"});
             return;
         }
         var sPOSName=req.body["POS_Name"],sPOSHostName=req.body["POS_HOST_Name"];
-        if(!sPOSName||!sPOSHostName){
-            res.send({error:"Failed syncClient request body! Reason: no POS name POS HOST Name!"});         log.info("Failed syncService request body! Reason: no POS_Name POS_HOST_Name!");
+        if(!sPOSName||!sPOSHostName){                                                                       log.info("Failed syncService request body! Reason: no POS_Name POS_HOST_Name!");
+            insertSysSyncErrorsLog({},
+                function(){
+                    res.send({error:"Failed syncClient request body! Reason: no POS name POS HOST Name!"});
+                });
             return;
         }
 
-        sys_sync_POSes.getDataItem({fields:["ID","UNIT_ID"],conditions:{"NAME=":sPOSName+"1"}},
+        sys_sync_POSes.getDataItem({fields:["ID","UNIT_ID"],conditions:{"NAME=":sPOSName,"HOST_NAME=":sPOSHostName}},
             function(result){
-                if(result.error){
-                    res.send({error:"Failed syncClient request! Reason: failed finded sync POS name!"});    log.info("Failed syncService request! Reason: failed finded sync POS name! Reason: ",result.error);
+                if(result.error){                                                                           log.info("Failed syncService request! Reason: failed finded sync POS by name and host name! Reason: ",result.error);
+                    res.send({error:"Failed syncClient request! Reason: failed finded sync POS by name and host name!"});
                     return;
                 }
-                if(!result.item){
-                    res.send({error:"Failed syncClient request! Reason: failed finded sync POS name!"});    log.info("Failed syncService request! Reason: failed finded sync POS name! Reason: no result!");
+                if(!result.item){                                                                           log.info("Failed syncService request! Reason: not finded sync POS by name and host name! Reason: no result!");
+                    res.send({error:"Failed syncClient request! Reason: not finded sync POS by name and host name!"});
                     return;
                 }
                 var sSyncPOSID=result.item["ID"],sUnitID=result.item["UNIT_ID"];
@@ -118,11 +134,11 @@ module.exports.init = function(app){
                             res.send(result);                                              //console.log("syncService sendOutData",req.body,{});
                         });
                     return;
-                } else  if(syncServiceClientRequestType=="applySyncOutData"){
+                } else if(syncServiceClientRequestType=="applySyncOutData"){
                     res.send({error:"!"});
                     return;
-                } else {
-                    res.send({error:"Failed syncClient request body! Reason: no incorrect request type!"}); log.info("Failed syncService request body! Reason: incorrect syncServiceClientRequestType!");
+                } else {                                                                                    log.info("Failed syncService request body! Reason: incorrect syncServiceClientRequestType!");
+                    res.send({error:"Failed syncClient request body! Reason: no incorrect request type!"});
                 }
             });
     })

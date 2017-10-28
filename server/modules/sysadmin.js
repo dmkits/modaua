@@ -843,13 +843,12 @@ module.exports.init = function(app){
     });
 
     var sysSyncErrorsLogTableColumns=[
-        {data: "CREATE_DATE", name: "Log date", width: 70, type: "text"},
+        {data: "CREATE_DATE", name: "Log date", width: 80, type: "text"},
         {data: "ERROR_MSG", name: "Error msg", width: 350, type: "text"},
-        {data: "HEADER", name: "SOAP Message Header", width: 250, type: "text"},
+        {data: "HEADER", name: "Client Message Header", width: 250, type: "text"},
         {data: "CLIENT_POS_NAME", name: "Client POS Name", width: 100, type: "text"},
-        {data: "CLIENT_CREATE_DATE", name: "Client create date", width: 70, type: "text"},
-        {data: "CLIENT_SYNC_DATA_ID", name: "Client ID", width: 70, type: "text"}
-
+        {data: "CLIENT_POS_HOST_NAME", name: "Client POS Host Name", width: 100, type: "text"},
+        {data: "CLIENT_DATA", name: "Client data", width: 400, type: "text"}
     ];
     app.get('/sysadmin/synchronization/getErrorLogDataForTable', function(req, res){
         sys_sync_errors_log.getDataForTable({tableColumns:sysSyncErrorsLogTableColumns, identifier:sysSyncErrorsLogTableColumns[0].data,

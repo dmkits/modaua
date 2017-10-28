@@ -15,21 +15,13 @@ var changeLog = [
         changeVal:"ALTER TABLE sys_sync_errors_log ADD COLUMN HEADER VARCHAR(255)",
         field:"HEADER"},
     { changeID:"sys_sync_errors_log__6", changeDatetime:"2016-11-26 14:06:00", changeObj:"sys_sync_errors_log",
-        changeVal:"ALTER TABLE sys_sync_errors_log ADD COLUMN CLIENT_DB_NAME VARCHAR(255)",
-        field:"CLIENT_DB_NAME"},
-    { changeID:"sys_sync_errors_log__7", changeDatetime:"2016-11-26 14:07:00", changeObj:"sys_sync_errors_log",
         changeVal:"ALTER TABLE sys_sync_errors_log ADD COLUMN CLIENT_POS_NAME VARCHAR(255)",
         field:"CLIENT_POS_NAME"},
+    { changeID:"sys_sync_errors_log__7", changeDatetime:"2016-11-26 14:07:00", changeObj:"sys_sync_errors_log",
+        changeVal:"ALTER TABLE sys_sync_errors_log ADD COLUMN CLIENT_POS_HOST_NAME VARCHAR(255)",
+        field:"CLIENT_POS_HOST_NAME"},
     { changeID:"sys_sync_errors_log__8", changeDatetime:"2016-11-26 14:08:00", changeObj:"sys_sync_errors_log",
-        changeVal:"ALTER TABLE sys_sync_errors_log ADD COLUMN CLIENT_STOCK_NAME VARCHAR(255)",
-        field:"CLIENT_STOCK_NAME"},
-    { changeID:"sys_sync_errors_log__9", changeDatetime:"2016-11-26 14:09:00", changeObj:"sys_sync_errors_log",
-        changeVal:"ALTER TABLE sys_sync_errors_log ADD COLUMN CLIENT_CREATE_DATE DATETIME NULL",
-        field:"CLIENT_CREATE_DATE"},
-    { changeID:"sys_sync_errors_log_10", changeDatetime:"2016-11-26 14:10:00", changeObj:"sys_sync_errors_log",
-        changeVal:"ALTER TABLE sys_sync_errors_log ALTER COLUMN CLIENT_CREATE_DATE  DROP DEFAULT" },
-    { changeID:"sys_sync_errors_log_11", changeDatetime:"2016-11-26 14:11:00", changeObj:"sys_sync_errors_log",
-        changeVal:"ALTER TABLE sys_sync_errors_log ADD COLUMN CLIENT_SYNC_DATA_ID VARCHAR(255)",
-        field:"CLIENT_SYNC_DATA_ID"}
+        changeVal:"ALTER TABLE sys_sync_errors_log ADD COLUMN CLIENT_DATA VARCHAR(1000) NULL",
+        field:"CLIENT_DATA"}
 ];
 module.exports.changeLog=changeLog;
