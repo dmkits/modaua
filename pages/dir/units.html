@@ -19,18 +19,16 @@
 
                 dir_units_ContentContainer.docDirUnits =
                         APP.childFor(dir_units_ContentContainer, "dir_units_TableDirUnits",
-                                TDocumentSimpleTableEditable, {titleText:"Подразделения", rightPane:{width:150},
+                                TDocumentSimpleTableEditable, {titleText:"Подразделения",
+                                    rightToolPane:{title:"Действия",
+                                        buttons:{insertTableRow:"Добавить", allowEditTableSelectedRow:"Изменить",
+                                            storeTableSelectedRow:"Сохранить",deleteTableSelectedRow:"Удалить"}},
                                     dataURL:"/dir/units/getDataForDirUnitsTable",
                                     dataNewURL:"/dir/units/newDataForDirUnitsTable",
                                     dataStoreURL:"/dir/units/storeDirUnitsTableData", dataDeleteURL:"/dir/units/deleteDirUnitsTableData"})
                                 .addCheckBtnCondition("Используемые",{width:105,contentTableConditions:{"NOT_USED~":0}})
                                 .addCheckBtnCondition("Не используемые",{width:122,contentTableConditions:{"NOT_USED~":1}})
                                 .addTotalCountNumberBox("ИТОГО строк:", 150, {style:"font-weight:bold;",inputStyle:"width:50px"})
-                                .addToolPane("Действия")
-                                .addToolPaneTableActionButton("Добавить", {btnStyle:"width:115px;", actionName:"insertTableRow"})
-                                .addToolPaneTableActionButton("Изменить", {btnStyle:"width:115px;", actionName:"allowEditTableSelectedRow"})
-                                .addToolPaneTableActionButton("Сохранить", {btnStyle:"width:115px;", actionName:"storeTableSelectedRow"})
-                                .addToolPaneTableActionButton("Удалить", {btnStyle:"width:115px;", actionName:"deleteTableSelectedRow"})
                                 .addContentTablePopupMenuTableRowsAction("Добавить строки",{actionName:"insertTableRowsAfterSelected",rowPosName:"POS"})//rowPosIndexName:"POSIND"
                                 .addContentTablePopupMenuTableRowsAction("Изменить строки",{actionName:"allowEditTableSelectedRows"})
                                 .addContentTablePopupMenuTableRowsAction("Сохранить строки",{actionName:"storeTableSelectedRows"})

@@ -63,17 +63,15 @@
                         dir_products_Btn_viewGenders.document =
                                 APP.childFor(dir_products_ContentContainer, "dir_products_TableProductsGenders",
                                         TDocumentSimpleTableEditable, {titleText:"Группы номенклатур", rightPane:{width:150},
+                                            rightToolPane:{title:"Действия",
+                                                buttons:{insertTableRow:"Добавить", allowEditTableSelectedRow:"Изменить",
+                                                    storeTableSelectedRow:"Сохранить",deleteTableSelectedRow:"Удалить"}},
                                             dataURL:"/dir/products/getDataForProductsGendersTable", dataURLCondition:{"1~":1},
                                             dataNewURL:"/dir/products/newDataForProductsGendersTable",
                                             dataStoreURL:"/dir/products/storeProductsGendersTableData",
                                             dataDeleteURL:"/dir/products/deleteProductsGendersTableData"
                                         })
                                         .addTotalCountNumberBox("ИТОГО строк:", 140, {style:"font-weight:bold;",inputStyle:"width:50px"})
-                                        .addToolPane("Действия")
-                                        .addToolPaneTableActionButton("Добавить", {btnStyle:"width:115px;", actionName:"insertTableRow"})
-                                        .addToolPaneTableActionButton("Изменить", {btnStyle:"width:115px;", actionName:"allowEditTableSelectedRow"})
-                                        .addToolPaneTableActionButton("Сохранить", {btnStyle:"width:115px;", actionName:"storeTableSelectedRow"})
-                                        .addToolPaneTableActionButton("Удалить", {btnStyle:"width:115px;", actionName:"deleteTableSelectedRow"})
                                         .addContentTablePopupMenuTableRowsAction("Добавить строки",{actionName:"insertTableRowsAfterSelected"})
                                         .addContentTablePopupMenuTableRowsAction("Изменить строки",{actionName:"allowEditTableSelectedRows"})
                                         .addContentTablePopupMenuTableRowsAction("Сохранить строки",{actionName:"storeTableSelectedRows"})
@@ -86,16 +84,14 @@
                         dir_products_Btn_viewCategories.document =
                                 APP.childFor(dir_products_ContentContainer, "dir_products_TableProductsCategories",
                                         TDocumentSimpleTableEditable, {titleText:"Категории номенклатур", rightPane:{width:150},
+                                            rightToolPane:{title:"Действия",
+                                                buttons:{insertTableRow:"Добавить", allowEditTableSelectedRow:"Изменить",
+                                                    storeTableSelectedRow:"Сохранить",deleteTableSelectedRow:"Удалить"}},
                                             dataURL:"/dir/products/getDataForProductsCategoriesTable", dataURLCondition:{"1~":1},
                                             dataNewURL:"/dir/products/newDataForProductsCategoriesTable",
                                             dataStoreURL:"/dir/products/storeProductsCategoriesTableData",
                                             dataDeleteURL:"/dir/products/deleteProductsCategoriesTableData"})
                                         .addTotalCountNumberBox("ИТОГО строк:", 140, {style:"font-weight:bold;",inputStyle:"width:50px"})
-                                        .addToolPane("Действия")
-                                        .addToolPaneTableActionButton("Добавить", {btnStyle:"width:115px;", actionName:"insertTableRow"})
-                                        .addToolPaneTableActionButton("Изменить", {btnStyle:"width:115px;", actionName:"allowEditTableSelectedRow"})
-                                        .addToolPaneTableActionButton("Сохранить", {btnStyle:"width:115px;", actionName:"storeTableSelectedRow"})
-                                        .addToolPaneTableActionButton("Удалить", {btnStyle:"width:115px;", actionName:"deleteTableSelectedRow"})
                                         .addContentTablePopupMenuTableRowsAction("Добавить строки",{actionName:"insertTableRowsAfterSelected"})
                                         .addContentTablePopupMenuTableRowsAction("Изменить строки",{actionName:"allowEditTableSelectedRows"})
                                         .addContentTablePopupMenuTableRowsAction("Сохранить строки",{actionName:"storeTableSelectedRows"})
@@ -120,16 +116,14 @@
                         dir_products_Btn_viewSubcategories.document =
                                 APP.childFor(dir_products_ContentContainer, "dir_products_TableProductsSubCategories",
                                         TDocumentSimpleTableEditable, {titleText:"Подкатегории номенклатур", rightPane:{width:150},
+                                            rightToolPane:{title:"Действия",
+                                                buttons:{insertTableRow:"Добавить", allowEditTableSelectedRow:"Изменить",
+                                                    storeTableSelectedRow:"Сохранить",deleteTableSelectedRow:"Удалить"}},
                                             dataURL:"/dir/products/getDataForDirProductsSubCategoriesTable", dataURLCondition:{"1~":1},
                                             dataNewURL:"/dir/products/newDataForDirProductsSubCategoriesTable",
                                             dataStoreURL:"/dir/products/storeProductsSubCategoriesTableData",
                                             dataDeleteURL:"/dir/products/deleteProductsSubCategoriesTableData"})
                                         .addTotalCountNumberBox("ИТОГО строк:", 140, {style:"font-weight:bold;",inputStyle:"width:50px"})
-                                        .addToolPane("Действия")
-                                        .addToolPaneTableActionButton("Добавить", {btnStyle:"width:115px;", actionName:"insertTableRow"})
-                                        .addToolPaneTableActionButton("Изменить", {btnStyle:"width:115px;", actionName:"allowEditTableSelectedRow"})
-                                        .addToolPaneTableActionButton("Сохранить", {btnStyle:"width:115px;", actionName:"storeTableSelectedRow"})
-                                        .addToolPaneTableActionButton("Удалить", {btnStyle:"width:115px;", actionName:"deleteTableSelectedRow"})
                                         .addContentTablePopupMenuTableRowsAction("Добавить строки",{actionName:"insertTableRowsAfterSelected"})
                                         .addContentTablePopupMenuTableRowsAction("Изменить строки",{actionName:"allowEditTableSelectedRows"})
                                         .addContentTablePopupMenuTableRowsAction("Сохранить строки",{actionName:"storeTableSelectedRows"})
@@ -164,17 +158,15 @@
                         dir_products_Btn_viewCollestions.document =
                                 APP.childFor(dir_products_ContentContainer, "dir_products_TableProductsCollections",
                                         TDocumentSimpleTableEditable, {titleText:"Коллекции номенклатур", rightPane:{width:150},
+                                            rightToolPane:{title:"Действия",
+                                                buttons:{insertTableRow:"Добавить", allowEditTableSelectedRow:"Изменить",
+                                                    storeTableSelectedRow:"Сохранить",deleteTableSelectedRow:"Удалить"}},
                                             dataURL:"/dir/products/getDataForProductsCollectionsTable", dataURLCondition:{"1~":1},
                                             dataNewURL:"/dir/products/newDataForProductsCollectionsTable",
                                             dataStoreURL:"/dir/products/storeProductsCollectionsTableData",
                                             dataDeleteURL:"/dir/products/deleteProductsCollectionsTableData"
                                         })
                                         .addTotalCountNumberBox("ИТОГО строк:", 140, {style:"font-weight:bold;",inputStyle:"width:50px"})
-                                        .addToolPane("Действия")
-                                        .addToolPaneTableActionButton("Добавить", {btnStyle:"width:115px;", actionName:"insertTableRow"})
-                                        .addToolPaneTableActionButton("Изменить", {btnStyle:"width:115px;", actionName:"allowEditTableSelectedRow"})
-                                        .addToolPaneTableActionButton("Сохранить", {btnStyle:"width:115px;", actionName:"storeTableSelectedRow"})
-                                        .addToolPaneTableActionButton("Удалить", {btnStyle:"width:115px;", actionName:"deleteTableSelectedRow"})
                                         .addContentTablePopupMenuTableRowsAction("Добавить строки",{actionName:"insertTableRowsAfterSelected"})
                                         .addContentTablePopupMenuTableRowsAction("Изменить строки",{actionName:"allowEditTableSelectedRows"})
                                         .addContentTablePopupMenuTableRowsAction("Сохранить строки",{actionName:"storeTableSelectedRows"})
@@ -187,17 +179,15 @@
                         dir_products_Btn_viewTypes.document =
                                 APP.childFor(dir_products_ContentContainer, "dir_products_TableProductsTypes",
                                         TDocumentSimpleTableEditable, {titleText:"Типы номенклатур", rightPane:{width:150},
+                                            rightToolPane:{title:"Действия",
+                                                buttons:{insertTableRow:"Добавить", allowEditTableSelectedRow:"Изменить",
+                                                    storeTableSelectedRow:"Сохранить",deleteTableSelectedRow:"Удалить"}},
                                             dataURL:"/dir/products/getDataForProductsTypesTable", dataURLCondition:{"1~":1},
                                             dataNewURL:"/dir/products/newDataForProductsTypesTable",
                                             dataStoreURL:"/dir/products/storeProductsTypesTableData",
                                             dataDeleteURL:"/dir/products/deleteProductsTypesTableData"
                                         })
                                         .addTotalCountNumberBox("ИТОГО строк:", 140, {style:"font-weight:bold;",inputStyle:"width:50px"})
-                                        .addToolPane("Действия")
-                                        .addToolPaneTableActionButton("Добавить", {btnStyle:"width:115px;", actionName:"insertTableRow"})
-                                        .addToolPaneTableActionButton("Изменить", {btnStyle:"width:115px;", actionName:"allowEditTableSelectedRow"})
-                                        .addToolPaneTableActionButton("Сохранить", {btnStyle:"width:115px;", actionName:"storeTableSelectedRow"})
-                                        .addToolPaneTableActionButton("Удалить", {btnStyle:"width:115px;", actionName:"deleteTableSelectedRow"})
                                         .addContentTablePopupMenuTableRowsAction("Добавить строки",{actionName:"insertTableRowsAfterSelected"})
                                         .addContentTablePopupMenuTableRowsAction("Изменить строки",{actionName:"allowEditTableSelectedRows"})
                                         .addContentTablePopupMenuTableRowsAction("Сохранить строки",{actionName:"storeTableSelectedRows"})
@@ -210,17 +200,15 @@
                         dir_products_Btn_viewKinds.document =
                                 APP.childFor(dir_products_ContentContainer, "dir_products_TableProductsKinds",
                                         TDocumentSimpleTableEditable, {titleText:"Виды номенклатур", rightPane:{width:150},
+                                            rightToolPane:{title:"Действия",
+                                                buttons:{insertTableRow:"Добавить", allowEditTableSelectedRow:"Изменить",
+                                                    storeTableSelectedRow:"Сохранить",deleteTableSelectedRow:"Удалить"}},
                                             dataURL:"/dir/products/getDataForProductsKindsTable", dataURLCondition:{"1~":1},
                                             dataNewURL:"/dir/products/newDataForProductsKindsTable",
                                             dataStoreURL:"/dir/products/storeProductsKindsTableData",
                                             dataDeleteURL:"/dir/products/deleteProductsKindsTableData"
                                         })
                                         .addTotalCountNumberBox("ИТОГО строк:", 140, {style:"font-weight:bold;",inputStyle:"width:50px"})
-                                        .addToolPane("Действия")
-                                        .addToolPaneTableActionButton("Добавить", {btnStyle:"width:115px;", actionName:"insertTableRow"})
-                                        .addToolPaneTableActionButton("Изменить", {btnStyle:"width:115px;", actionName:"allowEditTableSelectedRow"})
-                                        .addToolPaneTableActionButton("Сохранить", {btnStyle:"width:115px;", actionName:"storeTableSelectedRow"})
-                                        .addToolPaneTableActionButton("Удалить", {btnStyle:"width:115px;", actionName:"deleteTableSelectedRow"})
                                         .addContentTablePopupMenuTableRowsAction("Добавить строки",{actionName:"insertTableRowsAfterSelected"})
                                         .addContentTablePopupMenuTableRowsAction("Изменить строки",{actionName:"allowEditTableSelectedRows"})
                                         .addContentTablePopupMenuTableRowsAction("Сохранить строки",{actionName:"storeTableSelectedRows"})
@@ -233,13 +221,11 @@
                         dir_products_Btn_viewProducts.document =
                                 APP.childFor(dir_products_ContentContainer, "dir_products_TableProducts",
                                         TDocumentSimpleTableEditable, {titleText:"Товарные номенклатуры", rightPane:{width:150},
+                                            rightToolPane:{title:"Действия",
+                                                buttons:{allowEditTableSelectedRow:"Изменить", storeTableSelectedRow:"Сохранить"}},
                                             dataURL:"/dir/products/getDataForDirProductsTable", dataURLCondition:{"1~":1},
                                             dataStoreURL:"/dir/products/storeDirProductsTableData"})
                                         .addTotalCountNumberBox("ИТОГО строк:", 140, {style:"font-weight:bold;",inputStyle:"width:50px"})
-                                        .addToolPane("Действия")
-                                        .addToolPaneTableActionButton("Изменить строку", {btnStyle:"width:145px;", actionName:"allowEditTableSelectedRow"})
-                                        .addToolPaneTableActionButton("Сохранить строку", {btnStyle:"width:145px;", actionName:"storeTableSelectedRow"})
-//                                        .addToolPaneTableActionButton("Удалить строку", {btnStyle:"width:145px;", actionName:"deleteTableSelectedRow"})
 //                                        .addContentTablePopupMenuTableRowsAction("Добавить строки",{actionName:"insertTableRowsAfterSelected"})
                                 .addContentTablePopupMenuTableRowsAction("Изменить строки",{actionName:"allowEditTableSelectedRows"})
                                 .addContentTablePopupMenuTableRowsAction("Сохранить строки",{actionName:"storeTableSelectedRows"})

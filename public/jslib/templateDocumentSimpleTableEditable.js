@@ -18,6 +18,8 @@ define(["dojo/_base/declare", "app", "templateDocumentSimpleTable", "hTableEdita
                     if(!this.rightContainerParams.style) this.rightContainerParams.style="margin:0;padding:0;";
                     if(!this.rightContainerParams.width&&this.rightToolPaneParams.width)
                         this.rightContainerParams.width=this.rightToolPaneParams.width;
+                    else if(!this.rightContainerParams.width&&!this.rightToolPaneParams.width)
+                        this.rightContainerParams.width=150;
                 }
             },
             postCreate: function(){
