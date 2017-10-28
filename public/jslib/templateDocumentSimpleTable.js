@@ -10,7 +10,7 @@ define(["dojo/_base/declare", "app", "templateDocumentBase","dijit/form/Select",
             *       buttonUpdate, buttonPrint, buttonExportToExcel,
             *       printFormats={ ... } }
             * default:
-            * rightPane=false,
+            * rightPane.width=150,
             * buttonUpdate=true, buttonPrint=true,
             * default printFormats={ dateFormat:"DD.MM.YY", numericFormat:"#,###,###,###,##0.#########", currencyFormat:"#,###,###,###,##0.00#######" }
             * */

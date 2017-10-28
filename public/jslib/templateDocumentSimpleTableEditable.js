@@ -5,7 +5,12 @@ define(["dojo/_base/declare", "app", "templateDocumentSimpleTable", "hTableEdita
     function(declare, APP, TDocumentSimpleTable, HTableEditable) {
         return declare("TemplateDocumentSimpleTableEditable", [TDocumentSimpleTable], {
             /**
-             * added args: { dataNewURL, dataStoreURL, dataDeleteURL }
+             * added args: { dataNewURL, dataStoreURL, dataDeleteURL },
+             * rightToolPane:{title:"<title>", width:<width>
+             *               buttons:{ insertTableRow:"<title>", allowEditTableSelectedRow:"<title>",
+             *                         storeTableSelectedRow:"<title>",deleteTableSelectedRow:"<title>"} }
+             * default:
+             * rightToolPane.width=150
              */
             constructor: function(args,parentName){
                 this.dataNewURL= null;
