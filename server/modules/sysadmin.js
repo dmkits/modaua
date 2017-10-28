@@ -835,7 +835,7 @@ module.exports.init = function(app){
         {data: "DATABASE_NAME", name: "Database", width: 200, type: "text"},
         {data: "UNIT_NAME", name: "Unit", width: 200, type: "text", dataSource:"dir_units", sourceField:"NAME"}
     ];
-    app.get('/sysadmin/synchronization/getDatabasesDataForTable', function(req, res){
+    app.get('/sysadmin/synchronization/getSyncPOSesDataForTable', function(req, res){
         sys_sync_POSes.getDataForTable({tableColumns:sysSyncPOSesTableColumns, identifier:sysSyncPOSesTableColumns[0].data,
             order:"ID", conditions:req.query}, function(result){
             res.send(result);

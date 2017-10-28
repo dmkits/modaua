@@ -12,11 +12,28 @@ define(["dojo/_base/declare", "app", "templateDocumentSimpleTable", "hTableEdita
                 this.dataStoreURL= null;
                 this.dataDeleteURL= null;
                 declare.safeMixin(this,args);
+                if(args.rightToolPane&& typeof(args.rightToolPane)=="object"){
+                    this.rightToolPaneParams= args.rightToolPane;
+                    if(!this.rightContainerParams) this.rightContainerParams= {};
+                    if(!this.rightContainerParams.style) this.rightContainerParams.style="margin:0;padding:0;";
+                    if(!this.rightContainerParams.width&&this.rightToolPaneParams.width)
+                        this.rightContainerParams.width=this.rightToolPaneParams.width;
+                }
             },
             postCreate: function(){
                 this.createTopContent();
                 this.createContentTable(HTableEditable, {readOnly:false,allowFillHandle:true});
                 this.createRightContent();
+                if(this.rightToolPaneParams){
+                    if(this.rightToolPaneParams.title){
+                        this.addToolPane("Действия");
+                    }
+                    var rightPaneWidth=this.rightContainerParams.width;
+                    for (var btnActionName in this.rightToolPaneParams.buttons) {
+                        var btn= this.rightToolPaneParams.buttons[btnActionName];
+                        this.addToolPaneTableActionButton(btn, {btnStyle:"width:"+(rightPaneWidth-35)+"px;", actionName:btnActionName})
+                    }
+                }
             },
 
             /*

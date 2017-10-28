@@ -114,21 +114,14 @@
                     btnSyncPOSes.document =
                             APP.childFor(contentPaneDetailContainer, "sysadmin_sync__TableSyncPOSes",
                                     TDocumentSimpleTable, {titleText: "Synchronization POSes",buttonPrint: false,
-                                        rightPane:{width:150},
                                         rightToolPane:{width:150, title:"Действия",
                                             buttons:{insertTableRow:"Добавить", allowEditTableSelectedRow:"Изменить",
                                                 storeTableSelectedRow:"Сохранить",deleteTableSelectedRow:"Удалить"}},
-
                                         dataURL: '/sysadmin/synchronization/getSyncPOSesDataForTable', dataURLCondition: {"1~": 1},
-
-                                        dataNewURL:"/dir/units/newDataForDirUnitsTable",
-                                        dataStoreURL:"/dir/units/storeDirUnitsTableData", dataDeleteURL:"/dir/units/deleteDirUnitsTableData"})
+                                        dataNewURL:"/sysadmin/synchronization/newDataForSyncPOSesTable",
+                                        dataStoreURL:"/sysadmin/synchronization/storeSyncPOSesTableData",
+                                        dataDeleteURL:"/sysadmin/synchronization/deleteSyncPOSesTableData"})
                                     .addTotalCountNumberBox("ИТОГО строк:", 140, {style: "font-weight:bold;", inputStyle: "width:40px;"})
-                                    .addToolPane("Действия")
-                                    .addToolPaneTableActionButton("Добавить", {btnStyle:"width:115px;", actionName:"insertTableRow"})
-                                    .addToolPaneTableActionButton("Изменить", {btnStyle:"width:115px;", actionName:"allowEditTableSelectedRow"})
-                                    .addToolPaneTableActionButton("Сохранить", {btnStyle:"width:115px;", actionName:"storeTableSelectedRow"})
-                                    .addToolPaneTableActionButton("Удалить", {btnStyle:"width:115px;", actionName:"deleteTableSelectedRow"})
                                     .addContentTablePopupMenuTableRowsAction("Добавить строки",{actionName:"insertTableRowsAfterSelected",rowPosName:"POS"})
                                     .addContentTablePopupMenuTableRowsAction("Изменить строки",{actionName:"allowEditTableSelectedRows"})
                                     .addContentTablePopupMenuTableRowsAction("Сохранить строки",{actionName:"storeTableSelectedRows"})
