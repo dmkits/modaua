@@ -21,7 +21,10 @@ var changeLog = [
         changeVal:"ALTER TABLE sys_sync_errors_log ADD COLUMN CLIENT_POS_HOST_NAME VARCHAR(255)",
         field:"CLIENT_POS_HOST_NAME"},
     { changeID:"sys_sync_errors_log__8", changeDatetime:"2016-11-26 14:08:00", changeObj:"sys_sync_errors_log",
-        changeVal:"ALTER TABLE sys_sync_errors_log ADD COLUMN CLIENT_DATA VARCHAR(1000) NULL",
+        changeVal:"ALTER TABLE sys_sync_errors_log ADD COLUMN CLIENT_REQUEST_TYPE VARCHAR(255)",
+        field:"CLIENT_REQUEST_TYPE"},
+    { changeID:"sys_sync_errors_log__9", changeDatetime:"2016-11-26 14:09:00", changeObj:"sys_sync_errors_log",
+        changeVal:"ALTER TABLE sys_sync_errors_log ADD COLUMN CLIENT_DATA VARCHAR(1000)",
         field:"CLIENT_DATA"}
 ];
 module.exports.changeLog=changeLog;

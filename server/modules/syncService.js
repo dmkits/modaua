@@ -79,6 +79,7 @@ module.exports.init = function(app){
             });
     };
     var insertSysSyncErrorsLog= function(dataItem,resultCallback){
+        dataItem["CREATE_DATE"]= new Date();
         sys_sync_errors_log.insDataItemWithNewID({idFieldName:"ID",insData:dataItem},
             function(result){
                 if(result.error){                                                                           log.info("Failed to insert sys sync errors log! Reason:"+result.error.message);
@@ -89,53 +90,60 @@ module.exports.init = function(app){
             });
     };
     app.post("/syncService", function(req, res){
-        if(req.headers&&
-            (!req.headers["sync-service-client"]
-                ||req.headers["sync-service-client"]!="derbySyncClient_1.7")){                              log.info("Failed syncService request! Reason: header sync-service-client non correct!");
-            res.send({error:"Failed check syncClient request header!"});
-            return;
-        }
-        if(!req.body){                                                                                      log.info("Failed syncService request body! Reason: no body!");
-            res.send({error:"Failed syncClient request body!"});
-            return;
-        }
-        var syncServiceClientRequestType=req.body["syncServiceClientRequestType"];
-        if(!syncServiceClientRequestType){                                                                  log.info("Failed syncService request body! Reason: no syncServiceClientRequestType!");
-            res.send({error:"Failed syncClient request body! Reason: no syncServiceClientRequestType!"});
-            return;
-        }
-        var sPOSName=req.body["POS_Name"],sPOSHostName=req.body["POS_HOST_Name"];
-        if(!sPOSName||!sPOSHostName){                                                                       log.info("Failed syncService request body! Reason: no POS_Name POS_HOST_Name!");
-            insertSysSyncErrorsLog({},
+        var clientHeader=(req.headers)?req.headers["sync-service-client"]:null;
+        var sPOSName=(req.body)?req.body["POS_Name"]:null,sPOSHostName=(req.body)?req.body["POS_HOST_Name"]:null,
+            syncServiceClientRequestType=req.body["syncServiceClientRequestType"],
+            clientSyncOutData=(req.body)?req.body.dataItem1:null,
+            clientSyncOutDataStr= (clientSyncOutData)?JSON.stringify(clientSyncOutData):null;
+        var errorMsg;
+        if(!clientHeader||clientHeader!="derbySyncClient_1.7") errorMsg="Header sync-service-client non correct!";
+        else if(!req.body) errorMsg="No request data!";
+        else if(!sPOSName||!sPOSHostName) errorMsg="No POS_Name and/or POS_HOST_Name!";
+        else if(!syncServiceClientRequestType) errorMsg="No syncServiceClientRequestType!";
+        if(errorMsg){                                                                                       log.info("Failed syncService request! Reason: "+errorMsg);
+            insertSysSyncErrorsLog({"ERROR_MSG":errorMsg, "HEADER":clientHeader,
+                    "CLIENT_POS_NAME":sPOSName,"CLIENT_POS_HOST_NAME":sPOSHostName,
+                    "CLIENT_REQUEST_TYPE":syncServiceClientRequestType, "CLIENT_DATA":clientSyncOutDataStr},
                 function(){
-                    res.send({error:"Failed syncClient request body! Reason: no POS name POS HOST Name!"});
+                    res.send({error:errorMsg});
                 });
             return;
         }
-
         sys_sync_POSes.getDataItem({fields:["ID","UNIT_ID"],conditions:{"NAME=":sPOSName,"HOST_NAME=":sPOSHostName}},
             function(result){
                 if(result.error){                                                                           log.info("Failed syncService request! Reason: failed finded sync POS by name and host name! Reason: ",result.error);
-                    res.send({error:"Failed syncClient request! Reason: failed finded sync POS by name and host name!"});
+                    var errorMsg="Failed syncClient request! Reason: failed finded sync POS by name and host name!";
+                    insertSysSyncErrorsLog({"ERROR_MSG":errorMsg, "HEADER":clientHeader,
+                            "CLIENT_POS_NAME":sPOSName,"CLIENT_POS_HOST_NAME":sPOSHostName,
+                            "CLIENT_REQUEST_TYPE":syncServiceClientRequestType, "CLIENT_DATA":clientSyncOutDataStr},
+                        function(){
+                            res.send({error:errorMsg});
+                        });
                     return;
                 }
                 if(!result.item){                                                                           log.info("Failed syncService request! Reason: not finded sync POS by name and host name! Reason: no result!");
-                    res.send({error:"Failed syncClient request! Reason: not finded sync POS by name and host name!"});
+                    var errorMsg="Failed syncClient request! Reason: not finded sync POS by name and host name!";
+                    insertSysSyncErrorsLog({"ERROR_MSG":errorMsg, "HEADER":clientHeader,
+                            "CLIENT_POS_NAME":sPOSName,"CLIENT_POS_HOST_NAME":sPOSHostName,
+                            "CLIENT_REQUEST_TYPE":syncServiceClientRequestType, "CLIENT_DATA":clientSyncOutDataStr},
+                        function(){
+                            res.send({error:errorMsg});
+                        });
                     return;
                 }
                 var sSyncPOSID=result.item["ID"],sUnitID=result.item["UNIT_ID"];
                 if(syncServiceClientRequestType=="getSyncIncData"){
-                    res.send({ resultItem:null });
+                    res.send({ error:"!!!getSyncIncData!!!" });
                     return;
                 } else if(syncServiceClientRequestType=="storeSyncOutData"){
                     storeClientSyncOutData({ unitID:sUnitID, syncPOSID:sSyncPOSID,
-                            clientDataItem:req.body.dataItem, clientDataItemValues:req.body.dataItemValues },
+                            clientDataItem:clientSyncOutData, clientDataItemValues:req.body.dataItemValues },
                         function(result){
                             res.send(result);                                              //console.log("syncService sendOutData",req.body,{});
                         });
                     return;
                 } else if(syncServiceClientRequestType=="applySyncOutData"){
-                    res.send({error:"!"});
+                    res.send({error:"!!!applySyncOutData!!!"});
                     return;
                 } else {                                                                                    log.info("Failed syncService request body! Reason: incorrect syncServiceClientRequestType!");
                     res.send({error:"Failed syncClient request body! Reason: no incorrect request type!"});
