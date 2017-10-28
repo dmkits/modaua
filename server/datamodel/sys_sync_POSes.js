@@ -7,8 +7,8 @@ var changeLog = [
         changeVal:"ALTER TABLE sys_sync_POSes ADD COLUMN NAME VARCHAR(255) NOT NULL",
         field:"NAME"},
     { changeID:"sys_sync_POSes__3", changeDatetime:"2016-09-26 10:03:00", changeObj:"sys_sync_POSes",
-        changeVal:"ALTER TABLE sys_sync_POSes ADD COLUMN PC_NAME VARCHAR(255) NOT NULL",
-        field:"PC_NAME"},
+        changeVal:"ALTER TABLE sys_sync_POSes ADD COLUMN HOST_NAME VARCHAR(255) NOT NULL",
+        field:"HOST_NAME"},
     { changeID:"sys_sync_POSes__4", changeDatetime:"2016-09-26 10:04:00", changeObj:"sys_sync_POSes",
         changeVal:"ALTER TABLE sys_sync_POSes ADD COLUMN DATABASE_NAME VARCHAR(255) NOT NULL",
         field:"DATABASE_NAME"},
@@ -20,8 +20,8 @@ var changeLog = [
             "FOREIGN KEY(UNIT_ID) REFERENCES dir_units(ID)",
         field:"UNIT_ID", "source":"dir_units", "linkField":"ID" },
     { changeID:"sys_sync_POSes__7", changeDatetime:"2016-09-26 10:07:00", changeObj:"sys_sync_POSes",
-        changeVal:"INSERT INTO sys_sync_POSes(ID,NAME,PC_NAME,DATABASE_NAME,UNIT_ID) values(1,'POS1','CASHBOX1','cashbox1', 1)" },
+        changeVal:"INSERT INTO sys_sync_POSes(ID,NAME,HOST_NAME,DATABASE_NAME,UNIT_ID) values(1,'POS1','CASHBOX1','cashbox1', 1)" },
     { changeID:"sys_sync_POSes__8", changeDatetime:"2016-09-26 10:08:00", changeObj:"sys_sync_POSes",
-        changeVal:"INSERT INTO sys_sync_POSes(ID,NAME,PC_NAME,DATABASE_NAME,UNIT_ID) values(2,'POS2','CASHBOX2','cashbox2', 1)" }
+        changeVal:"INSERT INTO sys_sync_POSes(ID,NAME,HOST_NAME,DATABASE_NAME,UNIT_ID) values(2,'POS2','CASHBOX2','cashbox2', 1)" }
 ];
 module.exports.changeLog=changeLog;

@@ -15,6 +15,67 @@ module.exports.validateModule = function(errs, nextValidateModuleCallback){
 //module.exports.modulePageURL = "/syncService";
 
 module.exports.init = function(app){
+    var insertClientDataItemValues=function(ind,clientDataItemValuesArray ,callback){
+        if(!clientDataItemValuesArray[ind]){
+            callback();
+            return;
+        }
+        sys_sync_incoming_data_details.insDataItemWithNewID({idFieldName:"ID",insData:clientDataItemValuesArray[ind]},
+            function(result){
+                if(result.error){
+                    callback({error:"Failed store client data values in server sync incoming data details! Reason:"+result.error.message});
+                    return;
+                }
+                insertClientDataItemValues(ind+1,clientDataItemValuesArray, callback);
+            });
+    };
+    /**
+     * params = { syncPOSID, unitID, clientDataItem, clientDataItemValues }
+     */
+    var storeClientSyncOutData= function(params, resultCallback){
+        var clientSyncDataOut=params.clientDataItem, clientDataItemValues=params.clientDataItemValues;
+        sys_sync_incoming_data.getDataItem({ fields:["ID","STATE","MSG"],  //fields:["ID"], !!!
+                conditions:{"SYNC_POS_ID=":params.syncPOSID, "CLIENT_SYNC_DATA_OUT_ID=":clientSyncDataOut["ID"]}},
+            function(result){
+                if(result.error){
+                    if(resultCallback) resultCallback({error:"Failed find client data in server sync incoming data! Reason:"+result.error.message});
+                    return;
+                }
+                if(result.item){
+                    var sysSyncDataInID=result.item["ID"];
+
+                    //update
+                    result.resultItem=result.item;
+
+                    if(resultCallback) resultCallback({resultItem:{"STATE":result.resultItem["STATE"].toString(),"MSG":result.resultItem["MSG"]}});
+                    return;
+                }
+                sys_sync_incoming_data.insDataItemWithNewID({idFieldName:"ID",
+                        insData:{"CREATE_DATE":new Date(),"SYNC_POS_ID":params.syncPOSID, "CLIENT_SYNC_DATA_OUT_ID":clientSyncDataOut["ID"],
+                            "CLIENT_CREATE_DATE":clientSyncDataOut["CRDATE"],"OPERATION_TYPE":clientSyncDataOut["OTYPE"],
+                            "CLIENT_TABLE_NAME":clientSyncDataOut["TABLENAME"],
+                            "CLIENT_TABLE_KEY1_NAME":clientSyncDataOut["TABLEKEY1IDNAME"],"CLIENT_TABLE_KEY1_VALUE":clientSyncDataOut["TABLEKEY1IDVAL"],
+                            "STATE":"0","MSG":"client sync data out stored"}
+                    },
+                    function(result){
+                        if(result.error){
+                            if(resultCallback) resultCallback({error:"Failed insert client data in server sync incoming data! Reason:"+result.error.message});
+                            return;
+                        }
+                        var storeSyncIncDataResult= result.resultItem, sysSyncIncDataID=storeSyncIncDataResult["ID"], clientDataItemValuesArray=[];
+                        for (var item in clientDataItemValues)
+                            clientDataItemValuesArray.push({"SYNC_INCOMING_DATA_ID":sysSyncIncDataID, "NAME":item,"VALUE":clientDataItemValues[item]});
+                        console.log("clientDataItemValuesArray=",clientDataItemValuesArray);
+                        insertClientDataItemValues(0,clientDataItemValuesArray,
+                            function(result){
+                                if(resultCallback&&result&&result.error)
+                                    resultCallback({error:result.error});
+                                else if(resultCallback)
+                                    resultCallback({resultItem:{"STATE":storeSyncIncDataResult["STATE"],"MSG":storeSyncIncDataResult["MSG"]}});
+                            });
+                    });
+            });
+    };
     app.post("/syncService", function(req, res){
         if(req.headers&&
             (!req.headers["sync-service-client"]||req.headers["sync-service-client"]!="derbySyncClient_1.7")){
@@ -30,80 +91,21 @@ module.exports.init = function(app){
             res.send({error:"Failed syncClient request body! Reason: no syncServiceClientRequestType!"});   log.info("Failed syncService request body! Reason: no syncServiceClientRequestType!");
             return;
         }
-        var sPOSName=req.body["POSName"];
-        if(!sPOSName){
-            res.send({error:"Failed syncClient request body! Reason: no POS name!"});                       log.info("Failed syncService request body! Reason: no POSName!");
+        var sPOSName=req.body["POS_Name"],sPOSHostName=req.body["POS_HOST_Name"];
+        if(!sPOSName||!sPOSHostName){
+            res.send({error:"Failed syncClient request body! Reason: no POS name POS HOST Name!"});         log.info("Failed syncService request body! Reason: no POS_Name POS_HOST_Name!");
             return;
         }
-        var insertClientDataItemValues=function(ind,clientDataItemValuesArray ,callback){
-            if(!clientDataItemValuesArray[ind]){
-                callback();
-                return;
-            }
-            sys_sync_incoming_data_details.insDataItemWithNewID({idFieldName:"ID",insData:clientDataItemValuesArray[ind]},
-                function(result){
-                    if(result.error){
-                        callback({error:"Failed store client data values in server sync incoming data details! Reason:"+result.error.message});
-                        return;
-                    }
-                    insertClientDataItemValues(ind+1,clientDataItemValuesArray, callback);
-                });
-        };
-        /**
-         * params = { syncPOSID, unitID, clientDataItem, clientDataItemValues }
-         */
-        var storeClientSyncOutData= function(params, resultCallback){
-            var clientSyncDataOut=params.clientDataItem, clientDataItemValues=params.clientDataItemValues;
-            sys_sync_incoming_data.getDataItem({ fields:["ID","STATE","MSG"],  //fields:["ID"], !!!
-                    conditions:{"SYNC_POS_ID=":params.syncPOSID, "CLIENT_SYNC_DATA_OUT_ID=":clientSyncDataOut["ID"]}},
-                function(result){
-                    if(result.error){
-                        if(resultCallback) resultCallback({error:"Failed find client data in server sync incoming data! Reason:"+result.error.message});
-                        return;
-                    }
-                    if(result.item){
-                        var sysSyncDataInID=result.item["ID"];
 
-                        //update
-                        result.resultItem=result.item;
-
-                        if(resultCallback) resultCallback({resultItem:{"STATE":result.resultItem["STATE"].toString(),"MSG":result.resultItem["MSG"]}});
-                        return;
-                    }
-                    sys_sync_incoming_data.insDataItemWithNewID({idFieldName:"ID",
-                            insData:{"CREATE_DATE":new Date(),"SYNC_POS_ID":params.syncPOSID, "CLIENT_SYNC_DATA_OUT_ID":clientSyncDataOut["ID"],
-                                "CLIENT_CREATE_DATE":clientSyncDataOut["CRDATE"],"OPERATION_TYPE":clientSyncDataOut["OTYPE"],
-                                "CLIENT_TABLE_NAME":clientSyncDataOut["TABLENAME"],
-                                "CLIENT_TABLE_KEY1_NAME":clientSyncDataOut["TABLEKEY1IDNAME"],"CLIENT_TABLE_KEY1_VALUE":clientSyncDataOut["TABLEKEY1IDVAL"],
-                                "STATE":"0","MSG":"client sync data out stored"}
-                        },
-                        function(result){
-                            if(result.error){
-                                if(resultCallback) resultCallback({error:"Failed insert client data in server sync incoming data! Reason:"+result.error.message});
-                                return;
-                            }
-                            var storeSyncIncDataResult= result.resultItem, sysSyncIncDataID=storeSyncIncDataResult["ID"], clientDataItemValuesArray=[];
-                            for (var item in clientDataItemValues)
-                                clientDataItemValuesArray.push({"SYNC_INCOMING_DATA_ID":sysSyncIncDataID, "NAME":item,"VALUE":clientDataItemValues[item]});
-                                console.log("clientDataItemValuesArray=",clientDataItemValuesArray);
-                            insertClientDataItemValues(0,clientDataItemValuesArray,
-                                function(result){
-                                    if(resultCallback&&result&&result.error)
-                                        resultCallback({error:result.error});
-                                    else if(resultCallback)
-                                        resultCallback({resultItem:{"STATE":storeSyncIncDataResult["STATE"],"MSG":storeSyncIncDataResult["MSG"]}});
-                                });
-                        });
-                });
-        };
-
-        sys_sync_POSes.getDataItem({fields:["ID","UNIT_ID"],conditions:{"NAME=":sPOSName}},
+        sys_sync_POSes.getDataItem({fields:["ID","UNIT_ID"],conditions:{"NAME=":sPOSName+"1"}},
             function(result){
                 if(result.error){
                     res.send({error:"Failed syncClient request! Reason: failed finded sync POS name!"});    log.info("Failed syncService request! Reason: failed finded sync POS name! Reason: ",result.error);
+                    return;
                 }
                 if(!result.item){
                     res.send({error:"Failed syncClient request! Reason: failed finded sync POS name!"});    log.info("Failed syncService request! Reason: failed finded sync POS name! Reason: no result!");
+                    return;
                 }
                 var sSyncPOSID=result.item["ID"],sUnitID=result.item["UNIT_ID"];
                 if(syncServiceClientRequestType=="getSyncIncData"){
