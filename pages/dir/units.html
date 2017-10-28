@@ -19,7 +19,7 @@
 
                 dir_units_ContentContainer.docDirUnits =
                         APP.childFor(dir_units_ContentContainer, "dir_units_TableDirUnits",
-                                TDocumentSimpleTableEditable, {titleText:"Подразделения", rightPane:true, rightPaneWidth:150,
+                                TDocumentSimpleTableEditable, {titleText:"Подразделения", rightPane:{width:150},
                                     dataURL:"/dir/units/getDataForDirUnitsTable",
                                     dataNewURL:"/dir/units/newDataForDirUnitsTable",
                                     dataStoreURL:"/dir/units/storeDirUnitsTableData", dataDeleteURL:"/dir/units/deleteDirUnitsTableData"})

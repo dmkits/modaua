@@ -19,7 +19,7 @@
 
                 dir_contractors_ContentContainer.docDirContractors =
                         APP.childFor(dir_contractors_ContentContainer, "dir_contractors_TableDirContractors",
-                                TDocumentSimpleTableEditable, {titleText:"Контрагенты", rightPane:true, rightPaneWidth:150,
+                                TDocumentSimpleTableEditable, {titleText:"Контрагенты", rightPane:{width:150},
                                     dataURL:"/dir/contractors/getDataForDirContractorsTable",
                                     dataNewURL:"/dir/contractors/newDataForDirContractorsTable",
                                     dataStoreURL:"/dir/contractors/storeDirContractorsTableData", dataDeleteURL:"/dir/contractors/deleteDirContractorsTableData"})

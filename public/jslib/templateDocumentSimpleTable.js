@@ -5,7 +5,8 @@ define(["dojo/_base/declare", "app", "templateDocumentBase","dijit/form/Select",
     function(declare, APP, DocumentBase,Select, HTable, Request) {
         return declare("TemplateDocumentSimpleTable", [DocumentBase], {
             /**
-            * args: {titleText, dataURL, dataURLCondition={...}, rightPane:true/false, rightPaneWidth,
+            * args: {titleText, dataURL, dataURLCondition={...},
+            *       rightPane:{ width:<width> },
             *       buttonUpdate, buttonPrint, buttonExportToExcel,
             *       printFormats={ ... } }
             * default:
@@ -23,10 +24,11 @@ define(["dojo/_base/declare", "app", "templateDocumentBase","dijit/form/Select",
                 this.detailContentErrorMsg="Failed get data!";
                 this.srcNodeRef = document.getElementById(parentName);
                 declare.safeMixin(this,args);
-                if(args.rightPane===true){
-                    this.rightContainerParams={style:"margin:0;padding:0;"};
-                    if(args.rightPaneWidth!==undefined) this.rightContainerParams.style+= "width:"+args.rightPaneWidth.toString()+"px;";
-                    else this.rightContainerParams.style+= "width:100px;";
+                if(args.rightPane&& typeof(args.rightPane)=="object"){
+                    this.rightContainerParams=args.rightPane;
+                    if(!this.rightContainerParams.style) this.rightContainerParams.style="margin:0;padding:0;";
+                    if(!this.rightContainerParams.width) this.rightContainerParams.width=150;
+                    this.rightContainerParams.style+= ";width:"+this.rightContainerParams.width.toString()+"px;";
                 }
             },
 

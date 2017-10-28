@@ -48,10 +48,9 @@
                     if (!dir_products_Btn_viewProducts.document){
                         dir_products_Btn_viewProducts.document =
                                 APP.childFor(dir_products_ContentContainer, "dir_products_TableProducts",
-                                        TDocumentSimpleTableEditable, {titleText:"Товарные номенклатуры",
+                                        TDocumentSimpleTableEditable, {titleText:"Товарные номенклатуры", rightPane:{width:150},
                                             dataURL:"/dir/products/getDataForDirProductsTable",
-                                            dataStoreURL:"/dir/products/storeDirProductsTableData",
-                                            rightPane:true, rightPaneWidth:180})
+                                            dataStoreURL:"/dir/products/storeDirProductsTableData"})
                                         .addTotalCountNumberBox("ИТОГО строк:", 140, {style:"font-weight:bold;",inputStyle:"width:50px"})
                                         .addToolPane("Действия")
                                         .addToolPaneTableActionButton("Изменить строку", {btnStyle:"width:145px;", actionName:"allowEditTableSelectedRow"})
@@ -65,7 +64,7 @@
                     if (!dir_products_Btn_viewTypes.document){
                         dir_products_Btn_viewTypes.document =
                                 APP.childFor(dir_products_ContentContainer, "dir_products_TableProductsTypes",
-                                        TDocumentSimpleTableEditable, {titleText:"Типы номенклатур", rightPane:true, rightPaneWidth:150,
+                                        TDocumentSimpleTableEditable, {titleText:"Типы номенклатур", rightPane:{width:150},
                                             dataURL:"/dir/products/getDataForProductsTypesTable", dataURLCondition:{"1~":1},
                                             dataNewURL:"/dir/products/newDataForProductsTypesTable",
                                             dataStoreURL:"/dir/products/storeProductsTypesTableData",
@@ -88,7 +87,7 @@
                     if (!dir_products_Btn_viewKinds.document){
                         dir_products_Btn_viewKinds.document =
                                 APP.childFor(dir_products_ContentContainer, "dir_products_TableProductsKinds",
-                                        TDocumentSimpleTableEditable, {titleText:"Виды номенклатур", rightPane:true, rightPaneWidth:150,
+                                        TDocumentSimpleTableEditable, {titleText:"Виды номенклатур", rightPane:{width:150},
                                             dataURL:"/dir/products/getDataForProductsKindsTable", dataURLCondition:{"1~":1},
                                             dataNewURL:"/dir/products/newDataForProductsKindsTable",
                                             dataStoreURL:"/dir/products/storeProductsKindsTableData",
@@ -111,7 +110,7 @@
                     if (!dir_products_Btn_viewLines.document){
                         dir_products_Btn_viewLines.document =
                                 APP.childFor(dir_products_ContentContainer, "dir_products_TableProductsLines",
-                                        TDocumentSimpleTableEditable, {titleText:"Линии номенклатур", rightPane:true, rightPaneWidth:150,
+                                        TDocumentSimpleTableEditable, {titleText:"Линии номенклатур", rightPane:{width:150},
                                             dataURL:"/dir/products/getDataForProductsLinesTable", dataURLCondition:{"1~":1},
                                             dataNewURL:"/dir/products/newDataForProductsLinesTable",
                                             dataStoreURL:"/dir/products/storeProductsLinesTableData",

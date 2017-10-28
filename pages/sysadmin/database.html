@@ -52,7 +52,7 @@
                     btnCurrentChanges.document =
                             APP.childFor(sysadmin_database_ContentPaneDetailContainer, "sysadmin_database_TableCurrentChanges",
                                     TDocumentSimpleTable, {titleText: "Data model current changes", dataURL: '/sysadmin/database/getCurrentChanges',
-                                        buttonPrint: false, rightPane:true, rightPaneWidth:200})
+                                        buttonPrint: false, rightPane:{width:200}})
                                     .addTotalCountNumberBox("ИТОГО строк:", 140, {style: "font-weight:bold;", inputStyle: "width:40px;"})
                                     .addToolPane("info")
                                     .addToolPane("apply changes")
@@ -163,8 +163,8 @@
                     if (!btnImportDataFromDB.document){
                         btnImportDataFromDB.document =
                                 APP.childFor(sysadmin_database_ContentPaneDetailContainer, "sa_database_TableOtherDBModelList",
-                                        TDocumentSimpleTable, {titleText:"Import data from bata1 database", dataURL:"/sysadmin/database/getDataModelsForImportData",
-                                            rightPane:true, rightPaneWidth:200 })
+                                        TDocumentSimpleTable, {titleText:"Import data from bata1 database", rightPane:{width:200},
+                                            dataURL:"/sysadmin/database/getDataModelsForImportData"})
                                         .addTotalCountNumberBox("Total rows:", 120, {style:"font-weight:bold;",inputStyle:"width:40px"})
                                         .addToolPane("info")
                                         .addToolPane("restore")

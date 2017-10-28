@@ -4,7 +4,7 @@
 define(["dojo/_base/declare", "app", "templateDocumentSimpleTable", "hTableEditable"],
     function(declare, APP, TDocumentSimpleTable, HTableEditable) {
         return declare("TemplateDocumentSimpleTableEditable", [TDocumentSimpleTable], {
-            /*
+            /**
              * added args: { dataNewURL, dataStoreURL, dataDeleteURL }
              */
             constructor: function(args,parentName){
