@@ -832,7 +832,7 @@ module.exports.init = function(app){
         {data: "ID", name: "POS ID", width: 90, type: "text"},
         {data: "POS_NAME", name: "POS name", width: 150, type: "text", sourceField:"NAME"},
         {data: "POS_HOST_NAME", name: "POS HOST name", width: 150, type: "text", sourceField:"HOST_NAME"},
-        {data: "DATABASE_NAME", name: "Database", width: 200, type: "text"},
+        {data: "DATABASE_NAME", name: "POS Database name", width: 200, type: "text"},
         {data: "UNIT_NAME", name: "Unit", width: 200, type: "text", dataSource:"dir_units", sourceField:"NAME"}
     ];
     app.get('/sysadmin/synchronization/getSyncPOSesDataForTable', function(req, res){
