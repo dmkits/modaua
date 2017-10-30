@@ -19,7 +19,7 @@ module.exports.init = function(app) {
 
     var repProductsBalanceRegisterTableColumns=[
         {data: "UNIT_NAME", name: "Подразделение", width: 120, type: "text",
-            dataSource:"dir_units", sourceField:"NAME", linkCondition:"dir_units.ID=wrh_products_operations_v.UNIT_ID" },
+            dataSource:"dir_units", sourceField:"NAME", linkCondition:"dir_units.ID=wrh_products_operations_v.UNIT_ID", visible:false },
         { dataSource:"dir_products", linkCondition:"dir_products.ID=wrh_products_operations_v.PRODUCT_ID"},
         {data: "PINV_SQTY", name: "Кол-во прихода", dataSource:"dir_products_batches_v", sourceField:"QTY"},
         {data: "QTY", name: "Кол-во остатка", dataFunction:{function:"sumIsNull", sourceField:"BATCH_QTY"}},
@@ -56,7 +56,7 @@ module.exports.init = function(app) {
     });
     var repProductsBalanceRegisterByProductsArticlesTableColumns=[
         {data: "UNIT_NAME", name: "Подразделение", width: 120, type: "text",
-            dataSource:"dir_units", sourceField:"NAME", linkCondition:"dir_units.ID=wrh_products_operations_v.UNIT_ID" },
+            dataSource:"dir_units", sourceField:"NAME", linkCondition:"dir_units.ID=wrh_products_operations_v.UNIT_ID", visible:false },
         { dataSource:"dir_products", linkCondition:"dir_products.ID=wrh_products_operations_v.PRODUCT_ID"},
         //{ data: "PROD_ID", name: "PROD_ID", sourceField:"ID", dataSource:"dir_products", linkCondition:"dir_products.ID=wrh_products_operations_v.PRODUCT_ID"},
         {data: "PINV_SQTY", name: "Кол-во прихода"},
