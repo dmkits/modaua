@@ -902,6 +902,7 @@ module.exports.init = function(app){
     });
 
     var sysSyncIncomingDataTableColumns=[
+        {data: "ID", name: "ID", width: 70, type: "text", visible:false},
         {data: "CREATE_DATE", name: "Create date", width: 70, type: "datetimeAsText"},
         {data: "SYNC_POS_NAME", name: "SyncPOS", width: 100, type: "text", dataSource:"sys_sync_POSes", sourceField:"NAME"},
         {data: "CLIENT_SYNC_DATA_OUT_ID", name: "Client data sync out ID", width: 70, type: "text"},
@@ -918,6 +919,7 @@ module.exports.init = function(app){
         {data: "DEST_TABLE_DATA_ID", name: "Dest.t ID", width: 130, type: "text"}
 
     ];
+
     app.get('/sysadmin/synchronization/getIncomingDataForTable', function(req, res){
         sys_sync_incoming_data.getDataForTable({tableColumns:sysSyncIncomingDataTableColumns, identifier:sysSyncIncomingDataTableColumns[0].data,
             order:["CREATE_DATE"], conditions:req.query}, function(result){
@@ -943,6 +945,16 @@ module.exports.init = function(app){
             res.send(result);
         });
     });
+    app.post("/sysadmin/synchronization/getInfoPaneDetailIncomingData", function(req, res){
+        var data=req.body;
+        sys_sync_incoming_data_details.getDataItems({fields:["NAME","VALUE"],
+            conditions:{"SYNC_INCOMING_DATA_ID=":data["ID"]},
+            order:"NAME"},
+            function(result){
+                res.send(result);
+            });
+    });
+
     app.get("/sysadmin/logs", function (req, res) {
         res.sendFile(appViewsPath+'sysadmin/logs.html');
     });

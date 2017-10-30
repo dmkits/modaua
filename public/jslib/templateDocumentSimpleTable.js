@@ -122,11 +122,15 @@ define(["dojo/_base/declare", "app", "templateDocumentBase","dijit/form/Select",
                     var totalBox = this.totals[tableItemName];
                     totalBox.updateValue();
                 }
-                if (this.infoPane&&this.infoPane.updateCallback) this.infoPane.updateCallback(this.infoPane, this);
+                if (this.infoPane&&this.infoPane.updateCallback)
+                    this.infoPane.updateCallback({infoPane:this.infoPane, contentTable:this.contentTable, instance:this,
+                        contentTableSelectedRow:this.contentTable.getSelectedRow()});
                 this.layout();
             },
             onSelectTableContent: function(firstSelectedRowData, selection){
-                if (this.infoPane&&this.infoPane.updateCallback) this.infoPane.updateCallback(this.infoPane, this);
+                if (this.infoPane&&this.infoPane.updateCallback)
+                    this.infoPane.updateCallback({infoPane:this.infoPane, contentTable:this.contentTable, instance:this,
+                        contentTableSelectedRow:firstSelectedRowData});
             },
 
             /**
@@ -359,12 +363,18 @@ define(["dojo/_base/declare", "app", "templateDocumentBase","dijit/form/Select",
                 };
                 return this;
             },
-
-            addInfoPane: function(width, updateInfoPaneCallback){
+            /**
+             * params = { title }
+             * updateInfoPaneCallback = function(params)
+             *  params = { infoPane:<this.infoPane>, contentTable:<this.ContentTable>, instance:<this>,
+             *      contentTableSelectedRow:<this.contentTable.getSelectedRow()> }
+             */
+            addInfoPane: function(params, updateInfoPaneCallback){
+                if(!params) params={};
                 if (!this.infoPane) {
-                    if (width===undefined) width=100;
-                    this.infoPane = this.setChildContentPaneTo(this, {region:'right', style:"height:100%;width:"+width+"px;"});
-                    this.addChild(this.infoPane);
+                    if (params.width===undefined) params.width=100;
+                    this.addToolPane(params.title);
+                    this.infoPane= this.toolPanes[this.toolPanes.length-1];
                     if (updateInfoPaneCallback) this.infoPane.updateCallback = updateInfoPaneCallback;
                 }
                 return this;

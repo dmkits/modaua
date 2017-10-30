@@ -30,9 +30,9 @@
 </body>
 <script type="text/javascript">
     require(["app", "dijit/layout/BorderContainer", "dijit/layout/StackContainer", "dijit/layout/ContentPane",
-                "dijit/form/Button", "dijit/form/ToggleButton", "templateDocumentSimpleTableEditable"],
+                "dijit/form/Button", "dijit/form/ToggleButton", "templateDocumentSimpleTableEditable","request"],
 
-            function (APP, BorderContainer, StackContainer, ContentPane, Button, ToggleButton, TDocumentSimpleTable) {
+            function (APP, BorderContainer, StackContainer, ContentPane, Button, ToggleButton, TDocumentSimpleTable, Request) {
                 var pageContainer =
                         APP.instanceForID("sysadmin_sync_PageContainer", BorderContainer, {});
                 var contentPaneHeader =
@@ -78,9 +78,22 @@
                     }
                     btnIncomingData.document =
                             APP.childFor(contentPaneDetailContainer, "sysadmin_sync__TableIncomingData",
-                                    TDocumentSimpleTable, {titleText: "Incoming data synchronization",
-                                        dataURL: '/sysadmin/synchronization/getIncomingDataForTable', dataURLCondition: {"1~": 1}, buttonPrint: false})
+                                    TDocumentSimpleTable, {titleText: "Incoming data synchronization", buttonPrint: false, rightPane:{ width:250 },
+                                        dataURL: '/sysadmin/synchronization/getIncomingDataForTable', dataURLCondition: {"1~": 1}, })
                                     .addTotalCountNumberBox("ИТОГО строк:", 140, {style: "font-weight:bold;", inputStyle: "width:40px;"})
+                                    .addInfoPane({title:"Detail info"}, function(params){
+                                        Request.postJSONData({url:"/sysadmin/synchronization/getInfoPaneDetailIncomingData", data:params.contentTableSelectedRow},
+                                                function(success,result){
+                                                    if(!result|| !result.items)return;
+                                                    var innerCont="";
+                                                    for (var i = 0; i < result.items.length; i++) {
+                                                        var elem = result.items[i];
+                                                        innerCont+="<b>"+elem["NAME"]+"</b>: "+elem["VALUE"]+"<br>";
+                                                    }
+                                                    console.log("innerCont=",innerCont);
+                                                    params.infoPane.set("content",innerCont);
+                                                });
+                                    })
                                     .startUp();
                     contentPaneDetailContainer.selectChild(btnIncomingData.document);
                 };
