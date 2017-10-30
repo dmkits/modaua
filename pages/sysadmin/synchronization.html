@@ -90,10 +90,17 @@
                                                         var elem = result.items[i];
                                                         innerCont+="<b>"+elem["NAME"]+"</b>: "+elem["VALUE"]+"<br>";
                                                     }
-                                                    console.log("innerCont=",innerCont);
                                                     params.infoPane.set("content",innerCont);
                                                 });
                                     })
+                                    .addContentTableRowsAction("apply",{
+                                        tableRowAction:function(contentTableRowData, actionParams, contentTableUpdatedRowData, startNextAction, finishedAction){
+                                            console.log("ContentTableRowsAction contentTableRowData=",contentTableRowData);
+                                            //post apply
+                                            startNextAction();
+                                        }
+                                    })
+                                    .addContentTablePopupMenuAction("Apply selected...", {contentTableActionName:"apply"})
                                     .startUp();
                     contentPaneDetailContainer.selectChild(btnIncomingData.document);
                 };

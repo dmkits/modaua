@@ -955,6 +955,82 @@ module.exports.init = function(app){
             });
     });
 
+    sys_sync_incoming_data.saveToRetailReceipts= function(incDataItems,OperationType,resultCallBack){
+        console.log("saveToRetailReceipts");
+        resultCallBack({error:"saveToRetailReceipts ERROR"});
+    };
+    sys_sync_incoming_data.saveToRetailTickets= function(incDataItems,OperationType,resultCallBack){
+        console.log("saveToRetailTickets");
+        resultCallBack({error:"saveToRetailTickets ERROR"});
+    };
+    sys_sync_incoming_data.saveToRetailTicketsProducts= function(incDataItems,OperationType,resultCallBack){
+        console.log("saveToRetailTicketsProducts");
+        resultCallBack({error:"saveToRetailTicketsProducts ERROR"});
+    };
+    sys_sync_incoming_data.saveToRetailReceiptsPurposes= function(incDataItems,OperationType,resultCallBack){
+        console.log("saveToRetailReceiptsPurposes");
+        resultCallBack({error:"saveToRetailReceiptsPurposes ERROR"});
+    };
+    sys_sync_incoming_data.saveToRetailReceiptsPayments= function(incDataItems,OperationType,resultCallBack){
+        console.log("saveToRetailReceiptsPayments");
+        resultCallBack({error:"saveToRetailReceiptsPayments ERROR"});
+    };
+    sys_sync_incoming_data.updApplyState= function(data,resultCallBack){
+        console.log("updApplyState");
+        resultCallBack({});
+    };
+    /**
+     * @param params={ID,CLIENT_TABLE_NAME}
+     */
+    sys_sync_incoming_data.applyDataItem= function(params, resultCallBack){
+        var clientTableName=params["CLIENT_TABLE_NAME"],
+            operationType=params["OPERATION_TYPE"];
+        if(clientTableName=="APP.RECEIPTS"){
+            this.saveToRetailReceipts({},operationType,function(result){
+                this.updApplyState({"ID":"","STATE":0,"MSG":""},function(result){
+                    resultCallBack();
+                })
+            })
+        }else if(clientTableName=="APP.CLOSEDCASH"){
+            var msg="Failed! No model for this data!";
+            this.updApplyState({"ID":"","STATE":0,"MSG":msg},function(result){
+                resultCallBack({"MSG":msg});
+            })
+        }else if(clientTableName=="APP.TICKETS"){
+            this.saveToRetailTickets({},operationType,function(result){
+                this.updApplyState({"ID":"","STATE":0,"MSG":""},function(result){
+                    resultCallBack();
+                })
+            })
+        }else if(clientTableName=="APP.RECEIPTS_PURPOSES"){
+            this.saveToRetailReceiptsPurposes({},operationType,function(result){
+                this.updApplyState({"ID":"","STATE":0,"MSG":""},function(result){
+                    resultCallBack();
+                })
+            })
+        }else if(clientTableName=="APP.PAYMENTS"){
+            this.saveToRetailReceiptsPayments({},operationType,function(result){
+                this.updApplyState({"ID":"","STATE":0,"MSG":""},function(result){
+                resultCallBack();
+                })
+            })
+        }else if(clientTableName=="APP.TICKETLINES") {
+            this.saveToRetailTicketsProducts({}, operationType, function (result) {
+                this.updApplyState({"ID": "", "STATE": 0, "MSG": ""}, function (result) {
+                    resultCallBack();
+                })
+            })
+        }
+    };
+
+    app.post("/sysadmin/synchronization/applySyncIncomingData", function(req, res){
+        sys_sync_incoming_data.applyDataItem(req.body /*{"ID":req.body["ID"],"CLIENT_TABLE_NAME":req.body["CLIENT_TABLE_NAME"]*/,
+            function(result){
+                res.send(result);
+            });
+    });
+
+
     app.get("/sysadmin/logs", function (req, res) {
         res.sendFile(appViewsPath+'sysadmin/logs.html');
     });
