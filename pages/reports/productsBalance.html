@@ -59,10 +59,10 @@
                                 APP.childFor(contentContainer, "reportsProductsBalance_TableProdsBalanceByBataGroups",
                                         TDocumentSimpleTable, {titleText:"Остатки товаров по группам Bata",
                                             dataURL:"/reports/productsBalance/getProductsBalanceByBataAttributes"})
-                                        .addHeaderDateBox("на",{contentTableCondition:"DOCDATE<="})
                                         .addSelectBox("Подразделение",{valueItemName:"UNIT_NAME", labelItemName:"UNIT_NAME",
                                             loadDropDownURL:"/dir/units/getDirUnitsForSelect",
                                             contentTableCondition:"UNIT_NAME="})
+                                        .addHeaderDateBox("на",{contentTableCondition:"DOCDATE<="})
                                         .addTotalCountNumberBox("ИТОГО строк:", 140)
                                         .addTotalSumNumberTextBox("ИТОГО остаток:", 610, "SQTY", {style:"font-weight:bold;"})
                                         .startUp();
@@ -75,10 +75,10 @@
                                 APP.childFor(contentContainer, "reportsProductsBalance_TableProdsBalanceByTypesKinds",
                                         TDocumentSimpleTable, {titleText:"Остатки товаров по видам товара",
                                             dataURL:"/reports/productsBalance/getProductsBalanceByTypesKinds"})
-                                        .addHeaderDateBox("на",{contentTableCondition:"DOCDATE<="})
                                         .addSelectBox("Подразделение",{valueItemName:"UNIT_NAME", labelItemName:"UNIT_NAME",
                                             loadDropDownURL:"/dir/units/getDirUnitsForSelect",
                                             contentTableCondition:"UNIT_NAME="})
+                                        .addHeaderDateBox("на",{contentTableCondition:"DOCDATE<="})
                                         .addTotalCountNumberBox("ИТОГО строк:", 140)
                                         .addTotalSumNumberTextBox("ИТОГО остаток:",340, "SQTY", {style:"font-weight:bold;"})
                                         .startUp();
@@ -92,10 +92,10 @@
                                 APP.childFor(contentContainer, "reportsProductsBalance_TableProdsBatchesBalance",
                                         TDocumentSimpleTable, {titleText:"Остатки партий товаров",
                                             dataURL:"/reports/productsBalance/getProductsBatchesBalance"})
-                                        .addHeaderDateBox("на",{contentTableCondition:"DOCDATE<="})
                                         .addSelectBox("Подразделение",{valueItemName:"UNIT_NAME", labelItemName:"UNIT_NAME",
                                             loadDropDownURL:"/dir/units/getDirUnitsForSelect",
                                             contentTableCondition:"UNIT_NAME="})
+                                        .addHeaderDateBox("на",{contentTableCondition:"DOCDATE<="})
                                         .addTotalCountNumberBox("ИТОГО строк:", 140)
                                         .addTotalSumNumberTextBox("ИТОГО остаток:", 580, "SQTY", {style:"font-weight:bold;"})
                                         .startUp();
@@ -109,10 +109,10 @@
                                 APP.childFor(contentContainer, "reportsProductsBalance_TableProdsBalanceWCC",
                                         TDocumentSimpleTable, {titleText:"Остатки товаров с себестоимостью",
                                             dataURL:"/reports/productsBalance/getProductsBalanceWCC"})
-                                        .addHeaderDateBox("на",{contentTableCondition:"DOCDATE<="})
                                         .addSelectBox("Подразделение",{valueItemName:"UNIT_NAME", labelItemName:"UNIT_NAME",
                                             loadDropDownURL:"/dir/units/getDirUnitsForSelect",
                                             contentTableCondition:"UNIT_NAME="})
+                                        .addHeaderDateBox("на",{contentTableCondition:"DOCDATE<="})
                                         .addTotalCountNumberBox("ИТОГО строк:", 140)
                                         .addTotalSumNumberTextBox("ИТОГО остаток:", 300, "SQTY", {style:"font-weight:bold;"})
                                         .addTotalSumNumberTextBox("ИТОГО сумма себестоимости:", 290, "COST_SUM", {style:"font-weight:bold;"})
@@ -126,10 +126,10 @@
                                 APP.childFor(contentContainer, "reportsProductsBalance_TableProdsBatchesBalanceWCC",
                                         TDocumentSimpleTable, {titleText:"Остатки партий товаров с себестоимостью",
                                             dataURL:"/reports/productsBalance/getProductsBatchesBalanceWCC"})
-                                        .addHeaderDateBox("на",{contentTableCondition:"DOCDATE<="})
                                         .addSelectBox("Подразделение",{valueItemName:"UNIT_NAME", labelItemName:"UNIT_NAME",
                                             loadDropDownURL:"/dir/units/getDirUnitsForSelect",
                                             contentTableCondition:"UNIT_NAME="})
+                                        .addHeaderDateBox("на",{contentTableCondition:"DOCDATE<="})
                                         .addTotalCountNumberBox("ИТОГО строк:", 140)
                                         .addTotalSumNumberTextBox("ИТОГО остаток:", 365, "SQTY", {style:"font-weight:bold;"})
                                         .addTotalSumNumberTextBox("ИТОГО сумма себестоимости:", 290, "COST_SUM", {style:"font-weight:bold;"})

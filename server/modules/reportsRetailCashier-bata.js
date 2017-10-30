@@ -55,6 +55,7 @@ module.exports.init = function(app) {
             });
     });
     var repRetailCashBalanceTableColumns=[
+        {data:"UNIT_NAME", dataSource:"dir_units", sourceField:"NAME", linkCondition:"dir_units.ID=fin_retail_receipts_payments_v.UNIT_ID"},
         {data: "DOCDATE", name: "Дата", type: "dateAsText", sourceField:"DOCDATE" },
         {data: "DOCNUMBER", name: "Номер", type: "numeric", sourceField:"NUMBER" },
         {data: "SUM_BEGIN_BALANCE", name: "Начальный остаток", width: 90 },
@@ -65,8 +66,7 @@ module.exports.init = function(app) {
         {data: "TICKET_DOCNUMBER", name: "Номер чека", width: 65, type: "numeric", sourceField:"TICKET_NUMBER" },
         {data: "SUM_CASH_SALE", name: "Сумма чека", sourceField:"CASH_SALE" },
         {data: "SUM_CASH_RET_SALE", name: "Сумма возврата", sourceField:"CASH_RET_SALE" },
-        {data: "SUM_END_BALANCE", name: "Конечный остаток", width: 90 },
-        {dataSource:"dir_units", linkCondition:"dir_units.ID=fin_retail_receipts_payments_v.UNIT_ID"}
+        {data: "SUM_END_BALANCE", name: "Конечный остаток", width: 90 }
     ];
     app.get("/reports/retailCashier/getRetailCashBalance", function (req, res) {     console.log("req.query getRetailCashBalance=",req.query);
         var conditions={};
@@ -77,7 +77,7 @@ module.exports.init = function(app) {
             }
             conditions[condItem]=req.query[condItem];
         }
-
+        var condBDateValue=req.query["DOCDATE>~"];
         fin_retail_receipts_payments_v.getDataForDocTable({tableColumns:repRetailCashBalanceTableColumns,
                 identifier:repRetailCashBalanceTableColumns[0].data,
                 conditions:conditions,
@@ -87,7 +87,7 @@ module.exports.init = function(app) {
                 var outData=result;
                 if(outData.items===undefined) { res.send(outData); return; }
                 fin_retail_receipts_payments_v.getDataItem({fields:["BEGIN_BALANCE"],fieldsFunctions:{"BEGIN_BALANCE":{function:"SUM(DOCSUM)"}},
-                        conditions:{"DOCDATE<":req.query["DOCDATE>~"]} },
+                        conditions:{"DOCDATE<":condBDateValue} },
                     function(result){
                         if(result.error){ res.send(result); return; }
                         var beginBalance=result.item["BEGIN_BALANCE"]+0;
@@ -96,7 +96,7 @@ module.exports.init = function(app) {
                         fin_retail_receipts_payments_v.getDataItem({fields:["SUM_CASH_IN","SUM_CASH_OUT","SUM_CASH_SALE","SUM_CASH_RET_SALE"],
                                 fieldsFunctions:{"SUM_CASH_IN":{function:"SUM(SUM_CASH_IN)"},"SUM_CASH_OUT":{function:"SUM(SUM_CASH_OUT)"},
                                     "SUM_CASH_SALE":{function:"SUM(SUM_CASH_SALE)"},"SUM_CASH_RET_SALE":{function:"SUM(SUM_CASH_RET_SALE)"}},
-                                conditions:req.query },
+                                conditions:conditions },
                             function(result){
                                 if(result.error){ res.send(result); return; }
                                 var endBalance=

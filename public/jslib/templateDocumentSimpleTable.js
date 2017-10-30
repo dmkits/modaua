@@ -36,7 +36,7 @@ define(["dojo/_base/declare", "app", "templateDocumentBase","dijit/form/Select",
                 this.topContent = this.setChildContentPaneTo(this, {region:'top', style:"margin:0;padding:0;border:none"});
                 var topTable = this.addTableTo(this.topContent.containerNode);
                 this.topTableRow = this.addRowToTable(topTable);
-                var topTableHeaderCell = this.addLeftCellToTableRow(this.topTableRow,1);
+                var topTableHeaderCell = this.addLeftCellToTableRow(this.topTableRow,1, "padding-bottom:5px;");
                 var topHeaderText = document.createElement("h1");
                 topHeaderText.appendChild(document.createTextNode(this.titleText));
                 topTableHeaderCell.appendChild(topHeaderText);
@@ -191,7 +191,9 @@ define(["dojo/_base/declare", "app", "templateDocumentBase","dijit/form/Select",
              */
             addSelectBox:function(label, params){
                 if (!params) params={};
-                var input=this.addTableInputTo(this.topTableRow,{labelText:label, labelStyle:"margin-left:5px;", cellWidth:params.width, cellStyle:"text-align:right;"});
+                if(!params.width)params.width=275;
+                var input=this.addTableInputTo(this.topTableRow,{labelText:label, labelStyle:"margin-left:5px; ", cellWidth:params.width, cellStyle:"text-align:right" +
+                "; padding-left:10px;"});
                 var select= APP.instanceFor(input, Select,
                     {style:"width:180px;", labelDataItem:params.labelDataItem,loadDropDownURL:params.loadDropDownURL,contentTableCondition:params.contentTableCondition});
 
