@@ -18,13 +18,14 @@ var sys_currency= require(appDataModelPath+"sys_currency"),
     sys_sync_incoming_data=require(appDataModelPath+"sys_sync_incoming_data"),
     sys_sync_incoming_data_details=require(appDataModelPath+"sys_sync_incoming_data_details"),
     sys_sync_output_data=require(appDataModelPath+"sys_sync_output_data"),
-    sys_sync_output_data_details=require(appDataModelPath+"sys_sync_output_data_details");
+    sys_sync_output_data_details=require(appDataModelPath+"sys_sync_output_data_details"),
+    dir_units=require(appDataModelPath+"dir_units");
 
 module.exports.validateModule = function(errs, nextValidateModuleCallback){
     dataModel.initValidateDataModels([changeLog, sys_docstates,sys_currency,
             sys_sync_POSes, sys_sync_errors_log,
             sys_sync_incoming_data, sys_sync_incoming_data_details,
-            sys_sync_output_data, sys_sync_output_data_details], errs,
+            sys_sync_output_data, sys_sync_output_data_details,dir_units], errs,
         function(){
             nextValidateModuleCallback();
         });
@@ -829,17 +830,59 @@ module.exports.init = function(app){
         res.sendFile(appViewsPath+'sysadmin/synchronization.html');
     });
     var sysSyncPOSesTableColumns=[
-        {data: "ID", name: "POS ID", width: 90, type: "text"},
+        {data: "ID", name: "POS ID", width: 90, type: "text", visible:false},
         {data: "POS_NAME", name: "POS name", width: 150, type: "text", sourceField:"NAME"},
         {data: "POS_HOST_NAME", name: "POS HOST name", width: 150, type: "text", sourceField:"HOST_NAME"},
         {data: "DATABASE_NAME", name: "POS Database name", width: 200, type: "text"},
-        {data: "UNIT_NAME", name: "Unit", width: 200, type: "text", dataSource:"dir_units", sourceField:"NAME"}
+        {data: "UNIT_NAME", name: "Unit", width: 200,
+            type: "combobox", "sourceURL":"/dir/units/getDataForUnitsCombobox",
+            dataSource:"dir_units", sourceField:"NAME"}
     ];
     app.get('/sysadmin/synchronization/getSyncPOSesDataForTable', function(req, res){
         sys_sync_POSes.getDataForTable({tableColumns:sysSyncPOSesTableColumns, identifier:sysSyncPOSesTableColumns[0].data,
             order:"ID", conditions:req.query}, function(result){
             res.send(result);
         });
+    });
+    app.get('/sysadmin/synchronization/newDataForSyncPOSesTable', function(req, res){
+        sys_sync_POSes.getDataForTable({tableColumns:sysSyncPOSesTableColumns, identifier:sysSyncPOSesTableColumns[0].data,
+            order:"ID", conditions:req.query}, function(result){
+            res.send(result);
+        });
+    });
+    app.post("/sysadmin/synchronization/storeSyncPOSesTableData", function(req, res){
+        var storeData={};
+        for (var colName in req.body) {
+            var colValue= req.body[colName];
+            if(colName=="POS_NAME") storeData["NAME"]= colValue;
+            else if(colName=="POS_HOST_NAME") storeData["HOST_NAME"]= colValue;
+            else storeData[colName]= colValue;
+        }
+        dir_units.getDataItem({fields:["ID"],conditions:{"NAME=":storeData["UNIT_NAME"]}}, function(result) {
+            if (!result.item) {
+                res.send({error: "Cannot finded unit by name!"});
+                return;
+            }
+            storeData["UNIT_ID"] = result.item["ID"];
+            sys_sync_POSes.storeTableDataItem({tableColumns:sysSyncPOSesTableColumns, idFieldName:sysSyncPOSesTableColumns[0].data,
+                    storeTableData:storeData},
+                function(result){
+                    res.send(result);
+                });
+        });
+    });
+    app.post("/sysadmin/synchronization/deleteSyncPOSesTableData", function(req, res){
+        var deleteData={};
+        for (var colName in req.body) {
+            var colValue= req.body[colName];
+            if(colName=="POS_NAME") deleteData["NAME"]= colValue;
+            else if(colName=="POS_HOST_NAME") deleteData["HOST_NAME"]= colValue;
+            else deleteData[colName]= colValue;
+        }
+        sys_sync_POSes.delTableDataItem({idFieldName:sysSyncPOSesTableColumns[0].data, delTableData:deleteData},
+            function(result){
+                res.send(result);
+            });
     });
 
     var sysSyncErrorsLogTableColumns=[
@@ -900,7 +943,6 @@ module.exports.init = function(app){
             res.send(result);
         });
     });
-
     app.get("/sysadmin/logs", function (req, res) {
         res.sendFile(appViewsPath+'sysadmin/logs.html');
     });
