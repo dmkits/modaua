@@ -159,7 +159,7 @@ module.exports.init = function(app){
             });
     });
 
-    sys_sync_incoming_data.saveToRetailReceipts= function(incDataItems,OperationType,resultCallBack){
+    sys_sync_incoming_data.saveToRetailReceipts= function(incDataItems,incDataValues, OperationType,resultCallBack){
         // ID(generate)  NUMBER   DOCDATE+  UNIT_ID+   BUYER_ID  CURRENCY_ID  RATE  DOCSTATE_ID
 
         //    body: { ID: '8606503567423256938',
@@ -182,14 +182,16 @@ module.exports.init = function(app){
         console.log("saveToRetailReceipts");
 
         fin_retail_receipts.getDataItem({fields:["MAXNUMBER"],fieldsFunctions:{"MAXNUMBER":{function:"maxPlus1", sourceField:"NUMBER"}},
-                conditions:{"1=1":null}},
+                conditions:{"UNIT_ID=":null}},
             function(result) {
-                var newNumber = (result && result.item) ? result.item["MAXNUMBER"] : ""
+                var newNumber = (result && result.item) ? result.item["MAXNUMBER"] : "1";
+
+                resultCallBack({error:"saveToRetailReceipts ERROR"});
             });
 
-        resultCallBack({error:"saveToRetailReceipts ERROR"});
+
     };
-    sys_sync_incoming_data.saveToRetailTickets= function(incDataItems,OperationType,resultCallBack){
+    sys_sync_incoming_data.saveToRetailTickets= function(incDataItems,incDataValues, OperationType,resultCallBack){
         console.log("saveToRetailTickets");
       //wrh_retail_tickets
       // ID (generate), RETAIL_RECEIPT_ID+, NUMBER+, DOCDATE+, UNIT_ID+, BUYER_ID+ , CURRENCY_ID-, RATE-, DOCSTATE_ID+
@@ -237,7 +239,7 @@ module.exports.init = function(app){
                 });
         });
     };
-    sys_sync_incoming_data.saveToRetailTicketsProducts= function(incDataItems,OperationType,resultCallBack){
+    sys_sync_incoming_data.saveToRetailTicketsProducts= function(incDataItems,incDataValues, OperationType,resultCallBack){
        // wrh_retail_tickets_products
         //ID(generate), RETAIL_TICKET_ID(get from retail ticket),POS+, PRODUCT_ID+, QTY+, PRICE+, POSSUM(QTY*PRICE), SALE_PRICE+, DISCOUNT+
 
@@ -267,11 +269,11 @@ module.exports.init = function(app){
         console.log("saveToRetailTicketsProducts");
         resultCallBack({error:"saveToRetailTicketsProducts ERROR"});
     };
-    sys_sync_incoming_data.saveToRetailReceiptsPurposes= function(incDataItems,OperationType,resultCallBack){
+    sys_sync_incoming_data.saveToRetailReceiptsPurposes= function(incDataItems,incDataValues, OperationType,resultCallBack){
         console.log("saveToRetailReceiptsPurposes");
         resultCallBack({error:"saveToRetailReceiptsPurposes ERROR"});
     };
-    sys_sync_incoming_data.saveToRetailReceiptsPayments= function(incDataItems,OperationType,resultCallBack){
+    sys_sync_incoming_data.saveToRetailReceiptsPayments= function(incDataItems,incDataValues, OperationType,resultCallBack){
         console.log("saveToRetailReceiptsPayments");
         resultCallBack({error:"saveToRetailReceiptsPayments ERROR"});
     };
@@ -344,7 +346,7 @@ module.exports.init = function(app){
                 }
                 syncIncData["UNIT_ID"]=result.item["UNIT_ID"];
 
-                sys_sync_incoming_data_details.getDataItems({fields:["NAME","VALUE"], conditions:"SYNC_INCOMING_DATA_ID="+syncIncData["ID"]},
+                sys_sync_incoming_data_details.getDataItems({fields:["NAME","VALUE"], conditions:{"SYNC_INCOMING_DATA_ID=":syncIncData["ID"]}},
                     function(result) {
                         if (!result || result.error) {
                             res.send({error: "Failed get sync incoming data details!"});

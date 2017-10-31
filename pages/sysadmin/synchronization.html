@@ -106,7 +106,7 @@
                                                         }
                                                         var resultMsg="";
                                                         if(result.error) resultMsg="Operation failed! Reason: "+result.error;
-                                                        if(result.updStateError) resultMsg+="\nOperation updatye state failed! Reason: "+result.error;
+                                                        if(result.updStateError) resultMsg+="\nOperation update state failed! Reason: "+result.updStateError;
                                                         if(resultMsg==="") resultMsg="Success.";
                                                         contentTableUpdatedRowData["OPERATION_RESULT"]=resultMsg;
                                                         if(result.resultItem){
