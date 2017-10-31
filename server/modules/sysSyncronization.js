@@ -12,7 +12,8 @@ var sys_currency= require(appDataModelPath+"sys_currency"),
     sys_sync_output_data_details=require(appDataModelPath+"sys_sync_output_data_details"),
     dir_units=require(appDataModelPath+"dir_units"),
     fin_retail_receipts=require(appDataModelPath+"fin_retail_receipts"),
-    wrh_retail_tickets=require(appDataModelPath+"wrh_retail_tickets");
+    wrh_retail_tickets=require(appDataModelPath+"wrh_retail_tickets"),
+    wrh_retail_tickets_products=require(appDataModelPath+"wrh_retail_tickets_products");
 
 module.exports.validateModule = function(errs, nextValidateModuleCallback){
     dataModel.initValidateDataModels([sys_sync_POSes, sys_sync_errors_log,
@@ -159,25 +160,7 @@ module.exports.init = function(app){
             });
     });
 
-    sys_sync_incoming_data.saveToRetailReceipts= function(incDataItems,incDataValues, OperationType,resultCallBack){
-        //    ID(generate)  NUMBER   DOCDATE+  UNIT_ID+   BUYER_ID  CURRENCY_ID  RATE  DOCSTATE_ID
-        //    body: { ID: '8606503567423256938',
-        //    CREATE_DATE: '2017-10-30T12:44:10.000Z',
-        //    SYNC_POS_NAME: 'ShopBata1POS1',
-        //    CLIENT_SYNC_DATA_OUT_ID: '5047',
-        //    CLIENT_CREATE_DATE: '2017-06-01T07:56:38.000Z',
-        //    OPERATION_TYPE: 'I',
-        //    CLIENT_TABLE_NAME: 'APP.RECEIPTS',
-        //    CLIENT_TABLE_KEY1_NAME: 'ID',
-        //    CLIENT_TABLE_KEY1_VALUE: '86b2472d-4877-4a79-aec2-2a0d8fb0a6ae',
-        //    STATE: '0',
-        //    MSG: 'client sync data out stored',
-        //    '<!$selected$!>': 'true' }
-        //---------------------------------
-        //DATENEW: 2017-06-01 10:56:38.335 -------------------------------------------------------------------->DOCDATE
-        //ID: 86b2472d-4877-4a79-aec2-2a0d8fb0a6ae
-        //MONEY: 7366a9ab-ca49-4eee-a133-cd4234a74ab8
-        console.log("saveToRetailReceipts");
+    sys_sync_incoming_data.saveToRetailReceipts= function(incDataItems,incDataValues, OperationType,resultCallBack){    console.log("saveToRetailReceipts");
         if(OperationType=="I"){
             fin_retail_receipts.getDataItem({fields:["MAXNUMBER"],fieldsFunctions:{"MAXNUMBER":{function:"maxPlus1", sourceField:"NUMBER"}},
                     conditions:{"UNIT_ID=":incDataItems["UNIT_ID"]}},
@@ -194,82 +177,53 @@ module.exports.init = function(app){
         }
     };
 
-    sys_sync_incoming_data.saveToRetailTickets= function(incDataItems,incDataValues, OperationType,resultCallBack){
-        console.log("saveToRetailTickets");
-      //wrh_retail_tickets
-      // ID (generate), RETAIL_RECEIPT_ID+, NUMBER+, DOCDATE+, UNIT_ID+, BUYER_ID+ , CURRENCY_ID-, RATE-, DOCSTATE_ID+
-      //-------------
-      //  body: { ID: '7884521351672052074',
-      //      CREATE_DATE: '2017-10-30T12:44:11.000Z',
-      //      SYNC_POS_NAME: 'ShopBata1POS1',  ----------->  sys_sync_POSes UNIT_ID WHERE NAME==SYNC_POS_NAME
-      //      CLIENT_SYNC_DATA_OUT_ID: '5051',
-      //      CLIENT_CREATE_DATE: '2017-06-01T08:42:48.000Z',  ---------------------> DOCDATE
-      //      OPERATION_TYPE: 'I',
-      //      CLIENT_TABLE_NAME: 'APP.TICKETS',
-      //      CLIENT_TABLE_KEY1_NAME: 'ID',
-      //      CLIENT_TABLE_KEY1_VALUE: 'af2ed762-52cd-4318-9c3e-f2755596f2b6',
-      //      STATE: '0',
-      // --------------------
-      //  CUSTOMER: <null>    -------------------------------------------------->     BUYER_ID
-      //  ID: af2ed762-52cd-4318-9c3e-f2755596f2b6 ----------------------------> RETAIL_RECEIPT_ID
-      //  PERSON: 2
-      //  STATUS: 0        ---------------------------------------------------->  DOCSTATE_ID}
-      //  TICKETID: 50  ------------------------------------------------------------> NUMBER
-      //  TICKETTYPE: 1
-        //sys_sync_POSes.getDataItem({fields:["UNIT_ID"], condition:"NAME="+incDataItems["SYNC_POS_NAME"]},
-        //function(resultUnitID){
-            sys_sync_incoming_data_details.getDataItems({fields:["NAME","VALUE"],
-                    conditions:{"SYNC_INCOMING_DATA_ID=":incDataItems["ID"]}},
-                function(detailData){
-                    if(OperationType=="I"){
-                        wrh_retail_tickets.insDataItemWithNewID({tableName:"wrh_retail_tickets",idFieldName:"ID",
-                                insData:{
-                                    "RETAIL_RECEIPT_ID":detailData["RETAIL_RECEIPT_ID"],
-                                    "NUMBER":detailData["TICKETID"],
-                                    "DOCDATE":incDataItems["CLIENT_CREATE_DATE"],
-                                    "UNIT_ID":resultUnitID["UNIT_ID"],
-                                    "BUYER_ID":"0",
-                                    "CURRENCY_ID":"0",
-                                    "RATE":"1",
-                                    "DOCSTATE_ID":detailData["STATUS"]
-                                }},
-                            function(result){
-                                resultCallBack({result:result});
-                                console.log("result=",result);
-                            })
-                    }
+    sys_sync_incoming_data.saveToRetailTickets= function(incDataItems,incDataValues, OperationType,resultCallBack){     console.log("saveToRetailTickets");
+
+        if(OperationType=="I") {
+            sys_sync_incoming_data.getDataItems({fields: ["DEST_TABLE_DATA_ID"], conditions: {"CLIENT_TABLE_NAME=": "APP.RECEIPTS", "OPERATION_TYPE=": "I",
+                        "CLIENT_TABLE_KEY1_NAME=": "ID", "CLIENT_TABLE_KEY1_VALUE=": incDataItems["CLIENT_TABLE_KEY1_VALUE"], "STATE=": "1"}
+                },
+                function (result) {
+                    var retailReceiptID = null;
+                    if (result.items) retailReceiptID = result.items[0]["DEST_TABLE_DATA_ID"];
+                    fin_retail_receipts.getDataItem({fields: ["DOCDATE"], conditions: {"ID=": retailReceiptID}},
+                        function (result) {
+                            var retailReceiptDocDate = null;
+                            if (result.item) retailReceiptDocDate = result.item["DOCDATE"];
+                            wrh_retail_tickets.insDataItemWithNewID({
+                                    tableName: "wrh_retail_tickets", idFieldName: "ID",
+                                    insData: {"RETAIL_RECEIPT_ID": retailReceiptID, "NUMBER": incDataValues["TICKETID"], "DOCDATE": retailReceiptDocDate,
+                                        "UNIT_ID": incDataItems["UNIT_ID"], "BUYER_ID": "0", "CURRENCY_ID": "0", "RATE": "1", "DOCSTATE_ID": "0"}
+                                },
+                                function (result) {
+                                    resultCallBack(result);
+                                    console.log("result=", result);
+                                })
+                        });
                 });
-      //  });
+        }
     };
-    sys_sync_incoming_data.saveToRetailTicketsProducts= function(incDataItems,incDataValues, OperationType,resultCallBack){
-       // wrh_retail_tickets_products
-        //ID(generate), RETAIL_TICKET_ID(get from retail ticket),POS+, PRODUCT_ID+, QTY+, PRICE+, POSSUM(QTY*PRICE), SALE_PRICE+, DISCOUNT+
 
-        //body: { ID: '3780053241277266282',
-        //    CREATE_DATE: '2017-10-30T12:44:12.000Z',
-        //    SYNC_POS_NAME: 'ShopBata1POS1',
-        //    CLIENT_SYNC_DATA_OUT_ID: '5052',
-        //    CLIENT_CREATE_DATE: '2017-06-01T08:42:48.000Z',
-        //    OPERATION_TYPE: 'I',
-        //    CLIENT_TABLE_NAME: 'APP.TICKETLINES',
-        //    CLIENT_TABLE_KEY1_NAME: 'TICKET',
-        //    CLIENT_TABLE_KEY1_VALUE: 'af2ed762-52cd-4318-9c3e-f2755596f2b6',
-        //    STATE: '0',
-        //    MSG: 'client sync data out stored',
-        //    '<!$selected$!>': 'true' }
-        //--------------------------
-        //ATTRIBUTESETINSTANCE_ID:<null>
-        //DISCOUNT: 0.0             ------------------------------------->DISCOUNT
-        //LINE: 0 ------------------------------------------------------->POS
-        //PRICE: 1105.0-------------------------------------------------->PRICE
-        //PRODUCT: 4121463679884551481_----------------------------------->PRODUCT_ID
-        //SALE_PRICE: 0.0 ------------------------------------------------->SALE_PRICE
-        //TAXID: 000
-        //TICKET: af2ed762-52cd-4318-9c3e-f2755596f2b6
-        //UNITS: -1.0                                      ------------------->QTY
-
-        console.log("saveToRetailTicketsProducts");
-        resultCallBack({error:"saveToRetailTicketsProducts ERROR"});
+    sys_sync_incoming_data.saveToRetailTicketsProducts= function(incDataItems,incDataValues, OperationType,resultCallBack){     console.log("saveToRetailTicketsProducts");
+        if(OperationType=="I") {
+            sys_sync_incoming_data.getDataItems({
+                    fields: ["DEST_TABLE_DATA_ID"], conditions: {"CLIENT_TABLE_NAME=": "APP.TICKETS", "OPERATION_TYPE=": "I",
+                        "CLIENT_TABLE_KEY1_NAME=": "ID", "CLIENT_TABLE_KEY1_VALUE=": incDataItems["CLIENT_TABLE_KEY1_VALUE"], "STATE=": "1"}
+                },
+                function (result) {
+                    var retaTicketID = null;
+                    if (result.items) retaTicketID = result.items[0]["DEST_TABLE_DATA_ID"];
+                            var qty=incDataValues["UNITS"], price=incDataValues["PRICE"];
+                            wrh_retail_tickets_products.insDataItemWithNewID({
+                                    tableName: "wrh_retail_tickets", idFieldName: "ID",
+                                    insData: {"RETAIL_TICKET_ID": retaTicketID, "POS": incDataValues["LINE"]+1,
+                                        "PRODUCT_ID":incDataValues["PRODUCT"], "QTY":qty, "PRICE":price,
+                                        "POSSUM":qty*price, "SALE_PRICE":incDataValues["SALE_PRICE"], "DISCOUNT":incDataValues["DISCOUNT"]}},
+                                function (result) {
+                                    resultCallBack(result);
+                                });
+                });
+        }
     };
     sys_sync_incoming_data.saveToRetailReceiptsPurposes= function(incDataItems,incDataValues, OperationType,resultCallBack){
         console.log("saveToRetailReceiptsPurposes");
@@ -288,12 +242,12 @@ module.exports.init = function(app){
      * resultCallback = function(result = { updateCount, resultItem:{<tableFieldName>:<value>,...}, error })
      */
 
-    sys_sync_incoming_data.updApplyState= function(saveToDestTableResult,resultCallBack){
+    sys_sync_incoming_data.updApplyState= function(saveToDestTableResult,resultCallBack){   console.log("saveToDestTableResult=",saveToDestTableResult);
 
         var updStateData={"STATE":"1","MSG":"Synchronized successfully","APPLIED_DATE":new Date(),
             "DEST_TABLE_DATA_ID":saveToDestTableResult["DEST_TABLE_DATA_ID"]};
 
-        sys_sync_incoming_data.updDataItem({ updData:updStateData, conditions:{"ID=":data["ID"]}},
+        sys_sync_incoming_data.updDataItem({ updData:updStateData, conditions:{"ID=":saveToDestTableResult["ID"]}},
             function(updResult){
                 var result={};
                 if(updResult.error) result.updStateError="Failed update sync incoming data state! Reason"+updResult.error;
@@ -310,8 +264,8 @@ module.exports.init = function(app){
         var thisInstance=this;
         if(clientTableName=="APP.RECEIPTS"){
             this.saveToRetailReceipts(syncIncData,syncIncDataValues,operationType,function(result){
-                //{"ID":syncIncData["ID"],
-                //    "DEST_TABLE_DATA_ID":result.resultItem["ID"],"STATE":1,"MSG":"Synchronized successfully"}
+                result["ID"]=syncIncData["ID"];
+                if(result.resultItem) result["DEST_TABLE_DATA_ID"]=result.resultItem["ID"];
                 thisInstance.updApplyState(result,
                     function(result){
                         resultCallBack(result);
@@ -325,15 +279,21 @@ module.exports.init = function(app){
             })
         }else if(clientTableName=="APP.TICKETS"){
             this.saveToRetailTickets(syncIncData,syncIncDataValues,operationType,function(result){
-                thisInstance.updApplyState({"ID":"","STATE":0,"MSG":""},function(result){
+                result["ID"]=syncIncData["ID"];
+                if(result.resultItem) result["DEST_TABLE_DATA_ID"]=result.resultItem["ID"];
+                thisInstance.updApplyState(result,
+                    function(result){
                     resultCallBack(result);
                 })
             })
         }else if(clientTableName=="APP.TICKETLINES") {
             this.saveToRetailTicketsProducts(syncIncData,syncIncDataValues, operationType, function (result) {
-                thisInstance.updApplyState({"ID": "", "STATE": 0, "MSG": ""}, function (result) {
-                    resultCallBack(result);
-                })
+                result["ID"]=syncIncData["ID"];
+                if(result.resultItem) result["DEST_TABLE_DATA_ID"]=result.resultItem["ID"];
+                thisInstance.updApplyState(result,
+                    function(result){
+                        resultCallBack(result);
+                    })
             })
         } else if(clientTableName=="APP.PAYMENTS"){
             this.saveToRetailReceiptsPayments(syncIncData,syncIncDataValues,operationType,function(result){
@@ -353,6 +313,10 @@ module.exports.init = function(app){
 
     app.post("/system/synchronization/applySyncIncomingData", function(req, res){
         var syncIncData= req.body;
+        //if(syncIncData["STATE"]=="1"){
+        //    res.send({"STATE":"1"});
+        //    return;
+        //}
         sys_sync_POSes.getDataItem({fields:["UNIT_ID"], conditions:{"NAME=":syncIncData["SYNC_POS_NAME"]}},
             function(result){
                 if(!result||result.error){
