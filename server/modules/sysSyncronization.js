@@ -13,14 +13,17 @@ var sys_currency= require(appDataModelPath+"sys_currency"),
     dir_units=require(appDataModelPath+"dir_units"),
     fin_retail_receipts=require(appDataModelPath+"fin_retail_receipts"),
     wrh_retail_tickets=require(appDataModelPath+"wrh_retail_tickets"),
-    wrh_retail_tickets_products=require(appDataModelPath+"wrh_retail_tickets_products");
+    wrh_retail_tickets_products=require(appDataModelPath+"wrh_retail_tickets_products"),
+    fin_retail_receipts_purposes=require(appDataModelPath+"fin_retail_receipts_purposes"),
+    fin_retail_payments=require(appDataModelPath+"fin_retail_payments");
 
 module.exports.validateModule = function(errs, nextValidateModuleCallback){
     dataModel.initValidateDataModels([sys_sync_POSes, sys_sync_errors_log,
             sys_sync_incoming_data, sys_sync_incoming_data_details,
             sys_sync_output_data, sys_sync_output_data_details,
             dir_units,sys_currency,sys_docstates,
-            fin_retail_receipts,wrh_retail_tickets], errs,
+            fin_retail_receipts,wrh_retail_tickets,wrh_retail_tickets_products,
+            fin_retail_receipts_purposes, ], errs,
         function(){
             nextValidateModuleCallback();
         });
@@ -226,10 +229,14 @@ module.exports.init = function(app){
         }
     };
     sys_sync_incoming_data.saveToRetailReceiptsPurposes= function(incDataItems,incDataValues, OperationType,resultCallBack){
+        //fin_retail_receipts_purposes.
+        //RETAIL_RECEIPT_ID, RETAIL_RECEIPT_PURPOSE_ID, RETAIL_RECEIPT_PURPOSE_ID,NOTE
         console.log("saveToRetailReceiptsPurposes");
         resultCallBack({error:"saveToRetailReceiptsPurposes ERROR"});
     };
     sys_sync_incoming_data.saveToRetailReceiptsPayments= function(incDataItems,incDataValues, OperationType,resultCallBack){
+        //fin_retail_payments
+        //ID, RETAIL_RECEIPT_ID, RETAIL_RECEIPT_ID, DOCSUM, PAYMENT_FORM_CODE
         console.log("saveToRetailReceiptsPayments");
         resultCallBack({error:"saveToRetailReceiptsPayments ERROR"});
     };
