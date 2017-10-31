@@ -95,9 +95,27 @@
                                     })
                                     .addContentTableRowsAction("apply",{
                                         tableRowAction:function(contentTableRowData, actionParams, contentTableUpdatedRowData, startNextAction, finishedAction){
-                                            console.log("ContentTableRowsAction contentTableRowData=",contentTableRowData);
+                                           // console.log("ContentTableRowsAction contentTableRowData=",contentTableRowData);
                                             //post apply
-                                            startNextAction();
+                                            Request.postJSONData({url:"/sysadmin/synchronization/applySyncIncomingData", data:contentTableRowData},
+                                                    function(success,result){                       console.log("applySyncIncomingData result=",result);
+                                                        if(!result) {
+                                                            contentTableUpdatedRowData["OPERATION_RESULT"]="No server result!";
+                                                            startNextAction();
+                                                            return;
+                                                        }
+                                                        var resultMsg="";
+                                                        if(result.error) resultMsg="Operation failed! Reason: "+result.error;
+                                                        if(result.updStateError) resultMsg+="\nOperation updatye state failed! Reason: "+result.error;
+                                                        if(resultMsg==="") resultMsg="Success.";
+                                                        contentTableUpdatedRowData["OPERATION_RESULT"]=resultMsg;
+                                                        if(result.resultItem){
+                                                            for (var resultDataItem in result.resultItem) {
+                                                                contentTableUpdatedRowData[resultDataItem]=result.resultItem[resultDataItem];
+                                                            }
+                                                        }
+                                                        startNextAction();
+                                                    });
                                         }
                                     })
                                     .addContentTablePopupMenuAction("Apply selected...", {contentTableActionName:"apply"})
