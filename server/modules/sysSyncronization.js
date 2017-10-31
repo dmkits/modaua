@@ -160,8 +160,7 @@ module.exports.init = function(app){
     });
 
     sys_sync_incoming_data.saveToRetailReceipts= function(incDataItems,incDataValues, OperationType,resultCallBack){
-        // ID(generate)  NUMBER   DOCDATE+  UNIT_ID+   BUYER_ID  CURRENCY_ID  RATE  DOCSTATE_ID
-
+        //    ID(generate)  NUMBER   DOCDATE+  UNIT_ID+   BUYER_ID  CURRENCY_ID  RATE  DOCSTATE_ID
         //    body: { ID: '8606503567423256938',
         //    CREATE_DATE: '2017-10-30T12:44:10.000Z',
         //    SYNC_POS_NAME: 'ShopBata1POS1',
@@ -178,19 +177,23 @@ module.exports.init = function(app){
         //DATENEW: 2017-06-01 10:56:38.335 -------------------------------------------------------------------->DOCDATE
         //ID: 86b2472d-4877-4a79-aec2-2a0d8fb0a6ae
         //MONEY: 7366a9ab-ca49-4eee-a133-cd4234a74ab8
-
         console.log("saveToRetailReceipts");
-
-        fin_retail_receipts.getDataItem({fields:["MAXNUMBER"],fieldsFunctions:{"MAXNUMBER":{function:"maxPlus1", sourceField:"NUMBER"}},
-                conditions:{"UNIT_ID=":null}},
-            function(result) {
-                var newNumber = (result && result.item) ? result.item["MAXNUMBER"] : "1";
-
-                resultCallBack({error:"saveToRetailReceipts ERROR"});
-            });
-
-
+        if(OperationType=="I"){
+            fin_retail_receipts.getDataItem({fields:["MAXNUMBER"],fieldsFunctions:{"MAXNUMBER":{function:"maxPlus1", sourceField:"NUMBER"}},
+                    conditions:{"UNIT_ID=":incDataItems["UNIT_ID"]}},
+                function(result) {
+                    var newNumber = (result && result.item) ? result.item["MAXNUMBER"] : "1";
+                    fin_retail_receipts.insDataItemWithNewID({tableName:"fin_retail_receipts",idFieldName:"ID",
+                            insData:{"NUMBER":newNumber, "DOCDATE":incDataValues["DATENEW"], "UNIT_ID":incDataItems["UNIT_ID"],
+                                "BUYER_ID":"0", "CURRENCY_ID":"0", "RATE":"1", "DOCSTATE_ID":"1"
+                            }},
+                        function(result){                   console.log("fin_retail_receipts result=", result);
+                            resultCallBack(result);
+                        });
+                });
+        }
     };
+
     sys_sync_incoming_data.saveToRetailTickets= function(incDataItems,incDataValues, OperationType,resultCallBack){
         console.log("saveToRetailTickets");
       //wrh_retail_tickets
@@ -213,9 +216,8 @@ module.exports.init = function(app){
       //  STATUS: 0        ---------------------------------------------------->  DOCSTATE_ID}
       //  TICKETID: 50  ------------------------------------------------------------> NUMBER
       //  TICKETTYPE: 1
-
-        sys_sync_POSes.getDataItem({fields:["UNIT_ID"], condition:"NAME="+incDataItems["SYNC_POS_NAME"]},
-        function(resultUnitID){
+        //sys_sync_POSes.getDataItem({fields:["UNIT_ID"], condition:"NAME="+incDataItems["SYNC_POS_NAME"]},
+        //function(resultUnitID){
             sys_sync_incoming_data_details.getDataItems({fields:["NAME","VALUE"],
                     conditions:{"SYNC_INCOMING_DATA_ID=":incDataItems["ID"]}},
                 function(detailData){
@@ -237,7 +239,7 @@ module.exports.init = function(app){
                             })
                     }
                 });
-        });
+      //  });
     };
     sys_sync_incoming_data.saveToRetailTicketsProducts= function(incDataItems,incDataValues, OperationType,resultCallBack){
        // wrh_retail_tickets_products
@@ -278,13 +280,26 @@ module.exports.init = function(app){
         resultCallBack({error:"saveToRetailReceiptsPayments ERROR"});
     };
 
-    sys_sync_incoming_data.updApplyState= function(data,resultCallBack){                            console.log("updApplyState");
-        sys_sync_incoming_data.updTableDataItem({},function(updResult){
-            var result={};
-            if(updResult.error) result.updStateError="Failed update sync incoming data state! Reason"+updResult.error;
-            if(updResult.resultItem) result.resultItem= updResult.resultItem;
-            resultCallBack(result);
-        });
+    /**
+     * params = { tableName, idFieldName,
+ *      tableColumns=[ {<tableColumnData>},... ],
+ *      updTableData = {<tableFieldName>:<value>,<tableFieldName>:<value>,<tableFieldName>:<value>,...}
+ * }
+     * resultCallback = function(result = { updateCount, resultItem:{<tableFieldName>:<value>,...}, error })
+     */
+
+    sys_sync_incoming_data.updApplyState= function(saveToDestTableResult,resultCallBack){
+
+        var updStateData={"STATE":"1","MSG":"Synchronized successfully","APPLIED_DATE":new Date(),
+            "DEST_TABLE_DATA_ID":saveToDestTableResult["DEST_TABLE_DATA_ID"]};
+
+        sys_sync_incoming_data.updDataItem({ updData:updStateData, conditions:{"ID=":data["ID"]}},
+            function(updResult){
+                var result={};
+                if(updResult.error) result.updStateError="Failed update sync incoming data state! Reason"+updResult.error;
+                else result.resultItem= updStateData;
+                resultCallBack(result);
+            });
     };
     /**
      * syncIncData={ ID,CLIENT_TABLE_NAME, syncIncDataValues }
@@ -295,9 +310,12 @@ module.exports.init = function(app){
         var thisInstance=this;
         if(clientTableName=="APP.RECEIPTS"){
             this.saveToRetailReceipts(syncIncData,syncIncDataValues,operationType,function(result){
-                thisInstance.updApplyState({"ID":"","STATE":0,"MSG":""},function(result){
-                    resultCallBack(result);
-                })
+                //{"ID":syncIncData["ID"],
+                //    "DEST_TABLE_DATA_ID":result.resultItem["ID"],"STATE":1,"MSG":"Synchronized successfully"}
+                thisInstance.updApplyState(result,
+                    function(result){
+                        resultCallBack(result);
+                    })
             })
         }else if(clientTableName=="APP.RECEIPTS_PURPOSES"){
             this.saveToRetailReceiptsPurposes(syncIncData,syncIncDataValues,operationType,function(result){
