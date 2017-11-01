@@ -123,14 +123,7 @@ module.exports.init = function (app) {
     var sysSyncIncomingDataTableColumns = [
         {data: "ID", name: "ID", width: 70, type: "text", visible: false},
         {data: "CREATE_DATE", name: "Create date", width: 70, type: "datetimeAsText"},
-        {
-            data: "SYNC_POS_NAME",
-            name: "SyncPOS",
-            width: 100,
-            type: "text",
-            dataSource: "sys_sync_POSes",
-            sourceField: "NAME"
-        },
+        {data: "SYNC_POS_NAME", name: "SyncPOS", width: 100, type: "text", dataSource: "sys_sync_POSes", sourceField: "NAME"},
         {data: "CLIENT_SYNC_DATA_OUT_ID", name: "Client data sync out ID", width: 70, type: "text"},
         {data: "CLIENT_CREATE_DATE", name: "Client create date", width: 80, type: "datetimeAsText"},
         {data: "OPERATION_TYPE", name: "Operation type", width: 80, type: "text"},
@@ -153,10 +146,8 @@ module.exports.init = function (app) {
     });
     app.post("/system/synchronization/getInfoPaneDetailIncomingData", function (req, res) {
         var data = req.body;
-        sys_sync_incoming_data_details.getDataItems({
-                fields: ["NAME", "VALUE"],
-                conditions: {"SYNC_INCOMING_DATA_ID=": data["ID"]},
-                order: "NAME"
+        sys_sync_incoming_data_details.getDataItems({fields: ["NAME", "VALUE"],
+                conditions: {"SYNC_INCOMING_DATA_ID=": data["ID"]}, order: "NAME"
             },
             function (result) {
                 res.send(result);
@@ -164,10 +155,8 @@ module.exports.init = function (app) {
     });
 
     sys_sync_incoming_data.saveToRetailReceipts = function (incDataItems, incDataValues, OperationType, resultCallBack) {
-        console.log("saveToRetailReceipts");
         if (OperationType == "I") {
-            fin_retail_receipts.getDataItem({
-                    fields: ["MAXNUMBER"],
+            fin_retail_receipts.getDataItem({fields: ["MAXNUMBER"],
                     fieldsFunctions: {"MAXNUMBER": {function: "maxPlus1", sourceField: "NUMBER"}},
                     conditions: {"UNIT_ID=": incDataItems["UNIT_ID"]}
                 },
@@ -175,161 +164,150 @@ module.exports.init = function (app) {
                     var newNumber = (result && result.item) ? result.item["MAXNUMBER"] : "1";
                     fin_retail_receipts.insDataItemWithNewID({
                             tableName: "fin_retail_receipts", idFieldName: "ID",
-                            insData: {
-                                "NUMBER": newNumber,
-                                "DOCDATE": incDataValues["DATENEW"],
-                                "UNIT_ID": incDataItems["UNIT_ID"],
-                                "BUYER_ID": "0",
-                                "CURRENCY_ID": "0",
-                                "RATE": "1",
-                                "DOCSTATE_ID": "1",
-                                "SOURCE_ID": incDataItems["CLIENT_TABLE_KEY1_VALUE"]
-                            }
-                        },
+                            insData: {"NUMBER": newNumber, "DOCDATE": incDataValues["DATENEW"], "UNIT_ID": incDataItems["UNIT_ID"],
+                                "BUYER_ID": "0", "CURRENCY_ID": "0", "RATE": "1", "DOCSTATE_ID": "1", "SOURCE_ID": incDataItems["CLIENT_TABLE_KEY1_VALUE"]}},
                         function (result) {
                             resultCallBack(result);
                         })
+                });
+        }else if(OperationType == "U"){
+            fin_retail_receipts.updDataItem({insData: { "DOCDATE": incDataValues["DATENEW"]    /*, "UNIT_ID": incDataItems["UNIT_ID"], "SOURCE_ID": incDataItems["CLIENT_TABLE_KEY1_VALUE"]*/},
+                conditions:{"SOURCE_ID=":incDataItems["CLIENT_TABLE_KEY1_VALUE"]}},
+                function(result){
+                    resultCallBack(result);
                 });
         }
     };
 
     sys_sync_incoming_data.saveToRetailTickets = function (incDataItems, incDataValues, OperationType, resultCallBack) {
-        if (OperationType == "I") {
-            fin_retail_receipts.getDataItem({
-                fields: ["ID", "DOCDATE"], conditions: {
-                    "SOURCE_ID=": incDataItems["CLIENT_TABLE_KEY1_VALUE"],
-                    "UNIT_ID=": incDataItems["UNIT_ID"]
-                }
-            }, function (result) {
+        fin_retail_receipts.getDataItem({
+                fields: ["ID", "DOCDATE"],
+                conditions: {"SOURCE_ID=": incDataItems["CLIENT_TABLE_KEY1_VALUE"], "UNIT_ID=": incDataItems["UNIT_ID"]}
+            },
+            function (result) {
                 var retailReceiptID = null;
                 var retailReceiptDocDate = null;
                 if (result.item) {
                     retailReceiptID = result.item["ID"];
                     retailReceiptDocDate = result.item["DOCDATE"];
                 }
-                wrh_retail_tickets.insDataItemWithNewID({
-                        tableName: "wrh_retail_tickets", idFieldName: "ID",
-                        insData: {
-                            "RETAIL_RECEIPT_ID": retailReceiptID,
-                            "NUMBER": incDataValues["TICKETID"],
-                            "DOCDATE": retailReceiptDocDate,
-                            "UNIT_ID": incDataItems["UNIT_ID"],
-                            "BUYER_ID": "0",
-                            "CURRENCY_ID": "0",
-                            "RATE": "1",
-                            "DOCSTATE_ID": "0",
-                            "SOURCE_ID": incDataItems["CLIENT_TABLE_KEY1_VALUE"]
-                        }
-                    },
-                    function (result) {
-                        resultCallBack(result);
-                        console.log("result=", result);
-                    })
-            });
-        }
-    };
-
-    sys_sync_incoming_data.saveToRetailTicketsProducts = function (incDataItems, incDataValues, OperationType, resultCallBack) {
-        console.log("saveToRetailTicketsProducts");
-        if (OperationType == "I") {
-            wrh_retail_tickets.getDataItem({
-                fields: ["ID"], conditions: {
-                    "SOURCE_ID=": incDataItems["CLIENT_TABLE_KEY1_VALUE"],
-                    "UNIT_ID=": incDataItems["UNIT_ID"]
-                }
-            }, function (result) {
-                var retailTicketID;
-                if (result.item)retailTicketID = result.item["ID"];
-                var qty = incDataValues["UNITS"], price = incDataValues["PRICE"];
-                wrh_retail_tickets_products.insDataItemWithNewID({
-                        tableName: "wrh_retail_tickets", idFieldName: "ID",
-                        insData: {
-                            "RETAIL_TICKET_ID": retailTicketID,
-                            "POS": incDataValues["LINE"] + 1,
-                            "PRODUCT_ID": incDataValues["PRODUCT"],
-                            "QTY": qty,
-                            "PRICE": price,
-                            "POSSUM": qty * price,
-                            "SALE_PRICE": incDataValues["SALE_PRICE"],
-                            "DISCOUNT": incDataValues["DISCOUNT"]
-                        }
-                    },
-                    function (result) {
-                        resultCallBack(result);
-                    });
-            });
-        }
-    };
-    sys_sync_incoming_data.saveToRetailReceiptsPurposes = function (incDataItems, incDataValues, OperationType, resultCallBack) {
-        //RETAIL_RECEIPT_ID, RETAIL_RECEIPT_PURPOSE_ID,NOTE
-        if (OperationType == "I") {
-            fin_retail_receipts.getDataItem({
-                fields: ["ID"], conditions: {"SOURCE_ID=": incDataValues["RECEIPT_ID"], "UNIT_ID=": incDataItems["UNIT_ID"]}},
-                function (result) {
-                var retailReceiptID = null;
-                //var retailReceiptDocDate = null;
-                if (result.item) {
-                    retailReceiptID = result.item["ID"];
-                    //retailReceiptDocDate = result.item["DOCDATE"];
-                }
-                fin_retail_receipts_purposes.insDataItem({
-                        tableName: "fin_retail_receipts_purposes", insData: {"RETAIL_RECEIPT_ID": retailReceiptID,
-                            "RETAIL_RECEIPT_PURPOSE_ID":incDataValues["PURPOSE_ID"], "NOTE": incDataValues["NOTE"]
-                        }
-                    },
-                    function (result) {
-                        resultCallBack(result);
-                    })
-            });
-        }
-    };
-
-    sys_sync_incoming_data.saveToRetailReceiptsPayments = function (incDataItems, incDataValues, OperationType, resultCallBack) {
-        //ID, RETAIL_RECEIPT_ID(incDataValues["RECEIPT"]), DOCSUM=incDataValues["TOTAL"], PAYMENT_FORM_CODE=incDataValues["PAYMENT"](cash->1)card->2
-        if (OperationType == "I") {
-            fin_retail_receipts.getDataItem({
-                    fields: ["ID"],
-                    conditions: {"SOURCE_ID=": incDataValues["RECEIPT"], "UNIT_ID=": incDataItems["UNIT_ID"]}
-                },
-                function (result) {
-                    console.log("fin_retail_receipts.getDataItem result=", result);
-                    var retailReceiptID = null;
-                    if (result.item) retailReceiptID = result.item["ID"];
-                    var clientPaymentName = incDataValues["PAYMENT"];
-                    var paymentFomCode = null;                                          //!!!!!!!!!!!!!!!!!paymentFomCode
-                    if (clientPaymentName.indexOf('cash') >= 0) {
-                        paymentFomCode = "1";
-                    } else if (clientPaymentName.indexOf('card') >= 0) {
-                        paymentFomCode = "2";
-                    }
-                    fin_retail_payments.insDataItemWithNewID({
-                            tableName: "fin_retail_payments", idFieldName: "ID",
-                            insData: {
-                                "RETAIL_RECEIPT_ID": retailReceiptID,
-                                "DOCSUM": incDataValues["TOTAL"],
-                                "PAYMENT_FORM_CODE": paymentFomCode
+                if (OperationType == "I") {
+                    wrh_retail_tickets.insDataItemWithNewID({idFieldName: "ID",
+                            insData: {"RETAIL_RECEIPT_ID": retailReceiptID, "NUMBER": incDataValues["TICKETID"], "DOCDATE": retailReceiptDocDate,
+                                "UNIT_ID": incDataItems["UNIT_ID"], "BUYER_ID": "0", "CURRENCY_ID": "0", "RATE": "1",
+                                "DOCSTATE_ID": "0", "SOURCE_ID": incDataItems["CLIENT_TABLE_KEY1_VALUE"]
                             }
                         },
                         function (result) {
                             resultCallBack(result);
-                            console.log("result=", result);
+                        })
+                } else if (OperationType == "U") {
+                    wrh_retail_tickets.updDataItem({
+                            tableName: "wrh_retail_tickets",
+                            insData: {
+                                /*"RETAIL_RECEIPT_ID": retailReceiptID,*/"NUMBER": incDataValues["TICKETID"],
+                                "DOCDATE": retailReceiptDocDate, /*"UNIT_ID": incDataItems["UNIT_ID"],*/
+                            },
+                            conditions: {"RETAIL_RECEIPT_ID=": retailReceiptID}
+                        },
+                        function (result) {
+                            resultCallBack(result);
+                        })
+                }
+            });
+    };
+
+    sys_sync_incoming_data.saveToRetailTicketsProducts = function (incDataItems, incDataValues, OperationType, resultCallBack) {
+        wrh_retail_tickets.getDataItem({ fields: ["ID"],
+                conditions: {"SOURCE_ID=": incDataItems["CLIENT_TABLE_KEY1_VALUE"], "UNIT_ID=": incDataItems["UNIT_ID"]} },
+            function (result) {
+                var retailTicketID;
+                if (result.item)retailTicketID = result.item["ID"];
+                var qty = incDataValues["UNITS"], price = incDataValues["PRICE"];
+                if (OperationType == "I") {
+                    wrh_retail_tickets_products.insDataItemWithNewID({
+                            tableName: "wrh_retail_tickets", idFieldName: "ID",
+                            insData: {"RETAIL_TICKET_ID": retailTicketID, "POS": incDataValues["LINE"] + 1, "PRODUCT_ID": incDataValues["PRODUCT"],
+                                "QTY": qty, "PRICE": price, "POSSUM": qty * price, "SALE_PRICE": incDataValues["SALE_PRICE"], "DISCOUNT": incDataValues["DISCOUNT"]}
+                        },
+                        function (result) {
+                            resultCallBack(result);
                         });
-                });
-        }
+                }else if(OperationType == "U"){
+                    wrh_retail_tickets_products.updDataItem({
+                            insData: { "PRODUCT_ID": incDataValues["PRODUCT"], "QTY": qty, "PRICE": price, "POSSUM": qty * price,
+                                "SALE_PRICE": incDataValues["SALE_PRICE"], "DISCOUNT": incDataValues["DISCOUNT"]},
+                            conditions:{"RETAIL_TICKET_ID=":retailTicketID,"POS=": incDataValues["LINE"] + 1 }
+                        },
+                        function (result) {
+                            resultCallBack(result);
+                        });
+                }
+            });
+    };
+    sys_sync_incoming_data.saveToRetailReceiptsPurposes = function (incDataItems, incDataValues, OperationType, resultCallBack) {
+        fin_retail_receipts.getDataItem({
+                fields: ["ID"], conditions: {"SOURCE_ID=": incDataValues["RECEIPT_ID"], "UNIT_ID=": incDataItems["UNIT_ID"]}},
+            function (result) {
+                var retailReceiptID = null;
+                if (result.item) {
+                    retailReceiptID = result.item["ID"];
+                }
+                if (OperationType == "I") {
+                    fin_retail_receipts_purposes.insDataItem({tableName: "fin_retail_receipts_purposes", insData: {"RETAIL_RECEIPT_ID": retailReceiptID,
+                            "RETAIL_RECEIPT_PURPOSE_ID":incDataValues["PURPOSE_ID"], "NOTE": incDataValues["NOTE"]}},
+                        function (result) {
+                            resultCallBack(result);
+                        })
+                }else if(OperationType == "U"){
+                    fin_retail_receipts_purposes.updDataItem({insData: {
+                            "RETAIL_RECEIPT_PURPOSE_ID":incDataValues["PURPOSE_ID"], "NOTE": incDataValues["NOTE"]},
+                            conditions:{"RETAIL_RECEIPT_ID=": retailReceiptID}
+                        },
+                        function (result) {
+                            resultCallBack(result);
+                        })
+                }
+            });
+    };
+
+    sys_sync_incoming_data.saveToRetailReceiptsPayments = function (incDataItems, incDataValues, OperationType, resultCallBack) {
+        //ID, RETAIL_RECEIPT_ID(incDataValues["RECEIPT"]), DOCSUM=incDataValues["TOTAL"], PAYMENT_FORM_CODE=incDataValues["PAYMENT"](cash->1)card->2
+        fin_retail_receipts.getDataItem({
+                fields: ["ID"],
+                conditions: {"SOURCE_ID=": incDataValues["RECEIPT"], "UNIT_ID=": incDataItems["UNIT_ID"]}},
+            function (result) {
+                var retailReceiptID = null;
+                if (result.item) retailReceiptID = result.item["ID"];
+                var clientPaymentName = incDataValues["PAYMENT"];
+                var paymentFomCode = null;                                                //!!!!!!!!!!!!!!!!!paymentFomCode
+                if (clientPaymentName.indexOf('cash') >= 0) {
+                    paymentFomCode = "1";
+                } else if (clientPaymentName.indexOf('card') >= 0) {
+                    paymentFomCode = "2";
+                }
+                if (OperationType == "I") {
+                    fin_retail_payments.insDataItemWithNewID({tableName: "fin_retail_payments", idFieldName: "ID",
+                            insData: {"RETAIL_RECEIPT_ID": retailReceiptID, "DOCSUM": incDataValues["TOTAL"], "PAYMENT_FORM_CODE": paymentFomCode}
+                        },
+                        function (result) {
+                            resultCallBack(result);
+                        });
+                }else if(OperationType == "U"){
+                    fin_retail_payments.updDataItem({
+                            insData: { "DOCSUM": incDataValues["TOTAL"], "PAYMENT_FORM_CODE": paymentFomCode,
+                            conditions:{"RETAIL_RECEIPT_ID=": retailReceiptID}}
+                        },
+                        function (result) {
+                            resultCallBack(result);
+                        });
+                }
+
+            });
     };
 
 
-    //Operation update state failed! Reason: Failed update sync incoming data state! ReasonFailed update data item! Reason: no updated row count!
-    /**
-     * params = { tableName, idFieldName,
- *      tableColumns=[ {<tableColumnData>},... ],
- *      updTableData = {<tableFieldName>:<value>,<tableFieldName>:<value>,<tableFieldName>:<value>,...}
- * }
-     * resultCallback = function(result = { updateCount, resultItem:{<tableFieldName>:<value>,...}, error })
-     */
-
     sys_sync_incoming_data.updApplyState = function (saveToDestTableResult, resultCallBack) {
-        console.log("saveToDestTableResult=", saveToDestTableResult);
 
         var updStateData = {"STATE": "1", "MSG": "Synchronized successfully", "APPLIED_DATE": new Date()};
 
@@ -404,11 +382,11 @@ module.exports.init = function (app) {
     };
 
     app.post("/system/synchronization/applySyncIncomingData", function (req, res) {
-        var syncIncData = req.body;
-        //if(syncIncData["STATE"]=="1"){
-        //    res.send({"STATE":"1"});
-        //    return;
-        //}
+        var syncIncData = req.body;      //LAST_UPDATE_DATE--!!!!!!!!!!!!
+        if(syncIncData["STATE"]=="1"){
+            res.send({"STATE":"1"});
+            return;
+        }
         sys_sync_POSes.getDataItem({fields: ["UNIT_ID"], conditions: {"NAME=": syncIncData["SYNC_POS_NAME"]}},
             function (result) {
                 if (!result || result.error) {
@@ -419,11 +397,8 @@ module.exports.init = function (app) {
                     return;
                 }
                 syncIncData["UNIT_ID"] = result.item["UNIT_ID"];
-
                 sys_sync_incoming_data_details.getDataItems({
-                        fields: ["NAME", "VALUE"],
-                        conditions: {"SYNC_INCOMING_DATA_ID=": syncIncData["ID"]}
-                    },
+                        fields: ["NAME", "VALUE"], conditions: {"SYNC_INCOMING_DATA_ID=": syncIncData["ID"]}},
                     function (result) {
                         if (!result || result.error) {
                             res.send({error: "Failed get sync incoming data details!"});
@@ -447,14 +422,7 @@ module.exports.init = function (app) {
 
     var sysSyncOutputDataTableColumns = [
         {data: "CREATE_DATE", name: "CreateDate", width: 75, type: "text"},
-        {
-            data: "SYNC_POS_NAME",
-            name: "SyncPOS",
-            width: 90,
-            type: "text",
-            dataSource: "sys_sync_POSes",
-            sourceField: "NAME"
-        },
+        {data: "SYNC_POS_NAME", name: "SyncPOS", width: 90, type: "text", dataSource: "sys_sync_POSes", sourceField: "NAME"},
         {data: "TABLE_NAME", name: "TableName", width: 250, type: "text"},
         {data: "KEY_DATA_NAME", name: "KeyName", width: 150, type: "text"},
         {data: "KEY_DATA_VALUE", name: "KeyValue", width: 150, type: "text"},
