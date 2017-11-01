@@ -41,6 +41,9 @@ var changeLog = [
         field:"DOCSTATE_ID"},
     { changeID:"wrh_retail_tickets_14", changeDatetime:"2016-09-26 22:05:00", changeObj:"wrh_retail_tickets",
         changeVal:"ALTER TABLE wrh_retail_tickets ADD CONSTRAINT WRH_RETAIL_TICKETS_DOCSTATE_ID_FK " +
-            "FOREIGN KEY (DOCSTATE_ID) REFERENCES sys_docstates(ID)" }
+            "FOREIGN KEY (DOCSTATE_ID) REFERENCES sys_docstates(ID)" },
+    { changeID:"wrh_retail_tickets_15", changeDatetime:"2016-09-26 22:06:00", changeObj:"wrh_retail_tickets",
+        changeVal:"ALTER TABLE wrh_retail_tickets ADD COLUMN SOURCE_ID VARCHAR(64) NOT NULL",
+        field:"SOURCE_ID"}
 ];
 module.exports.changeLog=changeLog;

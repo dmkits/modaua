@@ -230,10 +230,37 @@ module.exports.init = function(app){
     };
     sys_sync_incoming_data.saveToRetailReceiptsPurposes= function(incDataItems,incDataValues, OperationType,resultCallBack){
         //fin_retail_receipts_purposes.
-        //RETAIL_RECEIPT_ID, RETAIL_RECEIPT_PURPOSE_ID, RETAIL_RECEIPT_PURPOSE_ID,NOTE
-        console.log("saveToRetailReceiptsPurposes");
-        resultCallBack({error:"saveToRetailReceiptsPurposes ERROR"});
+        //RETAIL_RECEIPT_ID, RETAIL_RECEIPT_PURPOSE_ID,NOTE
+
+        if(OperationType=="I") {
+            sys_sync_incoming_data.getDataItems({fields: ["DEST_TABLE_DATA_ID"], conditions: {"CLIENT_TABLE_NAME=": "APP.RECEIPTS", "OPERATION_TYPE=": "I",
+                    "CLIENT_TABLE_KEY1_NAME=": "ID", "CLIENT_TABLE_KEY1_VALUE=": incDataItems["CLIENT_TABLE_KEY1_VALUE"], "STATE=": "1"}
+                },
+                function (result) {
+                    var retailReceiptID = null;
+                    if (result.items) retailReceiptID = result.items[0]["DEST_TABLE_DATA_ID"];
+                    fin_retail_receipts.getDataItem({fields: ["DOCDATE"], conditions: {"ID=": retailReceiptID}},
+                        function (result) {
+                            var retailReceiptDocDate = null;
+                            if (result.item) retailReceiptDocDate = result.item["DOCDATE"];
+                            fin_retail_receipts_purposes.insDataItemWithNewID({
+                                    tableName: "fin_retail_receipts_purposes", idFieldName: "ID",
+                                    insData: {"RETAIL_RECEIPT_ID": retailReceiptID, "NUMBER": incDataValues["TICKETID"], "DOCDATE": retailReceiptDocDate,
+                                        "UNIT_ID": incDataItems["UNIT_ID"], "BUYER_ID": "0", "CURRENCY_ID": "0", "RATE": "1", "DOCSTATE_ID": "0"}
+                                },
+                                function (result) {
+                                    resultCallBack(result);
+                                    console.log("result=", result);
+                                })
+                        });
+                });
+        }
     };
+
+
+        //console.log("saveToRetailReceiptsPurposes");
+        //resultCallBack({error:"saveToRetailReceiptsPurposes ERROR"});
+  //  };
     sys_sync_incoming_data.saveToRetailReceiptsPayments= function(incDataItems,incDataValues, OperationType,resultCallBack){
         //fin_retail_payments
         //ID, RETAIL_RECEIPT_ID, RETAIL_RECEIPT_ID, DOCSUM, PAYMENT_FORM_CODE
