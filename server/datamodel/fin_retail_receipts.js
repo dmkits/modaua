@@ -38,7 +38,10 @@ var changeLog = [
             "FOREIGN KEY (DOCSTATE_ID) REFERENCES sys_docstates(ID)" },
     { changeID:"fin_retail_receipts_13", changeDatetime:"2016-09-26 21:13:00", changeObj:"fin_retail_receipts",
         changeVal:"ALTER TABLE fin_retail_receipts ADD COLUMN SOURCE_ID VARCHAR(64) NOT NULL",
-        field:"SOURCE_ID"}
+        field:"SOURCE_ID"},
+    { changeID: "fin_retail_receipts_14", changeDatetime:"2016-09-26 21:14:00", changeObj: "fin_retail_receipts",
+        changeVal: "ALTER TABLE fin_retail_receipts ADD CONSTRAINT SOURCE_ID " +
+        "UNIQUE(UNIT_ID,SOURCE_ID)" }
 ];
 module.exports.changeLog=changeLog;
 

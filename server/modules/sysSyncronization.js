@@ -122,34 +122,13 @@ module.exports.init = function(app){
         {data: "CLIENT_TABLE_KEY1_VALUE", name: "Client table key1 value", width: 160, type: "text"},
         {data: "LAST_UPDATE_DATE", name: "Last update date", width: 70, type: "datetimeAsText"},
         {data: "STATE", name: "State", width: 60, type: "text"},
-        {data: "MSG", name: "Message", width: 150, type: "text"},
         {data: "APPLIED_DATE", name: "Applied date", width: 70, type: "datetimeAsText"},
-        {data: "DEST_TABLE_CODE", name: "Dest.t code", width: 60, type: "text"},
-        {data: "DEST_TABLE_DATA_ID", name: "Dest.t ID", width: 130, type: "text"},
+        {data: "MSG", name: "Message", width: 150, type: "text"},
         {data: "OPERATION_RESULT", name: "Operation result", width: 250, type: "text"}
     ];
     app.get('/system/synchronization/getIncomingDataForTable', function(req, res){
         sys_sync_incoming_data.getDataForTable({tableColumns:sysSyncIncomingDataTableColumns, identifier:sysSyncIncomingDataTableColumns[0].data,
             order:["CREATE_DATE","CLIENT_SYNC_DATA_OUT_ID"], conditions:req.query}, function(result){
-            res.send(result);
-        });
-    });
-
-    var sysSyncOutputDataTableColumns=[
-        {data: "CREATE_DATE", name: "CreateDate", width: 75, type: "text"},
-        {data: "SYNC_POS_NAME", name: "SyncPOS", width: 90, type: "text", dataSource:"sys_sync_POSes", sourceField:"NAME"},
-        {data: "TABLE_NAME", name: "TableName", width: 250, type: "text"},
-        {data: "KEY_DATA_NAME", name: "KeyName", width: 150, type: "text"},
-        {data: "KEY_DATA_VALUE", name: "KeyValue", width: 150, type: "text"},
-        {data: "LAST_UPDATE_DATE", name: "LastUpdateDate", width: 90, type: "text"},
-        {data: "STATE", name: "State", width: 60, type: "text"},
-        {data: "CLIENT_SYNC_DATA_ID", name: "ClientDataID", width: 80, type: "text"},
-        {data: "APPLIED_DATE", name: "AppliedDate", width: 80, type: "text"},
-        {data: "CLIENT_MESSAGE", name: "ClientMessage", width: 250, type: "text"}
-    ];
-    app.get('/system/synchronization/getOutputDataForTable', function(req, res){
-        sys_sync_output_data.getDataForTable({tableColumns:sysSyncOutputDataTableColumns, identifier:sysSyncOutputDataTableColumns[0].data,
-            order:"ID", conditions:req.query}, function(result){
             res.send(result);
         });
     });
@@ -382,6 +361,25 @@ module.exports.init = function(app){
                             });
                     });
             });
+    });
+
+    var sysSyncOutputDataTableColumns=[
+        {data: "CREATE_DATE", name: "CreateDate", width: 75, type: "text"},
+        {data: "SYNC_POS_NAME", name: "SyncPOS", width: 90, type: "text", dataSource:"sys_sync_POSes", sourceField:"NAME"},
+        {data: "TABLE_NAME", name: "TableName", width: 250, type: "text"},
+        {data: "KEY_DATA_NAME", name: "KeyName", width: 150, type: "text"},
+        {data: "KEY_DATA_VALUE", name: "KeyValue", width: 150, type: "text"},
+        {data: "LAST_UPDATE_DATE", name: "LastUpdateDate", width: 90, type: "text"},
+        {data: "STATE", name: "State", width: 60, type: "text"},
+        {data: "CLIENT_SYNC_DATA_ID", name: "ClientDataID", width: 80, type: "text"},
+        {data: "APPLIED_DATE", name: "AppliedDate", width: 80, type: "text"},
+        {data: "CLIENT_MESSAGE", name: "ClientMessage", width: 250, type: "text"}
+    ];
+    app.get('/system/synchronization/getOutputDataForTable', function(req, res){
+        sys_sync_output_data.getDataForTable({tableColumns:sysSyncOutputDataTableColumns, identifier:sysSyncOutputDataTableColumns[0].data,
+            order:"ID", conditions:req.query}, function(result){
+            res.send(result);
+        });
     });
 };
 

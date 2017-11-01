@@ -45,12 +45,6 @@ var changeLog = [
         field:"APPLIED_DATE"},
     { changeID:"sys_sync_incoming_data_15", changeDatetime:"2016-11-25 15:39:00", changeObj:"sys_sync_incoming_data",
         changeVal:"ALTER TABLE sys_sync_incoming_data ADD COLUMN MSG VARCHAR(255) NOT NULL",
-        field:"MSG"},
-    { changeID:"sys_sync_incoming_data_16", changeDatetime:"2016-11-25 15:40:00", changeObj:"sys_sync_incoming_data",
-        changeVal:"ALTER TABLE sys_sync_incoming_data ADD COLUMN DEST_TABLE_CODE INTEGER UNSIGNED",
-        field:"DEST_TABLE_CODE"},
-    { changeID:"sys_sync_incoming_data_17", changeDatetime:"2016-11-25 15:41:00", changeObj:"sys_sync_incoming_data",
-        changeVal:"ALTER TABLE sys_sync_incoming_data ADD COLUMN DEST_TABLE_DATA_ID BIGINT UNSIGNED",
-        field:"DEST_TABLE_DATA_ID"}
+        field:"MSG"}
 ];
 module.exports.changeLog=changeLog;
