@@ -61,7 +61,7 @@
                     btnErrorsLog.document =
                             APP.childFor(contentPaneDetailContainer, "sysadmin_sync__TableErrorsLog",
                                     TDocumentSimpleTable, {titleText: "Errors log synchronization",
-                                        dataURL: '/sysadmin/synchronization/getErrorLogDataForTable', dataURLCondition: {"1~": 1}, buttonPrint: false})
+                                        dataURL: '/system/synchronization/getErrorLogDataForTable', dataURLCondition: {"1~": 1}, buttonPrint: false})
                                     .addTotalCountNumberBox("ИТОГО строк:", 140, {style: "font-weight:bold;", inputStyle: "width:40px;"})
                                     .startUp();
                     contentPaneDetailContainer.selectChild(btnErrorsLog.document);
@@ -79,10 +79,10 @@
                     btnIncomingData.document =
                             APP.childFor(contentPaneDetailContainer, "sysadmin_sync__TableIncomingData",
                                     TDocumentSimpleTable, {titleText: "Incoming data synchronization", buttonPrint: false, rightPane:{ width:250 },
-                                        dataURL: '/sysadmin/synchronization/getIncomingDataForTable', dataURLCondition: {"1~": 1}, })
+                                        dataURL: '/system/synchronization/getIncomingDataForTable', dataURLCondition: {"1~": 1}, })
                                     .addTotalCountNumberBox("ИТОГО строк:", 140, {style: "font-weight:bold;", inputStyle: "width:40px;"})
                                     .addInfoPane({title:"Detail info"}, function(params){
-                                        Request.postJSONData({url:"/sysadmin/synchronization/getInfoPaneDetailIncomingData", data:params.contentTableSelectedRow},
+                                        Request.postJSONData({url:"/system/synchronization/getInfoPaneDetailIncomingData", data:params.contentTableSelectedRow},
                                                 function(success,result){
                                                     if(!result|| !result.items)return;
                                                     var innerCont="";
@@ -95,9 +95,27 @@
                                     })
                                     .addContentTableRowsAction("apply",{
                                         tableRowAction:function(contentTableRowData, actionParams, contentTableUpdatedRowData, startNextAction, finishedAction){
-                                            console.log("ContentTableRowsAction contentTableRowData=",contentTableRowData);
+                                           // console.log("ContentTableRowsAction contentTableRowData=",contentTableRowData);
                                             //post apply
-                                            startNextAction();
+                                            Request.postJSONData({url:"/system/synchronization/applySyncIncomingData", data:contentTableRowData},
+                                                    function(success,result){                       console.log("applySyncIncomingData result=",result);
+                                                        if(!result) {
+                                                            contentTableUpdatedRowData["OPERATION_RESULT"]="No server result!";
+                                                            startNextAction();
+                                                            return;
+                                                        }
+                                                        var resultMsg="";
+                                                        if(result.error) resultMsg="Operation failed! Reason: "+result.error;
+                                                        if(result.updStateError) resultMsg+="\nOperation update state failed! Reason: "+result.updStateError;
+                                                        if(resultMsg==="") resultMsg="Success.";
+                                                        contentTableUpdatedRowData["OPERATION_RESULT"]=resultMsg;
+                                                        if(result.resultItem){
+                                                            for (var resultDataItem in result.resultItem) {
+                                                                contentTableUpdatedRowData[resultDataItem]=result.resultItem[resultDataItem];
+                                                            }
+                                                        }
+                                                        startNextAction();
+                                                    });
                                         }
                                     })
                                     .addContentTablePopupMenuAction("Apply selected...", {contentTableActionName:"apply"})
@@ -116,7 +134,7 @@
                     btnOutputData.document =
                             APP.childFor(contentPaneDetailContainer, "sysadmin_sync__TableOutputData",
                                     TDocumentSimpleTable, {titleText: "Output data synchronization",
-                                        dataURL: '/sysadmin/synchronization/getOutputDataForTable', dataURLCondition: {"1~": 1},
+                                        dataURL: '/system/synchronization/getOutputDataForTable', dataURLCondition: {"1~": 1},
                                         buttonPrint: false})
                                     .addTotalCountNumberBox("ИТОГО строк:", 140, {style: "font-weight:bold;", inputStyle: "width:40px;"})
                                     .startUp();
@@ -137,10 +155,10 @@
                                         rightToolPane:{title:"Действия",
                                             buttons:{insertTableRow:"Добавить", allowEditTableSelectedRow:"Изменить",
                                                 storeTableSelectedRow:"Сохранить",deleteTableSelectedRow:"Удалить"}},
-                                        dataURL: '/sysadmin/synchronization/getSyncPOSesDataForTable', dataURLCondition: {"1~": 1},
-                                        dataNewURL:"/sysadmin/synchronization/newDataForSyncPOSesTable",
-                                        dataStoreURL:"/sysadmin/synchronization/storeSyncPOSesTableData",
-                                        dataDeleteURL:"/sysadmin/synchronization/deleteSyncPOSesTableData"})
+                                        dataURL: '/system/synchronization/getSyncPOSesDataForTable', dataURLCondition: {"1~": 1},
+                                        dataNewURL:"/system/synchronization/newDataForSyncPOSesTable",
+                                        dataStoreURL:"/system/synchronization/storeSyncPOSesTableData",
+                                        dataDeleteURL:"/system/synchronization/deleteSyncPOSesTableData"})
                                     .addTotalCountNumberBox("ИТОГО строк:", 140, {style: "font-weight:bold;", inputStyle: "width:40px;"})
                                     .addContentTablePopupMenuTableRowsAction("Добавить строки",{actionName:"insertTableRowsAfterSelected",rowPosName:"POS"})
                                     .addContentTablePopupMenuTableRowsAction("Изменить строки",{actionName:"allowEditTableSelectedRows"})
