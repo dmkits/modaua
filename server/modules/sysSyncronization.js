@@ -302,7 +302,6 @@ module.exports.init = function (app) {
                             resultCallBack(result);
                         });
                 }
-
             });
     };
 
@@ -381,43 +380,60 @@ module.exports.init = function (app) {
         }
     };
 
-    app.post("/system/synchronization/applySyncIncomingData", function (req, res) {
-        var syncIncData = req.body;      //LAST_UPDATE_DATE--!!!!!!!!!!!!
-        if(syncIncData["STATE"]=="1"){
-            res.send({"STATE":"1"});
-            return;
-        }
-        sys_sync_POSes.getDataItem({fields: ["UNIT_ID"], conditions: {"NAME=": syncIncData["SYNC_POS_NAME"]}},
-            function (result) {
-                if (!result || result.error) {
-                    res.send({error: "Failed get unit by SYNC_POS_NAME!"});
-                    return;
-                } else if (!result.item) {
-                    res.send({error: "Not finded unit by SYNC_POS_NAME!"});
-                    return;
-                }
-                syncIncData["UNIT_ID"] = result.item["UNIT_ID"];
-                sys_sync_incoming_data_details.getDataItems({
-                        fields: ["NAME", "VALUE"], conditions: {"SYNC_INCOMING_DATA_ID=": syncIncData["ID"]}},
-                    function (result) {
-                        if (!result || result.error) {
-                            res.send({error: "Failed get sync incoming data details!"});
-                            return;
-                        } else if (!result.items) {
-                            res.send({error: "No sync incoming data details!"});
-                            return;
-                        }
-                        var syncIncDataValues = {};
-                        for (var i = 0; i < result.items.length; i++) {
-                            var dataItem = result.items[i];
-                            syncIncDataValues[dataItem["NAME"]] = dataItem["VALUE"];
-                        }
-                        sys_sync_incoming_data.applyDataItem(syncIncData, syncIncDataValues/*{"ID":req.body["ID"],"CLIENT_TABLE_NAME":req.body["CLIENT_TABLE_NAME"]*/,
-                            function (result) {
-                                res.send(result);
-                            });
-                    });
+    function getRowSyncSysIncData(clientTableKeyValue, callback){                                           // if error !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        sys_sync_incoming_data.getDataItem({
+                fields: ["ID","CREATE_DATE","SYNC_POS_ID","CLIENT_SYNC_DATA_OUT_ID","CLIENT_CREATE_DATE","OPERATION_TYPE",
+                "CLIENT_TABLE_NAME","CLIENT_TABLE_KEY1_NAME","CLIENT_TABLE_KEY1_VALUE","STATE","MSG"],
+                conditions: {"CLIENT_SYNC_DATA_OUT_ID=": clientTableKeyValue}},
+            function (syncSysDataRes) {
+                sys_sync_POSes.getDataItem({fields:["NAME"], conditions:{"ID=":syncSysDataRes.item["SYNC_POS_ID"]}},
+                function(posNameRes){
+                    syncSysDataRes.item["SYNC_POS_NAME"]=posNameRes.item["NAME"];
+                    callback(syncSysDataRes.item);
+                });
             });
+    }
+
+    app.post("/system/synchronization/applySyncIncomingData", function (req, res) {
+        //LAST_UPDATE_DATE--!!!!!!!!!!!!
+        var clientTableKeyValue=req.body["CLIENT_SYNC_DATA_OUT_ID"];
+        getRowSyncSysIncData(clientTableKeyValue, function(syncIncData){
+            if(syncIncData["STATE"]=="1"){
+                res.send(syncIncData);
+                return;
+            }
+            sys_sync_POSes.getDataItem({fields: ["UNIT_ID"], conditions: {"NAME=": syncIncData["SYNC_POS_NAME"]}},
+                function (result) {
+                    if (!result || result.error) {
+                        res.send({error: "Failed get unit by SYNC_POS_NAME!"});
+                        return;
+                    } else if (!result.item) {
+                        res.send({error: "Not finded unit by SYNC_POS_NAME!"});
+                        return;
+                    }
+                    syncIncData["UNIT_ID"] = result.item["UNIT_ID"];
+                    sys_sync_incoming_data_details.getDataItems({
+                            fields: ["NAME", "VALUE"], conditions: {"SYNC_INCOMING_DATA_ID=": syncIncData["ID"]}},
+                        function (result) {
+                            if (!result || result.error) {
+                                res.send({error: "Failed get sync incoming data details!"});
+                                return;
+                            } else if (!result.items) {
+                                res.send({error: "No sync incoming data details!"});
+                                return;
+                            }
+                            var syncIncDataValues = {};
+                            for (var i = 0; i < result.items.length; i++) {
+                                var dataItem = result.items[i];
+                                syncIncDataValues[dataItem["NAME"]] = dataItem["VALUE"];
+                            }
+                            sys_sync_incoming_data.applyDataItem(syncIncData, syncIncDataValues/*{"ID":req.body["ID"],"CLIENT_TABLE_NAME":req.body["CLIENT_TABLE_NAME"]*/,
+                                function (result) {
+                                    res.send(result);
+                                });
+                        });
+                });
+        });
     });
 
     var sysSyncOutputDataTableColumns = [
