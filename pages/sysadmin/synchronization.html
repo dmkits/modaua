@@ -119,6 +119,12 @@
                                         }
                                     })
                                     .addContentTablePopupMenuAction("Apply selected...", {contentTableActionName:"apply"})
+                                    .addContentTablePopupMenuAction("Apply all changes...", {
+                                        contentTableActionName:"apply",
+                                        beforeContentTableRowsAction:function(selectedTableContent, actionParams, startContentTableRowsAction){
+                                            startContentTableRowsAction(actionParams.thisInstance.getTableContent());
+                                        }
+                                    })
                                     .startUp();
                     contentPaneDetailContainer.selectChild(btnIncomingData.document);
                 };
