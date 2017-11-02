@@ -43,11 +43,8 @@ module.exports.init = function (app) {
         {data: "POS_NAME", name: "POS name", width: 150, type: "text", sourceField: "NAME"},
         {data: "POS_HOST_NAME", name: "POS HOST name", width: 150, type: "text", sourceField: "HOST_NAME"},
         {data: "DATABASE_NAME", name: "POS Database name", width: 200, type: "text"},
-        {
-            data: "UNIT_NAME", name: "Unit", width: 200,
-            type: "combobox", "sourceURL": "/dir/units/getDataForUnitsCombobox",
-            dataSource: "dir_units", sourceField: "NAME"
-        }
+        {data: "UNIT_NAME", name: "Unit", width: 200, dataSource: "dir_units", sourceField: "NAME",
+            type: "combobox", "sourceURL": "/dir/units/getDataForUnitsCombobox" }
     ];
     app.get('/system/synchronization/getSyncPOSesDataForTable', function (req, res) {
         sys_sync_POSes.getDataForTable({
@@ -280,7 +277,7 @@ module.exports.init = function (app) {
                 var retailReceiptID = null;
                 if (result.item) retailReceiptID = result.item["ID"];
                 var clientPaymentName = incDataValues["PAYMENT"];
-                var paymentFomCode = null;                                                //!!!!!!!!!!!!!!!!!paymentFomCode
+                var paymentFomCode = null;
                 if (clientPaymentName.indexOf('cash') >= 0) {
                     paymentFomCode = "1";
                 } else if (clientPaymentName.indexOf('card') >= 0) {
