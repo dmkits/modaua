@@ -31,6 +31,7 @@ module.exports.init = function(app){
                 insertClientDataItemValues(ind+1,clientDataItemValuesArray, callback);
             });
     };
+    //delete
     /**
      * params = { syncPOSID, unitID, clientDataItem, clientDataItemValues }
      */
@@ -46,7 +47,10 @@ module.exports.init = function(app){
                 if(result.item){
                     var sysSyncDataInID=result.item["ID"];
 
-                    //update
+                    //update STATE!=0 (1,-1,...)
+                    //result items send to client STATE MSG APPLIED_DATE
+
+                    //update STATE==0 update
                     result.resultItem=result.item;
 
                     if(resultCallback) resultCallback({resultItem:{"STATE":result.resultItem["STATE"].toString(),"MSG":result.resultItem["MSG"]}});
@@ -68,7 +72,7 @@ module.exports.init = function(app){
                         for (var item in clientDataItemValues)
                             clientDataItemValuesArray.push({"SYNC_INCOMING_DATA_ID":sysSyncIncDataID, "NAME":item,"VALUE":clientDataItemValues[item]});
                                                                                                                                 console.log("clientDataItemValuesArray=",clientDataItemValuesArray);
-                        insertClientDataItemValues(0,clientDataItemValuesArray,
+                        insertClientDataItemValues(0,clientDataItemValuesArray,   /*dele and rewrite*/
                             function(result){
                                 if(resultCallback&&result&&result.error)
                                     resultCallback({error:result.error});
