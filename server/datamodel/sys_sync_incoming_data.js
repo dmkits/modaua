@@ -38,7 +38,7 @@ var changeLog = [
         changeVal:"ALTER TABLE sys_sync_incoming_data ADD COLUMN LAST_UPDATE_DATE DATETIME NULL",
         field:"LAST_UPDATE_DATE"},
     { changeID:"sys_sync_incoming_data_13", changeDatetime:"2016-09-26 10:36:00", changeObj:"sys_sync_incoming_data",
-        changeVal:"ALTER TABLE sys_sync_incoming_data ADD COLUMN STATE INTEGER UNSIGNED NOT NULL",
+        changeVal:"ALTER TABLE sys_sync_incoming_data ADD COLUMN STATE INTEGER NOT NULL",
         field:"STATE"},
     { changeID:"sys_sync_incoming_data_14", changeDatetime:"2016-09-26 16:37:00", changeObj:"sys_sync_incoming_data",
         changeVal:"ALTER TABLE sys_sync_incoming_data ADD COLUMN APPLIED_DATE DATETIME NULL",

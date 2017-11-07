@@ -168,7 +168,7 @@ module.exports.init = function (app) {
                         })
                 });
         }else if(OperationType == "U"){
-            fin_retail_receipts.updDataItem({insData: { "DOCDATE": incDataValues["DATENEW"]    /*, "UNIT_ID": incDataItems["UNIT_ID"], "SOURCE_ID": incDataItems["CLIENT_TABLE_KEY1_VALUE"]*/},
+            fin_retail_receipts.updDataItem({updData: { "DOCDATE": incDataValues["DATENEW"]    /*, "UNIT_ID": incDataItems["UNIT_ID"], "SOURCE_ID": incDataItems["CLIENT_TABLE_KEY1_VALUE"]*/},
                 conditions:{"SOURCE_ID=":incDataItems["CLIENT_TABLE_KEY1_VALUE"]}},
                 function(result){
                     resultCallBack(result);
@@ -201,7 +201,7 @@ module.exports.init = function (app) {
                 } else if (OperationType == "U") {
                     wrh_retail_tickets.updDataItem({
                             tableName: "wrh_retail_tickets",
-                            insData: {
+                            updData: {
                                 /*"RETAIL_RECEIPT_ID": retailReceiptID,*/"NUMBER": incDataValues["TICKETID"],
                                 "DOCDATE": retailReceiptDocDate, /*"UNIT_ID": incDataItems["UNIT_ID"],*/
                             },
@@ -232,7 +232,7 @@ module.exports.init = function (app) {
                         });
                 }else if(OperationType == "U"){
                     wrh_retail_tickets_products.updDataItem({
-                            insData: { "PRODUCT_ID": incDataValues["PRODUCT"], "QTY": qty, "PRICE": price, "POSSUM": qty * price,
+                            updData: { "PRODUCT_ID": incDataValues["PRODUCT"], "QTY": qty, "PRICE": price, "POSSUM": qty * price,
                                 "SALE_PRICE": incDataValues["SALE_PRICE"], "DISCOUNT": incDataValues["DISCOUNT"]},
                             conditions:{"RETAIL_TICKET_ID=":retailTicketID,"POS=": incDataValues["LINE"] + 1 }
                         },
@@ -257,7 +257,7 @@ module.exports.init = function (app) {
                             resultCallBack(result);
                         })
                 }else if(OperationType == "U"){
-                    fin_retail_receipts_purposes.updDataItem({insData: {
+                    fin_retail_receipts_purposes.updDataItem({updData: {
                             "RETAIL_RECEIPT_PURPOSE_ID":incDataValues["PURPOSE_ID"], "NOTE": incDataValues["NOTE"]},
                             conditions:{"RETAIL_RECEIPT_ID=": retailReceiptID}
                         },
@@ -269,7 +269,6 @@ module.exports.init = function (app) {
     };
 
     sys_sync_incoming_data.saveToRetailReceiptsPayments = function (incDataItems, incDataValues, OperationType, resultCallBack) {
-        //ID, RETAIL_RECEIPT_ID(incDataValues["RECEIPT"]), DOCSUM=incDataValues["TOTAL"], PAYMENT_FORM_CODE=incDataValues["PAYMENT"](cash->1)card->2
         fin_retail_receipts.getDataItem({
                 fields: ["ID"],
                 conditions: {"SOURCE_ID=": incDataValues["RECEIPT"], "UNIT_ID=": incDataItems["UNIT_ID"]}},
@@ -292,9 +291,8 @@ module.exports.init = function (app) {
                         });
                 }else if(OperationType == "U"){
                     fin_retail_payments.updDataItem({
-                            insData: { "DOCSUM": incDataValues["TOTAL"], "PAYMENT_FORM_CODE": paymentFomCode,
-                            conditions:{"RETAIL_RECEIPT_ID=": retailReceiptID}}
-                        },
+                            updData: { "DOCSUM": incDataValues["TOTAL"], "PAYMENT_FORM_CODE": paymentFomCode},
+                            conditions:{"RETAIL_RECEIPT_ID=": retailReceiptID}},
                         function (result) {
                             resultCallBack(result);
                         });
@@ -302,11 +300,9 @@ module.exports.init = function (app) {
             });
     };
 
-
-    sys_sync_incoming_data.updApplyState = function (saveToDestTableResult, resultCallBack) {
-
-        var updStateData = {"STATE": "1", "MSG": "Synchronized successfully", "APPLIED_DATE": new Date()};
-
+    sys_sync_incoming_data.updApplyState = function (saveToDestTableResult, resultCallBack) {   console.log("saveToDestTableResult=",saveToDestTableResult);
+        var updStateData = {"STATE": "1", "MSG": "Synchronized successfully", "APPLIED_DATE": new Date(), "LAST_UPDATE_DATE":new Date()};
+        if(saveToDestTableResult.error)updStateData= {"STATE": "-1", "MSG":saveToDestTableResult.error,"LAST_UPDATE_DATE":new Date()};
         sys_sync_incoming_data.updDataItem({updData: updStateData, conditions: {"ID=": saveToDestTableResult["ID"]}},
             function (updResult) {
                 var result = {};
@@ -315,61 +311,144 @@ module.exports.init = function (app) {
                 resultCallBack(result);
             });
     };
+    //CLIENT_TABLE_NAME  OPERATION_TYPE  ID CLIENT_TABLE_KEY1_VALUE  UNIT_ID
     /**
-     * syncIncData={ ID,CLIENT_TABLE_NAME, syncIncDataValues }
+     * syncIncData={ID, CREATE_DATE, SYNC_POS_ID, CLIENT_SYNC_DATA_OUT_ID,  CLIENT_CREATE_DATE, OPERATION_TYPE,
+     * CLIENT_TABLE_NAME, CLIENT_TABLE_KEY1_NAME, CLIENT_TABLE_KEY1_VALUE, STATE, MSG, UNIT_ID}
      */
-    sys_sync_incoming_data.applyDataItem = function (syncIncData, syncIncDataValues, resultCallBack) {
+    sys_sync_incoming_data.applyDataItem = function (syncIncData, resultCallBack) {
         var clientTableName = syncIncData["CLIENT_TABLE_NAME"],
             operationType = syncIncData["OPERATION_TYPE"];
         var thisInstance = this;
         if (clientTableName == "APP.RECEIPTS") {
-            this.saveToRetailReceipts(syncIncData, syncIncDataValues, operationType, function (result) {
-                result["ID"] = syncIncData["ID"];
-                if (result.resultItem) result["DEST_TABLE_DATA_ID"] = result.resultItem["ID"];
-                thisInstance.updApplyState(result,
-                    function (result) {
-                        resultCallBack(result);
+            sys_sync_incoming_data_details.getDataItems({
+                    fields: ["NAME", "VALUE"], conditions: {"SYNC_INCOMING_DATA_ID=": syncIncData["ID"]}},
+                function (result) {
+                    if (!result || result.error) {
+                        resultCallBack({error: "Failed get sync incoming data details! Reason: "+result.error});
+                        return;
+                    } else if (!result.items) {
+                        resultCallBack({error: "No sync incoming data details!"});
+                        return;
+                    }
+                    var syncIncDataValues = {};
+                    for (var i = 0; i < result.items.length; i++) {
+                        var dataItem = result.items[i];
+                        syncIncDataValues[dataItem["NAME"]] = dataItem["VALUE"];
+                    }
+                    thisInstance.saveToRetailReceipts(syncIncData, syncIncDataValues, operationType, function (result) {
+                        result["ID"] = syncIncData["ID"];
+                        if (result.resultItem) result["DEST_TABLE_DATA_ID"] = result.resultItem["ID"];
+                        thisInstance.updApplyState(result,
+                            function (result) {
+                                resultCallBack(result);
+                            })
                     })
-            })
+                });
         } else if (clientTableName == "APP.RECEIPTS_PURPOSES") {
-            this.saveToRetailReceiptsPurposes(syncIncData, syncIncDataValues, operationType, function (result) {
-                result["ID"] = syncIncData["ID"];
-                if (result.resultItem) result["DEST_TABLE_DATA_ID"] = result.resultItem["ID"];
-                thisInstance.updApplyState(result,
-                    function (result) {
-                        resultCallBack(result);
+            sys_sync_incoming_data_details.getDataItems({
+                    fields: ["NAME", "VALUE"], conditions: {"SYNC_INCOMING_DATA_ID=": syncIncData["ID"]}},
+                function (result) {
+                    if (!result || result.error) {
+                        resultCallBack({error: "Failed get sync incoming data details! Reason: " +result.error });
+                        return;
+                    } else if (!result.items) {
+                        resultCallBack({error: "No sync incoming data details!"});
+                        return;
+                    }
+                    var syncIncDataValues = {};
+                    for (var i = 0; i < result.items.length; i++) {
+                        var dataItem = result.items[i];
+                        syncIncDataValues[dataItem["NAME"]] = dataItem["VALUE"];
+                    }
+                    thisInstance.saveToRetailReceiptsPurposes(syncIncData, syncIncDataValues, operationType, function (result) {
+                        result["ID"] = syncIncData["ID"];
+                        if (result.resultItem) result["DEST_TABLE_DATA_ID"] = result.resultItem["ID"];
+                        thisInstance.updApplyState(result,
+                            function (result) {
+                                resultCallBack(result);
+                            })
                     })
-            })
+                });
         } else if (clientTableName == "APP.TICKETS") {
-            this.saveToRetailTickets(syncIncData, syncIncDataValues, operationType, function (result) {
-                result["ID"] = syncIncData["ID"];
-                if (result.resultItem) result["DEST_TABLE_DATA_ID"] = result.resultItem["ID"];
-                thisInstance.updApplyState(result,
-                    function (result) {
-                        resultCallBack(result);
+            sys_sync_incoming_data_details.getDataItems({
+                    fields: ["NAME", "VALUE"], conditions: {"SYNC_INCOMING_DATA_ID=": syncIncData["ID"]}},
+                function (result) {
+                    if (!result || result.error) {
+                        resultCallBack({error: "Failed get sync incoming data details! Reason: " +result.error });
+                        return;
+                    } else if (!result.items) {
+                        resultCallBack({error: "No sync incoming data details!"});
+                        return;
+                    }
+                    var syncIncDataValues = {};
+                    for (var i = 0; i < result.items.length; i++) {
+                        var dataItem = result.items[i];
+                        syncIncDataValues[dataItem["NAME"]] = dataItem["VALUE"];
+                    }
+                    thisInstance.saveToRetailTickets(syncIncData, syncIncDataValues, operationType, function (result) {
+                        result["ID"] = syncIncData["ID"];
+                        if (result.resultItem) result["DEST_TABLE_DATA_ID"] = result.resultItem["ID"];
+                        thisInstance.updApplyState(result,
+                            function (result) {
+                                resultCallBack(result);
+                            })
                     })
-            })
+                });
+
         } else if (clientTableName == "APP.TICKETLINES") {
-            this.saveToRetailTicketsProducts(syncIncData, syncIncDataValues, operationType, function (result) {
-                result["ID"] = syncIncData["ID"];
-                if (result.resultItem) result["DEST_TABLE_DATA_ID"] = result.resultItem["ID"];
-                thisInstance.updApplyState(result,
-                    function (result) {
-                        resultCallBack(result);
+            sys_sync_incoming_data_details.getDataItems({
+                    fields: ["NAME", "VALUE"], conditions: {"SYNC_INCOMING_DATA_ID=": syncIncData["ID"]}},
+                function (result) {
+                    if (!result || result.error) {
+                        resultCallBack({error: "Failed get sync incoming data details!! Reason: " +result.error});
+                        return;
+                    } else if (!result.items) {
+                        resultCallBack({error: "No sync incoming data details!"});
+                        return;
+                    }
+                    var syncIncDataValues = {};
+                    for (var i = 0; i < result.items.length; i++) {
+                        var dataItem = result.items[i];
+                        syncIncDataValues[dataItem["NAME"]] = dataItem["VALUE"];
+                    }
+                    thisInstance.saveToRetailTicketsProducts(syncIncData, syncIncDataValues, operationType, function (result) {
+                        result["ID"] = syncIncData["ID"];
+                        if (result.resultItem) result["DEST_TABLE_DATA_ID"] = result.resultItem["ID"];
+                        thisInstance.updApplyState(result,
+                            function (result) {
+                                resultCallBack(result);
+                            })
                     })
-            })
+                });
         } else if (clientTableName == "APP.PAYMENTS") {
-            this.saveToRetailReceiptsPayments(syncIncData, syncIncDataValues, operationType, function (result) {
-                result["ID"] = syncIncData["ID"];
-                if (result.resultItem) result["DEST_TABLE_DATA_ID"] = result.resultItem["ID"];
-                thisInstance.updApplyState(result,
-                    function (result) {
-                        resultCallBack(result);
-                    })
-            });
-        } else if (clientTableName == "APP.CLOSEDCASH") {
+            sys_sync_incoming_data_details.getDataItems({
+                    fields: ["NAME", "VALUE"], conditions: {"SYNC_INCOMING_DATA_ID=": syncIncData["ID"]}},
+                function (result) {
+                    if (!result || result.error) {
+                        resultCallBack ({error: "Failed get sync incoming data details!! Reason: " +result.error});
+                        return;
+                    } else if (!result.items) {
+                        resultCallBack({error: "No sync incoming data details!"});
+                        return;
+                    }
+                    var syncIncDataValues = {};
+                    for (var i = 0; i < result.items.length; i++) {
+                        var dataItem = result.items[i];
+                        syncIncDataValues[dataItem["NAME"]] = dataItem["VALUE"];
+                    }
+                    thisInstance.saveToRetailReceiptsPayments(syncIncData, syncIncDataValues, operationType, function (result) {
+                        result["ID"] = syncIncData["ID"];
+                        if (result.resultItem) result["DEST_TABLE_DATA_ID"] = result.resultItem["ID"];
+                        thisInstance.updApplyState(result,
+                            function (result) {
+                                resultCallBack(result);
+                            })
+                    });
+                });
+        } else if (clientTableName == "APP.CLOSEDCASH" || clientTableName =="APP.RECEIPT_PURPOSES") {
             var msg = "Failed! No model for this data!";
-            thisInstance.updApplyState({"ID": "", "STATE": 0, "MSG": msg}, function (result) {
+            thisInstance.updApplyState({"ID": syncIncData["ID"], "STATE": 0, "MSG": msg}, function (result) {
                 resultCallBack(result);
             })
         } else {
@@ -408,26 +487,10 @@ module.exports.init = function (app) {
                         res.send({error: "Not finded unit by SYNC_POS_NAME!"});
                         return;
                     }
-                    syncIncData["UNIT_ID"] = result.item["UNIT_ID"];
-                    sys_sync_incoming_data_details.getDataItems({
-                            fields: ["NAME", "VALUE"], conditions: {"SYNC_INCOMING_DATA_ID=": syncIncData["ID"]}},
+                    syncIncData["UNIT_ID"] = result.item["UNIT_ID"];             console.log("syncIncData for applyDataItem=",syncIncData);
+                    sys_sync_incoming_data.applyDataItem(syncIncData,
                         function (result) {
-                            if (!result || result.error) {
-                                res.send({error: "Failed get sync incoming data details!"});
-                                return;
-                            } else if (!result.items) {
-                                res.send({error: "No sync incoming data details!"});
-                                return;
-                            }
-                            var syncIncDataValues = {};
-                            for (var i = 0; i < result.items.length; i++) {
-                                var dataItem = result.items[i];
-                                syncIncDataValues[dataItem["NAME"]] = dataItem["VALUE"];
-                            }
-                            sys_sync_incoming_data.applyDataItem(syncIncData, syncIncDataValues/*{"ID":req.body["ID"],"CLIENT_TABLE_NAME":req.body["CLIENT_TABLE_NAME"]*/,
-                                function (result) {
-                                    res.send(result);
-                                });
+                            res.send(result);
                         });
                 });
         });
