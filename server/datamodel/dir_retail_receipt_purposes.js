@@ -17,8 +17,8 @@ var changeLog = [
         field:"FOR_CASHOUT"},
     { changeID:"dir_retail_receipt_purposes__6", changeDatetime:"2017-06-26 16:41:00", changeObj:"dir_retail_receipt_purposes",
         changeVal:"INSERT INTO dir_retail_receipt_purposes(ID,VALUE,FOR_CASHIN,FOR_CASHOUT) values(1,'Размен.монета',1,0)"},
-    { changeID:"dir_retail_receipt_purposes__7", changeDatetime:"2017-06-26 16:42:00", changeObj:"dir_retail_receipt_purposes",
-        changeVal:"INSERT INTO dir_retail_receipt_purposes(ID,VALUE,FOR_CASHIN,FOR_CASHOUT) values(2,'Для выдачи З/П',1,0)"},
+    //{ changeID:"dir_retail_receipt_purposes__7", changeDatetime:"2017-06-26 16:42:00", changeObj:"dir_retail_receipt_purposes",
+    //    changeVal:"INSERT INTO dir_retail_receipt_purposes(ID,VALUE,FOR_CASHIN,FOR_CASHOUT) values(2,'Для выдачи З/П',1,0)"},
     { changeID:"dir_retail_receipt_purposes__8", changeDatetime:"2017-06-26 16:43:00", changeObj:"dir_retail_receipt_purposes",
         changeVal:"INSERT INTO dir_retail_receipt_purposes(ID,VALUE,FOR_CASHIN,FOR_CASHOUT) values(-1,'Инкассация',0,1)"},
     { changeID:"dir_retail_receipt_purposes__9", changeDatetime:"2017-06-26 16:44:00", changeObj:"dir_retail_receipt_purposes",
@@ -38,8 +38,8 @@ var changeLog = [
     { changeID:"dir_retail_receipt_purposes_16", changeDatetime:"2017-06-26 16:51:00", changeObj:"dir_retail_receipt_purposes",
         changeVal:"INSERT INTO dir_retail_receipt_purposes(ID,VALUE,FOR_CASHIN,FOR_CASHOUT) values(-9,'День рожденья',0,1)"},
     { changeID:"dir_retail_receipt_purposes_17", changeDatetime:"2017-06-26 16:52:00", changeObj:"dir_retail_receipt_purposes",
-        changeVal:"INSERT INTO dir_retail_receipt_purposes(ID,VALUE,FOR_CASHIN,FOR_CASHOUT) values(-10,'Празничная премия',0,1)"},
-    { changeID:"dir_retail_receipt_purposes_18", changeDatetime:"2017-06-26 16:53:00", changeObj:"dir_retail_receipt_purposes",
-        changeVal:"INSERT INTO dir_retail_receipt_purposes(ID,VALUE,FOR_CASHIN,FOR_CASHOUT) values(-11,'Прочие расходы',0,1)"}
+        changeVal:"INSERT INTO dir_retail_receipt_purposes(ID,VALUE,FOR_CASHIN,FOR_CASHOUT) values(-10,'Празничная премия',0,1)"}
+    //{ changeID:"dir_retail_receipt_purposes_18", changeDatetime:"2017-06-26 16:53:00", changeObj:"dir_retail_receipt_purposes",
+    //    changeVal:"INSERT INTO dir_retail_receipt_purposes(ID,VALUE,FOR_CASHIN,FOR_CASHOUT) values(-11,'Прочие расходы',0,1)"}
 ];
 module.exports.changeLog=changeLog;
