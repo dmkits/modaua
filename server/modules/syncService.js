@@ -43,7 +43,7 @@ module.exports.init = function(app){
                 insertClientDataItemValues(ind+1,clientDataItemValuesArray, callback);
             });
     };
-    var insNewClientSyncOutData= function(clientSyncDataOut, clientSyncDataOutValues, resultCallback){    console.log("clientSyncDataOutValues 45=",clientSyncDataOutValues);            console.log("clientSyncDataOut 45=",clientSyncDataOut);
+    var insNewClientSyncOutData= function(clientSyncDataOut, clientSyncDataOutValues, resultCallback){
         sys_sync_incoming_data.insDataItemWithNewID({idFieldName:"ID",
                 insData:{"CREATE_DATE":new Date(),"SYNC_POS_ID":clientSyncDataOut["syncPOSID"], "CLIENT_SYNC_DATA_OUT_ID":clientSyncDataOut["ID"],
                     "CLIENT_CREATE_DATE":clientSyncDataOut["CRDATE"],"OPERATION_TYPE":clientSyncDataOut["OTYPE"],
@@ -51,7 +51,7 @@ module.exports.init = function(app){
                     "CLIENT_TABLE_KEY1_NAME":clientSyncDataOut["TABLEKEY1IDNAME"],"CLIENT_TABLE_KEY1_VALUE":clientSyncDataOut["TABLEKEY1IDVAL"],
                     "STATE":"0","MSG":"client sync data out stored"}
             },
-            function(result){           console.log("insNewClientSyncOutData result 53=",result);
+            function(result){
                 if(result.error){
                     if(resultCallback) resultCallback({error:"Failed insert client data in server sync incoming data! Reason:"+result.error.message});
                     return;
@@ -76,7 +76,7 @@ module.exports.init = function(app){
                 "CLIENT_TABLE_KEY1_NAME":clientSyncDataOut["TABLEKEY1IDNAME"],"CLIENT_TABLE_KEY1_VALUE":clientSyncDataOut["TABLEKEY1IDVAL"],
                 "STATE":syncDataIncState,"MSG":syncDataIncMsg},
                 conditions:{"ID=":sysSyncDataIncID} },
-            function(result){                                                        console.log("result 77=",result);
+            function(result){
                 if(result.error){
                     if(resultCallback) resultCallback({error:"Failed insert client data in server sync incoming data! Reason:"+result.error.message});
                     return;
@@ -139,7 +139,7 @@ module.exports.init = function(app){
         var reqData= req.body,
             sPOSName= (reqData)?reqData["POS_Name"]:null,
             sPOSHostName= (reqData)?reqData["POS_HOST_Name"]:null,
-            syncServiceClientRequestType= (reqData)?reqData["syncServiceClientRequestType"]:null;                        console.log("reqData=",reqData);
+            syncServiceClientRequestType= (reqData)?reqData["syncServiceClientRequestType"]:null;
         var errorMsg;
         if(!clientHeader||clientHeader!="derbySyncClient_1.7") errorMsg="Header sync-service-client non correct!";
         else if(!req.body) errorMsg="No request data!";
@@ -194,7 +194,7 @@ module.exports.init = function(app){
                             fields:["ID","OPERATION_TYPE","CLIENT_TABLE_NAME","CLIENT_TABLE_KEY1_VALUE","STATE",
                                 "MSG","APPLIED_DATE"],
                             conditions:{"CLIENT_SYNC_DATA_OUT_ID=":reqData.SyncDataOut["ID"]}},
-                        function(syncIncDataRes){      console.log("syncIncDataRes 196=",syncIncDataRes);
+                        function(syncIncDataRes){
                             if(syncIncDataRes.error){
                                 res.send({error:syncIncDataRes.error});
                                 return;
@@ -204,9 +204,9 @@ module.exports.init = function(app){
                                     "APPLIED_DATE":syncIncDataRes.item["APPLIED_DATE"]}});
                                 return;
                             }
-                            syncIncDataRes.item["UNIT_ID"]=result.item["UNIT_ID"];                              console.log("SyncIncDataRes 194=",syncIncDataRes);
+                            syncIncDataRes.item["UNIT_ID"]=result.item["UNIT_ID"];
                             sys_sync_incoming_data.applyDataItem(syncIncDataRes.item,
-                                function(syncAppliedDataRes){             console.log("syncAppliedDataRes 203=",syncAppliedDataRes);
+                                function(syncAppliedDataRes){
                                     if(syncAppliedDataRes.updStateError){
                                         res.send({error:syncAppliedDataRes.error});
                                         return;

@@ -15,7 +15,8 @@ var sys_currency = require(appDataModelPath + "sys_currency"),
     wrh_retail_tickets = require(appDataModelPath + "wrh_retail_tickets"),
     wrh_retail_tickets_products = require(appDataModelPath + "wrh_retail_tickets_products"),
     fin_retail_receipts_purposes = require(appDataModelPath + "fin_retail_receipts_purposes"),
-    fin_retail_payments = require(appDataModelPath + "fin_retail_payments");
+    fin_retail_payments = require(appDataModelPath + "fin_retail_payments"),
+    dir_retail_receipt_purposes = require(appDataModelPath + "dir_retail_receipt_purposes");
 
 module.exports.validateModule = function (errs, nextValidateModuleCallback) {
     dataModel.initValidateDataModels([sys_sync_POSes, sys_sync_errors_log,
@@ -23,7 +24,7 @@ module.exports.validateModule = function (errs, nextValidateModuleCallback) {
             sys_sync_output_data, sys_sync_output_data_details,
             dir_units, sys_currency, sys_docstates,
             fin_retail_receipts, wrh_retail_tickets, wrh_retail_tickets_products,
-            fin_retail_receipts_purposes,], errs,
+            fin_retail_receipts_purposes,dir_retail_receipt_purposes], errs,
         function () {
             nextValidateModuleCallback();
         });
@@ -300,7 +301,23 @@ module.exports.init = function (app) {
             });
     };
 
-    sys_sync_incoming_data.updApplyState = function (saveToDestTableResult, resultCallBack) {   console.log("saveToDestTableResult=",saveToDestTableResult);
+    sys_sync_incoming_data.saveToDirReceiptPurposes = function (incDataItems, incDataValues, OperationType, resultCallBack) {
+                if (OperationType == "I") {
+                    dir_retail_receipt_purposes.insDataItem({insData: {"ID": incDataValues["ID"], "VALUE": incDataValues["VALUE"], "FOR_CASHIN": incDataValues["FOR_CASHIN"], "FOR_CASHOUT":incDataValues["FOR_CASHOUT"]}},
+                        function (result) {
+                            resultCallBack(result);
+                        });
+                } else if (OperationType == "U") {
+                    fin_retail_payments.updDataItem({updData: {"VALUE": incDataValues["VALUE"], "FOR_CASHIN": incDataValues["FOR_CASHIN"], "FOR_CASHOUT":incDataValues["FOR_CASHOUT"]},
+                            conditions:{"ID=": incDataValues["ID"]}},
+                        function (result) {
+                            resultCallBack(result);
+                        });
+                }
+    };
+
+
+    sys_sync_incoming_data.updApplyState = function (saveToDestTableResult, resultCallBack) {
         var updStateData = {"STATE": "1", "MSG": "Synchronized successfully", "APPLIED_DATE": new Date(), "LAST_UPDATE_DATE":new Date()};
         if(saveToDestTableResult.error)updStateData= {"STATE": "-1", "MSG":saveToDestTableResult.error,"LAST_UPDATE_DATE":new Date()};
         sys_sync_incoming_data.updDataItem({updData: updStateData, conditions: {"ID=": saveToDestTableResult["ID"]}},
@@ -311,7 +328,6 @@ module.exports.init = function (app) {
                 resultCallBack(result);
             });
     };
-    //CLIENT_TABLE_NAME  OPERATION_TYPE  ID CLIENT_TABLE_KEY1_VALUE  UNIT_ID
     /**
      * syncIncData={ID, CREATE_DATE, SYNC_POS_ID, CLIENT_SYNC_DATA_OUT_ID,  CLIENT_CREATE_DATE, OPERATION_TYPE,
      * CLIENT_TABLE_NAME, CLIENT_TABLE_KEY1_NAME, CLIENT_TABLE_KEY1_VALUE, STATE, MSG, UNIT_ID}
@@ -446,7 +462,32 @@ module.exports.init = function (app) {
                             })
                     });
                 });
-        } else if (clientTableName == "APP.CLOSEDCASH" || clientTableName =="APP.RECEIPT_PURPOSES") {
+        } else if (clientTableName == "APP.RECEIPT_PURPOSES") {
+            sys_sync_incoming_data_details.getDataItems({
+                    fields: ["NAME", "VALUE"], conditions: {"SYNC_INCOMING_DATA_ID=": syncIncData["ID"]}},
+                function (result) {
+                    if (!result || result.error) {
+                        resultCallBack ({error: "Failed get sync incoming data details!! Reason: " +result.error});
+                        return;
+                    } else if (!result.items) {
+                        resultCallBack({error: "No sync incoming data details!"});
+                        return;
+                    }
+                    var syncIncDataValues = {};
+                    for (var i = 0; i < result.items.length; i++) {
+                        var dataItem = result.items[i];
+                        syncIncDataValues[dataItem["NAME"]] = dataItem["VALUE"];
+                    }
+                    thisInstance.saveToDirReceiptPurposes(syncIncData, syncIncDataValues, operationType, function (result) {
+                        result["ID"] = syncIncData["ID"];
+                        if (result.resultItem) result["DEST_TABLE_DATA_ID"] = result.resultItem["ID"];
+                        thisInstance.updApplyState(result,
+                            function (result) {
+                                resultCallBack(result);
+                            })
+                    });
+                });
+        } else if (clientTableName == "APP.CLOSEDCASH" ) {
             var msg = "Failed! No model for this data!";
             thisInstance.updApplyState({"ID": syncIncData["ID"], "STATE": 0, "MSG": msg}, function (result) {
                 resultCallBack(result);
@@ -456,7 +497,7 @@ module.exports.init = function (app) {
         }
     };
 
-    function getRowSyncSysIncData(clientTableKeyValue, callback){                                           // if error !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    function getRowSyncSysIncData(clientTableKeyValue, callback){
         sys_sync_incoming_data.getDataItem({
                 fields: ["ID","CREATE_DATE","SYNC_POS_ID","CLIENT_SYNC_DATA_OUT_ID","CLIENT_CREATE_DATE","OPERATION_TYPE",
                 "CLIENT_TABLE_NAME","CLIENT_TABLE_KEY1_NAME","CLIENT_TABLE_KEY1_VALUE","STATE","MSG"],
@@ -471,7 +512,6 @@ module.exports.init = function (app) {
     }
 
     app.post("/system/synchronization/applySyncIncomingData", function (req, res) {
-        //LAST_UPDATE_DATE--!!!!!!!!!!!!
         var clientTableKeyValue=req.body["CLIENT_SYNC_DATA_OUT_ID"];
         getRowSyncSysIncData(clientTableKeyValue, function(syncIncData){
             if(syncIncData["STATE"]=="1"){
@@ -487,7 +527,7 @@ module.exports.init = function (app) {
                         res.send({error: "Not finded unit by SYNC_POS_NAME!"});
                         return;
                     }
-                    syncIncData["UNIT_ID"] = result.item["UNIT_ID"];             console.log("syncIncData for applyDataItem=",syncIncData);
+                    syncIncData["UNIT_ID"] = result.item["UNIT_ID"];
                     sys_sync_incoming_data.applyDataItem(syncIncData,
                         function (result) {
                             res.send(result);
