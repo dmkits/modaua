@@ -1,6 +1,8 @@
 var dataModel=require('../datamodel'), dateFormat = require('dateformat');
 var wrh_orders_bata= require(appDataModelPath+"wrh_orders_bata"),
     wrh_orders_bata_details= require(appDataModelPath+"wrh_orders_bata_details");
+var path=require('path'), XLSX=require('xlsx'),fs=require('fs');
+var multer  = require('multer'), upload = multer({ dest: 'uploads/' });
 var dir_units= require(appDataModelPath+"dir_units"),
     dir_contractors= require(appDataModelPath+"dir_contractors"),
     sys_currency= require(appDataModelPath+"sys_currency"),
@@ -130,7 +132,6 @@ module.exports.init = function(app){
                 res.send(result);
             });
     });
-
     var wrhOrderBataDetailsTableColumns=[
         {data: "ID", name: "ID", width: 50, type: "text", readOnly:true, visible:false},
         {data: "ORDER_BATA_ID", name: "ORDER_BATA_ID", width: 50, type: "text", readOnly:true, visible:false},
@@ -226,5 +227,29 @@ module.exports.init = function(app){
         wrh_orders_bata_details.delTableDataItem({idFieldName:"ID", delTableData:delData}, function(result){
             res.send(result);
         });
+    });
+
+    app.post("/wrh/ordersBata/importOrderFromFile", upload.single('newOrder'), function(req, res){  console.log("req=",req);
+        //var delData=req.body;
+        console.log("newOrder===",req.file.path);
+
+       //XLSX.utils.sheet_to_json();
+       // XLSX.utils.sheet_to_json(req.file.path);
+        //path.join(tempExcelRepDir, uniqueFileName + '.xlsx');
+
+        var fname = path.join(__dirname, "../../"+req.file.path);
+
+        var wb;
+        try {
+            wb = XLSX.readFileSync(fname);                                           console.log("wb=",wb);
+        }catch(e){                                                                  log.error("Impossible to create workbook! Reason:",e);
+            res.sendStatus(500);
+            return;
+        }
+
+        res.end();
+        //wrh_orders_bata_details.delTableDataItem({idFieldName:"ID", delTableData:delData}, function(result){
+        //    res.send(result);
+        //});
     });
 };

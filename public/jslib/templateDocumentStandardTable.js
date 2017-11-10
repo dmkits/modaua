@@ -3,9 +3,9 @@
  */
 define(["dojo/_base/declare", "dijit/layout/BorderContainer", "dijit/layout/ContentPane",
         "dijit/form/DateTextBox", "dijit/form/TextBox", "dijit/form/NumberTextBox", "dijit/form/Select", "dojox/layout/ContentPane",
-        "app", "templateDocumentBase", "contentController", "hTableEditable", "dialogs"],
+        "app", "templateDocumentBase", "contentController", "hTableEditable", "dialogs","dojox/form/Uploader",'dojox/form/uploader/plugins/Flash'],
     function(declare, BorderContainer, ContentPane, DateTextBox, TextBox, NumberTextBox, Select, XContentPane,
-             APP, DocumentBase, ContentController, HTable, Dialogs) {
+             APP, DocumentBase, ContentController, HTable, Dialogs, Uploader) {
         return declare("TemplateDocumentStandardTable", [BorderContainer, DocumentBase], {
             /*
              * args: {titleText, dataURL, condition:{...}, buttonUpdate, buttonPrint, printFormats={ ... } }
@@ -669,6 +669,31 @@ define(["dojo/_base/declare", "dijit/layout/BorderContainer", "dijit/layout/Cont
                 }
                 return this;
             },
+
+            addToolPaneFileUploader: function(label, url, name, btnStyle, btnParams, actionFunction){
+                if (!this.toolPanes||this.toolPanes.length==0) this.addToolPane("");
+
+                var actionsTableRow= this.addRowToTable(this.toolPanes[this.toolPanes.length-1].containerNode.lastChild);
+               //tableRowNode, params.cellWidth, params.cellStyle
+                var tableCell = this.addLeftCellToTableRow(actionsTableRow);
+                var uploadBtn=  new Uploader({label:label, url:url, enctype:"multipart/form-data",type:"file",uploadOnSelect:true, name:name});
+                uploadBtn.startup();
+                if(btnStyle) uploadBtn.set("style", btnStyle);
+
+                tableCell.appendChild(uploadBtn.domNode);
+                //var actionButton= this.addTableCellButtonTo(actionsTableRow, {labelText:label, cellWidth:0, btnStyle:btnStyle, btnParameters:btnParams});
+                //if (!this.toolPanesActionButtons) this.toolPanesActionButtons={};
+                //this.toolPanesActionButtons[actionParams.action]= actionButton;
+                //if(actionFunction) {
+                //    actionButton.onClick=actionFunction;
+                //    actionButton.detailTable= this.detailTable;
+                //} else {
+                //    actionButton.onClick= this.getOnClickAction(actionParams);
+                //    actionButton.setState= this.getSetStateAction(actionParams.action);
+                //}
+                return this;
+            },
+
             /*
              * action: loadHeaderNewValues
              */

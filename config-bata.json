@@ -104,7 +104,7 @@
   "usersRoleAutorun":{
     "sysAdmin":["menuBarItemMainPage"],
     "sysAdminDev":["menuBarItemMainPage","menuBarDirsItemUnits","menuBarDirsItemProducts","menuBarWrhOrdersBata", "menuBarWrhPInvoices", "menuBarReportsRetailSales","menuBarWrhProdsBalance"],
-    "sysAdminDev2":["menuBarItemMainPage","menuBarDirsItemUnits","menuBarWrhSalesInvoices","menuBarWrhProdsBalance"],
+    "sysAdminDev2":["menuBarItemMainPage","menuBarDirsItemUnits","menuBarWrhSalesInvoices","menuBarWrhOrdersBata"],
     "user":["menuBarItemMainPage"],
     "cashier":["menuBarItemSalesCashierReports"]
   }

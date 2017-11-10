@@ -64,8 +64,11 @@
                         .addToolPaneActionButton("Изменить строку", {action:"allowEditDetailTableSelectedRow"}, "width:145px;")
                         .addToolPaneActionButton("Сохранить строку", {action:"storeDetailTableSelectedRow"}, "width:145px;")
                         .addToolPaneActionButton("Удалить строку", {action:"deleteDetailTableSelectedRow"}, "width:145px;")
-                        //.addToolPane("Импорт")
-                        //.addToolPaneActionButton("Импортировать из Excel", {}, "width:145px;")
+                        .addToolPane("Импорт")
+//                        .addToolPaneActionButton("Импортировать из Excel", {}, "width:145px;",{/*btnParams*/}, function(){
+//
+//                        })
+                        .addToolPaneFileUploader("Импортировать из Excel", "/wrh/ordersBata/importOrderFromFile","newOrder", "width:145px;")
                         .addDetailTableMenuItemAction("Добавить строки",{action:"insertDetailTableRowsAfterSelected",rowPosName:"POS"})//rowPosIndexName:"POSIND"
                         .addDetailTableMenuItemAction("Изменить строки",{action:"allowEditDetailTableSelectedRows"})
                         .addDetailTableMenuItemAction("Сохранить строки",{action:"storeDetailTableSelectedRows"})
