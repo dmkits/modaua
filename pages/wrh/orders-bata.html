@@ -65,18 +65,23 @@
                         .addToolPaneActionButton("Сохранить строку", {action:"storeDetailTableSelectedRow"}, "width:145px;")
                         .addToolPaneActionButton("Удалить строку", {action:"deleteDetailTableSelectedRow"}, "width:145px;")
                         .addToolPane("Импорт")
-//                        .addToolPaneActionButton("Импортировать из Excel", {}, "width:145px;",{/*btnParams*/}, function(){
-//
-//                        })
-                        .addToolPaneFileUploader("Импортировать из Excel", "/wrh/ordersBata/importOrderFromFile","newOrder", "width:145px;")
+
+                        .addToolPaneFileUploader({label:"Импортировать из Excel", url:"/wrh/ordersBata/importOrderFromFile",
+                              name:"newOrder", btnStyle:"width:145px;"}, function(result, thisInstance){
+                            console.log("result=",result);
+                            var items=result.items;
+                            for (var i = 0; i < items.length; i++) {
+                                var item = items[i];
+                                thisInstance.detailTable.insertRowAfterSelected(item);
+                            }
+
+                        })
                         .addDetailTableMenuItemAction("Добавить строки",{action:"insertDetailTableRowsAfterSelected",rowPosName:"POS"})//rowPosIndexName:"POSIND"
                         .addDetailTableMenuItemAction("Изменить строки",{action:"allowEditDetailTableSelectedRows"})
                         .addDetailTableMenuItemAction("Сохранить строки",{action:"storeDetailTableSelectedRows"})
                         .addDetailTableRowChangeCallback(function(crd/*changedRowData*/, detailTable, thisInstance, nextCallback){ //console.log("ORB detailTableRowChangeCallback QTY PRICE POSSUM",crd);
                             if (crd.item("QTY").isUNDEFNULL()) crd.item("QTY").setValue(1);
                             if (crd.item("RETAIL_PRICE").isUNDEFNULL()) crd.item("RETAIL_PRICE").setValue(0);
-                            if (crd.item("PRICE").isUNDEFNULL()) crd.item("PRICE").setValue(0);
-                            if (crd.item("POSSUM").isUNDEFNULL()) crd.item("POSSUM").setValue(0);
                             if (crd.item("POSSUM").isChanged()&&!crd.item("POSSUM").isUNDEFNULL()){                                //console.log("ORB detailTableRowChangeCallback POSSUM changed",crd);
                                 if (crd.item("QTY").isEMPTY()&&!crd.item("PRICE").isEMPTYZERO())
                                     crd.item("QTY").setValue( crd.item("POSSUM").getValue()/crd.item("PRICE").getValue() );
@@ -89,6 +94,8 @@
                                 if (crd.item("QTY").isEMPTYZERO()) crd.item("PRICE").setValue(0);
                                 else crd.item("PRICE").setValue( crd.item("POSSUM").getValue()/crd.item("QTY").getValue() )
                             }
+                            if (crd.item("PRICE").isUNDEFNULL()) crd.item("PRICE").setValue(0);
+                            if (crd.item("POSSUM").isUNDEFNULL()) crd.item("POSSUM").setValue(0);
                             nextCallback();
                         })
                         .addDetailTableRowChangeCallback(function(crd/*changedRowData*/, detailTable, thisInstance, nextCallback){

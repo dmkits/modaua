@@ -2,7 +2,8 @@ module.exports.id=module.id;
 var changeLog=[
     { changeID: "wrh_orders_bata__1", changeDatetime: "2016-09-04 19:31:00", changeObj: "wrh_orders_bata",
       changeVal: "CREATE TABLE wrh_orders_bata(ID BIGINT UNSIGNED NOT NULL PRIMARY KEY) CHARACTER SET utf8",
-        tableName:"wrh_orders_bata", field:"ID", id:"ID" },
+        tableName:"wrh_orders_bata",
+        field:"ID", id:"ID" },
     { changeID: "wrh_orders_bata__2", changeDatetime: "2016-09-04 19:32:00", changeObj: "wrh_orders_bata",
       changeVal: "ALTER TABLE wrh_orders_bata ADD COLUMN NUMBER INTEGER UNSIGNED NOT NULL",
         field:"NUMBER" },

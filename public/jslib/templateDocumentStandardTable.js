@@ -669,28 +669,25 @@ define(["dojo/_base/declare", "dijit/layout/BorderContainer", "dijit/layout/Cont
                 }
                 return this;
             },
+            /**
+             *
 
-            addToolPaneFileUploader: function(label, url, name, btnStyle, btnParams, actionFunction){
+             * @params={label, url, name, btnStyle }
+             * @callback(serverResponse, thisInstance)
+             */
+
+            addToolPaneFileUploader: function(params, callback){
                 if (!this.toolPanes||this.toolPanes.length==0) this.addToolPane("");
-
                 var actionsTableRow= this.addRowToTable(this.toolPanes[this.toolPanes.length-1].containerNode.lastChild);
-               //tableRowNode, params.cellWidth, params.cellStyle
                 var tableCell = this.addLeftCellToTableRow(actionsTableRow);
-                var uploadBtn=  new Uploader({label:label, url:url, enctype:"multipart/form-data",type:"file",uploadOnSelect:true, name:name});
+                var uploadBtn=  new Uploader({label:params.label, url:params.url, enctype:"multipart/form-data",type:"file",uploadOnSelect:true, name:params.name});
                 uploadBtn.startup();
-                if(btnStyle) uploadBtn.set("style", btnStyle);
-
+                if(params.btnStyle) uploadBtn.set("style", params.btnStyle);
+                var thisInstance=this;
+                uploadBtn.onComplete=function(result){
+                    callback(result, thisInstance);
+                };
                 tableCell.appendChild(uploadBtn.domNode);
-                //var actionButton= this.addTableCellButtonTo(actionsTableRow, {labelText:label, cellWidth:0, btnStyle:btnStyle, btnParameters:btnParams});
-                //if (!this.toolPanesActionButtons) this.toolPanesActionButtons={};
-                //this.toolPanesActionButtons[actionParams.action]= actionButton;
-                //if(actionFunction) {
-                //    actionButton.onClick=actionFunction;
-                //    actionButton.detailTable= this.detailTable;
-                //} else {
-                //    actionButton.onClick= this.getOnClickAction(actionParams);
-                //    actionButton.setState= this.getSetStateAction(actionParams.action);
-                //}
                 return this;
             },
 

@@ -229,27 +229,77 @@ module.exports.init = function(app){
         });
     });
 
-    app.post("/wrh/ordersBata/importOrderFromFile", upload.single('newOrder'), function(req, res){  console.log("req=",req);
-        //var delData=req.body;
-        console.log("newOrder===",req.file.path);
-
-       //XLSX.utils.sheet_to_json();
-       // XLSX.utils.sheet_to_json(req.file.path);
-        //path.join(tempExcelRepDir, uniqueFileName + '.xlsx');
-
+    app.post("/wrh/ordersBata/importOrderFromFile", upload.single('newOrder'), function(req, res){
+        var outData={};
+        outData.columns=wrhOrderBataDetailsTableColumns;
         var fname = path.join(__dirname, "../../"+req.file.path);
-
         var wb;
         try {
-            wb = XLSX.readFileSync(fname);                                           console.log("wb=",wb);
+            wb = XLSX.readFileSync(fname);
         }catch(e){                                                                  log.error("Impossible to create workbook! Reason:",e);
             res.sendStatus(500);
             return;
         }
+            var sheet=wb["Sheets"]["Dati"];
+       // POS,PRODUCT_GENDER_CODE,PRODUCT_CATEGORY_CODE,PRODUCT_SUBCATEGORY_CODE,PRODUCT_ARTICLE,QTY,RETAIL_PRICE,PRICE
+       var posColNum, prodGenderCodeColNum, prodCatCodeColNum,prodSubCatCodeColNum,prodArticleColNum,qtyColNum,
+           retailPriceColNum, priceColNum;
 
-        res.end();
-        //wrh_orders_bata_details.delTableDataItem({idFieldName:"ID", delTableData:delData}, function(result){
-        //    res.send(result);
-        //});
+        var range=XLSX.utils.decode_range(sheet['!ref']);
+        for(var HC=0; HC < range.e.c; HC++){
+            var header_address = {c:HC, r:0};  console.log("header_address=",header_address);
+            var header_ref = XLSX.utils.encode_cell(header_address);
+                var headerObj=sheet[header_ref];
+            console.log("headerObj=",headerObj);
+            if(!headerObj || !headerObj.v) continue;
+            else if(headerObj.v.trim()=="Line") posColNum=header_address.c;
+            else if(headerObj.v.trim()=="Gender") prodGenderCodeColNum=header_address.c;
+            else if(headerObj.v.trim()=="Cat.") prodCatCodeColNum=header_address.c;
+            else if(headerObj.v.trim()=="Sub.") prodSubCatCodeColNum=header_address.c;
+            else if(headerObj.v.trim()=="Item No.") prodArticleColNum=header_address.c;
+            else if(headerObj.v.trim()=="Q.ty") qtyColNum = header_address.c;
+            else if(headerObj.v.trim()=="Gross Price by unit") retailPriceColNum=header_address.c;
+            else if(headerObj.v.trim()=="Net Price by unit") priceColNum=header_address.c;
+        }
+        outData.items=[];
+        for(var R = 1; R <= range.e.r; R++) {
+            var tableDataItem={};
+            //POS,PRODUCT_GENDER_CODE,PRODUCT_CATEGORY_CODE,PRODUCT_SUBCATEGORY_CODE,PRODUCT_ARTICLE,QTY,RETAIL_PRICE,PRICE
+            var posCellRef = XLSX.utils.encode_cell({c:posColNum, r:R});
+            var posCellObj = sheet[posCellRef];
+            if(!posCellObj || !posCellObj.v) break;
+            tableDataItem["POS"]=posCellObj.v;
+            var prodGenderCodeCellRef = XLSX.utils.encode_cell({c:prodGenderCodeColNum, r:R});
+            var prodGenderCodeCellObj = sheet[prodGenderCodeCellRef];
+            if(!prodGenderCodeCellObj || !prodGenderCodeCellObj.v) break;
+            tableDataItem["PRODUCT_GENDER_CODE"]= prodGenderCodeCellObj.v.trim();
+            var prodCategoryCodeCellRef = XLSX.utils.encode_cell({c:prodCatCodeColNum, r:R});
+            var prodCategoryCodeCellObj = sheet[prodCategoryCodeCellRef];
+            if(!prodCategoryCodeCellObj || !prodCategoryCodeCellObj.v) break;
+            tableDataItem["PRODUCT_CATEGORY_CODE"] = parseInt(prodCategoryCodeCellObj.v.trim());
+            var prodSubCatCodeCellRef = XLSX.utils.encode_cell({c:prodSubCatCodeColNum, r:R});
+            var prodSubCatCodeCodeCellObj = sheet[prodSubCatCodeCellRef];
+            if(!prodSubCatCodeCodeCellObj || !prodSubCatCodeCodeCellObj.v.trim()) break;
+            tableDataItem["PRODUCT_SUBCATEGORY_CODE"] = parseInt(prodSubCatCodeCodeCellObj.v.trim());
+            var prodArticleCellRef = XLSX.utils.encode_cell({c:prodArticleColNum, r:R});
+            var prodArticleCellObj = sheet[prodArticleCellRef];
+            if(!prodArticleCellObj || !prodArticleCellObj.v) break;
+            tableDataItem["PRODUCT_ARTICLE"] = prodArticleCellObj.v.trim();
+            var qtyCellRef = XLSX.utils.encode_cell({c:qtyColNum, r:R});
+            var qtyCellObj = sheet[qtyCellRef];
+            if(!qtyCellObj || !qtyCellObj.v) break;
+            tableDataItem["QTY"] = qtyCellObj.v;
+            var retailPriceCellRef = XLSX.utils.encode_cell({c:retailPriceColNum, r:R});
+            var retailPriceCellObj = sheet[retailPriceCellRef];
+            if(!retailPriceCellObj || !retailPriceCellObj.v) break;
+            tableDataItem["RETAIL_PRICE"] = retailPriceCellObj.v;
+            var priceCellRef = XLSX.utils.encode_cell({c:priceColNum, r:R});
+            var priceCellObj = sheet[priceCellRef];
+            if(!priceCellObj || !priceCellObj.v) break;
+            tableDataItem["PRICE"] =  priceCellObj.v;
+            outData.items.push(tableDataItem);
+        }
+        res.send(outData);
     });
+
 };
