@@ -3,7 +3,7 @@
  */
 define(["dojo/_base/declare", "dijit/layout/BorderContainer", "dijit/layout/ContentPane",
         "dijit/form/DateTextBox", "dijit/form/TextBox", "dijit/form/NumberTextBox", "dijit/form/Select", "dojox/layout/ContentPane",
-        "app", "templateDocumentBase", "contentController", "hTableEditable", "dialogs","dojox/form/Uploader",'dojox/form/uploader/plugins/Flash'],
+        "app", "templateDocumentBase", "contentController", "hTableEditable", "dialogs","dojox/form/Uploader"],
     function(declare, BorderContainer, ContentPane, DateTextBox, TextBox, NumberTextBox, Select, XContentPane,
              APP, DocumentBase, ContentController, HTable, Dialogs, Uploader) {
         return declare("TemplateDocumentStandardTable", [BorderContainer, DocumentBase], {
@@ -676,21 +676,33 @@ define(["dojo/_base/declare", "dijit/layout/BorderContainer", "dijit/layout/Cont
              * @callback(serverResponse, thisInstance)
              */
 
-            addToolPaneFileUploader: function(params, callback){
-                if (!this.toolPanes||this.toolPanes.length==0) this.addToolPane("");
-                var actionsTableRow= this.addRowToTable(this.toolPanes[this.toolPanes.length-1].containerNode.lastChild);
+            addToolPaneFileUploader: function(params, callback) {
+                if (!this.toolPanes || this.toolPanes.length == 0) this.addToolPane("");
+                var actionsTableRow = this.addRowToTable(this.toolPanes[this.toolPanes.length - 1].containerNode.lastChild);
                 var tableCell = this.addLeftCellToTableRow(actionsTableRow);
-                var uploadBtn=  new Uploader({label:params.label, url:params.url, enctype:"multipart/form-data",type:"file",uploadOnSelect:true, name:params.name});
-                uploadBtn.startup();
-                if(params.btnStyle) uploadBtn.set("style", params.btnStyle);
-                var thisInstance=this;
-                uploadBtn.onComplete=function(result){
-                    callback(result, thisInstance);
-                };
-                tableCell.appendChild(uploadBtn.domNode);
+                if (!this.uploadBtn){
+                    this.uploadBtn = new Uploader({
+                        label: params.label, url: params.url, enctype: "multipart/form-data",
+                        type: "file", uploadOnSelect: true, name: params.name, multiple: false
+                    });
+                    this.uploadBtn.startup();
+                   // this.uploadBtn.domNode.firstChild.setAttribute("accept",".xlsx");
+                    if (params.btnStyle) this.uploadBtn.set("style", params.btnStyle);
+                    var thisInstance = this;
+                    this.uploadBtn.onCancel = function () {
+                         console.log("uploadBtn.onCancel");
+                    };
+                    this.uploadBtn.onBegin = function () {
+                        console.log("uploadBtn.onBegin");
+                    };
+                    this.uploadBtn.onComplete = function (result) {
+                      callback(result, thisInstance);
+                     this.reset();
+                    };
+                tableCell.appendChild(this.uploadBtn.domNode);
+               }
                 return this;
             },
-
             /*
              * action: loadHeaderNewValues
              */

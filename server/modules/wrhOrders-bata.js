@@ -240,17 +240,19 @@ module.exports.init = function(app){
             res.sendStatus(500);
             return;
         }
-            var sheet=wb["Sheets"]["Dati"];
-       // POS,PRODUCT_GENDER_CODE,PRODUCT_CATEGORY_CODE,PRODUCT_SUBCATEGORY_CODE,PRODUCT_ARTICLE,QTY,RETAIL_PRICE,PRICE
+        var sheet=wb["Sheets"]["Dati"];
+        if(sheet==undefined){
+            outData.error="Failed to get 'Dati' sheet in file";
+            res.send(outData);
+            return;
+        }
        var posColNum, prodGenderCodeColNum, prodCatCodeColNum,prodSubCatCodeColNum,prodArticleColNum,qtyColNum,
            retailPriceColNum, priceColNum;
-
         var range=XLSX.utils.decode_range(sheet['!ref']);
         for(var HC=0; HC < range.e.c; HC++){
-            var header_address = {c:HC, r:0};  console.log("header_address=",header_address);
+            var header_address = {c:HC, r:0};
             var header_ref = XLSX.utils.encode_cell(header_address);
                 var headerObj=sheet[header_ref];
-            console.log("headerObj=",headerObj);
             if(!headerObj || !headerObj.v) continue;
             else if(headerObj.v.trim()=="Line") posColNum=header_address.c;
             else if(headerObj.v.trim()=="Gender") prodGenderCodeColNum=header_address.c;
@@ -264,7 +266,6 @@ module.exports.init = function(app){
         outData.items=[];
         for(var R = 1; R <= range.e.r; R++) {
             var tableDataItem={};
-            //POS,PRODUCT_GENDER_CODE,PRODUCT_CATEGORY_CODE,PRODUCT_SUBCATEGORY_CODE,PRODUCT_ARTICLE,QTY,RETAIL_PRICE,PRICE
             var posCellRef = XLSX.utils.encode_cell({c:posColNum, r:R});
             var posCellObj = sheet[posCellRef];
             if(!posCellObj || !posCellObj.v) break;

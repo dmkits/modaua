@@ -1,3 +1,6 @@
+<?php
+    ....code....
+?>
 <body>
 <div id="wrh_order_bata_PageContainer" style="width:100%;height:100%;">
     <div id="wrh_order_bata_LeftContainer" style="width:310px;height:100%; margin:0;padding:0;"></div>
@@ -65,16 +68,22 @@
                         .addToolPaneActionButton("Сохранить строку", {action:"storeDetailTableSelectedRow"}, "width:145px;")
                         .addToolPaneActionButton("Удалить строку", {action:"deleteDetailTableSelectedRow"}, "width:145px;")
                         .addToolPane("Импорт")
-
                         .addToolPaneFileUploader({label:"Импортировать из Excel", url:"/wrh/ordersBata/importOrderFromFile",
                               name:"newOrder", btnStyle:"width:145px;"}, function(result, thisInstance){
                             console.log("result=",result);
+                            if(result.error){
+                                console.log("ERROR!!! ", result.error);
+                                return;
+                            }
+                            if(!result.items){
+                                console.log("NO data for table!");
+                                return;
+                            }
                             var items=result.items;
                             for (var i = 0; i < items.length; i++) {
                                 var item = items[i];
                                 thisInstance.detailTable.insertRowAfterSelected(item);
                             }
-
                         })
                         .addDetailTableMenuItemAction("Добавить строки",{action:"insertDetailTableRowsAfterSelected",rowPosName:"POS"})//rowPosIndexName:"POSIND"
                         .addDetailTableMenuItemAction("Изменить строки",{action:"allowEditDetailTableSelectedRows"})
