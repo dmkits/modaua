@@ -1,6 +1,7 @@
 var dataModel=require('../datamodel'), dateFormat = require('dateformat');
 var wrh_orders_bata= require(appDataModelPath+"wrh_orders_bata"),
     wrh_orders_bata_details= require(appDataModelPath+"wrh_orders_bata_details");
+var server=require('../server'), log=server.log;
 var path=require('path'), XLSX=require('xlsx'),fs=require('fs');
 var multer  = require('multer'), upload = multer({ dest: 'uploads/' });
 var dir_units= require(appDataModelPath+"dir_units"),
@@ -236,12 +237,14 @@ module.exports.init = function(app){
         var wb;
         try {
             wb = XLSX.readFileSync(fname);
-        }catch(e){                                                                  log.error("Impossible to create workbook! Reason:",e);
-            res.sendStatus(500);
+        }catch(e){                                                                                             log.error("Impossible to create workbook! Reason:",e);
+            outData.error=e;
+            res.send(outData);
             return;
         }
         var sheet=wb["Sheets"]["Dati"];
         if(sheet==undefined){
+            outData.userErrorMSG="Не удалось узвлечь данные из файла.";                                        log.error("Failed to get 'Dati' sheet in file");
             outData.error="Failed to get 'Dati' sheet in file";
             res.send(outData);
             return;

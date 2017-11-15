@@ -13,8 +13,8 @@
 </div>
 </body>
 <script type="text/javascript">
-    require(["app", "templateDocumentStandardTable", "request"],
-            function (APP, TDocumentStandardTable, Request) {
+    require(["app", "templateDocumentStandardTable","dialogs", "request"],
+            function (APP, TDocumentStandardTable, Dialogs,  Request) {
                 var wrh_order_bata= APP.instanceForID("wrh_order_bata_PageContainer", TDocumentStandardTable,
                             { idListContainer:"wrh_order_bata_LeftContainer",idDetailContainer:"wrh_order_bata_DetailContainer",
                                 idDetailHeader:"wrh_order_bata_DetailHeader",idDetailTable:"wrh_order_bata_DetailTable",idDetailTotal:"wrh_order_bata_DetailTotal",
@@ -69,20 +69,23 @@
                         .addToolPaneActionButton("Удалить строку", {action:"deleteDetailTableSelectedRow"}, "width:145px;")
                         .addToolPane("Импорт")
                         .addToolPaneFileUploader({label:"Импортировать из Excel", url:"/wrh/ordersBata/importOrderFromFile",
-                              name:"newOrder", btnStyle:"width:145px;"}, function(result, thisInstance){
-                            console.log("result=",result);
+                              name:"newOrder", btnStyle:"width:145px;",acceptFileExt:".xlsx"}, function(result, thisInstance){          console.log("result=",result);
                             if(result.error){
                                 console.log("ERROR!!! ", result.error);
+                            }
+                            if(result.userErrorMSG){
+                                Dialogs.doSimpleDialog({content:result.userErrorMSG+"<br>"});
                                 return;
                             }
-                            if(!result.items){
+                            if(!result.items ||result.items.length==0){
                                 console.log("NO data for table!");
-                                return;
-                            }
-                            var items=result.items;
-                            for (var i = 0; i < items.length; i++) {
-                                var item = items[i];
-                                thisInstance.detailTable.insertRowAfterSelected(item);
+                                Dialogs.doSimpleDialog({content:"Нет данных для оформления заказа.<br>"});
+                            }else{
+                                var items=result.items;
+                                for (var i = 0; i < items.length; i++) {
+                                    var item = items[i];
+                                    thisInstance.detailTable.insertRowAfterSelected(item);
+                                }
                             }
                         })
                         .addDetailTableMenuItemAction("Добавить строки",{action:"insertDetailTableRowsAfterSelected",rowPosName:"POS"})//rowPosIndexName:"POSIND"

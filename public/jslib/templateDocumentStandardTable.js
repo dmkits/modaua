@@ -670,9 +670,7 @@ define(["dojo/_base/declare", "dijit/layout/BorderContainer", "dijit/layout/Cont
                 return this;
             },
             /**
-             *
-
-             * @params={label, url, name, btnStyle }
+             * @params={label, url, name, btnStyle, acceptFileExt //--> ".xlsx"  }
              * @callback(serverResponse, thisInstance)
              */
 
@@ -686,7 +684,7 @@ define(["dojo/_base/declare", "dijit/layout/BorderContainer", "dijit/layout/Cont
                         type: "file", uploadOnSelect: true, name: params.name, multiple: false
                     });
                     this.uploadBtn.startup();
-                   // this.uploadBtn.domNode.firstChild.setAttribute("accept",".xlsx");
+                    if(params.acceptFileExt) this.uploadBtn.domNode.firstChild.setAttribute("accept",params.acceptFileExt);
                     if (params.btnStyle) this.uploadBtn.set("style", params.btnStyle);
                     var thisInstance = this;
                     this.uploadBtn.onCancel = function () {
