@@ -252,7 +252,6 @@ module.exports.init = function(app){
     //        res.send(result);
     //    });
     //});
-
     var dirProductsGendersBataTableColumns=[
         {data: "ID", name: "ID", width: 80, type: "text", readOnly:true, visible:false},
         {data: "CODE", name: "Код группы", width: 65, type: "text"},
@@ -637,6 +636,17 @@ module.exports.init = function(app){
     });
     app.get("/dir/products/getDataForProductsKindsCombobox", function (req, res) {
         dir_products_kinds.getDataItemsForTableCombobox({ comboboxFields:{"PRODUCT_KIND":"NAME"}, order:"PRODUCT_KIND" },
+            function(result){
+                res.send(result);
+            });
+    });
+
+    app.get("/dir/products/get_product_by_code_name", function (req, res) {
+        var conditions={};
+        if(req.query["PRODUCT_CODE"])conditions["dir_products.CODE="]=req.query["PRODUCT_CODE"];
+        if(req.query["PRODUCT_NAME"])conditions["dir_products.NAME="]=req.query["PRODUCT_NAME"];
+        dir_products_bata.getDataItemForTable({tableColumns:dirProductsTableColumns,
+                conditions:conditions},
             function(result){
                 res.send(result);
             });

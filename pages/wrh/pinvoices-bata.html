@@ -193,6 +193,45 @@
                                 crd.item("PRODUCT_SIZE").setValue((prodData)?prodData["SIZE"]:null);
                                 crd.item("BARCODE").setValue((prodData)?prodData["PBARCODE"]:null);
                             };
+                            //get_product_by_code_name
+                            if ( crd.item("PRODUCT_CODE").isChanged() ||  crd.item("PRODUCT_NAME").isChanged() ) {
+                                var condition = {};
+                                condition["PRODUCT_CODE"]= crd.item("PRODUCT_CODE").getValue();
+                                condition["PRODUCT_NAME"]= crd.item("PRODUCT_NAME").getValue();
+
+                                Request.getJSONData({url:"/dir/products/get_product_by_code_name", condition:condition, consoleLog:true},
+                                        function(success,result){                                    console.log("result get_product_by_code_name =",result);
+                                            if (!success||!result||!result.item) {
+                                                nextCallback();
+                                                return;
+                                            }
+                                            var resData=result.item;
+                                            crd.item("PRODUCT_CODE").setValue(resData["PRODUCT_CODE"]);
+                                            crd.item("PRODUCT_NAME").setValue(resData["PRODUCT_NAME"]);
+                                            crd.item("PRODUCT_UM").setValue(resData["PRODUCT_UM"]);
+                                            crd.item("PRODUCT_ARTICLE").setValue(resData["PRODUCT_ARTICLE"]);
+                                            crd.item("PRODUCT_PBARCODE").setValue(resData["PRODUCT_PBARCODE"]);
+                                            crd.item("PRODUCT_GENDER").setValue(resData["PRODUCT_GENDER"]);
+                                            crd.item("PRODUCT_GENDER_CODE").setValue(resData["PRODUCT_GENDER_CODE"]);
+                                            crd.item("PRODUCT_CATEGORY").setValue(resData["PRODUCT_CATEGORY"]);
+                                            crd.item("PRODUCT_CATEGORY_CODE").setValue(resData["PRODUCT_CATEGORY_CODE"]);
+                                            crd.item("PRODUCT_SUBCATEGORY").setValue(resData["PRODUCT_SUBCATEGORY"]);
+                                            crd.item("PRODUCT_SUBCATEGORY_CODE").setValue(resData["PRODUCT_SUBCATEGORY_CODE"]);
+                                            crd.item("PRODUCT_COLLECTION").setValue(resData["PRODUCT_COLLECTION"]);
+                                            crd.item("PRODUCT_COLLECTION_CODE").setValue(resData["PRODUCT_COLLECTION_CODE"]);
+                                            crd.item("PRODUCT_KIND").setValue(resData["PRODUCT_KIND"]);
+                                            crd.item("PRODUCT_COMPOSITION").setValue(resData["PRODUCT_COMPOSITION"]);
+                                            crd.item("PRODUCT_SIZE").setValue(resData["PRODUCT_SIZE"]);  //PRODUCT_PRINT_NAME
+                                            crd.item("PRODUCT_PRINT_NAME").setValue(resData["PRODUCT_PRINT_NAME"]);
+                                            crd.item("PRODUCT_TYPE").setValue(resData["PRODUCT_TYPE"]);
+                                            crd.item("BARCODE").setValue(resData["BARCODE"]);
+                                           // setCRDProductData(crd,result.item);
+                                            //nextCallback(true);
+                                        });
+                               // return;
+                            }
+                        //    nextCallback();
+                        })
 //                            if ( crd.item("PRODUCT_ARTICLE").isChanged() || crd.item("PRODUCT_KIND").isChanged()
 //                                    || crd.item("PRODUCT_COMPOSITION").isChanged() || crd.item("PRODUCT_SIZE").isChanged()
 //                                    || crd.item("PRODUCT_GENDER").isChanged() || crd.item("PRODUCT_GENDER_CODE").isChanged()
@@ -220,8 +259,8 @@
 //                                        });
 //                                return;
 //                            }
-                            nextCallback();
-                        })
+//                            nextCallback();
+//                        })
                         .addDetailTableRowChangeCallback(function(crd/*changedRowData*/, detailTable, thisInstance, nextCallback){          //console.log("INV detailTableRowChangeCallback1 ",crd.data());
                             var prevPOS=detailTable.getPrevRowDataItemValue(crd.data(),"POS");
                             if(prevPOS===undefined||prevPOS===null||isNaN(prevPOS/1)) prevPOS=0;
