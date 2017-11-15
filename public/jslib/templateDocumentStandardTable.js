@@ -687,12 +687,6 @@ define(["dojo/_base/declare", "dijit/layout/BorderContainer", "dijit/layout/Cont
                     if(params.acceptFileExt) this.uploadBtn.domNode.firstChild.setAttribute("accept",params.acceptFileExt);
                     if (params.btnStyle) this.uploadBtn.set("style", params.btnStyle);
                     var thisInstance = this;
-                    this.uploadBtn.onCancel = function () {
-                         console.log("uploadBtn.onCancel");
-                    };
-                    this.uploadBtn.onBegin = function () {
-                        console.log("uploadBtn.onBegin");
-                    };
                     this.uploadBtn.onComplete = function (result) {
                       callback(result, thisInstance);
                      this.reset();

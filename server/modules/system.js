@@ -64,7 +64,11 @@ module.exports.init = function(app) {
                 if (err) {
                     res.sendStatus(500);                                             log.error("send xls file err=", err);
                 }
-                fs.unlinkSync(fname);
+                fs.unlink(fname,function(err){
+                    if (err) {
+                        res.sendStatus(500);                                          log.error("unlink xls file err=", err);
+                    }
+                });
             })
         });
     });

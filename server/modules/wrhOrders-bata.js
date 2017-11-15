@@ -239,6 +239,7 @@ module.exports.init = function(app){
             wb = XLSX.readFileSync(fname);
         }catch(e){                                                                                             log.error("Impossible to create workbook! Reason:",e);
             outData.error=e;
+            outData.userErrorMSG="Не удалось прочитать файл.";
             res.send(outData);
             return;
         }
@@ -303,7 +304,13 @@ module.exports.init = function(app){
             tableDataItem["PRICE"] =  priceCellObj.v;
             outData.items.push(tableDataItem);
         }
-        res.send(outData);
+        fs.unlink(fname,function(err){
+            if (err) {
+                outData.error=err.message;
+                outData.userErrorMSG="Не удалось очистить временные данные.";
+                res.send(outData);                                                                  log.error("unlink file err=", err.message);
+            }
+            res.send(outData);
+        });
     });
-
 };
