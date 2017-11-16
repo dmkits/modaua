@@ -19,6 +19,9 @@ var changeLog = [
         changeVal:"ALTER TABLE wrh_products_r_operations ADD CONSTRAINT WRH_PRODUCTS_R_OPERATIONS_PRODUCT_ID_BATCH_NUMBER_FK " +
             "FOREIGN KEY (PRODUCT_ID,BATCH_NUMBER) REFERENCES dir_products_batches(PRODUCT_ID,BATCH_NUMBER)" },
     { changeID: "wrh_products_r_operations__7",changeDatetime:"2017-06-09 11:16:00", changeObj: "wrh_products_r_operations",
-        changeVal: "ALTER TABLE wrh_products_r_operations ADD PRIMARY KEY (OPERATION_ID, PRODUCT_ID, BATCH_NUMBER)"}
+        changeVal: "ALTER TABLE wrh_products_r_operations ADD PRIMARY KEY (OPERATION_ID, PRODUCT_ID, BATCH_NUMBER)"},
+    { changeID: "wrh_products_r_operations__8",changeDatetime:"2017-06-09 11:17:00", changeObj: "wrh_products_r_operations",
+        changeVal:"ALTER TABLE wrh_products_r_operations ADD CONSTRAINT WRH_PRODUCTS_R_OPERATIONS_OPERATION_ID_UNIQUE " +
+            "UNIQUE(OPERATION_ID)"}
 ];
 module.exports.changeLog=changeLog;

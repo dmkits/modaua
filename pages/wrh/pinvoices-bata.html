@@ -178,7 +178,8 @@
                                  && !(crd.item("PRODUCT_CODE").isEMPTY() &&  crd.item("PRODUCT_NAME").isEMPTY())) {
                                 var condition = {};
                                 condition["PRODUCT_CODE"]= crd.item("PRODUCT_CODE").getValue();
-                                condition["PRODUCT_NAME"]= encodeURIComponent(crd.item("PRODUCT_NAME").getValue());
+                                if(encodeURIComponent(crd.item("PRODUCT_NAME").getValue()) != 'null')
+                                    condition["PRODUCT_NAME"]= encodeURIComponent(crd.item("PRODUCT_NAME").getValue());
                                 Request.getJSONData({url:"/dir/products/get_product_by_code_name", condition:condition, consoleLog:true},
                                         function(success,result){
                                             if (!success||!result||!result.item) {
