@@ -51,6 +51,9 @@ module.exports.init = function(app){
             columnsData.push({data: "PRODUCT_PBARCODE", name: "Осн.штрихкод", width: 100, type: "text", align:"center",
                 visible:params.visibleColumns["PBARCODE"],
                 dataSource:"dir_products", sourceField:"PBARCODE"});
+            columnsData.push({data: "BARCODE", name: "Штрихкод", width: 100, type: "text", align:"center",
+                visible:params.visibleColumns["BARCODE"],
+                dataSource:"dir_products", sourceField:"PBARCODE"});
             return columnsData;
         };
         if(!params) params={};
