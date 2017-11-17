@@ -370,7 +370,6 @@ define(["dojo/_base/declare", "dijit/layout/BorderContainer", "dijit/layout/Cont
                 this.addDetailHeaderElement(false,select);
                 return this;
             },
-
             /*
              * parameters: { conditionIDName, getDataUrl, getCondition, storeDataUrl, deleteDataUrl }
              */

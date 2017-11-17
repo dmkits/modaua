@@ -230,30 +230,39 @@ module.exports.init = function(app){
     wrh_pinvs_products.insNewPInvTableDataItem= function(tableDataItem, callback){
         //sys_operations new ID
         //dir_products_batches.createNewBatch <- PRODUCT_ID new BATCH_NUMBER
-
         //wrh_products_r_operations OPERATION_ID<-ID <- PRODUCT_ID <- BATCH_NUMBER
         //wrh_pinvs_products <- ID <- PRODUCT_ID <- BATCH_NUMBER <- ...
-        sys_operations.insDataItemWithNewID({idFieldName:"ID"}, function(sysOperations){
-            if(sysOperations.error){
-                callback({error:sysOperations.error});
+        sys_operations.insDataItemWithNewID({idFieldName:"ID", insData:{}}, function(sysOperIdRes){
+            if(sysOperIdRes.error){
+                callback({error:sysOperIdRes.error});
                 return;
             }
-            //sys_operations.getDataItem({fields:["ID"]}, function(sysOperIdRes){
-            //    if(sysOperIdRes.error){
-            //        callback({error:sysOperIdRes.error});
-            //        return;
-            //    }
-                dir_products_batches.insDataItemWithNewID({idFieldName:"BATCH_NUMBER", insData:{"PRODUCT_ID":tableDataItem["PRODUCT_ID"]}
-                }, function(batchRes){
-                    if(batchRes.error){
-                        callback({error:batchRes.error});
+            var sysOperId=sysOperIdRes.resultItem["ID"];
+                dir_products_batches.createNewBatch({prodData:{"PRODUCT_ID":tableDataItem["PRODUCT_ID"]}},
+                    function(newBatchRes){
+                    if(newBatchRes.error){
+                        callback({error:newBatchRes.error});
                         return;
                     }
-                    //OPERATION_ID   BATCH_NUMBER  PRODUCT_ID
-                    wrh_products_r_operations.insDataItem({OPERATION_ID:sysOperIdRes.resultItem["ID"],BATCH_NUMBER: batchRes.resultItem["BATCH_NUMBERD"]})
-
+                       var batchNum= newBatchRes.resultItem["BATCH_NUMBER"];
+                    wrh_products_r_operations.insDataItem({insData:{OPERATION_ID:sysOperId,BATCH_NUMBER: batchNum,
+                        PRODUCT_ID:tableDataItem["PRODUCT_ID"]}}, function(prodOperRes){
+                        if(prodOperRes.error){
+                            callback({error:newBatchRes.error});
+                            return;
+                        }
+                        wrh_pinvs_products.insTableDataItem({tableColumns:wrhPInvProductsTableColumns,idFieldName:"ID",insTableData:{ID:sysOperId, PINV_ID:tableDataItem["PINV_ID"], POSIND:tableDataItem["POSIND"],
+                            PRODUCT_ID:tableDataItem["PRODUCT_ID"], QTY:tableDataItem["QTY"], PRICE:tableDataItem["PRICE"],
+                            POSSUM:tableDataItem["POSSUM"], SALE_PRICE:tableDataItem["SALE_PRICE"], BARCODE:tableDataItem["BARCODE"], FACTOR:tableDataItem["FACTOR"],
+                            BATCH_NUMBER:batchNum}}, function(wrhProdRes){
+                            if(wrhProdRes.error){
+                                callback({error:wrhProdRes.error});
+                                return;
+                            }
+                            callback(wrhProdRes);
+                        });
+                    });
                 });
-          //  })
         })
     };
     wrh_pinvs_products.updPInvTableDataItem= function(tableDataItem, callback){
@@ -266,15 +275,13 @@ module.exports.init = function(app){
     };
 
     wrh_pinvs_products.storePInvTableDataItem= function(tableDataItem, callback){
-
-        var resultTableDataItem= tableDataItem;
+        var resultTableDataItem = tableDataItem;
         if(!tableDataItem["ID"]){
             wrh_pinvs_products.insNewPInvTableDataItem(resultTableDataItem, function(insNewDataResult){
                 callback(insNewDataResult)
             });
             return;
         }
-
         //if !tableDataItem["ID"] insNewPInvTableDataItem return
         //updPInvTableDataItem
         callback({resultItem:resultTableDataItem});
@@ -324,11 +331,9 @@ module.exports.init = function(app){
                 }
                 var prodID=result.resultItem["ID"];
                 storeData["PRODUCT_ID"]=prodID;
-
                 if(!storeData["BARCODE"])storeData["BARCODE"]=result.resultItem["PBARCODE"];
-
                 wrh_pinvs_products.storePInvTableDataItem(storeData,
-                    function(result){
+                    function(result){                                   console.log("storePInvTableDataItem result=",result);
                         res.send(result);
                     });
             });
