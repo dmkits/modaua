@@ -52,6 +52,6 @@ var changeLog = [
         field:"BATCH_NUMBER"},
     { changeID:"wrh_pinvs_products_17", changeDatetime:"2017-06-09 12:02:00", changeObj:"wrh_pinvs_products",
         changeVal:"ALTER TABLE wrh_pinvs_products ADD CONSTRAINT WRH_PINVS_PRODUCTS_ID_PRODUCT_ID_BATCH_NUMBER_FK " +
-            "FOREIGN KEY (ID,PRODUCT_ID,BATCH_NUMBER) REFERENCES wrh_products_r_operations(OPERATION_ID,PRODUCT_ID,BATCH_NUMBER)" }
+            "FOREIGN KEY (ID,PRODUCT_ID,BATCH_NUMBER) REFERENCES wrh_products_r_operations(OPERATION_ID,PRODUCT_ID,BATCH_NUMBER) ON UPDATE CASCADE" }
 ];
 module.exports.changeLog=changeLog;
