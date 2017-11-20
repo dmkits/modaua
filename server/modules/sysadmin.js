@@ -1120,11 +1120,18 @@ module.exports.init = function(app){
         if(importTableName=="wrh_pinvs_products"){
             insertDataItemFromBata1DB("sys_operations", ["ID"], {"ID":bata1TableDataItem["ID"]}, resultItem,
                 function(resultItem){
-                    insertDataItemFromBata1DB("wrh_products_r_operations", ["OPERATION_ID","PRODUCT_ID","BATCH_NUMBER"],
+                    insertDataItemFromBata1DB("wrh_products_r_operations", ["OPERATION_ID","PRODUCT_ID","BARCODE","BATCH_NUMBER"],
                         {"OPERATION_ID":bata1TableDataItem["ID"],
-                            "PRODUCT_ID":bata1TableDataItem["PRODUCT_ID"],"BATCH_NUMBER":bata1TableDataItem["BATCH_NUMBER"]}, resultItem,
+                            "PRODUCT_ID":bata1TableDataItem["PRODUCT_ID"],"BARCODE":bata1TableDataItem["BARCODE"],
+                            "BATCH_NUMBER":bata1TableDataItem["BATCH_NUMBER"]}, resultItem,
                         function(resultItem){
-                            insertDataItemFromBata1DB(importTableName, importTableFields, bata1TableDataItem, resultItem,
+                            var importPInvsProductsTableFields=[];
+                            for (var i = 0; i < importTableFields.length; i++) {
+                                var importTableField = importTableFields[i];
+                                if(importTableField=="PRODUCT_ID"||importTableField=="BARCODE"||importTableField=="BATCH_NUMBER") continue;
+                                importPInvsProductsTableFields.push(importTableField);
+                            }
+                            insertDataItemFromBata1DB(importTableName, importPInvsProductsTableFields, bata1TableDataItem, resultItem,
                                 function(resultItem){
                                     insertDataFromBata1DB(importTableName, importTableFields, bata1TableData, ind+1, resultItem ,resultCallback);
                                 });
