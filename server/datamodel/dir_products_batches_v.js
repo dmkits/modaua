@@ -7,7 +7,7 @@ var changeLog=[
                 "wpi.UNIT_ID, wpi.DOCDATE as R_DOCDATE, wpi.NUMBER as R_DOCNUMBER, wpi.SUPPLIER_ID, wpi.CURRENCY_ID, wpi.RATE\n"+
             "FROM dir_products_batches m\n"+
             "LEFT JOIN wrh_products_r_operations wpro ON wpro.PRODUCT_ID=m.PRODUCT_ID AND wpro.BATCH_NUMBER=m.BATCH_NUMBER\n"+
-            "LEFT JOIN wrh_pinvs_products wpip ON wpip.ID=wpro.OPERATION_ID AND wpip.PRODUCT_ID=m.PRODUCT_ID AND wpip.BATCH_NUMBER=m.BATCH_NUMBER\n"+
+            "LEFT JOIN wrh_pinvs_products wpip ON wpip.ID=wpro.OPERATION_ID\n"+
             "LEFT JOIN wrh_pinvs wpi ON wpi.ID=wpip.PINV_ID\n",
         viewName:"dir_products_batches_v",
         fields:["PRODUCT_ID", "BATCH_NUMBER", "OPERATION_ID", "QTY", "PRICE", "UNIT_ID", "R_DOCDATE", "R_DOCNUMBER", "SUPPLIER_ID", "CURRENCY_ID", "RATE"] }
