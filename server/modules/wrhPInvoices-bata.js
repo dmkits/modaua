@@ -154,15 +154,13 @@ module.exports.init = function(app){
             dataSource:"dir_contractors", sourceField:"COUNTRY", linkCondition:"dir_contractors.ID=wrh_pinvs.SUPPLIER_ID" },
         {data: "POSIND", name: "POSIND", width: 45, type: "numeric", visible:false},
         {data: "POS", name: "Номер п/п", width: 45, type: "numeric", dataFunction:"TRUNCATE(POSIND,0)"},
-
-        //---------
-        {data: "PRODUCT_CODE", name: "Код товара", width: 65, type: "text", dataSource:"dir_products", sourceField:"CODE"},
-        {data: "BARCODE", name: "Штрихкод", width: 75, type: "text"},
+        {dataSource:"wrh_products_r_operations",linkCondition:"wrh_products_r_operations.OPERATION_ID=wrh_pinvs_products.ID"},
+        {data: "PRODUCT_CODE", name: "Код товара", width: 65, type: "text", dataSource:"dir_products", sourceField:"CODE",
+            linkCondition:"dir_products.ID=wrh_products_r_operations.PRODUCT_ID"},
+        {data: "BARCODE", name: "Штрихкод", width: 75, type: "text", dataSource:"dir_products", sourceField:"PBARCODE" },
         {data: "PRODUCT_NAME", name: "Товар", width: 250, type: "text",
             dataSource:"dir_products", sourceField:"NAME"},
         {data: "PRODUCT_UM", name: "Ед.изм.", width: 55, type: "text", dataSource:"dir_products", sourceField:"UM"},
-        //--------
-
         {data: "PRODUCT_GENDER_CODE", name: "Код группы", width: 65,
             type: "combobox", "sourceURL":"/dir/products/getDataForOrderBataProductsGendersCombobox/genderCode",
             dataSource:"dir_products_genders", sourceField:"CODE", linkCondition:"dir_products_genders.ID=dir_products.GENDER_ID" },
@@ -244,17 +242,17 @@ module.exports.init = function(app){
                         callback({error:newBatchRes.error});
                         return;
                     }
-                       var batchNum= newBatchRes.resultItem["BATCH_NUMBER"];
-                    wrh_products_r_operations.insDataItem({insData:{OPERATION_ID:sysOperId,BATCH_NUMBER: batchNum,
-                        PRODUCT_ID:tableDataItem["PRODUCT_ID"]}}, function(prodOperRes){
+                        var batchNum= newBatchRes.resultItem["BATCH_NUMBER"];
+                        wrh_products_r_operations.insDataItem({insData:{OPERATION_ID:sysOperId,BATCH_NUMBER: batchNum,
+                        PRODUCT_ID:tableDataItem["PRODUCT_ID"],BARCODE:tableDataItem["BARCODE"]}}, function(prodOperRes){
                         if(prodOperRes.error){
                             callback({error:newBatchRes.error});
                             return;
                         }
-                        wrh_pinvs_products.insTableDataItem({tableColumns:wrhPInvProductsTableColumns,idFieldName:"ID",insTableData:{ID:sysOperId, PINV_ID:tableDataItem["PINV_ID"], POSIND:tableDataItem["POSIND"],
-                            PRODUCT_ID:tableDataItem["PRODUCT_ID"], QTY:tableDataItem["QTY"], PRICE:tableDataItem["PRICE"],
-                            POSSUM:tableDataItem["POSSUM"], SALE_PRICE:tableDataItem["SALE_PRICE"], BARCODE:tableDataItem["BARCODE"], FACTOR:tableDataItem["FACTOR"],
-                            BATCH_NUMBER:batchNum}}, function(wrhProdRes){
+                        wrh_pinvs_products.insTableDataItem({tableColumns:wrhPInvProductsTableColumns,idFieldName:"ID",insTableData:{ID:sysOperId,
+                            PINV_ID:tableDataItem["PINV_ID"], POSIND:tableDataItem["POSIND"], PRODUCT_ID:tableDataItem["PRODUCT_ID"],
+                            QTY:tableDataItem["QTY"], PRICE:tableDataItem["PRICE"], POSSUM:tableDataItem["POSSUM"],
+                            SALE_PRICE:tableDataItem["SALE_PRICE"], FACTOR:tableDataItem["FACTOR"]}}, function(wrhProdRes){
                             if(wrhProdRes.error){
                                 callback({error:wrhProdRes.error});
                                 return;
@@ -266,25 +264,18 @@ module.exports.init = function(app){
         })
     };
 
-    wrh_pinvs_products.updPInvTableDataItem= function(tableDataItem, callback){                  console.log("updPInvTableDataItem tableDataItem 268=",tableDataItem);
-        //wrh_pinvs_products get PRODUCT_ID by ID
-        //if current PRUDUCT_ID==tableDataItem.PRODUCT_ID wrh_pinvs_products.update return
-        //
-        //dir_products_batches.createNewBatch <- PRODUCT_ID new BATCH_NUMBER
-        //wrh_products_r_operations OPERATION_ID<-ID <- PRODUCT_ID <- BATCH_NUMBER upd wrh_products_r_operations PRODUCT_ID, BATCH_NUMBER by ID
-        //wrh_pinvs_products <- ID <- PRODUCT_ID <- BATCH_NUMBER <- ...
-
-        wrh_pinvs_products.getDataItem({fields:["PRODUCT_ID"],
-            conditions:{"ID=":tableDataItem["ID"]}}, function(result){
+    wrh_pinvs_products.updPInvTableDataItem= function(tableDataItem, callback){
+        var pinvProdId=tableDataItem["ID"], prodID=tableDataItem["PRODUCT_ID"], prodBarcode=tableDataItem["BARCODE"];
+        wrh_products_r_operations.getDataItem({fields:["PRODUCT_ID","BATCH_NUMBER"],
+            conditions:{"OPERATION_ID=":pinvProdId}}, function(result){
             if(result.error){
                 callback({error:result.error});
                 return;
             }
-            if(result.item["PRODUCT_ID"]==tableDataItem["PRODUCT_ID"]){
-                wrh_pinvs_products.updDataItem({updData:{/*ID:sysOperId, PINV_ID:tableDataItem["PINV_ID"], POSIND:tableDataItem["POSIND"],*/
-                        /*PRODUCT_ID:tableDataItem["PRODUCT_ID"],*/ QTY:tableDataItem["QTY"], PRICE:tableDataItem["PRICE"],
-                        POSSUM:tableDataItem["POSSUM"], SALE_PRICE:tableDataItem["SALE_PRICE"], /*BARCODE:tableDataItem["BARCODE"],*/ FACTOR:tableDataItem["FACTOR"]
-                        /*BATCH_NUMBER:batchNum*/},
+            var existsProductID=result.item["PRODUCT_ID"],existsBatchNumber=result.item["BATCH_NUMBER"];
+            if(existsProductID==prodID){
+                wrh_pinvs_products.updDataItem({updData:{QTY:tableDataItem["QTY"], PRICE:tableDataItem["PRICE"],
+                        POSSUM:tableDataItem["POSSUM"], SALE_PRICE:tableDataItem["SALE_PRICE"],FACTOR:tableDataItem["FACTOR"]},
                         conditions:{"ID=":tableDataItem["ID"]}},
                     function(updRes){
                         if(updRes.error){
@@ -292,48 +283,49 @@ module.exports.init = function(app){
                             return;
                         }
                         wrh_pinvs_products.getDataItemForTable({tableColumns:wrhPInvProductsTableColumns,
-                            conditions:{"wrh_pinvs_products.ID=":tableDataItem["ID"]}}, function(updDataRes){  console.log("updDataRes=",updDataRes);
+                            conditions:{"wrh_pinvs_products.ID=":tableDataItem["ID"]}}, function(updDataRes){
                             if(updDataRes.error){
                                 callback({error:updRes.error});
                                 return;
                             }
                             callback({resultItem:updDataRes.item,updateCount:updRes.updateCount });
                         })
-                })
-            }else{           ////////////////???????????????????????????????????
-                sys_operations.insDataItemWithNewID({idFieldName:"ID", insData:{}}, function(sysOperIdRes){
-                    if(sysOperIdRes.error){
-                        callback({error:sysOperIdRes.error});
+                });
+                return;
+            }
+            dir_products_batches.createNewBatch({prodData:{"PRODUCT_ID":prodID}},
+                function(newBatchRes){
+                    if(newBatchRes.error){
+                        callback({error:newBatchRes.error});
                         return;
                     }
-                    var sysOperId=sysOperIdRes.resultItem["ID"];
-                    dir_products_batches.createNewBatch({prodData:{"PRODUCT_ID":tableDataItem["PRODUCT_ID"]}},
-                        function(newBatchRes){
-                            if(newBatchRes.error){
+                    var batchNum= newBatchRes.resultItem["BATCH_NUMBER"];
+                    wrh_products_r_operations.updDataItem({updData:{BATCH_NUMBER: batchNum, PRODUCT_ID:prodID, BARCODE:prodBarcode},
+                        conditions:{"OPERATION_ID=":pinvProdId,"BATCH_NUMBER=":existsBatchNumber,"PRODUCT_ID=":existsProductID}},
+                        function(prodOperRes){
+                            if(prodOperRes.error){
                                 callback({error:newBatchRes.error});
                                 return;
                             }
-                            var batchNum= newBatchRes.resultItem["BATCH_NUMBER"];
-                            wrh_products_r_operations.insDataItem({insData:{OPERATION_ID:sysOperId,BATCH_NUMBER: batchNum,
-                                PRODUCT_ID:tableDataItem["PRODUCT_ID"]}}, function(prodOperRes){
-                                if(prodOperRes.error){
-                                    callback({error:newBatchRes.error});
-                                    return;
-                                }
-                                wrh_pinvs_products.insTableDataItem({tableColumns:wrhPInvProductsTableColumns,idFieldName:"ID",insTableData:{ID:sysOperId, PINV_ID:tableDataItem["PINV_ID"], POSIND:tableDataItem["POSIND"],
-                                    PRODUCT_ID:tableDataItem["PRODUCT_ID"], QTY:tableDataItem["QTY"], PRICE:tableDataItem["PRICE"],
-                                    POSSUM:tableDataItem["POSSUM"], SALE_PRICE:tableDataItem["SALE_PRICE"], BARCODE:tableDataItem["BARCODE"], FACTOR:tableDataItem["FACTOR"],
-                                    BATCH_NUMBER:batchNum}}, function(wrhProdRes){
-                                    if(wrhProdRes.error){
-                                        callback({error:wrhProdRes.error});
+                        wrh_pinvs_products.updDataItem({updData:{QTY:tableDataItem["QTY"], PRICE:tableDataItem["PRICE"],
+                            POSSUM:tableDataItem["POSSUM"], SALE_PRICE:tableDataItem["SALE_PRICE"],FACTOR:tableDataItem["FACTOR"]},
+                            conditions:{"ID=":tableDataItem["ID"]}},
+                            function(updRes){
+                            if(updRes.error){
+                                callback({error:updRes.error});
+                                return;
+                            }
+                                wrh_pinvs_products.getDataItemForTable({tableColumns:wrhPInvProductsTableColumns,
+                                    conditions:{"wrh_pinvs_products.ID=":tableDataItem["ID"]}}, function(updDataRes){
+                                    if(updDataRes.error){
+                                        callback({error:updRes.error});
                                         return;
                                     }
-                                    callback(wrhProdRes);
+                                    callback({resultItem:updDataRes.item,updateCount:updRes.updateCount });
                                 });
-                            });
                         });
-                })
-            }
+                    });
+                });
         });
     };
 
@@ -345,8 +337,6 @@ module.exports.init = function(app){
             });
             return;
         }
-        //if !tableDataItem["ID"] insNewPInvTableDataItem return
-        //updPInvTableDataItem
         wrh_pinvs_products.updPInvTableDataItem(resultTableDataItem, function(updResult){
             callback(updResult)
         });
@@ -383,7 +373,7 @@ module.exports.init = function(app){
                 storeData["PRODUCT_ID"]=prodID;
                 if(!storeData["BARCODE"])storeData["BARCODE"]=result.resultItem["PBARCODE"];
                 wrh_pinvs_products.storePInvTableDataItem(storeData,
-                    function(result){                                   console.log("storePInvTableDataItem result=",result);
+                    function(result){
                         res.send(result);
                     });
             });
