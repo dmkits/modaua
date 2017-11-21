@@ -686,6 +686,21 @@ module.exports.init = function(app){
                 res.send(result);
             });
     });
+    app.get("/dir/products/getProdNameByProdAttributes", function (req, res) {
+        var outData={};
+        outData.item={};
+        var name="";
+        if(req.query["PRODUCT_ARTICLE"])name+=req.query["PRODUCT_ARTICLE"];
+        if(req.query["PRODUCT_COLLECTION"])name+=" "+req.query["PRODUCT_COLLECTION"];
+        if(req.query["PRODUCT_KIND"])name+=" "+req.query["PRODUCT_KIND"];
+        if(req.query["PRODUCT_COMPOSITION"])name+=" "+req.query["PRODUCT_COMPOSITION"];
+        if(req.query["PRODUCT_SIZE"])name+=" р."+req.query["PRODUCT_SIZE"];
+        if(req.query["PRODUCT_UM"])outData.item["PRODUCT_UM"]=req.query["PRODUCT_UM"];
+        else outData.item["PRODUCT_UM"]="шт.";
+        outData.item["PRODUCT_NAME"]=name;
+        outData.item["PRODUCT_PRINT_NAME"]=name;
+        res.send(outData);
+    });
 
     dir_products_bata.getProductBataGroupsIDs= function(params,resultCallback){
         if (!params||!params.prodData) {
