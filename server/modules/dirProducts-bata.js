@@ -643,6 +643,36 @@ module.exports.init = function(app){
                 res.send(result);
             });
     });
+    app.get("/dir/products/getDataForProductsCompositionCombobox", function (req, res) {
+        dir_products_compositions.getDataItemsForTableCombobox({ comboboxFields:{"PRODUCT_COMPOSITION":"VALUE"}, order:"PRODUCT_COMPOSITION" },
+            function(result){
+                res.send(result);
+            });
+    });
+    app.get("/dir/products/getDataForProductsSizeCombobox", function (req, res) {
+        dir_products_sizes.getDataItemsForTableCombobox({ comboboxFields:{"PRODUCT_SIZE":"VALUE"}, order:"PRODUCT_SIZE" },
+            function(result){
+                res.send(result);
+            });
+    });
+    app.get("/dir/products/getDataForProductsArticleCombobox", function (req, res) {
+        dir_products_articles.getDataItemsForTableCombobox({ comboboxFields:{"PRODUCT_ARTICLE":"VALUE"}, order:"PRODUCT_ARTICLE" },
+            function(result){
+                res.send(result);
+            });
+    });
+    app.get("/dir/products/getDataForProductsCollectionCombobox", function (req, res) {
+        dir_products_collections.getDataItemsForTableCombobox({ comboboxFields:{"PRODUCT_COLLECTION":"NAME"}, order:"PRODUCT_COLLECTION" },
+            function(result){   console.log("result  CollectionCombobox=",result);
+                res.send(result);
+            });
+    });
+    app.get("/dir/products/getDataForProductsCollectionCodeCombobox", function (req, res) {
+        dir_products_collections.getDataItemsForTableCombobox({ comboboxFields:{"PRODUCT_COLLECTION_CODE":"CODE"}, order:"PRODUCT_COLLECTION_CODE" },
+            function(result){
+                res.send(result);
+            });
+    });
 
     app.get("/dir/products/get_product_by_code_name", function (req, res) {
         var conditions={};

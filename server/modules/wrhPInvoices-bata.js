@@ -179,21 +179,26 @@ module.exports.init = function(app){
         {data: "PRODUCT_SUBCATEGORY", name: "Подкатегория", width: 200,
             type: "combobox", "sourceURL":"/dir/products/getDataForOrderBataProductsSubcategoryCombobox/Subcategory",
             dataSource:"dir_products_subcategories", sourceField:"NAME", linkCondition:"dir_products_subcategories.ID=dir_products.SUBCATEGORY_ID" },
-        {data: "PRODUCT_COLLECTION", name: "Коллекция", width: 150, type: "text", /*visible:false,*/
+        {data: "PRODUCT_COLLECTION", name: "Коллекция", width: 150, /*visible:false,*/
+            type: "combobox", "sourceURL":"/dir/products/getDataForProductsCollectionCombobox",
             dataSource:"dir_products_collections", sourceField:"NAME", linkCondition:"dir_products_collections.ID=dir_products.COLLECTION_ID" },
-        {data: "PRODUCT_COLLECTION_CODE", name: "Код коллекции", width: 100, type: "text", /*visible:false,*/
+        {data: "PRODUCT_COLLECTION_CODE", name: "Код коллекции", width: 100, /*visible:false,*/
+            type: "combobox", "sourceURL":"/dir/products/getDataForProductsCollectionCodeCombobox",
             dataSource:"dir_products_collections", sourceField:"CODE", linkCondition:"dir_products_collections.ID=dir_products.COLLECTION_ID" },
-        //{data: "PRODUCT_TYPE", name: "Тип", width: 100, //type: "text",
-        //    type: "combobox", "sourceURL":"/dir/products/getDataForProductsTypesCombobox",
-        //    dataSource:"dir_products_types", sourceField:"NAME"},
-        {data: "PRODUCT_ARTICLE", name: "Артикул", width: 80, type: "text",
+        {data: "PRODUCT_TYPE", name: "Тип", width: 100, //type: "text",
+            type: "combobox", "sourceURL":"/dir/products/getDataForProductsTypesCombobox",
+            dataSource:"dir_products_types", sourceField:"NAME",linkCondition:"dir_products_types.ID=dir_products.TYPE_ID"},
+        {data: "PRODUCT_ARTICLE", name: "Артикул", width: 80,
+            type: "comboboxWN", "sourceURL":"/dir/products/getDataForProductsArticleCombobox",
             dataSource:"dir_products_articles", sourceField:"VALUE", linkCondition:"dir_products_articles.ID=dir_products.ARTICLE_ID" },
         {data: "PRODUCT_KIND", name: "Вид", width: 150, //type: "text",
             type: "comboboxWN", "sourceURL":"/dir/products/getDataForProductsKindsCombobox",
             dataSource:"dir_products_kinds", sourceField:"NAME", linkCondition:"dir_products_kinds.ID=dir_products.KIND_ID" },
-        {data: "PRODUCT_COMPOSITION", name: "Состав", width: 200, type: "text",
+        {data: "PRODUCT_COMPOSITION", name: "Состав", width: 200,
+            type: "comboboxWN", "sourceURL":"/dir/products/getDataForProductsCompositionCombobox",
             dataSource:"dir_products_compositions", sourceField:"VALUE", linkCondition:"dir_products_compositions.ID=dir_products.COMPOSITION_ID" },
-        {data: "PRODUCT_SIZE", name: "Размер", width: 50, type: "text",
+        {data: "PRODUCT_SIZE", name: "Размер", width: 50,
+            type: "comboboxWN", "sourceURL":"/dir/products/getDataForProductsSizeCombobox",
             dataSource:"dir_products_sizes", sourceField:"VALUE", linkCondition:"dir_products_sizes.ID=dir_products.SIZE_ID" },
         //{data: "PRODUCT_CODE", name: "Код товара", width: 65, type: "text", visible:false,
         //    dataSource:"dir_products", sourceField:"CODE"},
@@ -209,14 +214,14 @@ module.exports.init = function(app){
         {data: "QTY", name: "Кол-во", width: 50, type: "numeric"},
         {data: "PRICE", name: "Цена", width: 60, type: "numeric2"},
         {data: "POSSUM", name: "Сумма", width: 80, type: "numeric2"},
-        {data: "BATCH_NUMBER", name: "Партия", width: 60, type: "text"/*, visible:false*/},
+        {data: "BATCH_NUMBER", name: "Партия", width: 60, type: "text",dataSource:"wrh_products_r_operations", sourceField:"BATCH_NUMBER"/*, visible:false*/},
         {data: "FACTOR", name: "Коэфф.", width: 60, type: "numeric2"},
         {data: "SALE_PRICE", name: "Цена продажи", width: 75, type: "numeric2"},
         {data: "PRICELIST_PRICE", name: "Цена по прайс-листу", width: 75, type: "numeric2",
             dataFunction:"0"}
     ];
     app.get("/wrh/pInvoices/getDataForPInvProductsTable", function(req, res){
-        wrh_pinvs_products.getDataForTable({tableColumns:wrhPInvProductsTableColumns,
+        wrh_pinvs_products.getDataForDocTable({tableColumns:wrhPInvProductsTableColumns,
                 identifier:wrhPInvProductsTableColumns[0].data,
                 conditions:req.query,
                 order:["POSIND"]},
@@ -226,10 +231,6 @@ module.exports.init = function(app){
     });
 
     wrh_pinvs_products.insNewPInvTableDataItem= function(tableDataItem, callback){
-        //sys_operations new ID
-        //dir_products_batches.createNewBatch <- PRODUCT_ID new BATCH_NUMBER
-        //wrh_products_r_operations OPERATION_ID<-ID <- PRODUCT_ID <- BATCH_NUMBER
-        //wrh_pinvs_products <- ID <- PRODUCT_ID <- BATCH_NUMBER <- ...
         sys_operations.insDataItemWithNewID({idFieldName:"ID", insData:{}}, function(sysOperIdRes){
             if(sysOperIdRes.error){
                 callback({error:sysOperIdRes.error});

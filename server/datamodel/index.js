@@ -652,10 +652,9 @@ function _getTableColumnsDataForHTable(tableColumns){
             if(!tableColumnsDataItemForHTable.checkedTemplate) tableColumnsDataItemForHTable.checkedTemplate="1";
             if(!tableColumnsDataItemForHTable.uncheckedTemplate) tableColumnsDataItemForHTable.uncheckedTemplate="0";
         } else if(tableColumnsDataItemForHTable.type=="combobox"||tableColumnsDataItemForHTable.type=="comboboxWN") {
-            if (!tableColumnsDataItemForHTable.strict)
-                if(tableColumnsDataItemForHTable.type=="combobox") tableColumnsDataItemForHTable.strict =true;
-                else tableColumnsDataItemForHTable.strict= false;
-            if (!tableColumnsDataItemForHTable.allowInvalid) tableColumnsDataItemForHTable.allowInvalid= false;
+            tableColumnsDataItemForHTable.strict= true;
+            if(tableColumnsDataItemForHTable.type=="combobox") tableColumnsDataItemForHTable.allowInvalid=false; else tableColumnsDataItemForHTable.allowInvalid=true;
+            tableColumnsDataItemForHTable.filter= false;
             tableColumnsDataItemForHTable.type="autocomplete";
         } else if(!tableColumnsDataItemForHTable.type) tableColumnsDataItemForHTable.type="text";
     }
@@ -723,20 +722,20 @@ function _getTableColumnsDataForDocHTable(tableColumns){
             else if(tableColData.data.indexOf("PRICE")>=0) tableColData.width=65;
             else if(tableColData.data.indexOf("SUM")>=0) tableColData.width=80;
             else if(tableColData.data.indexOf("NUMBER")>=0) tableColData.width=65;
-            else if(tableColData.data=="POS"||tableColData.data.indexOf("POSITION")>=0) tableColData.width=75;
+            else if(tableColData.data=="POS"||tableColData.data.indexOf("POSITION")==0) tableColData.width=75;
             else if(tableColData.data.indexOf("DATE")>=0) tableColData.width=55;
         }
         if(tableColData.align===undefined){
             if(tableColData.data.indexOf("DATE")>=0
                 || tableColData.data.indexOf("NUMBER")>=0
-                || tableColData.data.indexOf("POSITION")>=0 || tableColData.data=="POS") tableColData.align="center";
+                || tableColData.data.indexOf("POSITION")==0 || tableColData.data=="POS") tableColData.align="center";
         }
         if(tableColData.type===undefined){
             if(tableColData.data.indexOf("QTY")>=0) tableColData.type="numeric";
             else if(tableColData.data.indexOf("PRICE")>=0) tableColData.type="numeric2";
             else if(tableColData.data.indexOf("SUM")>=0) tableColData.type="numeric2";
             else if(tableColData.data.indexOf("NUMBER")>=0
-                ||tableColData.data=="POS"||tableColData.data.indexOf("POSITION")>=0) tableColData.type="numeric";
+                ||tableColData.data=="POS"||tableColData.data.indexOf("POSITION")==0) tableColData.type="numeric";
             else if(tableColData.data.indexOf("DATE")>=0) tableColData.type="dateAsText";
         }
     }

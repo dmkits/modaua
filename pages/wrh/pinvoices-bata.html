@@ -156,21 +156,21 @@
                             nextCallback();
                         })
                         .addDetailTableRowChangeCallback(function(crd/*changedRowData*/, detailTable, thisInstance, nextCallback) {
-                            if ( crd.item("PRODUCT_ARTICLE").isChanged() || crd.item("PRODUCT_KIND").isChanged()
-                                    || crd.item("PRODUCT_COMPOSITION").isChanged() || crd.item("PRODUCT_SIZE").isChanged()
-                                    /*|| crd.item("PRODUCT_COLLECTION").isChanged()*/ ) {                                   console.log("PINV detailTableRowChangeCallback1 set prod name", crd.data());
-                                var prodName;
-                                var prodKind=crd.item("PRODUCT_KIND").getValue(); if(prodKind) prodName=prodKind;
-                                var prodArt=crd.item("PRODUCT_ARTICLE").getValue(); if(prodArt&&prodName) prodName+=" "+prodArt;
-                                var prodComp=crd.item("PRODUCT_COMPOSITION").getValue(); if(prodComp&&prodName) prodName+=" "+prodComp;
-                                var prodSize=crd.item("PRODUCT_SIZE").getValue(); if(prodSize&&prodName) prodName+=" р."+prodSize;
-                                crd.item("PRODUCT_CODE").setValue(null);
-                                crd.item("PRODUCT_NAME").setValue((prodName)?prodName:null);
-                                crd.item("PRODUCT_PRINT_NAME").setValue((prodName)?prodName:null);
-                                crd.item("PRODUCT_UM").setValue(null);
-                                crd.item("BARCODE").setValue(null);
-                                crd.item("PRODUCT_PBARCODE").setValue(null);
-                            }
+//                            if ( crd.item("PRODUCT_ARTICLE").isChanged() || crd.item("PRODUCT_KIND").isChanged()
+//                                    || crd.item("PRODUCT_COMPOSITION").isChanged() || crd.item("PRODUCT_SIZE").isChanged()
+//                                    /*|| crd.item("PRODUCT_COLLECTION").isChanged()*/ ) {                                   console.log("PINV detailTableRowChangeCallback1 set prod name", crd.data());
+//                                var prodName;
+//                                var prodKind=crd.item("PRODUCT_KIND").getValue(); if(prodKind) prodName=prodKind;
+//                                var prodArt=crd.item("PRODUCT_ARTICLE").getValue(); if(prodArt&&prodName) prodName+=" "+prodArt;
+//                                var prodComp=crd.item("PRODUCT_COMPOSITION").getValue(); if(prodComp&&prodName) prodName+=" "+prodComp;
+//                                var prodSize=crd.item("PRODUCT_SIZE").getValue(); if(prodSize&&prodName) prodName+=" р."+prodSize;
+//                                crd.item("PRODUCT_CODE").setValue(null);
+//                                crd.item("PRODUCT_NAME").setValue((prodName)?prodName:null);
+//                                crd.item("PRODUCT_PRINT_NAME").setValue((prodName)?prodName:null);
+//                                crd.item("PRODUCT_UM").setValue(null);
+//                                crd.item("BARCODE").setValue(null);
+//                                crd.item("PRODUCT_PBARCODE").setValue(null);
+//                            }
                             nextCallback();
                         })
                         .addDetailTableRowChangeCallback(function(crd/*changedRowData*/, detailTable, thisInstance, nextCallback) {
