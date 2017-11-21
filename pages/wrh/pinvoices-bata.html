@@ -74,7 +74,6 @@
                         .addDetailTableMenuItemAction("Изменить строки",{action:"allowEditDetailTableSelectedRows"})
                         .addDetailTableMenuItemAction("Сохранить строки",{action:"storeDetailTableSelectedRows"})
                         .addDetailTableRowChangeCallback(function(crd/*changedRowData*/, detailTable, thisInstance, nextCallback){
-                            crd.item("PRODUCT_COLLECTION").setValue(thisInstance.detailHeader.getContentDataItem("PRODUCT_COLLECTION"));
                             var supplierOrderNum= thisInstance.detailHeader.getContentDataItem("SUPPLIER_ORDER_NUM");
                             if (!supplierOrderNum || supplierOrderNum.trim().length==0){
                                 if(crd.item("PRODUCT_GENDER_CODE").isChanged()&&!crd.item("PRODUCT_GENDER_CODE").isUNDEFNULL()){
@@ -113,6 +112,7 @@
                                     crd.item("PRODUCT_GENDER").setValue(genderValue);
                                 if(genderCode!==undefined&&crd.item("PRODUCT_GENDER_CODE").isEMPTY())
                                     crd.item("PRODUCT_GENDER_CODE").setValue(genderCode);
+
                                 if(crd.item("PRODUCT_SUBCATEGORY_CODE").isChanged()&&!crd.item("PRODUCT_SUBCATEGORY_CODE").isUNDEFNULL()){
                                     var subcategoryValueForSubcategoryCode=
                                             detailTable.getAutocompleteColumnValueForItem("PRODUCT_SUBCATEGORY_CODE",crd.item("PRODUCT_SUBCATEGORY_CODE").getValue(),"PRODUCT_SUBCATEGORY");
@@ -123,6 +123,19 @@
                                             detailTable.getAutocompleteColumnValueForItem("PRODUCT_SUBCATEGORY",crd.item("PRODUCT_SUBCATEGORY").getValue(),"PRODUCT_SUBCATEGORY_CODE");
                                     if(subcategoryCodeValueForSubcategory==undefined) subcategoryCodeValueForSubcategory=null;
                                     crd.item("PRODUCT_SUBCATEGORY_CODE").setValue(subcategoryCodeValueForSubcategory);
+                                }
+                                if(crd.item("PRODUCT_COLLECTION").isEMPTY())
+                                    crd.item("PRODUCT_COLLECTION").setValue(thisInstance.detailHeader.getContentDataItem("PRODUCT_COLLECTION"));
+                                if(crd.item("PRODUCT_COLLECTION_CODE").isChanged()&&!crd.item("PRODUCT_COLLECTION_CODE").isUNDEFNULL()){
+                                    var collectionValueForCollectionCode=
+                                            detailTable.getAutocompleteColumnValueForItem("PRODUCT_COLLECTION_CODE",crd.item("PRODUCT_COLLECTION_CODE").getValue(),"PRODUCT_COLLECTION");
+                                    if(collectionValueForCollectionCode==undefined) collectionValueForCollectionCode=null;
+                                    crd.item("PRODUCT_COLLECTION").setValue(collectionValueForCollectionCode);
+                                } else if(crd.item("PRODUCT_COLLECTION").isChanged()&&!crd.item("PRODUCT_COLLECTION").isUNDEFNULL()){
+                                    var collectionCodeValueForCollection=
+                                            detailTable.getAutocompleteColumnValueForItem("PRODUCT_COLLECTION",crd.item("PRODUCT_COLLECTION").getValue(),"PRODUCT_COLLECTION_CODE");
+                                    if(collectionCodeValueForCollection==undefined) collectionCodeValueForCollection=null;
+                                    crd.item("PRODUCT_COLLECTION_CODE").setValue(collectionCodeValueForCollection);
                                 }
 //                                //wrh_pinv_pinvproductslisthst.setProdDataByArticleFromPInv(changedRow,newProdData);
                             } else

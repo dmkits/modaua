@@ -662,13 +662,15 @@ module.exports.init = function(app){
             });
     });
     app.get("/dir/products/getDataForProductsCollectionCombobox", function (req, res) {
-        dir_products_collections.getDataItemsForTableCombobox({ comboboxFields:{"PRODUCT_COLLECTION":"NAME"}, order:"PRODUCT_COLLECTION" },
+        dir_products_collections.getDataItemsForTableCombobox({ comboboxFields:{"PRODUCT_COLLECTION":"NAME","PRODUCT_COLLECTION_CODE":"CODE"},
+                order:"PRODUCT_COLLECTION" },
             function(result){   console.log("result  CollectionCombobox=",result);
                 res.send(result);
             });
     });
     app.get("/dir/products/getDataForProductsCollectionCodeCombobox", function (req, res) {
-        dir_products_collections.getDataItemsForTableCombobox({ comboboxFields:{"PRODUCT_COLLECTION_CODE":"CODE"}, order:"PRODUCT_COLLECTION_CODE" },
+        dir_products_collections.getDataItemsForTableCombobox({ comboboxFields:{"PRODUCT_COLLECTION_CODE":"CODE","PRODUCT_COLLECTION":"NAME"},
+                order:"PRODUCT_COLLECTION_CODE" },
             function(result){
                 res.send(result);
             });
