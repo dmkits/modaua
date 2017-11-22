@@ -183,10 +183,10 @@ module.exports.init = function(app){
         {data: "PRODUCT_ARTICLE", name: "Артикул", width: 80,
             type: "comboboxWN", "sourceURL":"/dir/products/getDataForProductsArticleCombobox",
             dataSource:"dir_products_articles", sourceField:"VALUE", linkCondition:"dir_products_articles.ID=dir_products.ARTICLE_ID" },
-        {data: "PRODUCT_COLLECTION", name: "Коллекция", width: 150, /*visible:false,*/
+        {data: "PRODUCT_COLLECTION", name: "Коллекция", width: 150, visible:false,
             type: "combobox", "sourceURL":"/dir/products/getDataForProductsCollectionCombobox",
             dataSource:"dir_products_collections", sourceField:"NAME", linkCondition:"dir_products_collections.ID=dir_products.COLLECTION_ID" },
-        {data: "PRODUCT_COLLECTION_CODE", name: "Код коллекции", width: 100, /*visible:false,*/
+        {data: "PRODUCT_COLLECTION_CODE", name: "Код коллекции", width: 100, visible:false,
             type: "combobox", "sourceURL":"/dir/products/getDataForProductsCollectionCodeCombobox",
             dataSource:"dir_products_collections", sourceField:"CODE", linkCondition:"dir_products_collections.ID=dir_products.COLLECTION_ID" },
         {data: "PRODUCT_TYPE", name: "Тип", width: 100, //type: "text",
@@ -215,7 +215,7 @@ module.exports.init = function(app){
         {data: "QTY", name: "Кол-во", width: 50, type: "numeric"},
         {data: "PRICE", name: "Цена", width: 60, type: "numeric2"},
         {data: "POSSUM", name: "Сумма", width: 80, type: "numeric2"},
-        {data: "BATCH_NUMBER", name: "Партия", width: 60, type: "text",dataSource:"wrh_products_r_operations", sourceField:"BATCH_NUMBER"/*, visible:false*/},
+        {data: "BATCH_NUMBER", name: "Партия", width: 60, type: "text",dataSource:"wrh_products_r_operations", sourceField:"BATCH_NUMBER", visible:false},
         {data: "FACTOR", name: "Коэфф.", width: 60, type: "numeric2"},
         {data: "SALE_PRICE", name: "Цена продажи", width: 75, type: "numeric2"},
         {data: "PRICELIST_PRICE", name: "Цена по прайс-листу", width: 75, type: "numeric2",
