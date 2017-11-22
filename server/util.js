@@ -62,13 +62,9 @@ module.exports.sortArray=function(arr){
     arr.sort(compareBychangeDatetime);
     return arr;
 };
-/***
- * @param barcode
- * @param callback
- * @returns {*}
- */
-module.exports.getControlBarcodeFigure=function(barcode){
-    var barcodeStr=barcode.toString();
+
+var getControlBarcodeFigure=function(valueForBarcode){
+    var barcodeStr=valueForBarcode.toString();
     if(barcodeStr.length!=12) return null;
     var splittedBarcode=barcodeStr.split('');
     var oddSum=0, evenSum=0;
@@ -77,8 +73,15 @@ module.exports.getControlBarcodeFigure=function(barcode){
         if(i%2==0)oddSum = oddSum+fig;
         else evenSum = evenSum+fig;
     }
-    var controlFigure =10-((evenSum*3)+oddSum)%10;
+    var controlFigure;
+    if(((evenSum*3)+oddSum)%10==0)controlFigure=0;
+    else controlFigure =10-((evenSum*3)+oddSum)%10;
        return controlFigure;
+};
+module.exports.getEAN13Barcode=function(code, prefix){
+    var valueForBarcode=Math.pow(10,10)*prefix+code;
+    var barcodeControl=getControlBarcodeFigure(valueForBarcode);
+    return valueForBarcode.toString()+barcodeControl.toString();
 };
 
 module.exports.getUIDNumber=function() {

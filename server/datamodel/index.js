@@ -221,7 +221,7 @@ function _getSelectItems(params, resultCallback){                               
     }
     selectQuery+=joins;
     var wConditionQuery, hConditionQuery, coditionValues=[];
-    if (params.conditions&&typeof(params.conditions)=="object") {
+    if (params.conditions&&typeof(params.conditions)=="object"&&params.conditions.length===undefined) {//object
         for(var conditionItem in params.conditions) {
             var conditionItemValue=params.conditions[conditionItem];
             var conditionItemValueQuery= (conditionItemValue===null)?conditionItem:conditionItem+"?";
@@ -232,7 +232,7 @@ function _getSelectItems(params, resultCallback){                               
                 wConditionQuery= (!wConditionQuery)?conditionItemValueQuery:wConditionQuery+" and "+conditionItemValueQuery;
             if (conditionItemValue!==null) coditionValues.push(conditionItemValue);
         }
-    } else if (params.conditions) {
+    } else if (params.conditions&&typeof(params.conditions)=="object"&&params.conditions.length>0) {//array
         for(var ind in params.conditions) {
             var conditionItem= params.conditions[ind];
             var conditionFieldName=conditionItem.fieldName;
