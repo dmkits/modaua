@@ -35,7 +35,10 @@
                 var barcodeHTML = parentHTML.children[3];
                 var barcodeID = parentID+"_prodbarcode";
                 barcodeHTML.setAttribute("id",barcodeID);
-                if(prodTagContentData) printBarcode(barcodeID, prodTagContentData["BARCODE"]);
+                var barcode=prodTagContentData["BARCODE"];
+                if(!barcode) barcode=prodTagContentData["PRODUCT_PBARCODE"];
+                if(barcode==undefined || barcode==null || barcode.toString().trim().length==0) barcode=1;
+                if(prodTagContentData) printBarcode(barcodeID, barcode);
                 var pageNum = parent["printPageNumber"];
                 if(!pageNum) pageNum="";
                 parentHTML.children[4].innerHTML = pageNum;

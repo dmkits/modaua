@@ -48,7 +48,10 @@
                 parentHTML.children[5].innerHTML = "<b>"+prodTagContentData["SALE_PRICE"]+" грн./"+prodTagContentData["PRODUCT_UM"]+"</b>";
                 var barcodeID = parentID+"_prodbarcode";
                 barcodeHTML.setAttribute("id",barcodeID);
-                if(prodTagContentData) printBarcode(barcodeID, prodTagContentData["BARCODE"]);
+                var barcode=prodTagContentData["BARCODE"];
+                if(!barcode) barcode=prodTagContentData["PRODUCT_PBARCODE"];
+                if(barcode==undefined || barcode==null || barcode.toString().trim().length==0) barcode=1;
+                if(prodTagContentData) printBarcode(barcodeID,barcode);
             });
 </script>
 </html>
