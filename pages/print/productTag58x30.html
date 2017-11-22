@@ -58,8 +58,9 @@
                 var barcodeID = parentID+"_prodbarcode";
                 var barcodeHTML = parentHTML.children[5];
                 barcodeHTML.setAttribute("id",barcodeID);
-                var barcode=prodTagContentData["BARCODE"];
-                if(!barcode) barcode=prodTagContentData["PRODUCT_PBARCODE"];
+                var barcode=prodTagContentData["BARCODE"];    console.log("prodTagContentData BARCODE=",prodTagContentData["BARCODE"]);
+                if(!barcode) barcode=prodTagContentData["PRODUCT_PBARCODE"]; console.log("prodTagContentData BARCODE=",prodTagContentData["PRODUCT_PBARCODE"]);
+                if(barcode==undefined || barcode==null || barcode.toString().trim().length==0) barcode=1;
                 if(barcode) printBarcode(barcodeID, barcode);
             });
 </script>
