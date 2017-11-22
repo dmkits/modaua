@@ -50,7 +50,7 @@
                 barcodeHTML.setAttribute("id",barcodeID);
                 var barcode=prodTagContentData["BARCODE"];
                 if(!barcode) barcode=prodTagContentData["PRODUCT_PBARCODE"];
-                if(barcode==undefined || barcode==null || barcode.toString().trim().length==0) barcode=1;
+                if(barcode==undefined || barcode==null || barcode.toString().trim().length==0) barcode='0000000000000';
                 if(prodTagContentData) printBarcode(barcodeID,barcode);
             });
 </script>
