@@ -1,12 +1,14 @@
 var path=require('path'), XLSX=require('xlsx'),fs=require('fs');
 var dataModel=require('../datamodel'), util=require('../util');
 var server=require('../server'), log=server.log, tempExcelRepDir=server.tempExcelRepDir;
+var database = require('../database');
 var sys_currency= require(appDataModelPath+"sys_currency"),
     sys_docstates= require(appDataModelPath+"sys_docstates"),
-    sys_operations= require(appDataModelPath+"sys_operations");
+    sys_operations= require(appDataModelPath+"sys_operations"),
+    dir_products_bata= require(appDataModelPath+"dir_products-bata");
 
 module.exports.validateModule = function(errs, nextValidateModuleCallback){
-    dataModel.initValidateDataModels([sys_currency,sys_docstates,sys_operations], errs,
+    dataModel.initValidateDataModels([sys_currency,sys_docstates,sys_operations,dir_products_bata], errs,
         function(){
             nextValidateModuleCallback();
         });
@@ -124,5 +126,89 @@ module.exports.init = function(app) {
         if(columnData.type=="numeric") return'n';
         if(columnData.type=="text" && columnData.datetimeFormat) return'd';
         else return's';
+    }
+
+    dir_products_bata.deleteUnusedProducts=function(callback){
+        database.executeQuery(
+            "delete dpb "+
+            "from dir_products_barcodes dpb "+
+            "inner JOIN dir_products dp on dpb.PRODUCT_ID=dp.ID "+
+            "left JOIN wrh_products_operations_v wpov on wpov.PRODUCT_ID=dp.ID "+
+            "where wpov.PRODUCT_ID is null; "
+            ,function(error){
+                if(error){
+                    callback({error:error});
+                    return;
+                }
+                database.executeQuery(
+                    "delete dpbat "+
+                    "from dir_products_batches dpbat "+
+                    "inner JOIN dir_products dp  on dpbat.PRODUCT_ID=dp.ID "+
+                    "left JOIN wrh_products_operations_v wpov on wpov.PRODUCT_ID=dp.ID "+
+                    "where wpov.PRODUCT_ID is null; "
+                    ,function(error){
+                        if(error){
+                            callback({error:error});
+                            return;
+                        }
+                        database.executeQuery(
+                            "delete dp "+
+                            "from dir_products dp "+
+                            "left JOIN wrh_products_operations_v wpov on wpov.PRODUCT_ID=dp.ID "+
+                            "where wpov.PRODUCT_ID is null; "
+                            ,function(error, affectedRows){
+                                if(error){
+                                    callback({error:error});
+                                    return;
+                                }
+                                callback({affectedRows:affectedRows});
+                            })
+                    })
+        })
+    };
+    dir_products_bata.deleteUnusedArticles=function(callback){
+        database.executeQuery("delete dpa "+
+        "from dir_products_articles dpa "+
+        "LEFT JOIN  dir_products dp on dp.ARTICLE_ID=dpa.ID "+
+        "LEFT JOIN  wrh_orders_bata_details wobd on wobd.PRODUCT_ARTICLE_ID=dpa.ID "+
+        "where wobd.PRODUCT_ARTICLE_ID is null AND dp.ARTICLE_ID is null; "
+            ,function(error, affectedRows){
+                if(error){
+                    callback({error:error});
+                    return;
+                }
+                callback({affectedRows:affectedRows});
+            })
+    };
+
+    dir_products_bata.deleteUnusedKinds=function(callback){
+        database.executeQuery(''
+            ,function(error, affectedRows){
+                if(error){
+                    callback({error:error});
+                    return;
+                }
+                callback({affectedRows:affectedRows});
+            })
+    };
+    dir_products_bata.deleteUnusedComposition=function(callback){
+        database.executeQuery(''
+            ,function(error, affectedRows){
+                if(error){
+                    callback({error:error});
+                    return;
+                }
+                callback({affectedRows:affectedRows});
+            })
+    };
+    dir_products_bata.deleteUnusedSizes=function(callback){
+        database.executeQuery(''
+            ,function(error, affectedRows){
+                if(error){
+                    callback({error:error});
+                    return;
+                }
+                callback({affectedRows:affectedRows});
+            })
     }
 };

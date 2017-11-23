@@ -179,7 +179,6 @@ module.exports.init = function(app){
         return result;
     };
 
-
     var dirProductsTableColumns=[
         {data: "ID", name: "ID", width: 80, type: "text", readOnly:true, visible:false}
         //{data: "GENDER_CODE", name: "Код группы", width: 50,
@@ -728,6 +727,16 @@ module.exports.init = function(app){
             });
     });
 
+    app.post("/dir/products/deleteUnusedProducts", function(req, res){
+        dir_products_bata.deleteUnusedProducts(function(result){
+            res.send(result);
+        });
+    });
+    app.post("/dir/products/deleteUnusedArticles", function(req, res){
+        dir_products_bata.deleteUnusedArticles(function(result){
+            res.send(result);
+        });
+    });
     dir_products_bata.getProductBataGroupsIDs= function(params,resultCallback){
         if (!params||!params.prodData) {
             resultCallback({error: "Failed get product bata groups id's! Reason: no product bata groups data!"});
