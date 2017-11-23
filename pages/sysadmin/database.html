@@ -54,8 +54,8 @@
                                     TDocumentSimpleTable, {titleText: "Data model current changes", dataURL: '/sysadmin/database/getCurrentChanges',
                                         buttonPrint: false, rightPane:{width:200}})
                                     .addTotalCountNumberBox("ИТОГО строк:", 140, {style: "font-weight:bold;", inputStyle: "width:40px;"})
-                                    .addToolPane("info")
-                                    .addToolPane("apply changes")
+                                    .addToolPane({title:"info"})
+                                    .addToolPane({title:"apply changes"})
                                     .addContentTableRowsAction("applyChangesRowData",{
                                         startAction:function(contentTableRowsData, actionParams, startContentTableRowsAction){
                                             actionParams["finishedCounterByNoConnection"]=0;actionParams["finishedCounterByFailed"]=0;
@@ -166,8 +166,8 @@
                                         TDocumentSimpleTable, {titleText:"Import data from bata1 database", rightPane:{width:200},
                                             dataURL:"/sysadmin/database/getDataModelsForImportData"})
                                         .addTotalCountNumberBox("Total rows:", 120, {style:"font-weight:bold;",inputStyle:"width:40px"})
-                                        .addToolPane("info")
-                                        .addToolPane("restore")
+                                        .addToolPane({title:"info"})
+                                        .addToolPane({title:"restore"})
                                         .addContentTableRowsAction("deleteDataFromRowDataDataModel",{
                                             startAction:function(contentTableRowsData, actionParams, startContentTableRowsAction){
                                                 if(actionParams&&actionParams.toolPanes&&actionParams.toolPanes[0]){
@@ -212,7 +212,7 @@
                                         })
                                         .addToolPaneBR()
                                         .addToolPaneActionButton("connect to bata1 DB",{ btnStyle:"width:160px",
-                                            actionFunction:function(contentTableRowsData, actionParams){
+                                            actionFunction:function(params){
                                                 SysadminDialogs.showAdminAuthDialog({},
                                                         function(result) {
                                                             if (!result.result) return;
@@ -220,46 +220,46 @@
                                                                         data: {adminUser:result.adminName,adminPassword:result.adminPassword},
                                                                         consoleLog: true},
                                                                     function (success, result) {
-                                                                        if (!success&&actionParams.toolPanes&&actionParams.toolPanes[0]) {
-                                                                            actionParams.toolPanes[0].set("content","<b style='color:red;'>Filed connect to server!</b>");
+                                                                        if (!success&&params.toolPanes&&params.toolPanes[0]) {
+                                                                            params.toolPanes[0].set("content","<b style='color:red;'>Filed connect to server!</b>");
                                                                             return;
                                                                         }
-                                                                        if (!result&&actionParams.toolPanes&&actionParams.toolPanes[0]) {
-                                                                            actionParams.toolPanes[0].set("content","<b style='color:red;'>No server response data!</b>");
+                                                                        if (!result&&params.toolPanes&&params.toolPanes[0]) {
+                                                                            params.toolPanes[0].set("content","<b style='color:red;'>No server response data!</b>");
                                                                             return;
                                                                         }
-                                                                        if (result.error&&actionParams.toolPanes&&actionParams.toolPanes[0]) {
-                                                                            actionParams.toolPanes[0].set("content","<b style='color:red;'>Failed connect to bata1 database! Reason:"+result.error+"</b>");
+                                                                        if (result.error&&params.toolPanes&&params.toolPanes[0]) {
+                                                                            params.toolPanes[0].set("content","<b style='color:red;'>Failed connect to bata1 database! Reason:"+result.error+"</b>");
                                                                             return;
                                                                         }
                                                                         var infoPaneMsg="<b>Connected to bata1 database.</b>";
-                                                                        actionParams.toolPanes[0].set("content",infoPaneMsg);
+                                                                        params.toolPanes[0].set("content",infoPaneMsg);
                                                                         var bata1DataModels= [];
-                                                                        for(var i=0;i<contentTableRowsData.length;i++)
-                                                                            bata1DataModels.push(contentTableRowsData[i]["IMPORT_DATA_TABLE_NAME"]);
+                                                                        for(var i=0;i<params.contentTableRowsData.length;i++)
+                                                                            bata1DataModels.push(params.contentTableRowsData[i]["IMPORT_DATA_TABLE_NAME"]);
                                                                         Request.postJSONData({url: "/sysadmin/database/getBata1DataModelInfo",
                                                                                     data: bata1DataModels, consoleLog: true},
                                                                                 function (success, result) {
-                                                                                    if (!success&&actionParams.toolPanes&&actionParams.toolPanes[0]) {
+                                                                                    if (!success&&params.toolPanes&&params.toolPanes[0]) {
                                                                                         infoPaneMsg+="<br><b style='color:red;'>Filed connect to server!</b>";
-                                                                                        actionParams.toolPanes[0].set("content",infoPaneMsg);
+                                                                                        params.toolPanes[0].set("content",infoPaneMsg);
                                                                                         return;
                                                                                     }
-                                                                                    if (!result&&actionParams.toolPanes&&actionParams.toolPanes[0]) {
+                                                                                    if (!result&&params.toolPanes&&params.toolPanes[0]) {
                                                                                         infoPaneMsg+="<br><b style='color:red;'>No server response data!</b>";
-                                                                                        actionParams.toolPanes[0].set("content",infoPaneMsg);
+                                                                                        params.toolPanes[0].set("content",infoPaneMsg);
                                                                                         return;
                                                                                     }
                                                                                     infoPaneMsg+="<br><b>Geted data from bata1 data model.</b>";
-                                                                                    actionParams.toolPanes[0].set("content",infoPaneMsg);
-                                                                                    for(var i=0;i<contentTableRowsData.length;i++){
-                                                                                        var tableContentRowData=contentTableRowsData[i], resultItem=result[i];
+                                                                                    params.toolPanes[0].set("content",infoPaneMsg);
+                                                                                    for(var i=0;i<params.contentTableRowsData.length;i++){
+                                                                                        var tableContentRowData=params.contentTableRowsData[i], resultItem=result[i];
                                                                                         var updatedData={};
                                                                                         if(resultItem) {
                                                                                             updatedData["IMPORT_ROW_COUNT"]=resultItem["IMPORT_ROW_COUNT"];
                                                                                             if(resultItem["RESULT"])updatedData={"RESULT":resultItem["RESULT"]};
                                                                                         } else updatedData={"RESULT":"No data table info!"};
-                                                                                        actionParams.contentTableInstance.updateRowData(tableContentRowData,updatedData);
+                                                                                        params.contentTableInstance.updateRowData(tableContentRowData,updatedData);
                                                                                     }
                                                                                 })
                                                                     });

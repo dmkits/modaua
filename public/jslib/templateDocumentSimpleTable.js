@@ -122,15 +122,12 @@ define(["dojo/_base/declare", "app", "templateDocumentBase","dijit/form/Select",
                     var totalBox = this.totals[tableItemName];
                     totalBox.updateValue();
                 }
-                if (this.infoPane&&this.infoPane.updateCallback)
-                    this.infoPane.updateCallback({infoPane:this.infoPane, contentTable:this.contentTable, instance:this,
-                        contentTableSelectedRow:this.contentTable.getSelectedRow()});
+                this.callToolPanesContentTableActions();
                 this.layout();
             },
             onSelectTableContent: function(firstSelectedRowData, selection){
-                if (this.infoPane&&this.infoPane.updateCallback)
-                    this.infoPane.updateCallback({infoPane:this.infoPane, contentTable:this.contentTable, instance:this,
-                        contentTableSelectedRow:firstSelectedRowData});
+                this.callToolPanesContentTableActions(firstSelectedRowData);
+                //toolPanes contentTableAction
             },
 
             /**
@@ -364,38 +361,37 @@ define(["dojo/_base/declare", "app", "templateDocumentBase","dijit/form/Select",
                 return this;
             },
             /**
-             * params = { title }
-             * updateInfoPaneCallback = function(params)
-             *  params = { infoPane:<this.infoPane>, contentTable:<this.ContentTable>, instance:<this>,
+             * params = { title, contentTableAction }
+             * params.contentTableAction = function(params)
+             * params.contentTableAction calls on this.contentTable select row, or updated table content
+             *  contentTableAction.params = { thisToolPane, contentTable:<this.ContentTable>, instance:<this>,
              *      contentTableSelectedRow:<this.contentTable.getSelectedRow()> }
              */
-            addInfoPane: function(params, updateInfoPaneCallback){
-                if(!params) params={};
-                if (!this.infoPane) {
-                    if (params.width===undefined) params.width=100;
-                    this.addToolPane(params.title);
-                    this.infoPane= this.toolPanes[this.toolPanes.length-1];
-                    if (updateInfoPaneCallback) this.infoPane.updateCallback = updateInfoPaneCallback;
-                }
-                return this;
-            },
-            /*
-             * contentAction= function(toolPane, this.contentTable, this)
-             * contentAction calls on this.contentTable updated or changed selected row
-             */
-            addToolPane: function(title, contentAction){
+            addToolPane: function(params){
                 if(!this.rightContainer) {
                     console.log("WARNING! Failed addToolPane! Reason: no rightContainer!");
                     return this;
                 }
+                if(!params) params={};
+                if (params.title===undefined) params.title="";
+                if (params.width===undefined) params.width=100;
+                var actionsTitlePane= this.addChildTitlePaneTo(this.rightContainer,{title:params.title});
+                if (params.contentTableAction) actionsTitlePane.contentTableAction = params.contentTableAction;
                 if (!this.toolPanes) this.toolPanes= [];
-                var actionsTitlePane= this.addChildTitlePaneTo(this.rightContainer,{title:title});
-                if(contentAction) actionsTitlePane.contentAction= contentAction;
                 this.toolPanes.push(actionsTitlePane);
                 this.addTableTo(actionsTitlePane.containerNode);
                 return this;
             },
-
+            callToolPanesContentTableActions: function(firstSelectedRowData){
+                if(!this.toolPanes) return;
+                for (var i = 0; i < this.toolPanes.length; i++) {
+                    var toolPane = this.toolPanes[i];
+                    if(!toolPane.contentTableAction) continue;
+                    if(!firstSelectedRowData) firstSelectedRowData=this.contentTable.getSelectedRow();
+                    toolPane.contentTableAction({thisToolPane:toolPane, contentTable:this.contentTable, instance:this,
+                        contentTableSelectedRow:firstSelectedRowData});
+                }
+            },
             addToolPaneBR: function(){
                 var row= this.addRowToTable(this.toolPanes[this.toolPanes.length-1].containerNode.lastChild);
                 this.addLeftCellToTableRow(row).innerHTML="<br>";
@@ -433,8 +429,8 @@ define(["dojo/_base/declare", "app", "templateDocumentBase","dijit/form/Select",
 
             /**
              * actionParams = { btnStyle, btnParams, actionFunction, contentTableActionName, beforeContentTableRowsAction }
-             *      actionFunction = function(contentTableRowsData, actionParams)
-             *          actionParams = { contentTableInstance, toolPanes, thisInstance }
+             *      actionFunction = function(actionParams)
+             *          actionParams = { contentTableRowsData, contentTableInstance, toolPanes, thisInstance }
              *      beforeContentTableRowsAction = function(contentTableRowsData, actionParams, startContentTableRowsAction)
              *          actionParams = { contentTableInstance, toolPanes, thisInstance }
              *          startContentTableRowsAction= function(contentTableRowsDataForAction)
@@ -450,16 +446,15 @@ define(["dojo/_base/declare", "app", "templateDocumentBase","dijit/form/Select",
                 var actionButton= this.addTableCellButtonTo(actionsTableRow, {labelText:label, cellWidth:0,
                     btnStyle:actionParams.btnStyle, btnParameters:actionParams.btnParams});
                 if (!this.toolPanesActionButtons) this.toolPanesActionButtons={};
-                actionParams.contentTableInstance=this.contentTable;
-                actionParams.toolPanes=this.toolPanes;
-                actionParams.thisInstance=this;
-                var thisInstance=this;
+                var actionFunctionParams={contentTableInstance:this.contentTable, toolPanes:this.toolPanes, thisInstance:this,
+                    contentTableRowsData:this.getTableContent()};
                 if(actionParams.actionFunction) {
                     actionButton.onClick=function(){
-                        actionParams.actionFunction(thisInstance.getTableContent(),actionParams);
+                        actionParams.actionFunction(actionFunctionParams);
                     };
                     return this;
                 }
+                var thisInstance=this;
                 var contentTableRowAction, contentTableRowsActionFunction;
                 if (actionParams.contentTableActionName)
                     contentTableRowAction= this.contentTableActions[actionParams.contentTableActionName];

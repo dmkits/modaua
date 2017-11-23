@@ -81,18 +81,19 @@
                                     TDocumentSimpleTable, {titleText: "Incoming data synchronization", buttonPrint: false, rightPane:{ width:250 },
                                         dataURL: '/system/synchronization/getIncomingDataForTable', dataURLCondition: {"1~": 1}, })
                                     .addTotalCountNumberBox("ИТОГО строк:", 140, {style: "font-weight:bold;", inputStyle: "width:40px;"})
-                                    .addInfoPane({title:"Detail info"}, function(params){
-                                        Request.postJSONData({url:"/system/synchronization/getInfoPaneDetailIncomingData", data:params.contentTableSelectedRow},
-                                                function(success,result){
-                                                    if(!result|| !result.items)return;
-                                                    var innerCont="";
-                                                    for (var i = 0; i < result.items.length; i++) {
-                                                        var elem = result.items[i];
-                                                        innerCont+="<b>"+elem["NAME"]+"</b>: "+elem["VALUE"]+"<br>";
-                                                    }
-                                                    params.infoPane.set("content",innerCont);
-                                                });
-                                    })
+                                    .addToolPane({title:"Detail info",
+                                        contentTableAction:function(params){
+                                            Request.postJSONData({url:"/system/synchronization/getInfoPaneDetailIncomingData", data:params.contentTableSelectedRow},
+                                                    function(success,result){
+                                                        if(!result|| !result.items)return;
+                                                        var innerCont="";
+                                                        for (var i = 0; i < result.items.length; i++) {
+                                                            var elem = result.items[i];
+                                                            innerCont+="<b>"+elem["NAME"]+"</b>: "+elem["VALUE"]+"<br>";
+                                                        }
+                                                        params.thisToolPane.set("content",innerCont);
+                                                    });
+                                        } })
                                     .addContentTableRowsAction("apply",{
                                         tableRowAction:function(contentTableRowData, actionParams, contentTableUpdatedRowData, startNextAction, finishedAction){
                                            // console.log("ContentTableRowsAction contentTableRowData=",contentTableRowData);

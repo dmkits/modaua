@@ -33,7 +33,7 @@ define(["dojo/_base/declare", "app", "templateDocumentSimpleTable", "hTableEdita
                 this.createRightContent();
                 if(this.rightToolPaneParams){
                     if(this.rightToolPaneParams.title){
-                        this.addToolPane("Действия");
+                        this.addToolPane({title:"Действия"});
                     }
                     var rightPaneWidth=this.rightContainerParams.width;
                     for (var btnActionName in this.rightToolPaneParams.buttons) {
@@ -63,7 +63,7 @@ define(["dojo/_base/declare", "app", "templateDocumentSimpleTable", "hTableEdita
                     console.log("WARNING! Failed addToolPaneTableActionButton! Reason: no rightContainer!");
                     return this;
                 }
-                if (!this.toolPanes||this.toolPanes.length==0) this.addToolPane("");
+                if (!this.toolPanes||this.toolPanes.length==0) this.addToolPane();
                 var actionsTableRow= this.addRowToTable(this.toolPanes[this.toolPanes.length-1].containerNode.lastChild);
                 if(!actionParams) actionParams={};
                 var actionButton= this.addTableCellButtonTo(actionsTableRow, {labelText:label, cellWidth:0,
@@ -103,7 +103,6 @@ define(["dojo/_base/declare", "app", "templateDocumentSimpleTable", "hTableEdita
                 }
                 return actionFunction;
             },
-
             /**
              * actionParams = {
              *      actionName: "insertTableRowsAfterSelected" / "allowEditTableSelectedRows" / "storeTableSelectedRows"
