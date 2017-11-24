@@ -1,7 +1,7 @@
 /**
  * Created by dmkits on 12.07.17.
  */
-define(["dojo/_base/declare", "app", "templateDocumentSimpleTable", "hTableEditable"],
+define(["dojo/_base/declare", "app", "tDocumentSimpleTable", "hTableEditable"],
     function(declare, APP, TDocumentSimpleTable, HTableEditable) {
         return declare("TemplateDocumentSimpleTableEditable", [TDocumentSimpleTable], {
             /**

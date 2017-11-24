@@ -1,7 +1,7 @@
 /**
  * Created by dmkits on 18.12.16.
  */
-define(["dojo/_base/declare", "app", "templateDocumentBase","dijit/form/Select", "hTableSimpleFiltered","request"],
+define(["dojo/_base/declare", "app", "tDocumentBase","dijit/form/Select", "hTableSimpleFiltered","request"],
     function(declare, APP, DocumentBase,Select, HTable, Request) {
         return declare("TemplateDocumentSimpleTable", [DocumentBase], {
             /**
@@ -209,7 +209,7 @@ define(["dojo/_base/declare", "app", "templateDocumentBase","dijit/form/Select",
                             if (success&&data.items) {
                                 select.set("options", data.items);
                                 select.set("value", value);
-                            } else if (success&&!data.items) console.log("templateDocumentSimpleTable.addSelectBox loadDropDown getJSONData data error:",data);
+                            } else if (success&&!data.items) console.log("tDocumentSimpleTable.addSelectBox loadDropDown getJSONData data error:",data);
                             if(callback) callback();
                         });
                 };
