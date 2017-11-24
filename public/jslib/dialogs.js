@@ -31,15 +31,19 @@ define(["app", "dijit/ConfirmDialog","dojox/widget/DialogSimple", "dijit/form/Bu
                 myDialog.startup();
             },
             /**
-             *IANAGEZ 20.10.2017
-             * @param params(title, content, btnOkLabel, style, width)
+             * IANAGEZ 20.10.2017
+             * @param params = {title, content, btnOkLabel, style, width, dialogID}
              */
             doSimpleDialog: function(params) {
+                if(!params) params={};
+                if(!params.dialogID) params.dialogID="DialogSimple";
                 var dialogStyle="text-align:center; ";
-                var myDialog = APP.instance("DialogSimple", DialogSimple, {});
+                var myDialog = APP.instance(params.dialogID, DialogSimple, {});
                 if(params.width)dialogStyle=dialogStyle+'width:'+params.width+'; ';
-                if (params.title) myDialog.set("title", params.title); else myDialog.set("title", "");
-                if (params.content) myDialog.set("content", params.content); else myDialog.set("content", ""); console.log("dialogStyle=",dialogStyle);
+                if (!params.title) params.title="";
+                myDialog.set("title", params.title);
+                if (!params.content) params.content="";
+                myDialog.set("content", params.content+"<br>");
                 if (params.style) myDialog.set("style", dialogStyle+params.style); else myDialog.set("style", dialogStyle);
                 var okBtn=new Button({"label":"Ok", style:"margin-top:10px;", onClick:function(){myDialog.hide(); }});
                 okBtn.startup();
@@ -48,15 +52,10 @@ define(["app", "dijit/ConfirmDialog","dojox/widget/DialogSimple", "dijit/form/Bu
                 myDialog.startup();
                 myDialog.show();
             },
-
             mainAboutDialog: function (){
                 this.doDialogMsg({title:"О программе",
                     content:"Система учета <b>MODA.UA</b>. <br>Разработчики: dmkits, ianagez 2017",
                     btnOkLabel:"OK", btnCancelLabel:"Закрыть"});
-            },
-            doRequestErrorDialog: function() {
-                this.doDialogMsg({title:"Внимание",content:"Невозможно завершить операцию! <br>Нет всязи с сервером!",
-                    style:"width:300px;", btnOkLabel:"OK", btnCancelLabel:"Закрыть"});
             },
             printTagsDialog: function(callback) {
                 this.doDialogMsg({title:"Напечать все ценники?",content:"<div align='center'>Вы хотите напечатать<br>более 100 ценников?</div>",
@@ -68,6 +67,17 @@ define(["app", "dijit/ConfirmDialog","dojox/widget/DialogSimple", "dijit/form/Bu
             impossibleToPrintTagsDialog: function() {
                 this.doSimpleDialog({title:"Превышение количества!", width:"220px;", content:"<div align='center'>Максимальное количество -<br>1000шт. </div>"});
             },
+
+
+            //doDialog1: function (title, content, style, onExecute, onCancel) {
+            //    require(["dijit/Dialog", "dijit/form/Button", "dojo/domReady!"], function(Dialog,Button){
+            //    var myDialog = new Dialog({title: title, content: content, style: style});
+            //    myDialog.onCancel = function() { onCancel(); }
+            //    myDialog.onExecute = function() { onExecute(); }
+            //    myDialog.addChild(new Button({type:"submit",title:"OK",label:"OK",onClick:function(){ myDialog.execute(); }}));
+            //    myDialog.show()
+            //    });
+            //}
             /**
              * DMKITS 2016.02.29 v.1.1
              * @param params = {title, style, btnOkLabel, btnCancelLabel, content}
@@ -227,15 +237,5 @@ define(["app", "dijit/ConfirmDialog","dojox/widget/DialogSimple", "dijit/form/Bu
                 //    simpleListDialog.show()
                 //});
             }
-
-            //doDialog1: function (title, content, style, onExecute, onCancel) {
-            //    require(["dijit/Dialog", "dijit/form/Button", "dojo/domReady!"], function(Dialog,Button){
-            //    var myDialog = new Dialog({title: title, content: content, style: style});
-            //    myDialog.onCancel = function() { onCancel(); }
-            //    myDialog.onExecute = function() { onExecute(); }
-            //    myDialog.addChild(new Button({type:"submit",title:"OK",label:"OK",onClick:function(){ myDialog.execute(); }}));
-            //    myDialog.show()
-            //    });
-            //}
         };
     });

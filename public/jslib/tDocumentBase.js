@@ -313,10 +313,9 @@ define(["dojo/_base/declare", "dijit/layout/BorderContainer", "dijit/layout/Layo
             },
             /**
              * IANAGEZ 11.10.2017
-             * @param (visibleColumns,tableData)
+             * params= { visibleColumns,tableData }
              */
             requestForExcelFile:function(params){
-
                 var tableData=params.tableData;
                 var visibleColumns=params.visibleColumns;
                 var columnsDataForExcel= [];

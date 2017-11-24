@@ -145,23 +145,85 @@
                 var configNameInput=new TextBox({id:"configName"},"configName");
                 var backupScheduleInput=new TextBox({id:"backup_schedule"},"backup_schedule");
 
-                var sa_serverConfig_configState = document.getElementById("sa_serverConfig_configState");
+                var configState = document.getElementById("sa_serverConfig_configState");
                 var reloadBtn = new Button({id: "SA_serverConfig_btnLoadConfig"}, "SA_serverConfig_btnLoadConfig");
                 var saveAndReconnectBtn = new Button({id: "SA_serverConfig_btnSaveConfigAndReconnect"}, "SA_serverConfig_btnSaveConfigAndReconnect");
                 var dbForUserBtn=new Button({id: "databases_for_btn"}, "databases_for_btn");
+
                 var createDBBtn= new Button({id: "create_db_btn"}, "create_db_btn");
                 createDBBtn.domNode.firstChild.setAttribute("style", "width:70px;");
+
                 var dropDBBtn= new Button({id: "drop_db_btn"}, "drop_db_btn");
                 dropDBBtn.domNode.firstChild.setAttribute("style", "width:70px;");
+
                 var backupDBBtn= new Button({id: "backup_db_btn"}, "backup_db_btn");
                 backupDBBtn.domNode.firstChild.setAttribute("style", "width:70px;");
                 var backupDataBtn= new Button({id: "backup_data_btn"}, "backup_data_btn");
                 backupDataBtn.domNode.firstChild.setAttribute("style", "width:70px;");
+
                 var restoreBtn=new Button({id: "restore_db_btn"}, "restore_db_btn");
                 restoreBtn.domNode.firstChild.setAttribute("style", "width:70px;");
+
                 var restore_db_bata_from_bata1DB=new Button({id: "restore_db_bata_from_bata1DB"}, "restore_db_bata_from_bata1DB");
                 restore_db_bata_from_bata1DB.domNode.firstChild.setAttribute("style", "width:140px;");
 
+                reloadBtn.onClick= function() {
+                    configState.innerHTML = "<div><b>Loading configuration parameters...</b></div>";
+                    Request.getJSONData({url: "/sysadmin/server/loadServerConfig", consoleLog: true},
+                            function (result,error) {
+                                if (!result) {
+                                    configState.innerHTML = "<div><b style='color:red'>UNKNOWN</b></div>";
+                                    return;
+                                }
+                                if (error) {
+                                    configState.innerHTML = "<div><b style='color:red'>Cannot load configuration parameters!</b> Reason:"+result.error+"</div>";
+                                    setServerConfigContent(result);
+                                    return;
+                                }
+                                configState.innerHTML = "<div><b>Configuration reloaded.</b></div>";
+                                setServerConfigContent(result);
+                                if (sa_serverConfig_PageContent.getParent().updateDBState)  sa_serverConfig_PageContent.getParent().updateDBState();
+                            }
+                    );
+                };
+                saveAndReconnectBtn.onClick = function () {
+                    configState.innerHTML = "<div><b>Configuration saving and reconnecting to database...</b></div>";
+                    var newDBConfig={
+                        host: hostInput.get('value'),
+                        database: databaseInput.get('value'),
+                        user: userInput.get('value'),
+                        password: dbPasswordInput.get('value'),
+                        configName: configNameInput.get('value'),
+                        backupSchedule: backupScheduleInput.get('value')
+                    };
+                    Request.postJSONData({url:  "/sysadmin/serverConfig/storeServerConfigAndReconnect", data: newDBConfig, consoleLog: true},
+                            function (result,error) {
+                                if (!result) {
+                                    if (error)
+                                        configState.innerHTML = "<div><b style='color:red'>Failed store configuration! Reason:" + error + "</b></div>";
+                                    else
+                                        configState.innerHTML = "<div><b style='color:red'>UNKNOWN</b></div>";
+                                    if (sa_serverConfig_PageContent.getParent().updateDBState)  sa_serverConfig_PageContent.getParent().updateDBState();
+                                    return;
+                                }
+                                configState.innerHTML = "<div><b>Configuration saved.</b></div>";
+                                if(result.dbListError){
+                                    document.getElementById("db_list").innerText=result.dbListError;
+                                } else if(result.dbList){
+                                    if(result.dbListUser) document.getElementById("server_dblist_user").innerHTML=result.dbListUser;
+                                    var DBArray=result.dbList, DBstr="";
+                                    for(var i in DBArray) DBstr=DBstr+DBArray[i].Database+"\n";
+                                    document.getElementById("db_list").innerText=DBstr;
+                                }
+                                if (result.DBConnectError)
+                                    configState.innerHTML=
+                                            configState.innerHTML+ "<br><div><b style='color:red'>Failed connect to database ! Reason:" + result["DBConnectError"] + "</b></div>";
+                                else
+                                    configState.innerHTML =
+                                            configState.innerHTML+ "<br><div><b>Reconnected to database.</b></div>";
+                                if (sa_serverConfig_PageContent.getParent().updateDBState)  sa_serverConfig_PageContent.getParent().updateDBState();
+                            });
+                };
                 createDBBtn.onClick = function () {
                     sysadminDialogs.showAdminAuthDialog({},
                             function (result) {
@@ -177,7 +239,7 @@
                                 Request.postJSONData({url: "/sysadmin/create_new_db", data: newDB, consoleLog: true},
                                         function (success, data) {
                                             var now = moment().format('DD.MM.YYYY HH:mm:ss');
-                                            if (!success)  sa_serverConfig_configState.innerHTML = "<div><b style='color:red'>No connection!</b></div>";
+                                            if (!success)  configState.innerHTML = "<div><b style='color:red'>No connection!</b></div>";
                                             if (data.error) {
                                                 document.getElementById("create_db_result").innerHTML = "<b style='color:red'>" + now + "</br>FAIL! Reason:" + data.error + "</b>";
                                                 sa_serverConfig_PageContent.getServerConfiguration();
@@ -210,7 +272,7 @@
                                 Request.postJSONData({url: "/sysadmin/drop_db", data: DB, consoleLog: true},
                                         function (success, data) {
                                             var now = moment().format('DD.MM.YYYY HH:mm:ss');
-                                            if (!success) sa_serverConfig_configState.innerHTML = "<div><b style='color:red'>No connection!</b></div>";
+                                            if (!success) configState.innerHTML = "<div><b style='color:red'>No connection!</b></div>";
                                             if (data.error) {
                                                 document.getElementById("drop_db_result").innerHTML = "<b style='color:red'>"+now+"<br/>FAIL! Reason:" + data.error+"<b>";
                                                 sa_serverConfig_PageContent.getServerConfiguration();
@@ -246,7 +308,7 @@
                                 Request.postJSONData({url: "/sysadmin/auth_as_sysadmin", data: authParams, consoleLog: true},
                                         function (success, data) {
                                             if (!success) {
-                                                sa_serverConfig_configState.innerHTML = "<div><b style='color:red'>No connection!</b></div>";
+                                                configState.innerHTML = "<div><b style='color:red'>No connection!</b></div>";
                                                 return;
                                             }
                                             if (data.error) {
@@ -274,7 +336,7 @@
                                                             },
                                                             function (success, data) {
                                                                 if (!success) {
-                                                                    sa_serverConfig_configState.innerHTML = "<div><b style='color:red'>No connection!</b></div>";
+                                                                    configState.innerHTML = "<div><b style='color:red'>No connection!</b></div>";
                                                                     return;
                                                                 }
                                                                 if (data.error) {
@@ -311,7 +373,7 @@
                                 Request.postJSONData({url: "/sysadmin/auth_as_sysadmin", data: authParams, consoleLog: true},
                                         function (success, data) {
                                             if (!success) {
-                                                sa_serverConfig_configState.innerHTML = "<div><b style='color:red'>No connection!</b></div>";
+                                                configState.innerHTML = "<div><b style='color:red'>No connection!</b></div>";
                                                 return;
                                             }
                                             if (data.error) {
@@ -338,7 +400,7 @@
                                                 Request.postJSONData({url: "/sysadmin/restore_db", data: DB, consoleLog: true},
                                                         function (success, data) {
                                                             if (!success) {
-                                                                sa_serverConfig_configState.innerHTML = "<div><b style='color:red'>No connection!</b></div>";
+                                                                configState.innerHTML = "<div><b style='color:red'>No connection!</b></div>";
                                                             }
                                                             if (data.error) {
                                                                 document.getElementById("restore_db_result").innerHTML = "<b style='color:red'>"+now+"<br/>FAIL! Reason:" + data.error + "<b>";
@@ -372,7 +434,7 @@
                                 Request.postJSONData({url: "/sysadmin/auth_as_sysadmin", data: authParams, consoleLog: true},
                                         function (success, data) {
                                             if (!success) {
-                                                sa_serverConfig_configState.innerHTML = "<div><b style='color:red'>No connection!</b></div>";
+                                                configState.innerHTML = "<div><b style='color:red'>No connection!</b></div>";
                                                 return;
                                             }
                                             if (data.error) {
@@ -397,7 +459,7 @@
                                                 Request.postJSONData({url: "/sysadmin/restoreDBFromBata1DB", data: DB, consoleLog: true},
                                                         function (success, data) {
                                                             if (!success) {
-                                                                sa_serverConfig_configState.innerHTML = "<div><b style='color:red'>No connection!</b></div>";
+                                                                configState.innerHTML = "<div><b style='color:red'>No connection!</b></div>";
                                                             }
                                                             if (data.error) {
                                                                 document.getElementById("restore_db_bata_from_bata1DB_result").innerHTML = "<b style='color:red'>"+now+"<br/>FAIL! Reason:" + data.error + "<b>";
@@ -420,13 +482,14 @@
 
                 sa_serverConfig_PageContent.getServerConfiguration = function(){
                     Request.getJSONData({url: "/sysadmin/server/getServerConfig", consoleLog: true},
-                            function (success, result) {
-                                if (!success) {
-                                    sa_serverConfig_configState.innerHTML = "<div><b style='color:red'>No connection to the server!</b></div>";
+                            function (result, error) {
+                                if (!result) {
+                                    configState.innerHTML = "<div><b style='color:red'>UNKNOWN</b></div>";
                                     return;
                                 }
-                                if (result.error) {
-                                    sa_serverConfig_configState.innerHTML = "<div><b style='color:red'>Cannot get configuration parameters!</b> Reason:"+result.error+"</div>";
+                                if (error) {
+                                    configState.innerHTML = "<div><b style='color:red'>Cannot get configuration parameters!</b> Reason:"+result.error+"</div>";
+                                    return;
                                 }
                                 if(result.dbList){
                                     if(result.dbListUser){
@@ -442,29 +505,9 @@
                                 if(result.dbListError){
                                     document.getElementById("db_list").innerText=result.dbListError;
                                 }
-                                sa_serverConfig_configState.innerHTML = "<div><b>Configuration loaded.</b></div>";
+                                configState.innerHTML = "<div><b>Configuration loaded.</b></div>";
                                 setServerConfigContent(result);
                             });
-                };
-
-                reloadBtn.onClick= function() {
-                    sa_serverConfig_configState.innerHTML = "<div><b>Loading configuration parameters...</b></div>";
-                    Request.getJSONData({url: "/sysadmin/server/loadServerConfig", consoleLog: true},
-                            function (success, result) {
-                                if (!success) {
-                                    sa_serverConfig_configState.innerHTML = "<div><b style='color:red'>No connection to the server!</b></div>";
-                                    return;
-                                }
-                                if (result.error) {
-                                    sa_serverConfig_configState.innerHTML = "<div><b style='color:red'>Cannot load configuration parameters!</b> Reason:"+result.error+"</div>";
-                                    setServerConfigContent(result);
-                                    return;
-                                }
-                                sa_serverConfig_configState.innerHTML = "<div><b>Configuration reloaded.</b></div>";
-                                setServerConfigContent(result);
-                                if (sa_serverConfig_PageContent.getParent().updateDBState)  sa_serverConfig_PageContent.getParent().updateDBState();
-                            }
-                    );
                 };
 
                 function setServerConfigContent(DBConfigData) {
@@ -476,53 +519,6 @@
                     backupScheduleInput.set("value", DBConfigData["backupSchedule"] || "59 59 23 * * * ");
                 }
 
-                saveAndReconnectBtn.onClick = function () {
-                    sa_serverConfig_configState.innerHTML = "<div><b>Configuration saving and reconnecting to database...</b></div>";
-                    var newDBConfig={
-                        host: hostInput.get('value'),
-                        database: databaseInput.get('value'),
-                        user: userInput.get('value'),
-                        password: dbPasswordInput.get('value'),
-                        configName: configNameInput.get('value'),
-                        backupSchedule: backupScheduleInput.get('value')
-                    };
-                    Request.postJSONData({url:  "/sysadmin/serverConfig/storeServerConfigAndReconnect", data: newDBConfig, consoleLog: true},
-                            function (success, data) {
-                                if (!success) {
-                                    sa_serverConfig_configState.innerHTML = "<div><b style='color:red'>No connection!</b></div>";
-                                    if (sa_serverConfig_PageContent.getParent().updateDBState)  sa_serverConfig_PageContent.getParent().updateDBState();
-                                    return;
-                                }
-                                if (data.error) {
-                                    sa_serverConfig_configState.innerHTML = "<div><b style='color:red'>Failed store configuration! Reason:" + data["error"] + "</b></div>";
-                                } else {
-                                    sa_serverConfig_configState.innerHTML = "<div><b>Configuration saved.</b></div>";
-                                }
-                                if(data.dbList){
-                                    if(data.dbListUser){
-                                        document.getElementById("server_dblist_user").innerHTML=data.dbListUser;
-                                    }
-                                    var DBArray=data.dbList;
-                                    var DBstr="";
-                                    for(var i in DBArray){
-                                        DBstr=DBstr+DBArray[i].Database+"\n";
-                                    }
-                                    document.getElementById("db_list").innerText=DBstr;
-                                }
-                                if(data.dbListError){
-                                    document.getElementById("db_list").innerText=data.dbListError;
-                                }
-                                if (data.DBConnectError) {
-                                    sa_serverConfig_configState.innerHTML=
-                                            sa_serverConfig_configState.innerHTML+ "<br><div><b style='color:red'>Failed connect to database ! Reason:" + data["DBConnectError"] + "</b></div>";
-                                } else {
-                                    sa_serverConfig_configState.innerHTML =
-                                            sa_serverConfig_configState.innerHTML+ "<br><div><b>Reconnected to database.</b></div>";
-                                }
-                               if (sa_serverConfig_PageContent.getParent().updateDBState)  sa_serverConfig_PageContent.getParent().updateDBState();
-                            });
-                };
-
                 dbForUserBtn.onClick = function () {
                     sysadminDialogs.showDbListForUserDialog(function(dbUserRes){
                         if(!dbUserRes)return;
@@ -530,7 +526,7 @@
                         Request.postJSONData({url: "/sysadmin/getDBListForUser", data: userAuthData, consoleLog: true},
                                 function (success, data) {
                                     if (!success) {
-                                        sa_serverConfig_configState.innerHTML = "<div><b style='color:red'>No connection!</b></div>";
+                                        configState.innerHTML = "<div><b style='color:red'>No connection!</b></div>";
                                         if (sa_serverConfig_PageContent.getParent().updateDBState)  sa_serverConfig_PageContent.getParent().updateDBState();
                                         return;
                                     }
