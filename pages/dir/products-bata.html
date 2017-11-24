@@ -216,58 +216,60 @@
                     }
                     dir_products_ContentContainer.selectChild(dir_products_Btn_viewKinds.document);
                 };
+                var deletedRows;
                 dir_products_Btn_viewProducts.onClick= function(){
                     if (!dir_products_Btn_viewProducts.document){
                         dir_products_Btn_viewProducts.document =
                                 APP.childFor(dir_products_ContentContainer, "dir_products_TableProducts",
                                         TDocumentSimpleTableEditable, {titleText:"Товарные номенклатуры", rightPane:{width:150},
-                                            rightToolPane:{title:"Действия",
-                                                buttons:{allowEditTableSelectedRow:"Изменить", storeTableSelectedRow:"Сохранить"}},
                                             dataURL:"/dir/products/getDataForDirProductsTable", dataURLCondition:{"1~":1},
                                             dataStoreURL:"/dir/products/storeDirProductsTableData"})
+                                        .addToolPane({title:"Информация"})
+                                        .addToolPane({title:"Действия"})
+                                        .addToolPaneTableActionButton("Изменить", {actionName:"allowEditTableSelectedRow",btnStyle:"width:95px;"})
+                                        .addToolPaneTableActionButton("Сохранить", {actionName:"storeTableSelectedRow",btnStyle:"width:95px;"})
                                         .addTotalCountNumberBox("ИТОГО строк:", 140, {style:"font-weight:bold;",inputStyle:"width:50px"})
                                         .addToolPane({title:"Очистка"})
                                         .addToolPaneActionButton("Очистить </br> неиспользуемые </br>номенклатуры",{ actionFunction:function(params){
                                             Request.postJSONData({url: "/dir/products/deleteUnusedProducts", consoleLog: true},
                                                     function (success, result) { console.log("result=",result);
-                                                        if(!success || !result){
-
+                                                        if(result && !result.error){
+                                                            params.toolPanes[0].set("content","Удалено номенклатур: "+result.affectedRows);
                                                         }
                                                     });
                                         } })
                                         .addToolPaneActionButton("Очистить </br> неиспользуемые </br>артикулы",{ actionFunction:function(params){
                                             Request.postJSONData({url: "/dir/products/deleteUnusedArticles", consoleLog: true},
                                                     function (success, result) { console.log("result=",result);
-                                                        if(!success || !result){
-
+                                                        if(result && !result.error){
+                                                            params.toolPanes[0].set("content","Удалено артикулов: "+result.affectedRows);
                                                         }
                                                     });
                                         } })
                                         .addToolPaneActionButton("Очистить </br> неиспользуемые </br>виды",{ actionFunction:function(params){
                                             Request.postJSONData({url: "/dir/products/deleteUnusedKinds", consoleLog: true},
-                                                    function (success, result) { console.log("result=",result);
-                                                        if(!success || !result){
-
+                                                    function (success, result) {
+                                                        if(result && !result.error){
+                                                            params.toolPanes[0].set("content","Удалено видов: "+result.affectedRows);
                                                         }
                                                     });
                                         } })
                                         .addToolPaneActionButton("Очистить </br> неиспользуемый </br>состав",{ actionFunction:function(params){
                                             Request.postJSONData({url: "/dir/products/deleteUnusedComposition", consoleLog: true},
-                                                    function (success, result) { console.log("result=",result);
-                                                        if(!success || !result){
-
+                                                    function (success, result) {
+                                                        if(result && !result.error){
+                                                            params.toolPanes[0].set("content","Удалено составов: "+result.affectedRows);
                                                         }
                                                     });
                                         } })
                                         .addToolPaneActionButton("Очистить </br> неиспользуемые </br>размеры",{ actionFunction:function(params){
                                             Request.postJSONData({url: "/dir/products/deleteUnusedSizes", consoleLog: true},
-                                                    function (success, result) { console.log("result=",result);
-                                                        if(!success || !result){
-
+                                                    function (success, result) {
+                                                        if(result && !result.error){
+                                                            params.toolPanes[0].set("content","Удалено позиций: "+result.affectedRows);
                                                         }
                                                     });
                                         } })
-                                        .addToolPane({title:"Информация"})
                                         .addContentTablePopupMenuTableRowsAction("Изменить строки",{actionName:"allowEditTableSelectedRows"})
                                         .addContentTablePopupMenuTableRowsAction("Сохранить строки",{actionName:"storeTableSelectedRows"})
                                         .startUp();

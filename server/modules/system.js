@@ -134,8 +134,8 @@ module.exports.init = function(app) {
             "from dir_products_barcodes dpb "+
             "inner JOIN dir_products dp on dpb.PRODUCT_ID=dp.ID "+
             "left JOIN wrh_products_operations_v wpov on wpov.PRODUCT_ID=dp.ID "+
-            "where wpov.PRODUCT_ID is null; "
-            ,function(error){
+            "where wpov.PRODUCT_ID is null; ",
+            function(error){
                 if(error){
                     callback({error:error});
                     return;
@@ -145,8 +145,8 @@ module.exports.init = function(app) {
                     "from dir_products_batches dpbat "+
                     "inner JOIN dir_products dp  on dpbat.PRODUCT_ID=dp.ID "+
                     "left JOIN wrh_products_operations_v wpov on wpov.PRODUCT_ID=dp.ID "+
-                    "where wpov.PRODUCT_ID is null; "
-                    ,function(error){
+                    "where wpov.PRODUCT_ID is null; ",
+                    function(error){
                         if(error){
                             callback({error:error});
                             return;
@@ -155,8 +155,8 @@ module.exports.init = function(app) {
                             "delete dp "+
                             "from dir_products dp "+
                             "left JOIN wrh_products_operations_v wpov on wpov.PRODUCT_ID=dp.ID "+
-                            "where wpov.PRODUCT_ID is null; "
-                            ,function(error, affectedRows){
+                            "where wpov.PRODUCT_ID is null; ",
+                            function(error, affectedRows){
                                 if(error){
                                     callback({error:error});
                                     return;
@@ -171,8 +171,8 @@ module.exports.init = function(app) {
         "from dir_products_articles dpa "+
         "LEFT JOIN  dir_products dp on dp.ARTICLE_ID=dpa.ID "+
         "LEFT JOIN  wrh_orders_bata_details wobd on wobd.PRODUCT_ARTICLE_ID=dpa.ID "+
-        "where wobd.PRODUCT_ARTICLE_ID is null AND dp.ARTICLE_ID is null; "
-            ,function(error, affectedRows){
+        "where wobd.PRODUCT_ARTICLE_ID is null AND dp.ARTICLE_ID is null; ",
+            function(error, affectedRows){
                 if(error){
                     callback({error:error});
                     return;
@@ -182,8 +182,11 @@ module.exports.init = function(app) {
     };
 
     dir_products_bata.deleteUnusedKinds=function(callback){
-        database.executeQuery(''
-            ,function(error, affectedRows){
+        database.executeQuery("delete dpk "+
+        "from dir_products_kinds dpk "+
+        "LEFT JOIN dir_products dp on dp.KIND_ID=dpk.ID "+
+        "WHERE dp.KIND_ID=null; ",
+            function(error, affectedRows){
                 if(error){
                     callback({error:error});
                     return;
@@ -192,8 +195,11 @@ module.exports.init = function(app) {
             })
     };
     dir_products_bata.deleteUnusedComposition=function(callback){
-        database.executeQuery(''
-            ,function(error, affectedRows){
+        database.executeQuery("delete dpc "+
+        "from dir_products_compositions dpc "+
+        "LEFT JOIN dir_products dp on dp.KIND_ID=dpc.ID "+
+        "WHERE dp.KIND_ID=null;",
+            function(error, affectedRows){
                 if(error){
                     callback({error:error});
                     return;
@@ -202,8 +208,11 @@ module.exports.init = function(app) {
             })
     };
     dir_products_bata.deleteUnusedSizes=function(callback){
-        database.executeQuery(''
-            ,function(error, affectedRows){
+        database.executeQuery("delete dps "+
+        "from dir_products_sizes dps "+
+        "LEFT JOIN dir_products dp on dp.KIND_ID=dps.ID "+
+        "WHERE dp.KIND_ID=null;",
+            function(error, affectedRows){
                 if(error){
                     callback({error:error});
                     return;

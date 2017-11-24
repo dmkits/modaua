@@ -737,6 +737,21 @@ module.exports.init = function(app){
             res.send(result);
         });
     });
+    app.post("/dir/products/deleteUnusedKinds", function(req, res){
+        dir_products_bata.deleteUnusedKinds(function(result){
+            res.send(result);
+        });
+    });
+    app.post("/dir/products/deleteUnusedComposition", function(req, res){
+        dir_products_bata.deleteUnusedComposition(function(result){
+            res.send(result);
+        });
+    });
+    app.post("/dir/products/deleteUnusedSizes", function(req, res){
+        dir_products_bata.deleteUnusedSizes(function(result){
+            res.send(result);
+        });
+    });
     dir_products_bata.getProductBataGroupsIDs= function(params,resultCallback){
         if (!params||!params.prodData) {
             resultCallback({error: "Failed get product bata groups id's! Reason: no product bata groups data!"});
