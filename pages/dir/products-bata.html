@@ -232,7 +232,7 @@
                                         .addToolPane({title:"Очистка"})
                                         .addToolPaneActionButton("Очистить </br> неиспользуемые </br>номенклатуры",{ actionFunction:function(params){
                                             Request.postJSONData({url: "/dir/products/deleteUnusedProducts", consoleLog: true},
-                                                    function (success, result) { console.log("result=",result);
+                                                    function (success, result) {
                                                         if(result && !result.error){
                                                             params.toolPanes[0].set("content","Удалено номенклатур: "+result.affectedRows);
                                                         }
@@ -240,7 +240,7 @@
                                         } })
                                         .addToolPaneActionButton("Очистить </br> неиспользуемые </br>артикулы",{ actionFunction:function(params){
                                             Request.postJSONData({url: "/dir/products/deleteUnusedArticles", consoleLog: true},
-                                                    function (success, result) { console.log("result=",result);
+                                                    function (success, result) {
                                                         if(result && !result.error){
                                                             params.toolPanes[0].set("content","Удалено артикулов: "+result.affectedRows);
                                                         }
@@ -266,7 +266,7 @@
                                             Request.postJSONData({url: "/dir/products/deleteUnusedSizes", consoleLog: true},
                                                     function (success, result) {
                                                         if(result && !result.error){
-                                                            params.toolPanes[0].set("content","Удалено позиций: "+result.affectedRows);
+                                                            params.toolPanes[0].set("content","Удалено размеров: "+result.affectedRows);
                                                         }
                                                     });
                                         } })

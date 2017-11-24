@@ -449,7 +449,7 @@ module.exports = {
     'step_14 test databases list visible': function (browser) {
         var serverConfig = browser.page.serverConfig();
         serverConfig
-            .assert.containsText('@dbListHeading', 'Databases list for user:')
+            .assert.containsText('@dbListHeading', 'Database list for user:')
             .assert.containsText('@dbListContent', 'information_schema')
             .assert.visible("@dbListBtn")
             .click("@dbListBtn")
