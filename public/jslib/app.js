@@ -4,6 +4,9 @@
 define(["dijit/registry", "dojo/dom-style"],
     function(registry, domStyle) {
         return {
+            getInstanceByID: function(id){
+                return registry.byId(id);
+            },
             instance: function(htmlElemID, Class, params) {
                 var instance = registry.byId(htmlElemID);
                 if (!instance) {

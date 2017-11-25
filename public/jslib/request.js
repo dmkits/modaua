@@ -51,8 +51,7 @@ define(["dojo/_base/declare", "dojo/request", "dijit/registry", "dialogs"],
                 var requestFailDialog;
                 if (params.showRequestErrorDialog!==false)
                     requestFailDialog= function(msg){
-                        dialogs.doSimpleDialog({title:"Внимание",content:"Невозможно получить данные! <br>Причина:"+msg,
-                            width:300, btnOkLabel:"OK", dialogID:"requestFailDialog"});
+                        dialogs.doRequestFailDialog({title:"Внимание",content:"Невозможно получить данные! <br>Причина:"+msg});
                     };
                 this.getJSON(params,function(success, serverResult){
                     if(!success){
@@ -134,30 +133,30 @@ define(["dojo/_base/declare", "dojo/request", "dijit/registry", "dialogs"],
                 if (!params) return;
                 var requestFailDialog;
                 if (params.showRequestErrorDialog!==false)
-                    requestFailDialog= function(msg){
-                        dialogs.doSimpleDialog({title:"Внимание",content:"Невозможно получить результат операции! <br>Причина:"+msg,
-                            width:300, btnOkLabel:"OK", dialogID:"requestFailDialog"});
+                    requestFailDialog= function(msg, reason){
+                        if(!reason) reason="";
+                        dialogs.doRequestFailDialog({title:"Внимание",content:msg+" <br>Причина:"+reason});
                     };
                 this.postJSON(params,function(success, serverResult) {
                     if (!success) {
-                        if (requestFailDialog) requestFailDialog("Нет связи с сервером!");
+                        if (requestFailDialog) requestFailDialog("Невозможно получить результат операции!","Нет связи с сервером!");
                         resultCallback();
                         return;
                     }
                     if (!serverResult) {
-                        if (requestFailDialog) requestFailDialog("Нет данных с сервера!");
+                        if (requestFailDialog) requestFailDialog("Невозможно получить результат операции!","Нет данных с сервера!");
                         resultCallback(null);
                         return;
                     }
                     if (serverResult.error) {
-                        var msg = serverResult.error;
-                        if (serverResult.errorMsg) msg = serverResult.errorMsg + "<br>" + msg;
-                        if (requestFailDialog) requestFailDialog(msg);
+                        var reason = serverResult.error;
+                        if (serverResult.errorMsg) reason = serverResult.errorMsg + "<br>" + msg;
+                        if (requestFailDialog) requestFailDialog("Невозможно выпонить операцию!",reason);
                         resultCallback(null, serverResult.error);
                         return;
                     }
                     if (params.resultItemName && serverResult[params.resultItemName] === undefined) {
-                        if (requestFailDialog) requestFailDialog("Нет данных результата операции с сервера!");
+                        if (requestFailDialog) requestFailDialog("Невозможно получить результат операции!","Нет данных результата операции с сервера!");
                         resultCallback(null);
                         return;
                     }

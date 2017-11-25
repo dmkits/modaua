@@ -80,8 +80,7 @@
                     <tr>
                         <td style="width:75px">
                             <button id="create_db_btn">Create DB</button>
-                        </td>
-                        <td>
+                        </td><td>
                             <div  id="create_db_result" style="font-weight: bold; width: 400px;"></div>
                         </td>
                     </tr>
@@ -144,28 +143,16 @@
                 var dbPasswordInput=new TextBox({id:"db.password"},"db.password");
                 var configNameInput=new TextBox({id:"configName"},"configName");
                 var backupScheduleInput=new TextBox({id:"backup_schedule"},"backup_schedule");
-
                 var configState = document.getElementById("sa_serverConfig_configState");
-                var reloadBtn = new Button({id: "SA_serverConfig_btnLoadConfig"}, "SA_serverConfig_btnLoadConfig");
-                var saveAndReconnectBtn = new Button({id: "SA_serverConfig_btnSaveConfigAndReconnect"}, "SA_serverConfig_btnSaveConfigAndReconnect");
-                var dbForUserBtn=new Button({id: "databases_for_btn"}, "databases_for_btn");
-
-                var createDBBtn= new Button({id: "create_db_btn"}, "create_db_btn");
-                createDBBtn.domNode.firstChild.setAttribute("style", "width:70px;");
-
-                var dropDBBtn= new Button({id: "drop_db_btn"}, "drop_db_btn");
-                dropDBBtn.domNode.firstChild.setAttribute("style", "width:70px;");
-
-                var backupDBBtn= new Button({id: "backup_db_btn"}, "backup_db_btn");
-                backupDBBtn.domNode.firstChild.setAttribute("style", "width:70px;");
-                var backupDataBtn= new Button({id: "backup_data_btn"}, "backup_data_btn");
-                backupDataBtn.domNode.firstChild.setAttribute("style", "width:70px;");
-
-                var restoreBtn=new Button({id: "restore_db_btn"}, "restore_db_btn");
-                restoreBtn.domNode.firstChild.setAttribute("style", "width:70px;");
-
-                var restore_db_bata_from_bata1DB=new Button({id: "restore_db_bata_from_bata1DB"}, "restore_db_bata_from_bata1DB");
-                restore_db_bata_from_bata1DB.domNode.firstChild.setAttribute("style", "width:140px;");
+                var reloadBtn= APP.instanceForID("SA_serverConfig_btnLoadConfig", Button);
+                var saveAndReconnectBtn= APP.instanceForID("SA_serverConfig_btnSaveConfigAndReconnect", Button);
+                var dbForUserBtn= APP.instanceForID("databases_for_btn", Button);
+                var createDBBtn= APP.instanceForID("create_db_btn", Button, {}, {width:"70px"});
+                var dropDBBtn= APP.instanceForID("drop_db_btn", Button, {}, {width:"70px"});
+                var backupDBBtn= APP.instanceForID("backup_db_btn", Button, {}, {width:"70px"});
+                var backupDataBtn= APP.instanceForID("backup_data_btn", Button, {}, {width:"70px"});
+                var restoreBtn= APP.instanceForID("restore_db_btn", Button, {}, {width:"70px"});
+                var restore_db_bata_from_bata1DB= APP.instanceForID("restore_db_bata_from_bata1DB", Button, {}, {width:"140px"});
 
                 reloadBtn.onClick= function() {
                     configState.innerHTML = "<div><b>Loading configuration parameters...</b></div>";
@@ -229,30 +216,28 @@
                             function (result) {
                                 if (!result.result) return;
                                 cleanResultFields();
-                                var newDB = {};
-                                newDB.adminName = result.adminName;
-                                newDB.adminPassword = result.adminPassword;
-                                newDB.host = hostInput.get('value');
-                                newDB.newDatabase = databaseInput.get('value');
-                                newDB.newUser = userInput.get('value');
-                                newDB.newPassword = dbPasswordInput.get('value');
+                                var newDB = {adminName:result.adminName, adminPassword:result.adminPassword,
+                                    host:hostInput.get('value'), newDatabase:databaseInput.get('value'),
+                                    newUser:userInput.get('value'), newPassword:dbPasswordInput.get('value')};
                                 Request.postJSONData({url: "/sysadmin/create_new_db", data: newDB, consoleLog: true},
-                                        function (success, data) {
-                                            var now = moment().format('DD.MM.YYYY HH:mm:ss');
-                                            if (!success)  configState.innerHTML = "<div><b style='color:red'>No connection!</b></div>";
-                                            if (data.error) {
-                                                document.getElementById("create_db_result").innerHTML = "<b style='color:red'>" + now + "</br>FAIL! Reason:" + data.error + "</b>";
-                                                sa_serverConfig_PageContent.getServerConfiguration();
+                                        function (result,error) {
+                                            var now = moment().format('DD.MM.YYYY HH:mm:ss'), resultMsg;
+                                            if (!result)  {
+                                                if(error) resultMsg= "<b style='color:red'>" + now + "</br>FAIL! Reason:" + error + "</b>";
+                                                else resultMsg = "<b style='color:red'>" + now + "</br>UNKNOWN</b>";
+                                                    //configState.innerHTML = "<div><b style='color:red'>UNKNOWN!</b></div>";
+                                                document.getElementById("create_db_result").innerHTML = resultMsg;
+                                                //sa_serverConfig_PageContent.getServerConfiguration();
                                                 if (sa_serverConfig_PageContent.getParent().updateDBState)  sa_serverConfig_PageContent.getParent().updateDBState();
-                                            } else {
-                                                var successMsgStr = now + '</br>';
-                                                if (data.DBCreated) successMsgStr += data.DBCreated + " ";
-                                                if (data.userCreated) successMsgStr += data.userCreated + " ";
-                                                if (data.userExists) successMsgStr += data.userExists + " ";
-                                                if (data.accessAdded) successMsgStr += data.accessAdded;
-                                                document.getElementById("create_db_result").innerHTML = successMsgStr;
-                                                saveAndReconnectBtn.onClick();
+                                                return;
                                             }
+                                            var successMsgStr = now + '</br>';
+                                            if (result.DBCreated) successMsgStr += result.DBCreated + " ";
+                                            if (result.userCreated) successMsgStr += result.userCreated + " ";
+                                            if (result.userExists) successMsgStr += result.userExists + " ";
+                                            if (result.accessAdded) successMsgStr += result.accessAdded;
+                                            document.getElementById("create_db_result").innerHTML = successMsgStr;
+                                            saveAndReconnectBtn.onClick();
                                         });
                             });
                 };

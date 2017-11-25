@@ -52,6 +52,17 @@ define(["app", "dijit/ConfirmDialog","dojox/widget/DialogSimple", "dijit/form/Bu
                 myDialog.startup();
                 myDialog.show();
             },
+            doRequestFailDialog: function(params) {
+                if(!params) params={};
+                params.dialogID="requestFailDialog";
+                params.width=300;
+                params.btnOkLabel="Закрыть";
+                var instance= APP.getInstanceByID(params.dialogID);
+                if(instance&&instance.open){
+                    return;
+                }
+                this.doSimpleDialog(params);
+            },
             mainAboutDialog: function (){
                 this.doDialogMsg({title:"О программе",
                     content:"Система учета <b>MODA.UA</b>. <br>Разработчики: dmkits, ianagez 2017",
@@ -67,7 +78,6 @@ define(["app", "dijit/ConfirmDialog","dojox/widget/DialogSimple", "dijit/form/Bu
             impossibleToPrintTagsDialog: function() {
                 this.doSimpleDialog({title:"Превышение количества!", width:"220px;", content:"<div align='center'>Максимальное количество -<br>1000шт. </div>"});
             },
-
 
             //doDialog1: function (title, content, style, onExecute, onCancel) {
             //    require(["dijit/Dialog", "dijit/form/Button", "dojo/domReady!"], function(Dialog,Button){
