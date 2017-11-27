@@ -108,8 +108,8 @@
                                                 wroProdData["DOCCODE"]=tableContentRowData["DOCCODE"];
                                                 wroProdData["DOCOPERID"]=tableContentRowData["DOCOPERID"];
                                                 Request.postJSONData({url:"/wrh/products_moves/wroProductFromDate", condition:null, data:wroProdData, consoleLog:true},
-                                                    function(success,result){                                       //console.log("dir_products_prices_documentProductsPrices setDiscountForRowData postData:",result);
-                                                        if (success&&result["resultItem"]) {
+                                                    function(result,error){                                       //console.log("dir_products_prices_documentProductsPrices setDiscountForRowData postData:",result);
+                                                        if (result&&result["resultItem"]) {
                                                             var newData = result["resultItem"];
                                                             contentTableInstance.updateRowData(tableContentRowData,newData);
                                                         }

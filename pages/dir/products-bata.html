@@ -232,40 +232,40 @@
                                         .addToolPane({title:"Очистка"})
                                         .addToolPaneActionButton("Очистить </br> неиспользуемые </br>номенклатуры",{ actionFunction:function(params){
                                             Request.postJSONData({url: "/dir/products/deleteUnusedProducts", consoleLog: true},
-                                                    function (success, result) {
-                                                        if(result && !result.error){
+                                                    function (result, error) {
+                                                        if(result && result.affectedRows){
                                                             params.toolPanes[0].set("content","Удалено номенклатур: "+result.affectedRows);
                                                         }
                                                     });
                                         } })
                                         .addToolPaneActionButton("Очистить </br> неиспользуемые </br>артикулы",{ actionFunction:function(params){
                                             Request.postJSONData({url: "/dir/products/deleteUnusedArticles", consoleLog: true},
-                                                    function (success, result) {
-                                                        if(result && !result.error){
+                                                    function (result, error) {
+                                                        if(result && result.affectedRows){
                                                             params.toolPanes[0].set("content","Удалено артикулов: "+result.affectedRows);
                                                         }
                                                     });
                                         } })
                                         .addToolPaneActionButton("Очистить </br> неиспользуемые </br>виды",{ actionFunction:function(params){
                                             Request.postJSONData({url: "/dir/products/deleteUnusedKinds", consoleLog: true},
-                                                    function (success, result) {
-                                                        if(result && !result.error){
+                                                    function (result, error) {
+                                                        if(result && result.affectedRows){
                                                             params.toolPanes[0].set("content","Удалено видов: "+result.affectedRows);
                                                         }
                                                     });
                                         } })
                                         .addToolPaneActionButton("Очистить </br> неиспользуемый </br>состав",{ actionFunction:function(params){
                                             Request.postJSONData({url: "/dir/products/deleteUnusedComposition", consoleLog: true},
-                                                    function (success, result) {
-                                                        if(result && !result.error){
+                                                    function (result, error) {
+                                                        if(result && result.affectedRows){
                                                             params.toolPanes[0].set("content","Удалено составов: "+result.affectedRows);
                                                         }
                                                     });
                                         } })
                                         .addToolPaneActionButton("Очистить </br> неиспользуемые </br>размеры",{ actionFunction:function(params){
                                             Request.postJSONData({url: "/dir/products/deleteUnusedSizes", consoleLog: true},
-                                                    function (success, result) {
-                                                        if(result && !result.error){
+                                                    function (result, error) {
+                                                        if(result && result.affectedRows){
                                                             params.toolPanes[0].set("content","Удалено размеров: "+result.affectedRows);
                                                         }
                                                     });
