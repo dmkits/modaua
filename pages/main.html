@@ -68,15 +68,13 @@
 
                 main_MainContainer.getMainData = function(postaction){                                //getting main json data from server and run action parameter function
                     Request.getJSONData({url:"/main/getMainData", consoleLog:true},
-                            function(success,result){                                        console.log("main_MainContainer.getMainData result=",result); //title,icon32x32,imageSmall,imageMain
-                                if(success){
+                            function(result,error){                                        console.log("main_MainContainer.getMainData result=",result); //title,icon32x32,imageSmall,imageMain
                                     if(result===undefined||result==null) result = [];
                                     main_MainContainer.mainContentData = result;
                                     main_ContentContainer.getMainContentData=function(){
                                         return result;
                                     };
                                     var eAppMode = document.getElementById("main_app_mode");
-                                   // var eAppUserName = document.getElementById("main_username");
                                     if (result.mode && result.mode.indexOf("production")<0) {
                                         var mode_str = result.mode_str;
                                         if (!mode_str) mode_str= result.mode;
@@ -93,10 +91,6 @@
 
                                     if(result.icon32x32) changeFavicon(result.icon32x32);
                                     if(result.imageSmall)main_TopImg.set("style","background-image: url(\""+result.imageSmall+"\")");
-                                } else {
-                                    main_MainContainer.mainContentData = [];
-                                    main_MainContainer.mainContentData["error"]= result;
-                                }
                                 if(postaction)postaction();
                             });
                 };
@@ -134,9 +128,9 @@
                         document.cookie="mduPswrd=";
                         location.reload();
                         Request.postJSONData({url:"/main/exit"},
-                                /*posaction*/function(success,result){
+                                /*posaction*/function(result,error){
                                     var resultContent;
-                                    if (success&&result&&result.actionResult=="successfull") resultContent= "<div>Вы закрыли все окна и вышли из рабочей сессии.</div>";
+                                    if (result&&result.actionResult=="successfull") resultContent= "<div>Вы закрыли все окна и вышли из рабочей сессии.</div>";
                                     else resultContent= "<div>Вы закрыли все окна.</div>";
                                     main_MainContainer.addChild(new ContentPane({id:"finish", title:"finish", region:"center",content:resultContent}) );
                                 });
