@@ -365,10 +365,9 @@ define(["dojo/_base/declare", "dijit/layout/ContentPane","dojox/widget/Standby",
                     if (duplexRequest){
                         instance.loadingGif.show();
                         Request.getJSONData({url:params.url, condition:null, consoleLog:true}
-                            ,/*postaction*/function(success,result){
-                                if(!success) result=null;
-                                if(!success||!result||result.error) {
-                                    var errorMsg=(result&&result.error)?"Error=":"", error=(result&&result.error)?result.error:"";
+                            ,/*postaction*/function(result,error){
+                                if(!result||error) {
+                                    var errorMsg=error?"Error=":"";
                                     console.log("HTableSimple setContentFromUrl Request.getJSONData DATA ERROR!!! "+errorMsg,error);
                                     if(!result) result={};
                                     if(!result.columns) result.columns=instance.htColumns;
@@ -384,10 +383,9 @@ define(["dojo/_base/declare", "dijit/layout/ContentPane","dojox/widget/Standby",
                                     return;
                                 }  //if condition is Empty
                                 Request.getJSONData({url:params.url, condition:params.condition, consoleLog:true}
-                                    ,/*postaction*/function(success,result){
-                                        if(!success) result=null;
-                                        if(!success||!result||result.error) {
-                                            var errorMsg=(result&&result.error)?"Error=":"", error=(result&&result.error)?result.error:"";
+                                    ,/*postaction*/function(result,error){
+                                        if(!result||error) {
+                                            var errorMsg=error?"Error=":"";
                                             console.log("HTableSimple setContentFromUrl Request.getJSONData DATA ERROR!!! "+errorMsg,error);
                                             if(!result) result={};
                                             if(!result.columns) result.columns=instance.htColumns;

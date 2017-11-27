@@ -204,12 +204,12 @@ define(["dojo/_base/declare", "app", "tDocumentBase","dijit/form/Select", "hTabl
                 this.headerData.push({type:"SelectBox",instance:select});
                 select.loadDropDownValuesFromServer= function(callback){
                     Request.getJSONData({url: select.loadDropDownURL, consoleLog: true},
-                        function (success,data) {
+                        function (data,error) {
                             var options=select.get("options"),value = select.get("value");
-                            if (success&&data.items) {
+                            if (data && data.items) {
                                 select.set("options", data.items);
                                 select.set("value", value);
-                            } else if (success&&!data.items) console.log("tDocumentSimpleTable.addSelectBox loadDropDown getJSONData data error:",data);
+                            } else if (error) console.log("tDocumentSimpleTable.addSelectBox loadDropDown getJSONData data error:",error);
                             if(callback) callback();
                         });
                 };

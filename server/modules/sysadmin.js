@@ -434,7 +434,7 @@ module.exports.init = function(app){
                 return;
             }
             if (req.body.rewrite) {
-                database.backupDB(backupParam, function (err, ok) {
+                database.backupDB(backupParam, function (err, okMsg) {
                     if (err) {                                                                              log.error("checkIfDBExists err=", err);
                         logData.error = err.message;
                         writeToBackUpLog(logData);
@@ -444,7 +444,7 @@ module.exports.init = function(app){
                     }
                     logData.info = "file update";
                     writeToBackUpLog(logData);
-                    outData.backup = ok;
+                    outData.backup = okMsg;
                     res.send(outData);
                 })
             } else {
@@ -456,7 +456,7 @@ module.exports.init = function(app){
                             return;
                         }
                     }
-                    database.backupDB(backupParam, function (err, ok) {
+                    database.backupDB(backupParam, function (err, okMsg) {
                         if (err) {                                                                          log.error("checkIfDBExists err=", err);
                             outData.error = err.message;
                             logData.error = err.message;
@@ -465,7 +465,7 @@ module.exports.init = function(app){
                             return;
                         }
                         writeToBackUpLog(logData);
-                        outData.backup = ok;
+                        outData.backup = okMsg;
                         res.send(outData);
                     })
                 });
