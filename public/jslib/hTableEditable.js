@@ -468,77 +468,73 @@ define(["dojo/_base/declare", "hTableSimpleFiltered","dijit/ProgressBar","dijit/
             return this;
         },
 
-        /*
-         * params: {url, condition, rowData, consoleLog, callUpdateContent}
+        /**
+         * params: {url, condition, rowData, callUpdateContent}
          */
         getRowDataFromURL: function(params, postCallback){
             if (!this.getRowIDName()) return;
             var rowData=params.rowData, newData = {};
             var thisInstance = this;                                                                                    //console.log("HTableEditable storeRowDataByURL storingData=",storingData,params.callUpdateContent);
             Request.getJSONData({url:params.url,condition:params.condition, consoleLog:true}
-                ,function(success,result){
-                    if(!success){
-                        rowData["<!$error$!>"]= "Нет связи с сервером!";
+                ,function(result,error){
+                    if(!result){
+                        rowData["<!$error$!>"]= "Не удалось получить результат операции с сервера!";
 //                        instance.setErrorsCommentsForRow(storeRow,resultItem);
-                        if(postCallback) postCallback(success,result,rowData);
+                        if(postCallback) postCallback(result,error,rowData);
                         return;
                     }
-                    var resultItem = result["item"], error = result["error"], errors={};
-                    if(!resultItem) errors['<!$error_item$!>']="Не удалось получить результат операции с сервера!";
+                    var resultItem = result["item"], errors={};
+                    if(!resultItem) errors['<!$error_item$!>']="Не удалось получить данные результата операции с сервера!";
                     if(!error&&resultItem){
                         thisInstance.updateRowAllDataItems(rowData, resultItem,
                             {editPropValue:true, addData:errors, callUpdateContent:params.callUpdateContent} );
-                        if(postCallback) postCallback(success,result,rowData);
+                        if(postCallback) postCallback(result,error,rowData);
                         return;
                     }
-                    if(error) {
-                        errors["<!$error$!>"] = error; console.log("HTableEditable.getRowDataFromURL result item ERROR! error=",error);/*!!!TEST LOG!!!*/
-                    }
+                    if(error) errors["<!$error$!>"] = error;
                     if(!resultItem)resultItem=newData;
                     thisInstance.updateRowAllDataItems(rowData, resultItem,
                         {editPropValue:true, addData:errors, callUpdateContent:params.callUpdateContent} );             //console.log("HTableEditable.storeRowDataByURL resultItem=",resultItem);
                     //instance.setErrorsCommentsForRow(storeRow,storeRowData);
-                    if (postCallback) postCallback(success,result,rowData);
+                    if (postCallback) postCallback(result,error,rowData);
                 })
         },
-        /*
-         * params: {url, condition, rowData, consoleLog, callUpdateContent}
+        /**
+         * params: {url, condition, rowData, callUpdateContent}
          */
         storeRowDataByURL: function(params, postCallback){
             if (!this.getRowIDName()) return;
             var rowData=params.rowData, storingData = {};
             for(var dataItem in rowData)
                 if (dataItem.indexOf("<!$")<0&&dataItem.indexOf("$!>")<0) storingData[dataItem] = rowData[dataItem];
-            var thisInstance = this;                                                                                    //console.log("HTableEditable storeRowDataByURL storingData=",storingData,params.callUpdateContent);
-            Request.postJSONData({url:params.url,condition:params.condition,data:storingData, consoleLog:true}
-                ,function(success,result){
-                    if(!success){
-                        rowData["<!$error$!>"]= "Нет связи с сервером!";
+            var thisInstance = this;
+            Request.postJSONData({url:params.url,condition:params.condition,data:storingData}
+                ,function(result,error){
+                    if(!result){
+                        rowData["<!$error$!>"]= "Не удалось получить результат операции с сервера!";
 //                        instance.setErrorsCommentsForRow(storeRow,resultItem);
-                        if(postCallback) postCallback(success,result,rowData);
+                        if(postCallback) postCallback(result,error,rowData);
                         return;
                     }
-                    var resultItem = result["resultItem"], updateCount = result["updateCount"], error = result["error"], errors={};
-                    if(!resultItem) errors['<!$error_resultItem$!>']="Не удалось получить результат операции с сервера!";
+                    var resultItem = result["resultItem"], updateCount = result["updateCount"], errors={};
+                    if(!resultItem) errors['<!$error_resultItem$!>']="Не удалось получить данные результата операции с сервера!";
                     if(!error&&resultItem&&updateCount>0){
                         thisInstance.updateRowAllDataItems(rowData, resultItem,
                             {editPropValue:false, addData:errors, callUpdateContent:params.callUpdateContent} );
-                        if(postCallback) postCallback(success,result,rowData);
+                        if(postCallback) postCallback(result,error,rowData);
                         return;
                     }
-                    if(error) {
-                        errors["<!$error$!>"] = error; console.log("HTableEditable.storeRowDataByURL resultItem ERROR! error=",error);/*!!!TEST LOG!!!*/
-                    }
+                    if(error) errors["<!$error$!>"] = error;
                     if(!updateCount>0) errors["<!$error_updateCount$!>"]= "Данные не были сохранены на сервере!";
                     if(!resultItem)resultItem=storingData;
                     thisInstance.updateRowAllDataItems(rowData, resultItem,
-                        {editPropValue:true, addData:errors, callUpdateContent:params.callUpdateContent} );             //console.log("HTableEditable.storeRowDataByURL resultItem=",resultItem);
+                        {editPropValue:true, addData:errors, callUpdateContent:params.callUpdateContent} );     //console.log("HTableEditable.storeRowDataByURL resultItem=",resultItem);
                     //instance.setErrorsCommentsForRow(storeRow,storeRowData);
-                    if (postCallback) postCallback(success,result,rowData);
+                    if (postCallback) postCallback(result,error,rowData);
                 })
         },
-        /*
-         * params: {url, condition, consoleLog}
+        /**
+         * params: {url, condition}
          */
         storeSelectedRowDataByURL: function(params){
             if (!params || !this.getSelectedRow()) return;
@@ -552,8 +548,8 @@ define(["dojo/_base/declare", "hTableSimpleFiltered","dijit/ProgressBar","dijit/
                     thisInstance.loadingGif.hide();
                 });
         },
-        /*
-         * params: {url, condition, rowsData, consoleLog}
+        /**
+         * params: {url, condition, rowsData}
          */
         storeRowsDataByURL: function(params){                                                                           //console.log("HTableEditable storeRowsDataByURL rowsData=",params.rowsData);
             if (!params || !params.rowsData) return;
@@ -595,8 +591,8 @@ define(["dojo/_base/declare", "hTableSimpleFiltered","dijit/ProgressBar","dijit/
             };
             storeRowDataCallback(0);
         },
-        /*
-         * params: {url, condition, rowData, consoleLog, callUpdateContent}
+        /**
+         * params: {url, condition, rowData, callUpdateContent}
          */
         deleteRowDataByURL: function(params, postCallback){
             if (!params.rowData || !this.getRowIDName()) return;
@@ -608,39 +604,37 @@ define(["dojo/_base/declare", "hTableSimpleFiltered","dijit/ProgressBar","dijit/
             var deletingData = {};
             deletingData[rowIDName]=deletingRowIDValue;
             var thisInstance = this;                                                                                    //console.log("HTableEditable deleteRowDataByURL ",params.data);
-            Request.postJSONData({url:params.url,condition:params.condition,data:deletingData, consoleLog:true},
-                function(success,result){
-                    if(!success){
-                        rowData["<!$error$!>"]= "Нет связи с сервером!";
+            Request.postJSONData({url:params.url,condition:params.condition,data:deletingData},
+                function(result,error){
+                    if(!result){
+                        rowData["<!$error$!>"]= "Не удалось получить результат операции с сервера!";
 //                        instance.setErrorsCommentsForRow(storeRow,resultItem);
-                        if(postCallback) postCallback(success,result,rowData);
+                        if(postCallback) postCallback(result,error,rowData);
                         return;
                     }
-                    var resultItem = result["resultItem"], updateCount = result["updateCount"], error = result["error"], errors={};
-                    if(!resultItem) errors['<!$error_resultItem$!>']="Не удалось получить результат операции с сервера!";
+                    var resultItem = result["resultItem"], updateCount = result["updateCount"], errors={};
+                    if(!resultItem) errors['<!$error_resultItem$!>']="Не удалось получить данные результата операции с сервера!";
                     if(!error&&updateCount>0&&resultItem){
                         var deletedRowIDValue=resultItem[rowIDName];
                         if(deletingRowIDValue==deletedRowIDValue) {
-                            if(postCallback) postCallback(success,result,rowData);
+                            if(postCallback) postCallback(result,error,rowData);
                             thisInstance.deleteRow(rowData,{callUpdateContent:params.callUpdateContent});//this call onUpdateContent
                             return;
                         }
                         errors['<!$error_resultItemID$!>']="Не удалось получить корректный результат операции с сервера!";
-                        if(postCallback) postCallback(success,result,rowData);
+                        if(postCallback) postCallback(result,error,rowData);
                         return;
                     }
-                    if(error) {
-                        errors["<!$error$!>"] = error; console.log("HTableEditable.deleteRowDataByURL resultItem ERROR! error=",error);/*!!!TEST LOG!!!*/
-                    }
+                    if(error) errors["<!$error$!>"] = error;
                     if(!updateCount>0) errors["<!$error_updateCount$!>"]= "Данные не были удалены на сервере!";
                     thisInstance.updateRowAllDataItems(rowData, rowData,
                         {editPropValue:false, addData:errors, callUpdateContent:params.callUpdateContent} );
                     //instance.setErrorsCommentsForRow(storeRow,storeRowData);
-                    if (postCallback) postCallback(success,result,rowData);
+                    if (postCallback) postCallback(result,error,rowData);
                 })
         },
-        /*
-         * params: {url, condition, consoleLog}
+        /**
+         * params: {url, condition}
          */
         deleteSelectedRowDataByURL: function(params){
             if (!params || !this.getRowIDName() || !this.getSelectedRow()) return;
