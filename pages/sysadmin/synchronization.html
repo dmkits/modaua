@@ -79,16 +79,21 @@
                     btnIncomingData.document =
                             APP.childFor(contentPaneDetailContainer, "sysadmin_sync__TableIncomingData",
                                     TDocumentSimpleTable, {titleText: "Incoming data synchronization", buttonPrint: false, rightPane:{ width:250 },
-                                        dataURL: '/system/synchronization/getIncomingDataForTable', dataURLCondition: {"1~": 1}, })
+                                        dataURL: '/system/synchronization/getIncomingDataForTable', dataURLCondition: {"1~": 1} })
                                     .addTotalCountNumberBox("ИТОГО строк:", 140, {style: "font-weight:bold;", inputStyle: "width:40px;"})
                                     .addToolPane({title:"Detail info",
                                         contentTableAction:function(params){
-                                            Request.postJSONData({url:"/system/synchronization/getInfoPaneDetailIncomingData", data:params.contentTableSelectedRow},
-                                                    function(success,result){
-                                                        if(!result|| !result.items)return;
+                                            if(!params.contentTableSelectedRow){
+                                                params.thisToolPane.set("content","");
+                                                return;
+                                            }
+                                            Request.postJSONData({url:"/system/synchronization/getInfoPaneDetailIncomingData",
+                                                        data:{"SYNC_INCOMING_DATA_ID=":params.contentTableSelectedRow["ID"]}, resultItemName:"items"},
+                                                    function(resultItems){
+                                                        if(!resultItems)return;
                                                         var innerCont="";
-                                                        for (var i = 0; i < result.items.length; i++) {
-                                                            var elem = result.items[i];
+                                                        for (var i = 0; i < resultItems.length; i++) {
+                                                            var elem = resultItems[i];
                                                             innerCont+="<b>"+elem["NAME"]+"</b>: "+elem["VALUE"]+"<br>";
                                                         }
                                                         params.thisToolPane.set("content",innerCont);
@@ -96,17 +101,16 @@
                                         } })
                                     .addContentTableRowsAction("apply",{
                                         tableRowAction:function(contentTableRowData, actionParams, contentTableUpdatedRowData, startNextAction, finishedAction){
-                                           // console.log("ContentTableRowsAction contentTableRowData=",contentTableRowData);
-                                            //post apply
                                             Request.postJSONData({url:"/system/synchronization/applySyncIncomingData", data:contentTableRowData},
-                                                    function(success,result){                       console.log("applySyncIncomingData result=",result);
+                                                    function(result,error){
+                                                        var resultMsg="";
                                                         if(!result) {
-                                                            contentTableUpdatedRowData["OPERATION_RESULT"]="No server result!";
+                                                            resultMsg="No server result!";
+                                                            if(error) resultMsg="Operation failed! Reason: "+error;
+                                                            contentTableUpdatedRowData["OPERATION_RESULT"]=resultMsg;
                                                             startNextAction();
                                                             return;
                                                         }
-                                                        var resultMsg="";
-                                                        if(result.error) resultMsg="Operation failed! Reason: "+result.error;
                                                         if(result.updStateError) resultMsg+="\nOperation update state failed! Reason: "+result.updStateError;
                                                         if(resultMsg==="") resultMsg="Success.";
                                                         contentTableUpdatedRowData["OPERATION_RESULT"]=resultMsg;

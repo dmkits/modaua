@@ -143,9 +143,9 @@ module.exports.init = function (app) {
         });
     });
     app.post("/system/synchronization/getInfoPaneDetailIncomingData", function (req, res) {
-        var data = req.body;
+       var conditions=req.body;
         sys_sync_incoming_data_details.getDataItems({fields: ["NAME", "VALUE"],
-                conditions: {"SYNC_INCOMING_DATA_ID=": data["ID"]}, order: "NAME"
+                conditions:conditions, order: "NAME"
             },
             function (result) {
                 res.send(result);
@@ -538,7 +538,8 @@ module.exports.init = function (app) {
 
     var sysSyncOutputDataTableColumns = [
         {data: "CREATE_DATE", name: "CreateDate", width: 75, type: "text"},
-        {data: "SYNC_POS_NAME", name: "SyncPOS", width: 90, type: "text", dataSource: "sys_sync_POSes", sourceField: "NAME"},
+        {data: "SYNC_POS_NAME", name: "SyncPOS", width: 90, type: "text", dataSource: "sys_sync_POSes", sourceField: "NAME",
+            linkCondition:"sys_sync_output_data.SYNC_POS_ID=sys_sync_POSes.ID"},
         {data: "TABLE_NAME", name: "TableName", width: 250, type: "text"},
         {data: "KEY_DATA_NAME", name: "KeyName", width: 150, type: "text"},
         {data: "KEY_DATA_VALUE", name: "KeyValue", width: 150, type: "text"},
@@ -551,7 +552,7 @@ module.exports.init = function (app) {
     app.get('/system/synchronization/getOutputDataForTable', function (req, res) {
         sys_sync_output_data.getDataForTable({
             tableColumns: sysSyncOutputDataTableColumns, identifier: sysSyncOutputDataTableColumns[0].data,
-            order: "ID", conditions: req.query
+            order: "sys_sync_output_data.ID", conditions: req.query
         }, function (result) {
             res.send(result);
         });
