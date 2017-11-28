@@ -222,7 +222,7 @@
                                                                         consoleLog: true},
                                                                     function (result, error) {
                                                                         if (error&&params.toolPanes&&params.toolPanes[0]) {
-                                                                            params.toolPanes[0].set("content","<b style='color:red;'>Failed connect to bata1 database! Reason:"+result.error+"</b>");
+                                                                            params.toolPanes[0].set("content","<b style='color:red;'>Failed connect to bata1 database! Reason:"+error+"</b>");
                                                                             return;
                                                                         }
                                                                         if (!result&&params.toolPanes&&params.toolPanes[0]) {

@@ -10,13 +10,10 @@ define(["dojo/_base/declare", "hTableSimpleFiltered","dijit/ProgressBar","dijit/
         setData: function(data) {                                                                           console.log("HTableEditable setData ", data);
             this._setData= hTableSimpleFiltered().setData;
             this._setData(data);
-            var setAutocompleteColumnValues=this.setAutocompleteColumnValues, tableData=this.htData;
+            var tableData=this.htData;
             for(var c=0;c<this.htVisibleColumns.length;c++){
                 var visColData=this.htVisibleColumns[c];
-                if (visColData.type==="autocomplete")
-                    this.loadAutocompleteColumnValues(visColData,/*failed*/function(){
-                        setAutocompleteColumnValues(visColData,tableData);
-                    });
+                if (visColData.type==="autocomplete") this.loadAutocompleteColumnValues(visColData, tableData);
             }                                                                                               //console.log("HTableEditable setData htVisibleColumns",this.htVisibleColumns);
         },
         setAutocompleteColumnValues:function(colData,tableData){                                            //console.log("HTableEditable setAutocompleteColumnValues",colData.data);
@@ -30,24 +27,18 @@ define(["dojo/_base/declare", "hTableSimpleFiltered","dijit/ProgressBar","dijit/
                 }
             }
         },
-        loadAutocompleteColumnValues:function(colData,failedCallback){
+        loadAutocompleteColumnValues:function(colData, tableData){
+            var thisInstance=this;
             if(!colData.sourceURL) {
-                failedCallback();
+                thisInstance.setAutocompleteColumnValues(colData,tableData);
                 return;
             }
             colData.sourceValues={};
             colData.source=[];
-            Request.getJSONData({url:colData.sourceURL, consoleLog:true}
-                ,function(success,result){
-                    if(!success){
-                        console.log("HTableEditable.loadAutocompleteColumnValues getJSONData failed!");/*!!!TEST LOG!!!*/
-                        failedCallback();
-                        return;
-                    }
-                    var resultItems = result["items"], error = result["error"];
-                    if(error) console.log("HTableEditable.loadAutocompleteColumnValues data ERROR! error=",error);/*!!!TEST LOG!!!*/
-                    if(!resultItems) {
-                        failedCallback();
+            Request.getJSONData({url:colData.sourceURL, resultItemName:"items"}
+                ,function(resultItems){
+                    if(!resultItems){
+                        thisInstance.setAutocompleteColumnValues(colData,tableData);
                         return;
                     }
                     colData.sourceValues={};

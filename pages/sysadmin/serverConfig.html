@@ -268,7 +268,7 @@
                                                 configState.innerHTML = "<div><b style='color:red'>No connection!</b></div>";
                                                 return;
                                             }
-                                            var successMsgStr = now+'<br/>'+data.dropped;
+                                            var successMsgStr = now+'<br/>'+result.dropped;
                                             document.getElementById("drop_db_result").innerHTML = successMsgStr;
                                             saveAndReconnectBtn.onClick();
                                         });
@@ -362,7 +362,7 @@
                                         function (result, error) {
                                             if (!result) {
                                                 if (error) {
-                                                    document.getElementById("restore_db_result").innerHTML = "<b style='color:red'>" + now + "<br/>" + data.error + "<b>";
+                                                    document.getElementById("restore_db_result").innerHTML = "<b style='color:red'>" + now + "<br/>" + error + "<b>";
                                                     return;
                                                 }
                                                 configState.innerHTML = "<div><b style='color:red'>No connection!</b></div>";
@@ -390,7 +390,7 @@
                                                         function (result, error) {
                                                             if (!result) {
                                                                 if (error) {
-                                                                    document.getElementById("restore_db_result").innerHTML = "<b style='color:red'>"+now+"<br/>FAIL! Reason:" + data.error + "<b>";
+                                                                    document.getElementById("restore_db_result").innerHTML = "<b style='color:red'>"+now+"<br/>FAIL! Reason:" + error + "<b>";
                                                                     sa_serverConfig_PageContent.getServerConfiguration();
                                                                     if (sa_serverConfig_PageContent.getParent().updateDBState)  sa_serverConfig_PageContent.getParent().updateDBState();
 
@@ -399,10 +399,10 @@
                                                                 return;
                                                             }
                                                             var successMsgStr = now+'<br/>';
-                                                            if (data.userExists)successMsgStr = successMsgStr + data.userExists;
-                                                            if (data.userCreated)successMsgStr = successMsgStr + data.userCreated;
-                                                            if (data.accessAdded)successMsgStr = successMsgStr + data.accessAdded;
-                                                            if (data.restore)successMsgStr = successMsgStr + data.restore;
+                                                            if (result.userExists)successMsgStr = successMsgStr + result.userExists;
+                                                            if (result.userCreated)successMsgStr = successMsgStr + result.userCreated;
+                                                            if (result.accessAdded)successMsgStr = successMsgStr + result.accessAdded;
+                                                            if (result.restore)successMsgStr = successMsgStr + result.restore;
                                                             document.getElementById("restore_db_result").innerHTML = successMsgStr;
                                                             saveAndReconnectBtn.onClick();
                                                         });
@@ -451,7 +451,7 @@
                                                         function (result, error) {
                                                             if (!result) {
                                                                 if (error) {
-                                                                    document.getElementById("restore_db_bata_from_bata1DB_result").innerHTML = "<b style='color:red'>"+now+"<br/>FAIL! Reason:" + data.error + "<b>";
+                                                                    document.getElementById("restore_db_bata_from_bata1DB_result").innerHTML = "<b style='color:red'>"+now+"<br/>FAIL! Reason:" + error + "<b>";
                                                                     sa_serverConfig_PageContent.getServerConfiguration();
                                                                     if (sa_serverConfig_PageContent.getParent().updateDBState)  sa_serverConfig_PageContent.getParent().updateDBState();
                                                                     return;
@@ -460,10 +460,10 @@
                                                                 return;
                                                             }
                                                             var successMsgStr = now+'<br/>';
-                                                            if (data.userExists)successMsgStr = successMsgStr + data.userExists;
-                                                            if (data.userCreated)successMsgStr = successMsgStr + data.userCreated;
-                                                            if (data.accessAdded)successMsgStr = successMsgStr + data.accessAdded;
-                                                            if (data.restore)successMsgStr = successMsgStr + data.restore;
+                                                            if (result.userExists)successMsgStr = successMsgStr + result.userExists;
+                                                            if (result.userCreated)successMsgStr = successMsgStr + result.userCreated;
+                                                            if (result.accessAdded)successMsgStr = successMsgStr + result.accessAdded;
+                                                            if (result.restore)successMsgStr = successMsgStr + result.restore;
                                                             document.getElementById("restore_db_bata_from_bata1DB_result").innerHTML = successMsgStr;
                                                             saveAndReconnectBtn.onClick();
                                                         });

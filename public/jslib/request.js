@@ -33,13 +33,13 @@ define(["dojo/_base/declare", "dojo/request", "dijit/registry", "dialogs"],
                     function(respdata){
                         if(callback)callback(true, respdata);
                     }, function(resperror){
-                        if(consoleLog) console.log("getJSONData ERROR! url=",url," error=",resperror);
+                        if(consoleLog) console.log("getJSON ERROR! url=",url," error=",resperror);
                         if(callback)callback(false, resperror);
                     })
             },
             /** getJSONData
-             * params = { url, condition, timeout, showRequestErrorDialog, resultItemName }
-             * default: params.showRequestErrorDialog = true
+             * params = { url, condition, timeout, showRequestErrorDialog, consoleLog, resultItemName }
+             * default: params.showRequestErrorDialog = true, params.consoleLog = true
              * resultCallback = function(result, error)
              *  result = undefined if request failed
              *  result = null if result is empty or result error (parameter error exists)
@@ -67,11 +67,13 @@ define(["dojo/_base/declare", "dojo/request", "dijit/registry", "dialogs"],
                     if(serverResult.error){
                         var msg=serverResult.error;
                         if(serverResult.errorMsg) msg= serverResult.errorMsg+"<br>"+msg;
+                        if(params.consoleLog) console.log("getJSONData DATA ERROR! url=",params.url," error=",msg);
                         if(requestFailDialog) requestFailDialog(msg);
                         resultCallback(null, serverResult.error);
                         return;
                     }
                     if(params.resultItemName&&serverResult[params.resultItemName]===undefined){
+                        if(params.consoleLog) console.log("getJSONData DATA ERROR! url=",params.url," No result!");
                         if(requestFailDialog) requestFailDialog("Нет данных с сервера!");
                         resultCallback(null);
                         return;
