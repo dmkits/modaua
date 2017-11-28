@@ -68,7 +68,7 @@
 
                 main_MainContainer.getMainData = function(postaction){                                //getting main json data from server and run action parameter function
                     Request.getJSONData({url:"/main/getMainData", consoleLog:true},
-                            function(result,error){                                        console.log("main_MainContainer.getMainData result=",result); //title,icon32x32,imageSmall,imageMain
+                            function(result){                                        console.log("main_MainContainer.getMainData result=",result); //title,icon32x32,imageSmall,imageMain
                                     if(result===undefined||result==null) result = [];
                                     main_MainContainer.mainContentData = result;
                                     main_ContentContainer.getMainContentData=function(){
@@ -128,7 +128,7 @@
                         document.cookie="mduPswrd=";
                         location.reload();
                         Request.postJSONData({url:"/main/exit"},
-                                /*posaction*/function(result,error){
+                                /*posaction*/function(result){
                                     var resultContent;
                                     if (result&&result.actionResult=="successfull") resultContent= "<div>Вы закрыли все окна и вышли из рабочей сессии.</div>";
                                     else resultContent= "<div>Вы закрыли все окна.</div>";

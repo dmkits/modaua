@@ -297,7 +297,7 @@
                                                     dataModelDataTables.push(contentTableRowsData[i]["DATA_TABLE_NAME"]);
                                                 Request.postJSONData({url: "/sysadmin/database/deleteDataFromDataModels",
                                                             data: dataModelDataTables, consoleLog: true},
-                                                        function (result, error) {
+                                                        function (result) {
                                                             var infoPaneMsg=actionParams.toolPanes[0].get("content");
                                                             if (!result&&actionParams.toolPanes&&actionParams.toolPanes[0]) {
                                                                 infoPaneMsg+="<br><b style='color:red;'>Failed connect to server!</b>";

@@ -87,7 +87,7 @@
                                     document.getElementById("sysadmin_connectToDBState").innerHTML =
                                             "<b>DB CONNECTION STATE:<span id='dbConnection_color' style='color:red'>UNKNOWN</span></b>";
                                     sysadmin_MainContainer.mainContentData = [];
-                                    sysadmin_MainContainer.mainContentData["error"] = error;
+                                    if(error)sysadmin_MainContainer.mainContentData["error"] = error;
                                     return;
                                 }
                                 sysadmin_MainContainer.mainContentData = result;
