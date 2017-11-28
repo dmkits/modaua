@@ -203,13 +203,13 @@ define(["dojo/_base/declare", "app", "tDocumentBase","dijit/form/Select", "hTabl
                 if(!this.headerData) this.headerData=[];
                 this.headerData.push({type:"SelectBox",instance:select});
                 select.loadDropDownValuesFromServer= function(callback){
-                    Request.getJSONData({url: select.loadDropDownURL, consoleLog: true},
-                        function (data,error) {
+                    Request.getJSONData({url: select.loadDropDownURL, resultItemName:"items"},
+                        function (resultItems) {
                             var options=select.get("options"),value = select.get("value");
-                            if (data && data.items) {
-                                select.set("options", data.items);
+                            if (resultItems) {
+                                select.set("options", resultItems);
                                 select.set("value", value);
-                            } else if (error) console.log("tDocumentSimpleTable.addSelectBox loadDropDown getJSONData data error:",error);
+                            }
                             if(callback) callback();
                         });
                 };
