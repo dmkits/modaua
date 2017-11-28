@@ -156,14 +156,15 @@
 
                 reloadBtn.onClick= function() {
                     configState.innerHTML = "<div><b>Loading configuration parameters...</b></div>";
-                    Request.getJSONData({url: "/sysadmin/server/loadServerConfig", consoleLog: true},
+                    Request.getJSONData({url: "/sysadmin/server/loadServerConfig"},
                             function (result,error) {
-                                if (error) {
-                                    configState.innerHTML = "<div><b style='color:red'>Cannot load configuration parameters!</b> Reason:"+result.error+"</div>";
-                                    setServerConfigContent(result);
-                                    return;
-                                }if (!result) {
+                                if (!result) {
                                     configState.innerHTML = "<div><b style='color:red'>UNKNOWN</b></div>";
+                                    return;
+                                }
+                                if (error) {
+                                    configState.innerHTML = "<div><b style='color:red'>Cannot load configuration parameters!</b> Reason:"+error+"</div>";
+                                    setServerConfigContent(result);
                                     return;
                                 }
                                 configState.innerHTML = "<div><b>Configuration reloaded.</b></div>";
@@ -182,16 +183,14 @@
                         configName: configNameInput.get('value'),
                         backupSchedule: backupScheduleInput.get('value')
                     };
-                    Request.postJSONData({url:  "/sysadmin/serverConfig/storeServerConfigAndReconnect", data: newDBConfig, consoleLog: true},
+                    Request.postJSONData({url:  "/sysadmin/serverConfig/storeServerConfigAndReconnect", data: newDBConfig},
                             function (result,error) {
                                 if (!result) {
-                                    if (error)
-                                        configState.innerHTML = "<div><b style='color:red'>Failed store configuration! Reason:" + error + "</b></div>";
-                                    else
                                         configState.innerHTML = "<div><b style='color:red'>UNKNOWN</b></div>";
                                     if (sa_serverConfig_PageContent.getParent().updateDBState)  sa_serverConfig_PageContent.getParent().updateDBState();
                                     return;
                                 }
+                                if (error) configState.innerHTML = "<div><b style='color:red'>Failed store configuration! Reason:" + error + "</b></div>";
                                 configState.innerHTML = "<div><b>Configuration saved.</b></div>";
                                 if(result.dbListError){
                                     document.getElementById("db_list").innerText=result.dbListError;
@@ -293,13 +292,13 @@
                                 authParams.adminPassword = result.adminPassword;
                                 var now = moment().format('DD.MM.YYYY HH:mm:ss');
                                 Request.postJSONData({url: "/sysadmin/auth_as_sysadmin", data: authParams, consoleLog: true},
-                                        function (result, error) {
+                                        function (result, error) {      console.log("result=",result,"error=",error);
                                             if (!result) {
-                                                if (error) {
-                                                    document.getElementById(dataParams.resultFieldId).innerHTML = "<b style='color:red'>" + now + "<br/>" + error + "<b>";
-                                                    return;
-                                                }
                                                 configState.innerHTML = "<div><b style='color:red'>No connection!</b></div>";
+                                                return;
+                                            }
+                                            if (error) {
+                                                document.getElementById(dataParams.resultFieldId).innerHTML = "<b style='color:red'>" + now + "<br/>" + error + "<b>";
                                                 return;
                                             }
                                             sysadminDialogs.showBackupDialog({onlyDataBackup:dataParams.onlyDataBackup}, function (result) {
