@@ -105,12 +105,11 @@
                                                     function(result,error){
                                                         var resultMsg="";
                                                         if(!result) {
-                                                            resultMsg="No server result!";
-                                                            if(error) resultMsg="Operation failed! Reason: "+error;
-                                                            contentTableUpdatedRowData["OPERATION_RESULT"]=resultMsg;
+                                                            contentTableUpdatedRowData["OPERATION_RESULT"]="No server result!";
                                                             startNextAction();
                                                             return;
                                                         }
+                                                        if(error) resultMsg="Operation failed! Reason: "+error;
                                                         if(result.updStateError) resultMsg+="\nOperation update state failed! Reason: "+result.updStateError;
                                                         if(resultMsg==="") resultMsg="Success.";
                                                         contentTableUpdatedRowData["OPERATION_RESULT"]=resultMsg;
