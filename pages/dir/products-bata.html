@@ -231,42 +231,42 @@
                                         .addTotalCountNumberBox("ИТОГО строк:", 140, {style:"font-weight:bold;",inputStyle:"width:50px"})
                                         .addToolPane({title:"Очистка"})
                                         .addToolPaneActionButton("Очистить </br> неиспользуемые </br>номенклатуры",{ actionFunction:function(params){
-                                            Request.postJSONData({url: "/dir/products/deleteUnusedProducts", consoleLog: true},
-                                                    function (result, error) {
-                                                        if(result && result.affectedRows){
-                                                            params.toolPanes[0].set("content","Удалено номенклатур: "+result.affectedRows);
+                                            Request.postJSONData({url: "/dir/products/deleteUnusedProducts", resultItemName:"affectedRows"},
+                                                    function (resultAffectedRows) {
+                                                        if(resultAffectedRows){
+                                                            params.toolPanes[0].set("content","Удалено номенклатур: "+resultAffectedRows);
                                                         }
                                                     });
                                         } })
                                         .addToolPaneActionButton("Очистить </br> неиспользуемые </br>артикулы",{ actionFunction:function(params){
-                                            Request.postJSONData({url: "/dir/products/deleteUnusedArticles", consoleLog: true},
-                                                    function (result, error) {
-                                                        if(result && result.affectedRows){
-                                                            params.toolPanes[0].set("content","Удалено артикулов: "+result.affectedRows);
+                                            Request.postJSONData({url: "/dir/products/deleteUnusedArticles", resultItemName:"affectedRows"},
+                                                    function (resultAffectedRows) {
+                                                        if(resultAffectedRows){
+                                                            params.toolPanes[0].set("content","Удалено артикулов: "+resultAffectedRows);
                                                         }
                                                     });
                                         } })
                                         .addToolPaneActionButton("Очистить </br> неиспользуемые </br>виды",{ actionFunction:function(params){
-                                            Request.postJSONData({url: "/dir/products/deleteUnusedKinds", consoleLog: true},
-                                                    function (result, error) {
-                                                        if(result && result.affectedRows){
-                                                            params.toolPanes[0].set("content","Удалено видов: "+result.affectedRows);
+                                            Request.postJSONData({url: "/dir/products/deleteUnusedKinds", resultItemName:"affectedRows"},
+                                                    function (resultAffectedRows) {
+                                                        if(resultAffectedRows){
+                                                            params.toolPanes[0].set("content","Удалено видов: "+resultAffectedRows);
                                                         }
                                                     });
                                         } })
                                         .addToolPaneActionButton("Очистить </br> неиспользуемый </br>состав",{ actionFunction:function(params){
-                                            Request.postJSONData({url: "/dir/products/deleteUnusedComposition", consoleLog: true},
-                                                    function (result, error) {
-                                                        if(result && result.affectedRows){
-                                                            params.toolPanes[0].set("content","Удалено составов: "+result.affectedRows);
+                                            Request.postJSONData({url: "/dir/products/deleteUnusedComposition", resultItemName:"affectedRows"},
+                                                    function (resultAffectedRows) {
+                                                        if(resultAffectedRows){
+                                                            params.toolPanes[0].set("content","Удалено составов: "+resultAffectedRows);
                                                         }
                                                     });
                                         } })
                                         .addToolPaneActionButton("Очистить </br> неиспользуемые </br>размеры",{ actionFunction:function(params){
-                                            Request.postJSONData({url: "/dir/products/deleteUnusedSizes", consoleLog: true},
-                                                    function (result, error) {
-                                                        if(result && result.affectedRows){
-                                                            params.toolPanes[0].set("content","Удалено размеров: "+result.affectedRows);
+                                            Request.postJSONData({url: "/dir/products/deleteUnusedSizes", resultItemName:"affectedRows"},
+                                                    function (resultAffectedRows) {
+                                                        if(resultAffectedRows){
+                                                            params.toolPanes[0].set("content","Удалено размеров: "+resultAffectedRows);
                                                         }
                                                     });
                                         } })
