@@ -13,11 +13,8 @@ define([ "dijit/Dialog", "dijit/registry", "hTableSimple","dijit/form/Button","r
                     return;
                 }
                 Request.getJSONData({url: params.url},
-                    function (success, tableData) {
-                        if (!success) {
-                            console.log("No connection with server!");
-                            return;
-                        }
+                    function (tableData) {
+                        if (!tableData) return;
                         buildDialog(params, tableData, callback);
                     });
             }
@@ -41,12 +38,10 @@ define([ "dijit/Dialog", "dijit/registry", "hTableSimple","dijit/form/Button","r
                     if(targetStr.length<myDialog.minSearchStrLength)return;
                     var condition={};
                     condition["STR_TARGET"] = targetStr;
-                    Request.getJSONData({url: params.url, condition: condition, consoleLog: true},
-                        function (success, tableData) {
-                            if(!success)console.log("No connection with the server!");
-                            if (success && tableData) {
+                    Request.getJSONData({url: params.url, condition: condition},
+                        function (tableData) {
+                            if(!tableData)return;
                                 buildDialog(params,tableData);
-                            }
                         });
                 };
                 input.onkeypress=function(event){

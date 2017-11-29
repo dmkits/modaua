@@ -117,29 +117,25 @@ define(["dojo/_base/declare", "dijit/layout/ContentPane", "request"],
                 if (params.setOnlyControlElementsValues==undefined) params.setOnlyControlElementsValues=false;
                 var thisInstance = this;
                 if (params.method!="post") {
-                    Request.getJSONData({url: params.url, condition: params.condition, consoleLog: true},
-                        function (success,result) {
-                            var resultItem=null, resultError=null, source=(!params.setOnlyControlElementsValues)?"loadContentFromUrl":"loadValuesFromUrl", error=null;
-                            if (!success) error=result;
-                            else if(result) {                                                                           //console.log("ContentController.loadDataFromUrl Request.getJSONData data=",data," data.item=",data["item"]);
-                                resultItem = result["item"]; resultError = result["error"];
-                                if (resultError) console.log("ContentController.loadDataFromUrl getJSONData DATA ERROR! error=", resultError);
+                    Request.getJSONData({url: params.url, condition: params.condition},
+                        function (result,error) {
+                            var resultItem=null, source=(!params.setOnlyControlElementsValues)?"loadContentFromUrl":"loadValuesFromUrl";
+                            if(result) {                                                                           //console.log("ContentController.loadDataFromUrl Request.getJSONData data=",data," data.item=",data["item"]);
+                                resultItem = result["item"];
                             }
-                            thisInstance.setContentData(resultItem, {source:source, error:error, result:result, resultItem:resultItem, resultError:resultError});
-                            if(postaction)postaction(success,result,resultItem,resultError);
+                            thisInstance.setContentData(resultItem, {source:source, error:error, result:result, resultItem:resultItem, resultError:error});
+                            if(postaction)postaction(result,resultItem,error);
                         });
                     return;
                 }
                 Request.postJSONData({url: params.url, condition: params.condition, data:params.data, consoleLog: true},
-                    function (success,result) {
-                        var resultItem=null, resultError=null, source=(!params.setOnlyControlElementsValues)?"loadByPostContentFromUrl":"loadByPostValuesFromUrl", error=null;
-                        if (!success) error=result;
-                        else if(result) {                                                                               //console.log("ContentController.loadDataFromUrl Request.getJSONData data=",data," data.item=",data["item"]);
-                            resultItem = result["item"]; resultError = result["error"];
-                            if (resultError) console.log("ContentController.loadDataFromUrl postJSONData DATA ERROR! error=", resultError);
+                    function (result,error) {
+                        var resultItem=null, source=(!params.setOnlyControlElementsValues)?"loadByPostContentFromUrl":"loadByPostValuesFromUrl";
+                        if(result) {                                                                               //console.log("ContentController.loadDataFromUrl Request.getJSONData data=",data," data.item=",data["item"]);
+                            resultItem = result["item"];
                         }
-                        thisInstance.setContentData(resultItem, {source:source, error:error, result:result, resultItem:resultItem, resultError:resultError});
-                        if(postaction)postaction(success,result,resultItem,resultError);
+                        thisInstance.setContentData(resultItem, {source:source, error:error, result:result, resultItem:resultItem, resultError:error});
+                        if(postaction)postaction(result,resultItem,error);
                     });
             },
             /*
@@ -165,23 +161,22 @@ define(["dojo/_base/declare", "dijit/layout/ContentPane", "request"],
                     dataToPost[item] = value;
                 }
                 var thisInstance = this;
-                Request.postJSONData({url: params.url, condition: params.condition, data: dataToPost, consoleLog: true},
-                    function (success,result) {                                                                         //console.log("ContentController.postDataToUrl postJSONData dataToPost=",dataToPost," data=",result);
-                        var resultItem=null, resultError=null, source="postContentFromUrl", error=null, updateCount=undefined;
-                        if (!success) {
-                            error=result; resultItem= thisInstance.data;
+                Request.postJSONData({url: params.url, condition: params.condition, data: dataToPost},
+                    function (result,error) {                                                                         //console.log("ContentController.postDataToUrl postJSONData dataToPost=",dataToPost," data=",result);
+                        var resultItem=null, source="postContentFromUrl", updateCount=undefined;
+                        if (!result) {
+                             resultItem= thisInstance.data;
                         } else if(result) {
-                            resultItem = result["resultItem"]; resultError = result["error"]; updateCount = result["updateCount"];
-                            if (resultError) console.log("ContentController.postDataToUrl postJSONData DATA ERROR! error=", resultError);
+                            resultItem = result["resultItem"]; updateCount = result["updateCount"];
                             if(!(updateCount>0))resultItem=thisInstance.data;
                         }
                         if(updateCount>0)
                             thisInstance.setContentData(resultItem,
-                                {source:source, error:error, result:result, resultItem:resultItem, resultError:resultError, updateCount:updateCount});
+                                {source:source, error:error, result:result, resultItem:resultItem, resultError:error, updateCount:updateCount});
                         else
                             thisInstance.onPostDataFail(resultItem,
-                                {source:source, error:error, result:result, resultItem:resultItem, resultError:resultError, updateCount:updateCount});
-                        if(postaction)postaction(success,result,resultItem,resultError,updateCount);
+                                {source:source, error:error, result:result, resultItem:resultItem, resultError:error, updateCount:updateCount});
+                        if(postaction)postaction(result,resultItem,error,updateCount);
                     });
             },
             /*
@@ -196,23 +191,22 @@ define(["dojo/_base/declare", "dijit/layout/ContentPane", "request"],
                 if(!dataToPost) dataToPost={};
                 if(this.data&&this.dataIDName) dataToPost[this.dataIDName]= this.data[this.dataIDName];
                 var thisInstance = this;
-                Request.postJSONData({url: params.url, condition: params.condition, data: dataToPost, consoleLog: true},
-                    function (success,result) {                                                                         //console.log("ContentController.postForDeleteDataToUrl postJSONData dataToPost=",dataToPost," data=",result);
-                        var resultItem=null, resultError=null, source="postForDeleteContentFromUrl", error=null, updateCount=undefined;
-                        if (!success) {
-                            error=result; resultItem= thisInstance.data;
+                Request.postJSONData({url: params.url, condition: params.condition, data: dataToPost},
+                    function (result,error) {                                                                         //console.log("ContentController.postForDeleteDataToUrl postJSONData dataToPost=",dataToPost," data=",result);
+                        var resultItem=null,  source="postForDeleteContentFromUrl", updateCount=undefined;
+                        if (!result) {
+                           resultItem= thisInstance.data;
                         } else if(result) {
-                            resultError = result["error"]; updateCount = result["updateCount"];
-                            if (resultError) console.log("ContentController.postDataToUrl postForDeleteDataToUrl DATA ERROR! error=", resultError);
+                            updateCount = result["updateCount"];
                             if(!(updateCount>0))resultItem=thisInstance.data;
                         }
                         if(updateCount>0)
                             thisInstance.setContentData(resultItem,
-                                {source:source, error:error, result:result, resultItem:resultItem, resultError:resultError, updateCount:updateCount});
+                                {source:source, error:error, result:result, resultItem:resultItem, resultError:error, updateCount:updateCount});
                         else
                             thisInstance.onPostDataFail(resultItem,
-                                {source:source, error:error, result:result, resultItem:resultItem, resultError:resultError, updateCount:updateCount});
-                        if(postaction)postaction(success,result,resultItem,resultError,updateCount);
+                                {source:source, error:error, result:result, resultItem:resultItem, resultError:error, updateCount:updateCount});
+                        if(postaction)postaction(result,resultItem,error,updateCount);
                     });
             },
 
@@ -241,13 +235,13 @@ define(["dojo/_base/declare", "dijit/layout/ContentPane", "request"],
             setSelectDropDown: function (selectObj) {
                 selectObj.selectToggleDropDown= selectObj.toggleDropDown;
                 selectObj.toggleDropDown= function(){                                                                   //console.log("ContentController.setSelectDropDown toggleDropDown");
-                    Request.getJSONData({url: selectObj.loadDropDownURL, consoleLog: true},
-                        function (success,data) {
+                    Request.getJSONData({url: selectObj.loadDropDownURL},
+                        function (result,error) {
                             var options=selectObj.get("options"),value = selectObj.get("value");
-                            if (success&&data.items) {
-                                selectObj.set("options", data.items);
+                            if (result&&result.items) {
+                                selectObj.set("options", result.items);
                                 selectObj.set("value", value);
-                            } else if (success&&!data.items) console.log("ContentController.setSelectDropDown loadDropDown getJSONData data error:",data);
+                            } else if (result&&!result.items) console.log("ContentController.setSelectDropDown loadDropDown getJSONData data error:",result);
                             selectObj.selectToggleDropDown();
                         });
                 };

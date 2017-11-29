@@ -27,8 +27,9 @@ module.exports.init = function(app) {
             linkCondition:"wrh_pinvs.CURRENCY_ID=sys_currency.ID"},
         {data: "RATE", name: "Курс валюты", width: 60, type: "numeric2", dataSource:"wrh_pinvs"},
         {data: "POSITION", name: "Позиция в накладной", dataFunction:"ROUND(POSIND)" },
+        {dataSource:"wrh_products_r_operations", linkCondition:"wrh_products_r_operations.OPERATION_ID=wrh_pinvs_products.ID"},
         { data: "BARCODE", name: "Штрихкод", width: 100, type: "text", align:"center",
-            dataSource:"dir_products", sourceField:"PBARCODE", linkCondition:"dir_products.ID=wrh_pinvs_products.PRODUCT_ID"},
+            dataSource:"dir_products", sourceField:"PBARCODE", linkCondition:"dir_products.ID=wrh_products_r_operations.PRODUCT_ID"},
         {data: "PRICE", name: "Цена" },
         {data: "QTY", name: "Кол-во" },
         {data: "POSSUM", name: "Сумма" }
