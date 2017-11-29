@@ -87,12 +87,7 @@
                                                             }
                                                             if(infoToolPaneMsg) actionParams.toolPanes[0].set("content",infoToolPaneMsg);
                                                         };
-                                                        if (error) {
-                                                            changeMsg = "NOT APPLIED! Reason: " + error;
-                                                            actionParams["failedMsg"]=error;
-                                                            if(!actionParams["finishedCounterByFailed"]) actionParams["finishedCounterByFailed"]=0;
-                                                            actionParams["finishedCounterByFailed"]++;
-                                                        }else if (!result) {
+                                                        if(!result){
                                                             if(!actionParams["finishedCounterByNoConnection"]) actionParams["finishedCounterByNoConnection"]=0;
                                                             actionParams["finishedCounterByNoConnection"]++;
                                                             infoMsgByParams(actionParams);
@@ -103,6 +98,12 @@
                                                             }
                                                             startNextAction(false);
                                                             return;
+                                                        }
+                                                        if (error) {
+                                                            changeMsg = "NOT APPLIED! Reason: " + error;
+                                                            actionParams["failedMsg"]=error;
+                                                            if(!actionParams["finishedCounterByFailed"]) actionParams["finishedCounterByFailed"]=0;
+                                                            actionParams["finishedCounterByFailed"]++;
                                                         }
                                                         actionParams["finishedCounterByNoConnection"]=0;
                                                         var resultItem = result["resultItem"];
@@ -181,13 +182,14 @@
                                                             consoleLog:true, timeout:10*60*1000},
                                                         function(result,error){
                                                             var importResultMsg=null;
-                                                            if(error){
-                                                              importResultMsg="FAILED delete! Reason: "+result.error;
-                                                            }else if (!result) {
+                                                            if(!result){
                                                                 actionParams["noConnectFailCounter"]=(!actionParams["noConnectFailCounter"])?1:actionParams["noConnectFailCounter"]+1;
                                                                 contentTableUpdatedRowData["RESULT"]="Failed delete! Reason:No connect to server!";
                                                                 if(actionParams["noConnectFailCounter"]<=20) startNextAction(false); else finishedAction();
                                                                 return;
+                                                            }
+                                                            if(error){
+                                                              importResultMsg="FAILED delete! Reason: "+result.error;
                                                             }
                                                             actionParams["noConnectFailCounter"]=0;
                                                             var resultItem = result["resultItem"];
@@ -241,7 +243,8 @@
                                                                                         infoPaneMsg+="<br><b style='color:red;'>Filed connect to server!</b>";
                                                                                         params.toolPanes[0].set("content",infoPaneMsg);
                                                                                         return;
-                                                                                    }else if (!result&&params.toolPanes&&params.toolPanes[0]) {
+                                                                                    }
+                                                                                    if (!result&&params.toolPanes&&params.toolPanes[0]) {
                                                                                         infoPaneMsg+="<br><b style='color:red;'>No server response data!</b>";
                                                                                         params.toolPanes[0].set("content",infoPaneMsg);
                                                                                         return;
@@ -272,13 +275,13 @@
                                                             consoleLog:true, timeout:30*60*1000},
                                                         function(result,error){
                                                             var importResultMsg=null;
-                                                            if(error) importResultMsg="FAILED! Reason: "+error;
-                                                            else if (!result) {
+                                                            if (!result) {
                                                                 actionParams["noConnectFailCounter"]=(!actionParams["noConnectFailCounter"])?1:actionParams["noConnectFailCounter"]+1;
                                                                 contentTableUpdatedRowData["RESULT"]="Failed import! Reason:No connect to server!";
                                                                 if(actionParams["noConnectFailCounter"]<=20) startNextAction(false); else finishedAction();
                                                                 return;
                                                             }
+                                                            if(error) importResultMsg="FAILED! Reason: "+error;
                                                             actionParams["noConnectFailCounter"]=0;
                                                             var resultItem = result["resultItem"];
                                                             if (resultItem && resultItem["RESULT"])
