@@ -190,7 +190,11 @@
                                     if (sa_serverConfig_PageContent.getParent().updateDBState)  sa_serverConfig_PageContent.getParent().updateDBState();
                                     return;
                                 }
-                                if (error) configState.innerHTML = "<div><b style='color:red'>Failed store configuration! Reason:" + error + "</b></div>";
+                                if (error){
+                                    configState.innerHTML = "<div><b style='color:red'>Failed store configuration! Reason:" + error + "</b></div>";
+                                    if (sa_serverConfig_PageContent.getParent().updateDBState)  sa_serverConfig_PageContent.getParent().updateDBState();
+                                    return;
+                                }
                                 configState.innerHTML = "<div><b>Configuration saved.</b></div>";
                                 if(result.dbListError){
                                     document.getElementById("db_list").innerText=result.dbListError;
@@ -219,14 +223,15 @@
                                     newUser:userInput.get('value'), newPassword:dbPasswordInput.get('value')};
                                 Request.postJSONData({url: "/sysadmin/create_new_db", data: newDB, consoleLog: true},
                                         function (result,error) {
-                                            var now = moment().format('DD.MM.YYYY HH:mm:ss'), resultMsg;
+                                            var now = moment().format('DD.MM.YYYY HH:mm:ss');
                                             if (!result)  {
-                                                if(error) resultMsg= "<b style='color:red'>" + now + "</br>FAIL! Reason:" + error + "</b>";
-                                                else resultMsg = "<b style='color:red'>" + now + "</br>UNKNOWN</b>";
-                                                    //configState.innerHTML = "<div><b style='color:red'>UNKNOWN!</b></div>";
-                                                document.getElementById("create_db_result").innerHTML = resultMsg;
-                                                //sa_serverConfig_PageContent.getServerConfiguration();
+                                                document.getElementById("create_db_result").innerHTML = "<b style='color:red'>" + now + "</br>UNKNOWN</b>";
                                                 if (sa_serverConfig_PageContent.getParent().updateDBState)  sa_serverConfig_PageContent.getParent().updateDBState();
+                                                return;
+                                            }
+                                            if(error){
+                                                document.getElementById("create_db_result").innerHTML = "<b style='color:red'>" + now + "</br>FAIL! Reason:" + error + "</b>";
+                                                saveAndReconnectBtn.onClick();
                                                 return;
                                             }
                                             var successMsgStr = now + '</br>';
@@ -256,15 +261,13 @@
                                         function (result, error) {
                                             var now = moment().format('DD.MM.YYYY HH:mm:ss');
                                             if (!result) {
-                                                if (error) {
-                                                    document.getElementById("drop_db_result").innerHTML = "<b style='color:red'>"+now+"<br/>FAIL! Reason:" + error+"<b>";
-                                                    sa_serverConfig_PageContent.getServerConfiguration();
-                                                    if (sa_serverConfig_PageContent.getParent().updateDBState)   {
-                                                        sa_serverConfig_PageContent.getParent().updateDBState();
-                                                    }
-                                                    return;
-                                                }
                                                 configState.innerHTML = "<div><b style='color:red'>No connection!</b></div>";
+                                                return;
+                                            }
+                                            if (error) {
+                                                document.getElementById("drop_db_result").innerHTML = "<b style='color:red'>"+now+"<br/>FAIL! Reason:" + error+"<b>";
+                                                sa_serverConfig_PageContent.getServerConfiguration();
+                                                if (sa_serverConfig_PageContent.getParent().updateDBState)sa_serverConfig_PageContent.getParent().updateDBState();
                                                 return;
                                             }
                                             var successMsgStr = now+'<br/>'+result.dropped;
@@ -322,22 +325,22 @@
                                                             },
                                                             function (result, error) {
                                                                 if (!result) {
-                                                                    if(error) {
-                                                                        document.getElementById(dataParams.resultFieldId).innerHTML = "<b style='color:red'>" + now + "<br/>FAIL! Reason:" + error + "<b>";
-                                                                        sa_serverConfig_PageContent.getServerConfiguration();
-                                                                        saveAndReconnectBtn.onClick();
-                                                                        return;
-                                                                    }
                                                                     configState.innerHTML = "<div><b style='color:red'>No connection!</b></div>";
                                                                     return;
-                                                                }if (result.fileExists) {
+                                                                }
+                                                                if(error) {
+                                                                    document.getElementById(dataParams.resultFieldId).innerHTML = "<b style='color:red'>" + now + "<br/>FAIL! Reason:" + error + "<b>";
+                                                                    sa_serverConfig_PageContent.getServerConfiguration();
+                                                                    saveAndReconnectBtn.onClick();
+                                                                    return;
+                                                                }
+                                                                if (result.fileExists) {
                                                                     sysadminDialogs.showRewriteBackupDialog(function (result) {
                                                                         saveBackup(result.rewrite);
                                                                     });
                                                                     return;
                                                                 }
-                                                                var successMsgStr = now + '<br/>' + result.backup;
-                                                                document.getElementById(dataParams.resultFieldId).innerHTML = successMsgStr;
+                                                                document.getElementById(dataParams.resultFieldId).innerHTML = now + '<br/>' + result.backup;
                                                                 saveAndReconnectBtn.onClick();
                                                             });
                                                 }
@@ -360,14 +363,13 @@
                                 Request.postJSONData({url: "/sysadmin/auth_as_sysadmin", data: authParams, consoleLog: true},
                                         function (result, error) {
                                             if (!result) {
-                                                if (error) {
-                                                    document.getElementById("restore_db_result").innerHTML = "<b style='color:red'>" + now + "<br/>" + error + "<b>";
-                                                    return;
-                                                }
                                                 configState.innerHTML = "<div><b style='color:red'>No connection!</b></div>";
                                                 return;
                                             }
-
+                                            if (error) {
+                                                document.getElementById("restore_db_result").innerHTML = "<b style='color:red'>" + now + "<br/>" + error + "<b>";
+                                                return;
+                                            }
                                             sysadminDialogs.showRestoreDialog(function (restoreDialogResult) {
                                                 if (!restoreDialogResult) return;
                                                 if(restoreDialogResult.restore_fileName.length<1){
@@ -388,14 +390,14 @@
                                                 Request.postJSONData({url: "/sysadmin/restore_db", data: DB, consoleLog: true},
                                                         function (result, error) {
                                                             if (!result) {
-                                                                if (error) {
-                                                                    document.getElementById("restore_db_result").innerHTML = "<b style='color:red'>"+now+"<br/>FAIL! Reason:" + error + "<b>";
-                                                                    sa_serverConfig_PageContent.getServerConfiguration();
-                                                                    if (sa_serverConfig_PageContent.getParent().updateDBState)  sa_serverConfig_PageContent.getParent().updateDBState();
-
-                                                                }
                                                                 configState.innerHTML = "<div><b style='color:red'>No connection!</b></div>";
                                                                 return;
+                                                            }
+                                                            if (error) {
+                                                                document.getElementById("restore_db_result").innerHTML = "<b style='color:red'>"+now+"<br/>FAIL! Reason:" + error + "<b>";
+                                                                sa_serverConfig_PageContent.getServerConfiguration();
+                                                                if (sa_serverConfig_PageContent.getParent().updateDBState)  sa_serverConfig_PageContent.getParent().updateDBState();
+
                                                             }
                                                             var successMsgStr = now+'<br/>';
                                                             if (result.userExists)successMsgStr = successMsgStr + result.userExists;
@@ -423,14 +425,13 @@
                                 Request.postJSONData({url: "/sysadmin/auth_as_sysadmin", data: authParams, consoleLog: true},
                                         function (result, error) {
                                             if (!result) {
-                                                if (error) {
-                                                    document.getElementById("restore_db_bata_from_bata1DB_result").innerHTML = "<b style='color:red'>" + now + "<br/>" + error + "<b>";
-                                                    return;
-                                                }
                                                 configState.innerHTML = "<div><b style='color:red'>No connection!</b></div>";
                                                 return;
                                             }
-
+                                            if (error) {
+                                                document.getElementById("restore_db_bata_from_bata1DB_result").innerHTML = "<b style='color:red'>" + now + "<br/>" + error + "<b>";
+                                                return;
+                                            }
                                             sysadminDialogs.showRestoreDialog(function (restoreDialogResult) {
                                                 if (!restoreDialogResult) return;
                                                 if(restoreDialogResult.restore_fileName.length<1){
@@ -449,13 +450,13 @@
                                                 Request.postJSONData({url: "/sysadmin/restoreDBFromBata1DB", data: DB, consoleLog: true},
                                                         function (result, error) {
                                                             if (!result) {
-                                                                if (error) {
-                                                                    document.getElementById("restore_db_bata_from_bata1DB_result").innerHTML = "<b style='color:red'>"+now+"<br/>FAIL! Reason:" + error + "<b>";
-                                                                    sa_serverConfig_PageContent.getServerConfiguration();
-                                                                    if (sa_serverConfig_PageContent.getParent().updateDBState)  sa_serverConfig_PageContent.getParent().updateDBState();
-                                                                    return;
-                                                                }
                                                                 configState.innerHTML = "<div><b style='color:red'>No connection!</b></div>";
+                                                                return;
+                                                            }
+                                                            if (error) {
+                                                                document.getElementById("restore_db_bata_from_bata1DB_result").innerHTML = "<b style='color:red'>"+now+"<br/>FAIL! Reason:" + error + "<b>";
+                                                                sa_serverConfig_PageContent.getServerConfiguration();
+                                                                if (sa_serverConfig_PageContent.getParent().updateDBState)  sa_serverConfig_PageContent.getParent().updateDBState();
                                                                 return;
                                                             }
                                                             var successMsgStr = now+'<br/>';
@@ -475,11 +476,11 @@
                     Request.getJSONData({url: "/sysadmin/server/getServerConfig", consoleLog: true},
                             function (result, error) {
                                 if (!result) {
-                                    if (error) {
-                                        configState.innerHTML = "<div><b style='color:red'>Cannot get configuration parameters!</b> Reason:"+result.error+"</div>";
-                                        return;
-                                    }
                                     configState.innerHTML = "<div><b style='color:red'>UNKNOWN</b></div>";
+                                    return;
+                                }
+                                if (error) {
+                                    configState.innerHTML = "<div><b style='color:red'>Cannot get configuration parameters!</b> Reason:"+result.error+"</div>";
                                     return;
                                 }
                                 if(result.dbList){
@@ -516,8 +517,13 @@
                         var userAuthData = {user: dbUserRes.db_user_name, pswd: dbUserRes.db_user_password };
                         Request.postJSONData({url: "/sysadmin/getDBListForUser", data: userAuthData, consoleLog: true},
                                 function (result, error) {
-                                    if (!result || error) {
+                                    if (!result) {
                                         configState.innerHTML = "<div><b style='color:red'>No connection!</b></div>";
+                                        if (sa_serverConfig_PageContent.getParent().updateDBState)  sa_serverConfig_PageContent.getParent().updateDBState();
+                                        return;
+                                    }
+                                    if (error) {
+                                        configState.innerHTML = "<div><b style='color:red'>Failed! Reason:"+error+"</b></div>";
                                         if (sa_serverConfig_PageContent.getParent().updateDBState)  sa_serverConfig_PageContent.getParent().updateDBState();
                                         return;
                                     }
