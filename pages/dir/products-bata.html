@@ -231,42 +231,42 @@
                                         .addTotalCountNumberBox("ИТОГО строк:", 140, {style:"font-weight:bold;",inputStyle:"width:50px"})
                                         .addToolPane({title:"Очистка"})
                                         .addToolPaneActionButton("Очистить </br> неиспользуемые </br>номенклатуры",{ actionFunction:function(params){
-                                            Request.postJSONData({url: "/dir/products/deleteUnusedProducts", resultItemName:"affectedRows"},
-                                                    function (resultAffectedRows) {
-                                                        if(resultAffectedRows){
-                                                            params.toolPanes[0].set("content","Удалено номенклатур: "+resultAffectedRows);
+                                            Request.postJSONData({url: "/dir/products/deleteUnusedProducts"},
+                                                    function (result, error) {
+                                                        if(result && !error){
+                                                            params.toolPanes[0].set("content","Удалено номенклатур: "+result.affectedRows);
                                                         }
                                                     });
                                         } })
                                         .addToolPaneActionButton("Очистить </br> неиспользуемые </br>артикулы",{ actionFunction:function(params){
-                                            Request.postJSONData({url: "/dir/products/deleteUnusedArticles", resultItemName:"affectedRows"},
-                                                    function (resultAffectedRows) {
-                                                        if(resultAffectedRows){
-                                                            params.toolPanes[0].set("content","Удалено артикулов: "+resultAffectedRows);
+                                            Request.postJSONData({url: "/dir/products/deleteUnusedArticles"},
+                                                    function (result, error) {
+                                                        if(result && !error){
+                                                            params.toolPanes[0].set("content","Удалено артикулов: "+result.affectedRows);
                                                         }
                                                     });
                                         } })
                                         .addToolPaneActionButton("Очистить </br> неиспользуемые </br>виды",{ actionFunction:function(params){
-                                            Request.postJSONData({url: "/dir/products/deleteUnusedKinds", resultItemName:"affectedRows"},
-                                                    function (resultAffectedRows) {
-                                                        if(resultAffectedRows){
-                                                            params.toolPanes[0].set("content","Удалено видов: "+resultAffectedRows);
+                                            Request.postJSONData({url: "/dir/products/deleteUnusedKinds"},
+                                                    function (result, error) {
+                                                        if(result && !error){
+                                                            params.toolPanes[0].set("content","Удалено видов: "+result.affectedRows);
                                                         }
                                                     });
                                         } })
                                         .addToolPaneActionButton("Очистить </br> неиспользуемый </br>состав",{ actionFunction:function(params){
-                                            Request.postJSONData({url: "/dir/products/deleteUnusedComposition", resultItemName:"affectedRows"},
-                                                    function (resultAffectedRows) {
-                                                        if(resultAffectedRows){
-                                                            params.toolPanes[0].set("content","Удалено составов: "+resultAffectedRows);
+                                            Request.postJSONData({url: "/dir/products/deleteUnusedComposition"},
+                                                    function (result, error) {
+                                                        if(result && !error){
+                                                            params.toolPanes[0].set("content","Удалено составов: "+result.affectedRows);
                                                         }
                                                     });
                                         } })
                                         .addToolPaneActionButton("Очистить </br> неиспользуемые </br>размеры",{ actionFunction:function(params){
-                                            Request.postJSONData({url: "/dir/products/deleteUnusedSizes", resultItemName:"affectedRows"},
-                                                    function (resultAffectedRows) {
-                                                        if(resultAffectedRows){
-                                                            params.toolPanes[0].set("content","Удалено размеров: "+resultAffectedRows);
+                                            Request.postJSONData({url: "/dir/products/deleteUnusedSizes"},
+                                                    function (result, error) {
+                                                        if(result && !error){
+                                                            params.toolPanes[0].set("content","Удалено размеров: "+result.affectedRows);
                                                         }
                                                     });
                                         } })
