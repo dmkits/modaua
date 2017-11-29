@@ -78,10 +78,9 @@
                             if ( crd.item("PRODUCT_ARTICLE").isChanged() && !crd.item("PRODUCT_ARTICLE").isEMPTY()){              console.log("RET_INV detailTableRowChangeCallback1 prod article from order bata ");
                                 var condition={};
                                 condition["PRODUCT_ARTICLE"]= crd.item("PRODUCT_ARTICLE").getValue();
-                                Request.getJSONData({url:"/wrh/order_bata/get_order_bata_details_by_article", condition:condition, consoleLog:true},
-                                        function(success,result){
-                                            if (success&&result.item) {                                                 //console.log("RET_INV detailTableRowChangeCallback2 getJSONData success ",result);
-                                                var prodDataFromOrderBata = result.item;
+                                Request.getJSONData({url:"/wrh/order_bata/get_order_bata_details_by_article", condition:condition, resultItemName:"item"},
+                                        function(prodDataFromOrderBata){
+                                            if (prodDataFromOrderBata) {                                                 //console.log("RET_INV detailTableRowChangeCallback2 getJSONData success ",result);
                                                 crd.item("PRODUCT_GENDER_CODE").setValue(prodDataFromOrderBata["PRODUCT_GENDER_CODE"]);
                                                 crd.item("PRODUCT_GENDER").setValue(prodDataFromOrderBata["PRODUCT_GENDER"]);
                                                 crd.item("PRODUCT_CATEGORY_CODE").setValue(prodDataFromOrderBata["PRODUCT_CATEGORY_CODE"]);
@@ -140,13 +139,13 @@
                                 crd.item("PRODUCT_UM").setValue(null);
                                 crd.item("PRODUCT_PBARCODE").setValue(null);
                                 crd.item("BARCODE").setValue(null);
-                                Request.getJSONData({url:"/dir/products/get_prod_code_name_by_article_kind_compos_size", condition:condition, consoleLog:true},
-                                        function(success,result){
-                                            if (!success||!result||!result.item) {
+                                Request.getJSONData({url:"/dir/products/get_prod_code_name_by_article_kind_compos_size", condition:condition, resultItemName:"item"},
+                                        function(resultItem){
+                                            if (resultItem) {
                                                 nextCallback();
                                                 return;
                                             }
-                                            setCRDProductData(crd,result.item);
+                                            setCRDProductData(crd,resultItem);
                                             nextCallback(true);
                                         });
                                 return;
@@ -212,9 +211,9 @@
                                 data["DISCOUNT_PECENT"]= 0;
                                 data["PRICE_WITH_DISCOUNT"]= selRowData["SALE_PRICE"];
                                 data["CHANGE_DATETIME"]= moment(new Date()).format("YYYY-MM-DD HH:mm:ss");
-                                Request.postJSONData({url:"/dir/products_prices/store_product_price", data:data, consoleLog:true},
-                                        function(success,result){                                                       console.log("ret_INV detailTableMenuItemAction postJSONData ", success,result);
-                                            if (success&&result.item) {
+                                Request.postJSONData({url:"/dir/products_prices/store_product_price", data:data, resultItemName:"item"},
+                                        function(resultItem){                                                       console.log("ret_INV detailTableMenuItemAction postJSONData ", success,result);
+                                            if (resultItem) {
                                                 //var prodDataFromOrderBata = result.item;
                                             }
                                         });
