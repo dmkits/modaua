@@ -173,13 +173,12 @@
                             &&  (!crd.item("PRODUCT_CODE").isChanged()&&!crd.item("PRODUCT_NAME").isChanged())){
                                 var condition={};
                                 condition["PRODUCT_ARTICLE"]=crd.item("PRODUCT_ARTICLE").getValue();
-                                Request.getJSONData({url:"/dir/products/getProdAttribytesByArticle", condition:condition, consoleLog:true},
-                                        function(success,result){
-                                            if (!success||!result||!result.item) {
+                                Request.getJSONData({url:"/dir/products/getProdAttribytesByArticle", condition:condition, resultItemName:"item"},
+                                        function(resData){
+                                            if (resData) {
                                                 nextCallback();
                                                 return;
                                             }
-                                            var resData=result.item;
                                             crd.item("PRODUCT_GENDER").setValue(resData["PRODUCT_GENDER"]);
                                             crd.item("PRODUCT_GENDER_CODE").setValue(resData["PRODUCT_GENDER_CODE"]);
                                             crd.item("PRODUCT_CATEGORY").setValue(resData["PRODUCT_CATEGORY"]);
@@ -217,13 +216,12 @@
                                     condition["PRODUCT_SIZE"]= crd.item("PRODUCT_SIZE").getValue();
                                 if (!crd.item("PRODUCT_UM").isEMPTY())
                                     condition["PRODUCT_UM"]= crd.item("PRODUCT_UM").getValue();
-                                Request.getJSONData({url:"/dir/products/getProdNameByProdAttributes", condition:condition, consoleLog:true},
-                                        function(success,result){
-                                            if (!success||!result||!result.item) {
+                                Request.getJSONData({url:"/dir/products/getProdNameByProdAttributes", condition:condition, resultItemName:"item"},
+                                        function(resData){
+                                            if (resData) {
                                                 nextCallback();
                                                 return;
                                             }
-                                            var resData=result.item;
                                             crd.item("PRODUCT_NAME").setValue(resData["PRODUCT_NAME"]);
                                             crd.item("PRODUCT_PRINT_NAME").setValue(resData["PRODUCT_PRINT_NAME"]);
                                             crd.item("PRODUCT_UM").setValue(resData["PRODUCT_UM"]);
@@ -244,13 +242,12 @@
                                     condition["PRODUCT_CODE"]= crd.item("PRODUCT_CODE").getValue();
                                 if (crd.item("PRODUCT_NAME").isChanged()&&!crd.item("PRODUCT_NAME").isEMPTY())
                                     condition["PRODUCT_NAME"]= encodeURIComponent(crd.item("PRODUCT_NAME").getValue());
-                                Request.getJSONData({url:"/dir/products/get_product_by_code_name", condition:condition, consoleLog:true},
-                                        function(success,result){
-                                            if (!success||!result||!result.item) {
+                                Request.getJSONData({url:"/dir/products/get_product_by_code_name", condition:condition, resultItemName:"item"},
+                                        function(resData){
+                                            if (!resData) {
                                                 nextCallback();
                                                 return;
                                             }
-                                            var resData=result.item;
                                             crd.item("PRODUCT_CODE").setValue(resData["PRODUCT_CODE"]);
                                             crd.item("PRODUCT_NAME").setValue(resData["PRODUCT_NAME"]);
                                             crd.item("PRODUCT_UM").setValue(resData["PRODUCT_UM"]);
@@ -334,9 +331,9 @@
                                 data["DISCOUNT_PECENT"]= 0;
                                 data["PRICE_WITH_DISCOUNT"]= selRowData["SALE_PRICE"];
                                 data["CHANGE_DATETIME"]= moment(new Date()).format("YYYY-MM-DD HH:mm:ss");
-                                Request.postJSONData({url:"/dir/products_prices/store_product_price", data:data, consoleLog:true},
-                                        function(success,result){                                                       console.log("PINV detailTableMenuItemAction postJSONData ", success,result);
-                                            if (success&&result.item) {
+                                Request.postJSONData({url:"/dir/products_prices/store_product_price", data:data,resultItemName:"item"},
+                                        function(resultItem){                                                       console.log("PINV detailTableMenuItemAction postJSONData ", success,result);
+                                            if (resultItem) {
                                                 //var prodDataFromOrderBata = result.item;
                                             }
                                         });
