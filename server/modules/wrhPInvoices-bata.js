@@ -276,6 +276,10 @@ module.exports.init = function(app){
             }
             var existsProductID=result.item["PRODUCT_ID"],existsBatchNumber=result.item["BATCH_NUMBER"];
             if(existsProductID==prodID){
+                //ID CODE NAME PRINT_NAME UM PBARCODE ARTICLE_ID KIND_ID COMPOSITION_ID SIZE_ID COLLECTION_ID
+                //TYPE_ID  LINE_ID DESCRIPTION_ID
+                dir_products_bata.updDataItem({updData:{"CODE":tableDataItem["CODE"]},
+                    conditions:{} });
                 wrh_pinvs_products.updDataItem({updData:{QTY:tableDataItem["QTY"], PRICE:tableDataItem["PRICE"],
                         POSSUM:tableDataItem["POSSUM"], SALE_PRICE:tableDataItem["SALE_PRICE"],FACTOR:tableDataItem["FACTOR"]},
                         conditions:{"ID=":tableDataItem["ID"]}},
@@ -295,6 +299,7 @@ module.exports.init = function(app){
                 });
                 return;
             }
+            //
             dir_products_batches.createNewBatch({prodData:{"PRODUCT_ID":prodID}},
                 function(newBatchRes){
                     if(newBatchRes.error){
@@ -331,21 +336,7 @@ module.exports.init = function(app){
         });
     };
 
-    wrh_pinvs_products.storePInvTableDataItem= function(tableDataItem, callback){
-        var resultTableDataItem = tableDataItem;
-        if(!tableDataItem["ID"]){
-            wrh_pinvs_products.insNewPInvTableDataItem(resultTableDataItem, function(insNewDataResult){
-                callback(insNewDataResult)
-            });
-            return;
-        }
-        wrh_pinvs_products.updPInvTableDataItem(resultTableDataItem, function(updResult){
-            callback(updResult)
-        });
-    };
-
-    app.post("/wrh/pInvoices/storePInvProductsTableData", function(req, res){
-        var storeData=req.body;
+    wrh_pinvs_products.storePInvTableDataItem= function(storeData, callback){
         var findFields=[];
         if(storeData["PRODUCT_CODE"]||storeData["PRODUCT_NAME"]){
             if (storeData["PRODUCT_CODE"])findFields.push("CODE");
@@ -365,20 +356,32 @@ module.exports.init = function(app){
                     "SUBCATEGORY":storeData["PRODUCT_SUBCATEGORY"],"SUBCATEGORY_CODE":storeData["PRODUCT_SUBCATEGORY_CODE"]}},
             function(result) {
                 if (result.error) {
-                    res.send({error: "Failed find/create product! Reason:"+result.error});
+                    callback({error: "Failed find/create product! Reason:"+result.error});
                     return;
                 }
                 if (!result.resultItem) {
-                    res.send({error: "Failed find/create product! Reason: no result!"});
+                    callback({error: "Failed find/create product! Reason: no result!"});
                     return;
                 }
                 var prodID=result.resultItem["ID"];
                 storeData["PRODUCT_ID"]=prodID;
                 if(!storeData["BARCODE"])storeData["BARCODE"]=result.resultItem["PBARCODE"];
-                wrh_pinvs_products.storePInvTableDataItem(storeData,
-                    function(result){
-                        res.send(result);
+                if(!storeData["ID"]){
+                    wrh_pinvs_products.insNewPInvTableDataItem(storeData, function(insNewDataResult){
+                        callback(insNewDataResult)
                     });
+                    return;
+                }
+                wrh_pinvs_products.updPInvTableDataItem(storeData, function(updResult){
+                    callback(updResult)
+                });
+            });
+    };
+    app.post("/wrh/pInvoices/storePInvProductsTableData", function(req, res){
+        var storeData=req.body;
+        wrh_pinvs_products.storePInvTableDataItem(storeData,
+            function(result){
+                res.send(result);
             });
     });
     app.post("/wrh/pInvoices/deletePInvProductsTableData", function(req, res){
