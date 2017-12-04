@@ -6,11 +6,16 @@ var dir_units= require(appDataModelPath+"dir_units"), dirContractors= require(ap
     sys_currency= require(appDataModelPath+"sys_currency"), sysDocStates= require(appDataModelPath+"sys_docstates"),
     dir_products_collections= require(appDataModelPath+"dir_products_collections"),
     dir_products_bata= require(appDataModelPath+"dir_products-bata"),
-    dir_products_batches= require(appDataModelPath+"dir_products_batches");
+    dir_products_batches= require(appDataModelPath+"dir_products_batches"),
+    dir_products_genders_bata=require(appDataModelPath+"dir_products_genders-bata"),
+    dir_products_subcategories_bata=require(appDataModelPath+"dir_products_subcategories-bata"),
+    dir_products_categories_bata=require(appDataModelPath+"dir_products_categories-bata");
+
 
 module.exports.validateModule = function(errs, nextValidateModuleCallback){
     dataModel.initValidateDataModels([wrh_pinvs,wrh_pinvs_products, sys_operations, wrh_products_r_operations,
-            dir_products_bata, dir_products_batches], errs,
+            dir_products_bata, dir_products_batches,dir_products_genders_bata,dir_products_subcategories_bata,
+            dir_products_categories_bata], errs,
         function(){
             nextValidateModuleCallback();
         });
@@ -276,10 +281,6 @@ module.exports.init = function(app){
             }
             var existsProductID=result.item["PRODUCT_ID"],existsBatchNumber=result.item["BATCH_NUMBER"];
             if(existsProductID==prodID){
-                //ID CODE NAME PRINT_NAME UM PBARCODE ARTICLE_ID KIND_ID COMPOSITION_ID SIZE_ID COLLECTION_ID
-                //TYPE_ID  LINE_ID DESCRIPTION_ID
-                dir_products_bata.updDataItem({updData:{"CODE":tableDataItem["CODE"]},
-                    conditions:{} });
                 wrh_pinvs_products.updDataItem({updData:{QTY:tableDataItem["QTY"], PRICE:tableDataItem["PRICE"],
                         POSSUM:tableDataItem["POSSUM"], SALE_PRICE:tableDataItem["SALE_PRICE"],FACTOR:tableDataItem["FACTOR"]},
                         conditions:{"ID=":tableDataItem["ID"]}},
@@ -299,7 +300,6 @@ module.exports.init = function(app){
                 });
                 return;
             }
-            //
             dir_products_batches.createNewBatch({prodData:{"PRODUCT_ID":prodID}},
                 function(newBatchRes){
                     if(newBatchRes.error){
@@ -318,14 +318,14 @@ module.exports.init = function(app){
                             POSSUM:tableDataItem["POSSUM"], SALE_PRICE:tableDataItem["SALE_PRICE"],FACTOR:tableDataItem["FACTOR"]},
                             conditions:{"ID=":tableDataItem["ID"]}},
                             function(updRes){
-                            if(updRes.error){
-                                callback({error:updRes.error});
-                                return;
-                            }
+                                if(updRes.error){
+                                    callback({error:updRes.error});
+                                    return;
+                                }
                                 wrh_pinvs_products.getDataItemForTable({tableColumns:wrhPInvProductsTableColumns,
                                     conditions:{"wrh_pinvs_products.ID=":tableDataItem["ID"]}}, function(updDataRes){
                                     if(updDataRes.error){
-                                        callback({error:updRes.error});
+                                        callback({error:updDataRes.error});
                                         return;
                                     }
                                     callback({resultItem:updDataRes.item,updateCount:updRes.updateCount });
@@ -337,46 +337,183 @@ module.exports.init = function(app){
     };
 
     wrh_pinvs_products.storePInvTableDataItem= function(storeData, callback){
-        var findFields=[];
-        if(storeData["PRODUCT_CODE"]||storeData["PRODUCT_NAME"]){
-            if (storeData["PRODUCT_CODE"])findFields.push("CODE");
-            if (storeData["PRODUCT_NAME"])findFields.push("NAME");
-        }
-        dir_products_bata.findDataItemByOrCreateNew({resultFields:["ID","CODE","NAME","PRINT_NAME","UM","PBARCODE"],
-                findByFields:findFields,
-                idFieldName:"ID",
-                fieldsValues:{"CODE":storeData["PRODUCT_CODE"],
-                    "NAME":storeData["PRODUCT_NAME"],"PRINT_NAME":storeData["PRODUCT_PRINT_NAME"],
-                    "UM":storeData["PRODUCT_UM"],"PBARCODE":storeData["BARCODE"],
-                    "ARTICLE":storeData["PRODUCT_ARTICLE"],"COLLECTION":storeData["PRODUCT_COLLECTION"],
-                    "TYPE":storeData["PRODUCT_TYPE"],"KIND":storeData["PRODUCT_KIND"],
-                    "COMPOSITION":storeData["PRODUCT_COMPOSITION"],"SIZE":storeData["PRODUCT_SIZE"],
-                    "GENDER":storeData["PRODUCT_GENDER"],"GENDER_CODE":storeData["PRODUCT_GENDER_CODE"],
-                    "CATEGORY":storeData["PRODUCT_CATEGORY"],"CATEGORY_CODE":storeData["PRODUCT_CATEGORY_CODE"],
-                    "SUBCATEGORY":storeData["PRODUCT_SUBCATEGORY"],"SUBCATEGORY_CODE":storeData["PRODUCT_SUBCATEGORY_CODE"]}},
-            function(result) {
-                if (result.error) {
-                    callback({error: "Failed find/create product! Reason:"+result.error});
-                    return;
-                }
-                if (!result.resultItem) {
-                    callback({error: "Failed find/create product! Reason: no result!"});
-                    return;
-                }
-                var prodID=result.resultItem["ID"];
-                storeData["PRODUCT_ID"]=prodID;
-                if(!storeData["BARCODE"])storeData["BARCODE"]=result.resultItem["PBARCODE"];
-                if(!storeData["ID"]){
+        if (!storeData["ID"]) {
+            var findFields = [];
+            if (storeData["PRODUCT_CODE"] || storeData["PRODUCT_NAME"]) {
+                if (storeData["PRODUCT_CODE"])findFields.push("CODE");
+                if (storeData["PRODUCT_NAME"])findFields.push("NAME");
+            }
+            dir_products_bata.findDataItemByOrCreateNew({
+                    resultFields: ["ID", "CODE", "NAME", "PRINT_NAME", "UM", "PBARCODE"],
+                    findByFields: findFields,
+                    idFieldName: "ID",
+                    fieldsValues: {
+                        "CODE": storeData["PRODUCT_CODE"],
+                        "NAME": storeData["PRODUCT_NAME"],
+                        "PRINT_NAME": storeData["PRODUCT_PRINT_NAME"],
+                        "UM": storeData["PRODUCT_UM"],
+                        "PBARCODE": storeData["BARCODE"],
+                        "ARTICLE": storeData["PRODUCT_ARTICLE"],
+                        "COLLECTION": storeData["PRODUCT_COLLECTION"],
+                        "TYPE": storeData["PRODUCT_TYPE"],
+                        "KIND": storeData["PRODUCT_KIND"],
+                        "COMPOSITION": storeData["PRODUCT_COMPOSITION"],
+                        "SIZE": storeData["PRODUCT_SIZE"],
+                        "GENDER": storeData["PRODUCT_GENDER"],
+                        "GENDER_CODE": storeData["PRODUCT_GENDER_CODE"],
+                        "CATEGORY": storeData["PRODUCT_CATEGORY"],
+                        "CATEGORY_CODE": storeData["PRODUCT_CATEGORY_CODE"],
+                        "SUBCATEGORY": storeData["PRODUCT_SUBCATEGORY"],
+                        "SUBCATEGORY_CODE": storeData["PRODUCT_SUBCATEGORY_CODE"]
+                    }
+                },
+                function (result) {
+                    if (result.error) {
+                        callback({error: "Failed find/create product! Reason:" + result.error});
+                        return;
+                    }
+                    if (!result.resultItem) {
+                        callback({error: "Failed find/create product! Reason: no result!"});
+                        return;
+                    }
+                    storeData["PRODUCT_ID"]=result.resultItem["ID"];
+                    if (!storeData["BARCODE"])storeData["BARCODE"] = result.resultItem["PBARCODE"];
                     wrh_pinvs_products.insNewPInvTableDataItem(storeData, function(insNewDataResult){
-                        callback(insNewDataResult)
+                        callback(insNewDataResult);
                     });
-                    return;
-                }
-                wrh_pinvs_products.updPInvTableDataItem(storeData, function(updResult){
-                    callback(updResult)
                 });
+            return;
+        }
+
+        var findFields = [];
+        //ID CODE NAME PRINT_NAME UM PBARCODE ARTICLE_ID KIND_ID COMPOSITION_ID SIZE_ID COLLECTION_ID
+        //TYPE_ID  LINE_ID DESCRIPTION_ID
+        if (storeData["PRODUCT_CODE"])findFields.push("CODE");
+        if (storeData["PRODUCT_NAME"])findFields.push("NAME");
+        if (storeData["PRODUCT_PRINT_NAME"])findFields.push("PRINT_NAME");
+        if (storeData["PRODUCT_UM"])findFields.push("UM");
+        //if (storeData["BARCODE"])findFields.push("PBARCODE");
+        //if (storeData["PRODUCT_ARTICLE"])findFields.push("ARTICLE_ID");
+        //if (storeData["PRODUCT_COLLECTION"])findFields.push("KIND_ID");
+        //if (storeData["PRODUCT_KIND"])findFields.push("COMPOSITION_ID");
+        //if (storeData["PRODUCT_COMPOSITION"])findFields.push("SIZE_ID");
+        //if (storeData["PRODUCT_SIZE"])findFields.push("COLLECTION_ID");
+
+        dir_products_bata.findDataItemBy({resultFields:["ID"],findByFields:findFields,
+            fieldsValues: {
+            "CODE": storeData["PRODUCT_CODE"],
+            "NAME": storeData["PRODUCT_NAME"],
+            "PRINT_NAME": storeData["PRODUCT_PRINT_NAME"],
+            "UM": storeData["PRODUCT_UM"],
+            "PBARCODE": storeData["BARCODE"],
+            "ARTICLE": storeData["PRODUCT_ARTICLE"],
+            "COLLECTION": storeData["PRODUCT_COLLECTION"],
+            "TYPE": storeData["PRODUCT_TYPE"],
+            "KIND": storeData["PRODUCT_KIND"],
+            "COMPOSITION": storeData["PRODUCT_COMPOSITION"],
+            "SIZE": storeData["PRODUCT_SIZE"],
+            "GENDER": storeData["PRODUCT_GENDER"],
+            "GENDER_CODE": storeData["PRODUCT_GENDER_CODE"],
+            "CATEGORY": storeData["PRODUCT_CATEGORY"],
+            "CATEGORY_CODE": storeData["PRODUCT_CATEGORY_CODE"],
+            "SUBCATEGORY": storeData["PRODUCT_SUBCATEGORY"],
+            "SUBCATEGORY_CODE": storeData["PRODUCT_SUBCATEGORY_CODE"]
+        }}, function(result){
+            if(result.error){
+                callback({error:result.error});
+                return;
+            }
+            if(result.resultItem&&result.resultItem["ID"]){
+                storeData["PRODUCT_ID"]=result.resultItem["ID"];
+                wrh_pinvs_products.updPInvTableDataItem(storeData, function(updResult){
+                    callback(updResult);
+                });
+                return;
+            }
+
+            dir_products_bata.findOrCreateProdAttributes({prodData:{
+                "ARTICLE": storeData["PRODUCT_ARTICLE"],
+                "COLLECTION": storeData["PRODUCT_COLLECTION"],
+                "TYPE": storeData["PRODUCT_TYPE"],
+                "KIND": storeData["PRODUCT_KIND"],
+                "COMPOSITION": storeData["PRODUCT_COMPOSITION"],
+                "SIZE": storeData["PRODUCT_SIZE"]
+                 }
+            }, function(result) {
+                var prodAttributes = result.resultItem;
+                //ID CODE* NAME* PRINT_NAME* UM* PBARCODE* ARTICLE_ID* KIND_ID* COMPOSITION_ID* SIZE_ID* COLLECTION_ID* TYPE_ID*
+                //GENDER_ID  CATEGORY_ID   SUBCATEGORY_ID
+                dir_products_genders_bata.getDataItem({
+                        fields: ["ID"], conditions: {"CODE=": storeData["PRODUCT_GENDER_CODE"]}}, function (result) { console.log("result. 460=",result);
+                        if (result.error || !result.item || !result.item["ID"]) {
+                            callback({error: "Failed to find product gender! Reason: no result!"});
+                            return;
+                        }
+                        var prodGenderID = result.item["ID"];
+                        dir_products_categories_bata.getDataItem({fields: ["ID"], conditions: {"NAME=": storeData["PRODUCT_CATEGORY"]}}, function (result) { console.log("result 466=",result);
+                            if (result.error || !result.item || !result.item["ID"]) {
+                                callback({error: "Failed to find product category! Reason: no result!"});
+                                return;
+                            }
+                            var prodCategoryID = result.item["ID"];
+                            dir_products_subcategories_bata.getDataItem({fields:["ID"],
+                                conditions:{"NAME=":storeData["PRODUCT_SUBCATEGORY"]}}, function(result){ console.log("result 460=",result);
+                                if (result.error || !result.item || !result.item["ID"]) {
+                                    callback({error: "Failed to find product subcategory! Reason: no result!"});
+                                    return;
+                                }
+                                var prodSubCategory=result.item["ID"]; console.log("prodSubCategory=",prodSubCategory);
+
+                                wrh_products_r_operations.getDataItem({fields:["PRODUCT_ID"],
+                                    conditions:{"OPERATION_ID=":storeData["ID"]}}, function(result) { console.log("result 468=",result);
+                                    if (result.error) {
+                                        callback({error: result.error});
+                                        return;
+                                    }
+                                    var prodID=result.item["PRODUCT_ID"];
+                                    dir_products_bata.updDataItem({updData:{"CODE":storeData["PRODUCT_CODE"],"NAME":storeData["PRODUCT_PRINT_NAME"],
+                                        "PRINT_NAME":storeData["PRODUCT_PRINT_NAME"],"UM": storeData["PRODUCT_UM"],"PBARCODE": storeData["BARCODE"],
+                                        "COLLECTION_ID":prodAttributes["COLLECTION_ID"],"COMPOSITION_ID":prodAttributes["COMPOSITION_ID"],"SIZE_ID":prodAttributes["SIZE_ID"],
+                                        "ARTICLE_ID":prodAttributes["ARTICLE_ID"],"TYPE_ID":prodAttributes["TYPE_ID"], "KIND_ID":prodAttributes["KIND_ID"],
+                                        "GENDER_ID":prodGenderID,"CATEGORY_ID":prodCategoryID, "SUBCATEGORY_ID":prodSubCategory}
+                                        ,conditions:{"ID=":prodID}},function(updRes){  console.log("updRes=",updRes);
+                                        if(updRes.error){
+                                            callback({error:updRes.error});
+                                        }
+                                        wrh_products_r_operations.updDataItem({updData:{BARCODE:storeData["BARCODE"]},
+                                                conditions:{"OPERATION_ID=":storeData["ID"]}},
+                                            function(prodOperRes){
+                                                if(prodOperRes.error){
+                                                    callback({error:prodOperRes.error});
+                                                    return;
+                                                }
+                                                wrh_pinvs_products.updDataItem({updData:{QTY:storeData["QTY"], PRICE:storeData["PRICE"],
+                                                        POSSUM:storeData["POSSUM"], SALE_PRICE:storeData["SALE_PRICE"],FACTOR:storeData["FACTOR"]},
+                                                        conditions:{"ID=":storeData["ID"]}},
+                                                    function(updRes){
+                                                        if(updRes.error){
+                                                            callback({error:updRes.error});
+                                                            return;
+                                                        }
+                                                        wrh_pinvs_products.getDataItemForTable({tableColumns:wrhPInvProductsTableColumns,
+                                                            conditions:{"wrh_pinvs_products.ID=":storeData["ID"]}}, function(updDataRes){
+                                                            if(updDataRes.error){
+                                                                callback({error:updRes.error});
+                                                                return;
+                                                            }
+                                                            callback({resultItem:updDataRes.item,updateCount:updRes.updateCount });
+                                                        });
+                                                    });
+                                            });
+                                    });
+                                });
+                            });
+                        });
+                    });
             });
+    });
     };
+
     app.post("/wrh/pInvoices/storePInvProductsTableData", function(req, res){
         var storeData=req.body;
         wrh_pinvs_products.storePInvTableDataItem(storeData,
