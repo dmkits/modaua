@@ -358,7 +358,7 @@ module.exports.init = function(app){
                         "TYPE": storeData["PRODUCT_TYPE"],
                         "KIND": storeData["PRODUCT_KIND"],
                         "COMPOSITION": storeData["PRODUCT_COMPOSITION"],
-                        "SIZE": storeData["PRODUCT_SIZE"],
+                        "SIZE": storeData["PRODUCT_SIZE"] || "",
                         "GENDER": storeData["PRODUCT_GENDER"],
                         "GENDER_CODE": storeData["PRODUCT_GENDER_CODE"],
                         "CATEGORY": storeData["PRODUCT_CATEGORY"],
@@ -392,12 +392,12 @@ module.exports.init = function(app){
         if (storeData["PRODUCT_NAME"])findFields.push("NAME");
         if (storeData["PRODUCT_PRINT_NAME"])findFields.push("PRINT_NAME");
         if (storeData["PRODUCT_UM"])findFields.push("UM");
-        //if (storeData["BARCODE"])findFields.push("PBARCODE");
-        //if (storeData["PRODUCT_ARTICLE"])findFields.push("ARTICLE_ID");
-        //if (storeData["PRODUCT_COLLECTION"])findFields.push("KIND_ID");
-        //if (storeData["PRODUCT_KIND"])findFields.push("COMPOSITION_ID");
-        //if (storeData["PRODUCT_COMPOSITION"])findFields.push("SIZE_ID");
-        //if (storeData["PRODUCT_SIZE"])findFields.push("COLLECTION_ID");
+        if (storeData["BARCODE"])findFields.push("PBARCODE");
+        if (storeData["PRODUCT_ARTICLE"])findFields.push("ARTICLE_ID");
+        if (storeData["PRODUCT_COLLECTION"])findFields.push("KIND_ID");
+        if (storeData["PRODUCT_KIND"])findFields.push("COMPOSITION_ID");
+        if (storeData["PRODUCT_COMPOSITION"])findFields.push("SIZE_ID");
+        if (storeData["PRODUCT_SIZE"])findFields.push("COLLECTION_ID");
 
         dir_products_bata.findDataItemBy({resultFields:["ID"],findByFields:findFields,
             fieldsValues: {

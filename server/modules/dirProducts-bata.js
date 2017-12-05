@@ -230,13 +230,27 @@ module.exports.init = function(app){
         dir_products_bata.addProductBataAttrsColumnsTo(dirProductsTableColumns,1);
     dirProductsTableColumns=
         dir_products_bata.addProductAttrsColumnsTo(dirProductsTableColumns,8);
-    app.get("/dir/products/getDataForDirProductsTable", function(req, res){
+    /**
+     * params = { condition, order }
+     */
+    dir_products_bata.getProductsDataForTable= function(params,resultCallback){
         dir_products_bata.getDataForTable({tableColumns:dirProductsTableColumns, identifier:dirProductsTableColumns[0].data,
-                conditions:req.query,
-                order:"PRODUCT_NAME"},
+                conditions:params.condition, order:params.order},
+            function(result){
+                resultCallback(result)
+            });
+    };
+    app.get("/dir/products/getDataForDirProductsTable", function(req, res){
+        dir_products_bata.getProductsDataForTable({condition:req.query,order:"PRODUCT_NAME"},
             function(result){
                 res.send(result);
             });
+        //dir_products_bata.getDataForTable({tableColumns:dirProductsTableColumns, identifier:dirProductsTableColumns[0].data,
+        //        conditions:req.query,
+        //        order:"PRODUCT_NAME"},
+        //    function(result){
+        //        res.send(result);
+        //    });
     });
     //app.get("/dir/contractors/newDataForDirContractorsTable", function(req, res){
     //    dir_products_bata.getNewDataForDirContractorsTable(function(result){
@@ -701,32 +715,6 @@ module.exports.init = function(app){
         res.send(outData);
     });
 
-    app.get("/dir/products/getProdAttribytesByArticle", function (req, res) {
-        dir_products_bata.getDataItemsForTable({tableColumns:dirProductsTableColumns,
-                conditions:[{fieldName:"PRODUCT_ARTICLE", condition:"=", value:req.query["PRODUCT_ARTICLE"]}] },
-            function(result){
-                if(!result.items || result.items.length==0){
-                    res.send({});
-                    return;
-                }
-                var resItem = result.items[0];
-                var outItem={};
-                outItem["PRODUCT_GENDER"]=resItem["PRODUCT_GENDER"];
-                outItem["PRODUCT_GENDER_CODE"]=resItem["PRODUCT_GENDER_CODE"];
-                outItem["PRODUCT_CATEGORY"]=resItem["PRODUCT_CATEGORY"];
-                outItem["PRODUCT_CATEGORY_CODE"]=resItem["PRODUCT_CATEGORY_CODE"];
-                outItem["PRODUCT_SUBCATEGORY"]=resItem["PRODUCT_SUBCATEGORY"];
-                outItem["PRODUCT_SUBCATEGORY_CODE"]=resItem["PRODUCT_SUBCATEGORY_CODE"];
-                outItem["PRODUCT_COLLECTION"]=resItem["PRODUCT_COLLECTION"];
-                outItem["PRODUCT_COLLECTION_CODE"]=resItem["PRODUCT_COLLECTION_CODE"];
-                outItem["PRODUCT_TYPE"]=resItem["PRODUCT_TYPE"];
-                outItem["PRODUCT_KIND"]=resItem["PRODUCT_KIND"];
-                outItem["PRODUCT_COMPOSITION"]=resItem["PRODUCT_COMPOSITION"];
-                outItem["PRODUCT_SIZE"]=resItem["PRODUCT_SIZE"];
-                res.send({item:outItem});
-            });
-    });
-
     app.post("/dir/products/deleteUnusedProducts", function(req, res){
         dir_products_bata.deleteUnusedProducts(function(result){
             res.send(result);
@@ -811,6 +799,12 @@ module.exports.init = function(app){
                     })
             })
     };
+    /**
+     *
+     * @param params
+     * @param resultCallback (resultItem={SIZE_ID:<>,COMPOSITION_ID:<>,KIND_ID:<>,ARTICLE_ID;<>,TYPE_ID;<>,COLLECTION_ID:<>})
+     */
+    //GENDER_ID, CATEGORY_ID, SUBCATEGORY_ID
     dir_products_bata.findOrCreateProdAttributes= function(params,resultCallback){
         if (!params||!params.prodData) {
             resultCallback({error: "Failed find/create product attributes! Reason: no product attributes data!"});

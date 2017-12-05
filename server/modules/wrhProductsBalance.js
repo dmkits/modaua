@@ -1,13 +1,15 @@
 var dataModel=require('../datamodel');
 var wrh_products_operations_v= require(appDataModelPath+"wrh_products_operations_v"),
+    wrh_products_r_operations= require(appDataModelPath+"wrh_products_r_operations"),
+    wrh_pinvs_products= require(appDataModelPath+"wrh_pinvs_products"),
     dir_products=require(appDataModelPath+'dir_products-bata'),
     dir_products_batches= require(appDataModelPath+"dir_products_batches"),
     dir_products_batches_v= require(appDataModelPath+"dir_products_batches_v");
 var server= require("../server"), log= server.log;
 
 module.exports.validateModule = function(errs, nextValidateModuleCallback){
-    dataModel.initValidateDataModels([wrh_products_operations_v, dir_products,
-            dir_products_batches, dir_products_batches_v], errs,
+    dataModel.initValidateDataModels([wrh_products_operations_v, wrh_products_r_operations,
+            dir_products, dir_products_batches, dir_products_batches_v], errs,
         function(){
             nextValidateModuleCallback();
         });
@@ -107,5 +109,90 @@ module.exports.init = function(app) {
                         resultCallback(result);
                     });
             });
-    }
+    };
+
+    app.get("/dir/products/getProdAttributesFromROperationsByArticle", function (req, res) {
+        var operationId=req.query["ID"], prodArticle=req.query["PRODUCT_ARTICLE"];
+        var condition={"dir_products_articles.VALUE=":prodArticle};
+        if(operationId) condition["OPERATION_ID"]=operationId;
+        /*if(operationId!=null || operationId!=undefined )*/{
+            //"PRODUCT_GENDER","PRODUCT_GENDER_CODE","PRODUCT_CATEGORY","PRODUCT_CATEGORY_CODE","PRODUCT_SUBCATEGORY","PRODUCT_SUBCATEGORY_CODE",
+            //"PRODUCT_COLLECTION","PRODUCT_COLLECTION_CODE","PRODUCT_TYPE","PRODUCT_KIND","PRODUCT_COMPOSITION"
+            wrh_products_r_operations.getDataItems({
+                    fields:["OPERATION_ID","PRODUCT_ID","PRODUCT_ARTICLE"],
+                    fieldsSources:{"PRODUCT_ID":"dir_products.ID", "PRODUCT_ARTICLE":"dir_products_articles.VALUE"},
+                    joinedSources:{
+                        wrh_pinvs_products:{"wrh_pinvs_products.ID=wrh_products_r_operations.OPERATION_ID":null},
+                        dir_products:{"dir_products.ID=wrh_products_r_operations.PRODUCT_ID":null},
+                        dir_products_articles:{"dir_products_articles.ID=dir_products.ARTICLE_ID":null}
+                    },
+                    conditions:condition
+                //conditions:[{fieldName:"PRODUCT_ARTICLE", condition:"=", value:prodArticle},
+                //    {fieldName:"OPERATION_ID",condition:"<>",value:operationId}
+                    },
+                function(result){
+                    console.log("getProdAttributesFromROperationsByArticle result=",result);
+                    if(!result.items||result.items.length==0){
+                        res.send(result);
+                        return;
+                    }
+                    dir_products.getProductsDataForTable({condition:{"dir_products.ID=":result.items[0]["PRODUCT_ID"]}},
+                        function(result){
+                            if(result.items&&result.items.length>0) res.send({item:result.items[0]}); else res.send(result);
+                        });
+
+
+                });
+            //dir_products_articles.getDataItems({fields:["ID"], conditions:{"VALUE=":prodArticle}},
+            //function(result){
+            //    if(!result.item){
+            //        res.send({});//
+            //    }
+            //    var prodArticleID=result.item["ID"];
+            //    dir_products_bata.getDataItems({fields:["ID"],
+            //    conditions:{"ARTICLE_ID=":prodArticleID}},function(result){
+            //        if(!result.items){
+            //            res.send({});//
+            //        }
+            //        var prodIDCondStr=" in (";
+            //        for(var i in result.items){
+            //            prodIDCondStr+=result.items[i]["ID"]+",";
+            //        }
+            //        prodIDCondStr=prodIDCondStr.substring(0,prodIDCondStr.length-1);
+            //        prodIDCondStr+=")";
+            //        wrh_products_operations_v.getDataItems({fields:["OPERATION_ID","DOCCODE","PRODUCT_ID"],
+            //            conditions:{"OPERATION_ID!=":operationId, PRODUCT_ID:prodIDCondStr}},
+            //            function(result){
+            //                console.log("result 730=",result);
+            //            });
+            //
+            //    });
+            //
+            //});
+            return;
+        }
+        //dir_products_bata.getDataItemsForTable({tableColumns:dirProductsTableColumns,
+        //        conditions:[{fieldName:"PRODUCT_ARTICLE", condition:"=", value:prodArticle}] },
+        //    function(result){
+        //        if(!result.items || result.items.length==0){
+        //            res.send({}); //
+        //            return;
+        //        }
+        //        var resItem = result.items[0];
+        //        var outItem={};
+        //        outItem["PRODUCT_GENDER"]=resItem["PRODUCT_GENDER"];
+        //        outItem["PRODUCT_GENDER_CODE"]=resItem["PRODUCT_GENDER_CODE"];
+        //        outItem["PRODUCT_CATEGORY"]=resItem["PRODUCT_CATEGORY"];
+        //        outItem["PRODUCT_CATEGORY_CODE"]=resItem["PRODUCT_CATEGORY_CODE"];
+        //        outItem["PRODUCT_SUBCATEGORY"]=resItem["PRODUCT_SUBCATEGORY"];
+        //        outItem["PRODUCT_SUBCATEGORY_CODE"]=resItem["PRODUCT_SUBCATEGORY_CODE"];
+        //        outItem["PRODUCT_COLLECTION"]=resItem["PRODUCT_COLLECTION"];
+        //        outItem["PRODUCT_COLLECTION_CODE"]=resItem["PRODUCT_COLLECTION_CODE"];
+        //        outItem["PRODUCT_TYPE"]=resItem["PRODUCT_TYPE"];
+        //        outItem["PRODUCT_KIND"]=resItem["PRODUCT_KIND"];
+        //        outItem["PRODUCT_COMPOSITION"]=resItem["PRODUCT_COMPOSITION"];
+        //        outItem["PRODUCT_SIZE"]=resItem["PRODUCT_SIZE"];
+        //        res.send({item:outItem});
+        //    });
+    });
 };

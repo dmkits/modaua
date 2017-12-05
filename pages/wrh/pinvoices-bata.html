@@ -173,7 +173,8 @@
                             &&  (!crd.item("PRODUCT_CODE").isChanged()&&!crd.item("PRODUCT_NAME").isChanged())){
                                 var condition={};
                                 condition["PRODUCT_ARTICLE"]=crd.item("PRODUCT_ARTICLE").getValue();
-                                Request.getJSONData({url:"/dir/products/getProdAttribytesByArticle", condition:condition},
+                                condition["ID"]=crd.item("ID").getValue();
+                                Request.getJSONData({url:"/dir/products/getProdAttributesFromROperationsByArticle", condition:condition},
                                         function(result){
                                             if (!result || !result.item) {
                                                 nextCallback();
