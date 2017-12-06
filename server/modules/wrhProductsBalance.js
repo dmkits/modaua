@@ -114,8 +114,8 @@ module.exports.init = function(app) {
     app.get("/dir/products/getProdAttributesFromROperationsByArticle", function (req, res) {
         var operationId=req.query["ID"], prodArticle=req.query["PRODUCT_ARTICLE"];
         var condition={"dir_products_articles.VALUE=":prodArticle};
-        if(operationId) condition["OPERATION_ID"]=operationId;
-        /*if(operationId!=null || operationId!=undefined )*/{
+        if(operationId) condition["OPERATION_ID<>"]=operationId;
+        /*if(operationId!=null || operationId!=undefined )*///{
             //"PRODUCT_GENDER","PRODUCT_GENDER_CODE","PRODUCT_CATEGORY","PRODUCT_CATEGORY_CODE","PRODUCT_SUBCATEGORY","PRODUCT_SUBCATEGORY_CODE",
             //"PRODUCT_COLLECTION","PRODUCT_COLLECTION_CODE","PRODUCT_TYPE","PRODUCT_KIND","PRODUCT_COMPOSITION"
             wrh_products_r_operations.getDataItems({
@@ -140,8 +140,6 @@ module.exports.init = function(app) {
                         function(result){
                             if(result.items&&result.items.length>0) res.send({item:result.items[0]}); else res.send(result);
                         });
-
-
                 });
             //dir_products_articles.getDataItems({fields:["ID"], conditions:{"VALUE=":prodArticle}},
             //function(result){
@@ -169,8 +167,8 @@ module.exports.init = function(app) {
             //    });
             //
             //});
-            return;
-        }
+        //    return;
+      //  }
         //dir_products_bata.getDataItemsForTable({tableColumns:dirProductsTableColumns,
         //        conditions:[{fieldName:"PRODUCT_ARTICLE", condition:"=", value:prodArticle}] },
         //    function(result){
