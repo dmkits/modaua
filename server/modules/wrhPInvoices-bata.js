@@ -324,12 +324,8 @@ module.exports.init = function(app){
                 }
                 tableDataItem['REGISTERED_PROD_ID']=result.item["PRODUCT_ID"];
                 tableDataItem['REGISTERED_BATCH_NUMBER']=result.item["BATCH_NUMBER"];
-                var conditions={};
-                //if (tableDataItem["PRODUCT_CODE"])tableDataItem["CODE="]=tableDataItem["PRODUCT_CODE"];
-                //if (tableDataItem["PRODUCT_NAME"])
-                    conditions["NAME="]=tableDataItem["PRODUCT_NAME"];
                 dir_products_bata.getDataItem({fields:["ID"],
-                        conditions: conditions},
+                        conditions: {"NAME=":tableDataItem["PRODUCT_NAME"]}},
                     function(result){
                         if(result.error){
                             callback({error:result.error});
@@ -337,7 +333,7 @@ module.exports.init = function(app){
                         }
                         if(result.item){
                             tableDataItem["PRODUCT_ID"]=result.item['ID'];
-                           // tableDataItem["REGISTERED_PROD_NAME"]=result.item['NAME'];
+                            // prod was changed to
                             if(tableDataItem['REGISTERED_PROD_ID']!=tableDataItem["PRODUCT_ID"]){
                                 wrh_pinvs_products.changeProductForExistent(tableDataItem, function(result){
                                     if(result.error){
@@ -348,64 +344,58 @@ module.exports.init = function(app){
                                 });
                                 return;
                             }
-                          //  if(tableDataItem["PRODUCT_NAME"]==tableDataItem["REGISTERED_PROD_NAME"]){
-                                wrh_pinvs_products.updProdAttrAndGetRowData(tableDataItem, function(result){
-                                    if(result.error){
-                                        callback({error:result.error});
-                                        return;
-                                    }
-                                    callback(result);
-                                });
-                                return;
-                           // }
-                            return;
-                        }
-                        //ifprod not found by prodName
-                        //check if prod id is used before
-                        //if not used -> update
-                        //else create new prod
-                        wrh_products_operations_v.getDataItems({fields:["OPERATION_ID","PRODUCT_ID"],
-                            conditions:{"PRODUCT_ID=":tableDataItem['REGISTERED_PROD_ID'],"OPERATION_ID<>":tableDataItem["ID"]}},
-                        function(result){
-                            if(result.error){
-                                callback({error:result.error});
-                                return;
-                            }
-                            if(!result.items|| result.items.length==0){
-                                //not used -> update
-                                dir_products_bata.updProductDataById(tableDataItem['REGISTERED_PROD_ID'], tableDataItem,
-                                    function(result){
-                                    if(result.error){
-                                        callback({error:result.error});
-                                        return;
-                                    }
-                                    wrh_pinvs_products.updDataItem({updData:{QTY:tableDataItem["QTY"], PRICE:tableDataItem["PRICE"],
-                                            POSSUM:tableDataItem["POSSUM"], SALE_PRICE:tableDataItem["SALE_PRICE"],FACTOR:tableDataItem["FACTOR"]},
-                                            conditions:{"ID=":tableDataItem["ID"]}},
-                                        function(updRes){
-                                            if(updRes.error){
-                                                callback({error:updRes.error});
-                                                return;
-                                            }
-                                            wrh_pinvs_products.getDataItemForTable({tableColumns:wrhPInvProductsTableColumns,
-                                                conditions:{"wrh_pinvs_products.ID=":tableDataItem["ID"]}}, function(updDataRes){
-                                                if(updDataRes.error){
-                                                    callback({error:updRes.error});
-                                                    return;
-                                                }
-                                                callback({resultItem:updDataRes.item,updateCount:updRes.updateCount });
-                                            })
-                                        });
-                                });
-                                return;
-                            }
-                            // create new prod
-                            dir_products_bata.insertNewProduct(tableDataItem,function(result){  console.log("insertNewProduct result=",result);
+                          // if(tableDataItem["PRODUCT_NAME"]==tableDataItem["REGISTERED_PROD_NAME"])
+                            wrh_pinvs_products.updProdAttrAndGetRowData(tableDataItem, function(result){
                                 if(result.error){
                                     callback({error:result.error});
                                     return;
                                 }
-                                var newProd=result.resultItem;
+                                callback(result);
+                            });
+                            return;
+                        }
+                        //check if prod id is used before
+                        wrh_products_operations_v.getDataItems({fields:["OPERATION_ID","PRODUCT_ID"],
+                            conditions:{"PRODUCT_ID=":tableDataItem['REGISTERED_PROD_ID'],"OPERATION_ID<>":tableDataItem["ID"]}},
+                            function(result){
+                                if(result.error){
+                                    callback({error:result.error});
+                                    return;
+                                }//not used -> update
+                                if(!result.items|| result.items.length==0){
+                                    dir_products_bata.updProductDataById(tableDataItem['REGISTERED_PROD_ID'], tableDataItem,
+                                        function(result){
+                                            if(result.error){
+                                                callback({error:result.error});
+                                                return;
+                                            }
+                                            wrh_pinvs_products.updDataItem({updData:{QTY:tableDataItem["QTY"], PRICE:tableDataItem["PRICE"],
+                                                    POSSUM:tableDataItem["POSSUM"], SALE_PRICE:tableDataItem["SALE_PRICE"],FACTOR:tableDataItem["FACTOR"]},
+                                                    conditions:{"ID=":tableDataItem["ID"]}},
+                                                function(updRes){
+                                                    if(updRes.error){
+                                                        callback({error:updRes.error});
+                                                        return;
+                                                    }
+                                                    wrh_pinvs_products.getDataItemForTable({tableColumns:wrhPInvProductsTableColumns,
+                                                        conditions:{"wrh_pinvs_products.ID=":tableDataItem["ID"]}}, function(updDataRes){
+                                                        if(updDataRes.error){
+                                                            callback({error:updRes.error});
+                                                            return;
+                                                        }
+                                                        callback({resultItem:updDataRes.item,updateCount:updRes.updateCount });
+                                                    })
+                                                });
+                                        });
+                                    return;
+                                }
+                                // used create new prod
+                                dir_products_bata.insertNewProduct(tableDataItem,function(result){
+                                    if(result.error){
+                                        callback({error:result.error});
+                                        return;
+                                    }
+                                    var newProd=result.resultItem;
                                     dir_products_batches.createNewBatch({prodData:{"PRODUCT_ID":newProd["ID"]}},
                                         function(newBatchRes){
                                             if(newBatchRes.error){
@@ -439,173 +429,10 @@ module.exports.init = function(app){
                                                     });
                                             });
                                         });
-                            });
-                        });
-                    });
-            });
-
-return;
-
-        //var pinvProdOperdId=tableDataItem["ID"], prodID=tableDataItem["PRODUCT_ID"], prodBarcode=tableDataItem["BARCODE"];
-
-
-        wrh_products_r_operations.getDataItem({fields:["PRODUCT_ID","BATCH_NUMBER"],
-            conditions:{"OPERATION_ID=":pinvProdOperdId}}, function(result){
-            if(result.error){
-                callback({error:result.error});
-                return;
-            }
-            var existsProductID=result.item["PRODUCT_ID"],existsBatchNumber=result.item["BATCH_NUMBER"];
-            if(existsProductID==prodID){
-                //check if prodNames are identical
-                dir_products_bata.getDataItem({fields:["ID"], conditions:{"NAME=":tableDataItem["PRODUCT_NAME"], "ID=":prodID }},
-                function(result){
-                    if(!result.item){
-                        //check transactions with this prod
-                        wrh_products_operations_v.getDataItems({fields:["OPERATION_ID","PRODUCT_ID"],
-                                conditions:{"PRODUCT_ID=":prodID,"OPERATION_ID<>":pinvProdOperdId}},
-                            function(result){                             console.log("result 291=",result);
-                                if(result.error){
-                                    callback({error:result.error});
-                                    return;
-                                }
-                                if(!result.items||result.items.length==0){
-                                    //upd prod dataItem
-                                    //COLLECTION,TYPE,ARTICLE,KIND,COMPOSITION,SIZE
-                                    dir_products_bata.findOrCreateProdAttributes({prodData:{"COLLECTION":tableDataItem["PRODUCT_COLLECTION"],"TYPE":tableDataItem["PRODUCT_TYPE"],
-                                        "ARTICLE":tableDataItem["PRODUCT_ARTICLE"],"KIND":tableDataItem["PRODUCT_KIND"],"COMPOSITION": tableDataItem["PRODUCT_COMPOSITION"],
-                                        "SIZE":tableDataItem["PRODUCT_SIZE"]}},
-                                        function(result){
-                                            if(result.error){
-                                                callback({error:result.error});
-                                                return;
-                                            }
-                                            var prodUpdData={};
-
-                                            prodUpdData["SIZE_ID"]=result.resultItem["SIZE_ID"];
-                                            prodUpdData["COMPOSITION_ID"]=result.resultItem["COMPOSITION_ID"];
-                                            prodUpdData["KIND_ID"]=result.resultItem["KIND_ID"];
-                                            prodUpdData["ARTICLE_ID"]=result.resultItem["ARTICLE_ID"];
-                                            prodUpdData["TYPE_ID"]=result.resultItem["TYPE_ID"];
-                                            prodUpdData["COLLECTION_ID"]=result.resultItem["COLLECTION_ID"];
-                                            dir_products_bata.getProductBataGroupsIDs({prodData:{"GENDER_CODE":tableDataItem["PRODUCT_GENDER_CODE"],"GENDER":tableDataItem["PRODUCT_GENDER"],
-                                                    "CATEGORY_CODE":tableDataItem["PRODUCT_CATEGORY_CODE"],"CATEGORY":tableDataItem["PRODUCT_CATEGORY"],
-                                                    "SUBCATEGORY_CODE":tableDataItem["PRODUCT_SUBCATEGORY_CODE"],"SUBCATEGORY":tableDataItem["PRODUCT_SUBCATEGORY"]}},
-                                                function(result){
-                                                    if(result.error){
-                                                        callback({error:result.error});
-                                                        return;
-                                                    }
-                                                    prodUpdData["GENDER_ID"]=result.resultItem["GENDER_ID"];
-                                                    prodUpdData["CATEGORY_ID"]=result.resultItem["CATEGORY_ID"];
-                                                    prodUpdData["SUBCATEGORY_ID"]=result.resultItem["SUBCATEGORY_ID"];
-                                                    prodUpdData["CODE"]=tableDataItem["PRODUCT_CODE"];
-                                                    prodUpdData["PRINT_NAME"]=tableDataItem["PRODUCT_PRINT_NAME"];
-                                                    prodUpdData["UM"]=tableDataItem["PRODUCT_UM"];
-                                                    prodUpdData["PBARCODE"]=tableDataItem["PRODUCT_BARCODE"];
-                                                    dir_products_bata.updDataItem({updData:prodUpdData,conditions:{"ID=":prodID}},
-                                                    function(result){
-                                                        if(result.error){
-                                                            callback({error:result.error});
-                                                            return;
-                                                        }
-                                                        wrh_pinvs_products.updDataItem({updData:{QTY:tableDataItem["QTY"], PRICE:tableDataItem["PRICE"],
-                                                                POSSUM:tableDataItem["POSSUM"], SALE_PRICE:tableDataItem["SALE_PRICE"],FACTOR:tableDataItem["FACTOR"]},
-                                                                conditions:{"ID=":tableDataItem["ID"]}},
-                                                            function(updRes){
-                                                                if(updRes.error){
-                                                                    callback({error:updRes.error});
-                                                                    return;
-                                                                }
-                                                                wrh_pinvs_products.getDataItemForTable({tableColumns:wrhPInvProductsTableColumns,
-                                                                    conditions:{"wrh_pinvs_products.ID=":tableDataItem["ID"]}}, function(updDataRes){
-                                                                    if(updDataRes.error){
-                                                                        callback({error:updRes.error});
-                                                                        return;
-                                                                    }
-                                                                    callback({resultItem:updDataRes.item,updateCount:updRes.updateCount });
-                                                                })
-                                                            });
-                                                    });
-                                                }
-                                            );
-                                        });
-                                    return;
-                                }
-                                //create new prod//
-
-
-                            });
-                        return;
-                    }//if prodNames are identical upd prod data with no influence on ProdName
-                    dir_products_types.getDataItem({fields:["ID"], conditions:{"NAME=":tableDataItem["PRODUCT_TYPE"]}},
-                        function(result){
-                            if(result.error){
-                                callback({error:result.error});
-                                return;
-                            }
-                            var typeId=result.item["ID"];
-                            dir_products_bata.getProductBataGroupsIDs({prodData:{"GENDER_CODE":tableDataItem["PRODUCT_GENDER_CODE"],"GENDER":tableDataItem["PRODUCT_GENDER"],
-                                    "CATEGORY_CODE":tableDataItem["PRODUCT_CATEGORY_CODE"],"CATEGORY":tableDataItem["PRODUCT_CATEGORY"],
-                                    "SUBCATEGORY_CODE":tableDataItem["PRODUCT_SUBCATEGORY_CODE"],"SUBCATEGORY":tableDataItem["PRODUCT_SUBCATEGORY"] }},
-                            function(result){
-                                if(result.error){
-                                    callback({error:result.error});
-                                    return;
-                                }
-                                var genderId=result.resultItem['GENDER_ID'];
-                                var subCategoryId=result.resultItem['SUBCATEGORY_ID'];
-                                var categoryId=result.resultItem['CATEGORY_ID'];
-                                dir_products_bata.updDataItem({updData:{"CODE":tableDataItem["PRODUCT_CODE"],"PRINT_NAME":tableDataItem["PRODUCT_PRINT_NAME"],
-                                    "GENDER_ID":genderId,"PBARCODE":tableDataItem["BARCODE"],"TYPE_ID":typeId,"CATEGORY_ID":categoryId, "SUBCATEGORY_ID":subCategoryId},
-                                    conditions:{"ID=":tableDataItem["PRODUCT_ID"]}}, function(result){
-                                    if(result.error){
-                                        callback({error:result.error});
-                                        return;
-                                    }
-                                    wrh_pinvs_products.updDataItem({updData:{QTY:tableDataItem["QTY"], PRICE:tableDataItem["PRICE"],
-                                            POSSUM:tableDataItem["POSSUM"], SALE_PRICE:tableDataItem["SALE_PRICE"],FACTOR:tableDataItem["FACTOR"]},
-                                            conditions:{"ID=":tableDataItem["ID"]}},
-                                        function(updRes){
-                                            if(updRes.error){
-                                                callback({error:updRes.error});
-                                                return;
-                                            }
-                                            wrh_pinvs_products.getDataItemForTable({tableColumns:wrhPInvProductsTableColumns,
-                                                conditions:{"wrh_pinvs_products.ID=":tableDataItem["ID"]}}, function(updDataRes){
-                                                if(updDataRes.error){
-                                                    callback({error:updRes.error});
-                                                    return;
-                                                }
-                                                callback({resultItem:updDataRes.item,updateCount:updRes.updateCount });
-                                            })
-                                        });
                                 });
                             });
-                        });
-                });
-
-                //wrh_pinvs_products.updDataItem({updData:{QTY:tableDataItem["QTY"], PRICE:tableDataItem["PRICE"],
-                //        POSSUM:tableDataItem["POSSUM"], SALE_PRICE:tableDataItem["SALE_PRICE"],FACTOR:tableDataItem["FACTOR"]},
-                //        conditions:{"ID=":tableDataItem["ID"]}},
-                //    function(updRes){
-                //        if(updRes.error){
-                //            callback({error:updRes.error});
-                //            return;
-                //        }
-                //        wrh_pinvs_products.getDataItemForTable({tableColumns:wrhPInvProductsTableColumns,
-                //            conditions:{"wrh_pinvs_products.ID=":tableDataItem["ID"]}}, function(updDataRes){
-                //            if(updDataRes.error){
-                //                callback({error:updRes.error});
-                //                return;
-                //            }
-                //            callback({resultItem:updDataRes.item,updateCount:updRes.updateCount });
-                //        })
-                //});
-              //  return;
-            }
-
-        });
+                    });
+            });
     };
 
     wrh_pinvs_products.changeProductForExistent=function(tableDataItem,callback){
