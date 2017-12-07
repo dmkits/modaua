@@ -238,42 +238,217 @@ module.exports.init = function(app){
     });
 
     wrh_pinvs_products.insNewPInvTableDataItem= function(tableDataItem, callback){
-        sys_operations.insDataItemWithNewID({idFieldName:"ID", insData:{}}, function(sysOperIdRes){
-            if(sysOperIdRes.error){
-                callback({error:sysOperIdRes.error});
-                return;
-            }
-            var sysOperId=sysOperIdRes.resultItem["ID"];
-                dir_products_batches.createNewBatch({prodData:{"PRODUCT_ID":tableDataItem["PRODUCT_ID"]}},
-                    function(newBatchRes){
-                    if(newBatchRes.error){
-                        callback({error:newBatchRes.error});
+
+        var findFields = [];
+        if (tableDataItem["PRODUCT_CODE"] || tableDataItem["PRODUCT_NAME"]) {
+            if (tableDataItem["PRODUCT_CODE"])findFields.push("CODE");
+            if (tableDataItem["PRODUCT_NAME"])findFields.push("NAME");
+        }
+        dir_products_bata.findDataItemByOrCreateNew({
+                resultFields: ["ID", "CODE", "NAME", "PRINT_NAME", "UM", "PBARCODE"],
+                findByFields: findFields,
+                idFieldName: "ID",
+                fieldsValues: {
+                    "CODE": tableDataItem["PRODUCT_CODE"],
+                    "NAME": tableDataItem["PRODUCT_NAME"],
+                    "PRINT_NAME": tableDataItem["PRODUCT_PRINT_NAME"],
+                    "UM": tableDataItem["PRODUCT_UM"],
+                    "PBARCODE": tableDataItem["BARCODE"],
+                    "ARTICLE": tableDataItem["PRODUCT_ARTICLE"],
+                    "COLLECTION": tableDataItem["PRODUCT_COLLECTION"],
+                    "TYPE": tableDataItem["PRODUCT_TYPE"],
+                    "KIND": tableDataItem["PRODUCT_KIND"],
+                    "COMPOSITION": tableDataItem["PRODUCT_COMPOSITION"],
+                    "SIZE": tableDataItem["PRODUCT_SIZE"] || "",
+                    "GENDER": tableDataItem["PRODUCT_GENDER"],
+                    "GENDER_CODE": tableDataItem["PRODUCT_GENDER_CODE"],
+                    "CATEGORY": tableDataItem["PRODUCT_CATEGORY"],
+                    "CATEGORY_CODE": tableDataItem["PRODUCT_CATEGORY_CODE"],
+                    "SUBCATEGORY": tableDataItem["PRODUCT_SUBCATEGORY"],
+                    "SUBCATEGORY_CODE": tableDataItem["PRODUCT_SUBCATEGORY_CODE"]
+                }
+            },
+            function (result) {
+                if (result.error) {
+                    callback({error: "Failed find/create product! Reason:" + result.error});
+                    return;
+                }
+                if (!result.resultItem) {
+                    callback({error: "Failed find/create product! Reason: no result!"});
+                    return;
+                }
+                tableDataItem["PRODUCT_ID"]=result.resultItem["ID"];
+                if (!tableDataItem["BARCODE"])tableDataItem["BARCODE"] = result.resultItem["PBARCODE"];
+                sys_operations.insDataItemWithNewID({idFieldName:"ID", insData:{}}, function(sysOperIdRes){
+                    if(sysOperIdRes.error){
+                        callback({error:sysOperIdRes.error});
                         return;
                     }
-                        var batchNum= newBatchRes.resultItem["BATCH_NUMBER"];
-                        wrh_products_r_operations.insDataItem({insData:{OPERATION_ID:sysOperId,BATCH_NUMBER: batchNum,
-                        PRODUCT_ID:tableDataItem["PRODUCT_ID"],BARCODE:tableDataItem["BARCODE"]}}, function(prodOperRes){
-                        if(prodOperRes.error){
-                            callback({error:newBatchRes.error});
-                            return;
-                        }
-                        wrh_pinvs_products.insTableDataItem({tableColumns:wrhPInvProductsTableColumns,idFieldName:"ID",insTableData:{ID:sysOperId,
-                            PINV_ID:tableDataItem["PINV_ID"], POSIND:tableDataItem["POSIND"], PRODUCT_ID:tableDataItem["PRODUCT_ID"],
-                            QTY:tableDataItem["QTY"], PRICE:tableDataItem["PRICE"], POSSUM:tableDataItem["POSSUM"],
-                            SALE_PRICE:tableDataItem["SALE_PRICE"], FACTOR:tableDataItem["FACTOR"]}}, function(wrhProdRes){
-                            if(wrhProdRes.error){
-                                callback({error:wrhProdRes.error});
+                    var sysOperId=sysOperIdRes.resultItem["ID"];
+                    dir_products_batches.createNewBatch({prodData:{"PRODUCT_ID":tableDataItem["PRODUCT_ID"]}},
+                        function(newBatchRes){
+                            if(newBatchRes.error){
+                                callback({error:newBatchRes.error});
                                 return;
                             }
-                            callback(wrhProdRes);
+                            var batchNum= newBatchRes.resultItem["BATCH_NUMBER"];
+                            wrh_products_r_operations.insDataItem({insData:{OPERATION_ID:sysOperId,BATCH_NUMBER: batchNum,
+                                PRODUCT_ID:tableDataItem["PRODUCT_ID"],BARCODE:tableDataItem["BARCODE"]}}, function(prodOperRes){
+                                if(prodOperRes.error){
+                                    callback({error:newBatchRes.error});
+                                    return;
+                                }
+                                wrh_pinvs_products.insTableDataItem({tableColumns:wrhPInvProductsTableColumns,idFieldName:"ID",insTableData:{ID:sysOperId,
+                                    PINV_ID:tableDataItem["PINV_ID"], POSIND:tableDataItem["POSIND"], PRODUCT_ID:tableDataItem["PRODUCT_ID"],
+                                    QTY:tableDataItem["QTY"], PRICE:tableDataItem["PRICE"], POSSUM:tableDataItem["POSSUM"],
+                                    SALE_PRICE:tableDataItem["SALE_PRICE"], FACTOR:tableDataItem["FACTOR"]}}, function(wrhProdRes){
+                                    if(wrhProdRes.error){
+                                        callback({error:wrhProdRes.error});
+                                        return;
+                                    }
+                                    callback(wrhProdRes);
+                                });
+                            });
                         });
-                    });
-                });
-        })
+                })
+            });
     };
 
     wrh_pinvs_products.updPInvTableDataItem= function(tableDataItem, callback){
-        var pinvProdOperdId=tableDataItem["ID"], prodID=tableDataItem["PRODUCT_ID"], prodBarcode=tableDataItem["BARCODE"];
+        wrh_products_r_operations.getDataItem({fields:["PRODUCT_ID","BATCH_NUMBER"],
+                conditions:{"OPERATION_ID=":tableDataItem["ID"]}},
+            function(result){
+                if(result.error){
+                    callback({error:result.error});
+                    return;
+                }
+                tableDataItem['REGISTERED_PROD_ID']=result.item["PRODUCT_ID"];
+                tableDataItem['REGISTERED_BATCH_NUMBER']=result.item["BATCH_NUMBER"];
+                var conditions={};
+                //if (tableDataItem["PRODUCT_CODE"])tableDataItem["CODE="]=tableDataItem["PRODUCT_CODE"];
+                //if (tableDataItem["PRODUCT_NAME"])
+                    conditions["NAME="]=tableDataItem["PRODUCT_NAME"];
+                dir_products_bata.getDataItem({fields:["ID"],
+                        conditions: conditions},
+                    function(result){
+                        if(result.error){
+                            callback({error:result.error});
+                            return;
+                        }
+                        if(result.item){
+                            tableDataItem["PRODUCT_ID"]=result.item['ID'];
+                           // tableDataItem["REGISTERED_PROD_NAME"]=result.item['NAME'];
+                            if(tableDataItem['REGISTERED_PROD_ID']!=tableDataItem["PRODUCT_ID"]){
+                                wrh_pinvs_products.changeProductForExistent(tableDataItem, function(result){
+                                    if(result.error){
+                                        callback({error:result.error});
+                                        return;
+                                    }
+                                    callback(result);
+                                });
+                                return;
+                            }
+                          //  if(tableDataItem["PRODUCT_NAME"]==tableDataItem["REGISTERED_PROD_NAME"]){
+                                wrh_pinvs_products.updProdAttrAndGetRowData(tableDataItem, function(result){
+                                    if(result.error){
+                                        callback({error:result.error});
+                                        return;
+                                    }
+                                    callback(result);
+                                });
+                                return;
+                           // }
+                            return;
+                        }
+                        //ifprod not found by prodName
+                        //check if prod id is used before
+                        //if not used -> update
+                        //else create new prod
+                        wrh_products_operations_v.getDataItems({fields:["OPERATION_ID","PRODUCT_ID"],
+                            conditions:{"PRODUCT_ID=":tableDataItem['REGISTERED_PROD_ID'],"OPERATION_ID<>":tableDataItem["ID"]}},
+                        function(result){
+                            if(result.error){
+                                callback({error:result.error});
+                                return;
+                            }
+                            if(!result.items|| result.items.length==0){
+                                //not used -> update
+                                dir_products_bata.updProductDataById(tableDataItem['REGISTERED_PROD_ID'], tableDataItem,
+                                    function(result){
+                                    if(result.error){
+                                        callback({error:result.error});
+                                        return;
+                                    }
+                                    wrh_pinvs_products.updDataItem({updData:{QTY:tableDataItem["QTY"], PRICE:tableDataItem["PRICE"],
+                                            POSSUM:tableDataItem["POSSUM"], SALE_PRICE:tableDataItem["SALE_PRICE"],FACTOR:tableDataItem["FACTOR"]},
+                                            conditions:{"ID=":tableDataItem["ID"]}},
+                                        function(updRes){
+                                            if(updRes.error){
+                                                callback({error:updRes.error});
+                                                return;
+                                            }
+                                            wrh_pinvs_products.getDataItemForTable({tableColumns:wrhPInvProductsTableColumns,
+                                                conditions:{"wrh_pinvs_products.ID=":tableDataItem["ID"]}}, function(updDataRes){
+                                                if(updDataRes.error){
+                                                    callback({error:updRes.error});
+                                                    return;
+                                                }
+                                                callback({resultItem:updDataRes.item,updateCount:updRes.updateCount });
+                                            })
+                                        });
+                                });
+                                return;
+                            }
+                            // create new prod
+                            dir_products_bata.insertNewProduct(tableDataItem,function(result){  console.log("insertNewProduct result=",result);
+                                if(result.error){
+                                    callback({error:result.error});
+                                    return;
+                                }
+                                var newProd=result.resultItem;
+                                    dir_products_batches.createNewBatch({prodData:{"PRODUCT_ID":newProd["ID"]}},
+                                        function(newBatchRes){
+                                            if(newBatchRes.error){
+                                                callback({error:newBatchRes.error});
+                                                return;
+                                            }
+                                            var batchNum= newBatchRes.resultItem["BATCH_NUMBER"];
+                                            wrh_products_r_operations.updDataItem({updData:{BATCH_NUMBER: batchNum,
+                                                PRODUCT_ID:newProd["ID"],BARCODE:newProd["PBARCODE"]},
+                                                conditions:{"OPERATION_ID=":tableDataItem["ID"]}}, function(prodOperRes){
+                                                if(prodOperRes.error){
+                                                    callback({error:prodOperRes.error});
+                                                    return;
+                                                }
+                                                wrh_pinvs_products.updDataItem({updData:{QTY:tableDataItem["QTY"], PRICE:tableDataItem["PRICE"],
+                                                        POSSUM:tableDataItem["POSSUM"], SALE_PRICE:tableDataItem["SALE_PRICE"],FACTOR:tableDataItem["FACTOR"]},
+                                                        conditions:{"ID=":tableDataItem["ID"]}},
+                                                    function(updRes){
+                                                        if(updRes.error){
+                                                            callback({error:updRes.error});
+                                                            return;
+                                                        }
+                                                        wrh_pinvs_products.getDataItemForTable({tableColumns:wrhPInvProductsTableColumns,
+                                                            conditions:{"wrh_pinvs_products.ID=":tableDataItem["ID"]}}, function(updDataRes){
+                                                            if(updDataRes.error){
+                                                                callback({error:updRes.error});
+                                                                return;
+                                                            }
+                                                            callback({resultItem:updDataRes.item,updateCount:updRes.updateCount });
+                                                        })
+                                                    });
+                                            });
+                                        });
+                            });
+                        });
+                    });
+            });
+
+return;
+
+        //var pinvProdOperdId=tableDataItem["ID"], prodID=tableDataItem["PRODUCT_ID"], prodBarcode=tableDataItem["BARCODE"];
+
+
         wrh_products_r_operations.getDataItem({fields:["PRODUCT_ID","BATCH_NUMBER"],
             conditions:{"OPERATION_ID=":pinvProdOperdId}}, function(result){
             if(result.error){
@@ -286,6 +461,7 @@ module.exports.init = function(app){
                 dir_products_bata.getDataItem({fields:["ID"], conditions:{"NAME=":tableDataItem["PRODUCT_NAME"], "ID=":prodID }},
                 function(result){
                     if(!result.item){
+                        //check transactions with this prod
                         wrh_products_operations_v.getDataItems({fields:["OPERATION_ID","PRODUCT_ID"],
                                 conditions:{"PRODUCT_ID=":prodID,"OPERATION_ID<>":pinvProdOperdId}},
                             function(result){                             console.log("result 291=",result);
@@ -294,14 +470,74 @@ module.exports.init = function(app){
                                     return;
                                 }
                                 if(!result.items||result.items.length==0){
-                                    //upd dataItem
+                                    //upd prod dataItem
+                                    //COLLECTION,TYPE,ARTICLE,KIND,COMPOSITION,SIZE
+                                    dir_products_bata.findOrCreateProdAttributes({prodData:{"COLLECTION":tableDataItem["PRODUCT_COLLECTION"],"TYPE":tableDataItem["PRODUCT_TYPE"],
+                                        "ARTICLE":tableDataItem["PRODUCT_ARTICLE"],"KIND":tableDataItem["PRODUCT_KIND"],"COMPOSITION": tableDataItem["PRODUCT_COMPOSITION"],
+                                        "SIZE":tableDataItem["PRODUCT_SIZE"]}},
+                                        function(result){
+                                            if(result.error){
+                                                callback({error:result.error});
+                                                return;
+                                            }
+                                            var prodUpdData={};
+
+                                            prodUpdData["SIZE_ID"]=result.resultItem["SIZE_ID"];
+                                            prodUpdData["COMPOSITION_ID"]=result.resultItem["COMPOSITION_ID"];
+                                            prodUpdData["KIND_ID"]=result.resultItem["KIND_ID"];
+                                            prodUpdData["ARTICLE_ID"]=result.resultItem["ARTICLE_ID"];
+                                            prodUpdData["TYPE_ID"]=result.resultItem["TYPE_ID"];
+                                            prodUpdData["COLLECTION_ID"]=result.resultItem["COLLECTION_ID"];
+                                            dir_products_bata.getProductBataGroupsIDs({prodData:{"GENDER_CODE":tableDataItem["PRODUCT_GENDER_CODE"],"GENDER":tableDataItem["PRODUCT_GENDER"],
+                                                    "CATEGORY_CODE":tableDataItem["PRODUCT_CATEGORY_CODE"],"CATEGORY":tableDataItem["PRODUCT_CATEGORY"],
+                                                    "SUBCATEGORY_CODE":tableDataItem["PRODUCT_SUBCATEGORY_CODE"],"SUBCATEGORY":tableDataItem["PRODUCT_SUBCATEGORY"]}},
+                                                function(result){
+                                                    if(result.error){
+                                                        callback({error:result.error});
+                                                        return;
+                                                    }
+                                                    prodUpdData["GENDER_ID"]=result.resultItem["GENDER_ID"];
+                                                    prodUpdData["CATEGORY_ID"]=result.resultItem["CATEGORY_ID"];
+                                                    prodUpdData["SUBCATEGORY_ID"]=result.resultItem["SUBCATEGORY_ID"];
+                                                    prodUpdData["CODE"]=tableDataItem["PRODUCT_CODE"];
+                                                    prodUpdData["PRINT_NAME"]=tableDataItem["PRODUCT_PRINT_NAME"];
+                                                    prodUpdData["UM"]=tableDataItem["PRODUCT_UM"];
+                                                    prodUpdData["PBARCODE"]=tableDataItem["PRODUCT_BARCODE"];
+                                                    dir_products_bata.updDataItem({updData:prodUpdData,conditions:{"ID=":prodID}},
+                                                    function(result){
+                                                        if(result.error){
+                                                            callback({error:result.error});
+                                                            return;
+                                                        }
+                                                        wrh_pinvs_products.updDataItem({updData:{QTY:tableDataItem["QTY"], PRICE:tableDataItem["PRICE"],
+                                                                POSSUM:tableDataItem["POSSUM"], SALE_PRICE:tableDataItem["SALE_PRICE"],FACTOR:tableDataItem["FACTOR"]},
+                                                                conditions:{"ID=":tableDataItem["ID"]}},
+                                                            function(updRes){
+                                                                if(updRes.error){
+                                                                    callback({error:updRes.error});
+                                                                    return;
+                                                                }
+                                                                wrh_pinvs_products.getDataItemForTable({tableColumns:wrhPInvProductsTableColumns,
+                                                                    conditions:{"wrh_pinvs_products.ID=":tableDataItem["ID"]}}, function(updDataRes){
+                                                                    if(updDataRes.error){
+                                                                        callback({error:updRes.error});
+                                                                        return;
+                                                                    }
+                                                                    callback({resultItem:updDataRes.item,updateCount:updRes.updateCount });
+                                                                })
+                                                            });
+                                                    });
+                                                }
+                                            );
+                                        });
                                     return;
                                 }
                                 //create new prod//
 
+
                             });
                         return;
-                    }
+                    }//if prodNames are identical upd prod data with no influence on ProdName
                     dir_products_types.getDataItem({fields:["ID"], conditions:{"NAME=":tableDataItem["PRODUCT_TYPE"]}},
                         function(result){
                             if(result.error){
@@ -366,25 +602,30 @@ module.exports.init = function(app){
                 //            callback({resultItem:updDataRes.item,updateCount:updRes.updateCount });
                 //        })
                 //});
-                return;
+              //  return;
             }
-            dir_products_batches.createNewBatch({prodData:{"PRODUCT_ID":prodID}},
-                function(newBatchRes){
-                    if(newBatchRes.error){
-                        callback({error:newBatchRes.error});
-                        return;
-                    }
-                    var batchNum= newBatchRes.resultItem["BATCH_NUMBER"];
-                    wrh_products_r_operations.updDataItem({updData:{BATCH_NUMBER: batchNum, PRODUCT_ID:prodID, BARCODE:prodBarcode},
-                        conditions:{"OPERATION_ID=":pinvProdOperdId,"BATCH_NUMBER=":existsBatchNumber,"PRODUCT_ID=":existsProductID}},
-                        function(prodOperRes){
-                            if(prodOperRes.error){
-                                callback({error:newBatchRes.error});
-                                return;
-                            }
+
+        });
+    };
+
+    wrh_pinvs_products.changeProductForExistent=function(tableDataItem,callback){
+        dir_products_batches.createNewBatch({prodData:{"PRODUCT_ID":tableDataItem["PRODUCT_ID"]}},
+            function(newBatchRes){
+                if(newBatchRes.error){
+                    callback({error:newBatchRes.error});
+                    return;
+                }
+                var batchNum= newBatchRes.resultItem["BATCH_NUMBER"];
+                wrh_products_r_operations.updDataItem({updData:{BATCH_NUMBER: batchNum, PRODUCT_ID:tableDataItem["PRODUCT_ID"], BARCODE:tableDataItem["BARCODE"]},
+                        conditions:{"OPERATION_ID=":tableDataItem["ID"],"BATCH_NUMBER=":tableDataItem['REGISTERED_BATCH_NUMBER'],"PRODUCT_ID=":tableDataItem['REGISTERED_PROD_ID']}},
+                    function(prodOperRes){
+                        if(prodOperRes.error){
+                            callback({error:newBatchRes.error});
+                            return;
+                        }
                         wrh_pinvs_products.updDataItem({updData:{QTY:tableDataItem["QTY"], PRICE:tableDataItem["PRICE"],
-                            POSSUM:tableDataItem["POSSUM"], SALE_PRICE:tableDataItem["SALE_PRICE"],FACTOR:tableDataItem["FACTOR"]},
-                            conditions:{"ID=":tableDataItem["ID"]}},
+                                POSSUM:tableDataItem["POSSUM"], SALE_PRICE:tableDataItem["SALE_PRICE"],FACTOR:tableDataItem["FACTOR"]},
+                                conditions:{"ID=":tableDataItem["ID"]}},
                             function(updRes){
                                 if(updRes.error){
                                     callback({error:updRes.error});
@@ -398,204 +639,48 @@ module.exports.init = function(app){
                                     }
                                     callback({resultItem:updDataRes.item,updateCount:updRes.updateCount });
                                 });
-                        });
+                            });
                     });
-                });
-        });
+            });
     };
 
-    wrh_pinvs_products.storePInvTableDataItem= function(storeData, callback){
-        if (!storeData["ID"]) {
-            var findFields = [];
-            if (storeData["PRODUCT_CODE"] || storeData["PRODUCT_NAME"]) {
-                if (storeData["PRODUCT_CODE"])findFields.push("CODE");
-                if (storeData["PRODUCT_NAME"])findFields.push("NAME");
-            }
-            dir_products_bata.findDataItemByOrCreateNew({
-                    resultFields: ["ID", "CODE", "NAME", "PRINT_NAME", "UM", "PBARCODE"],
-                    findByFields: findFields,
-                    idFieldName: "ID",
-                    fieldsValues: {
-                        "CODE": storeData["PRODUCT_CODE"],
-                        "NAME": storeData["PRODUCT_NAME"],
-                        "PRINT_NAME": storeData["PRODUCT_PRINT_NAME"],
-                        "UM": storeData["PRODUCT_UM"],
-                        "PBARCODE": storeData["BARCODE"],
-                        "ARTICLE": storeData["PRODUCT_ARTICLE"],
-                        "COLLECTION": storeData["PRODUCT_COLLECTION"],
-                        "TYPE": storeData["PRODUCT_TYPE"],
-                        "KIND": storeData["PRODUCT_KIND"],
-                        "COMPOSITION": storeData["PRODUCT_COMPOSITION"],
-                        "SIZE": storeData["PRODUCT_SIZE"] || "",
-                        "GENDER": storeData["PRODUCT_GENDER"],
-                        "GENDER_CODE": storeData["PRODUCT_GENDER_CODE"],
-                        "CATEGORY": storeData["PRODUCT_CATEGORY"],
-                        "CATEGORY_CODE": storeData["PRODUCT_CATEGORY_CODE"],
-                        "SUBCATEGORY": storeData["PRODUCT_SUBCATEGORY"],
-                        "SUBCATEGORY_CODE": storeData["PRODUCT_SUBCATEGORY_CODE"]
-                    }
-                },
-                function (result) {
-                    if (result.error) {
-                        callback({error: "Failed find/create product! Reason:" + result.error});
-                        return;
-                    }
-                    if (!result.resultItem) {
-                        callback({error: "Failed find/create product! Reason: no result!"});
-                        return;
-                    }
-                    storeData["PRODUCT_ID"]=result.resultItem["ID"];
-                    if (!storeData["BARCODE"])storeData["BARCODE"] = result.resultItem["PBARCODE"];
-                    wrh_pinvs_products.insNewPInvTableDataItem(storeData, function(insNewDataResult){
-                        callback(insNewDataResult);
-                    });
-                });
-            return;
-        }
-        var conditions={};
-            if (storeData["PRODUCT_CODE"])conditions["CODE="]=storeData["PRODUCT_CODE"];
-            if (storeData["PRODUCT_NAME"])conditions["NAME="]=storeData["PRODUCT_NAME"];
-        dir_products_bata.getDataItem({fields:["ID"],
-                conditions: conditions},
+    wrh_pinvs_products.updProdAttrAndGetRowData=function(tableDataItem,callback){
+        dir_products_bata.updNonNominalProdAttr(tableDataItem,
             function(result){
                 if(result.error){
                     callback({error:result.error});
                     return;
                 }
-                storeData["PRODUCT_ID"]=result.item['ID'];
-                wrh_pinvs_products.updPInvTableDataItem(storeData,function(updateRes){
-                    callback(updateRes);
-                });
+                wrh_pinvs_products.updDataItem({updData:{QTY:tableDataItem["QTY"], PRICE:tableDataItem["PRICE"],
+                        POSSUM:tableDataItem["POSSUM"], SALE_PRICE:tableDataItem["SALE_PRICE"],FACTOR:tableDataItem["FACTOR"]},
+                        conditions:{"ID=":tableDataItem["ID"]}},
+                    function(updRes){
+                        if(updRes.error){
+                            callback({error:updRes.error});
+                            return;
+                        }
+                        wrh_pinvs_products.getDataItemForTable({tableColumns:wrhPInvProductsTableColumns,
+                            conditions:{"wrh_pinvs_products.ID=":tableDataItem["ID"]}}, function(updDataRes){
+                            if(updDataRes.error){
+                                callback({error:updRes.error});
+                                return;
+                            }
+                            callback({resultItem:updDataRes.item,updateCount:updRes.updateCount });
+                        })
+                    });
+        })
+    };
+
+    wrh_pinvs_products.storePInvTableDataItem = function(storeData, callback){
+        if (!storeData["ID"]) {
+            wrh_pinvs_products.insNewPInvTableDataItem(storeData, function(insNewDataResult){
+                callback(insNewDataResult);
             });
-
-
-    //    var findFields = [];
-    //    //ID CODE NAME PRINT_NAME UM PBARCODE ARTICLE_ID KIND_ID COMPOSITION_ID SIZE_ID COLLECTION_ID
-    //    //TYPE_ID  LINE_ID DESCRIPTION_ID
-    //    if (storeData["PRODUCT_CODE"])findFields.push("CODE");
-    //    if (storeData["PRODUCT_NAME"])findFields.push("NAME");
-    //    if (storeData["PRODUCT_PRINT_NAME"])findFields.push("PRINT_NAME");
-    //    if (storeData["PRODUCT_UM"])findFields.push("UM");
-    //    if (storeData["BARCODE"])findFields.push("PBARCODE");
-    //    if (storeData["PRODUCT_ARTICLE"])findFields.push("ARTICLE_ID");
-    //    if (storeData["PRODUCT_COLLECTION"])findFields.push("KIND_ID");
-    //    if (storeData["PRODUCT_KIND"])findFields.push("COMPOSITION_ID");
-    //    if (storeData["PRODUCT_COMPOSITION"])findFields.push("SIZE_ID");
-    //    if (storeData["PRODUCT_SIZE"])findFields.push("COLLECTION_ID");
-    //
-    //    dir_products_bata.findDataItemBy({resultFields:["ID"],findByFields:findFields,
-    //        fieldsValues: {
-    //        "CODE": storeData["PRODUCT_CODE"],
-    //        "NAME": storeData["PRODUCT_NAME"],
-    //        "PRINT_NAME": storeData["PRODUCT_PRINT_NAME"],
-    //        "UM": storeData["PRODUCT_UM"],
-    //        "PBARCODE": storeData["BARCODE"],
-    //        "ARTICLE": storeData["PRODUCT_ARTICLE"],
-    //        "COLLECTION": storeData["PRODUCT_COLLECTION"],
-    //        "TYPE": storeData["PRODUCT_TYPE"],
-    //        "KIND": storeData["PRODUCT_KIND"],
-    //        "COMPOSITION": storeData["PRODUCT_COMPOSITION"],
-    //        "SIZE": storeData["PRODUCT_SIZE"],
-    //        "GENDER": storeData["PRODUCT_GENDER"],
-    //        "GENDER_CODE": storeData["PRODUCT_GENDER_CODE"],
-    //        "CATEGORY": storeData["PRODUCT_CATEGORY"],
-    //        "CATEGORY_CODE": storeData["PRODUCT_CATEGORY_CODE"],
-    //        "SUBCATEGORY": storeData["PRODUCT_SUBCATEGORY"],
-    //        "SUBCATEGORY_CODE": storeData["PRODUCT_SUBCATEGORY_CODE"]
-    //    }}, function(result){
-    //        if(result.error){
-    //            callback({error:result.error});
-    //            return;
-    //        }
-    //        if(result.resultItem&&result.resultItem["ID"]){
-    //            storeData["PRODUCT_ID"]=result.resultItem["ID"];
-    //            wrh_pinvs_products.updPInvTableDataItem(storeData, function(updResult){
-    //                callback(updResult);
-    //            });
-    //            return;
-    //        }
-    //
-    //        dir_products_bata.findOrCreateProdAttributes({prodData:{
-    //            "ARTICLE": storeData["PRODUCT_ARTICLE"],
-    //            "COLLECTION": storeData["PRODUCT_COLLECTION"],
-    //            "TYPE": storeData["PRODUCT_TYPE"],
-    //            "KIND": storeData["PRODUCT_KIND"],
-    //            "COMPOSITION": storeData["PRODUCT_COMPOSITION"],
-    //            "SIZE": storeData["PRODUCT_SIZE"]
-    //             }
-    //        }, function(result) {
-    //            var prodAttributes = result.resultItem;
-    //            //ID CODE* NAME* PRINT_NAME* UM* PBARCODE* ARTICLE_ID* KIND_ID* COMPOSITION_ID* SIZE_ID* COLLECTION_ID* TYPE_ID*
-    //            //GENDER_ID  CATEGORY_ID   SUBCATEGORY_ID
-    //            dir_products_genders_bata.getDataItem({
-    //                    fields: ["ID"], conditions: {"CODE=": storeData["PRODUCT_GENDER_CODE"]}}, function (result) { console.log("result. 460=",result);
-    //                    if (result.error || !result.item || !result.item["ID"]) {
-    //                        callback({error: "Failed to find product gender! Reason: no result!"});
-    //                        return;
-    //                    }
-    //                    var prodGenderID = result.item["ID"];
-    //                    dir_products_categories_bata.getDataItem({fields: ["ID"], conditions: {"NAME=": storeData["PRODUCT_CATEGORY"]}}, function (result) { console.log("result 466=",result);
-    //                        if (result.error || !result.item || !result.item["ID"]) {
-    //                            callback({error: "Failed to find product category! Reason: no result!"});
-    //                            return;
-    //                        }
-    //                        var prodCategoryID = result.item["ID"];
-    //                        dir_products_subcategories_bata.getDataItem({fields:["ID"],
-    //                            conditions:{"NAME=":storeData["PRODUCT_SUBCATEGORY"]}}, function(result){ console.log("result 460=",result);
-    //                            if (result.error || !result.item || !result.item["ID"]) {
-    //                                callback({error: "Failed to find product subcategory! Reason: no result!"});
-    //                                return;
-    //                            }
-    //                            var prodSubCategory=result.item["ID"]; console.log("prodSubCategory=",prodSubCategory);
-    //
-    //                            wrh_products_r_operations.getDataItem({fields:["PRODUCT_ID"],
-    //                                conditions:{"OPERATION_ID=":storeData["ID"]}}, function(result) { console.log("result 468=",result);
-    //                                if (result.error) {
-    //                                    callback({error: result.error});
-    //                                    return;
-    //                                }
-    //                                var prodID=result.item["PRODUCT_ID"];
-    //                                dir_products_bata.updDataItem({updData:{"CODE":storeData["PRODUCT_CODE"],"NAME":storeData["PRODUCT_PRINT_NAME"],
-    //                                    "PRINT_NAME":storeData["PRODUCT_PRINT_NAME"],"UM": storeData["PRODUCT_UM"],"PBARCODE": storeData["BARCODE"],
-    //                                    "COLLECTION_ID":prodAttributes["COLLECTION_ID"],"COMPOSITION_ID":prodAttributes["COMPOSITION_ID"],"SIZE_ID":prodAttributes["SIZE_ID"],
-    //                                    "ARTICLE_ID":prodAttributes["ARTICLE_ID"],"TYPE_ID":prodAttributes["TYPE_ID"], "KIND_ID":prodAttributes["KIND_ID"],
-    //                                    "GENDER_ID":prodGenderID,"CATEGORY_ID":prodCategoryID, "SUBCATEGORY_ID":prodSubCategory}
-    //                                    ,conditions:{"ID=":prodID}},function(updRes){  console.log("updRes=",updRes);
-    //                                    if(updRes.error){
-    //                                        callback({error:updRes.error});
-    //                                    }
-    //                                    wrh_products_r_operations.updDataItem({updData:{BARCODE:storeData["BARCODE"]},
-    //                                            conditions:{"OPERATION_ID=":storeData["ID"]}},
-    //                                        function(prodOperRes){
-    //                                            if(prodOperRes.error){
-    //                                                callback({error:prodOperRes.error});
-    //                                                return;
-    //                                            }
-    //                                            wrh_pinvs_products.updDataItem({updData:{QTY:storeData["QTY"], PRICE:storeData["PRICE"],
-    //                                                    POSSUM:storeData["POSSUM"], SALE_PRICE:storeData["SALE_PRICE"],FACTOR:storeData["FACTOR"]},
-    //                                                    conditions:{"ID=":storeData["ID"]}},
-    //                                                function(updRes){
-    //                                                    if(updRes.error){
-    //                                                        callback({error:updRes.error});
-    //                                                        return;
-    //                                                    }
-    //                                                    wrh_pinvs_products.getDataItemForTable({tableColumns:wrhPInvProductsTableColumns,
-    //                                                        conditions:{"wrh_pinvs_products.ID=":storeData["ID"]}}, function(updDataRes){
-    //                                                        if(updDataRes.error){
-    //                                                            callback({error:updRes.error});
-    //                                                            return;
-    //                                                        }
-    //                                                        callback({resultItem:updDataRes.item,updateCount:updRes.updateCount });
-    //                                                    });
-    //                                                });
-    //                                        });
-    //                                });
-    //                            });
-    //                        });
-    //                    });
-    //                });
-    //        });
-    //});
+            return;
+        }
+        wrh_pinvs_products.updPInvTableDataItem(storeData,function(updateRes){
+            callback(updateRes);
+        });
     };
 
     app.post("/wrh/pInvoices/storePInvProductsTableData", function(req, res){

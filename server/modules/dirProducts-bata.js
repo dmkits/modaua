@@ -740,6 +740,10 @@ module.exports.init = function(app){
             res.send(result);
         });
     });
+    /**
+     * @param params={prodData={GENDER_CODE,GENDER,CATEGORY_CODE,CATEGORY,SUBCATEGORY_CODE,SUBCATEGORY}}
+     * @param resultCallback({resultItem={GENDER_ID, CATEGORY_ID, SUBCATEGORY_ID}})
+     */
     dir_products_bata.getProductBataGroupsIDs= function(params,resultCallback){
         if (!params||!params.prodData) {
             resultCallback({error: "Failed get product bata groups id's! Reason: no product bata groups data!"});
@@ -800,11 +804,9 @@ module.exports.init = function(app){
             })
     };
     /**
-     *
-     * @param params
+     * @param params={prodData={ COLLECTION,TYPE,ARTICLE,KIND,COMPOSITION,SIZE }}
      * @param resultCallback (resultItem={SIZE_ID:<>,COMPOSITION_ID:<>,KIND_ID:<>,ARTICLE_ID;<>,TYPE_ID;<>,COLLECTION_ID:<>})
      */
-    //GENDER_ID, CATEGORY_ID, SUBCATEGORY_ID
     dir_products_bata.findOrCreateProdAttributes= function(params,resultCallback){
         if (!params||!params.prodData) {
             resultCallback({error: "Failed find/create product attributes! Reason: no product attributes data!"});
@@ -982,4 +984,141 @@ module.exports.init = function(app){
                     });
             });
     };
+
+    dir_products_bata.updNonNominalProdAttr=function(updData, callback){
+        dir_products_types.getDataItem({fields:["ID"], conditions:{"NAME=":updData["PRODUCT_TYPE"]}},
+            function(result){
+                if(result.error){
+                    callback({error:result.error});
+                    return;
+                }
+                var typeId=result.item["ID"];
+                dir_products_bata.getProductBataGroupsIDs({prodData:{"GENDER_CODE":updData["PRODUCT_GENDER_CODE"],"GENDER":updData["PRODUCT_GENDER"],
+                        "CATEGORY_CODE":updData["PRODUCT_CATEGORY_CODE"],"CATEGORY":updData["PRODUCT_CATEGORY"],
+                        "SUBCATEGORY_CODE":updData["PRODUCT_SUBCATEGORY_CODE"],"SUBCATEGORY":updData["PRODUCT_SUBCATEGORY"] }},
+                    function(result){
+                        if(result.error){
+                            callback({error:result.error});
+                            return;
+                        }
+                        var genderId=result.resultItem['GENDER_ID'];
+                        var subCategoryId=result.resultItem['SUBCATEGORY_ID'];
+                        var categoryId=result.resultItem['CATEGORY_ID'];
+                        dir_products_bata.updDataItem({updData:{"CODE":updData["PRODUCT_CODE"],"PRINT_NAME":updData["PRODUCT_PRINT_NAME"],
+                            "GENDER_ID":genderId,"PBARCODE":updData["BARCODE"],"TYPE_ID":typeId,"CATEGORY_ID":categoryId, "SUBCATEGORY_ID":subCategoryId},
+                            conditions:{"ID=":updData["PRODUCT_ID"]}}, function(result){
+                            if(result.error){
+                                callback({error:result.error});
+                                return;
+                            }
+                            callback(result);
+                        });
+                    });
+            });
+    };
+
+    dir_products_bata.updProductDataById=function(ID,updData,callback){
+        dir_products_bata.findOrCreateProdAttributes({prodData:{"COLLECTION":updData["PRODUCT_COLLECTION"],"TYPE":updData["PRODUCT_TYPE"],
+                "ARTICLE":updData["PRODUCT_ARTICLE"],"KIND":updData["PRODUCT_KIND"],"COMPOSITION": updData["PRODUCT_COMPOSITION"],
+                "SIZE":updData["PRODUCT_SIZE"]}},
+            function(result){
+                if(result.error){
+                    callback({error:result.error});
+                    return;
+                }
+                var prodUpdData={};
+                prodUpdData["SIZE_ID"]=result.resultItem["SIZE_ID"];
+                prodUpdData["COMPOSITION_ID"]=result.resultItem["COMPOSITION_ID"];
+                prodUpdData["KIND_ID"]=result.resultItem["KIND_ID"];
+                prodUpdData["ARTICLE_ID"]=result.resultItem["ARTICLE_ID"];
+                prodUpdData["TYPE_ID"]=result.resultItem["TYPE_ID"];
+                prodUpdData["COLLECTION_ID"]=result.resultItem["COLLECTION_ID"];
+                dir_products_bata.getProductBataGroupsIDs({prodData:{"GENDER_CODE":updData["PRODUCT_GENDER_CODE"],"GENDER":updData["PRODUCT_GENDER"],
+                        "CATEGORY_CODE":updData["PRODUCT_CATEGORY_CODE"],"CATEGORY":updData["PRODUCT_CATEGORY"],
+                        "SUBCATEGORY_CODE":updData["PRODUCT_SUBCATEGORY_CODE"],"SUBCATEGORY":updData["PRODUCT_SUBCATEGORY"]}},
+                    function(result){
+                        if(result.error){
+                            callback({error:result.error});
+                            return;
+                        }
+                        prodUpdData["GENDER_ID"]=result.resultItem["GENDER_ID"];
+                        prodUpdData["CATEGORY_ID"]=result.resultItem["CATEGORY_ID"];
+                        prodUpdData["SUBCATEGORY_ID"]=result.resultItem["SUBCATEGORY_ID"];
+                        prodUpdData["CODE"]=updData["PRODUCT_CODE"];
+                        prodUpdData["PRINT_NAME"]=updData["PRODUCT_PRINT_NAME"];
+                        prodUpdData["UM"]=updData["PRODUCT_UM"];
+                        prodUpdData["PBARCODE"]=updData["PRODUCT_PBARCODE"];
+                        prodUpdData["NAME"]=updData["PRODUCT_NAME"];
+                        dir_products_bata.updDataItem({updData:prodUpdData,conditions:{"ID=":ID}},
+                            function(result){
+                                if(result.error){
+                                    callback({error:result.error});
+                                    return;
+                                }
+                                callback(result);
+                            });
+                    }
+                );
+            });
+    };
+
+    dir_products_bata.insertNewProduct=function(prodData,callback){
+        dir_products_bata.findOrCreateProdAttributes({prodData:{"COLLECTION":prodData["PRODUCT_COLLECTION"],"TYPE":prodData["PRODUCT_TYPE"],
+                "ARTICLE":prodData["PRODUCT_ARTICLE"],"KIND":prodData["PRODUCT_KIND"],"COMPOSITION": prodData["PRODUCT_COMPOSITION"],
+                "SIZE":prodData["PRODUCT_SIZE"]}},
+            function(result){
+                if(result.error){
+                    callback({error:result.error});
+                    return;
+                }
+                var insProdData={};
+                insProdData["SIZE_ID"]=result.resultItem["SIZE_ID"];
+                insProdData["COMPOSITION_ID"]=result.resultItem["COMPOSITION_ID"];
+                insProdData["KIND_ID"]=result.resultItem["KIND_ID"];
+                insProdData["ARTICLE_ID"]=result.resultItem["ARTICLE_ID"];
+                insProdData["TYPE_ID"]=result.resultItem["TYPE_ID"];
+                insProdData["COLLECTION_ID"]=result.resultItem["COLLECTION_ID"];
+                dir_products_bata.getProductBataGroupsIDs({prodData:{"GENDER_CODE":prodData["PRODUCT_GENDER_CODE"],"GENDER":prodData["PRODUCT_GENDER"],
+                        "CATEGORY_CODE":prodData["PRODUCT_CATEGORY_CODE"],"CATEGORY":prodData["PRODUCT_CATEGORY"],
+                        "SUBCATEGORY_CODE":prodData["PRODUCT_SUBCATEGORY_CODE"],"SUBCATEGORY":prodData["PRODUCT_SUBCATEGORY"]}},
+                    function(result){
+                        if(result.error){
+                            callback({error:result.error});
+                            return;
+                        }
+                        insProdData["GENDER_ID"]=result.resultItem["GENDER_ID"];
+                        insProdData["CATEGORY_ID"]=result.resultItem["CATEGORY_ID"];
+                        insProdData["SUBCATEGORY_ID"]=result.resultItem["SUBCATEGORY_ID"];
+                        insProdData["PRINT_NAME"]=prodData["PRODUCT_PRINT_NAME"];
+                        insProdData["UM"]=prodData["PRODUCT_UM"];
+                        insProdData["NAME"]=prodData["PRODUCT_NAME"];
+
+                        dir_products_bata.getDataItem({fields:["MAXCODE"],fieldsFunctions:{"MAXCODE":{function:"maxPlus1", sourceField:"CODE"}},
+                                conditions:{"1=1":null}},
+                            function(result) {
+                                var newCode = (result && result.item) ? result.item["MAXCODE"] : "";
+                                insProdData["CODE"]=newCode;//230000005063
+                                var barcode= util.getEAN13Barcode(newCode,23); //Math.pow(10,10)*23+newCode;
+                                insProdData["PBARCODE"]=barcode;
+                                dir_products_bata.insDataItemWithNewID({idFieldName:"ID",insData:insProdData},
+                                    function(result){
+                                        if(result.error){
+                                            callback({error:result.error});
+                                            return;
+                                        }
+                                        var newProdData=result.resultItem;
+                                        dir_products_barcodes.insDataItem({insData:{"PRODUCT_ID":newProdData["ID"],"BARCODE":newProdData["PBARCODE"]}},
+                                            function(result){
+                                                if(result.error){
+                                                    callback({error:result.error});
+                                                    return;
+                                                }
+                                                callback({resultItem:newProdData});
+                                            });
+                                    });
+                            });
+                    }
+                );
+            });
+    }
 };
