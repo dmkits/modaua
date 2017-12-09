@@ -115,9 +115,6 @@ module.exports.init = function(app) {
         var operationId=req.query["ID"], prodArticle=req.query["PRODUCT_ARTICLE"];
         var condition={"dir_products_articles.VALUE=":prodArticle};
         if(operationId) condition["OPERATION_ID<>"]=operationId;
-        /*if(operationId!=null || operationId!=undefined )*///{
-            //"PRODUCT_GENDER","PRODUCT_GENDER_CODE","PRODUCT_CATEGORY","PRODUCT_CATEGORY_CODE","PRODUCT_SUBCATEGORY","PRODUCT_SUBCATEGORY_CODE",
-            //"PRODUCT_COLLECTION","PRODUCT_COLLECTION_CODE","PRODUCT_TYPE","PRODUCT_KIND","PRODUCT_COMPOSITION"
             wrh_products_r_operations.getDataItems({
                     fields:["OPERATION_ID","PRODUCT_ID","PRODUCT_ARTICLE"],
                     fieldsSources:{"PRODUCT_ID":"dir_products.ID", "PRODUCT_ARTICLE":"dir_products_articles.VALUE"},
@@ -127,8 +124,6 @@ module.exports.init = function(app) {
                         dir_products_articles:{"dir_products_articles.ID=dir_products.ARTICLE_ID":null}
                     },
                     conditions:condition
-                //conditions:[{fieldName:"PRODUCT_ARTICLE", condition:"=", value:prodArticle},
-                //    {fieldName:"OPERATION_ID",condition:"<>",value:operationId}
                     },
                 function(result){
                     console.log("getProdAttributesFromROperationsByArticle result=",result);
@@ -141,56 +136,5 @@ module.exports.init = function(app) {
                             if(result.items&&result.items.length>0) res.send({item:result.items[0]}); else res.send(result);
                         });
                 });
-            //dir_products_articles.getDataItems({fields:["ID"], conditions:{"VALUE=":prodArticle}},
-            //function(result){
-            //    if(!result.item){
-            //        res.send({});//
-            //    }
-            //    var prodArticleID=result.item["ID"];
-            //    dir_products_bata.getDataItems({fields:["ID"],
-            //    conditions:{"ARTICLE_ID=":prodArticleID}},function(result){
-            //        if(!result.items){
-            //            res.send({});//
-            //        }
-            //        var prodIDCondStr=" in (";
-            //        for(var i in result.items){
-            //            prodIDCondStr+=result.items[i]["ID"]+",";
-            //        }
-            //        prodIDCondStr=prodIDCondStr.substring(0,prodIDCondStr.length-1);
-            //        prodIDCondStr+=")";
-            //        wrh_products_operations_v.getDataItems({fields:["OPERATION_ID","DOCCODE","PRODUCT_ID"],
-            //            conditions:{"OPERATION_ID!=":operationId, PRODUCT_ID:prodIDCondStr}},
-            //            function(result){
-            //                console.log("result 730=",result);
-            //            });
-            //
-            //    });
-            //
-            //});
-        //    return;
-      //  }
-        //dir_products_bata.getDataItemsForTable({tableColumns:dirProductsTableColumns,
-        //        conditions:[{fieldName:"PRODUCT_ARTICLE", condition:"=", value:prodArticle}] },
-        //    function(result){
-        //        if(!result.items || result.items.length==0){
-        //            res.send({}); //
-        //            return;
-        //        }
-        //        var resItem = result.items[0];
-        //        var outItem={};
-        //        outItem["PRODUCT_GENDER"]=resItem["PRODUCT_GENDER"];
-        //        outItem["PRODUCT_GENDER_CODE"]=resItem["PRODUCT_GENDER_CODE"];
-        //        outItem["PRODUCT_CATEGORY"]=resItem["PRODUCT_CATEGORY"];
-        //        outItem["PRODUCT_CATEGORY_CODE"]=resItem["PRODUCT_CATEGORY_CODE"];
-        //        outItem["PRODUCT_SUBCATEGORY"]=resItem["PRODUCT_SUBCATEGORY"];
-        //        outItem["PRODUCT_SUBCATEGORY_CODE"]=resItem["PRODUCT_SUBCATEGORY_CODE"];
-        //        outItem["PRODUCT_COLLECTION"]=resItem["PRODUCT_COLLECTION"];
-        //        outItem["PRODUCT_COLLECTION_CODE"]=resItem["PRODUCT_COLLECTION_CODE"];
-        //        outItem["PRODUCT_TYPE"]=resItem["PRODUCT_TYPE"];
-        //        outItem["PRODUCT_KIND"]=resItem["PRODUCT_KIND"];
-        //        outItem["PRODUCT_COMPOSITION"]=resItem["PRODUCT_COMPOSITION"];
-        //        outItem["PRODUCT_SIZE"]=resItem["PRODUCT_SIZE"];
-        //        res.send({item:outItem});
-        //    });
     });
 };

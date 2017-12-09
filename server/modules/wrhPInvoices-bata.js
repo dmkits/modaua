@@ -165,12 +165,12 @@ module.exports.init = function(app){
         {data: "BARCODE", name: "Штрихкод", width: 75, type: "text", dataSource:"dir_products", sourceField:"PBARCODE",visible:false },
         {data: "PRODUCT_CODE", name: "Код товара", width: 65, type: "text", dataSource:"dir_products", sourceField:"CODE",
             linkCondition:"dir_products.ID=wrh_products_r_operations.PRODUCT_ID",visible:false},
-        {data: "PRODUCT_PBARCODE", name: "Штрихкод товара", width: 75, type: "text", visible:false,
+        {data: "PRODUCT_PBARCODE", name: "Штрихкод товара", width: 75, type: "text",
             dataSource:"dir_products", sourceField:"PBARCODE",visible:false},
         {data: "PRODUCT_NAME", name: "Товар", width: 250, type: "text",
             dataSource:"dir_products", sourceField:"NAME",visible:false},
         {data: "PRODUCT_UM", name: "Ед.изм.", width: 55, type: "text", dataSource:"dir_products", sourceField:"UM",visible:false},
-        {data: "PRODUCT_PRINT_NAME", name: "Печатное наименование товара", width: 250, type: "text", visible:false,
+        {data: "PRODUCT_PRINT_NAME", name: "Печатное наименование товара", width: 250, type: "text",
             dataSource:"dir_products", sourceField:"PRINT_NAME", visible:false},
         {data: "PRODUCT_GENDER_CODE", name: "Код группы", width: 65,
             type: "combobox", "sourceURL":"/dir/products/getDataForOrderBataProductsGendersCombobox/genderCode",
@@ -291,7 +291,7 @@ module.exports.init = function(app){
                                     return;
                                 }
                                 wrh_pinvs_products.insTableDataItem({tableColumns:wrhPInvProductsTableColumns,idFieldName:"ID",insTableData:{ID:sysOperId,
-                                    PINV_ID:tableDataItem["PINV_ID"], POSIND:tableDataItem["POSIND"], /*PRODUCT_ID:tableDataItem["PRODUCT_ID"],*/
+                                    PINV_ID:tableDataItem["PINV_ID"], POSIND:tableDataItem["POSIND"],
                                     QTY:tableDataItem["QTY"], PRICE:tableDataItem["PRICE"],
                                     SALE_PRICE:tableDataItem["SALE_PRICE"], FACTOR:tableDataItem["FACTOR"]}}, function(wrhProdRes){
                                     if(wrhProdRes.error){
@@ -337,7 +337,7 @@ module.exports.init = function(app){
                                 });
                                 return;
                             }
-                          // if(tableDataItem["PRODUCT_NAME"]==tableDataItem["REGISTERED_PROD_NAME"])
+                          // if(tableDataItem["PRODUCT_NAME"]== regostered prod. name
                             wrh_pinvs_products.updProdAttrAndGetRowData(tableDataItem, function(result){
                                 if(result.error){
                                     callback({error:result.error});
