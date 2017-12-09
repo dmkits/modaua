@@ -43,7 +43,7 @@ module.exports.init = function(app){
             dataFunction:{function:"sumIsNull", source:"wrh_pinvs_products", sourceField:"QTY"} },
         {data: "DOCSUM", name: "Сумма", width: 80, type: "numeric2",
             childDataSource:"wrh_pinvs_products", childLinkField:"PINV_ID", parentLinkField:"ID",
-            dataFunction:{function:"sumIsNull", source:"wrh_pinvs_products", sourceField:"POSSUM"} },
+            dataFunction:{function:"sumIsNull", sourceField:"wrh_pinvs_products.PRICE*wrh_pinvs_products.QTY"} },
         {data: "CURRENCY_CODE", name: "Валюта", width: 50, type: "text", dataSource:"sys_currency", sourceField:"CODE"},
         {data: "CURRENCY_CODENAME", name: "Валюта", width: 50, type: "text", visible:false,
             dataSource:"sys_currency", dataFunction:{function:"concat",fields:["sys_currency.CODE","' ('","sys_currency.NAME","')'"]} },
@@ -54,7 +54,7 @@ module.exports.init = function(app){
     app.get("/wrh/pInvoices/getDataForPInvsListTable", function(req, res){
         var conditions={};
         for(var condItem in req.query) conditions["wrh_pinvs."+condItem]=req.query[condItem];
-        wrh_pinvs.getDataForTable({tableColumns:wrhPInvsListTableColumns,
+        wrh_pinvs.getDataForDocTable({tableColumns:wrhPInvsListTableColumns,
                 identifier:wrhPInvsListTableColumns[0].data,
                 conditions:conditions,
                 order:["DOCDATE","NUMBER","UNIT_NAME","SUPPLIER_NAME","SUPPLIER_ORDER_NUM","SUPPLIER_INV_NUM"]},
@@ -162,12 +162,16 @@ module.exports.init = function(app){
         {data: "POSIND", name: "POSIND", width: 45, type: "numeric", visible:false},
         {data: "POS", name: "Номер п/п", width: 45, type: "numeric", dataFunction:"TRUNCATE(POSIND,0)"},
         {dataSource:"wrh_products_r_operations",linkCondition:"wrh_products_r_operations.OPERATION_ID=wrh_pinvs_products.ID"},
+        {data: "BARCODE", name: "Штрихкод", width: 75, type: "text", dataSource:"dir_products", sourceField:"PBARCODE",visible:false },
         {data: "PRODUCT_CODE", name: "Код товара", width: 65, type: "text", dataSource:"dir_products", sourceField:"CODE",
             linkCondition:"dir_products.ID=wrh_products_r_operations.PRODUCT_ID",visible:false},
-        {data: "BARCODE", name: "Штрихкод", width: 75, type: "text", dataSource:"dir_products", sourceField:"PBARCODE",visible:false },
+        {data: "PRODUCT_PBARCODE", name: "Штрихкод товара", width: 75, type: "text", visible:false,
+            dataSource:"dir_products", sourceField:"PBARCODE",visible:false},
         {data: "PRODUCT_NAME", name: "Товар", width: 250, type: "text",
             dataSource:"dir_products", sourceField:"NAME",visible:false},
         {data: "PRODUCT_UM", name: "Ед.изм.", width: 55, type: "text", dataSource:"dir_products", sourceField:"UM",visible:false},
+        {data: "PRODUCT_PRINT_NAME", name: "Печатное наименование товара", width: 250, type: "text", visible:false,
+            dataSource:"dir_products", sourceField:"PRINT_NAME", visible:false},
         {data: "PRODUCT_GENDER_CODE", name: "Код группы", width: 65,
             type: "combobox", "sourceURL":"/dir/products/getDataForOrderBataProductsGendersCombobox/genderCode",
             dataSource:"dir_products_genders", sourceField:"CODE", linkCondition:"dir_products_genders.ID=dir_products.GENDER_ID" },
@@ -207,25 +211,13 @@ module.exports.init = function(app){
         {data: "PRODUCT_SIZE", name: "Размер", width: 50,
             type: "comboboxWN", "sourceURL":"/dir/products/getDataForProductsSizeCombobox",
             dataSource:"dir_products_sizes", sourceField:"VALUE", linkCondition:"dir_products_sizes.ID=dir_products.SIZE_ID" },
-        //{data: "PRODUCT_CODE", name: "Код товара", width: 65, type: "text", visible:false,
-        //    dataSource:"dir_products", sourceField:"CODE"},
-        //{data: "BARCODE", name: "Штрихкод", width: 75, type: "text", visible:false},
-        {data: "PRODUCT_PBARCODE", name: "Штрихкод товара", width: 75, type: "text", /*visible:false,*/
-            dataSource:"dir_products", sourceField:"PBARCODE",visible:false},
-        //{data: "PRODUCT_NAME", name: "Товар", width: 250, type: "text", visible:false,
-        //    dataSource:"dir_products", sourceField:"NAME"},
-        {data: "PRODUCT_PRINT_NAME", name: "Печатное наименование товара", width: 250, type: "text", /*visible:false,*/
-            dataSource:"dir_products", sourceField:"PRINT_NAME",visible:false},
-        //{data: "PRODUCT_UM", name: "Ед.изм.", width: 55, type: "text", visible:false,
-        //    dataSource:"dir_products", sourceField:"UM"},
         {data: "QTY", name: "Кол-во", width: 50, type: "numeric"},
         {data: "PRICE", name: "Цена", width: 60, type: "numeric2"},
-        {data: "POSSUM", name: "Сумма", width: 80, type: "numeric2"},
+        {data: "POSSUM", name: "Сумма", width: 80, type: "numeric2", dataFunction:"wrh_pinvs_products.PRICE*wrh_pinvs_products.QTY" },
         {data: "BATCH_NUMBER", name: "Партия", width: 60, type: "text",dataSource:"wrh_products_r_operations", sourceField:"BATCH_NUMBER", visible:false},
         {data: "FACTOR", name: "Коэфф.", width: 60, type: "numeric2"},
         {data: "SALE_PRICE", name: "Цена продажи", width: 75, type: "numeric2"},
-        {data: "PRICELIST_PRICE", name: "Цена по прайс-листу", width: 75, type: "numeric2",
-            dataFunction:"0"}
+        {data: "PRICELIST_PRICE", name: "Цена по прайс-листу", width: 75, type: "numeric2", dataFunction:"0"}
     ];
     app.get("/wrh/pInvoices/getDataForPInvProductsTable", function(req, res){
         wrh_pinvs_products.getDataForDocTable({tableColumns:wrhPInvProductsTableColumns,
@@ -335,7 +327,7 @@ module.exports.init = function(app){
                             tableDataItem["PRODUCT_ID"]=result.item['ID'];
                             // prod was changed to
                             if(tableDataItem['REGISTERED_PROD_ID']!=tableDataItem["PRODUCT_ID"]){
-                                wrh_pinvs_products.changeProductForExistent(tableDataItem, function(result){
+                                wrh_pinvs_products.changeProductToExistent(tableDataItem, function(result){
                                     if(result.error){
                                         callback({error:result.error});
                                         return;
@@ -435,7 +427,7 @@ module.exports.init = function(app){
             });
     };
 
-    wrh_pinvs_products.changeProductForExistent=function(tableDataItem,callback){
+    wrh_pinvs_products.changeProductToExistent=function(tableDataItem,callback){
         dir_products_batches.createNewBatch({prodData:{"PRODUCT_ID":tableDataItem["PRODUCT_ID"]}},
             function(newBatchRes){
                 if(newBatchRes.error){
@@ -509,7 +501,6 @@ module.exports.init = function(app){
             callback(updateRes);
         });
     };
-
     app.post("/wrh/pInvoices/storePInvProductsTableData", function(req, res){
         var storeData=req.body;
         wrh_pinvs_products.storePInvTableDataItem(storeData,
