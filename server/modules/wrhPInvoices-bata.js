@@ -291,13 +291,14 @@ module.exports.init = function(app){
                                     return;
                                 }
                                 wrh_pinvs_products.insTableDataItem({tableColumns:wrhPInvProductsTableColumns,idFieldName:"ID",insTableData:{ID:sysOperId,
-                                    PINV_ID:tableDataItem["PINV_ID"], POSIND:tableDataItem["POSIND"], PRODUCT_ID:tableDataItem["PRODUCT_ID"],
-                                    QTY:tableDataItem["QTY"], PRICE:tableDataItem["PRICE"], POSSUM:tableDataItem["POSSUM"],
+                                    PINV_ID:tableDataItem["PINV_ID"], POSIND:tableDataItem["POSIND"], /*PRODUCT_ID:tableDataItem["PRODUCT_ID"],*/
+                                    QTY:tableDataItem["QTY"], PRICE:tableDataItem["PRICE"],
                                     SALE_PRICE:tableDataItem["SALE_PRICE"], FACTOR:tableDataItem["FACTOR"]}}, function(wrhProdRes){
                                     if(wrhProdRes.error){
                                         callback({error:wrhProdRes.error});
                                         return;
                                     }
+                                    wrhProdRes["POSSUM"]=tableDataItem["QTY"]*tableDataItem["PRICE"];
                                     callback(wrhProdRes);
                                 });
                             });
@@ -362,7 +363,7 @@ module.exports.init = function(app){
                                                 return;
                                             }
                                             wrh_pinvs_products.updDataItem({updData:{QTY:tableDataItem["QTY"], PRICE:tableDataItem["PRICE"],
-                                                    POSSUM:tableDataItem["POSSUM"], SALE_PRICE:tableDataItem["SALE_PRICE"],FACTOR:tableDataItem["FACTOR"]},
+                                                    SALE_PRICE:tableDataItem["SALE_PRICE"],FACTOR:tableDataItem["FACTOR"]},
                                                     conditions:{"ID=":tableDataItem["ID"]}},
                                                 function(updRes){
                                                     if(updRes.error){
@@ -403,7 +404,7 @@ module.exports.init = function(app){
                                                     return;
                                                 }
                                                 wrh_pinvs_products.updDataItem({updData:{QTY:tableDataItem["QTY"], PRICE:tableDataItem["PRICE"],
-                                                        POSSUM:tableDataItem["POSSUM"], SALE_PRICE:tableDataItem["SALE_PRICE"],FACTOR:tableDataItem["FACTOR"]},
+                                                        SALE_PRICE:tableDataItem["SALE_PRICE"],FACTOR:tableDataItem["FACTOR"]},
                                                         conditions:{"ID=":tableDataItem["ID"]}},
                                                     function(updRes){
                                                         if(updRes.error){
@@ -443,7 +444,7 @@ module.exports.init = function(app){
                             return;
                         }
                         wrh_pinvs_products.updDataItem({updData:{QTY:tableDataItem["QTY"], PRICE:tableDataItem["PRICE"],
-                                POSSUM:tableDataItem["POSSUM"], SALE_PRICE:tableDataItem["SALE_PRICE"],FACTOR:tableDataItem["FACTOR"]},
+                                SALE_PRICE:tableDataItem["SALE_PRICE"],FACTOR:tableDataItem["FACTOR"]},
                                 conditions:{"ID=":tableDataItem["ID"]}},
                             function(updRes){
                                 if(updRes.error){
@@ -471,7 +472,7 @@ module.exports.init = function(app){
                     return;
                 }
                 wrh_pinvs_products.updDataItem({updData:{QTY:tableDataItem["QTY"], PRICE:tableDataItem["PRICE"],
-                        POSSUM:tableDataItem["POSSUM"], SALE_PRICE:tableDataItem["SALE_PRICE"],FACTOR:tableDataItem["FACTOR"]},
+                        SALE_PRICE:tableDataItem["SALE_PRICE"],FACTOR:tableDataItem["FACTOR"]},
                         conditions:{"ID=":tableDataItem["ID"]}},
                     function(updRes){
                         if(updRes.error){
