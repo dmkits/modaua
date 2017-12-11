@@ -613,14 +613,24 @@ define(["dojo/_base/declare", "dijit/layout/BorderContainer", "dijit/layout/Cont
                 for(var subtotalIndex in this.subTotals) this.subTotals[subtotalIndex].updateValue({clearValue:clearValue, disabled:disabled});
             },
 
-            /*
-             * contentAction= function(toolPane, this.detailHeader,this.detailTable,this)
-             * contentAction calls on this.detailTable updated or changed selected row
+            /**
+             * params = { title, detailTableAction }
+             * params.detailTableAction = function(params)
+             * params.detailTableAction calls on this.contentTable select row, or updated table content
+             *  detailTableAction.params = { thisToolPane, contentTable:<this.ContentTable>, instance:<this>,
+             *      contentTableSelectedRow:<this.contentTable.getSelectedRow()> }
              */
-            addToolPane: function(title, contentAction){
+            addToolPane: function(params){
+                if(!this.rightContainer) {
+                    console.log("WARNING! Failed addToolPane! Reason: no rightContainer!");
+                    return this;
+                }
+                if(!params) params={};
+                if (params.title===undefined) params.title="";
+                if (params.width===undefined) params.width=100;
+                var actionsTitlePane= this.addChildTitlePaneTo(this.rightContainer,{title:params.title});
+                if (params.detailTableAction) actionsTitlePane.detailTableAction = params.detailTableAction;
                 if (!this.toolPanes) this.toolPanes= [];
-                var actionsTitlePane= this.addChildTitlePaneTo(this.rightContainer,{title:title});
-                if(contentAction) actionsTitlePane.contentAction= contentAction;
                 this.toolPanes.push(actionsTitlePane);
                 this.addTableTo(actionsTitlePane.containerNode);
                 return this;
@@ -654,7 +664,7 @@ define(["dojo/_base/declare", "dijit/layout/BorderContainer", "dijit/layout/Cont
              * actionFunction = function()
              */
             addToolPaneActionButton: function(label, actionParams, btnStyle, btnParams, actionFunction){
-                if (!this.toolPanes||this.toolPanes.length==0) this.addToolPane("");
+                if (!this.toolPanes||this.toolPanes.length==0) this.addToolPane();
                 var actionsTableRow= this.addRowToTable(this.toolPanes[this.toolPanes.length-1].containerNode.lastChild);
                 var actionButton= this.addTableCellButtonTo(actionsTableRow, {labelText:label, cellWidth:0, btnStyle:btnStyle, btnParameters:btnParams});
                 if (!this.toolPanesActionButtons) this.toolPanesActionButtons={};
@@ -666,32 +676,6 @@ define(["dojo/_base/declare", "dijit/layout/BorderContainer", "dijit/layout/Cont
                     actionButton.onClick= this.getOnClickAction(actionParams);
                     actionButton.setState= this.getSetStateAction(actionParams.action);
                 }
-                return this;
-            },
-            /**
-             * @params={label, url, name, btnStyle, acceptFileExt //--> ".xlsx"  }
-             * @callback(serverResponse, thisInstance)
-             */
-
-            addToolPaneFileUploader: function(params, callback) {
-                if (!this.toolPanes || this.toolPanes.length == 0) this.addToolPane("");
-                var actionsTableRow = this.addRowToTable(this.toolPanes[this.toolPanes.length - 1].containerNode.lastChild);
-                var tableCell = this.addLeftCellToTableRow(actionsTableRow);
-                if (!this.uploadBtn){
-                    this.uploadBtn = new Uploader({
-                        label: params.label, url: params.url, enctype: "multipart/form-data",
-                        type: "file", uploadOnSelect: true, name: params.name, multiple: false
-                    });
-                    this.uploadBtn.startup();
-                    if(params.acceptFileExt) this.uploadBtn.domNode.firstChild.setAttribute("accept",params.acceptFileExt);
-                    if (params.btnStyle) this.uploadBtn.set("style", params.btnStyle);
-                    var thisInstance = this;
-                    this.uploadBtn.onComplete = function (result) {
-                      callback(result, thisInstance);
-                     this.reset();
-                    };
-                tableCell.appendChild(this.uploadBtn.domNode);
-               }
                 return this;
             },
             /*
@@ -783,6 +767,34 @@ define(["dojo/_base/declare", "dijit/layout/BorderContainer", "dijit/layout/Cont
                         else this.setDisabled(true);
                     }
                 }
+            },
+
+
+            /**
+             * @params={label, url, name, btnStyle, acceptFileExt //--> ".xlsx"  }
+             * @callback(serverResponse, thisInstance)
+             */
+
+            addToolPaneFileUploader: function(params, callback) {
+                if (!this.toolPanes || this.toolPanes.length == 0) this.addToolPane();
+                var actionsTableRow = this.addRowToTable(this.toolPanes[this.toolPanes.length - 1].containerNode.lastChild);
+                var tableCell = this.addLeftCellToTableRow(actionsTableRow);
+                if (!this.uploadBtn){
+                    this.uploadBtn = new Uploader({
+                        label: params.label, url: params.url, enctype: "multipart/form-data",
+                        type: "file", uploadOnSelect: true, name: params.name, multiple: false
+                    });
+                    this.uploadBtn.startup();
+                    if(params.acceptFileExt) this.uploadBtn.domNode.firstChild.setAttribute("accept",params.acceptFileExt);
+                    if (params.btnStyle) this.uploadBtn.set("style", params.btnStyle);
+                    var thisInstance = this;
+                    this.uploadBtn.onComplete = function (result) {
+                        callback(result, thisInstance);
+                        this.reset();
+                    };
+                    tableCell.appendChild(this.uploadBtn.domNode);
+                }
+                return this;
             },
             setToolPanesActionButtonsState: function(){
                 for(var btnAction in this.toolPanesActionButtons) {

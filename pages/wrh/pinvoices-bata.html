@@ -59,7 +59,7 @@
                         .addDetailTotalTextBox("Статус:", 1140, "DOCSTATE_NAME", {style:"font-weight:bold;", inputStyle:"width:200px", print:false})
                         //.addToolPane("Вид документа")
                         //.addToolPane("Текущий статус")
-                        .addToolPane("Действия")
+                        .addToolPane({title:"Действия"})
                         .addToolPaneActionButton("Новая накладная", {action:"loadHeaderNewValues"}, "width:200px;")
                         .addToolPaneActionButton("Сохранить накладную", {action:"storeHeaderValues"}, "width:200px;")
                         .addToolPaneActionButton("Отменить изменения", {action:"loadHeaderLastValues"}, "width:200px;")
@@ -324,6 +324,7 @@
                             }
                             nextCallback();
                         })
+
                         .addDetailTableMenuItemAction("Применить цены продажи",{action:"storeDetailTableSelectedRowsPrice"}, function(selRowsData){
                             if(!selRowsData) return;
                             for(var selRowInd in selRowsData){
@@ -342,9 +343,10 @@
                                         });
                             }
                         })
-                        .addToolPane("экспорт")
+
+                        .addToolPane({title:"экспорт"})
                         .addToolPaneActionButton("таблица в эксель", {action:"exportTableContentToExcel"}, "width:200px;")
-                        .addToolPane("Печать")
+                        .addToolPane({title:"Печать"})
                         .addToolPaneActionButton("Печать ценников", {action:"printProdTags"}, "width:200px;", {}, function(){
                             var printWindow= window.open("/print/printTags");                                           //console.log("printProdTags.onClick printWindow=",printWindow);
                             //window.open("/print?pinvid="+wrh_pinv_ContentController.getDataIDValue(), "", "location=1,status=1,scrollbars=1,width=650,height=600");
@@ -361,7 +363,7 @@
                         })
 //                        .addToolPane("Доп")
 //                        .addToolPaneActionButton("Сохранить в прайс-лист", {}, "width:200px;")
-                        .addToolPane("Информация о товаре", function(toolPane, detailHeader,detailTable,thisInstance){
+                        .addToolPane({title:"Информация о товаре",detailTableAction:function(toolPane, detailHeader,detailTable,thisInstance){
                             var detailTableSelectedRow= detailTable.getSelectedRow();
                             if(detailTableSelectedRow) {
                                 var htCols = detailTable.getColumns(); var prodInfoHtml = "";
@@ -373,7 +375,7 @@
                                 }
                                 toolPane.set("content","<table style=\"margin:0;padding:0;\">"+prodInfoHtml+"</table>");
                             } else toolPane.set("content","");
-                        })
+                        }})
                         .addToolXPane("Ценник товара", function(toolPane, detailHeader,detailTable,thisInstance){
                             toolPane.set("content","");
                             var detailTableSelectedRow= detailTable.getSelectedRow();

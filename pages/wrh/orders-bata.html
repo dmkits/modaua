@@ -56,7 +56,7 @@
                         .addDetailTotalTextBox("Статус:", 1040, "DOCSTATE_NAME", {style:"font-weight:bold;", inputStyle:"width:200px", print:false})
                         //.addToolPane("Вид документа")
                         //.addToolPane("Текущий статус")
-                        .addToolPane("Действия")
+                        .addToolPane({title:"Действия"})
                         .addToolPaneActionButton("Новый заказ", {action:"loadHeaderNewValues"}, "width:145px;")
                         .addToolPaneActionButton("Сохранить заказ", {action:"storeHeaderValues"}, "width:145px;")
                         .addToolPaneActionButton("Отменить изменения", {action:"loadHeaderLastValues"}, "width:145px;")
@@ -67,7 +67,7 @@
                         .addToolPaneActionButton("Изменить строку", {action:"allowEditDetailTableSelectedRow"}, "width:145px;")
                         .addToolPaneActionButton("Сохранить строку", {action:"storeDetailTableSelectedRow"}, "width:145px;")
                         .addToolPaneActionButton("Удалить строку", {action:"deleteDetailTableSelectedRow"}, "width:145px;")
-                        .addToolPane("Импорт")
+                        .addToolPane({title:"Импорт"})
                         .addToolPaneFileUploader({label:"Импортировать из Excel", url:"/wrh/ordersBata/importOrderFromFile",
                               name:"newOrder", btnStyle:"width:145px;",acceptFileExt:".xlsx"}, function(result, thisInstance){
                             if(result.error){
