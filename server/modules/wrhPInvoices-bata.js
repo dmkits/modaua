@@ -11,12 +11,15 @@ var dir_units= require(appDataModelPath+"dir_units"), dirContractors= require(ap
     dir_products_subcategories_bata=require(appDataModelPath+"dir_products_subcategories-bata"),
     dir_products_categories_bata=require(appDataModelPath+"dir_products_categories-bata"),
     dir_products_types=require(appDataModelPath+"dir_products_types"),
-    wrh_products_operations_v=require(appDataModelPath+"wrh_products_operations_v");
+    wrh_products_operations_v=require(appDataModelPath+"wrh_products_operations_v"),
+    dir_pricelists_products_batches=require(appDataModelPath+"dir_pricelists_products_batches"),
+    dir_products_batches_sale_prices=require(appDataModelPath+"dir_products_batches_sale_prices");
 
 module.exports.validateModule = function(errs, nextValidateModuleCallback){
     dataModel.initValidateDataModels([wrh_pinvs,wrh_pinvs_products, sys_operations, wrh_products_r_operations,
             dir_products_bata, dir_products_batches,dir_products_genders_bata,dir_products_subcategories_bata,
-            dir_products_categories_bata,dir_products_types,wrh_products_operations_v], errs,
+            dir_products_categories_bata,dir_products_types,wrh_products_operations_v,
+            dir_pricelists_products_batches,dir_products_batches_sale_prices], errs,
         function(){
             nextValidateModuleCallback();
         });
@@ -217,7 +220,26 @@ module.exports.init = function(app){
         {data: "BATCH_NUMBER", name: "Партия", width: 60, type: "text",dataSource:"wrh_products_r_operations", sourceField:"BATCH_NUMBER", visible:false},
         {data: "FACTOR", name: "Коэфф.", width: 60, type: "numeric2"},
         {data: "SALE_PRICE", name: "Цена продажи", width: 75, type: "numeric2"},
-        {data: "PRICELIST_PRICE", name: "Цена по прайс-листу", width: 75, type: "numeric2", dataFunction:"0"}
+        {dataSource:"dir_units", linkCondition:"dir_units.ID=wrh_pinvs.UNIT_ID" },
+
+        //leftJoinedSources = { <sourceName>:<linkConditions> = { <linkCondition>:null or <linkCondition>:<value>, ... } },
+        //{dataSource:"dir_pricelists_products_batches", leftJoinedSources:{"dir_pricelists_products_batches":{"PRICELIST_ID":"dir_units.PRICELIST_ID","PRODUCT_ID":"dir_products.ID",
+        //"BATCH_NUMBER":"wrh_products_r_operations.BATCH_NUMBER"}}}
+
+        {parentDataSource:"dir_units",parentLinkField:"PRICELIST_ID",childDataSource:"dir_pricelists_products_batches",childLinkField:"PRICELIST_ID"},
+        {parentDataSource:"dir_products",parentLinkField:"ID",childDataSource:"dir_pricelists_products_batches",childLinkField:"PRODUCT_ID"},
+        //{parentDataSource:"wrh_products_r_operations",parentLinkField:"BATCH_NUMBER",childDataSource:"dir_pricelists_products_batches",childLinkField:"BATCH_NUMBER"}
+
+
+
+
+        //{parentDataSource:"dir_units",parentLinkField:"PRICELIST_ID",childDataSource:"dir_products_batches_sale_prices",childLinkField:"PRICELIST_ID"},
+       // {data: "PRICELIST_PRICE", name: "Цена по прайс-листу", width: 75, type: "numeric2", sourceField:"PRICE",dataSource:"dir_products_batches_sale_prices"}
+           // parentDataSource:"dir_units",parentLinkField:"PRICELIST_ID",childDataSource:"dir_products_batches_sale_prices",childLinkField:"PRICELIST_ID"}
+            //childDataSource:"dir_units",childLinkField:"PRICELIST_ID",parentDataSource:"dir_products_batches_sale_prices",parentLinkField:"PRICELIST_ID"}
+        //{data: "PRICELIST_PRICE", name: "Цена по прайс-листу", width: 75, type: "numeric2", sourceField:"PRICE",
+        //    dataSource:"dir_products_batches_sale_prices", linkCondition:"dir_products_batches_sale_prices.PRICELIST_ID=dir_units.PRICELIST_ID" }
+      //  {data: "PRICELIST_PRICE", name: "Цена по прайс-листу", width: 75, type: "numeric2", dataFunction:"0"}
     ];
     app.get("/wrh/pInvoices/getDataForPInvProductsTable", function(req, res){
         wrh_pinvs_products.getDataForDocTable({tableColumns:wrhPInvProductsTableColumns,
