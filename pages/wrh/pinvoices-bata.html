@@ -70,6 +70,7 @@
                         .addToolPaneActionButton("Изменить строку", {action:"allowEditDetailTableSelectedRow"}, "width:200px;")
                         .addToolPaneActionButton("Сохранить строку", {action:"storeDetailTableSelectedRow"}, "width:200px;")
                         .addToolPaneActionButton("Удалить строку", {action:"deleteDetailTableSelectedRow"}, "width:200px;")
+
                         .addDetailTableMenuItemAction("Добавить строки",{action:"insertDetailTableRowsAfterSelected",rowPosName:"POS"})//rowPosIndexName:"POSIND"
                         .addDetailTableMenuItemAction("Изменить строки",{action:"allowEditDetailTableSelectedRows"})
                         .addDetailTableMenuItemAction("Сохранить строки",{action:"storeDetailTableSelectedRows"})
@@ -325,24 +326,54 @@
                             nextCallback();
                         })
 
-                        .addDetailTableMenuItemAction("Применить цены продажи",{action:"storeDetailTableSelectedRowsPrice"}, function(selRowsData){
-                            if(!selRowsData) return;
-                            for(var selRowInd in selRowsData){
-                                var selRowData= selRowsData[selRowInd], data={};
-                                data["PRICELIST_ID"]= 0;
-                                data["PRODUCT_CODE"]= selRowData["PRODUCT_CODE"];
-                                data["PRICE"]= selRowData["SALE_PRICE"];
-                                data["DISCOUNT_PECENT"]= 0;
-                                data["PRICE_WITH_DISCOUNT"]= selRowData["SALE_PRICE"];
-                                data["CHANGE_DATETIME"]= moment(new Date()).format("YYYY-MM-DD HH:mm:ss");
-                                Request.postJSONData({url:"/dir/products_prices/store_product_price", data:data},
-                                        function(result){                                                       console.log("PINV detailTableMenuItemAction postJSONData ", success,result);
-                                            if (result && result.item) {
-                                                //var prodDataFromOrderBata = result.item;
-                                            }
-                                        });
-                            }
-                        })
+
+                        .addDetailTableRowAction("storeDetailTableSelectedRowsPrice",{},
+                            function(detailTableRowData, actionParams, detailTableUpdatedRowData, startNextAction, finishedAction){
+                                detailTableUpdatedRowData["PRICELIST_PRICE"]=123.45;
+                                startNextAction();
+                            })
+//                        .addDetailTableRowsAction("storeDetailTableSelectedRowsPrice",{
+//                            startAction:function(detailTableRowsData, actionParams, startDetailTableRowsAction) {
+//                                actionParams["finishedCounterByNoConnection"] = 0;
+//                                actionParams["finishedCounterByFailed"] = 0;
+//                                if (actionParams.toolPanes && actionParams.toolPanes[0]) actionParams.toolPanes[0].set("content", "");
+//                                startDetailTableRowsAction();
+//                            },
+//                            tableRowAction: function(contentTableRowData, actionParams, contentTableUpdatedRowData, startNextAction, finishedAction){
+//                                contentTableUpdatedRowData["PRICELIST_PRICE"]=123.45;
+//                                startNextAction();
+//                                    Request.postJSONData({url:"/dir/products_prices/store_product_price", data:contentTableRowData},
+//                                            function(result){                           console.log("tableRowAction result=",result);
+//                                                if (result && result.item) {
+//                                                    //var prodDataFromOrderBata = result.item;
+//                                                    contentTableUpdatedRowData["PRICELIST_PRICE"]= result.item["PRICELIST_PRICE"];}
+//                                                if(actionParams["finishedCounterByFailed"]>0) {
+//                                                    finishedAction();
+//                                                    return;
+//                                                }
+//                                                startNextAction();
+//                                            });
+//                                }
+//                        })
+                        .addDetailTablePopupMenuAction("Применить цены продажи",{detailTableActionName:"storeDetailTableSelectedRowsPrice"})
+//                        .addDetailTableMenuItemAction("Применить цены продажи",{action:"storeDetailTableSelectedRowsPrice"}, function(selRowsData){
+//                            if(!selRowsData) return;
+//                            for(var selRowInd in selRowsData){
+//                                var selRowData= selRowsData[selRowInd], data={};
+//                                data["PRICELIST_ID"]= 0;
+//                                data["PRODUCT_CODE"]= selRowData["PRODUCT_CODE"];
+//                                data["PRICE"]= selRowData["SALE_PRICE"];
+//                                data["DISCOUNT_PECENT"]= 0;
+//                                data["PRICE_WITH_DISCOUNT"]= selRowData["SALE_PRICE"];
+//                                data["CHANGE_DATETIME"]= moment(new Date()).format("YYYY-MM-DD HH:mm:ss");
+//                                Request.postJSONData({url:"/dir/products_prices/store_product_price", data:data},
+//                                        function(result){                                                       console.log("PINV detailTableMenuItemAction postJSONData ", success,result);
+//                                            if (result && result.item) {
+//                                                //var prodDataFromOrderBata = result.item;
+//                                            }
+//                                        });
+//                            }
+//                        })
 
                         .addToolPane({title:"экспорт"})
                         .addToolPaneActionButton("таблица в эксель", {action:"exportTableContentToExcel"}, "width:200px;")

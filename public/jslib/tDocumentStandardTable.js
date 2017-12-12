@@ -616,9 +616,9 @@ define(["dojo/_base/declare", "dijit/layout/BorderContainer", "dijit/layout/Cont
             /**
              * params = { title, detailTableAction }
              * params.detailTableAction = function(params)
-             * params.detailTableAction calls on this.contentTable select row, or updated table content
-             *  detailTableAction.params = { thisToolPane, contentTable:<this.ContentTable>, instance:<this>,
-             *      contentTableSelectedRow:<this.contentTable.getSelectedRow()> }
+             * params.detailTableAction calls on this.detailTable select row, or updated table content
+             *  detailTableAction.params = { thisToolPane, detailTable:<this.DetailTable>, instance:<this>,
+             *      detailTableSelectedRow:<this.detailTable.getSelectedRow()> }
              */
             addToolPane: function(params){
                 if(!this.rightContainer) {
@@ -835,13 +835,99 @@ define(["dojo/_base/declare", "dijit/layout/BorderContainer", "dijit/layout/Cont
                     this.detailTable.setMenuItem(itemName, null, menuItemCallback);
                 return this;
             },
-
+            /**
+             * actionParams = { stopOnFail, failsCount }
+             *      default actionParams.stopOnFail=false
+             *      default actionParams.failsCount=5
+             * tableRowAction = function(detailTableRowData, actionParams, detailTableUpdatedRowData, startNextAction, finishedAction)
+             *      actionParams = { tableInstance, toolPanes, thisInstance }
+             *      startNextAction = function(true/false), if false- restart current action
+             *
+             */
+            addDetailTableRowAction: function(actionName, actionParams, tableRowAction){
+                if(!this.detailTableActions) this.detailTableActions={};
+                this.detailTableActions[actionName] = { actionParams:actionParams, tableRowActionFunction:tableRowAction };
+                return this;
+            },
+            /**
+             * actions = { startAction, tableRowAction, endAction }
+             *      startAction = function(detailTableRowsData, actionParams, startTableRowActions)
+             *      tableRowAction = function(detailTableRowData, actionParams, detailTableUpdatedRowData, startNextAction, finishedAction)
+             *          startNextAction = function(true/false), if false- restart current action
+             *      endAction = function(detailTableRowsData, actionParams)
+             *      actionParams = { detailTableInstance, toolPanes, thisInstance }
+             */
+            addDetailTableRowsAction: function(actionName, actions){
+                if(!actions) return this;
+                if(!this.detailTableActions) this.detailTableActions={};
+                this.detailTableActions[actionName] = {
+                    startActionFunction:actions.startAction,
+                    tableRowActionFunction:actions.tableRowAction,//function(tableContentRowData, params, tableUpdatedRowData, startNextAction, finishedAction)
+                    endActionFunction:actions.endAction
+                };
+                return this;
+            },
+            
+            /**
+             * actionParams = { btnStyle, btnParams, actionFunction, detailTableActionName, beforeDetailTableRowsAction }
+             *      actionFunction = function(selectedTableContent, actionParams)
+             *      beforeDetailTableRowsAction = function(selectedTableContent, actionParams, startDetailTableRowsAction)
+             *          actionParams = { detailTableInstance, toolPanes, thisInstance }
+             *          startDetailTableRowsAction= function(detailTableRowsDataForAction)
+             */
+            addDetailTablePopupMenuAction: function(itemName, actionParams){
+                var thisInstance=this, thisDetailTable= this.detailTable;
+                if(!actionParams) actionParams={};
+                actionParams.detailTableInstance=thisDetailTable;
+                actionParams.toolPanes=thisInstance.toolPanes;
+                actionParams.thisInstance=thisInstance;
+                var menuItemActionFunction;
+                if(actionParams.actionFunction) {
+                    menuItemActionFunction= actionParams.actionFunction;
+                } else {
+                    var detailTableRowAction= this.detailTableActions[actionParams.detailTableActionName];
+                    var detailTableRowsActionFunction;
+                    if(detailTableRowAction&&detailTableRowAction.startActionFunction&&detailTableRowAction.tableRowActionFunction){
+                        detailTableRowsActionFunction=function(rowsDataForAction, actionParams){
+                            detailTableRowAction.startActionFunction(rowsDataForAction, actionParams,
+                                /*startDetailTableRowsAction*/function(){
+                                    thisInstance.detailTable.updateRowsAction(rowsDataForAction, actionParams,
+                                        detailTableRowAction.tableRowActionFunction, detailTableRowAction.endActionFunction);
+                                });
+                        };
+                    } else if(detailTableRowAction&&detailTableRowAction.tableRowActionFunction){
+                        detailTableRowsActionFunction=function(rowsDataForAction, actionParams){
+                            thisInstance.detailTable.updateRowsAction(rowsDataForAction, actionParams,
+                                detailTableRowAction.tableRowActionFunction, detailTableRowAction.endActionFunction);
+                        }
+                    }
+                    if(actionParams.beforeDetailTableRowsAction){
+                        menuItemActionFunction= function(rowsDataForAction, actionParams){
+                            actionParams.beforeDetailTableRowsAction(rowsDataForAction, actionParams,
+                                function(detailTableRowsDataForAction){
+                                    if(!detailTableRowsDataForAction) detailTableRowsDataForAction=rowsDataForAction;
+                                    if(detailTableRowsActionFunction)
+                                        detailTableRowsActionFunction(detailTableRowsDataForAction, actionParams)
+                                })
+                        }
+                    } else if (detailTableRowsActionFunction){
+                        menuItemActionFunction= detailTableRowsActionFunction;
+                    }
+                }
+                if(!menuItemActionFunction) return this;
+                thisDetailTable.setMenuItem(itemName, actionParams,
+                    /*menuItemAction*/function(selRowsData, actionParams){
+                        var rowsDataForAction=[];
+                        for(var selInd in selRowsData) rowsDataForAction.push(selRowsData[selInd]);
+                        menuItemActionFunction(rowsDataForAction, actionParams);
+                    });
+                return this;
+            },
             startUp: function(){
                 if(this.detailContainer)this.detailContainer.startup();
                 if (this.listTable) this.loadListTableContentFromServer();
                 return this;
             },
-
             doPrint: function(){                                                                                        //console.log("TemplateDocumentStandardTable.doPrint ",this);
                 var printData = {};
                 var headerTextStyle="font-size:14px;";
