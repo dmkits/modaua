@@ -221,31 +221,24 @@ module.exports.init = function(app){
         {data: "FACTOR", name: "Коэфф.", width: 60, type: "numeric2"},
         {data: "SALE_PRICE", name: "Цена продажи", width: 75, type: "numeric2"},
         {dataSource:"dir_units", linkCondition:"dir_units.ID=wrh_pinvs.UNIT_ID" },
-
-        //leftJoinedSources = { <sourceName>:<linkConditions> = { <linkCondition>:null or <linkCondition>:<value>, ... } },
-        //{dataSource:"dir_pricelists_products_batches", leftJoinedSources:{"dir_pricelists_products_batches":{"PRICELIST_ID":"dir_units.PRICELIST_ID","PRODUCT_ID":"dir_products.ID",
-        //"BATCH_NUMBER":"wrh_products_r_operations.BATCH_NUMBER"}}}
-
-        {parentDataSource:"dir_units",parentLinkField:"PRICELIST_ID",childDataSource:"dir_pricelists_products_batches",childLinkField:"PRICELIST_ID"},
-        {parentDataSource:"dir_products",parentLinkField:"ID",childDataSource:"dir_pricelists_products_batches",childLinkField:"PRODUCT_ID"},
-        //{parentDataSource:"wrh_products_r_operations",parentLinkField:"BATCH_NUMBER",childDataSource:"dir_pricelists_products_batches",childLinkField:"BATCH_NUMBER"}
-
-
-
-
-        //{parentDataSource:"dir_units",parentLinkField:"PRICELIST_ID",childDataSource:"dir_products_batches_sale_prices",childLinkField:"PRICELIST_ID"},
-       // {data: "PRICELIST_PRICE", name: "Цена по прайс-листу", width: 75, type: "numeric2", sourceField:"PRICE",dataSource:"dir_products_batches_sale_prices"}
-           // parentDataSource:"dir_units",parentLinkField:"PRICELIST_ID",childDataSource:"dir_products_batches_sale_prices",childLinkField:"PRICELIST_ID"}
-            //childDataSource:"dir_units",childLinkField:"PRICELIST_ID",parentDataSource:"dir_products_batches_sale_prices",parentLinkField:"PRICELIST_ID"}
-        //{data: "PRICELIST_PRICE", name: "Цена по прайс-листу", width: 75, type: "numeric2", sourceField:"PRICE",
-        //    dataSource:"dir_products_batches_sale_prices", linkCondition:"dir_products_batches_sale_prices.PRICELIST_ID=dir_units.PRICELIST_ID" }
-      //  {data: "PRICELIST_PRICE", name: "Цена по прайс-листу", width: 75, type: "numeric2", dataFunction:"0"}
+        {data: "PRICELIST_PRICE", name: "Цена по прайс-листу", width: 75, type: "numeric2",
+            dataSource:"dir_products_batches_sale_prices", sourceField:"PRICE"}
+        //{data: "PRICELIST_PRICE", name: "Цена по прайс-листу", width: 75, type: "numeric2", dataFunction:"0"}
     ];
     app.get("/wrh/pInvoices/getDataForPInvProductsTable", function(req, res){
         wrh_pinvs_products.getDataForDocTable({tableColumns:wrhPInvProductsTableColumns,
                 identifier:wrhPInvProductsTableColumns[0].data,
+                leftJoinedSources:{
+                    "dir_pricelists_products_batches":{"dir_pricelists_products_batches.PRICELIST_ID":"dir_units.PRICELIST_ID",
+                        "dir_pricelists_products_batches.PRODUCT_ID":"dir_products.ID",
+                        "dir_pricelists_products_batches.BATCH_NUMBER":"wrh_products_r_operations.BATCH_NUMBER"},
+                    "dir_products_batches_sale_prices":{
+                        "dir_products_batches_sale_prices.CHANGE_DATETIME":"dir_pricelists_products_batches.CHANGE_DATETIME",
+                        "dir_products_batches_sale_prices.PRODUCT_ID":"dir_pricelists_products_batches.PRODUCT_ID",
+                        "dir_products_batches_sale_prices.BATCH_NUMBER":"dir_pricelists_products_batches.BATCH_NUMBER",
+                        "dir_products_batches_sale_prices.PRICELIST_ID":"dir_pricelists_products_batches.PRICELIST_ID"}},
                 conditions:req.query,
-                order:["POSIND"]},
+                order:["POSIND","dir_pricelists_products_batches.CHANGE_DATETIME DESC LIMIT 1"]},
             function(result){
                 res.send(result);
             });
