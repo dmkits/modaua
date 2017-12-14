@@ -219,26 +219,25 @@ module.exports.init = function(app){
         {data: "POSSUM", name: "Сумма", width: 80, type: "numeric2", dataFunction:"wrh_pinvs_products.PRICE*wrh_pinvs_products.QTY" },
         {data: "BATCH_NUMBER", name: "Партия", width: 60, type: "text",dataSource:"wrh_products_r_operations", sourceField:"BATCH_NUMBER", visible:false},
         {data: "FACTOR", name: "Коэфф.", width: 60, type: "numeric2"},
-        {data: "SALE_PRICE", name: "Цена продажи", width: 75, type: "numeric2"},
         {dataSource:"dir_units", linkCondition:"dir_units.ID=wrh_pinvs.UNIT_ID" },
-        {data: "PRICELIST_PRICE", name: "Цена по прайс-листу", width: 75, type: "numeric2",
+        {leftJoinedSources: {"dir_pricelists_products_batches": {
+                                    "dir_pricelists_products_batches.PRICELIST_ID=dir_units.PRICELIST_ID":null ,
+                                    "dir_pricelists_products_batches.PRODUCT_ID=dir_products.ID":null,
+                                    "dir_pricelists_products_batches.BATCH_NUMBER=wrh_products_r_operations.BATCH_NUMBER": null},
+                             "dir_products_batches_sale_prices": {
+                                    "dir_products_batches_sale_prices.CHANGE_DATETIME=dir_pricelists_products_batches.CHANGE_DATETIME": null,
+                                    "dir_products_batches_sale_prices.PRODUCT_ID=dir_pricelists_products_batches.PRODUCT_ID": null,
+                                    "dir_products_batches_sale_prices.BATCH_NUMBER=dir_pricelists_products_batches.BATCH_NUMBER": null,
+                                    "dir_products_batches_sale_prices.PRICELIST_ID=dir_pricelists_products_batches.PRICELIST_ID": null}}},
+        {data: "SALE_PRICE", name: "Цена продажи", width: 75, type: "numeric2",
             dataSource:"dir_products_batches_sale_prices", sourceField:"PRICE"}
         //{data: "PRICELIST_PRICE", name: "Цена по прайс-листу", width: 75, type: "numeric2", dataFunction:"0"}
     ];
     app.get("/wrh/pInvoices/getDataForPInvProductsTable", function(req, res){
         wrh_pinvs_products.getDataForDocTable({tableColumns:wrhPInvProductsTableColumns,
                 identifier:wrhPInvProductsTableColumns[0].data,
-                leftJoinedSources:{
-                    "dir_pricelists_products_batches":{"dir_pricelists_products_batches.PRICELIST_ID":"dir_units.PRICELIST_ID",
-                        "dir_pricelists_products_batches.PRODUCT_ID":"dir_products.ID",
-                        "dir_pricelists_products_batches.BATCH_NUMBER":"wrh_products_r_operations.BATCH_NUMBER"},
-                    "dir_products_batches_sale_prices":{
-                        "dir_products_batches_sale_prices.CHANGE_DATETIME":"dir_pricelists_products_batches.CHANGE_DATETIME",
-                        "dir_products_batches_sale_prices.PRODUCT_ID":"dir_pricelists_products_batches.PRODUCT_ID",
-                        "dir_products_batches_sale_prices.BATCH_NUMBER":"dir_pricelists_products_batches.BATCH_NUMBER",
-                        "dir_products_batches_sale_prices.PRICELIST_ID":"dir_pricelists_products_batches.PRICELIST_ID"}},
                 conditions:req.query,
-                order:["POSIND","dir_pricelists_products_batches.CHANGE_DATETIME DESC LIMIT 1"]},
+                order:["POSIND"]},
             function(result){
                 res.send(result);
             });
@@ -299,22 +298,28 @@ module.exports.init = function(app){
                                 return;
                             }
                             var batchNum= newBatchRes.resultItem["BATCH_NUMBER"];
+                            tableDataItem["BATCH_NUMBER"]=newBatchRes.resultItem["BATCH_NUMBER"];
                             wrh_products_r_operations.insDataItem({insData:{OPERATION_ID:sysOperId,BATCH_NUMBER: batchNum,
                                 PRODUCT_ID:tableDataItem["PRODUCT_ID"],BARCODE:tableDataItem["BARCODE"]}}, function(prodOperRes){
                                 if(prodOperRes.error){
                                     callback({error:newBatchRes.error});
                                     return;
                                 }
-                                wrh_pinvs_products.insTableDataItem({tableColumns:wrhPInvProductsTableColumns,idFieldName:"ID",insTableData:{ID:sysOperId,
-                                    PINV_ID:tableDataItem["PINV_ID"], POSIND:tableDataItem["POSIND"],
-                                    QTY:tableDataItem["QTY"], PRICE:tableDataItem["PRICE"],
-                                    SALE_PRICE:tableDataItem["SALE_PRICE"], FACTOR:tableDataItem["FACTOR"]}}, function(wrhProdRes){
-                                    if(wrhProdRes.error){
-                                        callback({error:wrhProdRes.error});
+                                wrh_pinvs_products.matchAndUpdateSalePrice(tableDataItem,function(updPriceRes){
+                                    if(updPriceRes.error){
+                                        callback({error:updPriceRes.error});
                                         return;
                                     }
-                                    wrhProdRes["POSSUM"]=tableDataItem["QTY"]*tableDataItem["PRICE"];
-                                    callback(wrhProdRes);
+                                    wrh_pinvs_products.insTableDataItem({tableColumns:wrhPInvProductsTableColumns,idFieldName:"ID",insTableData:{ID:sysOperId,
+                                        PINV_ID:tableDataItem["PINV_ID"], POSIND:tableDataItem["POSIND"],
+                                        QTY:tableDataItem["QTY"], PRICE:tableDataItem["PRICE"],FACTOR:tableDataItem["FACTOR"]}}, function(wrhProdRes){
+                                        if(wrhProdRes.error){
+                                            callback({error:wrhProdRes.error});
+                                            return;
+                                        }
+                                        wrhProdRes["POSSUM"]=tableDataItem["QTY"]*tableDataItem["PRICE"];
+                                        callback(wrhProdRes);
+                                    });
                                 });
                             });
                         });
@@ -352,7 +357,7 @@ module.exports.init = function(app){
                                 });
                                 return;
                             }
-                          // if(tableDataItem["PRODUCT_NAME"]== regostered prod. name
+                          // if(tableDataItem["PRODUCT_NAME"]== registered prod. name
                             wrh_pinvs_products.updProdAttrAndGetRowData(tableDataItem, function(result){
                                 if(result.error){
                                     callback({error:result.error});
@@ -378,21 +383,27 @@ module.exports.init = function(app){
                                                 return;
                                             }
                                             wrh_pinvs_products.updDataItem({updData:{QTY:tableDataItem["QTY"], PRICE:tableDataItem["PRICE"],
-                                                    SALE_PRICE:tableDataItem["SALE_PRICE"],FACTOR:tableDataItem["FACTOR"]},
-                                                    conditions:{"ID=":tableDataItem["ID"]}},
+                                                    FACTOR:tableDataItem["FACTOR"]}, conditions:{"ID=":tableDataItem["ID"]}},
                                                 function(updRes){
                                                     if(updRes.error){
                                                         callback({error:updRes.error});
                                                         return;
                                                     }
-                                                    wrh_pinvs_products.getDataItemForTable({tableColumns:wrhPInvProductsTableColumns,
-                                                        conditions:{"wrh_pinvs_products.ID=":tableDataItem["ID"]}}, function(updDataRes){
-                                                        if(updDataRes.error){
-                                                            callback({error:updRes.error});
+                                                    tableDataItem['PRODUCT_ID']=tableDataItem['REGISTERED_PROD_ID'];
+                                                    wrh_pinvs_products.matchAndUpdateSalePrice(tableDataItem, function(result){
+                                                        if(result.error){
+                                                            callback(result);
                                                             return;
                                                         }
-                                                        callback({resultItem:updDataRes.item,updateCount:updRes.updateCount });
-                                                    })
+                                                        wrh_pinvs_products.getDataItemForTable({tableColumns:wrhPInvProductsTableColumns,
+                                                            conditions:{"wrh_pinvs_products.ID=":tableDataItem["ID"]}}, function(updDataRes){
+                                                            if(updDataRes.error){
+                                                                callback({error:updRes.error});
+                                                                return;
+                                                            }
+                                                            callback({resultItem:updDataRes.item,updateCount:updRes.updateCount });
+                                                        })
+                                                    });
                                                 });
                                         });
                                     return;
@@ -419,21 +430,26 @@ module.exports.init = function(app){
                                                     return;
                                                 }
                                                 wrh_pinvs_products.updDataItem({updData:{QTY:tableDataItem["QTY"], PRICE:tableDataItem["PRICE"],
-                                                        SALE_PRICE:tableDataItem["SALE_PRICE"],FACTOR:tableDataItem["FACTOR"]},
-                                                        conditions:{"ID=":tableDataItem["ID"]}},
+                                                       FACTOR:tableDataItem["FACTOR"]}, conditions:{"ID=":tableDataItem["ID"]}},
                                                     function(updRes){
                                                         if(updRes.error){
                                                             callback({error:updRes.error});
                                                             return;
                                                         }
-                                                        wrh_pinvs_products.getDataItemForTable({tableColumns:wrhPInvProductsTableColumns,
-                                                            conditions:{"wrh_pinvs_products.ID=":tableDataItem["ID"]}}, function(updDataRes){
-                                                            if(updDataRes.error){
-                                                                callback({error:updRes.error});
+                                                        wrh_pinvs_products.matchAndUpdateSalePrice(tableDataItem,function(result){
+                                                            if(result.error){
+                                                                callback(result);
                                                                 return;
                                                             }
-                                                            callback({resultItem:updDataRes.item,updateCount:updRes.updateCount });
-                                                        })
+                                                            wrh_pinvs_products.getDataItemForTable({tableColumns:wrhPInvProductsTableColumns,
+                                                                conditions:{"wrh_pinvs_products.ID=":tableDataItem["ID"]}}, function(updDataRes){
+                                                                if(updDataRes.error){
+                                                                    callback({error:updRes.error});
+                                                                    return;
+                                                                }
+                                                                callback({resultItem:updDataRes.item,updateCount:updRes.updateCount });
+                                                            })
+                                                        });
                                                     });
                                             });
                                         });
@@ -459,21 +475,26 @@ module.exports.init = function(app){
                             return;
                         }
                         wrh_pinvs_products.updDataItem({updData:{QTY:tableDataItem["QTY"], PRICE:tableDataItem["PRICE"],
-                                SALE_PRICE:tableDataItem["SALE_PRICE"],FACTOR:tableDataItem["FACTOR"]},
-                                conditions:{"ID=":tableDataItem["ID"]}},
+                                FACTOR:tableDataItem["FACTOR"]}, conditions:{"ID=":tableDataItem["ID"]}},
                             function(updRes){
                                 if(updRes.error){
                                     callback({error:updRes.error});
                                     return;
                                 }
-                                wrh_pinvs_products.getDataItemForTable({tableColumns:wrhPInvProductsTableColumns,
-                                    conditions:{"wrh_pinvs_products.ID=":tableDataItem["ID"]}}, function(updDataRes){
-                                    if(updDataRes.error){
-                                        callback({error:updDataRes.error});
+                                wrh_pinvs_products.matchAndUpdateSalePrice(tableDataItem, function(result){
+                                    if(result.error){
+                                        callback(result);
                                         return;
                                     }
-                                    callback({resultItem:updDataRes.item,updateCount:updRes.updateCount });
-                                });
+                                    wrh_pinvs_products.getDataItemForTable({tableColumns:wrhPInvProductsTableColumns,
+                                        conditions:{"wrh_pinvs_products.ID=":tableDataItem["ID"]}}, function(updDataRes){
+                                        if(updDataRes.error){
+                                            callback({error:updDataRes.error});
+                                            return;
+                                        }
+                                        callback({resultItem:updDataRes.item,updateCount:updRes.updateCount });
+                                    });
+                                })
                             });
                     });
             });
@@ -487,23 +508,147 @@ module.exports.init = function(app){
                     return;
                 }
                 wrh_pinvs_products.updDataItem({updData:{QTY:tableDataItem["QTY"], PRICE:tableDataItem["PRICE"],
-                        SALE_PRICE:tableDataItem["SALE_PRICE"],FACTOR:tableDataItem["FACTOR"]},
-                        conditions:{"ID=":tableDataItem["ID"]}},
+                        FACTOR:tableDataItem["FACTOR"]}, conditions:{"ID=":tableDataItem["ID"]}},
                     function(updRes){
                         if(updRes.error){
                             callback({error:updRes.error});
                             return;
                         }
-                        wrh_pinvs_products.getDataItemForTable({tableColumns:wrhPInvProductsTableColumns,
-                            conditions:{"wrh_pinvs_products.ID=":tableDataItem["ID"]}}, function(updDataRes){
-                            if(updDataRes.error){
-                                callback({error:updRes.error});
+                        wrh_pinvs_products.matchAndUpdateSalePrice(tableDataItem,function(result){
+                            if(result.error){
+                                callback(result);
                                 return;
                             }
-                            callback({resultItem:updDataRes.item,updateCount:updRes.updateCount });
+                            wrh_pinvs_products.getDataItemForTable({tableColumns:wrhPInvProductsTableColumns,
+                                conditions:{"wrh_pinvs_products.ID=":tableDataItem["ID"]}}, function(updDataRes){
+                                if(updDataRes.error){
+                                    callback({error:updRes.error});
+                                    return;
+                                }
+                                callback({resultItem:updDataRes.item,updateCount:updRes.updateCount });
+                            })
                         })
                     });
         })
+    };
+
+    wrh_pinvs_products.matchAndUpdateSalePrice=function(wrhProdData,callback){
+        wrh_pinvs.getDataItem({fields:["UNIT_ID"], conditions:{"ID=":wrhProdData["PINV_ID"]}},
+        function(result){
+            if(result.error){
+                callback({error:result.error});
+                return;
+            }
+            var unitId=result.item["UNIT_ID"];
+            dir_units.getDataItem({fields:["PRICELIST_ID"], conditions:{"ID=":unitId}},
+            function(result){
+                if(result.error){
+                    callback({error:result.error});
+                    return;
+                }
+                wrhProdData["PRICELIST_ID"]=result.item["PRICELIST_ID"];
+                if(!wrhProdData["SALE_PRICE"] ||wrhProdData["SALE_PRICE"]==0){
+                    dir_pricelists_products_batches.getDataItem({fields:["CHANGE_DATETIME"],
+                            conditions:{"PRICELIST_ID=":wrhProdData["PRICELIST_ID"],"PRODUCT_ID=":wrhProdData["PRODUCT_ID"],"BATCH_NUMBER=":wrhProdData["BATCH_NUMBER"]}},
+                        function(result){
+                            if(result.error){
+                                callback({error:result.error});
+                                return;
+                            }
+                            if(!result.item){
+                                callback(result);
+                                return;
+                            }
+                            dir_pricelists_products_batches.delDataItem({conditions: {"PRICELIST_ID=": wrhProdData["PRICELIST_ID"],
+                                    "PRODUCT_ID=":wrhProdData["PRODUCT_ID"],"BATCH_NUMBER=":wrhProdData["BATCH_NUMBER"]}},
+                                function(result){
+                                    callback(result);
+                                });
+                        });
+                    return;
+                }
+                dir_pricelists_products_batches.getDataItem({fields:["CHANGE_DATETIME"],
+                    conditions:{"PRICELIST_ID=":wrhProdData["PRICELIST_ID"],"PRODUCT_ID=":wrhProdData["PRODUCT_ID"],"BATCH_NUMBER=":wrhProdData["BATCH_NUMBER"]}},
+                function(result){
+                    if(result.error){
+                        callback({error:result.error});
+                        return;
+                    }
+                    if(!result.item ||!result.item["CHANGE_DATETIME"] ){
+                        dir_products_batches_sale_prices.insertSalePrice(wrhProdData,function(result){
+                            callback(result);
+                        });
+                        return;
+                    }
+                    wrhProdData["CHANGE_PRICE_DATETIME"]=result.item["CHANGE_DATETIME"];
+                    dir_products_batches_sale_prices.getDataItem({fields:["PRiCE"],
+                        conditions:{"CHANGE_DATETIME=":wrhProdData["CHANGE_PRICE_DATETIME"],"PRODUCT_ID=":wrhProdData["PRODUCT_ID"],
+                            "BATCH_NUMBER=":wrhProdData["BATCH_NUMBER"],"PRICELIST_ID=":wrhProdData["PRICELIST_ID"] }},
+                        function(result){
+                            if(result.error){
+                                callback({error:result.error});
+                                return;
+                            }
+                            if(!result.item||!result.item["PRiCE"]){
+                                dir_products_batches_sale_prices.insertSalePrice(wrhProdData,function(result){
+                                    callback(result);
+                                });
+                                return;
+                            }
+                            var registeredSalePrice=result.item["PRiCE"];
+                            if(registeredSalePrice!=wrhProdData["SALE_PRICE"]){
+                                dir_products_batches_sale_prices.updateSalePrice(wrhProdData,function(result){
+                                    callback(result);
+                                });
+                                return;
+                            }
+                            callback({});
+                    });
+                })
+            })
+        });
+    };
+    dir_products_batches_sale_prices.updateSalePrice=function(wrhProdData,callback){ console.log("wrhProdData updateSalePrice=",wrhProdData);
+        var changeDateTime = dateFormat(new Date, "yyyy-mm-dd HH:MM:ss");
+        dir_products_batches_sale_prices.insDataItem({insData:{"CHANGE_DATETIME":changeDateTime,"PRODUCT_ID":wrhProdData["PRODUCT_ID"],
+                "BATCH_NUMBER":wrhProdData["BATCH_NUMBER"], "PRICELIST_ID":wrhProdData["PRICELIST_ID"],"PRICE":wrhProdData["SALE_PRICE"]}},
+            function(result){           console.log("result 613=",result);
+                if(result.error){
+                    callback({error:result.error});
+                    return;
+                }
+                dir_pricelists_products_batches.updDataItem({updData:{"CHANGE_DATETIME":changeDateTime},
+                    conditions:{"PRICELIST_ID=":wrhProdData["PRICELIST_ID"],"PRODUCT_ID=":wrhProdData["PRODUCT_ID"],
+                        "BATCH_NUMBER=":wrhProdData["BATCH_NUMBER"]}},
+                    function(result){                   console.log("result 621=",result);
+                        if(result.error){
+                            callback({error:result.error});
+                            return;
+                        }
+
+                callback({});
+            });
+        });
+    };
+    dir_products_batches_sale_prices.insertSalePrice=function(wrhProdData,callback){                console.log("insertSalePrice wrhProdData=",wrhProdData);
+        var changeDateTime=dateFormat(new Date, "yyyy-mm-dd HH:MM:ss");
+        dir_products_batches_sale_prices.insDataItem({insData:{"CHANGE_DATETIME":changeDateTime,"PRODUCT_ID":wrhProdData["PRODUCT_ID"],
+                "BATCH_NUMBER":wrhProdData["BATCH_NUMBER"], "PRICELIST_ID":wrhProdData["PRICELIST_ID"],"PRICE":wrhProdData["SALE_PRICE"]}},
+            function(result){
+                if(result.error){
+                    callback({error:result.error});
+                    return;
+                }
+                dir_pricelists_products_batches.insDataItemWithNewID({idFieldName:"ID", insData:{"PRICELIST_ID":wrhProdData["PRICELIST_ID"],
+                    "PRODUCT_ID":wrhProdData["PRODUCT_ID"],"BATCH_NUMBER":wrhProdData["BATCH_NUMBER"],
+                    "CHANGE_DATETIME":changeDateTime}},function(result){
+                    if(result.error){
+                        callback({error:result.error});
+                        return;
+                    }
+                    callback({});
+                });
+            });
     };
 
     wrh_pinvs_products.storePInvTableDataItem = function(storeData, callback){
@@ -520,7 +665,7 @@ module.exports.init = function(app){
     app.post("/wrh/pInvoices/storePInvProductsTableData", function(req, res){
         var storeData=req.body;
         wrh_pinvs_products.storePInvTableDataItem(storeData,
-            function(result){
+            function(result){                               console.log("result 523=",result);
                 res.send(result);
             });
     });

@@ -23,9 +23,6 @@ var changeLog = [
         changeVal:"ALTER TABLE wrh_pinvs_products ADD COLUMN PRICE DECIMAL(12,4) NOT NULL",
         field:"PRICE"},
     { changeID:"wrh_pinvs_products__8", changeDatetime:"2016-09-08 11:38:00", changeObj:"wrh_pinvs_products",
-        changeVal:"ALTER TABLE wrh_pinvs_products ADD COLUMN SALE_PRICE DECIMAL(12,2) NOT NULL",
-        field:"SALE_PRICE"},
-    { changeID:"wrh_pinvs_products_9", changeDatetime:"2016-09-08 11:39:00", changeObj:"wrh_pinvs_products",
         changeVal:"ALTER TABLE wrh_pinvs_products ADD COLUMN FACTOR DECIMAL(10,2) NOT NULL",
         field:"FACTOR"}
     //{ changeID:"wrh_pinvs_products_11", changeDatetime:"2016-09-08 11:41:00", changeObj:"wrh_pinvs_products",

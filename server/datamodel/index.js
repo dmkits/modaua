@@ -213,7 +213,7 @@ function _getSelectItems(params, resultCallback){                               
     }
     if(params.leftJoinedSources){
         for(var leftJoinSourceName in params.leftJoinedSources) {
-            var leftJoinedSourceConditions=params.leftJoinedSources[leftJoinSourceName], leftJoinedSourceOnCondition;
+            var leftJoinedSourceConditions=params.leftJoinedSources[leftJoinSourceName], leftJoinedSourceOnCondition="";
             for(var leftJoinLinkCondition in leftJoinedSourceConditions)
                 leftJoinedSourceOnCondition= (!leftJoinedSourceOnCondition)?leftJoinLinkCondition:leftJoinedSourceOnCondition+" and "+leftJoinLinkCondition;
             joins += " left join " + leftJoinSourceName + " on "+leftJoinedSourceOnCondition;
@@ -560,6 +560,9 @@ function _getDataItemsForTable(params, resultCallback){
             if(!parentDataSource&&this.source) parentDataSource=this.source;
             childLinkConditions[tableColumnData.childDataSource+"."+tableColumnData.childLinkField+"="+parentDataSource+"."+tableColumnData.parentLinkField]=null;
             params.leftJoinedSources[tableColumnData.childDataSource]=childLinkConditions;
+        }
+        if(tableColumnData.leftJoinedSources){
+            params.leftJoinedSources=tableColumnData.leftJoinedSources;
         }
     }
     params.fields=fieldsList;
