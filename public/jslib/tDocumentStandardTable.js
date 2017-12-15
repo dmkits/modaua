@@ -660,7 +660,7 @@ define(["dojo/_base/declare", "dijit/layout/BorderContainer", "dijit/layout/Cont
 
             /**
              * actionParams = { btnStyle, btnParams, actionFunction, detailTableActionName }
-             *      actionFunction = function(actionParams)
+             *      actionFunction = function()
              */
             addToolPaneActionButton: function(label, actionParams){
                 if (!this.toolPanes||this.toolPanes.length==0) this.addToolPane();

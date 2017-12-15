@@ -57,16 +57,16 @@
                         //.addToolPane("Вид документа")
                         //.addToolPane("Текущий статус")
                         .addToolPane({title:"Действия"})
-                        .addToolPaneActionButton("Новый заказ", {action:"loadHeaderNewValues"}, "width:145px;")
-                        .addToolPaneActionButton("Сохранить заказ", {action:"storeHeaderValues"}, "width:145px;")
-                        .addToolPaneActionButton("Отменить изменения", {action:"loadHeaderLastValues"}, "width:145px;")
-                        .addToolPaneActionButton("Удалить заказ", {action:"deleteHeader"}, "width:145px;")
+                        .addToolPaneActionButton("Новый заказ", {detailTableActionName:"loadHeaderNewValues", btnStyle:"width:145px;"})
+                        .addToolPaneActionButton("Сохранить заказ", {detailTableActionName:"storeHeaderValues", btnStyle:"width:145px;"})
+                        .addToolPaneActionButton("Отменить изменения", {detailTableActionName:"loadHeaderLastValues", btnStyle:"width:145px;"})
+                        .addToolPaneActionButton("Удалить заказ", {detailTableActionName:"deleteHeader", btnStyle:"width:145px;"})
                         .addToolPaneBR()
-                        .addToolPaneActionButton("Добавить строку", {action:"insertDetailTableRow",rowPosName:"POS"}, "width:145px;")//rowPosIndexName:"POSIND"
-                        .addToolPaneActionButton("Копировать строку", {action:"insertDetailTableCopySelectedRow"}, "width:145px;")
-                        .addToolPaneActionButton("Изменить строку", {action:"allowEditDetailTableSelectedRow"}, "width:145px;")
-                        .addToolPaneActionButton("Сохранить строку", {action:"storeDetailTableSelectedRow"}, "width:145px;")
-                        .addToolPaneActionButton("Удалить строку", {action:"deleteDetailTableSelectedRow"}, "width:145px;")
+                        .addToolPaneActionButton("Добавить строку", {detailTableActionName:"insertDetailTableRow",rowPosName:"POS", btnStyle:"width:145px;"})//rowPosIndexName:"POSIND"
+                        .addToolPaneActionButton("Копировать строку", {detailTableActionName:"insertDetailTableCopySelectedRow", btnStyle:"width:145px;"})
+                        .addToolPaneActionButton("Изменить строку", {detailTableActionName:"allowEditDetailTableSelectedRow", btnStyle:"width:145px;"})
+                        .addToolPaneActionButton("Сохранить строку", {detailTableActionName:"storeDetailTableSelectedRow", btnStyle:"width:145px;"})
+                        .addToolPaneActionButton("Удалить строку", {detailTableActionName:"deleteDetailTableSelectedRow", btnStyle:"width:145px;"})
                         .addToolPane({title:"Импорт"})
                         .addToolPaneFileUploader({label:"Импортировать из Excel", url:"/wrh/ordersBata/importOrderFromFile",
                               name:"newOrder", btnStyle:"width:145px;",acceptFileExt:".xlsx"}, function(result, thisInstance){

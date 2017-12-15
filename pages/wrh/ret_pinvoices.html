@@ -61,16 +61,16 @@
                         //.addToolPane("Вид документа")
                         //.addToolPane("Текущий статус")
                         .addToolPane({title:"Действия"})
-                        .addToolPaneActionButton("Новая накладная", {action:"loadHeaderNewValues"}, "width:200px;")
-                        .addToolPaneActionButton("Сохранить накладную", {action:"storeHeaderValues"}, "width:200px;")
-                        .addToolPaneActionButton("Отменить изменения", {action:"loadHeaderLastValues"}, "width:200px;")
-                        .addToolPaneActionButton("Удалить накладную", {action:"deleteHeader"}, "width:200px;")
+                        .addToolPaneActionButton("Новая накладная", {detailTableActionName:"loadHeaderNewValues", btnStyle:"width:200px;"})
+                        .addToolPaneActionButton("Сохранить накладную", {detailTableActionName:"storeHeaderValues", btnStyle:"width:200px;"})
+                        .addToolPaneActionButton("Отменить изменения", {detailTableActionName:"loadHeaderLastValues", btnStyle:"width:200px;"})
+                        .addToolPaneActionButton("Удалить накладную", {detailTableActionName:"deleteHeader", btnStyle:"width:200px;"})
                         .addToolPaneBR()
-                        .addToolPaneActionButton("Добавить строку", {action:"insertDetailTableRow",rowPosIndexName:"POSIND",rowPosName:"POS"}, "width:200px;")
-                        .addToolPaneActionButton("Копировать строку", {action:"insertDetailTableCopySelectedRow"}, "width:200px;")
-                        .addToolPaneActionButton("Изменить строку", {action:"allowEditDetailTableSelectedRow"}, "width:200px;")
-                        .addToolPaneActionButton("Сохранить строку", {action:"storeDetailTableSelectedRow"}, "width:200px;")
-                        .addToolPaneActionButton("Удалить строку", {action:"deleteDetailTableSelectedRow"}, "width:200px;")
+                        .addToolPaneActionButton("Добавить строку", {detailTableActionName:"insertDetailTableRow",rowPosIndexName:"POSIND",rowPosName:"POS", btnStyle:"width:200px;"})
+                        .addToolPaneActionButton("Копировать строку", {detailTableActionName:"insertDetailTableCopySelectedRow", btnStyle:"width:200px;"})
+                        .addToolPaneActionButton("Изменить строку", {detailTableActionName:"allowEditDetailTableSelectedRow", btnStyle:"width:200px;"})
+                        .addToolPaneActionButton("Сохранить строку", {detailTableActionName:"storeDetailTableSelectedRow", btnStyle:"width:200px;"})
+                        .addToolPaneActionButton("Удалить строку", {detailTableActionName:"deleteDetailTableSelectedRow", btnStyle:"width:200px;"})
                         .addDetailTableMenuItemAction("Добавить строки",{action:"insertDetailTableRowsAfterSelected",rowPosName:"POS"})//rowPosIndexName:"POSIND"
                         .addDetailTableMenuItemAction("Изменить строки",{action:"allowEditDetailTableSelectedRows"})
                         .addDetailTableMenuItemAction("Сохранить строки",{action:"storeDetailTableSelectedRows"})
@@ -224,21 +224,23 @@
                             }
                         })
                         .addToolPane({title:"Печать"})
-                        .addToolPaneActionButton("Печать ценников", {action:"printProdTags"}, "width:200px;", {}, function(){
-                            var printWindow= window.open("/print/prod_tags");                                           //console.log("printProdTags.onClick printWindow=",printWindow);
-                            //window.open("/print?pinvid="+wrh_pinv_ContentController.getDataIDValue(), "", "location=1,status=1,scrollbars=1,width=650,height=600");
-                            printWindow["prodTagsContentData"]= this.detailTable.getContent();
-                            printWindow["pageProdTagType"]= "tag58X30";
+                        .addToolPaneActionButton("Печать ценников", {detailTableActionName:"printProdTags", btnStyle:"width:200px;",
+                            actionFunction:function(){
+                                var printWindow= window.open("/print/prod_tags");                                           //console.log("printProdTags.onClick printWindow=",printWindow);
+                                //window.open("/print?pinvid="+wrh_pinv_ContentController.getDataIDValue(), "", "location=1,status=1,scrollbars=1,width=650,height=600");
+                                printWindow["prodTagsContentData"]= this.detailTable.getContent();
+                                printWindow["pageProdTagType"]= "tag58X30";}
                         })
-                        .addToolPaneActionButton("Печать цен", {action:"printProdPricesTags"}, "width:200px;", {}, function(){
-                            var printWindow= window.open("/print/prod_tags");                                           //console.log("printProdPricesTags.onClick printWindow=",printWindow);
-                            //window.open("/print?pinvid="+wrh_pinv_ContentController.getDataIDValue(), "", "location=1,status=1,scrollbars=1,width=650,height=600");
-                            printWindow["prodTagsContentData"]= this.detailTable.getContent();
-                            printWindow["pageProdTagType"]= "tag40X25";
+                        .addToolPaneActionButton("Печать цен", {detailTableActionName:"printProdPricesTags", btnStyle:"width:200px;",
+                            actionFunction:function(){
+                                var printWindow= window.open("/print/prod_tags");                                           //console.log("printProdPricesTags.onClick printWindow=",printWindow);
+                                //window.open("/print?pinvid="+wrh_pinv_ContentController.getDataIDValue(), "", "location=1,status=1,scrollbars=1,width=650,height=600");
+                                printWindow["prodTagsContentData"]= this.detailTable.getContent();
+                                printWindow["pageProdTagType"]= "tag40X25";}
                         })
 //                        .addToolPane("Доп")
-//                        .addToolPaneActionButton("Сохранить в прайс-лист", {}, "width:200px;")
-//                        .addToolPaneActionButton("Синхронизация цен", {}, "width:200px;")
+//                        .addToolPaneActionButton("Сохранить в прайс-лист", {btnStyle:"width:200px;")
+//                        .addToolPaneActionButton("Синхронизация цен", { btnStyle:"width:200px;")
                         .addToolPane("Информация о товаре", function(toolPane, detailHeader,detailTable,thisInstance){
                             var detailTableSelectedRow= detailTable.getSelectedRow();
                             if(detailTableSelectedRow) {
