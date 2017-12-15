@@ -415,6 +415,7 @@ module.exports.init = function(app){
                                         return;
                                     }
                                     var newProd=result.resultItem;
+                                    tableDataItem["PRODUCT_ID"]=newProd["ID"];
                                     dir_products_batches.createNewBatch({prodData:{"PRODUCT_ID":newProd["ID"]}},
                                         function(newBatchRes){
                                             if(newBatchRes.error){
@@ -422,6 +423,7 @@ module.exports.init = function(app){
                                                 return;
                                             }
                                             var batchNum= newBatchRes.resultItem["BATCH_NUMBER"];
+                                            tableDataItem["BATCH_NUMBER"]=batchNum;
                                             wrh_products_r_operations.updDataItem({updData:{BATCH_NUMBER: batchNum,
                                                 PRODUCT_ID:newProd["ID"],BARCODE:newProd["PBARCODE"]},
                                                 conditions:{"OPERATION_ID=":tableDataItem["ID"]}}, function(prodOperRes){
@@ -467,6 +469,7 @@ module.exports.init = function(app){
                     return;
                 }
                 var batchNum= newBatchRes.resultItem["BATCH_NUMBER"];
+                tableDataItem["BATCH_NUMBER"]=batchNum;
                 wrh_products_r_operations.updDataItem({updData:{BATCH_NUMBER: batchNum, PRODUCT_ID:tableDataItem["PRODUCT_ID"], BARCODE:tableDataItem["BARCODE"]},
                         conditions:{"OPERATION_ID=":tableDataItem["ID"],"BATCH_NUMBER=":tableDataItem['REGISTERED_BATCH_NUMBER'],"PRODUCT_ID=":tableDataItem['REGISTERED_PROD_ID']}},
                     function(prodOperRes){

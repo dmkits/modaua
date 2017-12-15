@@ -2,7 +2,8 @@ module.exports.id=module.id;
 var changeLog = [
     { changeID:"dir_products_batches_sale_prices__1", changeDatetime:"2017-12-12 11:40:00", changeObj:"dir_products_batches_sale_prices",
         changeVal:"CREATE TABLE dir_products_batches_sale_prices(CHANGE_DATETIME DATETIME NOT NULL) CHARACTER SET utf8",
-        tableName:"dir_products_batches_sale_prices", field:"CHANGE_DATETIME"},
+        tableName:"dir_products_batches_sale_prices",
+        field:"CHANGE_DATETIME"},
     { changeID:"dir_products_batches_sale_prices__2", changeDatetime:"2017-12-12 11:41:00", changeObj:"dir_products_batches_sale_prices",
         changeVal:"ALTER TABLE dir_products_batches_sale_prices ADD COLUMN PRODUCT_ID BIGINT UNSIGNED NOT NULL",
         field:"PRODUCT_ID"},
