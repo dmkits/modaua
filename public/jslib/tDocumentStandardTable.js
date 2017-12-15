@@ -657,24 +657,23 @@ define(["dojo/_base/declare", "dijit/layout/BorderContainer", "dijit/layout/Cont
                 this.addLeftCellToTableRow(row).innerHTML="<br>";
                 return this;
             },
-            /*
-             * actionParams: {action:"loadHeaderNewValues"/"storeHeaderValues"/"loadHeaderLastValues"/"deleteHeader"
-             *       / "insertDetailTableRow"/"insertDetailTableCopySelectedRow"/"allowEditDetailTableSelectedRow"/"storeDetailTableSelectedRow"/"deleteDetailTableSelectedRow",
-             *    rowPosName, rowPosIndexName}
-             * actionFunction = function()
+
+            /**
+             * actionParams = { btnStyle, btnParams, actionFunction, detailTableActionName }
+             *      actionFunction = function(actionParams)
              */
-            addToolPaneActionButton: function(label, actionParams, btnStyle, btnParams, actionFunction){
+            addToolPaneActionButton: function(label, actionParams){
                 if (!this.toolPanes||this.toolPanes.length==0) this.addToolPane();
                 var actionsTableRow= this.addRowToTable(this.toolPanes[this.toolPanes.length-1].containerNode.lastChild);
-                var actionButton= this.addTableCellButtonTo(actionsTableRow, {labelText:label, cellWidth:0, btnStyle:btnStyle, btnParameters:btnParams});
+                var actionButton= this.addTableCellButtonTo(actionsTableRow, {labelText:label, cellWidth:0, btnStyle:actionParams.btnStyle, btnParameters:actionParams.btnParams});
                 if (!this.toolPanesActionButtons) this.toolPanesActionButtons={};
-                this.toolPanesActionButtons[actionParams.action]= actionButton;
-                if(actionFunction) {
-                    actionButton.onClick=actionFunction;
+                this.toolPanesActionButtons[actionParams.detailTableActionName]= actionButton;
+                if(actionParams.actionFunction) {
+                    actionButton.onClick=actionParams.actionFunction;
                     actionButton.detailTable= this.detailTable;
                 } else {
                     actionButton.onClick= this.getOnClickAction(actionParams);
-                    actionButton.setState= this.getSetStateAction(actionParams.action);
+                    actionButton.setState= this.getSetStateAction(actionParams.detailTableActionName);
                 }
                 return this;
             },
@@ -683,43 +682,43 @@ define(["dojo/_base/declare", "dijit/layout/BorderContainer", "dijit/layout/Cont
              */
             getOnClickAction: function(actionParams){
                 var thisInstance=this;
-                if (actionParams.action==="loadHeaderNewValues"){
+                if (actionParams.detailTableActionName==="loadHeaderNewValues"){
                     return function(){
                         thisInstance.loadDetailHeaderContentValuesFromServer();
                     }
-                } else if (actionParams.action==="storeHeaderValues"){
+                } else if (actionParams.detailTableActionName==="storeHeaderValues"){
                     return function(){
                         thisInstance.storeDetailHeaderContentValues();
                     }
-                } else if (actionParams.action==="loadHeaderLastValues"){
+                } else if (actionParams.detailTableActionName==="loadHeaderLastValues"){
                     return function(){
                         thisInstance.detailHeader.setContentData(thisInstance.detailHeader.lastContentData);
                     }
-                } else if (actionParams.action==="deleteHeader"){
+                } else if (actionParams.detailTableActionName==="deleteHeader"){
                     return function(){
                         thisInstance.deleteDetailHeaderContent();
                     }
-                } else if (actionParams.action==="insertDetailTableRow"){
+                } else if (actionParams.detailTableActionName==="insertDetailTableRow"){
                     return function(){
                         thisInstance.detailTable.insertRowAfterSelected();
                     }
-                } else if (actionParams.action==="insertDetailTableCopySelectedRow"){
+                } else if (actionParams.detailTableActionName==="insertDetailTableCopySelectedRow"){
                     return function(){
                         thisInstance.detailTable.insertRowAfterSelected(thisInstance.detailTable.getSelectedRow());
                     }
-                } else if (actionParams.action==="allowEditDetailTableSelectedRow"){
+                } else if (actionParams.detailTableActionName==="allowEditDetailTableSelectedRow"){
                     return function(){
                         thisInstance.detailTable.allowEditSelectedRow();
                     }
-                } else if (actionParams.action==="storeDetailTableSelectedRow"){
+                } else if (actionParams.detailTableActionName==="storeDetailTableSelectedRow"){
                     return function(){
                         thisInstance.storeDetailTableSelectedRowValuesToServer();
                     }
-                } else if (actionParams.action==="deleteDetailTableSelectedRow"){
+                } else if (actionParams.detailTableActionName==="deleteDetailTableSelectedRow"){
                     return function(){
                         thisInstance.deleteDetailTableSelectedRowFromServer();
                     }
-                } else if (actionParams.action==="exportTableContentToExcel"){
+                } else if (actionParams.detailTableActionName==="exportTableContentToExcel"){
                     return function(){
                         thisInstance.exportTableContentToExcel();
                     }
