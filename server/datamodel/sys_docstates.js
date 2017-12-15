@@ -19,17 +19,18 @@ var changeLog= [
     { changeID:"sys_docstates__7", changeDatetime:"2016-08-30 09:07:00", changeObj:"sys_docstates",
         changeVal:
             "INSERT INTO sys_docstates(ID,ALIAS,NAME,NOTE)" +
-                " values(0,'saved','Документ сохранен','Документ сохранен')"},
+                " values(0,'saved','Документ в работе','Документ в работе (возможно изменение)')"},
     { changeID:"sys_docstates__8", changeDatetime:"2016-08-30 09:08:00", changeObj:"sys_docstates",
         changeVal:
             "INSERT INTO sys_docstates(ID,ALIAS,NAME,NOTE)" +
-                " values(-255,'deleted','Документ удален','Документ удален (помечен на удаление)')"},
-    { changeID:"sys_docstates__9", changeDatetime:"2016-08-30 09:09:00", changeObj:"sys_docstates",
-        changeVal:"INSERT INTO sys_docstates(ID,ALIAS,NAME,NOTE)" +
-            " values(1,'conducted','Документ проведен','Документ проведен')"},
-    { changeID:"sys_docstates_10", changeDatetime:"2016-08-30 09:10:00", changeObj:"sys_docstates",
-        changeVal:"INSERT INTO sys_docstates(ID,ALIAS,NAME,NOTE)" +
-            " values(-1,'not_conducted','Документ не проведен (ошибка)','Документ не проведен (ошибка проведения)')"}
+                " values(1,'closed','Документ закрыт','Документ закрыт (изменение запрещено)')"}
+    //{ changeID:"sys_docstates__9", changeDatetime:"2016-08-30 09:09:00", changeObj:"sys_docstates",
+    //    changeVal:"INSERT INTO sys_docstates(ID,ALIAS,NAME,NOTE)" +
+    //        " values(1,'conducted','Документ проведен','Документ проведен')"},
+    //
+    //{ changeID:"sys_docstates_10", changeDatetime:"2016-08-30 09:10:00", changeObj:"sys_docstates",
+    //    changeVal:"INSERT INTO sys_docstates(ID,ALIAS,NAME,NOTE)" +
+    //        " values(-1,'not_conducted','Документ не проведен (ошибка)','Документ не проведен (ошибка проведения)')"}
 ];
 module.exports.changeLog=changeLog;
 

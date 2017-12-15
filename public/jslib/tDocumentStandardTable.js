@@ -629,7 +629,7 @@ define(["dojo/_base/declare", "dijit/layout/BorderContainer", "dijit/layout/Cont
                 if (params.title===undefined) params.title="";
                 if (params.width===undefined) params.width=100;
                 var actionsTitlePane= this.addChildTitlePaneTo(this.rightContainer,{title:params.title});
-                if (params.detailTableAction) actionsTitlePane.detailTableAction = params.detailTableAction;
+                if (params.detailTableAction) actionsTitlePane.contentAction = params.detailTableAction;
                 if (!this.toolPanes) this.toolPanes= [];
                 this.toolPanes.push(actionsTitlePane);
                 this.addTableTo(actionsTitlePane.containerNode);

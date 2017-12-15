@@ -394,19 +394,21 @@
                         })
 //                        .addToolPane("Доп")
 //                        .addToolPaneActionButton("Сохранить в прайс-лист", {}, "width:200px;")
-                        .addToolPane({title:"Информация о товаре",detailTableAction:function(toolPane, detailHeader,detailTable,thisInstance){
-                            var detailTableSelectedRow= detailTable.getSelectedRow();
-                            if(detailTableSelectedRow) {
-                                var htCols = detailTable.getColumns(); var prodInfoHtml = "";
-                                for(var c=0;c<htCols.length;c++){
-                                    var colItem = htCols[c]; var colData = colItem["data"];
-                                    var colValue = detailTableSelectedRow[colData];
-                                    if(colData.indexOf('PRODUCT')>=0 || colData.indexOf('BARCODE')>=0 || colData.indexOf('BATCH_NUMBER')==0)
-                                        prodInfoHtml = prodInfoHtml + "<tr><td>"+"<b>"+colItem["name"]+":</b> "+((!colValue)?'':colValue)+"</td></tr>";
-                                }
-                                toolPane.set("content","<table style=\"margin:0;padding:0;\">"+prodInfoHtml+"</table>");
-                            } else toolPane.set("content","");
-                        }})
+                        .addToolPane({title:"Информация о товаре",
+                            detailTableAction:function(toolPane, detailHeader,detailTable,thisInstance){
+                                var detailTableSelectedRow= detailTable.getSelectedRow();
+                                if(detailTableSelectedRow) {
+                                    var htCols = detailTable.getColumns(); var prodInfoHtml = "";
+                                    for(var c=0;c<htCols.length;c++){
+                                        var colItem = htCols[c]; var colData = colItem["data"];
+                                        var colValue = detailTableSelectedRow[colData];
+                                        if(colData.indexOf('PRODUCT')>=0 || colData.indexOf('BARCODE')>=0 || colData.indexOf('BATCH_NUMBER')==0)
+                                            prodInfoHtml = prodInfoHtml + "<tr><td>"+"<b>"+colItem["name"]+":</b> "+((!colValue)?'':colValue)+"</td></tr>";
+                                    }
+                                    toolPane.set("content","<table style=\"margin:0;padding:0;\">"+prodInfoHtml+"</table>");
+                                } else toolPane.set("content","");
+                            }
+                        })
                         .addToolXPane("Ценник товара", function(toolPane, detailHeader,detailTable,thisInstance){
                             toolPane.set("content","");
                             var detailTableSelectedRow= detailTable.getSelectedRow();
