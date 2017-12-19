@@ -537,7 +537,8 @@ module.exports.init = function (app) {
     });
 
     var sysSyncOutputDataTableColumns = [
-        {data: "CREATE_DATE", name: "CreateDate", width: 75, type: "text"},
+        {data: "ID", name: "ID", width: 75, type: "text", visible:false},
+        {data: "CREATE_DATE", name: "CreateDate", width: 75, type: "datetimeAsText"},
         {data: "SYNC_POS_NAME", name: "SyncPOS", width: 90, type: "text", dataSource: "sys_sync_POSes", sourceField: "NAME",
             linkCondition:"sys_sync_output_data.SYNC_POS_ID=sys_sync_POSes.ID"},
         {data: "TABLE_NAME", name: "TableName", width: 250, type: "text"},
@@ -557,5 +558,90 @@ module.exports.init = function (app) {
             res.send(result);
         });
     });
+
+    app.post("/system/synchronization/getInfoPaneDetailOutputData", function (req, res) {
+        var conditions=req.body;
+        sys_sync_output_data_details.getDataItems({fields: ["NAME", "VALUE"],
+                conditions:conditions, order: "NAME"
+            },
+            function (result) {
+                res.send(result);
+            });
+    });
+
+    sys_sync_output_data.insertSysSyncOutData=function(insData, callback){
+        var now=dateFormat(new Date,"yyyy-mm-dd HH-MM-ss");
+        sys_sync_POSes.getDataItems({fields:["ID"],conditions:{"UNIT_ID=":insData["UNIT_ID"]}},function(result){
+            if(result.error){
+                callback({error:result.error});
+                return;
+            }
+            if(!result.items||result.items.length==0){
+                callback({error:"Не удалось найти POS_ID в БД"});
+                return;
+            }
+            var posIdArr=[];//result.items;
+            result.items.forEach(function(item){
+                posIdArr.push(item["ID"]);
+            });
+            sys_sync_output_data.insertSysSyncOutDataByPosId(0,posIdArr,insData,function(result){
+                callback(result);
+            });
+        });
+
+        sys_sync_output_data.insertSysSyncOutDataByPosId=function(ind,posIdArr,insData,callback){
+            if(!posIdArr[ind]){
+                callback({});
+                return;
+            }
+            var posId=posIdArr[ind];
+            sys_sync_output_data.insDataItemWithNewID({idFieldName:"ID",insData:{
+                    "CREATE_DATE":now, "SYNC_POS_ID":posId, "TABLE_NAME":"APP.PRODUCTS","KEY_DATA_NAME":"ID","STATE":"-1",
+                    "KEY_DATA_VALUE":insData["PRODUCT_ID"],"LAST_UPDATE_DATE":null,"APPLIED_DATE":null }},
+                function(result){
+                    if(result.error){
+                        callback({error:result.error});
+                        return;
+                    }
+                    var syncOutDataID=result.resultItem["ID"];
+                    var detailDataObjArr=[];
+                    var detailData=insData.detail;
+                    for(var i in detailData ){
+                        var obj={fieldName:i,value:detailData[i]};
+                        detailDataObjArr.push(obj);
+                    }
+                    sys_sync_output_data_details.insertSysSyncOutDataDetail(0,detailDataObjArr,syncOutDataID,function(result){
+                        if(result.error){
+                            callback({error:result.error});
+                            return;
+                        }
+                        sys_sync_output_data.updDataItem({updData:{"STATE":"0"}, conditions:{"ID=":result.syncOutDataID}},
+                            function(result){
+                                if(result.error){
+                                    callback({error:result.error});
+                                    return;
+                                }
+                                sys_sync_output_data.insertSysSyncOutDataByPosId(ind+1,posIdArr,insData,callback);
+                            });
+                    });
+                });
+        };
+    };
+    sys_sync_output_data_details.insertSysSyncOutDataDetail=function(ind,detailDataObjArr,syncOutDataID, callback){
+        if(!detailDataObjArr[ind]){
+            callback({syncOutDataID:syncOutDataID});
+            return;
+        }
+        var detailData=detailDataObjArr[ind];
+        sys_sync_output_data_details.insDataItemWithNewID({idFieldName:"ID",insData:{"SYNC_OUTPUT_DATA_ID":syncOutDataID,
+                "NAME":detailData.fieldName,"VALUE":detailData.value}},
+            function(result){
+                if(result.error){
+                    callback({error:result.error});
+                    return;
+                }
+                sys_sync_output_data_details.insertSysSyncOutDataDetail(ind+1,detailDataObjArr,syncOutDataID, callback);
+            })
+    };
 };
 

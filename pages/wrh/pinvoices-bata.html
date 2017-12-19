@@ -71,11 +71,15 @@
                         .addToolPaneActionButton("Удалить строку", {btnStyle:"width:200px;", detailTableActionName:"deleteDetailTableSelectedRow"})
                         .addToolPane({title:"Статус документа"})
                         .addToolPaneActionButton("Установить статус \"Закрыт\"", { btnStyle:"width:200px;",
-                            actionFunction: function(){
-
+                            actionFunction: function (params) {
+                                var pinvId =  params.thisInstance.detailHeader.data.ID;    console.log("pinvId=",pinvId);
+                                Request.postJSONData({url: "/wrh/pInvoices/closePInv", data: {"PINV_ID": pinvId}},
+                                    function(result){
+                                        params.thisInstance.setDetailHeaderContentByListSelectedRow(wrh_pinv.detailHeader.lastContentData, {reloadData:true, clearBeforeLoad:true});
+                                });
                             }
                         })
-                        .addToolPaneActionButton("Установить статус \"В работе\"", {btnParams:"width:200px;"})
+                        .addToolPaneActionButton("Установить статус \"В работе\"", {btnStyle:"width:200px;"})
                         .addDetailTableMenuItemAction("Добавить строки",{action:"insertDetailTableRowsAfterSelected",rowPosName:"POS"})//rowPosIndexName:"POSIND"
                         .addDetailTableMenuItemAction("Изменить строки",{action:"allowEditDetailTableSelectedRows"})
                         .addDetailTableMenuItemAction("Сохранить строки",{action:"storeDetailTableSelectedRows"})

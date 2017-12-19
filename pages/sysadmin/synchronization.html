@@ -145,8 +145,26 @@
                             APP.childFor(contentPaneDetailContainer, "sysadmin_sync__TableOutputData",
                                     TDocumentSimpleTable, {titleText: "Output data synchronization",
                                         dataURL: '/system/synchronization/getOutputDataForTable', dataURLCondition: {"1~": 1},
-                                        buttonPrint: false})
+                                        buttonPrint: false, rightPane:{ width:250 } })
                                     .addTotalCountNumberBox("ИТОГО строк:", 140, {style: "font-weight:bold;", inputStyle: "width:40px;"})
+                                    .addToolPane({title:"Detail info",
+                                        contentTableAction:function(params){
+                                            if(!params.contentTableSelectedRow){
+                                                params.thisToolPane.set("content","");
+                                                return;
+                                            }
+                                            Request.postJSONData({url:"/system/synchronization/getInfoPaneDetailOutputData",
+                                                        data:{"SYNC_OUTPUT_DATA_ID=":params.contentTableSelectedRow["ID"]}, resultItemName:"items"},
+                                                    function(resultItems){
+                                                        if(!resultItems)return;
+                                                        var innerCont="";
+                                                        for (var i = 0; i < resultItems.length; i++) {
+                                                            var elem = resultItems[i];
+                                                            innerCont+="<b>"+elem["NAME"]+"</b>: "+elem["VALUE"]+"<br>";
+                                                        }
+                                                        params.thisToolPane.set("content",innerCont);
+                                                    });
+                                        } })
                                     .startUp();
                     contentPaneDetailContainer.selectChild(btnOutputData.document);
                 };

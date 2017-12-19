@@ -657,10 +657,10 @@ define(["dojo/_base/declare", "dijit/layout/BorderContainer", "dijit/layout/Cont
                 this.addLeftCellToTableRow(row).innerHTML="<br>";
                 return this;
             },
-
             /**
              * actionParams = { btnStyle, btnParams, actionFunction, detailTableActionName }
-             *      actionFunction = function()
+             *    actionFunction = function(actionParams)
+             *    actionParams = { detailTableRowsData, detailTableInstance, toolPanes, thisInstance }
              */
             addToolPaneActionButton: function(label, actionParams){
                 if (!this.toolPanes||this.toolPanes.length==0) this.addToolPane();
@@ -668,9 +668,14 @@ define(["dojo/_base/declare", "dijit/layout/BorderContainer", "dijit/layout/Cont
                 var actionButton= this.addTableCellButtonTo(actionsTableRow, {labelText:label, cellWidth:0, btnStyle:actionParams.btnStyle, btnParameters:actionParams.btnParams});
                 if (!this.toolPanesActionButtons) this.toolPanesActionButtons={};
                 this.toolPanesActionButtons[actionParams.detailTableActionName]= actionButton;
+                var actionFunctionParams={detailTableInstance:this.detailTable, toolPanes:this.toolPanes, thisInstance:this,
+                    detailTableRowsData:this.detailTable.getContent()};
                 if(actionParams.actionFunction) {
-                    actionButton.onClick=actionParams.actionFunction;
-                    actionButton.detailTable= this.detailTable;
+                    actionButton.onClick=function(){
+                        actionParams.actionFunction(actionFunctionParams);
+                        actionButton.detailTable= this.detailTable;
+                    };
+                    return this;
                 } else {
                     actionButton.onClick= this.getOnClickAction(actionParams);
                     actionButton.setState= this.getSetStateAction(actionParams.detailTableActionName);
