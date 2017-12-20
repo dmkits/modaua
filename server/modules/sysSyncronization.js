@@ -45,7 +45,8 @@ module.exports.init = function (app) {
         {data: "POS_HOST_NAME", name: "POS HOST name", width: 150, type: "text", sourceField: "HOST_NAME"},
         {data: "DATABASE_NAME", name: "POS Database name", width: 200, type: "text"},
         {data: "UNIT_NAME", name: "Unit", width: 200, dataSource: "dir_units", sourceField: "NAME",
-            type: "combobox", "sourceURL": "/dir/units/getDataForUnitsCombobox" }
+            type: "combobox", "sourceURL": "/dir/units/getDataForUnitsCombobox" },
+        {data: "ACTIVE", name: "Active", width: 90, type: "checkbox", visible:true}
     ];
     app.get('/system/synchronization/getSyncPOSesDataForTable', function (req, res) {
         sys_sync_POSes.getDataForTable({
@@ -553,7 +554,7 @@ module.exports.init = function (app) {
     app.get('/system/synchronization/getOutputDataForTable', function (req, res) {
         sys_sync_output_data.getDataForTable({
             tableColumns: sysSyncOutputDataTableColumns, identifier: sysSyncOutputDataTableColumns[0].data,
-            order: "sys_sync_output_data.ID", conditions: req.query
+            order: "sys_sync_output_data.CREATE_DATE", conditions: req.query
         }, function (result) {
             res.send(result);
         });
@@ -571,13 +572,13 @@ module.exports.init = function (app) {
 
     sys_sync_output_data.insertSysSyncOutData=function(insData, callback){
         var now=dateFormat(new Date,"yyyy-mm-dd HH-MM-ss");
-        sys_sync_POSes.getDataItems({fields:["ID"],conditions:{"UNIT_ID=":insData["UNIT_ID"]}},function(result){
+        sys_sync_POSes.getDataItems({fields:["ID"],conditions:{"UNIT_ID=":insData["UNIT_ID"],"ACTIVE=":1}},function(result){
             if(result.error){
                 callback({error:result.error});
                 return;
             }
             if(!result.items||result.items.length==0){
-                callback({error:"Не удалось найти POS_ID в БД"});
+                callback({error:"Не удалось найти активные POS-терминалы в БД"});
                 return;
             }
             var posIdArr=[];//result.items;
