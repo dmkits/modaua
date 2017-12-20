@@ -205,7 +205,7 @@ define(["dojo/_base/declare", "dijit/layout/ContentPane","dojox/widget/Standby",
                 this.createHandsonTable();
             },
             getHandsonTable: function(){ return this.handsonTable; },
-            setHT: function(params){
+            setHTParams: function(params){
                 this.handsonTable.updateSettings(params);
             },
             setAddingHeaderRow: function(addingHeaderElements){
@@ -213,7 +213,7 @@ define(["dojo/_base/declare", "dijit/layout/ContentPane","dojox/widget/Standby",
                 var hInstance= this.getHandsonTable();
                 hInstance.updateSettings({
                     afterRender: function () {
-                        var theads=hInstance.rootElement.getElementsByTagName('thead');                                     //console.log("HTableSimple afterRender theads=",theads);
+                        var theads=hInstance.rootElement.getElementsByTagName('thead');                         //console.log("HTableSimple afterRender theads=",theads);
                         var div= document.createElement("div");
                         for(var theadInd=0;theadInd<theads.length;theadInd++){
                             var thead= theads[theadInd];
