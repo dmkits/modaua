@@ -52,7 +52,7 @@ define(["dojo/_base/declare", "dijit/layout/ContentPane","dojox/widget/Standby",
                 this.enableComments=false; this.htComments=[];
                 this.htSelection=null;
                 declare.safeMixin(this,args);
-                this.loadingGif=null;
+                this.loadingGif=null;       console.log("constructor this.readOnly=",this.readOnly, args);
             },
             getVisibleColumnsFrom: function(dataColumns){
                 var visibleColumns = [], vc=0;
@@ -112,7 +112,7 @@ define(["dojo/_base/declare", "dijit/layout/ContentPane","dojox/widget/Standby",
                 var content = document.createElement('div');
                 content.parentNode = this.domNode; content.parent = this.domNode; content.style="width:100%;height:100%;margin0;padding:0;";
                 this.set("content",content);
-                var parent=this;
+                var parent=this;                                        console.log("createHandsonTable parent.readOnly=",parent.readOnly);
                 this.handsonTable = new Handsontable(content, {
                     columns: parent.htVisibleColumns,
                     getColumnHeader: function(colIndex){

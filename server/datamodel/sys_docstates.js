@@ -19,7 +19,7 @@ var changeLog= [
     { changeID:"sys_docstates__7", changeDatetime:"2016-08-30 09:07:00", changeObj:"sys_docstates",
         changeVal:
             "INSERT INTO sys_docstates(ID,ALIAS,NAME,NOTE)" +
-                " values(0,'saved','Документ в работе','Документ в работе (возможно изменение)')"},
+                " values(0,'active','Документ в работе','Документ в работе (возможно изменение)')"},
     { changeID:"sys_docstates__8", changeDatetime:"2016-08-30 09:08:00", changeObj:"sys_docstates",
         changeVal:
             "INSERT INTO sys_docstates(ID,ALIAS,NAME,NOTE)" +

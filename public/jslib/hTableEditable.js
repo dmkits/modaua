@@ -4,7 +4,7 @@
 define(["dojo/_base/declare", "hTableSimpleFiltered","dijit/ProgressBar","dijit/Dialog", "dijit/registry", "request"], function(declare, hTableSimpleFiltered,ProgressBar,Dialog,registry, Request){
     return declare("HTableEditable", [hTableSimpleFiltered], {
         allowEditRowProp:"<!$allow_edit$!>",
-        constructor: function(args,parentName){
+        constructor: function(args,parentName){ console.log("constructor HTableEditable",args);
             declare.safeMixin(this,args);
         },
         setData: function(data) {                                                                           console.log("HTableEditable setData ", data);
@@ -102,13 +102,17 @@ define(["dojo/_base/declare", "hTableSimpleFiltered","dijit/ProgressBar","dijit/
             this.handsonTable.updateSettings({
                 cells: function (row/*index in data*/, col, prop) {                                                     //console.log("HTableEditable cells row=",row, this.instance.getSourceData(row));
                     var cellProps={readOnly:true, renderer:this.cellValueRenderer};
+                    if(this.readOnly==true) return cellProps;
+                    //var colData;
+                    //if(this.columns&&(colData=this.columns[col])&&colData.readOnly==true) return cellProps;
+
                     var rowData;
                     if ((rowData=this.instance.getSourceData()[row])!==undefined && rowData!==null && rowData[parent.allowEditRowProp]===true)
                         cellProps.readOnly=false;
-                    if (this.columns&&cellProps.readOnly==false){
-                        var colData = this.columns[col];
-                        if(colData&&colData.readOnly==true) cellProps.readOnly=true;
-                    }
+                    //if (this.columns&&cellProps.readOnly==false){
+                    //    var colData = this.columns[col];
+                    //    if(colData&&colData.readOnly==true) cellProps.readOnly=true;
+                    //}
                     return cellProps;
                 }
             });

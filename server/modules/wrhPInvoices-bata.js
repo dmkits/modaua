@@ -52,6 +52,7 @@ module.exports.init = function(app){
         {data: "CURRENCY_CODENAME", name: "Валюта", width: 50, type: "text", visible:false,
             dataSource:"sys_currency", dataFunction:{function:"concat",fields:["sys_currency.CODE","' ('","sys_currency.NAME","')'"]} },
         {data: "DOCSTATE_NAME", name: "Статус", width: 110, type: "text", dataSource:"sys_docstates", sourceField:"NAME"},
+        {data: "DOCSTATE_ALIAS", name: "Имя статуса", width: 110, type: "text", dataSource:"sys_docstates", sourceField:"ALIAS",visible:false},
         {data: "RATE", name: "Курс валюты", width: 60, type: "numeric2", visible:false, dataSource:"wrh_pinvs"},
         {data: "BASE_FACTOR", name: "Базов.коэфф.", width: 60, type: "numeric2", visible:false, dataSource:"wrh_pinvs"}
     ];
