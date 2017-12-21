@@ -181,10 +181,9 @@ define(["dojo/_base/declare", "dijit/layout/BorderContainer", "dijit/layout/Cont
                         if (!contentData||contentData.length==0) thisInstance.setDetailSubtotalContent({disabled:true, clearValue:true});
                         thisInstance.setToolPanesActions();
                     }                                                                                   console.log("this.detailHeader.onContentUpdated end",contentData, sourceparams, idIsChanged,this.lastContentData);
-                    //if(contentData["DOCSTATE_ALIAS"]!='active'){ console.log("DOCSTATE_ALIAS!=active");
-                    //   console.log("thisInstance.detailTable.domNode=",thisInstance.detailTable.domNode);
-                    //   // thisInstance.detailTable.setHTParams({readOnly:true});
-                    //}else thisInstance.detailTable.setHTParams({readOnly:false})
+                    if(contentData&&contentData["DOCSTATE_ALIAS"]&&(contentData["DOCSTATE_ALIAS"]=='active')){ console.log("DOCSTATE_ALIAS==active");
+                        thisInstance.detailTable.setReadOnly(false);
+                    }else thisInstance.detailTable.setReadOnly();
                 };
                 this.detailHeader.onContentChanged= function(isContentChanged){                                     //console.log("TemplateDocumentStandardTable.detailHeader.onContentChanged ",isContentChanged,this.getContentData());
                     //thisInstance.detailTableSetDisabled(isContentChanged);

@@ -4,12 +4,11 @@
 define(["dojo/_base/declare", "hTableSimpleFiltered","dijit/ProgressBar","dijit/Dialog", "dijit/registry", "request"], function(declare, hTableSimpleFiltered,ProgressBar,Dialog,registry, Request){
     return declare("HTableEditable", [hTableSimpleFiltered], {
         allowEditRowProp:"<!$allow_edit$!>",
-        constructor: function(args,parentName){ console.log("constructor HTableEditable",args);
+        constructor: function(args,parentName){
             declare.safeMixin(this,args);
         },
-        setData: function(data) {                                                                           console.log("HTableEditable setData ", data);
-            this._setData= hTableSimpleFiltered().setData;
-            this._setData(data);
+        setData: function(data) {
+            this.inherited(arguments,[data]);
             var tableData=this.htData;
             for(var c=0;c<this.htVisibleColumns.length;c++){
                 var visColData=this.htVisibleColumns[c];
@@ -100,19 +99,14 @@ define(["dojo/_base/declare", "hTableSimpleFiltered","dijit/ProgressBar","dijit/
                 }
             });
             this.handsonTable.updateSettings({
-                cells: function (row/*index in data*/, col, prop) {                                                     //console.log("HTableEditable cells row=",row, this.instance.getSourceData(row));
+                cells: function (row/*index in data*/, col, prop) {                                           //console.log("HTableEditable cells row=",row, parent.readOnly);
                     var cellProps={readOnly:true, renderer:this.cellValueRenderer};
-                    if(this.readOnly==true) return cellProps;
-                    //var colData;
-                    //if(this.columns&&(colData=this.columns[col])&&colData.readOnly==true) return cellProps;
-
+                    if(parent.readOnly==true) return cellProps;
+                    var colData;
+                    if(this.columns&&(colData=this.columns[col])&&colData.readOnly==true) return cellProps;
                     var rowData;
                     if ((rowData=this.instance.getSourceData()[row])!==undefined && rowData!==null && rowData[parent.allowEditRowProp]===true)
                         cellProps.readOnly=false;
-                    //if (this.columns&&cellProps.readOnly==false){
-                    //    var colData = this.columns[col];
-                    //    if(colData&&colData.readOnly==true) cellProps.readOnly=true;
-                    //}
                     return cellProps;
                 }
             });
@@ -244,6 +238,10 @@ define(["dojo/_base/declare", "hTableSimpleFiltered","dijit/ProgressBar","dijit/
             return rowData;
         },
         insertRowsAfterSelected: function(count, dataValuesForNewRows){
+            if (this.readOnly){
+                console.log("HTableEditable.insertRowsAfterSelected FAILED! TABLE IN READONLY MODE!");/*!!!TEST LOG!!!*/
+                return;
+            }
             var selectedRowData= this.getSelectionLastRow(), selectRowIndex= -1;
             var data=this.getData(), dataLength=data.length;
             for (var rowInd=0; rowInd<dataLength; rowInd++) {
@@ -291,6 +289,10 @@ define(["dojo/_base/declare", "hTableSimpleFiltered","dijit/ProgressBar","dijit/
          * params { callUpdateContent }
          */
         deleteRow: function(deleteRowData,params){
+            if (this.readOnly){
+                console.log("HTableEditable.deleteRow FAILED! TABLE IN READONLY MODE!");/*!!!TEST LOG!!!*/
+                return;
+            }
             var deleteRowIndex= -1, newSelectedRow=null, newSelection=[];
             var data=this.getData(), dataLength=data.length;
             if (dataLength<=0) return;
@@ -599,6 +601,10 @@ define(["dojo/_base/declare", "hTableSimpleFiltered","dijit/ProgressBar","dijit/
          * params: {url, condition, rowData, callUpdateContent}
          */
         deleteRowDataByURL: function(params, postCallback){
+            if (this.readOnly){
+                console.log("HTableEditable.deleteRowDataByURL FAILED! TABLE IN READONLY MODE!");/*!!!TEST LOG!!!*/
+                return;
+            }
             if (!params.rowData || !this.getRowIDName()) return;
             var rowData=params.rowData, rowIDName=this.getRowIDName(), deletingRowIDValue=rowData[rowIDName];
             if (deletingRowIDValue===undefined||deletingRowIDValue===null) {
@@ -641,6 +647,10 @@ define(["dojo/_base/declare", "hTableSimpleFiltered","dijit/ProgressBar","dijit/
          * params: {url, condition}
          */
         deleteSelectedRowDataByURL: function(params){
+            if (this.readOnly){
+                console.log("HTableEditable.deleteSelectedRowDataByURL FAILED! TABLE IN READONLY MODE!");/*!!!TEST LOG!!!*/
+                return;
+            }
             if (!params || !this.getRowIDName() || !this.getSelectedRow()) return;
             params.rowData= this.getSelectedRow();
             var rowIDValue=params.rowData[this.getRowIDName()];

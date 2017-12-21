@@ -355,13 +355,14 @@ define(["dojo/_base/declare", "dijit/layout/BorderContainer", "dijit/layout/Layo
                 var previousDayBtn = document.createElement('BUTTON');
                 previousDayBtn.setAttribute("id","previousDayBtnFor"+dateTextBox.id);
                 previousDayBtn.className = "dijitReset dijitButtonNode";
-                previousDayBtn.style.width = "19px";
-                previousDayBtn.style.height = "19px";
+                previousDayBtn.style.width = "18px";
+                previousDayBtn.style.height = "18px";
                 previousDayBtn.style.border="solid 1px #b5bcc7";
                 previousDayBtn.style.color="#b5bcc7";
                 previousDayBtn.innerText= "\u25c4";
                 tableCell.insertBefore(previousDayBtn, tableCell.lastChild);
                 previousDayBtn.onclick=function(){
+                    if (dateTextBox.get("disabled")) return;
                     var newDate=moment(new Date(dateTextBox.value)).subtract(1, 'days');
                     dateTextBox.set("displayedValue",newDate.format("DD.MM.YYYY"));
                 };
@@ -370,13 +371,14 @@ define(["dojo/_base/declare", "dijit/layout/BorderContainer", "dijit/layout/Layo
                 var nextDayBtn = document.createElement('BUTTON');
                 nextDayBtn.setAttribute("id","nextDayBtn"+dateTextBox.id);
                 nextDayBtn.className = "dijitReset dijitButtonNode";
-                nextDayBtn.style.width = "19px";
-                nextDayBtn.style.height = "19px";
+                nextDayBtn.style.width = "18px";
+                nextDayBtn.style.height = "18px";
                 nextDayBtn.style.border="solid 1px #b5bcc7";
                 nextDayBtn.style.color="#b5bcc7";
                 nextDayBtn.innerText= "\u25ba";
                 tableCell.appendChild(nextDayBtn);
                 nextDayBtn.onclick=function(){
+                    if (dateTextBox.get("disabled")) return;
                     var newDate=moment(new Date(dateTextBox.value)).add(1, 'days');
                     dateTextBox.set("displayedValue",newDate.format("DD.MM.YYYY"));
                 };

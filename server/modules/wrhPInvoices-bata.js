@@ -116,19 +116,19 @@ module.exports.init = function(app){
         var storeData=req.body;
         dir_units.getDataItem({fields:["ID"],conditions:{"NAME=":storeData["UNIT_NAME"]}}, function(result){
             if(!result.item){
-                res.send({ error:"Cannot finded unit by name!"});
+                res.send({ error:"Cannot find unit by name!"});
                 return;
             }
             storeData["UNIT_ID"]=result.item["ID"];
             dirContractors.getDataItem({fields:["ID"],conditions:{"NAME=":storeData["SUPPLIER_NAME"]}}, function(result){
                 if(!result.item){
-                    res.send({ error:"Cannot finded conractor by name!"});
+                    res.send({ error:"Cannot find contractor by name!"});
                     return;
                 }
                 storeData["SUPPLIER_ID"]=result.item["ID"];
                 sys_currency.getDataItem({fields:["ID"],conditions:{"CODE=":storeData["CURRENCY_CODE"]}}, function(result){
                     if(!result.item){
-                        res.send({ error:"Cannot finded currency by code!"});
+                        res.send({ error:"Cannot find currency by code!"});
                         return;
                     }
                     storeData["CURRENCY_ID"]=result.item["ID"];
@@ -657,14 +657,21 @@ module.exports.init = function(app){
     };
 
     wrh_pinvs_products.storePInvTableDataItem = function(storeData, callback){
-        if (!storeData["ID"]) {
-            wrh_pinvs_products.insNewPInvTableDataItem(storeData, function(insNewDataResult){
-                callback(insNewDataResult);
+        wrh_pinvs.updDataItem({updData:{"ID":storeData["PINV_ID"]},conditions:{"ID=":storeData["PINV_ID"]}},
+        function(result){
+            if(result.error){
+                callback({error:result.error});
+                return;
+            }
+            if (!storeData["ID"]) {
+                wrh_pinvs_products.insNewPInvTableDataItem(storeData, function(insNewDataResult){
+                    callback(insNewDataResult);
+                });
+                return;
+            }
+            wrh_pinvs_products.updPInvTableDataItem(storeData,function(updateRes){
+                callback(updateRes);
             });
-            return;
-        }
-        wrh_pinvs_products.updPInvTableDataItem(storeData,function(updateRes){
-            callback(updateRes);
         });
     };
     app.post("/wrh/pInvoices/storePInvProductsTableData", function(req, res){

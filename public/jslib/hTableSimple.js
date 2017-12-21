@@ -52,7 +52,7 @@ define(["dojo/_base/declare", "dijit/layout/ContentPane","dojox/widget/Standby",
                 this.enableComments=false; this.htComments=[];
                 this.htSelection=null;
                 declare.safeMixin(this,args);
-                this.loadingGif=null;       console.log("constructor this.readOnly=",this.readOnly, args);
+                this.loadingGif=null;
             },
             getVisibleColumnsFrom: function(dataColumns){
                 var visibleColumns = [], vc=0;
@@ -84,7 +84,7 @@ define(["dojo/_base/declare", "dijit/layout/ContentPane","dojox/widget/Standby",
              * if no data table data setted to { identifier:null, columns:[], items:[] }; }
              * if no data.items data.items setted to []
              */
-            setData: function(data) {                                                                                       console.log("HTableSimple setData ",data);
+            setData: function(data) {
                 if (!data) { data={ identifier:null, columns:[], items:[], error:null }; }
                 if(data.error) { this.htDataError=data.error; } else this.htDataError=null;
                 if(data.identifier) { this.handsonTable.rowIDName=data.identifier; }
@@ -112,7 +112,7 @@ define(["dojo/_base/declare", "dijit/layout/ContentPane","dojox/widget/Standby",
                 var content = document.createElement('div');
                 content.parentNode = this.domNode; content.parent = this.domNode; content.style="width:100%;height:100%;margin0;padding:0;";
                 this.set("content",content);
-                var parent=this;                                        console.log("createHandsonTable parent.readOnly=",parent.readOnly);
+                var parent=this;
                 this.handsonTable = new Handsontable(content, {
                     columns: parent.htVisibleColumns,
                     getColumnHeader: function(colIndex){
@@ -205,6 +205,11 @@ define(["dojo/_base/declare", "dijit/layout/ContentPane","dojox/widget/Standby",
                 this.createHandsonTable();
             },
             getHandsonTable: function(){ return this.handsonTable; },
+            setReadOnly: function(readOnly){
+                if (readOnly===undefined) readOnly=true;
+                this.readOnly= readOnly;
+                this.handsonTable.updateSettings({readOnly:readOnly});
+            },
             setHTParams: function(params){
                 this.handsonTable.updateSettings(params);
             },
