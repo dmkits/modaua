@@ -58,6 +58,25 @@ var changeLog = [
         field:"SUPPLIER_ORDER_NUM"},
     { changeID: "wrh_pinvs_18", changeDatetime:"2016-09-12 22:21:00", changeObj: "wrh_pinvs",
         changeVal: "ALTER TABLE wrh_pinvs ADD CONSTRAINT WRH_PINVS_UNIT_ID_NUMBER_UNIQUE " +
-            "UNIQUE(UNIT_ID,NUMBER)" }
+            "UNIQUE(UNIT_ID,NUMBER)" },
+    { changeID:"wrh_pinvs_19", changeDatetime:"2016-09-12 22:22:00", changeObj:"wrh_pinvs",
+        changeVal: "CREATE TRIGGER upd_pinv "+
+        "BEFORE UPDATE ON wrh_pinvs "+
+        "FOR EACH ROW "+
+        "BEGIN "+
+        "IF OLD.DOCSTATE_ID <> 0 AND NEW.DOCSTATE_ID <> 0 "+
+        "THEN  SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Impossible to update a \"closed\" state document.'; "+
+        "END IF; "+
+        "END;  " },
+    { changeID:"wrh_pinvs_20", changeDatetime:"2016-09-12 22:23:00", changeObj:"wrh_pinvs",
+        changeVal: "CREATE TRIGGER del_pinv "+
+        "BEFORE DELETE ON wrh_pinvs "+
+        "FOR EACH ROW "+
+        "BEGIN "+
+        "IF OLD.DOCSTATE_ID <> 0 "+
+        "THEN "+
+        "SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Impossible to delete a \"closed\" state document.'; "+
+        "END IF; "+
+        "END;  "}
 ];
 module.exports.changeLog=changeLog;

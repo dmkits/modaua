@@ -24,7 +24,48 @@ var changeLog = [
         field:"PRICE"},
     { changeID:"wrh_pinvs_products__8", changeDatetime:"2016-09-08 11:38:00", changeObj:"wrh_pinvs_products",
         changeVal:"ALTER TABLE wrh_pinvs_products ADD COLUMN FACTOR DECIMAL(10,2) NOT NULL",
-        field:"FACTOR"}
+        field:"FACTOR"},
+    { changeID:"wrh_pinvs_products__9", changeDatetime:"2016-09-08 11:39:00", changeObj:"wrh_pinvs_products",
+        changeVal: "CREATE TRIGGER del_pinvs_products "+
+        "BEFORE  DELETE ON wrh_pinvs_products "+
+        "FOR EACH ROW "+
+        "BEGIN "+
+        "DECLARE DOCSTATE_ID INT; "+
+        "SELECT wp.DOCSTATE_ID INTO DOCSTATE_ID "+
+        "from wrh_pinvs wp "+
+        "WHERE wp.ID=OLD.PINV_ID; "+
+        "IF DOCSTATE_ID <> 0 "+
+        "THEN SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Impossible to delete data from a \"closed\" state document.';"+
+        "END IF; "+
+        "END; "},
+    { changeID:"wrh_pinvs_products_10", changeDatetime:"2016-09-08 11:40:00", changeObj:"wrh_pinvs_products",
+        changeVal: "CREATE TRIGGER upd_pinvs_products "+
+        "BEFORE  UPDATE ON wrh_pinvs_products "+
+        "FOR EACH ROW "+
+        "BEGIN "+
+        "DECLARE DOCSTATE_ID INT; "+
+        "SELECT wp.DOCSTATE_ID "+
+        "INTO DOCSTATE_ID "+
+        "from wrh_pinvs wp "+
+        "WHERE wp.ID=OLD.PINV_ID; "+
+        "IF DOCSTATE_ID <> 0 "+
+        "THEN SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Impossible to update data in a \"closed\" state document.'; "+
+        "END IF; "+
+        "END; "},
+    { changeID:"wrh_pinvs_products_11", changeDatetime:"2016-09-08 11:41:00",changeObj:"wrh_pinvs_products",
+        changeVal: "CREATE TRIGGER ins_pinvs_products "+
+        "BEFORE  INSERT ON wrh_pinvs_products "+
+        "FOR EACH ROW "+
+        "BEGIN "+
+        "DECLARE DOCSTATE_ID INT; "+
+        "SELECT wp.DOCSTATE_ID "+
+        "INTO DOCSTATE_ID "+
+        "from wrh_pinvs wp "+
+        "WHERE wp.ID=NEW.PINV_ID; "+
+        "IF DOCSTATE_ID <> 0 "+
+        "THEN SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Impossible to insert data into a \"closed\" state document.'; "+
+        "END IF; "+
+        "END;  "}
     //{ changeID:"wrh_pinvs_products_11", changeDatetime:"2016-09-08 11:41:00", changeObj:"wrh_pinvs_products",
     //    changeVal:"ALTER TABLE wrh_pinvs_products ADD CONSTRAINT WRH_PINVS_PINV_ID_POSIND_UNIQUE " +
     //        "UNIQUE(PINV_ID,POSIND)" }

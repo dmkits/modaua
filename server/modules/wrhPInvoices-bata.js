@@ -697,7 +697,14 @@ module.exports.init = function(app){
                     return;
                 }
                 if(!result.items||result.items.length==0){
-                    res.send({error:"Не удалось найти товары в  накладной"});
+                   // res.send({error:"Не удалось найти товары в  накладной"});
+                    wrh_pinvs.updDataItem({updData:{"DOCSTATE_ID":"1"}, conditions:{"ID=":pinvId}}, function(result){
+                        if(result.error){
+                            res.send({error:result.error});
+                            return;
+                        }
+                        res.send({});
+                    });
                     return;
                 }
                 var operationIdArr=[];
