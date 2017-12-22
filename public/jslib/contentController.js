@@ -93,11 +93,13 @@ define(["dojo/_base/declare", "dijit/layout/ContentPane", "request"],
                     newDataIDValue= null;
                     this.data = [];
                 }
+                var disable = true;
+                if(newData['DOCSTATE_ALIAS'] && newData['DOCSTATE_ALIAS']!='active')disable = false;
                 for(var itemName in this.elements){
                     var newDataItem= {value:newData[itemName]};
                     var elementObj = this.elements[itemName];
                     if (elementObj.labelDataItem) newDataItem[elementObj.labelDataItem]= newData[elementObj.labelDataItem];
-                    this.setControlElementData(itemName, newDataItem, true, setOnlyControlElementsValues);
+                    this.setControlElementData(itemName, newDataItem, disable, setOnlyControlElementsValues);
                 }
                 var idIsChanged= (!this.data)?true:oldDataIDValue!==newDataIDValue;
                 setTimeout(function(){

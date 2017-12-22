@@ -657,16 +657,16 @@ module.exports.init = function(app){
     };
 
     wrh_pinvs_products.storePInvTableDataItem = function(storeData, callback){
+        if (!storeData["ID"]) {
+            wrh_pinvs_products.insNewPInvTableDataItem(storeData, function(insNewDataResult){
+                callback(insNewDataResult);
+            });
+            return;
+        }
         wrh_pinvs.updDataItem({updData:{"ID":storeData["PINV_ID"]},conditions:{"ID=":storeData["PINV_ID"]}},
         function(result){
             if(result.error){
                 callback({error:result.error});
-                return;
-            }
-            if (!storeData["ID"]) {
-                wrh_pinvs_products.insNewPInvTableDataItem(storeData, function(insNewDataResult){
-                    callback(insNewDataResult);
-                });
                 return;
             }
             wrh_pinvs_products.updPInvTableDataItem(storeData,function(updateRes){

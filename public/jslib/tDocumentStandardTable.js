@@ -747,18 +747,21 @@ define(["dojo/_base/declare", "dijit/layout/BorderContainer", "dijit/layout/Cont
                 } else if (action==="deleteHeader"){
                     return function(){
                         if ( thisInstance.detailHeader.getContentData()
-                            && !(thisInstance.detailTable.getData()&&thisInstance.detailTable.getData().length>0) ) this.setDisabled(false);
+                            && (!(thisInstance.detailTable.getData()&&thisInstance.detailTable.getData().length>0)
+                            && (thisInstance.detailHeader.getContentData()["DOCSTATE_ALIAS"] =='active'))) this.setDisabled(false);
                         else this.setDisabled(true);
                     }
                 } else if (action==="insertDetailTableRow"||action==="insertDetailTableCopySelectedRow"){
                     return function(){
-                        if (thisInstance.detailHeader.getContentData()&&!thisInstance.detailHeader.isContentChanged()) this.setDisabled(false);
+                        if (thisInstance.detailHeader.getContentData()&&(!thisInstance.detailHeader.isContentChanged()
+                        && (thisInstance.detailHeader.getContentData()["DOCSTATE_ALIAS"] =='active'))) this.setDisabled(false);
                         else this.setDisabled(true);
                     }
                 } else if (action==="allowEditDetailTableSelectedRow"){
                     return function(){
-                        if (thisInstance.detailHeader.getContentData()&&!thisInstance.detailHeader.isContentChanged()
-                            &&thisInstance.detailTable.getSelectedRow()&&!thisInstance.detailTable.isSelectedRowEditable()) this.setDisabled(false);
+                        if (thisInstance.detailHeader.getContentData()&&(!thisInstance.detailHeader.isContentChanged()
+                            &&thisInstance.detailTable.getSelectedRow()&&!thisInstance.detailTable.isSelectedRowEditable()
+                            && (thisInstance.detailHeader.getContentData()["DOCSTATE_ALIAS"] =='active'))) this.setDisabled(false);
                         else this.setDisabled(true);
                     }
                 } else if (action==="storeDetailTableSelectedRow"){
@@ -769,8 +772,9 @@ define(["dojo/_base/declare", "dijit/layout/BorderContainer", "dijit/layout/Cont
                     }
                 } else if (action==="deleteDetailTableSelectedRow"){
                     return function(){
-                        if (thisInstance.detailHeader.getContentData()&&!thisInstance.detailHeader.isContentChanged()
-                            &&thisInstance.detailTable.getSelectedRow()) this.setDisabled(false);
+                        if (thisInstance.detailHeader.getContentData()&&(!thisInstance.detailHeader.isContentChanged()
+                            &&thisInstance.detailTable.getSelectedRow()
+                            && (thisInstance.detailHeader.getContentData()["DOCSTATE_ALIAS"] =='active'))) this.setDisabled(false);
                         else this.setDisabled(true);
                     }
                 }

@@ -39,7 +39,7 @@ define(["app", "dijit/ConfirmDialog","dojox/widget/DialogSimple", "dijit/form/Bu
                 if(!params.dialogID) params.dialogID="DialogSimple";
                 var dialogStyle="text-align:center; ";
                 var myDialog = APP.instance(params.dialogID, DialogSimple, {});
-                if(params.width)dialogStyle=dialogStyle+'width:'+params.width+'; ';
+                if(params.width)dialogStyle=dialogStyle+'width:'+params.width+'px; ';
                 if (!params.title) params.title="";
                 myDialog.set("title", params.title);
                 if (!params.content) params.content="";
@@ -55,7 +55,7 @@ define(["app", "dijit/ConfirmDialog","dojox/widget/DialogSimple", "dijit/form/Bu
             doRequestFailDialog: function(params) {
                 if(!params) params={};
                 params.dialogID="requestFailDialog";
-                params.width=300;
+                params.width=350;
                 params.btnOkLabel="Закрыть";
                 var instance= APP.getInstanceByID(params.dialogID);
                 if(instance&&instance.open){
