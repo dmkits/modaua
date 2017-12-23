@@ -16,8 +16,8 @@
                             { idListContainer:"wrh_ret_pinv_ListContainer",idDetailContainer:"wrh_ret_pinv_DetailContainer",
                                 idDetailHeader:"wrh_ret_pinv_DetailHeader",idDetailTable:"wrh_ret_pinv_ProductsTable",idDetailTotal:"wrh_ret_pinv_DetailTotal",
                                 idRightContainer:"wrh_ret_pinv_RightContainer" })
-                        .setListTable({getDataUrl:"/wrh/retPInvoices/getDataForRetPInvsListTable"})
-                        .setListDatesContent({header:"Список накладных", bdatelabelText:"c",bdateCondition:"DOCDATE>=", edatelabelText:"по",edateCondition:"DOCDATE<="})
+                        .addListTable({getDataUrl:"/wrh/retPInvoices/getDataForRetPInvsListTable",header:"Список накладных",
+                            bdatelabelText:"c",bdateCondition:"DOCDATE>=", edatelabelText:"по",edateCondition:"DOCDATE<="})
                         .setDetailHeaderParameters({dataIDName:"ID",
                             getDataUrl:"/wrh/retPInvoices/getRetPInvData", getDataForNewUrl:"/wrh/retPInvoices/getNewRetPInvData",
                             postDataUrl:"/wrh/retPInvoices/storeRetPInvData", postForDeleteDataUrl:"/wrh/retPInvoices/deleteRetPInvData"})

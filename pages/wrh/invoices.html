@@ -16,8 +16,8 @@
                             { idListContainer:"wrh_inv_ListContainer",idDetailContainer:"wrh_inv_DetailContainer",
                                 idDetailHeader:"wrh_inv_DetailHeader",idDetailTable:"wrh_inv_ProductsTable",idDetailTotal:"wrh_inv_DetailTotal",
                                 idRightContainer:"wrh_inv_RightContainer" })
-                        .setListTable({getDataUrl:"/wrh/invoices/getDataForInvsListTable"})
-                        .setListDatesContent({header:"Список накладных", bdatelabelText:"c",bdateCondition:"DOCDATE>=", edatelabelText:"по",edateCondition:"DOCDATE<="})
+                        .addListTable({getDataUrl:"/wrh/invoices/getDataForInvsListTable",header:"Список накладных", bdatelabelText:"c",
+                            bdateCondition:"DOCDATE>=", edatelabelText:"по",edateCondition:"DOCDATE<="})
                         .setDetailHeaderParameters({dataIDName:"ID",
                             getDataUrl:"/wrh/invoices/getInvData", getDataForNewUrl:"/wrh/invoices/getNewInvData",
                             postDataUrl:"/wrh/invoices/storeInvData", postForDeleteDataUrl:"/wrh/invoices/deleteInvData"})

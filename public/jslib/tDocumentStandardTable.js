@@ -60,9 +60,10 @@ define(["dojo/_base/declare", "dijit/layout/BorderContainer", "dijit/layout/Cont
             },
 
             /*
-             * params: { getDataUrl:"/...", getDataCondition: {param:paramValue, ...} }
+             * params: { getDataUrl:"/...", getDataCondition: {param:paramValue, ...},
+             *              header, bdateCondition,bdatelabelText, edateCondition,edatelabelText} }
              */
-            setListTable: function(params){
+            addListTable: function(params){  //setListTable
                 this.listTable =
                     new HTable({region:'center',style:"margin:5px;padding:0;", wordWrap:true, readOnly:true, useFilters:true, allowFillHandle:false});
                 this.setBorderedStyleFor(this.listTable.domNode);
@@ -106,6 +107,7 @@ define(["dojo/_base/declare", "dijit/layout/BorderContainer", "dijit/layout/Cont
                     this.setSelection(firstSelectedRowData, selection);
                     thisInstance.setDetailHeaderContentByListSelectedRow(firstSelectedRowData);
                 };
+                this.setListDatesContent(params);
                 return this;
             },
             /**
@@ -183,9 +185,10 @@ define(["dojo/_base/declare", "dijit/layout/BorderContainer", "dijit/layout/Cont
                         if (!contentData||contentData.length==0) thisInstance.setDetailSubtotalContent({disabled:true, clearValue:true});
                         thisInstance.setToolPanesActions();
                     }                                                                                   console.log("this.detailHeader.onContentUpdated end",contentData, sourceparams, idIsChanged,this.lastContentData);
-                    if(thisInstance.detailHeader.getContentData()[thisInstance.detailHeader.dataStateName]
-                       && thisInstance.detailHeader.getContentData()[thisInstance.detailHeader.dataStateName]==thisInstance.detailHeader.activeStateValue){
-                        thisInstance.detailTable.setReadOnly(false);
+                    if(thisInstance.detailHeader.getContentData()
+                        && thisInstance.detailHeader.getContentData()[thisInstance.detailHeader.dataStateName]
+                        && thisInstance.detailHeader.getContentData()[thisInstance.detailHeader.dataStateName]==thisInstance.detailHeader.activeStateValue){
+                         thisInstance.detailTable.setReadOnly(false);
                     }else thisInstance.detailTable.setReadOnly();
                 };
                 this.detailHeader.onContentChanged= function(isContentChanged){                                     //console.log("TemplateDocumentStandardTable.detailHeader.onContentChanged ",isContentChanged,this.getContentData());

@@ -93,7 +93,7 @@ define(["dojo/_base/declare", "dijit/layout/ContentPane", "request"],
                     newDataIDValue= null;
                     this.data = [];
                 }
-                var enable = true;  console.log("newData[this.dataStateName] 96=",newData[this.dataStateName],newData[this.activeStateValue] );
+                var enable = true;
                 if(newData[this.dataStateName] && newData[this.dataStateName] != this.activeStateValue)enable = false;
                 for(var itemName in this.elements){
                     var newDataItem= {value:newData[itemName]};

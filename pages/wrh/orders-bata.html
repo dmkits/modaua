@@ -19,8 +19,8 @@
                             { idListContainer:"wrh_order_bata_LeftContainer",idDetailContainer:"wrh_order_bata_DetailContainer",
                                 idDetailHeader:"wrh_order_bata_DetailHeader",idDetailTable:"wrh_order_bata_DetailTable",idDetailTotal:"wrh_order_bata_DetailTotal",
                                 idRightContainer:"wrh_order_bata_RightPane" })
-                        .setListTable({getDataUrl:"/wrh/ordersBata/getDataForOrdersBataListTable"})
-                        .setListDatesContent({header:"Список заказов", bdatelabelText:"c",bdateCondition:"DOCDATE>=", edatelabelText:"по",edateCondition:"DOCDATE<="})
+                        .addListTable({getDataUrl:"/wrh/ordersBata/getDataForOrdersBataListTable",header:"Список заказов",
+                            bdatelabelText:"c",bdateCondition:"DOCDATE>=", edatelabelText:"по",edateCondition:"DOCDATE<="})
                         .setDetailHeaderParameters({dataIDName:"ID",
                             getDataUrl:"/wrh/ordersBata/getOrderBataData", getDataForNewUrl:"/wrh/ordersBata/getNewOrderBataData",
                             postDataUrl:"/wrh/ordersBata/storeOrderBataData", postForDeleteDataUrl:"/wrh/ordersBata/deleteOrderBataData"})
