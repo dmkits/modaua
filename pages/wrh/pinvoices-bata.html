@@ -16,13 +16,19 @@
                             { idListContainer:"wrh_pinv_ListContainer",idDetailContainer:"wrh_pinv_DetailContainer",
                                 idDetailHeader:"wrh_pinv_DetailHeader",idDetailTable:"wrh_pinv_ProductsTable",idDetailTotal:"wrh_pinv_DetailTotal",
                                 idRightContainer:"wrh_pinv_RightContainer" })
+//                        .addListTable({getDataUrl:"/wrh/pInvoices/getDataForPInvsListTable",
+//                            header:"Список накладных", bdatelabelText:"c",bdateCondition:"DOCDATE>=", edatelabelText:"по",edateCondition:"DOCDATE<="
+//                        })
                         .setListTable({getDataUrl:"/wrh/pInvoices/getDataForPInvsListTable"})
                         .setListDatesContent({header:"Список накладных", bdatelabelText:"c",bdateCondition:"DOCDATE>=", edatelabelText:"по",edateCondition:"DOCDATE<="})
+
                         .setDetailHeaderParameters({dataIDName:"ID",
                             getDataUrl:"/wrh/pInvoices/getPInvData", getDataForNewUrl:"/wrh/pInvoices/getNewPInvData",
-                            postDataUrl:"/wrh/pInvoices/storePInvData", postForDeleteDataUrl:"/wrh/pInvoices/deletePInvData"})
-                        .addDetailHeaderTitle({title:"Приходная накладная",titleForNew:"Новая приходная накладная",
-                            titleForNothing:"Приходная накладная не выбрана", titleForFailedLoad:"Нет данных",
+                            postDataUrl:"/wrh/pInvoices/storePInvData", postForDeleteDataUrl:"/wrh/pInvoices/deletePInvData",
+                            dataStateName:"DOCSTATE_ALIAS", activeStateValue:"active"
+                        })
+                        .addDetailHeaderTitle({title:"Приходная накладная",
+                            titleForNew:"Новая приходная накладная", titleForNothing:"Приходная накладная не выбрана", titleForFailedLoad:"Нет данных",
                             numberDataItemName:"NUMBER", dateDataItemName:"DOCDATE", titleDatePrefix:"от"},25)
                         .addDetailHeaderRow(25,true)
                         .addDetailHeaderSelect("UNIT_NAME","Подразделение", 330,

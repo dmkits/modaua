@@ -60,37 +60,6 @@ define(["dojo/_base/declare", "dijit/layout/BorderContainer", "dijit/layout/Cont
             },
 
             /*
-            * params: {header, bdateCondition,bdatelabelText, edateCondition,edatelabelText}
-            */
-            setListDatesContent: function(params){
-                if (params.header) {
-                    var listHeaderTable = this.addTableTo(this.listPeriodContent.containerNode);
-                    var listHeaderRow = this.addRowToTable(listHeaderTable, 25);
-                    this.addHeaderCellToTableRow(listHeaderRow, 0, "width:100%;", params.header);
-                }
-                if (!params.bdateCondition&&!params.edateCondition) return this;
-                var listPeriodTable = this.addTableTo(this.listPeriodContent.containerNode);
-                this.listPeriodTableRow = this.addRowToTable(listPeriodTable);
-                var instance = this;
-                if (params.bdateCondition) {
-                    this.listBDate = this.addTableCellDateBoxTo(this.listPeriodTableRow,
-                        {labelText:params.bdatelabelText, labelStyle:"margin-left:5px;", cellWidth:150, cellStyle:"text-align:right;",
-                            dateBoxParams:{conditionName:params.bdateCondition}, initValueDate:APP.curMonthBDate()});
-                    this.listBDate.onChange = function(){
-                        instance.loadListTableContentFromServer();
-                    }
-                }
-                if (params.edateCondition) {
-                    this.listEDate = this.addTableCellDateBoxTo(this.listPeriodTableRow,
-                        {labelText:params.edatelabelText, labelStyle:"margin-left:5px;", cellWidth:150, cellStyle:"text-align:right;",
-                            dateBoxParams:{conditionName:params.edateCondition}, initValueDate:APP.curMonthEDate()});
-                    this.listEDate.onChange = function(){
-                        instance.loadListTableContentFromServer();
-                    }
-                }
-                return this;
-            },
-            /*
              * params: { getDataUrl:"/...", getDataCondition: {param:paramValue, ...} }
              */
             setListTable: function(params){
@@ -155,9 +124,40 @@ define(["dojo/_base/declare", "dijit/layout/BorderContainer", "dijit/layout/Cont
                 thisListTable.selectedRowDataIDForSet=params.selectedRowDataID;
                 this.listTable.setContentFromUrl({url:this.listTable.getDataUrl,condition:condition, callUpdateContent:params.callUpdateContent});
             },
+            /*
+             * params: {header, bdateCondition,bdatelabelText, edateCondition,edatelabelText}
+             */
+            setListDatesContent: function(params){
+                if (params.header) {
+                    var listHeaderTable = this.addTableTo(this.listPeriodContent.containerNode);
+                    var listHeaderRow = this.addRowToTable(listHeaderTable, 25);
+                    this.addHeaderCellToTableRow(listHeaderRow, 0, "width:100%;", params.header);
+                }
+                if (!params.bdateCondition&&!params.edateCondition) return this;
+                var listPeriodTable = this.addTableTo(this.listPeriodContent.containerNode);
+                this.listPeriodTableRow = this.addRowToTable(listPeriodTable);
+                var instance = this;
+                if (params.bdateCondition) {
+                    this.listBDate = this.addTableCellDateBoxTo(this.listPeriodTableRow,
+                        {labelText:params.bdatelabelText, labelStyle:"margin-left:5px;", cellWidth:150, cellStyle:"text-align:right;",
+                            dateBoxParams:{conditionName:params.bdateCondition}, initValueDate:APP.curMonthBDate()});
+                    this.listBDate.onChange = function(){
+                        instance.loadListTableContentFromServer();
+                    }
+                }
+                if (params.edateCondition) {
+                    this.listEDate = this.addTableCellDateBoxTo(this.listPeriodTableRow,
+                        {labelText:params.edatelabelText, labelStyle:"margin-left:5px;", cellWidth:150, cellStyle:"text-align:right;",
+                            dateBoxParams:{conditionName:params.edateCondition}, initValueDate:APP.curMonthEDate()});
+                    this.listEDate.onChange = function(){
+                        instance.loadListTableContentFromServer();
+                    }
+                }
+                return this;
+            },
 
             /*
-             * parameters= { dataIDName, getDataUrl }
+             * parameters= { dataIDName, getDataUrl, dataStateName,activeStateValue }
              */
             setDetailHeaderParameters: function(parameters){
                 if (parameters.dataIDName) this.detailHeader.setDataIDName(parameters.dataIDName);
@@ -165,6 +165,8 @@ define(["dojo/_base/declare", "dijit/layout/BorderContainer", "dijit/layout/Cont
                 if (parameters.getDataForNewUrl) this.detailHeader.getDataForNewUrl=parameters.getDataForNewUrl;
                 if (parameters.postDataUrl) this.detailHeader.postDataUrl=parameters.postDataUrl;
                 if (parameters.postForDeleteDataUrl) this.detailHeader.postForDeleteDataUrl=parameters.postForDeleteDataUrl;
+                if (parameters.dataStateName) this.detailHeader.dataStateName=parameters.dataStateName;
+                if (parameters.activeStateValue) this.detailHeader.activeStateValue=parameters.activeStateValue;
                 var thisInstance=this;
                 this.detailHeader.onContentUpdated= function(contentData, sourceparams, idIsChanged){                   console.log("TemplateDocumentStandardTable.detailHeader.onContentUpdated ",contentData," ",sourceparams,idIsChanged);
                     if(sourceparams.source.indexOf("Values")<0) this.lastContentData=contentData;
@@ -181,7 +183,8 @@ define(["dojo/_base/declare", "dijit/layout/BorderContainer", "dijit/layout/Cont
                         if (!contentData||contentData.length==0) thisInstance.setDetailSubtotalContent({disabled:true, clearValue:true});
                         thisInstance.setToolPanesActions();
                     }                                                                                   console.log("this.detailHeader.onContentUpdated end",contentData, sourceparams, idIsChanged,this.lastContentData);
-                    if(contentData&&contentData["DOCSTATE_ALIAS"]&&(contentData["DOCSTATE_ALIAS"]=='active')){ console.log("DOCSTATE_ALIAS==active");
+                    if(thisInstance.detailHeader.getContentData()[thisInstance.detailHeader.dataStateName]
+                       && thisInstance.detailHeader.getContentData()[thisInstance.detailHeader.dataStateName]==thisInstance.detailHeader.activeStateValue){
                         thisInstance.detailTable.setReadOnly(false);
                     }else thisInstance.detailTable.setReadOnly();
                 };
@@ -748,20 +751,23 @@ define(["dojo/_base/declare", "dijit/layout/BorderContainer", "dijit/layout/Cont
                     return function(){
                         if ( thisInstance.detailHeader.getContentData()
                             && (!(thisInstance.detailTable.getData()&&thisInstance.detailTable.getData().length>0)
-                            && (thisInstance.detailHeader.getContentData()["DOCSTATE_ALIAS"] =='active'))) this.setDisabled(false);
+                            && (thisInstance.detailHeader.getContentData()[thisInstance.detailHeader.dataStateName]
+                            && thisInstance.detailHeader.getContentData()[thisInstance.detailHeader.dataStateName]==thisInstance.detailHeader.activeStateValue))) this.setDisabled(false);
                         else this.setDisabled(true);
                     }
                 } else if (action==="insertDetailTableRow"||action==="insertDetailTableCopySelectedRow"){
                     return function(){
                         if (thisInstance.detailHeader.getContentData()&&(!thisInstance.detailHeader.isContentChanged()
-                        && (thisInstance.detailHeader.getContentData()["DOCSTATE_ALIAS"] =='active'))) this.setDisabled(false);
+                        && (thisInstance.detailHeader.getContentData()[thisInstance.detailHeader.dataStateName]
+                            && thisInstance.detailHeader.getContentData()[thisInstance.detailHeader.dataStateName]==thisInstance.detailHeader.activeStateValue))) this.setDisabled(false);
                         else this.setDisabled(true);
                     }
                 } else if (action==="allowEditDetailTableSelectedRow"){
                     return function(){
                         if (thisInstance.detailHeader.getContentData()&&(!thisInstance.detailHeader.isContentChanged()
                             &&thisInstance.detailTable.getSelectedRow()&&!thisInstance.detailTable.isSelectedRowEditable()
-                            && (thisInstance.detailHeader.getContentData()["DOCSTATE_ALIAS"] =='active'))) this.setDisabled(false);
+                            && (thisInstance.detailHeader.getContentData()[thisInstance.detailHeader.dataStateName]
+                            && thisInstance.detailHeader.getContentData()[thisInstance.detailHeader.dataStateName]==thisInstance.detailHeader.activeStateValue))) this.setDisabled(false);
                         else this.setDisabled(true);
                     }
                 } else if (action==="storeDetailTableSelectedRow"){
@@ -774,7 +780,8 @@ define(["dojo/_base/declare", "dijit/layout/BorderContainer", "dijit/layout/Cont
                     return function(){
                         if (thisInstance.detailHeader.getContentData()&&(!thisInstance.detailHeader.isContentChanged()
                             &&thisInstance.detailTable.getSelectedRow()
-                            && (thisInstance.detailHeader.getContentData()["DOCSTATE_ALIAS"] =='active'))) this.setDisabled(false);
+                            && (thisInstance.detailHeader.getContentData()[thisInstance.detailHeader.dataStateName]
+                            && thisInstance.detailHeader.getContentData()[thisInstance.detailHeader.dataStateName]==thisInstance.detailHeader.activeStateValue))) this.setDisabled(false);
                         else this.setDisabled(true);
                     }
                 }
