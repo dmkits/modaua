@@ -41,6 +41,12 @@ var changeLog = [
         changeVal:"ALTER TABLE sys_sync_output_data ALTER COLUMN APPLIED_DATE  DROP DEFAULT" },
     { changeID:"sys_sync_output_data_15", changeDatetime:"2016-10-07 12:35:00", changeObj:"sys_sync_output_data",
         changeVal:"ALTER TABLE sys_sync_output_data ADD COLUMN CLIENT_MESSAGE VARCHAR(255)",
-        field:"CLIENT_MESSAGE"}
+        field:"CLIENT_MESSAGE"},
+    { changeID:"sys_sync_output_data_16", changeDatetime:"2016-10-07 12:36:00", changeObj:"sys_sync_output_data",
+        changeVal:"ALTER TABLE sys_sync_output_data ADD COLUMN OPERATION_ID BIGINT UNSIGNED NOT NULL",
+        field:"OPERATION_ID"},
+    { changeID:"sys_sync_output_data_17", changeDatetime:"2016-10-07 12:37:00", changeObj:"sys_sync_output_data",
+        changeVal:"ALTER TABLE sys_sync_output_data ADD CONSTRAINT SYS_SYNC_OUTPUT_DATA_OPERATION_ID_FK " +
+        "FOREIGN KEY(OPERATION_ID) REFERENCES sys_operations(ID)" }
 ];
 module.exports.changeLog=changeLog;

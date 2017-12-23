@@ -691,27 +691,16 @@ module.exports.init = function(app){
     app.post("/wrh/pInvoices/closePInv", function(req, res){
         var pinvId=req.body["PINV_ID"];
         wrh_pinvs_products.getDataItems({fields:["ID"], conditions:{"PINV_ID=":pinvId}},
-            function(result){   console.log("result=",result);
+            function(result){
                 if(result.error){
                     res.send({error:result.error});
                     return;
                 }
                 if(!result.items||result.items.length==0){
-                   // res.send({error:"Не удалось найти товары в  накладной"});
-                    wrh_pinvs.updDataItem({updData:{"DOCSTATE_ID":"1"}, conditions:{"ID=":pinvId}}, function(result){
-                        if(result.error){
-                            res.send({error:result.error});
-                            return;
-                        }
-                        res.send({});
-                    });
+                    res.send({error:"Не удалось найти товары в  накладной"});
                     return;
                 }
-                var operationIdArr=[];
-                result.items.forEach(function(item){
-                    operationIdArr.push(item["ID"]);
-                });
-
+                var operationIdItems=result.items;
                 wrh_pinvs.getDataItem({fields:["UNIT_ID"], conditions:{"ID=":pinvId}},
                     function(result){
                         if(result.error){
@@ -723,19 +712,20 @@ module.exports.init = function(app){
                 var pinvData={};
                 pinvData["PINV_ID"]=pinvId;
                 pinvData["UNIT_ID"]=pinvId;
-                wrh_pinvs_products.getAndInsertDataForSysSyncOut(0,operationIdArr,pinvData,function(result){
-                    if(result.error) {
-                        res.send({error: result.error});
-                        return;
-                    }
-                    wrh_pinvs.updDataItem({updData:{"DOCSTATE_ID":"1"}, conditions:{"ID=":pinvId}}, function(result){
-                        if(result.error){
-                            res.send({error:result.error});
+                wrh_pinvs_products.getAndInsertDataForSysSyncOut(0,operationIdItems,pinvData,
+                    function(result){
+                        if(result.error) {
+                            res.send({error: result.error});
                             return;
                         }
-                        res.send({});
+                        wrh_pinvs.updDataItem({updData:{"DOCSTATE_ID":"1"}, conditions:{"ID=":pinvId}}, function(result){
+                            if(result.error){
+                                res.send({error:result.error});
+                                return;
+                            }
+                            res.send({});
+                        });
                     });
-                });
             })
     });
 
@@ -745,7 +735,8 @@ module.exports.init = function(app){
             return;
         }
         var syncOutData={};
-        var operID=operationIdArr[ind];
+        var operID=operationIdArr[ind]["ID"];
+        syncOutData["OPERATION_ID"]=operID;
         var detailData={};
         detailData["TAXCAT"]='000';
         detailData["PRICESELLWD"]=0;

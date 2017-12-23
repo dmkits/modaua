@@ -549,7 +549,8 @@ module.exports.init = function (app) {
         {data: "STATE", name: "State", width: 60, type: "text"},
         {data: "CLIENT_SYNC_DATA_ID", name: "ClientDataID", width: 80, type: "text"},
         {data: "APPLIED_DATE", name: "AppliedDate", width: 80, type: "text"},
-        {data: "CLIENT_MESSAGE", name: "ClientMessage", width: 250, type: "text"}
+        {data: "CLIENT_MESSAGE", name: "ClientMessage", width: 250, type: "text"},
+        {data: "OPERATION_ID", name: "OperationID", width: 150, type: "text"},
     ];
     app.get('/system/synchronization/getOutputDataForTable', function (req, res) {
         sys_sync_output_data.getDataForTable({
@@ -596,7 +597,7 @@ module.exports.init = function (app) {
                 return;
             }
             var posId=posIdArr[ind];
-            sys_sync_output_data.insDataItemWithNewID({idFieldName:"ID",insData:{
+            sys_sync_output_data.insDataItemWithNewID({idFieldName:"ID",insData:{"OPERATION_ID":insData["OPERATION_ID"],
                     "CREATE_DATE":now, "SYNC_POS_ID":posId, "TABLE_NAME":"APP.PRODUCTS","KEY_DATA_NAME":"ID","STATE":"-1",
                     "KEY_DATA_VALUE":insData["PRODUCT_ID"],"LAST_UPDATE_DATE":null,"APPLIED_DATE":null }},
                 function(result){
