@@ -67,6 +67,7 @@ define(["dojo/_base/declare", "dojo/request", "dijit/registry", "dialogs"],
                     if(serverResult.error){
                         var msg=serverResult.error;
                         if(serverResult.errorMsg) msg= serverResult.errorMsg+"<br>"+msg;
+                        if(serverResult.userErrorMsg)msg=serverResult.userErrorMsg;
                         if(params.consoleLog) console.log("getJSONData DATA ERROR! url=",params.url," error=",msg);
                         if(requestFailDialog) requestFailDialog(msg);
                         resultCallback((params.resultItemName)?serverResult[params.resultItemName]:serverResult, serverResult.error);
@@ -151,9 +152,10 @@ define(["dojo/_base/declare", "dojo/request", "dijit/registry", "dialogs"],
                         return;
                     }
                     if (serverResult.error) {
-                        var reason = serverResult.error;
-                        if (serverResult.errorMsg) reason = serverResult.errorMsg + "<br>" + msg;
-                        if (requestFailDialog) requestFailDialog("Невозможно выпонить операцию!",reason);
+                        var msg = serverResult.error;
+                        if (serverResult.errorMsg) msg = serverResult.errorMsg + "<br>" + msg;
+                        if(serverResult.userErrorMsg)msg=serverResult.userErrorMsg;
+                        if (requestFailDialog) requestFailDialog("Невозможно выпонить операцию!",msg);
                         resultCallback((params.resultItemName)?serverResult[params.resultItemName]:serverResult, serverResult.error);
                         return;
                     }

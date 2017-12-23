@@ -697,7 +697,8 @@ module.exports.init = function(app){
                     return;
                 }
                 if(!result.items||result.items.length==0){
-                    res.send({error:"Не удалось найти товары в  накладной"});
+                    res.send({userErrorMsg:"Невозможно закрыть пустую накладную.",
+                    error:"FAIL! Reason:Impossible to close empty pinv."});
                     return;
                 }
                 var operationIdItems=result.items;

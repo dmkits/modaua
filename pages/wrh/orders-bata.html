@@ -72,7 +72,7 @@
                               name:"newOrder", btnStyle:"width:145px;",acceptFileExt:".xlsx"}, function(result, thisInstance){
                             if(result.error){
                                 console.log("ERROR!!! ", result.error);
-                                if(result.userErrorMSG) Dialogs.doSimpleDialog({content:result.userErrorMSG+"<br>"});
+                                if(result.userErrorMsg) Dialogs.doSimpleDialog({content:result.userErrorMsg+"<br>"});
                                 return;
                             }
                             if(!result.items ||result.items.length==0){

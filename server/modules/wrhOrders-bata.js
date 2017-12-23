@@ -239,13 +239,13 @@ module.exports.init = function(app){
             wb = XLSX.readFileSync(fname);
         }catch(e){                                                                                             log.error("Impossible to create workbook! Reason:",e);
             outData.error=e;
-            outData.userErrorMSG="Не удалось прочитать файл.";
+            outData.userErrorMsg="Не удалось прочитать файл.";
             res.send(outData);
             return;
         }
         var sheet=wb["Sheets"]["Dati"];
         if(sheet==undefined){
-            outData.userErrorMSG="Не удалось узвлечь данные из файла.";                                        log.error("Failed to get 'Dati' sheet in file");
+            outData.userErrorMsg="Не удалось узвлечь данные из файла.";                                        log.error("Failed to get 'Dati' sheet in file");
             outData.error="Failed to get 'Dati' sheet in file";
             res.send(outData);
             return;
@@ -307,7 +307,7 @@ module.exports.init = function(app){
         fs.unlink(fname,function(err){
             if (err) {
                 outData.error=err.message;
-                outData.userErrorMSG="Не удалось очистить временные данные.";
+                outData.userErrorMsg="Не удалось очистить временные данные.";
                 res.send(outData);                                                                  log.error("unlink file err=", err.message);
             }
             res.send(outData);
