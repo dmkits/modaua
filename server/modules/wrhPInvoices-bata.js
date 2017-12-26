@@ -14,7 +14,8 @@ var dir_units= require(appDataModelPath+"dir_units"), dirContractors= require(ap
     wrh_products_operations_v=require(appDataModelPath+"wrh_products_operations_v"),
     dir_pricelists_products_batches=require(appDataModelPath+"dir_pricelists_products_batches"),
     dir_products_batches_sale_prices=require(appDataModelPath+"dir_products_batches_sale_prices"),
-    sys_sync_output_data=require(appDataModelPath+"sys_sync_output_data");
+    sys_sync_output_data=require(appDataModelPath+"sys_sync_output_data"),
+    sys_sync_POSes=require(appDataModelPath+"sys_sync_POSes");
 
 module.exports.validateModule = function(errs, nextValidateModuleCallback){
     dataModel.initValidateDataModels([wrh_pinvs,wrh_pinvs_products, sys_operations, wrh_products_r_operations,
@@ -677,7 +678,7 @@ module.exports.init = function(app){
     app.post("/wrh/pInvoices/storePInvProductsTableData", function(req, res){
         var storeData=req.body;
         wrh_pinvs_products.storePInvTableDataItem(storeData,
-            function(result){                               console.log("result 523=",result);
+            function(result){
                 res.send(result);
             });
     });
@@ -688,144 +689,131 @@ module.exports.init = function(app){
                 res.send(result);
             });
     });
-    app.post("/wrh/pInvoices/closePInv", function(req, res){
-        var pinvId=req.body["PINV_ID"];
-        wrh_pinvs_products.getDataItems({fields:["ID"], conditions:{"PINV_ID=":pinvId}},
-            function(result){
-                if(result.error){
-                    res.send({error:result.error});
+    app.post("/wrh/pInvoices/closePInv", function (req, res) {
+        var pinvId = req.body["PINV_ID"];
+        res.connection.setTimeout(0);
+        wrh_pinvs_products.getDataItems({fields: ["ID"], conditions: {"PINV_ID=": pinvId}},
+            function (result) {
+                if (result.error) {
+                    res.send({error: result.error});
                     return;
                 }
-                if(!result.items||result.items.length==0){
-                    res.send({userErrorMsg:"Невозможно закрыть пустую накладную.",
-                    error:"FAIL! Reason:Impossible to close empty pinv."});
-                    return;
-                }
-                var operationIdItems=result.items;
-                wrh_pinvs.getDataItem({fields:["UNIT_ID"], conditions:{"ID=":pinvId}},
-                    function(result){
-                        if(result.error){
-                            res.send({error:result.error});
-                            return;
-                        }
-                        pinvData["UNIT_ID"]=result.item["UNIT_ID"];
+                if (!result.items || result.items.length == 0) {
+                    res.send({userErrorMsg: "Невозможно закрыть пустую накладную.",
+                        error: "FAIL! Reason:Impossible to close empty pinv."
                     });
-                var pinvData={};
-                pinvData["PINV_ID"]=pinvId;
-                pinvData["UNIT_ID"]=pinvId;
-                wrh_pinvs_products.getAndInsertDataForSysSyncOut(0,operationIdItems,pinvData,
-                    function(result){
-                        if(result.error) {
+                    return;
+                }
+                var operationIdItems = result.items;
+                wrh_pinvs.getDataItem({fields: ["UNIT_ID"], conditions: {"ID=": pinvId}},
+                    function (result) {
+                        if (result.error) {
                             res.send({error: result.error});
                             return;
                         }
-                        wrh_pinvs.updDataItem({updData:{"DOCSTATE_ID":"1"}, conditions:{"ID=":pinvId}}, function(result){
+                        var pinvData = {};
+                        pinvData["PINV_ID"] = pinvId;
+                        pinvData["UNIT_ID"] = result.item["UNIT_ID"];
+                        sys_sync_POSes.getDataItems({fields:["ID"],conditions:{"UNIT_ID=":pinvData["UNIT_ID"],"ACTIVE=":1}},function(result){
                             if(result.error){
-                                res.send({error:result.error});
+                                res({error:result.error});
                                 return;
                             }
-                            res.send({});
-                        });
+                            if(!result.items||result.items.length==0){
+                                res({error:"Не удалось найти активные POS-терминалы в БД"});
+                                return;
+                            }
+                            var posIdArr=[];//result.items;
+                            result.items.forEach(function(item){
+                                posIdArr.push(item["ID"]);
+                            });
+                            pinvData["POS_ID_ARR"]=posIdArr;
+                            dir_units.getDataItem({fields: ["PRICELIST_ID"], conditions: {"ID=": pinvData["UNIT_ID"]}},
+                                function (result) {
+                                    if (result.error) {
+                                        callback({error: result.error});
+                                        return;
+                                    }
+                                    pinvData["PRICELIST_ID"]= result.item["PRICELIST_ID"];
+                                    wrh_pinvs_products.getAndInsertDataForSysSyncOut(0, operationIdItems, pinvData,
+                                        function (result) {
+                                            if (result.error) {
+                                                res.send({error: result.error});
+                                                return;
+                                            }
+                                            wrh_pinvs.updDataItem({updData: {"DOCSTATE_ID": "1"}, conditions: {"ID=": pinvId}
+                                            }, function (result) {
+                                                if (result.error) {
+                                                    res.send({error: result.error});
+                                                    return;
+                                                }
+                                                res.send({});
+                                            });
+                                        });
+                                });
+                        })
                     });
-            })
+            });
     });
-
-    wrh_pinvs_products.getAndInsertDataForSysSyncOut=function(ind,operationIdArr,pinvData,callback){
-        if(!operationIdArr[ind]){
+    wrh_pinvs_products.getAndInsertDataForSysSyncOut = function (ind, operationIdArr, pinvData, callback) {
+        if (!operationIdArr[ind]) {
             callback({});
             return;
         }
-        var syncOutData={};
-        var operID=operationIdArr[ind]["ID"];
-        syncOutData["OPERATION_ID"]=operID;
-        var detailData={};
-        detailData["TAXCAT"]='000';
-        detailData["PRICESELLWD"]=0;
-        detailData["PRICEBUY"]=0;
-        detailData["ISSCALE"]=0;
-        detailData["CATEGORY"]='000';
-        detailData["DISCOUNT"]=0;
-        detailData["ISCOM"]=0;
-        wrh_products_r_operations.getDataItem({fields:["PRODUCT_ID","BATCH_NUMBER"], conditions:{"OPERATION_ID=":operID}},
+        wrh_pinvs.getDataItems({fields:["dir_products.CODE","dir_products.PBARCODE", "dir_products.NAME",
+                "dir_products_batches_sale_prices.PRICE",  "wrh_products_r_operations.PRODUCT_ID", "wrh_products_r_operations.OPERATION_ID"],
+                joinedSources:{
+                    "wrh_pinvs_products":{"wrh_pinvs_products.PINV_ID=wrh_pinvs.ID":null},
+                    "wrh_products_r_operations":{"wrh_products_r_operations.OPERATION_ID=wrh_pinvs_products.ID":null},
+                    "dir_products":{"dir_products.ID=wrh_products_r_operations.PRODUCT_ID":null},
+                    "dir_units":{"dir_units.ID=wrh_pinvs.UNIT_ID":null}
+                }
+                ,leftJoinedSources:{
+                    "dir_pricelists_products_batches": {
+                        "dir_pricelists_products_batches.PRICELIST_ID=dir_units.PRICELIST_ID":null ,
+                        "dir_pricelists_products_batches.PRODUCT_ID=dir_products.ID": null,
+                        "dir_pricelists_products_batches.BATCH_NUMBER=wrh_products_r_operations.BATCH_NUMBER": null},
+                    "dir_products_batches_sale_prices": {
+                        "dir_products_batches_sale_prices.CHANGE_DATETIME=dir_pricelists_products_batches.CHANGE_DATETIME": null,
+                        "dir_products_batches_sale_prices.PRODUCT_ID=dir_pricelists_products_batches.PRODUCT_ID": null,
+                        "dir_products_batches_sale_prices.BATCH_NUMBER=dir_pricelists_products_batches.BATCH_NUMBER": null,
+                        "dir_products_batches_sale_prices.PRICELIST_ID=dir_pricelists_products_batches.PRICELIST_ID": null}},
+                conditions:{"wrh_pinvs.ID=":pinvData["PINV_ID"]}},
             function(result){
-                if(result.error){
-                    callback({error:result.error});
+                if (result.error) {
+                    callback({error: result.error});
                     return;
                 }
-                var prodID=result.item["PRODUCT_ID"];
-                var batchNum=result.item["BATCH_NUMBER"];
-                syncOutData["PRODUCT_ID"]=prodID;
-                dir_products_bata.getDataItem({fields:["CODE","NAME","PBARCODE"],
-                        conditions:{"ID=":syncOutData["PRODUCT_ID"]}},
-                    function(result){
-                        if(result.error){
-                            callback({error:result.error});
-                            return;
-                        }
-                        if(!result.item){
-                            callback({error:"Не удалось найти товар в БД"});
-                            return;
-                        }
-                        detailData["REFERENCE"]=result.item["CODE"];
-                        detailData["CODE"]=result.item["PBARCODE"];
-                        detailData["NAME"]=result.item["NAME"];
-                        wrh_pinvs_products.getProdPrice(prodID, batchNum,pinvData, function(result){
-                            if(result.error){
-                                callback({error:result.error});
-                                return;
-                            }
-                            detailData["PRICESELL"]=result.price;
-                            syncOutData.detail=detailData;
-                            syncOutData["UNIT_ID"]=pinvData["UNIT_ID"];
-                            sys_sync_output_data.insertSysSyncOutData(syncOutData,function(result){
-                                if(result.error){
-                                    callback({error:result.error});
-                                    return;
-                                }
-                                wrh_pinvs_products.getAndInsertDataForSysSyncOut(ind+1,operationIdArr,pinvData,callback);
-                            });
-                        });
-                    });
+                var syncOutDataArr=[];
+                for(var i in result.items){
+                    var syncOutData={};
+                    var item=result.items[i];
+                    syncOutData["PRODUCT_ID"]=item["PRODUCT_ID"];
+                    syncOutData["OPERATION_ID"]=item["OPERATION_ID"];
+                    syncOutData["POS_ID_ARR"] = pinvData["POS_ID_ARR"];
+
+                    syncOutData.detailData = {};
+                    syncOutData.detailData["TAXCAT"] = '000';
+                    syncOutData.detailData["PRICESELLWD"] = 0;
+                    syncOutData.detailData["PRICEBUY"] = 0;
+                    syncOutData.detailData["ISSCALE"] = 0;
+                    syncOutData.detailData["CATEGORY"] = '000';
+                    syncOutData.detailData["DISCOUNT"] = 0;
+                    syncOutData.detailData["ISCOM"] = 0;
+
+                    syncOutData.detailData["REFERENCE"] = item["CODE"];
+                    syncOutData.detailData["CODE"] = item["PBARCODE"];
+                    syncOutData.detailData["NAME"] = item["NAME"];
+                    syncOutData.detailData["PRICESELL"]=item["PRICE"]||0;
+                    syncOutDataArr.push(syncOutData);
+                }
+                sys_sync_output_data.insertSysSyncOutData(0,syncOutDataArr, function (result) {
+                    if (result.error) {
+                        callback({error: result.error});
+                        return;
+                    }
+                    callback({});
+                });
             });
     };
-
-    wrh_pinvs_products.getProdPrice=function(prodID, batchNumber, pinvData, callback){
-        var unitID=pinvData["UNIT_ID"];
-        dir_units.getDataItem({fields:["PRICELIST_ID"],conditions:{"ID=":unitID}},
-            function(result){
-                if(result.error){
-                    callback({error:result.error});
-                    return;
-                }
-                var priseListID=result.item["PRICELIST_ID"];
-                dir_pricelists_products_batches.getDataItem({fields:["CHANGE_DATETIME"],
-                        conditions:{"PRICELIST_ID=":priseListID,"PRODUCT_ID=":prodID,"BATCH_NUMBER=":batchNumber}},
-                    function(result){
-                        if(result.error){
-                            callback({error:result.error});
-                            return;
-                        }
-                        if(!result.item ||result.item.length==0){
-                            callback({price:0});
-                            return;
-                        }
-                        var changeDateTime=result.item["CHANGE_DATETIME"];
-                        dir_products_batches_sale_prices.getDataItem({fields:["PRICE"],
-                                conditions:{"CHANGE_DATETIME=":changeDateTime,"PRICELIST_ID=":priseListID,
-                                    "PRODUCT_ID=":prodID,"BATCH_NUMBER=":batchNumber }},
-                            function(result){
-                                if(result.error){
-                                    callback({error:result.error});
-                                    return;
-                                }
-                                if(!result.item ||result.item.length==0){
-                                    callback({price:0});
-                                    return;
-                                }
-                                var price=result.item["PRICE"]||0;
-                                callback({price:price});
-                            });
-                    })
-            });
-    }
 };

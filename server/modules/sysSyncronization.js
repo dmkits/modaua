@@ -571,64 +571,60 @@ module.exports.init = function (app) {
             });
     });
 
-    sys_sync_output_data.insertSysSyncOutData=function(insData, callback){
-        var now=dateFormat(new Date,"yyyy-mm-dd HH-MM-ss");
-        sys_sync_POSes.getDataItems({fields:["ID"],conditions:{"UNIT_ID=":insData["UNIT_ID"],"ACTIVE=":1}},function(result){
+    sys_sync_output_data.insertSysSyncOutData=function(ind, insDataArr, callback) {
+        if(!insDataArr[ind]){
+            callback({});
+            return;
+        }
+        var insData=insDataArr[ind];
+        var posIdArr=insData["POS_ID_ARR"];
+        sys_sync_output_data.insertSysSyncOutDataByPosId(0,posIdArr,insData,function(result){
             if(result.error){
                 callback({error:result.error});
                 return;
             }
-            if(!result.items||result.items.length==0){
-                callback({error:"Не удалось найти активные POS-терминалы в БД"});
-                return;
-            }
-            var posIdArr=[];//result.items;
-            result.items.forEach(function(item){
-                posIdArr.push(item["ID"]);
-            });
-            sys_sync_output_data.insertSysSyncOutDataByPosId(0,posIdArr,insData,function(result){
-                callback(result);
-            });
+            sys_sync_output_data.insertSysSyncOutData(ind+1, insDataArr, callback);
         });
-
-        sys_sync_output_data.insertSysSyncOutDataByPosId=function(ind,posIdArr,insData,callback){
-            if(!posIdArr[ind]){
-                callback({});
-                return;
-            }
-            var posId=posIdArr[ind];
-            sys_sync_output_data.insDataItemWithNewID({idFieldName:"ID",insData:{"OPERATION_ID":insData["OPERATION_ID"],
-                    "CREATE_DATE":now, "SYNC_POS_ID":posId, "TABLE_NAME":"APP.PRODUCTS","KEY_DATA_NAME":"ID","STATE":"-1",
-                    "KEY_DATA_VALUE":insData["PRODUCT_ID"],"LAST_UPDATE_DATE":null,"APPLIED_DATE":null }},
-                function(result){
+    };
+    sys_sync_output_data.insertSysSyncOutDataByPosId=function(ind,posIdArr,insData,callback){
+        if(!posIdArr[ind]){
+            callback({});
+            return;
+        }
+        var now = dateFormat(new Date, "yyyy-mm-dd HH-MM-ss");
+        var posId=posIdArr[ind];
+        sys_sync_output_data.insDataItemWithNewID({idFieldName:"ID",insData:{"OPERATION_ID":insData["OPERATION_ID"],
+                "CREATE_DATE":now, "SYNC_POS_ID":posId, "TABLE_NAME":"APP.PRODUCTS","KEY_DATA_NAME":"ID","STATE":"-1",
+                "KEY_DATA_VALUE":insData["PRODUCT_ID"],"LAST_UPDATE_DATE":null,"APPLIED_DATE":null }},
+            function(result){
+                if(result.error){
+                    callback({error:result.error});
+                    return;
+                }
+                var syncOutDataID=result.resultItem["ID"];
+                var detailDataObjArr=[];
+                var detailData=insData.detailData;
+                for(var i in detailData ){
+                    var obj={fieldName:i,value:detailData[i]};
+                    detailDataObjArr.push(obj);
+                }
+                sys_sync_output_data_details.insertSysSyncOutDataDetail(0,detailDataObjArr,syncOutDataID,function(result){
                     if(result.error){
                         callback({error:result.error});
                         return;
                     }
-                    var syncOutDataID=result.resultItem["ID"];
-                    var detailDataObjArr=[];
-                    var detailData=insData.detail;
-                    for(var i in detailData ){
-                        var obj={fieldName:i,value:detailData[i]};
-                        detailDataObjArr.push(obj);
-                    }
-                    sys_sync_output_data_details.insertSysSyncOutDataDetail(0,detailDataObjArr,syncOutDataID,function(result){
-                        if(result.error){
-                            callback({error:result.error});
-                            return;
-                        }
-                        sys_sync_output_data.updDataItem({updData:{"STATE":"0"}, conditions:{"ID=":result.syncOutDataID}},
-                            function(result){
-                                if(result.error){
-                                    callback({error:result.error});
-                                    return;
-                                }
-                                sys_sync_output_data.insertSysSyncOutDataByPosId(ind+1,posIdArr,insData,callback);
-                            });
-                    });
+                    sys_sync_output_data.updDataItem({updData:{"STATE":"0"}, conditions:{"ID=":result.syncOutDataID}},
+                        function(result){
+                            if(result.error){
+                                callback({error:result.error});
+                                return;
+                            }
+                            sys_sync_output_data.insertSysSyncOutDataByPosId(ind+1,posIdArr,insData,callback);
+                        });
                 });
-        };
+            });
     };
+
     sys_sync_output_data_details.insertSysSyncOutDataDetail=function(ind,detailDataObjArr,syncOutDataID, callback){
         if(!detailDataObjArr[ind]){
             callback({syncOutDataID:syncOutDataID});
