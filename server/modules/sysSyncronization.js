@@ -583,7 +583,9 @@ module.exports.init = function (app) {
                 callback({error:result.error});
                 return;
             }
-            sys_sync_output_data.insertSysSyncOutData(ind+1, insDataArr, callback);
+            setTimeout(function(){
+                sys_sync_output_data.insertSysSyncOutData(ind+1, insDataArr, callback);
+            },0);
         });
     };
     sys_sync_output_data.insertSysSyncOutDataByPosId=function(ind,posIdArr,insData,callback){
@@ -619,12 +621,13 @@ module.exports.init = function (app) {
                                 callback({error:result.error});
                                 return;
                             }
-                            sys_sync_output_data.insertSysSyncOutDataByPosId(ind+1,posIdArr,insData,callback);
+                            setTimeout(function(){
+                                sys_sync_output_data.insertSysSyncOutDataByPosId(ind+1,posIdArr,insData,callback);
+                            },0);
                         });
                 });
             });
     };
-
     sys_sync_output_data_details.insertSysSyncOutDataDetail=function(ind,detailDataObjArr,syncOutDataID, callback){
         if(!detailDataObjArr[ind]){
             callback({syncOutDataID:syncOutDataID});

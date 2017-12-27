@@ -1,4 +1,5 @@
 var dataModel=require('../datamodel'), dateFormat = require('dateformat');
+var server= require("../server"), log= server.log;
 var wrh_pinvs= require(appDataModelPath+"wrh_pinvs"), wrh_pinvs_products= require(appDataModelPath+"wrh_pinvs_products"),
     sys_operations=require(appDataModelPath+"sys_operations"),
     wrh_products_r_operations=require(appDataModelPath+"wrh_products_r_operations");
@@ -735,21 +736,27 @@ module.exports.init = function(app){
                                         return;
                                     }
                                     pinvData["PRICELIST_ID"]= result.item["PRICELIST_ID"];
-                                    wrh_pinvs_products.getAndInsertDataForSysSyncOut(0, operationIdItems, pinvData,
-                                        function (result) {
-                                            if (result.error) {
-                                                res.send({error: result.error});
-                                                return;
-                                            }
-                                            wrh_pinvs.updDataItem({updData: {"DOCSTATE_ID": "1"}, conditions: {"ID=": pinvId}
-                                            }, function (result) {
-                                                if (result.error) {
-                                                    res.send({error: result.error});
-                                                    return;
-                                                }
-                                                res.send({});
-                                            });
-                                        });
+
+                                    wrh_pinvs.updDataItem({updData: {"DOCSTATE_ID": "1"}, conditions: {"ID=": pinvId}
+                                    }, function (result) {
+                                        if (result.error) {
+                                            res.send({error: result.error});
+                                            return;
+                                        }
+                                        res.send({});
+
+                                        setTimeout(function(){
+                                            wrh_pinvs_products.getAndInsertDataForSysSyncOut(0, operationIdItems, pinvData,
+                                                function (result) {
+                                                    if (result.error) {
+                                                        log.error("FAIL!!! Insert data to sys_sync_output_data " +
+                                                            "by PINV_ID "+ pinvId+" failed.Reason:"+result.error);
+                                                        return;
+                                                    }
+                                                    log.info("Data inserted successfully to sys_sync_output_data by PINV_ID "+ pinvId+".");
+                                                });
+                                        },0);
+                                    });
                                 });
                         })
                     });
@@ -807,13 +814,15 @@ module.exports.init = function(app){
                     syncOutData.detailData["PRICESELL"]=item["PRICE"]||0;
                     syncOutDataArr.push(syncOutData);
                 }
-                sys_sync_output_data.insertSysSyncOutData(0,syncOutDataArr, function (result) {
-                    if (result.error) {
-                        callback({error: result.error});
-                        return;
-                    }
-                    callback({});
-                });
+                setTimeout(function(){
+                    sys_sync_output_data.insertSysSyncOutData(0,syncOutDataArr, function (result) {
+                        if (result.error) {
+                            callback({error: result.error});
+                            return;
+                        }
+                        callback({});
+                    });
+                },0);
             });
     };
 };
