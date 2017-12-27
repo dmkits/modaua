@@ -19,7 +19,19 @@ module.exports.init = function(app) {
     var repProductsBalanceTableColumns=[
         {data: "UNIT_NAME", name: "Подразделение", width: 120, type: "text",
             dataSource:"dir_units", sourceField:"NAME", linkCondition:"dir_units.ID=wrh_products_operations_v.UNIT_ID", visible:false},
-        {data: "SQTY", name: "Кол-во", dataFunction:{function:"sumIsNull", sourceField:"BATCH_QTY"} }
+        {data: "SQTY", name: "Кол-во", dataFunction:{function:"sumIsNull", sourceField:"BATCH_QTY"} },
+        {leftJoinedSources: {"dir_pricelists_products_batches": {
+            "dir_pricelists_products_batches.PRICELIST_ID=dir_units.PRICELIST_ID":null ,
+            "dir_pricelists_products_batches.PRODUCT_ID=wrh_products_operations_v.PRODUCT_ID":null,
+            "dir_pricelists_products_batches.BATCH_NUMBER=wrh_products_operations_v.BATCH_NUMBER": null},
+            "dir_products_batches_sale_prices": {
+                "dir_products_batches_sale_prices.CHANGE_DATETIME=dir_pricelists_products_batches.CHANGE_DATETIME": null,
+                "dir_products_batches_sale_prices.PRODUCT_ID=dir_pricelists_products_batches.PRODUCT_ID": null,
+                "dir_products_batches_sale_prices.BATCH_NUMBER=dir_pricelists_products_batches.BATCH_NUMBER": null,
+                "dir_products_batches_sale_prices.PRICELIST_ID=dir_pricelists_products_batches.PRICELIST_ID": null}}},
+        {data: "SALE_PRICE", name: "Розн. цена", sourceField:"PRICE", dataSource:"dir_products_batches_sale_prices"},
+        {data: "DISCOUNT", name: "Скидка, %", sourceField:"DISCOUNT", dataSource:"dir_products_batches_sale_prices"},
+        {data: "PRICE_WITH_DISCOUNT", name: "Розн. цена со скидкой",sourceField:"PRICE_WITH_DISCOUNT", dataSource:"dir_products_batches_sale_prices" }
     ];
     repProductsBalanceTableColumns=
         dir_products.addProductColumnsTo(repProductsBalanceTableColumns,1,{linkSource:"wrh_products_operations_v",
@@ -33,6 +45,42 @@ module.exports.init = function(app) {
         }
         wrh_products_operations_v.getDataForDocTable({tableColumns:repProductsBalanceTableColumns,
                 identifier:repProductsBalanceTableColumns[0].data,
+                conditions:conditions,
+                order:["PRODUCT_ARTICLE","PRODUCT_SIZE"]},
+            function(result){
+                res.send(result);
+            });
+    });
+    var repProductsBalanceByBatchesTableColumns=[
+        {data: "UNIT_NAME", name: "Подразделение", width: 120, type: "text",
+            dataSource:"dir_units", sourceField:"NAME", linkCondition:"dir_units.ID=wrh_products_operations_v.UNIT_ID", visible:false},
+        {data: "SQTY", name: "Кол-во", dataFunction:{function:"sumIsNull", sourceField:"BATCH_QTY"} },
+        {leftJoinedSources: {"dir_pricelists_products_batches": {
+            "dir_pricelists_products_batches.PRICELIST_ID=dir_units.PRICELIST_ID":null ,
+            "dir_pricelists_products_batches.PRODUCT_ID=wrh_products_operations_v.PRODUCT_ID":null,
+            "dir_pricelists_products_batches.BATCH_NUMBER=wrh_products_operations_v.BATCH_NUMBER": null},
+            "dir_products_batches_sale_prices": {
+                "dir_products_batches_sale_prices.CHANGE_DATETIME=dir_pricelists_products_batches.CHANGE_DATETIME": null,
+                "dir_products_batches_sale_prices.PRODUCT_ID=dir_pricelists_products_batches.PRODUCT_ID": null,
+                "dir_products_batches_sale_prices.BATCH_NUMBER=dir_pricelists_products_batches.BATCH_NUMBER": null,
+                "dir_products_batches_sale_prices.PRICELIST_ID=dir_pricelists_products_batches.PRICELIST_ID": null}}},
+        {data: "BATCH_NUMBER", name: "Партия", sourceField:"BATCH_NUMBER", dataSource:"wrh_products_operations_v"},
+        {data: "SALE_PRICE", name: "Розн. цена", sourceField:"PRICE", dataSource:"dir_products_batches_sale_prices"},
+        {data: "DISCOUNT", name: "Скидка, %", sourceField:"DISCOUNT", dataSource:"dir_products_batches_sale_prices"},
+        {data: "PRICE_WITH_DISCOUNT", name: "Розн. цена со скидкой",sourceField:"PRICE_WITH_DISCOUNT", dataSource:"dir_products_batches_sale_prices" }
+    ];
+    repProductsBalanceByBatchesTableColumns=
+        dir_products.addProductColumnsTo(repProductsBalanceByBatchesTableColumns,1,{linkSource:"wrh_products_operations_v",
+            visibleColumns:{"CODE":false,"NAME":false,"UM":false,"PRINT_NAME":false,"PBARCODE":false}});
+    repProductsBalanceByBatchesTableColumns=
+        dir_products.addProductAttrsColumnsTo(repProductsBalanceByBatchesTableColumns,7);
+    app.get("/reports/productsBalance/getProductsBalanceByBatches", function (req, res) {
+        var conditions=req.query;
+        for(var conditionItem in conditions){
+            conditions["SUM(BATCH_QTY)<>0"]=null; break;
+        }
+        wrh_products_operations_v.getDataForDocTable({tableColumns:repProductsBalanceByBatchesTableColumns,
+                identifier:repProductsBalanceByBatchesTableColumns[0].data,
                 conditions:conditions,
                 order:["PRODUCT_ARTICLE","PRODUCT_SIZE"]},
             function(result){

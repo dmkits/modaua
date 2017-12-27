@@ -18,6 +18,7 @@
             <tr><th>Отчеты</th></tr>
             <tr><td>
                 <button id="wrhProductsBalance_btnProdsBalance">Остатки товаров</button>
+                <button id="wrhProductsBalance_btnProdsBalanceByBatches">Остатки товаров по партиям</button>
                 <br><br>
                 <button id="wrhProductsBalance_btnProdsBalanceByGroups">Остатки по группам Bata</button>
                 <button id="wrhProductsBalance_btnProdsBalanceByKinds">Остатки по видам</button>
@@ -40,6 +41,7 @@
                 var btnProdsBalanceReg= APP.instanceForID("wrhProductsBalance_btnProdsBalanceReg", Button, {style:"margin-right:1px"}, {"width":"164px",margin:0});
                 var btnProdsBalanceRegByArts= APP.instanceForID("wrhProductsBalance_btnProdsBalanceRegByArts", Button, {style:"margin-right:1px"}, {"width":"164px"});
                 var btnProdsBalance= APP.instanceForID("wrhProductsBalance_btnProdsBalance", Button, {style:"margin-right:1px"}, {"width":"164px"});
+                var btnProdsBalanceByBatches= APP.instanceForID("wrhProductsBalance_btnProdsBalanceByBatches", Button, {style:"margin-right:1px"}, {"width":"164px"});
                 var btnProdsBalanceByGroups= APP.instanceForID("wrhProductsBalance_btnProdsBalanceByGroups", Button, {style:"margin-right:1px"}, {"width":"164px"});
                 var btnProdsBalanceByKinds= APP.instanceForID("wrhProductsBalance_btnProdsBalanceByKinds", Button, {style:"margin-right:1px"}, {"width":"164px"});
                 var btnProdsBatchesBalance= APP.instanceForID("wrhProductsBalance_btnProdsBatchesBalance", Button, {style:"margin-right:1px"}, {"width":"164px"});
@@ -101,6 +103,23 @@
                     }
                     contentContainer.selectChild(btnProdsBalance.report);
                 };
+                btnProdsBalanceByBatches.onClick= function(){
+                    if (!btnProdsBalanceByBatches.report){
+                        btnProdsBalanceByBatches.report =
+                                APP.childFor(contentContainer, "wrhProductsBalance_TableProdsBalanceByBatches",
+                                        TDocumentSimpleTable, {titleText:"Остатки товаров по партиям",
+                                            dataURL:"/reports/productsBalance/getProductsBalanceByBatches"})
+                                        .addSelectBox("Подразделение",{valueItemName:"UNIT_NAME", labelItemName:"UNIT_NAME",
+                                            loadDropDownURL:"/dir/units/getDirUnitsForSelect",
+                                            contentTableCondition:"UNIT_NAME="})
+                                        .addHeaderDateBox("на",{contentTableCondition:"DOCDATE<="})
+                                        .addTotalCountNumberBox("ИТОГО строк:", 140)
+                                        .addTotalSumNumberTextBox("ИТОГО остаток:", 510, "SQTY", {style:"font-weight:bold;"})
+                                        .startUp();
+                    }
+                    contentContainer.selectChild(btnProdsBalanceByBatches.report);
+                };
+
                 btnProdsBalanceByGroups.onClick= function(){
                     if (!btnProdsBalanceByGroups.report){
                         btnProdsBalanceByGroups.report =

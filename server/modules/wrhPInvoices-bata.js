@@ -753,7 +753,7 @@ module.exports.init = function(app){
                                                             "by PINV_ID "+ pinvId+" failed.Reason:"+result.error);
                                                         return;
                                                     }
-                                                    log.info("Data inserted successfully to sys_sync_output_data by PINV_ID "+ pinvId+".");
+                                                    log.info("Data inserted successfully data to sys_sync_output_data by PINV_ID "+ pinvId+".");
                                                 });
                                         },0);
                                     });
