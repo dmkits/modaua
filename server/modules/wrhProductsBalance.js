@@ -4,7 +4,8 @@ var wrh_products_operations_v= require(appDataModelPath+"wrh_products_operations
     wrh_pinvs_products= require(appDataModelPath+"wrh_pinvs_products"),
     dir_products=require(appDataModelPath+'dir_products-bata'),
     dir_products_batches= require(appDataModelPath+"dir_products_batches"),
-    dir_products_batches_v= require(appDataModelPath+"dir_products_batches_v");
+    dir_products_batches_v= require(appDataModelPath+"dir_products_batches_v"),
+    dir_products_batches_sale_prices= require(appDataModelPath+"dir_products_batches_sale_prices");
 var server= require("../server"), log= server.log;
 
 module.exports.validateModule = function(errs, nextValidateModuleCallback){
@@ -160,5 +161,24 @@ module.exports.init = function(app) {
                             if(result.items&&result.items.length>0) res.send({item:result.items[0]}); else res.send(result);
                         });
                 });
+    });
+
+    app.post("/wrh/productsBalance/getSalePriceHistory", function (req, res) {
+        var productCode=req.body.productCode;               console.log("productCode=",productCode);
+        var unitName=req.body.unitName;
+        var prodBatchNum=req.body.prodBatchNum;
+        var condidions={"dir_units.NAME=":unitName,"dir_products.CODE=":productCode};
+        if(prodBatchNum){
+            condidions["dir_products_batches_sale_prices.BATCH_NUMBER="]=prodBatchNum;
+        }
+        dir_products_batches_sale_prices.getDataItems({fields:["CHANGE_DATETIME","PRICE","DISCOUNT","PRICE_WITH_DISCOUNT"],
+            joinedSources:{"dir_units":{"dir_units.PRICELIST_ID=dir_products_batches_sale_prices.PRICELIST_ID":null},
+                          "dir_products":{"dir_products.ID=dir_products_batches_sale_prices.PRODUCT_ID":null}
+            },
+            conditions:condidions,
+            order:["dir_products_batches_sale_prices.CHANGE_DATETIME DESC"]
+        },function(result){       console.log("result 175=",result);
+            res.send(result);
+        });
     });
 };
