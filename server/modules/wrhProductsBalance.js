@@ -24,7 +24,7 @@ module.exports.init = function(app) {
         {data: "UNIT_NAME", name: "Подразделение", width: 120, type: "text",
             dataSource:"dir_units", sourceField:"NAME", linkCondition:"dir_units.ID=wrh_products_operations_v.UNIT_ID", visible:false },
         { dataSource:"dir_products", linkCondition:"dir_products.ID=wrh_products_operations_v.PRODUCT_ID"},
-        {data: "PINV_SQTY", name: "Кол-во прихода", dataSource:"dir_products_batches_v", sourceField:"QTY"},
+        {data: "PINV_SQTY", name: "Кол-во прихода", dataSource:"dir_products_batches_v", dataFunction:{function:"sumIsNull", sourceField:"QTY"}},
         {data: "QTY", name: "Кол-во остатка", dataFunction:{function:"sumIsNull", sourceField:"BATCH_QTY"}},
         { dataSource:"dir_products_batches_v",
             linkCondition:"dir_products_batches_v.PRODUCT_ID=wrh_products_operations_v.PRODUCT_ID" +
@@ -35,10 +35,11 @@ module.exports.init = function(app) {
         {data: "PINV_PRICE", name: "Цена прихода", dataSource:"dir_products_batches_v", sourceField:"PRICE"},
         {data: "COST_SUM", name: "Себе-стоимость",
             dataFunction:{function:"sumIsNull", sourceField:"wrh_products_operations_v.BATCH_QTY*dir_products_batches_v.PRICE"}},
-        {leftJoinedSources: {"dir_pricelists_products_batches": {
-            "dir_pricelists_products_batches.PRICELIST_ID=dir_units.PRICELIST_ID":null ,
-            "dir_pricelists_products_batches.PRODUCT_ID=wrh_products_operations_v.PRODUCT_ID":null,
-            "dir_pricelists_products_batches.BATCH_NUMBER=wrh_products_operations_v.BATCH_NUMBER": null},
+        {leftJoinedSources:
+            {"dir_pricelists_products_batches": {
+                "dir_pricelists_products_batches.PRICELIST_ID=dir_units.PRICELIST_ID":null ,
+                "dir_pricelists_products_batches.PRODUCT_ID=wrh_products_operations_v.PRODUCT_ID":null,
+                "dir_pricelists_products_batches.BATCH_NUMBER=wrh_products_operations_v.BATCH_NUMBER": null},
             "dir_products_batches_sale_prices": {
                 "dir_products_batches_sale_prices.CHANGE_DATETIME=dir_pricelists_products_batches.CHANGE_DATETIME": null,
                 "dir_products_batches_sale_prices.PRODUCT_ID=dir_pricelists_products_batches.PRODUCT_ID": null,
@@ -74,7 +75,7 @@ module.exports.init = function(app) {
         { dataSource:"dir_products_batches_v",
             linkCondition:"dir_products_batches_v.PRODUCT_ID=wrh_products_operations_v.PRODUCT_ID" +
             " and dir_products_batches_v.BATCH_NUMBER=wrh_products_operations_v.BATCH_NUMBER"},
-        {data: "PINV_SQTY", name: "Кол-во прихода", dataSource:"dir_products_batches_v", sourceField:"QTY"},
+        {data: "PINV_SQTY", name: "Кол-во прихода", dataSource:"dir_products_batches_v", dataFunction:{function:"sumIsNull", sourceField:"QTY"}/*sourceField:"QTY"*/},
         {data: "QTY", name: "Кол-во остатка", dataFunction:{function:"sumIsNull", sourceField:"BATCH_QTY"}},
         {data: "PINV_NUMBER", name: "Номер прихода", dataSource:"dir_products_batches_v", sourceField:"R_DOCNUMBER"},
         {data: "PINV_CURRENCY_CODE", name: "Валюта прихода", width:70,
@@ -82,10 +83,11 @@ module.exports.init = function(app) {
         {data: "PINV_PRICE", name: "Цена прихода", dataSource:"dir_products_batches_v", sourceField:"PRICE"},
         {data: "COST_SUM", name: "Себе-стоимость",
             dataFunction:{function:"sumIsNull", sourceField:"wrh_products_operations_v.BATCH_QTY*dir_products_batches_v.PRICE"}},
-        {leftJoinedSources: {"dir_pricelists_products_batches": {
-            "dir_pricelists_products_batches.PRICELIST_ID=dir_units.PRICELIST_ID":null ,
-            "dir_pricelists_products_batches.PRODUCT_ID=wrh_products_operations_v.PRODUCT_ID":null,
-            "dir_pricelists_products_batches.BATCH_NUMBER=wrh_products_operations_v.BATCH_NUMBER": null},
+        {leftJoinedSources: {
+            "dir_pricelists_products_batches": {
+                "dir_pricelists_products_batches.PRICELIST_ID=dir_units.PRICELIST_ID":null ,
+                "dir_pricelists_products_batches.PRODUCT_ID=wrh_products_operations_v.PRODUCT_ID":null,
+                "dir_pricelists_products_batches.BATCH_NUMBER=wrh_products_operations_v.BATCH_NUMBER": null},
             "dir_products_batches_sale_prices": {
                 "dir_products_batches_sale_prices.CHANGE_DATETIME=dir_pricelists_products_batches.CHANGE_DATETIME": null,
                 "dir_products_batches_sale_prices.PRODUCT_ID=dir_pricelists_products_batches.PRODUCT_ID": null,
@@ -164,20 +166,32 @@ module.exports.init = function(app) {
     });
 
     app.post("/wrh/productsBalance/getSalePriceHistory", function (req, res) {
-        var productCode=req.body.productCode;               console.log("productCode=",productCode);
-        var unitName=req.body.unitName;
-        var prodBatchNum=req.body.prodBatchNum;
-        var condidions={"dir_units.NAME=":unitName,"dir_products.CODE=":productCode};
-        if(prodBatchNum){
-            condidions["dir_products_batches_sale_prices.BATCH_NUMBER="]=prodBatchNum;
+      var conditions={};
+        conditions["dir_units.NAME="]=req.body.unitName;
+        req.body.productCode?conditions["dir_products.CODE="]=req.body.productCode:"";
+        req.body.prodBatchNum?conditions["dir_products_batches_sale_prices.BATCH_NUMBER="]=req.body.prodBatchNum:"";
+        req.body.prodArticle?conditions["dir_products_articles.VALUE="]=req.body.prodArticle:"";
+        if(req.body.prodArticle){
+            dir_products_batches_sale_prices.getDataItems({fields:["CHANGE_DATETIME","PRICE","DISCOUNT","PRICE_WITH_DISCOUNT"],
+                joinedSources:{
+                    "dir_units":{"dir_units.PRICELIST_ID=dir_products_batches_sale_prices.PRICELIST_ID":null},
+                    "dir_products":{"dir_products.ID=dir_products_batches_sale_prices.PRODUCT_ID":null},
+                    "dir_products_articles":{"dir_products_articles.ID=dir_products.ARTICLE_ID":null}
+                },
+                conditions:conditions,
+                order:["dir_products_batches_sale_prices.CHANGE_DATETIME DESC"]
+            },function(result){
+                res.send(result);
+            });
+            return;
         }
         dir_products_batches_sale_prices.getDataItems({fields:["CHANGE_DATETIME","PRICE","DISCOUNT","PRICE_WITH_DISCOUNT"],
             joinedSources:{"dir_units":{"dir_units.PRICELIST_ID=dir_products_batches_sale_prices.PRICELIST_ID":null},
-                          "dir_products":{"dir_products.ID=dir_products_batches_sale_prices.PRODUCT_ID":null}
+                "dir_products":{"dir_products.ID=dir_products_batches_sale_prices.PRODUCT_ID":null}
             },
-            conditions:condidions,
+            conditions:conditions,
             order:["dir_products_batches_sale_prices.CHANGE_DATETIME DESC"]
-        },function(result){       console.log("result 175=",result);
+        },function(result){
             res.send(result);
         });
     });

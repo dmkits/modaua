@@ -20,10 +20,11 @@ module.exports.init = function(app) {
         {data: "UNIT_NAME", name: "Подразделение", width: 120, type: "text",
             dataSource:"dir_units", sourceField:"NAME", linkCondition:"dir_units.ID=wrh_products_operations_v.UNIT_ID", visible:false},
         {data: "SQTY", name: "Кол-во", dataFunction:{function:"sumIsNull", sourceField:"BATCH_QTY"} },
-        {leftJoinedSources: {"dir_pricelists_products_batches": {
-            "dir_pricelists_products_batches.PRICELIST_ID=dir_units.PRICELIST_ID":null ,
-            "dir_pricelists_products_batches.PRODUCT_ID=wrh_products_operations_v.PRODUCT_ID":null,
-            "dir_pricelists_products_batches.BATCH_NUMBER=wrh_products_operations_v.BATCH_NUMBER": null},
+        {leftJoinedSources: {
+            "dir_pricelists_products_batches": {
+                "dir_pricelists_products_batches.PRICELIST_ID=dir_units.PRICELIST_ID":null ,
+                "dir_pricelists_products_batches.PRODUCT_ID=wrh_products_operations_v.PRODUCT_ID":null,
+                "dir_pricelists_products_batches.BATCH_NUMBER=wrh_products_operations_v.BATCH_NUMBER": null},
             "dir_products_batches_sale_prices": {
                 "dir_products_batches_sale_prices.CHANGE_DATETIME=dir_pricelists_products_batches.CHANGE_DATETIME": null,
                 "dir_products_batches_sale_prices.PRODUCT_ID=dir_pricelists_products_batches.PRODUCT_ID": null,
@@ -55,10 +56,11 @@ module.exports.init = function(app) {
         {data: "UNIT_NAME", name: "Подразделение", width: 120, type: "text",
             dataSource:"dir_units", sourceField:"NAME", linkCondition:"dir_units.ID=wrh_products_operations_v.UNIT_ID", visible:false},
         {data: "SQTY", name: "Кол-во", dataFunction:{function:"sumIsNull", sourceField:"BATCH_QTY"} },
-        {leftJoinedSources: {"dir_pricelists_products_batches": {
-            "dir_pricelists_products_batches.PRICELIST_ID=dir_units.PRICELIST_ID":null ,
-            "dir_pricelists_products_batches.PRODUCT_ID=wrh_products_operations_v.PRODUCT_ID":null,
-            "dir_pricelists_products_batches.BATCH_NUMBER=wrh_products_operations_v.BATCH_NUMBER": null},
+        {leftJoinedSources: {
+            "dir_pricelists_products_batches": {
+                "dir_pricelists_products_batches.PRICELIST_ID=dir_units.PRICELIST_ID":null ,
+                "dir_pricelists_products_batches.PRODUCT_ID=wrh_products_operations_v.PRODUCT_ID":null,
+                "dir_pricelists_products_batches.BATCH_NUMBER=wrh_products_operations_v.BATCH_NUMBER": null},
             "dir_products_batches_sale_prices": {
                 "dir_products_batches_sale_prices.CHANGE_DATETIME=dir_pricelists_products_batches.CHANGE_DATETIME": null,
                 "dir_products_batches_sale_prices.PRODUCT_ID=dir_pricelists_products_batches.PRODUCT_ID": null,
