@@ -58,6 +58,38 @@
                 var btnProdsBalanceWCC= APP.instanceForID("wrhProductsBalance_btnProdsBalanceWCC", Button, {style:"margin-right:1px"}, {"width":"164px"});
                 var btnProdsBatchesBalanceWCC= APP.instanceForID("wrhProductsBalance_btnProdsBatchesBalanceWCC", Button, {style:"margin-right:1px"}, {"width":"164px"});
                 var contentContainer= APP.instanceForID("wrhProductsBalance_ContentContainer", StackContainer, {region:'center'});
+
+               function getSalePriceHistory(params){
+                   var contentTableSelectedRow= params.contentTable.getSelectedRow();
+                   if(contentTableSelectedRow) {
+                       var dataForPriceHistory={};
+                       dataForPriceHistory.unitName=contentTableSelectedRow["UNIT_NAME"];
+                       if(contentTableSelectedRow["PRODUCT_CODE"])dataForPriceHistory.productCode=contentTableSelectedRow["PRODUCT_CODE"];
+                       if(contentTableSelectedRow["BATCH_NUMBER"])dataForPriceHistory.prodBatchNum=contentTableSelectedRow["BATCH_NUMBER"];
+                       if(contentTableSelectedRow["PRODUCT_ARTICLE"])dataForPriceHistory.prodArticle=contentTableSelectedRow["PRODUCT_ARTICLE"];
+                       Request.postJSONData({url: "/wrh/productsBalance/getSalePriceHistory", data:dataForPriceHistory},
+                               function(result){
+                                   var items=result.items;
+                                   var dataTitles={"CHANGE_DATETIME":"Дата","PRICE":"Цена","DISCOUNT":"Скидка, %","PRICE_WITH_DISCOUNT":"Цена со скидкой"};
+                                   var prodPriceHistoryHtml="";
+                                   for(var i in items){
+                                       var item=items[i];
+                                       for(var j in item){
+                                           if(j=="CHANGE_DATETIME"){
+                                               item[j]= moment(item[j]).format("DD.MM.YYYY HH:mm:ss")
+                                           }
+                                           if(dataTitles[j])
+                                               prodPriceHistoryHtml=prodPriceHistoryHtml+"<tr><td style='width:60px'>"+"<b>"+dataTitles[j]+":</td></b><td> "+((!item[j])?'':item[j])+"</td></tr>";
+                                       }
+                                   }
+                                   //var x = params.thisToolPane.domNode.parentElement; console.log("x=",x);
+                                   //x.style.padding=0;
+                                   params.thisToolPane.set("content","<table id='price_table' style=\"margin:0;padding:0;\">"+prodPriceHistoryHtml+"</table>");
+                                   var x =document.getElementById('price_table').parentNode;
+                                   x.style.padding=0;
+                               });
+                   } else params.thisToolPane.set("content","");
+               }
                 btnProdsBalanceReg.onClick= function(){
                     if (!btnProdsBalanceReg.report){
                         btnProdsBalanceReg.report =
@@ -83,30 +115,9 @@
                                         .addTotalSumNumberTextBox("ИТОГО сумма себестоимости:", 290, "COST_SUM", {style:"font-weight:bold;"})
                                         .addToolPane({title:"История изменения цен",
                                             contentTableAction:function(params){
-                                                var contentTableSelectedRow= params.contentTable.getSelectedRow();
-                                                if(contentTableSelectedRow) {
-                                                    var dataForPriceHistory={};
-                                                    dataForPriceHistory.productCode=contentTableSelectedRow["PRODUCT_CODE"];
-                                                    dataForPriceHistory.unitName=contentTableSelectedRow["UNIT_NAME"];
-                                                    Request.postJSONData({url: "/wrh/productsBalance/getSalePriceHistory", data:dataForPriceHistory},
-                                                        function(result){
-                                                            var items=result.items;
-                                                            var dataTitles={"CHANGE_DATETIME":"Дата","PRICE":"Цена","DISCOUNT":"Скидка, %","PRICE_WITH_DISCOUNT":"Цена со скидкой"};
-                                                           var prodPriceHistoryHtml="";
-                                                            for(var i in items){
-                                                                var item=items[i];
-                                                                for(var j in item){
-                                                                    if(j=="CHANGE_DATETIME"){
-                                                                        item[j]= moment(item[j]).format("DD.MM.YYYY HH:mm:ss")
-                                                                    }
-                                                                    if(dataTitles[j])
-                                                                         prodPriceHistoryHtml=prodPriceHistoryHtml+"<tr><td>"+"<b>"+dataTitles[j]+":</b> "+((!item[j])?'':item[j])+"</td></tr>";
-                                                                }
-                                                            }
-                                                            params.thisToolPane.set("content","<table style=\"margin:0;padding:0;\">"+prodPriceHistoryHtml+"</table>");
-                                                    });
-                                                } else params.thisToolPane.set("content","");
-                                            }})
+                                                getSalePriceHistory(params);
+                                            }
+                                        })
                                         .startUp();
                     }
                     contentContainer.selectChild(btnProdsBalanceReg.report);
@@ -131,29 +142,7 @@
                                         .addTotalSumNumberTextBox("ИТОГО сумма себестоимости:", 290, "PRODUCT_COST_SUM", {style:"font-weight:bold;",inputStyle:"width:80px"})
                                         .addToolPane({title:"История изменения цен",
                                             contentTableAction:function(params){
-                                                var contentTableSelectedRow= params.contentTable.getSelectedRow();
-                                                if(contentTableSelectedRow) {
-                                                    var dataForPriceHistory={};
-                                                    dataForPriceHistory.prodArticle=contentTableSelectedRow["PRODUCT_ARTICLE"];
-                                                    dataForPriceHistory.unitName=contentTableSelectedRow["UNIT_NAME"];
-                                                    Request.postJSONData({url: "/wrh/productsBalance/getSalePriceHistory", data:dataForPriceHistory},
-                                                            function(result){
-                                                                var items=result.items;
-                                                                var dataTitles={"CHANGE_DATETIME":"Дата","PRICE":"Цена","DISCOUNT":"Скидка, %","PRICE_WITH_DISCOUNT":"Цена со скидкой"};
-                                                                var prodPriceHistoryHtml="";
-                                                                for(var i in items){
-                                                                    var item=items[i];
-                                                                    for(var j in item){
-                                                                        if(j=="CHANGE_DATETIME"){
-                                                                            item[j]= moment(item[j]).format("DD.MM.YYYY HH:mm:ss")
-                                                                        }
-                                                                        if(dataTitles[j])
-                                                                            prodPriceHistoryHtml=prodPriceHistoryHtml+"<tr><td>"+"<b>"+dataTitles[j]+":</b> "+((!item[j])?'':item[j])+"</td></tr>";
-                                                                    }
-                                                                }
-                                                                params.thisToolPane.set("content","<table style=\"margin:0;padding:0;\">"+prodPriceHistoryHtml+"</table>");
-                                                            });
-                                                } else params.thisToolPane.set("content","");
+                                                getSalePriceHistory(params);
                                             }})
                                         .startUp();
                     }
@@ -178,29 +167,7 @@
                                         .addTotalSumNumberTextBox("ИТОГО остаток:", 510, "SQTY", {style:"font-weight:bold;"})
                                         .addToolPane({title:"История изменения цен",
                                             contentTableAction:function(params){
-                                                var contentTableSelectedRow= params.contentTable.getSelectedRow();
-                                                if(contentTableSelectedRow) {
-                                                    var dataForPriceHistory={};
-                                                    dataForPriceHistory.productCode=contentTableSelectedRow["PRODUCT_CODE"];
-                                                    dataForPriceHistory.unitName=contentTableSelectedRow["UNIT_NAME"];
-                                                    Request.postJSONData({url: "/wrh/productsBalance/getSalePriceHistory", data:dataForPriceHistory},
-                                                            function(result){
-                                                                var items=result.items;
-                                                                var dataTitles={"CHANGE_DATETIME":"Дата","PRICE":"Цена","DISCOUNT":"Скидка, %","PRICE_WITH_DISCOUNT":"Цена со скидкой"};
-                                                                var prodPriceHistoryHtml="";
-                                                                for(var i in items){
-                                                                    var item=items[i];
-                                                                    for(var j in item){
-                                                                        if(j=="CHANGE_DATETIME"){
-                                                                            item[j]= moment(item[j]).format("DD.MM.YYYY HH:mm:ss")
-                                                                        }
-                                                                        if(dataTitles[j])
-                                                                            prodPriceHistoryHtml=prodPriceHistoryHtml+"<tr><td>"+"<b>"+dataTitles[j]+":</b> "+((!item[j])?'':item[j])+"</td></tr>";
-                                                                    }
-                                                                }
-                                                                params.thisToolPane.set("content","<table style=\"margin:0;padding:0;\">"+prodPriceHistoryHtml+"</table>");
-                                                            });
-                                                } else params.thisToolPane.set("content","");
+                                                getSalePriceHistory(params);
                                             }})
                                         .startUp();
                     }
@@ -225,30 +192,7 @@
                                         .addTotalSumNumberTextBox("ИТОГО остаток:", 510, "SQTY", {style:"font-weight:bold;"})
                                         .addToolPane({title:"История изменения цен",
                                             contentTableAction:function(params){
-                                                var contentTableSelectedRow= params.contentTable.getSelectedRow();
-                                                if(contentTableSelectedRow) {
-                                                    var dataForPriceHistory={};
-                                                    dataForPriceHistory.productCode=contentTableSelectedRow["PRODUCT_CODE"];
-                                                    dataForPriceHistory.unitName=contentTableSelectedRow["UNIT_NAME"];
-                                                    dataForPriceHistory.prodBatchNum=contentTableSelectedRow["BATCH_NUMBER"];
-                                                    Request.postJSONData({url: "/wrh/productsBalance/getSalePriceHistory", data:dataForPriceHistory},
-                                                            function(result){
-                                                                var items=result.items;
-                                                                var dataTitles={"CHANGE_DATETIME":"Дата","PRICE":"Цена","DISCOUNT":"Скидка, %","PRICE_WITH_DISCOUNT":"Цена со скидкой"};
-                                                                var prodPriceHistoryHtml="";
-                                                                for(var i in items){
-                                                                    var item=items[i];
-                                                                    for(var j in item){
-                                                                        if(j=="CHANGE_DATETIME"){
-                                                                            item[j]= moment(item[j]).format("DD.MM.YYYY HH:mm:ss")
-                                                                        }
-                                                                        if(dataTitles[j])
-                                                                            prodPriceHistoryHtml=prodPriceHistoryHtml+"<tr><td>"+"<b>"+dataTitles[j]+":</b> "+((!item[j])?'':item[j])+"</td></tr>";
-                                                                    }
-                                                                }
-                                                                params.thisToolPane.set("content","<table style=\"margin:0;padding:0;\">"+prodPriceHistoryHtml+"</table>");
-                                                            });
-                                                } else params.thisToolPane.set("content","");
+                                                getSalePriceHistory(params);
                                             }})
                                         .startUp();
                     }

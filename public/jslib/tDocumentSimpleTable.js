@@ -397,7 +397,6 @@ define(["dojo/_base/declare", "app", "tDocumentBase","dijit/form/Select", "hTabl
                 this.addLeftCellToTableRow(row).innerHTML="<br>";
                 return this;
             },
-
             /**
              * tableRowAction = function(contentTableRowData, actionParams, contentTableUpdatedRowData, startNextAction, finishedAction)
              *      startNextAction = function(true/false), if false- restart current action
