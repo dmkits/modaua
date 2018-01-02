@@ -66,6 +66,7 @@ define(["dojo/_base/declare", "app", "tDocumentBase","dijit/form/Select", "hTabl
             createRightContent: function(params){
                 if(this.rightContainerParams){
                     this.rightContainerParams.region='right';
+                    this.rightContainerParams.splitter=true;
                     this.rightContainer= this.setContentPane(this.rightContainerParams);
                     this.addChild(this.rightContainer);
                 }

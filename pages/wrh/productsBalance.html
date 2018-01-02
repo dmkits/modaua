@@ -60,7 +60,7 @@
                 var contentContainer= APP.instanceForID("wrhProductsBalance_ContentContainer", StackContainer, {region:'center'});
 
                function getSalePriceHistory(params){
-                   var contentTableSelectedRow= params.contentTable.getSelectedRow();
+                   var contentTableSelectedRow= params.contentTable.getSelectedRow(); console.log("contentTableSelectedRow=",contentTableSelectedRow);
                    if(contentTableSelectedRow) {
                        var dataForPriceHistory={};
                        dataForPriceHistory.unitName=contentTableSelectedRow["UNIT_NAME"];
@@ -69,27 +69,57 @@
                        if(contentTableSelectedRow["PRODUCT_ARTICLE"])dataForPriceHistory.prodArticle=contentTableSelectedRow["PRODUCT_ARTICLE"];
                        Request.postJSONData({url: "/wrh/productsBalance/getSalePriceHistory", data:dataForPriceHistory},
                                function(result){
-                                   var items=result.items;
-                                   var dataTitles={"CHANGE_DATETIME":"Дата","PRICE":"Цена","DISCOUNT":"Скидка, %","PRICE_WITH_DISCOUNT":"Цена со скидкой"};
-                                   var prodPriceHistoryHtml="";
-                                   for(var i in items){
-                                       var item=items[i];
-                                       for(var j in item){
-                                           if(j=="CHANGE_DATETIME"){
-                                               item[j]= moment(item[j]).format("DD.MM.YYYY HH:mm:ss")
-                                           }
-                                           if(dataTitles[j])
-                                               prodPriceHistoryHtml=prodPriceHistoryHtml+"<tr><td style='width:60px'>"+"<b>"+dataTitles[j]+":</td></b><td> "+((!item[j])?'':item[j])+"</td></tr>";
-                                       }
+                                   var rowData=result.items;
+                                   if(rowData && rowData.length>0){
+                                       var dataHeaders={"CHANGE_DATETIME":"Дата","PRICE":"Цена","DISCOUNT":"Скидка, %","PRICE_WITH_DISCOUNT":"Цена со скидкой"};
+                                       createPriceHistoryTable(dataHeaders,rowData,params.thisToolPane);
                                    }
-                                   //var x = params.thisToolPane.domNode.parentElement; console.log("x=",x);
-                                   //x.style.padding=0;
-                                   params.thisToolPane.set("content","<table id='price_table' style=\"margin:0;padding:0;\">"+prodPriceHistoryHtml+"</table>");
-                                   var x =document.getElementById('price_table').parentNode;
-                                   x.style.padding=0;
+                                   else params.thisToolPane.set("content","");
                                });
                    } else params.thisToolPane.set("content","");
                }
+                function createPriceHistoryTable(colums, rowData,rightToolPane ){
+                    var table = document.createElement('TABLE');
+                    table.style.border="1px solid #b5bcc7";
+                    table.style.textAlign="center";
+                    var thead = document.createElement('thead');
+                    table.appendChild(thead);
+                    var trHead=document.createElement('tr');
+                    thead.appendChild(trHead);
+                    for(var i in colums){
+                        var th=document.createElement('th');
+                        th.style.border="1px solid #b5bcc7";
+                        th.style.padding="4px";
+                        th.style.textAlign="center";
+                        th.innerText=colums[i];
+                        trHead.appendChild(th);
+                    }
+                    var tbody=document.createElement('tbody');
+                    table.appendChild(tbody);
+                    for(var k in rowData){
+                        var tr = document.createElement('tr');
+                        tbody.appendChild(tr);
+                        var rowDataItem=rowData[k];
+                        for(var j in rowDataItem){
+                            if(j=="CHANGE_DATETIME"){
+                                rowDataItem[j]= moment(rowDataItem[j]).format("DD.MM.YYYY HH:mm:ss")
+                            }else if(rowDataItem[j]){
+                                rowDataItem[j]= numbro(rowDataItem[j]).format("0.00")
+                            }
+                            if(colums[j]){
+                                var td=document.createElement('td');
+                                td.style.border="1px solid #b5bcc7";
+                                td.style.padding="4px";
+                                td.style.textAlign="center";
+                                td.innerText=(!rowDataItem[j])?'':rowDataItem[j];
+                                tr.appendChild(td);
+                            }
+                        }
+                    }
+                    rightToolPane.set("content",table);
+                    var tableParent =table.parentNode;
+                    tableParent.style.padding=0;
+                }
                 btnProdsBalanceReg.onClick= function(){
                     if (!btnProdsBalanceReg.report){
                         btnProdsBalanceReg.report =
